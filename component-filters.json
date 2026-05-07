@@ -51,8 +51,20 @@
     "id": "footer",
     "components": [
       "footer-section-item",
-      "footer-social-item",
-      "footer-link-item"
+      "footer-link-item",
+      "footer-social-item"
+    ]
+  },
+  {
+    "id": "header-nav",
+    "components": [
+      "main-navigation-item",
+      "submenu-item",
+      "mega-menu-item",
+      "main-menu-right-item",
+      "investor-zone-submenu-section",
+      "investor-zone-submenu-link",
+      "social-link-item"
     ]
   },
   {

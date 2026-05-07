@@ -184,15 +184,13 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Footer Logo",
-        "name": "logo",
-        "valueType": "string"
+        "label": "Logo",
+        "name": "logo"
       },
       {
         "component": "aem-content",
-        "label": "Footer Logo Link",
-        "name": "logoLink",
-        "valueType": "string"
+        "label": "Logo Link",
+        "name": "logoLink"
       },
       {
         "component": "container",
@@ -201,22 +199,10 @@
         "name": "footerSections"
       },
       {
-        "component": "text",
-        "label": "Contact Us Title",
-        "name": "contactTitle",
-        "valueType": "string"
-      },
-      {
-        "component": "aem-content",
-        "label": "Contact Us Link",
-        "name": "contactLink",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Follow Us Label",
-        "name": "followUsLabel",
-        "valueType": "string"
+        "component": "container",
+        "item": "footer-link-item",
+        "label": "Footer Links (Legal & Bottom Links)",
+        "name": "footerLinks"
       },
       {
         "component": "container",
@@ -226,21 +212,13 @@
       },
       {
         "component": "reference",
-        "label": "Footer Certification Image",
-        "name": "footerCertificationImage",
-        "valueType": "string"
+        "label": "Certification Image",
+        "name": "certificationImage"
       },
       {
-        "component": "text",
+        "component": "richtext",
         "label": "Copyright",
-        "name": "copyright",
-        "valueType": "string"
-      },
-      {
-        "component": "container",
-        "item": "footer-link-item",
-        "label": "Footer Bottom Links",
-        "name": "footerBottomLinks"
+        "name": "copyright"
       }
     ]
   },
@@ -273,23 +251,6 @@
     ]
   },
   {
-    "id": "footer-social-item",
-    "fields": [
-      {
-        "component": "reference",
-        "label": "Social Link Icon/Image",
-        "name": "socialLink",
-        "valueType": "string"
-      },
-      {
-        "component": "aem-content",
-        "label": "Social Link URL",
-        "name": "socialHref",
-        "valueType": "string"
-      }
-    ]
-  },
-  {
     "id": "footer-link-item",
     "fields": [
       {
@@ -307,12 +268,212 @@
     ]
   },
   {
+    "id": "footer-social-item",
+    "fields": [
+      {
+        "component": "aem-content",
+        "label": "Social Link URL",
+        "name": "socialLink"
+      }
+    ]
+  },
+  {
     "id": "fragment",
     "fields": [
       {
         "component": "aem-content",
         "name": "reference",
         "label": "Reference"
+      }
+    ]
+  },
+  {
+    "id": "header-nav",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Logo",
+        "name": "logo",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Logo Link",
+        "name": "logoLink",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "main-navigation-item",
+        "label": "Main Navigation",
+        "name": "mainNavigation"
+      },
+      {
+        "component": "container",
+        "item": "main-menu-right-item",
+        "label": "Main Menu Right",
+        "name": "mainMenuRight"
+      },
+      {
+        "component": "aem-content",
+        "label": "Internal Home Link",
+        "name": "internalHomeLink",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Mobile Home Link",
+        "name": "mobileHomeLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Search Placeholder",
+        "name": "searchPlaceholder",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "social-link-item",
+        "label": "Social Links",
+        "name": "socialLinks"
+      }
+    ]
+  },
+  {
+    "id": "main-navigation-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Menu Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Menu Link",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "submenu-item",
+        "label": "Submenu",
+        "name": "submenu"
+      },
+      {
+        "component": "richtext",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "submenu-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Submenu Section Title",
+        "name": "sectionTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "mega-menu-item",
+        "label": "Mega Menu Items",
+        "name": "megaMenuItems"
+      }
+    ]
+  },
+  {
+    "id": "mega-menu-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Mega Menu Item Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Mega Menu Item Link",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Mega Menu Item Image",
+        "name": "image",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "main-menu-right-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Menu Right Item Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Menu Right Item Link",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "investor-zone-submenu-section",
+        "label": "Investor Zone Submenu Sections",
+        "name": "investorZoneSubmenu"
+      }
+    ]
+  },
+  {
+    "id": "investor-zone-submenu-section",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Investor Submenu Section Title",
+        "name": "sectionTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "investor-zone-submenu-link",
+        "label": "Investor Submenu Links",
+        "name": "links"
+      }
+    ]
+  },
+  {
+    "id": "investor-zone-submenu-link",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Investor Submenu Link Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Investor Submenu Link",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "social-link-item",
+    "fields": [
+      {
+        "component": "aem-content",
+        "label": "Social Link",
+        "name": "link",
+        "valueType": "string"
       }
     ]
   },

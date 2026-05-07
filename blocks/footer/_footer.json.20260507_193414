@@ -32,21 +32,6 @@
       }
     },
     {
-      "title": "Footer Link Item",
-      "id": "footer-link-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "footer-link-item",
-              "name": "Footer Link Item"
-            }
-          }
-        }
-      }
-    },
-    {
       "title": "Footer Social Item",
       "id": "footer-social-item",
       "plugins": {
@@ -60,6 +45,21 @@
           }
         }
       }
+    },
+    {
+      "title": "Footer Link Item",
+      "id": "footer-link-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "footer-link-item",
+              "name": "Footer Link Item"
+            }
+          }
+        }
+      }
     }
   ],
   "models": [
@@ -68,13 +68,15 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Logo",
-          "name": "logo"
+          "label": "Footer Logo",
+          "name": "logo",
+          "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Logo Link",
-          "name": "logoLink"
+          "label": "Footer Logo Link",
+          "name": "logoLink",
+          "valueType": "string"
         },
         {
           "component": "container",
@@ -83,10 +85,22 @@
           "name": "footerSections"
         },
         {
-          "component": "container",
-          "item": "footer-link-item",
-          "label": "Footer Links (Legal \u0026 Bottom Links)",
-          "name": "footerLinks"
+          "component": "text",
+          "label": "Contact Us Title",
+          "name": "contactTitle",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Contact Us Link",
+          "name": "contactLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Follow Us Label",
+          "name": "followUsLabel",
+          "valueType": "string"
         },
         {
           "component": "container",
@@ -96,13 +110,21 @@
         },
         {
           "component": "reference",
-          "label": "Certification Image",
-          "name": "certificationImage"
+          "label": "Footer Certification Image",
+          "name": "footerCertificationImage",
+          "valueType": "string"
         },
         {
-          "component": "richtext",
+          "component": "text",
           "label": "Copyright",
-          "name": "copyright"
+          "name": "copyright",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "footer-link-item",
+          "label": "Footer Bottom Links",
+          "name": "footerBottomLinks"
         }
       ]
     },
@@ -135,6 +157,23 @@
       ]
     },
     {
+      "id": "footer-social-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Social Link Icon/Image",
+          "name": "socialLink",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Social Link URL",
+          "name": "socialHref",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
       "id": "footer-link-item",
       "fields": [
         {
@@ -150,16 +189,6 @@
           "valueType": "string"
         }
       ]
-    },
-    {
-      "id": "footer-social-item",
-      "fields": [
-        {
-          "component": "aem-content",
-          "label": "Social Link URL",
-          "name": "socialLink"
-        }
-      ]
     }
   ],
   "filters": [
@@ -167,8 +196,8 @@
       "id": "footer",
       "components": [
         "footer-section-item",
-        "footer-link-item",
-        "footer-social-item"
+        "footer-social-item",
+        "footer-link-item"
       ]
     }
   ]
