@@ -15,7 +15,8 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "footer"
     ]
   },
   {
@@ -37,6 +38,13 @@
       "image",
       "button",
       "title"
+    ]
+  },
+  {
+    "id": "footer",
+    "components": [
+      "footer-link-item",
+      "footer-social-item"
     ]
   }
 ]
