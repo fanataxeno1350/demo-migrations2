@@ -1,0 +1,79 @@
+{
+  "definitions": [
+    {
+      "title": "Category-Carousel",
+      "id": "category-carousel",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "category-carousel",
+              "model": "category-carousel",
+              "name": "Category-Carousel"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Category-Carousel-Item",
+      "id": "category-carousel-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "category-carousel-item",
+              "name": "Category-Carousel-Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "category-carousel",
+      "fields": [
+        {
+          "component": "container",
+          "item": "category-carousel-item",
+          "label": "Categories",
+          "name": "categories"
+        }
+      ]
+    },
+    {
+      "id": "category-carousel-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Category Image",
+          "name": "image",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Category Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Category Label",
+          "name": "label",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "category-carousel",
+      "components": [
+        "category-carousel-item"
+      ]
+    }
+  ]
+}

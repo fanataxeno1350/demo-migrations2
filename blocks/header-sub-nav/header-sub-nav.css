@@ -293,9 +293,9 @@
 
 @keyframes spin{100%{transform:rotate(360deg)}}
 
-@font-face{font-family:star;src:url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-781ef9.woff2") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-379448.woff") format("woff"),url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-2ce14a.ttf") format("truetype");font-weight:400;font-style:normal}
+@font-face{font-family:star;src:url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-379448.woff") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-379448.woff") format("woff"),url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-2ce14a.ttf") format("truetype");font-weight:400;font-style:normal}
 
-@font-face{font-family:WooCommerce;src:url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-781ef9.woff2") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-379448.woff") format("woff"),url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-2ce14a.ttf") format("truetype");font-weight:400;font-style:normal}
+@font-face{font-family:WooCommerce;src:url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-379448.woff") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-379448.woff") format("woff"),url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-2ce14a.ttf") format("truetype");font-weight:400;font-style:normal}
 
 @keyframes eicon-spin{0%{transform:rotate(0deg)}to{transform:rotate(359deg)}}
 

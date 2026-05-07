@@ -17,7 +17,7 @@
       }
     },
     {
-      "title": "Navigation-Item",
+      "title": "Navigation Item",
       "id": "navigation-item",
       "plugins": {
         "xwalk": {
@@ -25,14 +25,14 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "navigation-item",
-              "name": "Navigation-Item"
+              "name": "Navigation Item"
             }
           }
         }
       }
     },
     {
-      "title": "Audience-Link-Item",
+      "title": "Audience Link Item",
       "id": "audience-link-item",
       "plugins": {
         "xwalk": {
@@ -40,7 +40,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "audience-link-item",
-              "name": "Audience-Link-Item"
+              "name": "Audience Link Item"
             }
           }
         }

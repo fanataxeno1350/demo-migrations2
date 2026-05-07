@@ -23,21 +23,20 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Background Image",
-          "name": "backgroundImage",
+          "label": "Banner Image",
+          "name": "image",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Headline",
+          "label": "Banner Headline",
           "name": "headline",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Breadcrumb",
-          "name": "breadcrumb",
-          "valueType": "string"
+          "label": "Breadcrumb Navigation",
+          "name": "breadcrumb"
         }
       ]
     }

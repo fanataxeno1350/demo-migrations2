@@ -17,7 +17,7 @@
       }
     },
     {
-      "title": "Footer-Link-Item",
+      "title": "Footer Link Item",
       "id": "footer-link-item",
       "plugins": {
         "xwalk": {
@@ -25,14 +25,14 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "footer-link-item",
-              "name": "Footer-Link-Item"
+              "name": "Footer Link Item"
             }
           }
         }
       }
     },
     {
-      "title": "Footer-Social-Item",
+      "title": "Footer Social Item",
       "id": "footer-social-item",
       "plugins": {
         "xwalk": {
@@ -40,7 +40,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "footer-social-item",
-              "name": "Footer-Social-Item"
+              "name": "Footer Social Item"
             }
           }
         }
@@ -51,18 +51,6 @@
     {
       "id": "footer",
       "fields": [
-        {
-          "component": "reference",
-          "label": "Logo",
-          "name": "logo",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Logo Link",
-          "name": "logoLink",
-          "valueType": "string"
-        },
         {
           "component": "container",
           "item": "footer-link-item",
@@ -80,6 +68,18 @@
           "item": "footer-social-item",
           "label": "Footer Social Links",
           "name": "footerSocialLinks"
+        },
+        {
+          "component": "reference",
+          "label": "Footer Logo",
+          "name": "logo",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Footer Logo Link",
+          "name": "logoLink",
+          "valueType": "string"
         }
       ]
     },
@@ -88,13 +88,13 @@
       "fields": [
         {
           "component": "text",
-          "label": "Link Label",
+          "label": "Footer Link Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Link",
+          "label": "Footer Link URL",
           "name": "link",
           "valueType": "string"
         }
@@ -105,14 +105,14 @@
       "fields": [
         {
           "component": "text",
-          "label": "Social Network Label",
-          "name": "socialLabel",
+          "label": "Social Platform Label",
+          "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Social Link",
-          "name": "socialLink",
+          "label": "Social Link URL",
+          "name": "link",
           "valueType": "string"
         }
       ]

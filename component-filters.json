@@ -23,13 +23,29 @@
       "hero-banner",
       "product-search",
       "product-grid",
-      "product-category-carousel"
+      "product-category-carousel",
+      "product-card",
+      "product-card-2",
+      "product-card-3",
+      "product-card-4",
+      "product-card-5",
+      "product-card-6",
+      "product-card-7",
+      "product-card-8",
+      "product-card-9",
+      "category-carousel"
     ]
   },
   {
     "id": "cards",
     "components": [
       "card"
+    ]
+  },
+  {
+    "id": "category-carousel",
+    "components": [
+      "category-carousel-item"
     ]
   },
   {
@@ -64,7 +80,7 @@
   {
     "id": "header-sub-nav",
     "components": [
-      "sub-nav-item"
+      "header-sub-nav-item"
     ]
   },
   {
@@ -76,6 +92,33 @@
   },
   {
     "id": "hero-banner"
+  },
+  {
+    "id": "product-card-2"
+  },
+  {
+    "id": "product-card-3"
+  },
+  {
+    "id": "product-card-4"
+  },
+  {
+    "id": "product-card-5"
+  },
+  {
+    "id": "product-card-6"
+  },
+  {
+    "id": "product-card-7"
+  },
+  {
+    "id": "product-card-8"
+  },
+  {
+    "id": "product-card-9"
+  },
+  {
+    "id": "product-card"
   },
   {
     "id": "product-category-carousel",

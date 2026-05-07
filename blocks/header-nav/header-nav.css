@@ -293,9 +293,9 @@
 
 @keyframes spin{100%{transform:rotate(360deg)}}
 
-@font-face{font-family:star;src:url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-781ef9.woff2") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-379448.woff") format("woff"),url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-2ce14a.ttf") format("truetype");font-weight:400;font-style:normal}
+@font-face{font-family:star;src:url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-379448.woff") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-379448.woff") format("woff"),url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-2ce14a.ttf") format("truetype");font-weight:400;font-style:normal}
 
-@font-face{font-family:WooCommerce;src:url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-781ef9.woff2") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-379448.woff") format("woff"),url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-2ce14a.ttf") format("truetype");font-weight:400;font-style:normal}
+@font-face{font-family:WooCommerce;src:url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-379448.woff") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-379448.woff") format("woff"),url("/content/dam/aemigrate/uploaded-folder/natarajofficial-com/font/woocommerce-2ce14a.ttf") format("truetype");font-weight:400;font-style:normal}
 
 @keyframes eicon-spin{0%{transform:rotate(0deg)}to{transform:rotate(359deg)}}
 
@@ -303,11 +303,11 @@
 
 @media (max-width:767px) { .e-con.e-flex{ --width:100%;--flex-wrap:var(--flex-wrap-mobile) } }
 
-@media (max-width:767px) { .elementor .elementor-hidden-mobile{ display:none } }
+.elementor-sub-item.elementor-item-active, .elementor-sub-item:focus, .elementor-sub-item:hover{ background-color:#3f444b;color:#fff }
 
 @media (max-width:1024px) { .elementor-nav-menu--dropdown-tablet .elementor-nav-menu--main{ display:none } }
 
-@media (min-width:1025px) { .elementor-nav-menu--dropdown-tablet .elementor-nav-menu--dropdown{ display:none } }
+@media (min-width:1025px) { .elementor-nav-menu--dropdown-tablet .elementor-menu-toggle, .elementor-nav-menu--dropdown-tablet .elementor-nav-menu--dropdown{ display:none } }
 
 @keyframes hide-scroll{0%,to{overflow:hidden}}
 
@@ -349,9 +349,13 @@
 
 @media(max-width:767px) { .e-con{ --container-max-width:767px; } }
 
-@media(min-width:768px) { .elementor-30 .elementor-element.elementor-element-2dcde62{ --content-width:1280px; }
+.elementor-widget-nav-menu .elementor-nav-menu--dropdown  .elementor-sub-item{ font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight ); }
 
-.elementor-30 .elementor-element.elementor-element-ff0ccea{ --content-width:1280px; } }
+.elementor-30 .elementor-element.elementor-element-f6dc590 .elementor-nav-menu--dropdown  .elementor-sub-item{ font-family:var( --e-global-typography-accent-font-family ), Sans-serif;font-weight:var( --e-global-typography-accent-font-weight ); }
+
+.elementor-30 .elementor-element.elementor-element-f6dc590 .elementor-nav-menu--main .elementor-nav-menu--dropdown{ box-shadow:0px 10px 35px -25px rgba(0,0,0,0.5); }
+
+@media(min-width:768px) { .elementor-30 .elementor-element.elementor-element-2dcde62{ --content-width:1280px; } }
 
 @media(max-width:1024px) { .elementor-30 .elementor-element.elementor-element-2dcde62{ --padding-top:20px;--padding-bottom:20px;--padding-left:20px;--padding-right:20px;--z-index:2000; }
 

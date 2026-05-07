@@ -2,60 +2,79 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const productItems = [...block.children];
-
-  const mainContainer = document.createElement('div');
-  // Removed 'product-grid' class as the outer block div already has it.
-  mainContainer.classList.add('woocommerce', 'elementor-element', 'elementor-element-e5eeeb8', 'elementor-grid-tablet-3', 'elementor-grid-mobile-2', 'elementor-grid-3', 'elementor-widget', 'elementor-widget-loop-grid');
-
-  const widgetContainer = document.createElement('div');
-  widgetContainer.classList.add('elementor-widget-container');
-  mainContainer.append(widgetContainer);
+  const productRows = [...block.children];
 
   const loopContainer = document.createElement('div');
   loopContainer.classList.add('elementor-loop-container', 'elementor-grid');
   loopContainer.setAttribute('role', 'list');
-  widgetContainer.append(loopContainer);
 
-  productItems.forEach((row) => {
+  productRows.forEach((row) => {
     const [imageCell, imageLinkCell, titleCell, ctaLinkCell, ctaLabelCell] = [...row.children];
 
-    const loopItem = document.createElement('div');
-    loopItem.classList.add('elementor', 'elementor-85', 'e-loop-item', 'e-loop-item-94', 'post-94', 'product', 'type-product', 'status-publish', 'has-post-thumbnail', 'product_brand-nataraj', 'product_cat-pencils', 'product_tag-pre-school', 'product_tag-school', 'first', 'instock', 'shipping-taxable', 'purchasable', 'product-type-simple');
-    loopItem.setAttribute('data-elementor-type', 'loop-item');
-    loopItem.setAttribute('data-elementor-id', '85');
-    loopItem.setAttribute('data-elementor-post-type', 'elementor_library');
-    loopItem.setAttribute('data-custom-edit-handle', '1');
-    moveInstrumentation(row, loopItem); // Move instrumentation from original row to the new loopItem
-    loopContainer.append(loopItem);
+    const productItem = document.createElement('div');
+    productItem.classList.add(
+      'elementor',
+      'elementor-85',
+      'e-loop-item',
+      // 'e-loop-item-94', // Removed generic item number
+      // 'post-94', // Removed generic post number
+      'product',
+      'type-product',
+      'status-publish',
+      'has-post-thumbnail',
+      'product_brand-nataraj',
+      'product_cat-pencils',
+      'product_tag-pre-school',
+      'product_tag-school',
+      'instock',
+      'shipping-taxable',
+      'purchasable',
+      'product-type-simple',
+    );
+    // Add custom-edit-handle for Universal Editor if needed, but not in original HTML for this div.
 
-    const productContainer = document.createElement('div');
-    productContainer.classList.add('elementor-element', 'elementor-element-dc6b024', 'e-flex', 'e-con-boxed', 'e-con', 'e-parent', 'e-lazyloaded');
-    loopItem.append(productContainer);
+    const productInnerContainer = document.createElement('div');
+    productInnerContainer.classList.add(
+      'elementor-element',
+      'elementor-element-dc6b024',
+      'e-flex',
+      'e-con-boxed',
+      'e-con',
+      'e-parent',
+      'e-lazyloaded',
+    );
 
-    const innerContainer = document.createElement('div');
-    innerContainer.classList.add('e-con-inner');
-    productContainer.append(innerContainer);
+    const innerCon = document.createElement('div');
+    innerCon.classList.add('e-con-inner');
 
     const topSection = document.createElement('div');
-    topSection.classList.add('elementor-element', 'elementor-element-bcbf0be', 'e-con-full', 'e-flex', 'e-con', 'e-child');
-    innerContainer.append(topSection);
+    topSection.classList.add(
+      'elementor-element',
+      'elementor-element-bcbf0be',
+      'e-con-full',
+      'e-flex',
+      'e-con',
+      'e-child',
+    );
 
-    // Product Image
-    const imageWidget = document.createElement('div');
-    imageWidget.classList.add('elementor-element', 'elementor-element-bcab75b', 'plp-image', 'dce_masking-none', 'elementor-widget', 'elementor-widget-image');
-    topSection.append(imageWidget);
-
+    // Image Section
+    const imageWrapper = document.createElement('div');
+    imageWrapper.classList.add(
+      'elementor-element',
+      'elementor-element-bcab75b',
+      'plp-image',
+      'dce_masking-none',
+      'elementor-widget',
+      'elementor-widget-image',
+    );
     const imageWidgetContainer = document.createElement('div');
     imageWidgetContainer.classList.add('elementor-widget-container');
-    imageWidget.append(imageWidgetContainer);
 
     const imageLink = document.createElement('a');
-    const foundImageLink = imageLinkCell.querySelector('a');
-    if (foundImageLink) {
-      imageLink.href = foundImageLink.href;
+    const originalImageLink = imageLinkCell.querySelector('a');
+    if (originalImageLink) {
+      imageLink.href = originalImageLink.href;
     }
-    imageWidgetContainer.append(imageLink);
 
     const picture = imageCell.querySelector('picture');
     if (picture) {
@@ -66,69 +85,101 @@ export default function decorate(block) {
         imageLink.append(optimizedPic);
       }
     }
+    imageWidgetContainer.append(imageLink);
+    imageWrapper.append(imageWidgetContainer);
+    topSection.append(imageWrapper);
 
-    // Product Title
-    const titleWidget = document.createElement('div');
-    titleWidget.classList.add('elementor-element', 'elementor-element-9468107', 'elementor-widget', 'elementor-widget-icon-box');
-    topSection.append(titleWidget);
-
+    // Title Section
+    const titleWrapper = document.createElement('div');
+    titleWrapper.classList.add(
+      'elementor-element',
+      'elementor-element-9468107',
+      'elementor-widget',
+      'elementor-widget-icon-box',
+    );
     const titleWidgetContainer = document.createElement('div');
     titleWidgetContainer.classList.add('elementor-widget-container');
-    titleWidget.append(titleWidgetContainer);
-
     const iconBoxWrapper = document.createElement('div');
     iconBoxWrapper.classList.add('elementor-icon-box-wrapper');
-    titleWidgetContainer.append(iconBoxWrapper);
-
     const iconBoxContent = document.createElement('div');
     iconBoxContent.classList.add('elementor-icon-box-content');
-    iconBoxWrapper.append(iconBoxContent);
-
     const titleElement = document.createElement('h3');
     titleElement.classList.add('elementor-icon-box-title');
     const titleSpan = document.createElement('span');
     titleSpan.textContent = titleCell.textContent.trim();
+    moveInstrumentation(titleCell, titleSpan);
     titleElement.append(titleSpan);
     iconBoxContent.append(titleElement);
+    iconBoxWrapper.append(iconBoxContent);
+    titleWidgetContainer.append(iconBoxWrapper);
+    titleWrapper.append(titleWidgetContainer);
+    topSection.append(titleWrapper);
 
-    // CTA Button
-    const ctaWidget = document.createElement('div');
-    ctaWidget.classList.add('elementor-element', 'elementor-element-597d13a', 'elementor-align-center', 'elementor-mobile-align-center', 'elementor-tablet-align-center', 'elementor-widget', 'elementor-widget-button');
-    innerContainer.append(ctaWidget);
+    innerCon.append(topSection);
 
+    // CTA Section
+    const ctaWrapper = document.createElement('div');
+    ctaWrapper.classList.add(
+      'elementor-element',
+      'elementor-element-597d13a',
+      'elementor-align-center',
+      'elementor-mobile-align-center',
+      'elementor-tablet-align-center',
+      'elementor-widget',
+      'elementor-widget-button',
+    );
     const ctaWidgetContainer = document.createElement('div');
     ctaWidgetContainer.classList.add('elementor-widget-container');
-    ctaWidget.append(ctaWidgetContainer);
-
     const ctaButtonWrapper = document.createElement('div');
     ctaButtonWrapper.classList.add('elementor-button-wrapper');
-    ctaWidgetContainer.append(ctaButtonWrapper);
-
     const ctaButton = document.createElement('a');
     ctaButton.classList.add('elementor-button', 'elementor-button-link', 'elementor-size-sm');
-    const foundCtaLink = ctaLinkCell.querySelector('a');
-    if (foundCtaLink) {
-      ctaButton.href = foundCtaLink.href;
+    const originalCtaLink = ctaLinkCell.querySelector('a');
+    if (originalCtaLink) {
+      ctaButton.href = originalCtaLink.href;
     }
-
-    const ctaButtonContentWrapper = document.createElement('span');
-    ctaButtonContentWrapper.classList.add('elementor-button-content-wrapper');
-    ctaButton.append(ctaButtonContentWrapper);
-
-    const ctaButtonText = document.createElement('span');
-    ctaButtonText.classList.add('elementor-button-text');
-    ctaButtonText.textContent = ctaLabelCell.textContent.trim();
-    ctaButtonContentWrapper.append(ctaButtonText);
-
+    const ctaContentWrapper = document.createElement('span');
+    ctaContentWrapper.classList.add('elementor-button-content-wrapper');
+    const ctaText = document.createElement('span');
+    ctaText.classList.add('elementor-button-text');
+    ctaText.textContent = ctaLabelCell.textContent.trim();
+    moveInstrumentation(ctaLabelCell, ctaText);
+    ctaContentWrapper.append(ctaText);
+    ctaButton.append(ctaContentWrapper);
     ctaButtonWrapper.append(ctaButton);
+    ctaWidgetContainer.append(ctaButtonWrapper);
+    ctaWrapper.append(ctaWidgetContainer);
+
+    innerCon.append(ctaWrapper);
+    productInnerContainer.append(innerCon);
+    moveInstrumentation(row, productItem);
+    productItem.append(productInnerContainer);
+    loopContainer.append(productItem);
   });
 
-  const loadMoreSpinner = document.createElement('span');
-  loadMoreSpinner.classList.add('e-load-more-spinner');
-  loadMoreSpinner.innerHTML = `
-    <svg aria-hidden="true" class="e-font-icon-svg e-fas-spinner" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"></path></svg>
-  `;
-  widgetContainer.append(loadMoreSpinner);
+  const widgetContainer = document.createElement('div');
+  widgetContainer.classList.add('elementor-widget-container');
+  widgetContainer.append(loopContainer);
 
-  block.replaceChildren(mainContainer);
+  // The outer block div already has the 'product-grid' class.
+  // We need to add the other classes from the original HTML to the block itself.
+  block.classList.add(
+    'woocommerce',
+    'elementor-element',
+    'elementor-element-e5eeeb8',
+    'elementor-grid-tablet-3',
+    'elementor-grid-mobile-2',
+    'elementor-grid-3',
+    'elementor-widget',
+    'elementor-widget-loop-grid',
+  );
+  block.setAttribute(
+    'data-settings',
+    '{"_skin":"product","template_id":"85","pagination_type":"load_more_infinite_scroll","columns_tablet":3,"columns_mobile":2,"row_gap_tablet":{"unit":"px","size":15,"sizes":[]},"columns":"3","edit_handle_selector":"[data-elementor-type=\"loop-item\"]","load_more_spinner":{"value":"fas fa-spinner","library":"fa-solid"},"row_gap":{"unit":"px","size":""},"row_gap_mobile":{"unit":"px","size":""}}',
+  );
+  block.setAttribute('data-widget_type', 'loop-grid.product');
+  block.setAttribute('data-id', 'e5eeeb8');
+  block.setAttribute('data-element_type', 'widget');
+
+  block.replaceChildren(widgetContainer);
 }
