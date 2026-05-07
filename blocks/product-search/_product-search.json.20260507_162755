@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Product Search",
+      "title": "Product-Search",
       "id": "product-search",
       "plugins": {
         "xwalk": {
@@ -10,7 +10,7 @@
             "template": {
               "filter": "product-search",
               "model": "product-search",
-              "name": "Product Search"
+              "name": "Product-Search"
             }
           }
         }
@@ -23,14 +23,14 @@
       "fields": [
         {
           "component": "text",
-          "label": "Search Field Placeholder",
+          "label": "Search Input Placeholder",
           "name": "placeholder",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Form Action URL",
-          "name": "formActionUrl",
+          "name": "formAction",
           "valueType": "string"
         }
       ]

@@ -251,15 +251,15 @@
           }
         },
         {
-          "title": "Header-Sub-Nav-Item",
-          "id": "header-sub-nav-item",
+          "title": "Sub-Nav-Item",
+          "id": "sub-nav-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "header-sub-nav-item",
-                  "name": "Header-Sub-Nav-Item"
+                  "model": "sub-nav-item",
+                  "name": "Sub-Nav-Item"
                 }
               }
             }
@@ -343,7 +343,7 @@
           }
         },
         {
-          "title": "Product Category Carousel",
+          "title": "Product-Category-Carousel",
           "id": "product-category-carousel",
           "plugins": {
             "xwalk": {
@@ -352,22 +352,22 @@
                 "template": {
                   "filter": "product-category-carousel",
                   "model": "product-category-carousel",
-                  "name": "Product Category Carousel"
+                  "name": "Product-Category-Carousel"
                 }
               }
             }
           }
         },
         {
-          "title": "Category Slide Item",
-          "id": "category-slide-item",
+          "title": "Product-Category-Item",
+          "id": "product-category-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "category-slide-item",
-                  "name": "Category Slide Item"
+                  "model": "product-category-item",
+                  "name": "Product-Category-Item"
                 }
               }
             }
@@ -405,7 +405,7 @@
           }
         },
         {
-          "title": "Product-Search",
+          "title": "Product Search",
           "id": "product-search",
           "plugins": {
             "xwalk": {
@@ -414,7 +414,7 @@
                 "template": {
                   "filter": "product-search",
                   "model": "product-search",
-                  "name": "Product-Search"
+                  "name": "Product Search"
                 }
               }
             }

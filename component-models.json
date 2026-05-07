@@ -183,24 +183,6 @@
     "id": "footer",
     "fields": [
       {
-        "component": "container",
-        "item": "footer-link-item",
-        "label": "Footer Links",
-        "name": "footerLinks"
-      },
-      {
-        "component": "text",
-        "label": "Follow Us Heading",
-        "name": "followUsHeading",
-        "valueType": "string"
-      },
-      {
-        "component": "container",
-        "item": "footer-social-item",
-        "label": "Footer Social Links",
-        "name": "footerSocialLinks"
-      },
-      {
         "component": "reference",
         "label": "Logo",
         "name": "logo",
@@ -211,6 +193,24 @@
         "label": "Logo Link",
         "name": "logoLink",
         "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "footer-link-item",
+        "label": "Footer Links",
+        "name": "footerLinks"
+      },
+      {
+        "component": "text",
+        "label": "Follow Us Label",
+        "name": "followUsLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "footer-social-item",
+        "label": "Footer Social Links",
+        "name": "footerSocialLinks"
       }
     ]
   },
@@ -225,7 +225,7 @@
       },
       {
         "component": "aem-content",
-        "label": "Link URL",
+        "label": "Link",
         "name": "link",
         "valueType": "string"
       }
@@ -236,13 +236,13 @@
     "fields": [
       {
         "component": "text",
-        "label": "Social Label",
-        "name": "label",
+        "label": "Social Network Label",
+        "name": "socialLabel",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Social Link URL",
+        "label": "Social Link",
         "name": "socialLink",
         "valueType": "string"
       }
@@ -315,7 +315,7 @@
     "fields": [
       {
         "component": "text",
-        "label": "Audience Label",
+        "label": "Audience Link Label",
         "name": "label",
         "valueType": "string"
       },
@@ -332,24 +332,24 @@
     "fields": [
       {
         "component": "container",
-        "item": "header-sub-nav-item",
-        "label": "Navigation Items",
-        "name": "navItems"
+        "item": "sub-nav-item",
+        "label": "Sub Navigation Items",
+        "name": "subNavItems"
       }
     ]
   },
   {
-    "id": "header-sub-nav-item",
+    "id": "sub-nav-item",
     "fields": [
       {
         "component": "text",
-        "label": "Item Label",
+        "label": "Label",
         "name": "label",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Item Link",
+        "label": "Link",
         "name": "link",
         "valueType": "string"
       }
@@ -412,13 +412,13 @@
     "fields": [
       {
         "component": "text",
-        "label": "Audience Link Label",
+        "label": "Audience Label",
         "name": "label",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Audience Link URL",
+        "label": "Audience Link",
         "name": "link",
         "valueType": "string"
       }
@@ -478,14 +478,14 @@
     "fields": [
       {
         "component": "container",
-        "item": "category-slide-item",
-        "label": "Category Slides",
-        "name": "slides"
+        "item": "product-category-item",
+        "label": "Product Categories",
+        "name": "categories"
       }
     ]
   },
   {
-    "id": "category-slide-item",
+    "id": "product-category-item",
     "fields": [
       {
         "component": "reference",
@@ -494,15 +494,15 @@
         "valueType": "string"
       },
       {
-        "component": "text",
-        "label": "Category Label",
-        "name": "label",
-        "valueType": "string"
-      },
-      {
         "component": "aem-content",
         "label": "Category Link",
         "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Category Label",
+        "name": "label",
         "valueType": "string"
       }
     ]
@@ -558,14 +558,14 @@
     "fields": [
       {
         "component": "text",
-        "label": "Search Input Placeholder",
+        "label": "Search Field Placeholder",
         "name": "placeholder",
         "valueType": "string"
       },
       {
         "component": "aem-content",
         "label": "Form Action URL",
-        "name": "formAction",
+        "name": "formActionUrl",
         "valueType": "string"
       }
     ]

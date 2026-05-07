@@ -1,31 +1,31 @@
 {
   "definitions": [
     {
-      "title": "Header-Sub-Nav",
-      "id": "header-sub-nav",
+      "title": "Product Category Carousel",
+      "id": "product-category-carousel",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "filter": "header-sub-nav",
-              "model": "header-sub-nav",
-              "name": "Header-Sub-Nav"
+              "filter": "product-category-carousel",
+              "model": "product-category-carousel",
+              "name": "Product Category Carousel"
             }
           }
         }
       }
     },
     {
-      "title": "Sub-Nav-Item",
-      "id": "sub-nav-item",
+      "title": "Category Slide Item",
+      "id": "category-slide-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "sub-nav-item",
-              "name": "Sub-Nav-Item"
+              "model": "category-slide-item",
+              "name": "Category Slide Item"
             }
           }
         }
@@ -34,28 +34,34 @@
   ],
   "models": [
     {
-      "id": "header-sub-nav",
+      "id": "product-category-carousel",
       "fields": [
         {
           "component": "container",
-          "item": "sub-nav-item",
-          "label": "Sub Navigation Items",
-          "name": "subNavItems"
+          "item": "category-slide-item",
+          "label": "Category Slides",
+          "name": "slides"
         }
       ]
     },
     {
-      "id": "sub-nav-item",
+      "id": "category-slide-item",
       "fields": [
         {
+          "component": "reference",
+          "label": "Category Image",
+          "name": "image",
+          "valueType": "string"
+        },
+        {
           "component": "text",
-          "label": "Label",
+          "label": "Category Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Link",
+          "label": "Category Link",
           "name": "link",
           "valueType": "string"
         }
@@ -64,9 +70,9 @@
   ],
   "filters": [
     {
-      "id": "header-sub-nav",
+      "id": "product-category-carousel",
       "components": [
-        "sub-nav-item"
+        "category-slide-item"
       ]
     }
   ]

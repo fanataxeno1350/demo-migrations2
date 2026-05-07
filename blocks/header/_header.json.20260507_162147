@@ -105,13 +105,13 @@
       "fields": [
         {
           "component": "text",
-          "label": "Audience Label",
+          "label": "Audience Link Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Audience Link",
+          "label": "Audience Link URL",
           "name": "link",
           "valueType": "string"
         }

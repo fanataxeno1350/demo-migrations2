@@ -105,7 +105,7 @@
       "fields": [
         {
           "component": "text",
-          "label": "Audience Label",
+          "label": "Audience Link Label",
           "name": "label",
           "valueType": "string"
         },

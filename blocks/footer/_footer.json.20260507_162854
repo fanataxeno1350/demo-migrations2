@@ -1,46 +1,46 @@
 {
   "definitions": [
     {
-      "title": "Header",
-      "id": "header",
+      "title": "Footer",
+      "id": "footer",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "filter": "header",
-              "model": "header",
-              "name": "Header"
+              "filter": "footer",
+              "model": "footer",
+              "name": "Footer"
             }
           }
         }
       }
     },
     {
-      "title": "Navigation-Item",
-      "id": "navigation-item",
+      "title": "Footer-Link-Item",
+      "id": "footer-link-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "navigation-item",
-              "name": "Navigation-Item"
+              "model": "footer-link-item",
+              "name": "Footer-Link-Item"
             }
           }
         }
       }
     },
     {
-      "title": "Audience-Link-Item",
-      "id": "audience-link-item",
+      "title": "Footer-Social-Item",
+      "id": "footer-social-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "audience-link-item",
-              "name": "Audience-Link-Item"
+              "model": "footer-social-item",
+              "name": "Footer-Social-Item"
             }
           }
         }
@@ -49,8 +49,26 @@
   ],
   "models": [
     {
-      "id": "header",
+      "id": "footer",
       "fields": [
+        {
+          "component": "container",
+          "item": "footer-link-item",
+          "label": "Footer Links",
+          "name": "footerLinks"
+        },
+        {
+          "component": "text",
+          "label": "Follow Us Heading",
+          "name": "followUsHeading",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "footer-social-item",
+          "label": "Footer Social Links",
+          "name": "footerSocialLinks"
+        },
         {
           "component": "reference",
           "label": "Logo",
@@ -62,57 +80,39 @@
           "label": "Logo Link",
           "name": "logoLink",
           "valueType": "string"
-        },
-        {
-          "component": "container",
-          "item": "navigation-item",
-          "label": "Navigation Menu",
-          "name": "navigationMenu"
-        },
-        {
-          "component": "container",
-          "item": "audience-link-item",
-          "label": "Audience Links",
-          "name": "audienceLinks"
         }
       ]
     },
     {
-      "id": "navigation-item",
+      "id": "footer-link-item",
       "fields": [
         {
           "component": "text",
-          "label": "Menu Label",
+          "label": "Link Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Menu Link",
+          "label": "Link URL",
           "name": "link",
-          "valueType": "string"
-        },
-        {
-          "component": "richtext",
-          "label": "Navigation Hierarchy",
-          "name": "hierarchy-tree",
           "valueType": "string"
         }
       ]
     },
     {
-      "id": "audience-link-item",
+      "id": "footer-social-item",
       "fields": [
         {
           "component": "text",
-          "label": "Audience Label",
+          "label": "Social Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Audience Link",
-          "name": "link",
+          "label": "Social Link URL",
+          "name": "socialLink",
           "valueType": "string"
         }
       ]
@@ -120,10 +120,10 @@
   ],
   "filters": [
     {
-      "id": "header",
+      "id": "footer",
       "components": [
-        "navigation-item",
-        "audience-link-item"
+        "footer-link-item",
+        "footer-social-item"
       ]
     }
   ]
