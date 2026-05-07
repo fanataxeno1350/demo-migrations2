@@ -1,8 +1,8 @@
 {
   "mappings": [
-    "/content/aem-boilerplate/:/"
+    "/content/demo-migrations-sites2/:/"
   ],
   "includes": [
-    "/content/aem-boilerplate/"
+    "/content/demo-migrations-sites2/"
   ]
 }
