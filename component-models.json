@@ -190,8 +190,8 @@
       },
       {
         "component": "text",
-        "label": "Follow Us Title",
-        "name": "followUsTitle",
+        "label": "Follow Us Heading",
+        "name": "followUsHeading",
         "valueType": "string"
       },
       {
@@ -202,13 +202,13 @@
       },
       {
         "component": "reference",
-        "label": "Footer Logo",
+        "label": "Logo",
         "name": "logo",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Footer Logo Link",
+        "label": "Logo Link",
         "name": "logoLink",
         "valueType": "string"
       }
@@ -242,8 +242,8 @@
       },
       {
         "component": "aem-content",
-        "label": "Social Link",
-        "name": "link",
+        "label": "Social Link URL",
+        "name": "socialLink",
         "valueType": "string"
       }
     ]
@@ -255,6 +255,195 @@
         "component": "aem-content",
         "name": "reference",
         "label": "Reference"
+      }
+    ]
+  },
+  {
+    "id": "header-nav",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Logo",
+        "name": "logo",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Logo Link",
+        "name": "logoLink",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "navigation-item",
+        "label": "Navigation Menu",
+        "name": "navigationMenu"
+      },
+      {
+        "component": "container",
+        "item": "audience-link-item",
+        "label": "Audience Links",
+        "name": "audienceLinks"
+      }
+    ]
+  },
+  {
+    "id": "navigation-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Menu Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Menu Link",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "audience-link-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Audience Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Audience Link",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "header-sub-nav",
+    "fields": [
+      {
+        "component": "container",
+        "item": "header-sub-nav-item",
+        "label": "Navigation Items",
+        "name": "navItems"
+      }
+    ]
+  },
+  {
+    "id": "header-sub-nav-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Item Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Item Link",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "header",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Logo",
+        "name": "logo",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Logo Link",
+        "name": "logoLink",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "navigation-item",
+        "label": "Navigation Menu",
+        "name": "navigationMenu"
+      },
+      {
+        "component": "container",
+        "item": "audience-link-item",
+        "label": "Audience Links",
+        "name": "audienceLinks"
+      }
+    ]
+  },
+  {
+    "id": "navigation-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Menu Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Menu Link",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "audience-link-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Audience Link Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Audience Link URL",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "hero-banner",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Background Image",
+        "name": "backgroundImage",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Headline",
+        "name": "headline",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Breadcrumb",
+        "name": "breadcrumb",
+        "valueType": "string"
       }
     ]
   },
@@ -280,6 +469,103 @@
         "name": "text",
         "value": "",
         "label": "Text",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "product-category-carousel",
+    "fields": [
+      {
+        "component": "container",
+        "item": "category-slide-item",
+        "label": "Category Slides",
+        "name": "slides"
+      }
+    ]
+  },
+  {
+    "id": "category-slide-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Category Image",
+        "name": "image",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Category Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Category Link",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "product-grid",
+    "fields": [
+      {
+        "component": "container",
+        "item": "product-item",
+        "label": "Products",
+        "name": "products"
+      }
+    ]
+  },
+  {
+    "id": "product-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Product Image",
+        "name": "image",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Product Image Link",
+        "name": "imageLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Product Title",
+        "name": "title",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "CTA Link",
+        "name": "ctaLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "CTA Label",
+        "name": "ctaLabel",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "product-search",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Search Input Placeholder",
+        "name": "placeholder",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Form Action URL",
+        "name": "formAction",
         "valueType": "string"
       }
     ]

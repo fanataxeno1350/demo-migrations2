@@ -51,7 +51,14 @@
         "cards",
         "columns",
         "fragment",
-        "footer"
+        "footer",
+        "header",
+        "header-nav",
+        "header-sub-nav",
+        "hero-banner",
+        "product-search",
+        "product-grid",
+        "product-category-carousel"
       ]
     }
   ]

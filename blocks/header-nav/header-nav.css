@@ -305,19 +305,9 @@
 
 @media (max-width:767px) { .elementor .elementor-hidden-mobile{ display:none } }
 
-.elementor-widget-nav-menu:not(.elementor-nav-menu--toggle) .elementor-menu-toggle{ display:none }
-
-.elementor-menu-toggle{ align-items:center;background-color:rgba(0,0,0,.05);border:0 solid;border-radius:3px;color:#33373d;cursor:pointer;display:flex;font-size:var(--nav-menu-icon-size,22px);justify-content:center;padding:.25em }
-
-.elementor-menu-toggle:not(.elementor-active) .elementor-menu-toggle__icon--close{ display:none }
-
-.elementor-menu-toggle .e-font-icon-svg{ fill:#33373d;height:1em;width:1em }
-
-.elementor-menu-toggle svg{ height:auto;width:1em;fill:var(--nav-menu-icon-color,currentColor) }
-
 @media (max-width:1024px) { .elementor-nav-menu--dropdown-tablet .elementor-nav-menu--main{ display:none } }
 
-@media (min-width:1025px) { .elementor-nav-menu--dropdown-tablet .elementor-menu-toggle, .elementor-nav-menu--dropdown-tablet .elementor-nav-menu--dropdown{ display:none } }
+@media (min-width:1025px) { .elementor-nav-menu--dropdown-tablet .elementor-nav-menu--dropdown{ display:none } }
 
 @keyframes hide-scroll{0%,to{overflow:hidden}}
 
@@ -358,8 +348,6 @@
 @media(max-width:1024px) { .e-con{ --container-max-width:1024px; } }
 
 @media(max-width:767px) { .e-con{ --container-max-width:767px; } }
-
-.elementor-30 .elementor-element.elementor-element-f6dc590 .elementor-menu-toggle{ margin-left:auto; }
 
 @media(min-width:768px) { .elementor-30 .elementor-element.elementor-element-2dcde62{ --content-width:1280px; }
 

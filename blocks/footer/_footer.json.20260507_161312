@@ -59,8 +59,8 @@
         },
         {
           "component": "text",
-          "label": "Follow Us Heading",
-          "name": "followUsHeading",
+          "label": "Follow Us Title",
+          "name": "followUsTitle",
           "valueType": "string"
         },
         {
@@ -71,13 +71,13 @@
         },
         {
           "component": "reference",
-          "label": "Logo",
+          "label": "Footer Logo",
           "name": "logo",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Logo Link",
+          "label": "Footer Logo Link",
           "name": "logoLink",
           "valueType": "string"
         }
@@ -111,8 +111,8 @@
         },
         {
           "component": "aem-content",
-          "label": "Social Link URL",
-          "name": "socialLink",
+          "label": "Social Link",
+          "name": "link",
           "valueType": "string"
         }
       ]

@@ -16,7 +16,14 @@
       "cards",
       "columns",
       "fragment",
-      "footer"
+      "footer",
+      "header",
+      "header-nav",
+      "header-sub-nav",
+      "hero-banner",
+      "product-search",
+      "product-grid",
+      "product-category-carousel"
     ]
   },
   {
@@ -46,5 +53,43 @@
       "footer-link-item",
       "footer-social-item"
     ]
+  },
+  {
+    "id": "header-nav",
+    "components": [
+      "navigation-item",
+      "audience-link-item"
+    ]
+  },
+  {
+    "id": "header-sub-nav",
+    "components": [
+      "header-sub-nav-item"
+    ]
+  },
+  {
+    "id": "header",
+    "components": [
+      "navigation-item",
+      "audience-link-item"
+    ]
+  },
+  {
+    "id": "hero-banner"
+  },
+  {
+    "id": "product-category-carousel",
+    "components": [
+      "category-slide-item"
+    ]
+  },
+  {
+    "id": "product-grid",
+    "components": [
+      "product-item"
+    ]
+  },
+  {
+    "id": "product-search"
   }
 ]
