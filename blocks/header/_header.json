@@ -17,7 +17,7 @@
       }
     },
     {
-      "title": "Navigation-Item",
+      "title": "Navigation Item",
       "id": "navigation-item",
       "plugins": {
         "xwalk": {
@@ -25,29 +25,14 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "navigation-item",
-              "name": "Navigation-Item"
+              "name": "Navigation Item"
             }
           }
         }
       }
     },
     {
-      "title": "Contact-Link-Item",
-      "id": "contact-link-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "contact-link-item",
-              "name": "Contact-Link-Item"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Press-Release-Item",
+      "title": "Press Release Item",
       "id": "press-release-item",
       "plugins": {
         "xwalk": {
@@ -55,7 +40,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "press-release-item",
-              "name": "Press-Release-Item"
+              "name": "Press Release Item"
             }
           }
         }
@@ -69,25 +54,25 @@
         {
           "component": "reference",
           "label": "Main Logo",
-          "name": "mainLogo",
+          "name": "logo",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Main Logo Link",
-          "name": "mainLogoLink",
+          "name": "logoLink",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Year/Anniversary Logo",
-          "name": "yearLogo",
+          "label": "Anniversary Logo",
+          "name": "anniversaryLogo",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Year/Anniversary Logo Link",
-          "name": "yearLogoLink",
+          "label": "Anniversary Logo Link",
+          "name": "anniversaryLogoLink",
           "valueType": "string"
         },
         {
@@ -98,15 +83,9 @@
         },
         {
           "component": "container",
-          "item": "contact-link-item",
-          "label": "Contact Links",
-          "name": "contactLinks"
-        },
-        {
-          "component": "container",
           "item": "press-release-item",
-          "label": "Press Releases",
-          "name": "pressReleases"
+          "label": "Latest Press Releases",
+          "name": "latestPressReleases"
         }
       ]
     },
@@ -127,31 +106,14 @@
         },
         {
           "component": "richtext",
-          "label": "Mega Menu Content",
-          "name": "megaMenuContent",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Navigation Hierarchy",
-          "name": "hierarchy-tree",
-          "valueType": "string"
-        }
-      ]
-    },
-    {
-      "id": "contact-link-item",
-      "fields": [
-        {
-          "component": "text",
-          "label": "Label",
-          "name": "label",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Link",
-          "name": "link",
+          "label": "Mega Menu Left Section (Title/Description/Facts)",
+          "name": "leftSection",
           "valueType": "string"
         }
       ]
@@ -160,27 +122,27 @@
       "id": "press-release-item",
       "fields": [
         {
-          "component": "richtext",
-          "label": "Press Release Content",
-          "name": "pressReleaseContent",
+          "component": "aem-content",
+          "label": "Press Release Link",
+          "name": "link",
           "valueType": "string"
         },
         {
-          "component": "aem-content",
-          "label": "Press Release Link",
-          "name": "pressReleaseLink",
+          "component": "text",
+          "label": "Press Release Title",
+          "name": "title",
           "valueType": "string"
         },
         {
           "component": "text",
           "label": "Press Release Date",
-          "name": "pressReleaseDate",
+          "name": "date",
           "valueType": "string"
         },
         {
           "component": "text",
           "label": "Press Release Category",
-          "name": "pressReleaseCategory",
+          "name": "category",
           "valueType": "string"
         }
       ]
@@ -191,7 +153,6 @@
       "id": "header",
       "components": [
         "navigation-item",
-        "contact-link-item",
         "press-release-item"
       ]
     }

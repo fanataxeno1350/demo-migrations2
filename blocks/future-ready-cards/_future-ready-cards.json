@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Future-Ready-Cards",
+      "title": "Future Ready Cards",
       "id": "future-ready-cards",
       "plugins": {
         "xwalk": {
@@ -10,22 +10,22 @@
             "template": {
               "filter": "future-ready-cards",
               "model": "future-ready-cards",
-              "name": "Future-Ready-Cards"
+              "name": "Future Ready Cards"
             }
           }
         }
       }
     },
     {
-      "title": "Performance-Driven-Card-Item",
-      "id": "performance-driven-card-item",
+      "title": "Purpose Card Item",
+      "id": "purpose-card-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "performance-driven-card-item",
-              "name": "Performance-Driven-Card-Item"
+              "model": "purpose-card-item",
+              "name": "Purpose Card Item"
             }
           }
         }
@@ -44,43 +44,49 @@
         },
         {
           "component": "text",
-          "label": "Section Description",
-          "name": "description",
+          "label": "Section Subheading",
+          "name": "subheading",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "performance-driven-card-item",
-          "label": "Performance Driven Cards",
+          "item": "purpose-card-item",
+          "label": "Cards",
           "name": "cards"
         }
       ]
     },
     {
-      "id": "performance-driven-card-item",
+      "id": "purpose-card-item",
       "fields": [
         {
           "component": "reference",
-          "label": "Card Image Desktop",
+          "label": "Card Image (Desktop)",
           "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Card Image Mobile",
+          "label": "Card Image (Mobile)",
           "name": "imageMobile",
           "valueType": "string"
         },
         {
           "component": "text",
+          "label": "Card Image Alt Text",
+          "name": "altText",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
           "label": "Card Description",
-          "name": "cardDescription",
+          "name": "description",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Card Link",
-          "name": "cardLink",
+          "name": "link",
           "valueType": "string"
         }
       ]
@@ -90,7 +96,7 @@
     {
       "id": "future-ready-cards",
       "components": [
-        "performance-driven-card-item"
+        "purpose-card-item"
       ]
     }
   ]

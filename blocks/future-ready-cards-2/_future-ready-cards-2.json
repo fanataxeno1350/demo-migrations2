@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Future Ready Card Item",
-      "id": "future-ready-card-item",
+      "title": "Performance Card Item",
+      "id": "performance-card-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "future-ready-card-item",
-              "name": "Future Ready Card Item"
+              "model": "performance-card-item",
+              "name": "Performance Card Item"
             }
           }
         }
@@ -38,43 +38,43 @@
       "fields": [
         {
           "component": "text",
-          "label": "Section Heading",
+          "label": "Heading",
           "name": "heading",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Section Subheading",
-          "name": "subheading",
+          "label": "Description",
+          "name": "description",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "future-ready-card-item",
-          "label": "Cards",
+          "item": "performance-card-item",
+          "label": "Performance Cards",
           "name": "cards"
         }
       ]
     },
     {
-      "id": "future-ready-card-item",
+      "id": "performance-card-item",
       "fields": [
         {
           "component": "reference",
-          "label": "Card Image (Desktop)",
+          "label": "Desktop Image",
           "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Card Image (Mobile)",
+          "label": "Mobile Image",
           "name": "imageMobile",
           "valueType": "string"
         },
         {
-          "component": "richtext",
-          "label": "Card Description",
-          "name": "description",
+          "component": "text",
+          "label": "Card Label",
+          "name": "cardLabel",
           "valueType": "string"
         },
         {
@@ -90,7 +90,7 @@
     {
       "id": "future-ready-cards-2",
       "components": [
-        "future-ready-card-item"
+        "performance-card-item"
       ]
     }
   ]

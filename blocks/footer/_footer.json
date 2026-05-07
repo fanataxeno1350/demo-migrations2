@@ -69,12 +69,14 @@
         {
           "component": "reference",
           "label": "Logo",
-          "name": "logo"
+          "name": "logo",
+          "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Logo Link",
-          "name": "logoLink"
+          "name": "logoLink",
+          "valueType": "string"
         },
         {
           "component": "container",
@@ -96,8 +98,9 @@
         },
         {
           "component": "text",
-          "label": "Copyright Text",
-          "name": "copyrightText"
+          "label": "Copyright Notice",
+          "name": "copyright",
+          "valueType": "string"
         }
       ]
     },
@@ -107,12 +110,14 @@
         {
           "component": "text",
           "label": "Section Title",
-          "name": "title"
+          "name": "title",
+          "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Direct Link URL",
-          "name": "link"
+          "name": "link",
+          "valueType": "string"
         },
         {
           "component": "richtext",
@@ -127,12 +132,14 @@
         {
           "component": "text",
           "label": "Link Label",
-          "name": "label"
+          "name": "label",
+          "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Link URL",
-          "name": "link"
+          "name": "link",
+          "valueType": "string"
         }
       ]
     },
@@ -142,7 +149,8 @@
         {
           "component": "aem-content",
           "label": "Social Link URL",
-          "name": "socialLink"
+          "name": "socialLink",
+          "valueType": "string"
         },
         {
           "component": "richtext",

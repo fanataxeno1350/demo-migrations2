@@ -34,16 +34,6 @@
 
 @media only screen and (max-width:767px) { .container{ max-width:100%; } }
 
-@media (max-width:834px) { .section{ padding:2rem 0; } }
-
-@media (max-width:834px) { .section-header.text-center p{ max-width:100%;font-size:0.875rem; } }
-
-@media (max-width:834px) { .section-header p{ font-size:0.875rem; } }
-
-@media (max-width:834px) { .heading{ font-size:1.25rem; } }
-
-@media (max-width:834px) { .section-header{ padding-right:var(--bs-gutter-x,0.75rem);padding-left:var(--bs-gutter-x,0.75rem);padding-bottom:1rem; } }
-
 @media (min-width:1300px) { .container{ max-width:1280px; } }
 
 @keyframes scroll-left{0%{transform:translateX(0%);}100%{transform:translateX(-100%);}}

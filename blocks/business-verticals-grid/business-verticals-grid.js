@@ -2,11 +2,10 @@ import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.j
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
-  const verticalItems = [...block.children];
+  const itemRows = [...block.children];
 
   const desktopContainer = document.createElement('div');
   desktopContainer.classList.add('container', 'd-lg-block', 'd-none');
-
   const desktopRow = document.createElement('div');
   desktopRow.classList.add('row', 'row-cols-lg-3', 'row-cols-1', 'g-3');
   desktopContainer.append(desktopRow);
@@ -20,147 +19,178 @@ export default async function decorate(block) {
 
   const mobileSlider = document.createElement('div');
   mobileSlider.classList.add('mobile-slider');
-  // Flickity classes 'flickity-enabled', 'is-draggable' are added by Flickity itself, not manually
-  // mobileSlider.setAttribute('data-flickity', '{ "wrapAround": false, "lazyLoad": true, "pageDots": true, "prevNextButtons": false, "imagesLoaded": true, "cellAlign": "left", "adaptiveHeight": true }');
+  mobileSlider.setAttribute('data-flickity', '{ "wrapAround": false, "lazyLoad": true, "pageDots": true, "prevNextButtons": false, "imagesLoaded": true, "cellAlign": "left", "adaptiveHeight": true }');
   mobileContainer.append(mobileSlider);
 
+  // Group items for mobile slider (3 items per slide)
   const mobileSlides = [];
-  const itemsPerSlide = 3;
+  for (let i = 0; i < itemRows.length; i += 3) {
+    mobileSlides.push(itemRows.slice(i, i + 3));
+  }
 
-  verticalItems.forEach((row, index) => {
-    const [imageDesktopCell, imageTabletCell, titleCell, arrowIconCell, linkCell] = [...row.children];
+  itemRows.forEach((row, index) => {
+    const [imageDesktopCell, imageMobileCell, titleCell, arrowIconCell, linkCell] = [...row.children];
 
-    // Desktop View
-    const desktopCol = document.createElement('div');
-    desktopCol.classList.add('col', 'aos-init', 'aos-animate');
-    desktopCol.setAttribute('data-aos', 'fade-up');
-    desktopCol.setAttribute('data-aos-delay', `${(index % 3) * 300 + 100}`); // Stagger delays
+    const wrap = document.createElement('div');
+    wrap.classList.add('wrap');
 
-    const desktopWrap = document.createElement('div');
-    desktopWrap.classList.add('wrap');
-    moveInstrumentation(row, desktopWrap); // Move instrumentation to the main wrapper
-    desktopCol.append(desktopWrap);
+    const imageDiv = document.createElement('div');
+    imageDiv.classList.add('image');
 
-    const desktopImageDiv = document.createElement('div');
-    desktopImageDiv.classList.add('image');
+    // Handle desktop image
     const desktopPicture = imageDesktopCell.querySelector('picture');
     if (desktopPicture) {
       const desktopImg = desktopPicture.querySelector('img');
-      const optimizedDesktopPic = createOptimizedPicture(desktopImg.src, desktopImg.alt, false, [{ media: '(min-width: 992px)', width: '376' }, { width: '376' }]);
-      desktopImageDiv.append(optimizedDesktopPic);
-    }
-    desktopWrap.append(desktopImageDiv);
-
-    const desktopTitleDiv = document.createElement('div');
-    desktopTitleDiv.classList.add('title');
-    desktopTitleDiv.textContent = titleCell.textContent.trim();
-    const desktopArrowIcon = arrowIconCell.querySelector('picture');
-    if (desktopArrowIcon) {
-      const desktopArrowImg = desktopArrowIcon.querySelector('img');
-      const arrowImg = document.createElement('img');
-      arrowImg.loading = 'lazy';
-      arrowImg.src = desktopArrowImg.src;
-      arrowImg.alt = desktopArrowImg.alt;
-      arrowImg.width = '10';
-      arrowImg.height = '29';
-      desktopTitleDiv.append(arrowImg);
-    }
-    desktopWrap.append(desktopTitleDiv);
-
-    const desktopLink = document.createElement('a');
-    desktopLink.classList.add('stretched-link');
-    const foundLink = linkCell.querySelector('a');
-    if (foundLink) {
-      desktopLink.href = foundLink.href;
-      desktopLink.setAttribute('aria-label', `Learn more about ${titleCell.textContent.trim()}`);
-    }
-    desktopWrap.append(desktopLink);
-    desktopRow.append(desktopCol);
-
-    // Mobile View (for Flickity slider)
-    let currentSlide;
-    const slideIndex = Math.floor(index / itemsPerSlide);
-    if (!mobileSlides[slideIndex]) {
-      currentSlide = document.createElement('div');
-      currentSlide.classList.add('slides');
-      if (slideIndex === 0) {
-        currentSlide.classList.add('is-selected');
+      if (desktopImg) {
+        // Create optimized picture for desktop, ensuring all sources are included
+        const optimizedDesktopPic = createOptimizedPicture(
+          desktopImg.src,
+          desktopImg.alt,
+          false,
+          [
+            { media: '(min-width: 992px)', width: '992' },
+            { media: '(min-width: 450px)', width: '450' },
+            { width: '376' },
+          ],
+        );
+        optimizedDesktopPic.querySelector('img').classList.add('img-fluid'); // Add img-fluid class
+        moveInstrumentation(desktopPicture, optimizedDesktopPic); // Move instrumentation from original picture to new picture
+        imageDiv.append(optimizedDesktopPic);
       }
-      const slideRow = document.createElement('div');
-      slideRow.classList.add('row', 'row-cols-1', 'gy-3');
-      currentSlide.append(slideRow);
-      mobileSlides.push(currentSlide);
-    } else {
-      currentSlide = mobileSlides[slideIndex];
     }
-    const slideRow = currentSlide.querySelector('.row');
 
-    const mobileCol = document.createElement('div');
-    mobileCol.classList.add('col');
-
-    const mobileWrap = document.createElement('div');
-    mobileWrap.classList.add('wrap');
-    mobileCol.append(mobileWrap);
-
-    const mobileImageDiv = document.createElement('div');
-    mobileImageDiv.classList.add('image');
-    const mobilePicture = imageTabletCell.querySelector('picture');
+    // Handle mobile image - if different, add as a separate picture or sources
+    // The original HTML shows that desktop and mobile images are handled by <source media> within ONE <picture> tag.
+    // The current logic creates a combined picture, but `createOptimizedPicture` is designed to handle this.
+    // Let's simplify: `createOptimizedPicture` should generate the correct <picture> with <source> tags.
+    // If imageMobileCell contains a *different* image, it should be a separate picture element.
+    // Given the model, imageDesktop and imageMobile are distinct fields, implying distinct assets.
+    // So, we should create a separate picture for mobile if it's truly a different asset.
+    // However, the original HTML structure implies a single picture with responsive sources.
+    // Let's assume `createOptimizedPicture` from `imageDesktopCell` is sufficient for the responsive sources.
+    // If `imageMobileCell` contains a truly different image, it should be added as a separate picture
+    // and CSS would manage its visibility. For now, we'll stick to the idea that `imageDesktopCell`
+    // provides the primary responsive image. If `imageMobileCell` is meant to override completely,
+    // the logic needs to be more complex.
+    // For now, we'll assume the `imageDesktopCell` contains the primary responsive image.
+    // The previous code had a complex "combinedPicture" logic which is usually handled by createOptimizedPicture.
+    // Let's ensure `createOptimizedPicture` is used for the primary image, and if `imageMobileCell`
+    // is truly a distinct image, it should be added as a separate picture element with appropriate classes
+    // for CSS to hide/show.
+    // Based on the ORIGINAL HTML, there's only one <picture> per item, with multiple <source> tags.
+    // So, `imageDesktopCell` should contain all the necessary sources. `imageMobileCell` might be redundant
+    // or intended for a different use case not reflected in the example HTML.
+    // For now, we'll use the desktop image as the primary and assume `createOptimizedPicture` handles
+    // the responsive sources correctly. If `imageMobileCell` is truly a separate asset, it would need
+    // its own <picture> tag and CSS to toggle visibility.
+    // Given the model, `imageDesktop` and `imageMobile` are separate fields.
+    // This implies two distinct images. The original HTML only shows one <picture> with multiple sources.
+    // This is a discrepancy. Let's create two distinct pictures and let CSS handle.
+    const mobilePicture = imageMobileCell.querySelector('picture');
     if (mobilePicture) {
       const mobileImg = mobilePicture.querySelector('img');
-      const optimizedMobilePic = createOptimizedPicture(mobileImg.src, mobileImg.alt, false, [{ media: '(min-width: 992px)', width: '376' }, { media: '(min-width: 450px)', width: '376' }, { width: '376' }]);
-      mobileImageDiv.append(optimizedMobilePic);
+      if (mobileImg) {
+        const optimizedMobilePic = createOptimizedPicture(
+          mobileImg.src,
+          mobileImg.alt,
+          false,
+          [
+            { media: '(min-width: 992px)', width: '992' },
+            { media: '(min-width: 450px)', width: '450' },
+            { width: '376' },
+          ],
+        );
+        optimizedMobilePic.querySelector('img').classList.add('img-fluid'); // Add img-fluid class
+        // Add a class to distinguish mobile picture if needed for CSS
+        optimizedMobilePic.classList.add('mobile-only-picture');
+        moveInstrumentation(mobilePicture, optimizedMobilePic);
+        imageDiv.append(optimizedMobilePic);
+      }
     }
-    mobileWrap.append(mobileImageDiv);
 
-    const mobileTitleDiv = document.createElement('div');
-    mobileTitleDiv.classList.add('title');
-    mobileTitleDiv.textContent = titleCell.textContent.trim();
-    const mobileArrowIcon = arrowIconCell.querySelector('picture');
-    if (mobileArrowIcon) {
-      const mobileArrowImg = mobileArrowIcon.querySelector('img');
-      const arrowImg = document.createElement('img');
-      arrowImg.loading = 'lazy';
-      arrowImg.src = mobileArrowImg.src;
-      arrowImg.alt = mobileArrowImg.alt;
-      arrowImg.width = '10';
-      arrowImg.height = '29';
-      mobileTitleDiv.append(arrowImg);
+
+    const titleDiv = document.createElement('div');
+    titleDiv.classList.add('title');
+    titleDiv.textContent = titleCell.textContent.trim();
+
+    const arrowIcon = arrowIconCell.querySelector('picture');
+    if (arrowIcon) {
+      const arrowImg = arrowIcon.querySelector('img');
+      if (arrowImg) {
+        const optimizedArrowPic = createOptimizedPicture(arrowImg.src, arrowImg.alt, false, [{ width: '10' }]);
+        moveInstrumentation(arrowImg, optimizedArrowPic.querySelector('img'));
+        titleDiv.append(' ', optimizedArrowPic); // Add a space before the icon
+      }
     }
-    mobileWrap.append(mobileTitleDiv);
 
-    const mobileLink = document.createElement('a');
-    mobileLink.classList.add('stretched-link');
+    const link = document.createElement('a');
+    link.classList.add('stretched-link');
+    const foundLink = linkCell.querySelector('a');
     if (foundLink) {
-      mobileLink.href = foundLink.href;
-      mobileLink.setAttribute('aria-label', `Learn more about ${titleCell.textContent.trim()}`);
+      link.href = foundLink.href;
+      link.setAttribute('aria-label', `Learn more about ${titleCell.textContent.trim()}`);
+      moveInstrumentation(foundLink, link); // Move instrumentation from original link to new link
     }
-    mobileWrap.append(mobileLink);
-    slideRow.append(mobileCol);
+
+    moveInstrumentation(row, wrap); // Move instrumentation from original row to the new wrap div
+    wrap.append(imageDiv, titleDiv, link);
+
+    // Desktop layout
+    const colDesktop = document.createElement('div');
+    colDesktop.classList.add('col', 'aos-init', 'aos-animate');
+    colDesktop.setAttribute('data-aos', 'fade-up');
+    colDesktop.setAttribute('data-aos-delay', `${(index % 3) * 300 + 100}`); // Example delay pattern
+    colDesktop.append(wrap.cloneNode(true)); // Clone for desktop
+    desktopRow.append(colDesktop);
+
+    // Mobile layout (grouped in slides of 3)
+    const slideIndex = Math.floor(index / 3);
+    if (!mobileSlides[slideIndex]) {
+      mobileSlides[slideIndex] = [];
+    }
+    mobileSlides[slideIndex].push(wrap);
   });
 
-  mobileSlides.forEach((slide) => mobileSlider.append(slide));
+  // Construct mobile slides
+  mobileSlides.forEach((slideItems, slideIdx) => {
+    const slideDiv = document.createElement('div');
+    slideDiv.classList.add('slides');
+    if (slideIdx === 0) {
+      slideDiv.classList.add('is-selected');
+    }
+    const slideRow = document.createElement('div');
+    slideRow.classList.add('row', 'row-cols-1', 'gy-3');
+    slideItems.forEach((item) => {
+      const colMobile = document.createElement('div');
+      colMobile.classList.add('col');
+      colMobile.append(item.cloneNode(true)); // Clone for mobile
+      slideRow.append(colMobile);
+    });
+    slideDiv.append(slideRow);
+    mobileSlider.append(slideDiv);
+  });
 
-  const root = document.createElement('div');
-  // The block's own class 'our-business-verticals' is already on the outer block div.
-  // Adding it here would cause double padding/CSS.
-  // root.classList.add('our-business-verticals');
-  root.append(desktopContainer);
-  root.append(mobileContainer);
+  // The block itself already has the 'business-verticals-grid' class from AEM.
+  // Adding 'our-business-verticals' to an inner root div would cause double padding/CSS.
+  // Instead, add 'our-business-verticals' to the block element directly.
+  block.classList.add('our-business-verticals');
+  block.replaceChildren(desktopContainer, mobileContainer);
 
-  block.replaceChildren(root);
-
-  // Initialize Flickity for mobile slider
+  // Load Flickity for mobile slider
   await loadCSS('https://unpkg.com/flickity@2/dist/flickity.min.css');
   await loadScript('https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js');
 
   // eslint-disable-next-line no-undef
-  new Flickity(mobileSlider, { // Use mobileSlider element directly
-    wrapAround: false,
-    lazyLoad: true,
-    pageDots: true,
-    prevNextButtons: false,
-    imagesLoaded: true,
-    cellAlign: 'left',
-    adaptiveHeight: true,
-  });
+  if (typeof Flickity !== 'undefined') {
+    // eslint-disable-next-line no-new, no-undef
+    new Flickity(mobileSlider, {
+      wrapAround: false,
+      lazyLoad: true,
+      pageDots: true,
+      prevNextButtons: false,
+      imagesLoaded: true,
+      cellAlign: 'left',
+      adaptiveHeight: true,
+    });
+  }
 }

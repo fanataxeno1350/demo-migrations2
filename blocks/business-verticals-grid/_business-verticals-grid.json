@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Vertical Item",
-      "id": "vertical-item",
+      "title": "Business Vertical Item",
+      "id": "business-vertical-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "vertical-item",
-              "name": "Vertical Item"
+              "model": "business-vertical-item",
+              "name": "Business Vertical Item"
             }
           }
         }
@@ -38,14 +38,14 @@
       "fields": [
         {
           "component": "container",
-          "item": "vertical-item",
+          "item": "business-vertical-item",
           "label": "Business Verticals",
           "name": "verticals"
         }
       ]
     },
     {
-      "id": "vertical-item",
+      "id": "business-vertical-item",
       "fields": [
         {
           "component": "reference",
@@ -55,13 +55,13 @@
         },
         {
           "component": "reference",
-          "label": "Tablet/Mobile Image",
-          "name": "imageTablet",
+          "label": "Mobile Image",
+          "name": "imageMobile",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Vertical Title",
+          "label": "Title",
           "name": "title",
           "valueType": "string"
         },
@@ -73,7 +73,7 @@
         },
         {
           "component": "aem-content",
-          "label": "Learn More Link",
+          "label": "Detail Page Link",
           "name": "link",
           "valueType": "string"
         }
@@ -84,7 +84,7 @@
     {
       "id": "business-verticals-grid",
       "components": [
-        "vertical-item"
+        "business-vertical-item"
       ]
     }
   ]

@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Performance-Driven-Cards-2",
+      "title": "Performance Driven Cards 2",
       "id": "performance-driven-cards-2",
       "plugins": {
         "xwalk": {
@@ -10,14 +10,14 @@
             "template": {
               "filter": "performance-driven-cards-2",
               "model": "performance-driven-cards-2",
-              "name": "Performance-Driven-Cards-2"
+              "name": "Performance Driven Cards 2"
             }
           }
         }
       }
     },
     {
-      "title": "Performance-Driven-Card-Item",
+      "title": "Performance Driven Card Item",
       "id": "performance-driven-card-item",
       "plugins": {
         "xwalk": {
@@ -25,7 +25,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "performance-driven-card-item",
-              "name": "Performance-Driven-Card-Item"
+              "name": "Performance Driven Card Item"
             }
           }
         }
@@ -36,18 +36,6 @@
     {
       "id": "performance-driven-cards-2",
       "fields": [
-        {
-          "component": "text",
-          "label": "Heading",
-          "name": "heading",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Description",
-          "name": "description",
-          "valueType": "string"
-        },
         {
           "component": "container",
           "item": "performance-driven-card-item",
@@ -72,15 +60,15 @@
           "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "Card Label",
-          "name": "cardLabel",
+          "component": "aem-content",
+          "label": "Card Link",
+          "name": "link",
           "valueType": "string"
         },
         {
-          "component": "aem-content",
-          "label": "Card Link",
-          "name": "cardLink",
+          "component": "richtext",
+          "label": "Card Description",
+          "name": "description",
           "valueType": "string"
         }
       ]
