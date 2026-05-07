@@ -51,7 +51,20 @@
         "cards",
         "columns",
         "fragment",
-        "---- New Blocks ----"
+        "---- New Blocks ----",
+        "header",
+        "hero-carousel",
+        "quick-links-bar",
+        "business-verticals-grid",
+        "purpose-led-cards",
+        "performance-driven-cards",
+        "performance-driven-cards-2",
+        "future-ready-cards",
+        "future-ready-cards-2",
+        "latest-news-carousel",
+        "work-with-us-grid",
+        "faqs-accordion",
+        "footer"
       ]
     }
   ]

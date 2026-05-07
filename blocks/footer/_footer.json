@@ -1,0 +1,166 @@
+{
+  "definitions": [
+    {
+      "title": "Footer",
+      "id": "footer",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "footer",
+              "model": "footer",
+              "name": "Footer"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Footer Section Item",
+      "id": "footer-section-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "footer-section-item",
+              "name": "Footer Section Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Footer Link Item",
+      "id": "footer-link-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "footer-link-item",
+              "name": "Footer Link Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Footer Social Item",
+      "id": "footer-social-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "footer-social-item",
+              "name": "Footer Social Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "footer",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Logo",
+          "name": "logo"
+        },
+        {
+          "component": "aem-content",
+          "label": "Logo Link",
+          "name": "logoLink"
+        },
+        {
+          "component": "container",
+          "item": "footer-social-item",
+          "label": "Social Links",
+          "name": "socialLinks"
+        },
+        {
+          "component": "container",
+          "item": "footer-section-item",
+          "label": "Footer Sections",
+          "name": "sections"
+        },
+        {
+          "component": "container",
+          "item": "footer-link-item",
+          "label": "Legal/Secondary Links",
+          "name": "legalLinks"
+        },
+        {
+          "component": "text",
+          "label": "Copyright Text",
+          "name": "copyrightText"
+        }
+      ]
+    },
+    {
+      "id": "footer-section-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Section Title",
+          "name": "title"
+        },
+        {
+          "component": "aem-content",
+          "label": "Direct Link URL",
+          "name": "link"
+        },
+        {
+          "component": "richtext",
+          "label": "Section Links",
+          "name": "sectionLinks"
+        }
+      ]
+    },
+    {
+      "id": "footer-link-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Link Label",
+          "name": "label"
+        },
+        {
+          "component": "aem-content",
+          "label": "Link URL",
+          "name": "link"
+        }
+      ]
+    },
+    {
+      "id": "footer-social-item",
+      "fields": [
+        {
+          "component": "aem-content",
+          "label": "Social Link URL",
+          "name": "socialLink"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "footer",
+      "components": [
+        "footer-section-item",
+        "footer-link-item",
+        "footer-social-item"
+      ]
+    }
+  ]
+}
