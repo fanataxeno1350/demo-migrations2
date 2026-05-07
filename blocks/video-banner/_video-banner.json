@@ -1,0 +1,62 @@
+{
+  "definitions": [
+    {
+      "title": "Video-Banner",
+      "id": "video-banner",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "video-banner",
+              "model": "video-banner",
+              "name": "Video-Banner"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "video-banner",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Desktop Banner Image",
+          "name": "desktopBannerImage",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Mobile Banner Image",
+          "name": "mobileBannerImage",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Headline",
+          "name": "headline",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Video Link",
+          "name": "videoLink",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Play Icon",
+          "name": "playIcon",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "video-banner"
+    }
+  ]
+}

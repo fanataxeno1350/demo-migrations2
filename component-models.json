@@ -180,12 +180,370 @@
     ]
   },
   {
+    "id": "footer",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Footer Logo",
+        "name": "logo",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Footer Logo Link",
+        "name": "logoLink",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "footer-section-item",
+        "label": "Footer Sections",
+        "name": "footerSections"
+      },
+      {
+        "component": "text",
+        "label": "Contact Us Title",
+        "name": "contactTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Contact Us Link",
+        "name": "contactLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Follow Us Label",
+        "name": "followUsLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "footer-social-item",
+        "label": "Footer Social Links",
+        "name": "footerSocialLinks"
+      },
+      {
+        "component": "reference",
+        "label": "Footer Certification Image",
+        "name": "footerCertificationImage",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Copyright",
+        "name": "copyright",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "footer-link-item",
+        "label": "Footer Bottom Links",
+        "name": "footerBottomLinks"
+      }
+    ]
+  },
+  {
+    "id": "footer-section-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Section Title",
+        "name": "title",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Direct Link URL",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Section Links",
+        "name": "sectionLinks"
+      },
+      {
+        "component": "richtext",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "footer-social-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Social Link Icon/Image",
+        "name": "socialLink",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Social Link URL",
+        "name": "socialHref",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "footer-link-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Link Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Link URL",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "fragment",
     "fields": [
       {
         "component": "aem-content",
         "name": "reference",
         "label": "Reference"
+      }
+    ]
+  },
+  {
+    "id": "header-nav",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Logo",
+        "name": "logo",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Logo Link",
+        "name": "logoLink",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Internal Home Link",
+        "name": "internalHomeLink",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "main-navigation-item",
+        "label": "Main Navigation",
+        "name": "mainNavigation"
+      },
+      {
+        "component": "container",
+        "item": "right-navigation-item",
+        "label": "Right Navigation",
+        "name": "rightNavigation"
+      },
+      {
+        "component": "container",
+        "item": "social-link-item",
+        "label": "Social Links",
+        "name": "socialLinks"
+      }
+    ]
+  },
+  {
+    "id": "main-navigation-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Menu Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Menu Link",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "mega-menu-subitem",
+        "label": "Mega Menu Items",
+        "name": "megaMenuItems"
+      },
+      {
+        "component": "richtext",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "mega-menu-subitem",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Subitem Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Subitem Link",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Subitem Image",
+        "name": "image",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "right-navigation-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Right Menu Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Right Menu Link",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Investor Dropdown",
+        "name": "investorDropdown",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "investor-dropdown-section",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Section Title",
+        "name": "sectionTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "investor-dropdown-link",
+        "label": "Section Links",
+        "name": "sectionLinks"
+      }
+    ]
+  },
+  {
+    "id": "investor-dropdown-link",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Link Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Link URL",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "social-link-item",
+    "fields": [
+      {
+        "component": "aem-content",
+        "label": "Social Link",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "hero-banner-2",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Desktop Banner Image",
+        "name": "desktopImage",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Mobile Banner Image",
+        "name": "mobileImage",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Headline",
+        "name": "headline",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Video Link",
+        "name": "videoLink",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Play Icon Image",
+        "name": "playIcon",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "hero-banner",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Desktop Banner Image",
+        "name": "desktopImage",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Mobile Banner Image",
+        "name": "mobileImage",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Breadcrumbs",
+        "name": "breadcrumbs",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Banner Headline",
+        "name": "headline",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Banner Description",
+        "name": "description",
+        "valueType": "string"
       }
     ]
   },
@@ -211,6 +569,144 @@
         "name": "text",
         "value": "",
         "label": "Text",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "product-applications",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Section Headline",
+        "name": "headline",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Section Image",
+        "name": "image",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "application-item",
+        "label": "Applications List",
+        "name": "applications"
+      }
+    ]
+  },
+  {
+    "id": "application-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Application Label",
+        "name": "label",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "product-features",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Features Title",
+        "name": "title",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Feature Image",
+        "name": "image",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "feature-item",
+        "label": "Features List",
+        "name": "features"
+      }
+    ]
+  },
+  {
+    "id": "feature-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Feature",
+        "name": "feature",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "product-intro",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Headline",
+        "name": "headline",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Hero Image (Desktop)",
+        "name": "heroImageDesktop",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Hero Image (Mobile)",
+        "name": "heroImageMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Side Image",
+        "name": "sideImage",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Description",
+        "name": "description",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "video-banner",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Desktop Banner Image",
+        "name": "desktopBannerImage",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Mobile Banner Image",
+        "name": "mobileBannerImage",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Headline",
+        "name": "headline",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Video Link",
+        "name": "videoLink",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Play Icon",
+        "name": "playIcon",
         "valueType": "string"
       }
     ]

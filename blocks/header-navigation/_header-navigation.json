@@ -1,0 +1,286 @@
+{
+  "definitions": [
+    {
+      "title": "Header Navigation",
+      "id": "header-nav",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "header-nav",
+              "model": "header-nav",
+              "name": "Header Navigation"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Main Navigation Item",
+      "id": "main-navigation-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "main-navigation-item",
+              "name": "Main Navigation Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Mega Menu Subitem",
+      "id": "mega-menu-subitem",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "mega-menu-subitem",
+              "name": "Mega Menu Subitem"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Right Navigation Item",
+      "id": "right-navigation-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "right-navigation-item",
+              "name": "Right Navigation Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Investor Dropdown Section",
+      "id": "investor-dropdown-section",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "investor-dropdown-section",
+              "name": "Investor Dropdown Section"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Investor Dropdown Link",
+      "id": "investor-dropdown-link",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "investor-dropdown-link",
+              "name": "Investor Dropdown Link"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Social Link Item",
+      "id": "social-link-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "social-link-item",
+              "name": "Social Link Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "header-nav",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Logo",
+          "name": "logo",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Logo Link",
+          "name": "logoLink",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Internal Home Link",
+          "name": "internalHomeLink",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "main-navigation-item",
+          "label": "Main Navigation",
+          "name": "mainNavigation"
+        },
+        {
+          "component": "container",
+          "item": "right-navigation-item",
+          "label": "Right Navigation",
+          "name": "rightNavigation"
+        },
+        {
+          "component": "container",
+          "item": "social-link-item",
+          "label": "Social Links",
+          "name": "socialLinks"
+        }
+      ]
+    },
+    {
+      "id": "main-navigation-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Menu Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Menu Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "mega-menu-subitem",
+          "label": "Mega Menu Items",
+          "name": "megaMenuItems"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "mega-menu-subitem",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Subitem Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Subitem Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Subitem Image",
+          "name": "image",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "right-navigation-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Right Menu Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Right Menu Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Investor Dropdown",
+          "name": "investorDropdown",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "investor-dropdown-section",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Section Title",
+          "name": "sectionTitle",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "investor-dropdown-link",
+          "label": "Section Links",
+          "name": "sectionLinks"
+        }
+      ]
+    },
+    {
+      "id": "investor-dropdown-link",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Link Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Link URL",
+          "name": "link",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "social-link-item",
+      "fields": [
+        {
+          "component": "aem-content",
+          "label": "Social Link",
+          "name": "link",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "header-nav",
+      "components": [
+        "main-navigation-item",
+        "mega-menu-subitem",
+        "right-navigation-item",
+        "investor-dropdown-section",
+        "investor-dropdown-link",
+        "social-link-item"
+      ]
+    }
+  ]
+}

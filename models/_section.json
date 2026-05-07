@@ -50,7 +50,15 @@
         "hero",
         "cards",
         "columns",
-        "fragment"
+        "fragment",
+        "header-nav",
+        "hero-banner",
+        "hero-banner-2",
+        "product-intro",
+        "product-features",
+        "product-applications",
+        "video-banner",
+        "footer"
       ]
     }
   ]

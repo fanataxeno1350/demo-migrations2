@@ -15,7 +15,15 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "header-nav",
+      "hero-banner",
+      "hero-banner-2",
+      "product-intro",
+      "product-features",
+      "product-applications",
+      "video-banner",
+      "footer"
     ]
   },
   {
@@ -38,5 +46,48 @@
       "button",
       "title"
     ]
+  },
+  {
+    "id": "footer",
+    "components": [
+      "footer-section-item",
+      "footer-social-item",
+      "footer-link-item"
+    ]
+  },
+  {
+    "id": "header-nav",
+    "components": [
+      "main-navigation-item",
+      "mega-menu-subitem",
+      "right-navigation-item",
+      "investor-dropdown-section",
+      "investor-dropdown-link",
+      "social-link-item"
+    ]
+  },
+  {
+    "id": "hero-banner-2"
+  },
+  {
+    "id": "hero-banner"
+  },
+  {
+    "id": "product-applications",
+    "components": [
+      "application-item"
+    ]
+  },
+  {
+    "id": "product-features",
+    "components": [
+      "feature-item"
+    ]
+  },
+  {
+    "id": "product-intro"
+  },
+  {
+    "id": "video-banner"
   }
 ]

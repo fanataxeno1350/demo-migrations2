@@ -1,0 +1,62 @@
+{
+  "definitions": [
+    {
+      "title": "Hero-Banner",
+      "id": "hero-banner",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "hero-banner",
+              "model": "hero-banner",
+              "name": "Hero-Banner"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "hero-banner",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Desktop Banner Image",
+          "name": "desktopImage",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Mobile Banner Image",
+          "name": "mobileImage",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Breadcrumbs",
+          "name": "breadcrumbs",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Banner Headline",
+          "name": "headline",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Banner Description",
+          "name": "description",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "hero-banner"
+    }
+  ]
+}
