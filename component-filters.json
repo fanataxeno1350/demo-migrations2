@@ -15,28 +15,90 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "---- New Blocks ----",
+      "header",
+      "home-slider",
+      "what-we-do",
+      "purpose-led",
+      "performance-driven",
+      "performance-driven-2",
+      "future-ready",
+      "latest-news",
+      "work-with-us",
+      "faqs",
+      "footer"
     ]
   },
   {
-    "id": "cards",
+    "id": "faqs",
     "components": [
-      "card"
+      "faq-item"
     ]
   },
   {
-    "id": "columns",
+    "id": "footer",
     "components": [
-      "column"
+      "footer-section-item",
+      "footer-link-item",
+      "footer-social-item"
     ]
   },
   {
-    "id": "column",
+    "id": "future-ready",
     "components": [
-      "text",
-      "image",
-      "button",
-      "title"
+      "future-ready-card-item"
+    ]
+  },
+  {
+    "id": "header",
+    "components": [
+      "navigation-item",
+      "press-release-item"
+    ]
+  },
+  {
+    "id": "home-slider",
+    "components": [
+      "home-slider-slide",
+      "home-slider-quick-link-item"
+    ]
+  },
+  {
+    "id": "latest-news",
+    "components": [
+      "embed-widget-item",
+      "news-item"
+    ]
+  },
+  {
+    "id": "performance-driven-2",
+    "components": [
+      "performance-driven-2-card"
+    ]
+  },
+  {
+    "id": "performance-driven",
+    "components": [
+      "performance-driven-card-item"
+    ]
+  },
+  {
+    "id": "purpose-led",
+    "components": [
+      "purpose-led-card"
+    ]
+  },
+  {
+    "id": "what-we-do",
+    "components": [
+      "business-vertical-item"
+    ]
+  },
+  {
+    "id": "work-with-us",
+    "components": [
+      "work-with-us-slide"
     ]
   }
 ]
