@@ -307,40 +307,28 @@
         "valueType": "string"
       },
       {
-        "component": "aem-content",
-        "label": "Contact Us Link",
-        "name": "contactUsLink",
-        "valueType": "string"
-      },
-      {
         "component": "text",
-        "label": "Contact Us Label",
-        "name": "contactUsLabel",
+        "label": "CTA Label",
+        "name": "ctaLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "CTA Link",
+        "name": "ctaLink",
         "valueType": "string"
       },
       {
         "component": "container",
         "item": "navigation-item",
-        "label": "Navigation Menu",
-        "name": "navigationMenu"
+        "label": "Navigation Items",
+        "name": "navigationItems"
       },
       {
         "component": "container",
-        "item": "navigation-item",
-        "label": "Mobile Navigation Menu",
-        "name": "mobileNavigationMenu"
-      },
-      {
-        "component": "container",
-        "item": "language-item",
+        "item": "language-selector-item",
         "label": "Language Selector",
-        "name": "languages"
-      },
-      {
-        "component": "container",
-        "item": "language-item",
-        "label": "Mobile Language Selector",
-        "name": "mobileLanguages"
+        "name": "languageSelector"
       }
     ]
   },
@@ -368,18 +356,18 @@
     ]
   },
   {
-    "id": "language-item",
+    "id": "language-selector-item",
     "fields": [
       {
         "component": "text",
         "label": "Language Label",
-        "name": "languageLabel",
+        "name": "label",
         "valueType": "string"
       },
       {
         "component": "aem-content",
         "label": "Language Link",
-        "name": "languageLink",
+        "name": "link",
         "valueType": "string"
       }
     ]
@@ -513,7 +501,7 @@
         "component": "container",
         "item": "stats-card",
         "label": "Stats Cards",
-        "name": "cards"
+        "name": "statsCards"
       },
       {
         "component": "aem-content",
@@ -540,26 +528,20 @@
       },
       {
         "component": "richtext",
-        "label": "Hover Details",
-        "name": "hoverDetails",
-        "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "label": "Number",
-        "name": "number",
+        "label": "Stat Number",
+        "name": "statNumber",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Aria Label",
-        "name": "ariaLabel",
+        "label": "Stat Description",
+        "name": "statDescription",
         "valueType": "string"
       },
       {
         "component": "richtext",
-        "label": "Card Description",
-        "name": "description",
+        "label": "Hover Details",
+        "name": "hoverDetails",
         "valueType": "string"
       }
     ]

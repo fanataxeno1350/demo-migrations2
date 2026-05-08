@@ -45,7 +45,7 @@
     "id": "header",
     "components": [
       "navigation-item",
-      "language-item"
+      "language-selector-item"
     ]
   },
   {

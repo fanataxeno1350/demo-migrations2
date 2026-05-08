@@ -206,15 +206,15 @@
           }
         },
         {
-          "title": "Language Item",
-          "id": "language-item",
+          "title": "Language Selector Item",
+          "id": "language-selector-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "language-item",
-                  "name": "Language Item"
+                  "model": "language-selector-item",
+                  "name": "Language Selector Item"
                 }
               }
             }

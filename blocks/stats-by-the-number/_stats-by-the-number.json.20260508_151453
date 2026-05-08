@@ -90,7 +90,7 @@
           "component": "container",
           "item": "stats-card",
           "label": "Stats Cards",
-          "name": "statsCards"
+          "name": "cards"
         },
         {
           "component": "aem-content",
@@ -117,20 +117,26 @@
         },
         {
           "component": "richtext",
-          "label": "Stat Number",
-          "name": "statNumber",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Stat Description",
-          "name": "statDescription",
+          "label": "Hover Details",
+          "name": "hoverDetails",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Hover Details",
-          "name": "hoverDetails",
+          "label": "Number",
+          "name": "number",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Aria Label",
+          "name": "ariaLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Card Description",
+          "name": "description",
           "valueType": "string"
         }
       ]

@@ -32,15 +32,15 @@
       }
     },
     {
-      "title": "Language Selector Item",
-      "id": "language-selector-item",
+      "title": "Language Item",
+      "id": "language-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "language-selector-item",
-              "name": "Language Selector Item"
+              "model": "language-item",
+              "name": "Language Item"
             }
           }
         }
@@ -64,28 +64,40 @@
           "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "CTA Label",
-          "name": "ctaLabel",
+          "component": "aem-content",
+          "label": "Contact Us Link",
+          "name": "contactUsLink",
           "valueType": "string"
         },
         {
-          "component": "aem-content",
-          "label": "CTA Link",
-          "name": "ctaLink",
+          "component": "text",
+          "label": "Contact Us Label",
+          "name": "contactUsLabel",
           "valueType": "string"
         },
         {
           "component": "container",
           "item": "navigation-item",
-          "label": "Navigation Items",
-          "name": "navigationItems"
+          "label": "Navigation Menu",
+          "name": "navigationMenu"
         },
         {
           "component": "container",
-          "item": "language-selector-item",
+          "item": "navigation-item",
+          "label": "Mobile Navigation Menu",
+          "name": "mobileNavigationMenu"
+        },
+        {
+          "component": "container",
+          "item": "language-item",
           "label": "Language Selector",
-          "name": "languageSelector"
+          "name": "languages"
+        },
+        {
+          "component": "container",
+          "item": "language-item",
+          "label": "Mobile Language Selector",
+          "name": "mobileLanguages"
         }
       ]
     },
@@ -113,18 +125,18 @@
       ]
     },
     {
-      "id": "language-selector-item",
+      "id": "language-item",
       "fields": [
         {
           "component": "text",
           "label": "Language Label",
-          "name": "label",
+          "name": "languageLabel",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Language Link",
-          "name": "link",
+          "name": "languageLink",
           "valueType": "string"
         }
       ]
@@ -135,7 +147,7 @@
       "id": "header",
       "components": [
         "navigation-item",
-        "language-selector-item"
+        "language-item"
       ]
     }
   ]
