@@ -38,20 +38,20 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Main Left Image",
-          "name": "mainImage",
+          "label": "Variation Image",
+          "name": "variationImage",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Main Headline",
-          "name": "headline",
+          "label": "Main Heading",
+          "name": "heading",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Sub Headline",
-          "name": "subHeadline",
+          "label": "Subheading",
+          "name": "subheading",
           "valueType": "string"
         },
         {
@@ -61,10 +61,10 @@
           "valueType": "string"
         },
         {
-          "component": "aem-content",
-          "label": "CTA Link",
-          "name": "ctaLink",
-          "valueType": "string"
+          "component": "container",
+          "item": "category-grid-item",
+          "label": "Categories",
+          "name": "categories"
         },
         {
           "component": "text",
@@ -73,10 +73,10 @@
           "valueType": "string"
         },
         {
-          "component": "container",
-          "item": "category-grid-item",
-          "label": "Categories",
-          "name": "categories"
+          "component": "aem-content",
+          "label": "CTA Link",
+          "name": "ctaLink",
+          "valueType": "string"
         }
       ]
     },
@@ -90,15 +90,15 @@
           "valueType": "string"
         },
         {
-          "component": "aem-content",
-          "label": "Category Link",
-          "name": "link",
+          "component": "text",
+          "label": "Category Label",
+          "name": "label",
           "valueType": "string"
         },
         {
-          "component": "richtext",
-          "label": "Category Label",
-          "name": "label",
+          "component": "aem-content",
+          "label": "Category Link",
+          "name": "link",
           "valueType": "string"
         }
       ]

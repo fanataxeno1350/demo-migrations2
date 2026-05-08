@@ -28,7 +28,7 @@
   {
     "id": "banner-carousel",
     "components": [
-      "banner-carousel-item"
+      "carousel-banner-item"
     ]
   },
   {
@@ -81,7 +81,7 @@
   {
     "id": "info-carousel",
     "components": [
-      "info-carousel-item"
+      "info-carousel-slide"
     ]
   },
   {

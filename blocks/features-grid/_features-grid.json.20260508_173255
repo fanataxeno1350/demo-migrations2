@@ -49,33 +49,33 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Background Image",
-          "name": "backgroundImage",
-          "valueType": "string"
+          "label": "Main Image (visible)",
+          "name": "mainImage"
+        },
+        {
+          "component": "reference",
+          "label": "Hidden Image (rightshift-image, display: none)",
+          "name": "hiddenImage"
         },
         {
           "component": "text",
-          "label": "Headline",
-          "name": "headline",
-          "valueType": "string"
+          "label": "Feature Title",
+          "name": "featureTitle"
         },
         {
           "component": "richtext",
-          "label": "Description",
-          "name": "description",
-          "valueType": "string"
+          "label": "Feature Description",
+          "name": "featureDescription"
         },
         {
           "component": "reference",
           "label": "CTA Icon",
-          "name": "ctaIcon",
-          "valueType": "string"
+          "name": "ctaIcon"
         },
         {
           "component": "aem-content",
           "label": "CTA Link",
-          "name": "ctaLink",
-          "valueType": "string"
+          "name": "ctaLink"
         }
       ]
     }

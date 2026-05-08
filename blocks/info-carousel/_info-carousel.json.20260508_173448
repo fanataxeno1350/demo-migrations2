@@ -1,31 +1,31 @@
 {
   "definitions": [
     {
-      "title": "Features Grid",
-      "id": "features-grid",
+      "title": "Info-Carousel",
+      "id": "info-carousel",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "filter": "features-grid",
-              "model": "features-grid",
-              "name": "Features Grid"
+              "filter": "info-carousel",
+              "model": "info-carousel",
+              "name": "Info-Carousel"
             }
           }
         }
       }
     },
     {
-      "title": "Feature Card",
-      "id": "feature-card",
+      "title": "Info-Carousel-Item",
+      "id": "info-carousel-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "feature-card",
-              "name": "Feature Card"
+              "model": "info-carousel-item",
+              "name": "Info-Carousel-Item"
             }
           }
         }
@@ -34,29 +34,29 @@
   ],
   "models": [
     {
-      "id": "features-grid",
+      "id": "info-carousel",
       "fields": [
         {
           "component": "container",
-          "item": "feature-card",
-          "label": "Cards",
-          "name": "cards"
+          "item": "info-carousel-item",
+          "label": "Carousel Items",
+          "name": "carouselItems"
         }
       ]
     },
     {
-      "id": "feature-card",
+      "id": "info-carousel-item",
       "fields": [
         {
           "component": "reference",
-          "label": "Background Image",
-          "name": "backgroundImage",
+          "label": "Image",
+          "name": "image",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Headline",
-          "name": "headline",
+          "label": "Title",
+          "name": "title",
           "valueType": "string"
         },
         {
@@ -64,27 +64,15 @@
           "label": "Description",
           "name": "description",
           "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "CTA Icon",
-          "name": "ctaIcon",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "CTA Link",
-          "name": "ctaLink",
-          "valueType": "string"
         }
       ]
     }
   ],
   "filters": [
     {
-      "id": "features-grid",
+      "id": "info-carousel",
       "components": [
-        "feature-card"
+        "info-carousel-item"
       ]
     }
   ]

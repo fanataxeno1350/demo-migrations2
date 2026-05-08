@@ -2,124 +2,107 @@ import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.j
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
-  const carouselItems = [...block.children];
+  const slides = [...block.children];
 
   const section = document.createElement('section');
   section.classList.add('itc-club-section', 'mx-md-0', 'mx-4');
 
   const container = document.createElement('div');
   container.classList.add('container');
+  section.append(container);
 
   const carousel = document.createElement('div');
-  carousel.classList.add('carousel', 'slide', 'itc-club-carousel', 'swiper'); // Added 'swiper' class
+  carousel.classList.add('carousel', 'slide', 'itc-club-carousel', 'swiper'); // Added swiper class
   carousel.id = 'carousel';
-  carousel.setAttribute('data-ride', 'carousel');
+  // data-ride="carousel" is a Bootstrap attribute, not needed for Swiper
+  container.append(carousel);
 
   const carouselShift = document.createElement('div');
   carouselShift.classList.add('itc-carousel-shift');
+  carousel.append(carouselShift);
 
   const carouselInner = document.createElement('div');
-  carouselInner.classList.add('carousel-inner', 'swiper-wrapper'); // Added 'swiper-wrapper' class
+  carouselInner.classList.add('carousel-inner', 'swiper-wrapper'); // Added swiper-wrapper class
+  carouselShift.append(carouselInner);
 
   const carouselIndicators = document.createElement('ol');
-  carouselIndicators.classList.add('carousel-indicators', 'swiper-pagination'); // Added 'swiper-pagination' class
+  carouselIndicators.classList.add('carousel-indicators', 'swiper-pagination'); // Added swiper-pagination class
+  carouselShift.append(carouselIndicators); // Append indicators to carouselShift for Swiper pagination
 
-  carouselItems.forEach((row, index) => {
-    const indicator = document.createElement('li');
-    indicator.setAttribute('data-target', '#carousel');
-    indicator.setAttribute('data-slide-to', index.toString());
-    // Swiper handles active state for pagination
-    // if (index === 0) {
-    //   indicator.classList.add('active');
-    // }
-    carouselIndicators.append(indicator);
-
-    const carouselItem = document.createElement('div');
-    carouselItem.classList.add('carousel-item', 'swiper-slide'); // Added 'swiper-slide' class
-    // Swiper handles active state for slides
-    // if (index === 0) {
-    //   carouselItem.classList.add('active');
-    // }
-
-    const itemContent = document.createElement('div');
-    itemContent.classList.add('d-md-flex', 'd-block');
-
+  slides.forEach((row, i) => {
     const [imageCell, titleCell, descriptionCell] = [...row.children];
 
+    // Carousel Item
+    const carouselItem = document.createElement('div');
+    carouselItem.classList.add('carousel-item', 'swiper-slide'); // Added swiper-slide class
+    moveInstrumentation(row, carouselItem);
+
+    const itemContentWrapper = document.createElement('div');
+    itemContentWrapper.classList.add('d-md-flex', 'd-block');
+    carouselItem.append(itemContentWrapper);
+
+    // Image
     const picture = imageCell.querySelector('picture');
     if (picture) {
       const img = picture.querySelector('img');
       if (img) {
         const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+        moveInstrumentation(img, optimizedPic.querySelector('img'));
         optimizedPic.classList.add('carousel__img', 'd-block', 'w-md-50', 'w-100');
-        moveInstrumentation(picture, optimizedPic.querySelector('img'));
-        itemContent.append(optimizedPic);
+        itemContentWrapper.append(optimizedPic);
       }
     }
 
+    // Right Wrapper
     const rightWrapper = document.createElement('div');
     rightWrapper.classList.add('w-md-50', 'w-100', 'itc-club-right-wrapper', 'read-more');
+    itemContentWrapper.append(rightWrapper);
 
+    // Title
     const title = document.createElement('h2');
     title.classList.add('carousel-inner__title');
-    title.textContent = titleCell?.textContent.trim() || '';
-    moveInstrumentation(titleCell, title);
+    title.textContent = titleCell.textContent.trim();
     rightWrapper.append(title);
 
-    const description = document.createElement('div'); // Changed to div to safely contain richtext HTML
+    // Description
+    const description = document.createElement('div');
     description.classList.add('carousel-inner__description');
-    description.innerHTML = descriptionCell?.innerHTML || '';
-    moveInstrumentation(descriptionCell, description);
+    description.innerHTML = descriptionCell.innerHTML;
     rightWrapper.append(description);
 
-    itemContent.append(rightWrapper);
-    carouselItem.append(itemContent);
     carouselInner.append(carouselItem);
-    moveInstrumentation(row, carouselItem);
   });
 
-  carouselShift.append(carouselInner);
-
+  // Navigation Buttons
   const prevButton = document.createElement('button');
-  prevButton.classList.add('carousel-control-prev', 'swiper-button-prev'); // Added 'swiper-button-prev'
+  prevButton.classList.add('carousel-control-prev', 'swiper-button-prev'); // Added swiper-button-prev class
   prevButton.type = 'button';
-  prevButton.setAttribute('data-target', '#carousel');
-  prevButton.setAttribute('data-slide', 'prev');
   prevButton.innerHTML = '<span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span>';
+  carouselShift.append(prevButton);
 
   const nextButton = document.createElement('button');
-  nextButton.classList.add('carousel-control-next', 'swiper-button-next'); // Added 'swiper-button-next'
+  nextButton.classList.add('carousel-control-next', 'swiper-button-next'); // Added swiper-button-next class
   nextButton.type = 'button';
-  nextButton.setAttribute('data-target', '#carousel');
-  nextButton.setAttribute('data-slide', 'next');
   nextButton.innerHTML = '<span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span>';
-
-  carouselShift.append(prevButton, nextButton);
-  carousel.append(carouselShift, carouselIndicators); // Append indicators to carousel root for Swiper
-  container.append(carousel);
-  section.append(container);
+  carouselShift.append(nextButton);
 
   block.replaceChildren(section);
 
-  // Load Swiper.js CSS and JS
+  // Load Swiper library and initialize
   await loadCSS('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
   await loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
 
-  // Initialize Swiper
-  const swiperEl = block.querySelector('.swiper');
-  if (swiperEl) {
-    // eslint-disable-next-line no-undef
-    new Swiper(swiperEl, {
-      slidesPerView: 'auto',
-      loop: false, // Original HTML doesn't specify loop, default to false
-      navigation: {
-        prevEl: prevButton,
-        nextEl: nextButton,
-      },
-      pagination: {
-        el: carouselIndicators,
-        clickable: true,
-      },
-    });
-  }
+  // eslint-disable-next-line no-undef
+  new Swiper(carousel, {
+    slidesPerView: 'auto',
+    loop: false, // Original HTML doesn't indicate loop
+    navigation: {
+      prevEl: prevButton,
+      nextEl: nextButton,
+    },
+    pagination: {
+      el: carouselIndicators,
+      clickable: true,
+    },
+  });
 }

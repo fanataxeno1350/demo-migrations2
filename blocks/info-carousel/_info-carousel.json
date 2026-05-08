@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Info-Carousel",
+      "title": "Info Carousel",
       "id": "info-carousel",
       "plugins": {
         "xwalk": {
@@ -10,22 +10,22 @@
             "template": {
               "filter": "info-carousel",
               "model": "info-carousel",
-              "name": "Info-Carousel"
+              "name": "Info Carousel"
             }
           }
         }
       }
     },
     {
-      "title": "Info-Carousel-Item",
-      "id": "info-carousel-item",
+      "title": "Info Carousel Slide",
+      "id": "info-carousel-slide",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "info-carousel-item",
-              "name": "Info-Carousel-Item"
+              "model": "info-carousel-slide",
+              "name": "Info Carousel Slide"
             }
           }
         }
@@ -38,30 +38,30 @@
       "fields": [
         {
           "component": "container",
-          "item": "info-carousel-item",
-          "label": "Carousel Items",
-          "name": "carouselItems"
+          "item": "info-carousel-slide",
+          "label": "Slides",
+          "name": "slides"
         }
       ]
     },
     {
-      "id": "info-carousel-item",
+      "id": "info-carousel-slide",
       "fields": [
         {
           "component": "reference",
-          "label": "Image",
+          "label": "Slide Image",
           "name": "image",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Title",
+          "label": "Slide Title",
           "name": "title",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Description",
+          "label": "Slide Description",
           "name": "description",
           "valueType": "string"
         }
@@ -72,7 +72,7 @@
     {
       "id": "info-carousel",
       "components": [
-        "info-carousel-item"
+        "info-carousel-slide"
       ]
     }
   ]

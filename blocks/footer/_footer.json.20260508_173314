@@ -53,20 +53,32 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Main Logo",
-          "name": "mainLogo",
+          "label": "ITC Logo",
+          "name": "logo",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Main Logo Link",
-          "name": "mainLogoLink",
+          "label": "ITC Logo Link",
+          "name": "logoLink",
           "valueType": "string"
         },
         {
           "component": "reference",
           "label": "FSSAI Logo",
           "name": "fssaiLogo",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Footer Links (HTML UL)",
+          "name": "footerLinks",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Footer Menu (HTML UL)",
+          "name": "footerMenu",
           "valueType": "string"
         },
         {
@@ -89,27 +101,21 @@
         },
         {
           "component": "text",
-          "label": "Grievance Officer Working Hours",
+          "label": "Grievance Officer Hours",
           "name": "grievanceHours",
           "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Copyright",
-          "name": "copyright",
-          "valueType": "string"
-        },
-        {
-          "component": "container",
-          "item": "footer-link-item",
-          "label": "Footer Links",
-          "name": "footerLinks"
         },
         {
           "component": "container",
           "item": "footer-social-item",
           "label": "Footer Social Links",
           "name": "footerSocialLinks"
+        },
+        {
+          "component": "text",
+          "label": "Copyright",
+          "name": "copyright",
+          "valueType": "string"
         }
       ]
     },
@@ -127,12 +133,6 @@
           "label": "Link URL",
           "name": "link",
           "valueType": "string"
-        },
-        {
-          "component": "richtext",
-          "label": "Navigation Hierarchy",
-          "name": "hierarchy-tree",
-          "valueType": "string"
         }
       ]
     },
@@ -148,7 +148,13 @@
         {
           "component": "aem-content",
           "label": "Social Link URL",
-          "name": "link",
+          "name": "socialLink",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
           "valueType": "string"
         }
       ]

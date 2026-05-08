@@ -17,7 +17,7 @@
       }
     },
     {
-      "title": "Navigation Item",
+      "title": "Navigation-Item",
       "id": "navigation-item",
       "plugins": {
         "xwalk": {
@@ -25,14 +25,14 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "navigation-item",
-              "name": "Navigation Item"
+              "name": "Navigation-Item"
             }
           }
         }
       }
     },
     {
-      "title": "Country Option Item",
+      "title": "Country-Option-Item",
       "id": "country-option-item",
       "plugins": {
         "xwalk": {
@@ -40,7 +40,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "country-option-item",
-              "name": "Country Option Item"
+              "name": "Country-Option-Item"
             }
           }
         }
@@ -54,25 +54,103 @@
         {
           "component": "reference",
           "label": "ITC Logo",
-          "name": "itcLogo",
+          "name": "logoItc",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "ITC Logo Link",
-          "name": "itcLogoLink",
+          "name": "logoItcLink",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Main Logo",
-          "name": "mainLogo",
+          "label": "Kitchens of India Logo",
+          "name": "logoKoi",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Main Logo Link",
-          "name": "mainLogoLink",
+          "label": "Kitchens of India Logo Link",
+          "name": "logoKoiLink",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Flag Image (IN)",
+          "name": "countryFlagIn",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Flag Image (USA)",
+          "name": "countryFlagUsa",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Current Country Code",
+          "name": "countryCode",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Dropdown Icon",
+          "name": "dropdownIcon",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Search Icon",
+          "name": "searchIcon",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Search Close Icon",
+          "name": "searchCloseIcon",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Search Input Placeholder",
+          "name": "searchPlaceholder",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Search Label",
+          "name": "searchLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Popular Suggestions Label",
+          "name": "popularSuggestionsLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Pages Label",
+          "name": "pagesLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "View All Items Button Label",
+          "name": "viewAllItemsLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Country Modal Title",
+          "name": "countryModalTitle",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Country Modal Experience Text",
+          "name": "countryModalExperienceText",
           "valueType": "string"
         },
         {
@@ -82,34 +160,10 @@
           "name": "navigationMenu"
         },
         {
-          "component": "text",
-          "label": "Country Code",
-          "name": "countryCode",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Country Flag",
-          "name": "countryFlag",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Country Dropdown Icon",
-          "name": "countryDropdownIcon",
-          "valueType": "string"
-        },
-        {
           "component": "container",
           "item": "country-option-item",
           "label": "Country Options",
           "name": "countryOptions"
-        },
-        {
-          "component": "reference",
-          "label": "Search Icon",
-          "name": "searchIcon",
-          "valueType": "string"
         }
       ]
     },
@@ -141,7 +195,7 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Country Flag",
+          "label": "Country Flag Image",
           "name": "flag",
           "valueType": "string"
         },
@@ -153,7 +207,7 @@
         },
         {
           "component": "aem-content",
-          "label": "Country URL",
+          "label": "Country Link",
           "name": "countryUrl",
           "valueType": "string"
         }
