@@ -48,7 +48,7 @@
   {
     "id": "carousel",
     "components": [
-      "carousel-slide-item"
+      "carousel-slide"
     ]
   },
   {
@@ -76,17 +76,19 @@
     "id": "footer",
     "components": [
       "footer-link-item",
-      "footer-social-item",
-      "footer-bottom-link-item"
+      "footer-social-item"
     ]
   },
   {
-    "id": "header"
+    "id": "header",
+    "components": [
+      "login-link-item"
+    ]
   },
   {
     "id": "latest-blogs",
     "components": [
-      "blog-card-item"
+      "blog-item"
     ]
   },
   {

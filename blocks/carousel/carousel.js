@@ -2,41 +2,21 @@ import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.j
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
-  const slideRows = [...block.children];
-
-  const root = document.createElement('div');
-  root.classList.add('position-relative');
-
-  const swiperEl = document.createElement('div');
-  swiperEl.classList.add('swiper', 'primary-swiper');
-  // Original HTML has a dynamic ID like primary-swiper-carousel-419d8524f7,
-  // but for EDS, a generic ID or omitting if not strictly required by CSS is fine.
-  // Using a generic ID for now.
-  swiperEl.setAttribute('id', `carousel-${Math.random().toString(36).substring(2, 11)}`);
-  swiperEl.setAttribute('role', 'group');
-  swiperEl.setAttribute('aria-live', 'polite');
-  swiperEl.setAttribute('aria-roledescription', 'carousel');
-  swiperEl.setAttribute('data-is-autoplay', 'true');
-  swiperEl.setAttribute('data-delay', '5000');
-  swiperEl.setAttribute('data-autopause-disabled', 'true');
-  swiperEl.setAttribute('data-is-loop', 'false'); // Default to false, check original HTML if it changes
-  swiperEl.setAttribute('data-placeholder-text', 'false');
+  const swiperContainer = document.createElement('div');
+  swiperContainer.classList.add('swiper', 'primary-swiper');
+  moveInstrumentation(block, swiperContainer); // Move instrumentation from block to swiperContainer
 
   const swiperWrapper = document.createElement('div');
   swiperWrapper.classList.add('swiper-wrapper', 'primary-swiper-wrapper', 'z-0');
+  swiperContainer.append(swiperWrapper);
 
-  slideRows.forEach((row) => {
-    const [videoCell, imageCell, ctaLinkCell, ctaLabelCell] = [...row.children];
+  const slides = [...block.children];
+  slides.forEach((row) => {
+    const [videoCell, imageCell, imageAltCell, ctaLinkCell, ctaLabelCell] = [...row.children];
 
-    const swiperSlide = document.createElement('div');
-    swiperSlide.classList.add('swiper-slide', 'primary-swiper-slide');
-    swiperSlide.setAttribute('role', 'tabpanel');
-    swiperSlide.setAttribute('aria-roledescription', 'slide');
-    // Data attributes for slide instrumentation are handled by moveInstrumentation
-    moveInstrumentation(row, swiperSlide);
-
-    const bannerDiv = document.createElement('div');
-    bannerDiv.classList.add('banner');
+    const slide = document.createElement('div');
+    slide.classList.add('swiper-slide', 'primary-swiper-slide');
+    moveInstrumentation(row, slide); // Move instrumentation from row to slide
 
     const bannerSection = document.createElement('section');
     bannerSection.classList.add('banner-section');
@@ -46,200 +26,237 @@ export default async function decorate(block) {
 
     const videoPicture = videoCell?.querySelector('picture');
     const imagePicture = imageCell?.querySelector('picture');
+    const imageAltText = imageAltCell?.textContent.trim() || '';
+    const ctaLinkHref = ctaLinkCell?.querySelector('a')?.href;
+    const ctaLabelText = ctaLabelCell?.textContent.trim() || '';
 
-    if (videoPicture && videoPicture.querySelector('img')) {
+    if (videoPicture) {
       const videoWrapper = document.createElement('div');
       videoWrapper.classList.add('video-wrapper');
 
-      const videoLink = videoPicture.querySelector('source') || videoPicture.querySelector('img');
-      if (videoLink && /\.(mp4|webm|ogg|mov)$/i.test(videoLink.src)) {
-        const video = document.createElement('video');
-        video.classList.add('w-100', 'object-fit-cover', 'banner-media', 'banner-video');
-        video.setAttribute('title', 'Video');
-        video.setAttribute('aria-label', 'Video');
-        video.setAttribute('data-is-autoplay', 'true');
-        video.setAttribute('playsinline', '');
-        video.setAttribute('preload', 'metadata');
-        video.setAttribute('fetchpriority', 'high');
-        video.setAttribute('loop', 'false');
-        video.setAttribute('muted', 'true');
-        video.setAttribute('autoplay', 'true');
+      const video = document.createElement('video');
+      video.classList.add('w-100', 'object-fit-cover', 'banner-media', 'banner-video');
+      video.title = 'Video';
+      video.ariaLabel = 'Video';
+      video.playsInline = true;
+      video.preload = 'metadata';
+      video.fetchPriority = 'high';
+      video.loop = false;
+      video.muted = true;
+      video.autoplay = true;
 
+      const videoImg = videoPicture.querySelector('img');
+      if (videoImg && /\.(mp4|webm|ogg|mov)$/i.test(videoImg.src)) {
         const source = document.createElement('source');
-        source.src = videoLink.src;
-        source.type = `video/${videoLink.src.split('.').pop()}`;
+        source.src = videoImg.src;
+        source.type = `video/${videoImg.src.split('.').pop()}`;
         video.append(source);
-        videoWrapper.append(video);
-
-        // Play/Pause buttons
-        const playPauseWrap = document.createElement('div');
-        playPauseWrap.classList.add('position-absolute', 'w-100', 'h-100', 'start-0', 'top-0', 'd-flex', 'justify-content-center', 'align-items-center', 'cursor-pointer');
-        const playBtn = document.createElement('button');
-        playBtn.classList.add('d-none', 'video-icon', 'icon-play', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer');
-        playBtn.setAttribute('type', 'button');
-        playBtn.innerHTML = '▶'; // Replaced SVG with Unicode
-        const pauseBtn = document.createElement('button');
-        pauseBtn.classList.add('d-block', 'video-icon', 'icon-pause', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer');
-        pauseBtn.setAttribute('type', 'button');
-        pauseBtn.innerHTML = '⏸'; // Replaced SVG with Unicode
-        playPauseWrap.append(playBtn, pauseBtn);
-
-        // Mute/Unmute buttons
-        const muteWrap = document.createElement('div');
-        muteWrap.classList.add('position-absolute', 'z-2', 'd-flex', 'justify-content-center', 'align-items-center', 'cursor-pointer', 'mute-icon');
-        const muteBtn = document.createElement('button');
-        muteBtn.classList.add('video-icon-volume', 'icon-mute', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer', 'd-none');
-        muteBtn.setAttribute('type', 'button');
-        muteBtn.innerHTML = '🔊'; // Replaced SVG with Unicode
-        const unmuteBtn = document.createElement('button');
-        unmuteBtn.classList.add('video-icon-volume', 'icon-unmute', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer', 'd-none');
-        unmuteBtn.setAttribute('type', 'button');
-        unmuteBtn.innerHTML = '🔇'; // Replaced SVG with Unicode
-        const noAudioBtn = document.createElement('button');
-        noAudioBtn.classList.add('video-icon-volume', 'no-audio-icon', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer');
-        noAudioBtn.setAttribute('type', 'button');
-        noAudioBtn.innerHTML = '🔈'; // Replaced SVG with Unicode
-        muteWrap.append(muteBtn, unmuteBtn, noAudioBtn);
-
-        videoWrapper.append(playPauseWrap, muteWrap);
-
-        // Video controls logic
-        video.addEventListener('play', () => {
-          playBtn.classList.add('d-none');
-          pauseBtn.classList.remove('d-none');
-        });
-        video.addEventListener('pause', () => {
-          playBtn.classList.remove('d-none');
-          pauseBtn.classList.add('d-none');
-        });
-        video.addEventListener('volumechange', () => {
-          if (video.muted) {
-            muteBtn.classList.add('d-none');
-            unmuteBtn.classList.add('d-none');
-            noAudioBtn.classList.remove('d-none');
-          } else if (video.volume === 0) {
-            muteBtn.classList.add('d-none');
-            unmuteBtn.classList.add('d-none');
-            noAudioBtn.classList.remove('d-none');
-          } else {
-            muteBtn.classList.remove('d-none');
-            unmuteBtn.classList.add('d-none');
-            noAudioBtn.classList.add('d-none');
-          }
-        });
-
-        playBtn.addEventListener('click', () => video.play());
-        pauseBtn.addEventListener('click', () => video.pause());
-        muteBtn.addEventListener('click', () => { video.muted = true; });
-        unmuteBtn.addEventListener('click', () => { video.muted = false; });
-        noAudioBtn.addEventListener('click', () => { video.muted = false; });
-
-        bannerWrapper.append(videoWrapper);
       }
+
+      videoWrapper.append(video);
+
+      const playPauseOverlay = document.createElement('div');
+      playPauseOverlay.classList.add('position-absolute', 'w-100', 'h-100', 'start-0', 'top-0', 'd-flex', 'justify-content-center', 'align-items-center', 'cursor-pointer');
+
+      const playButton = document.createElement('button');
+      playButton.type = 'button';
+      playButton.classList.add('d-none', 'video-icon', 'icon-play', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer');
+      // Replaced hardcoded SVG path with inline SVG or Unicode as per Rule 25.4
+      playButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M8 5v14l11-7z"/></svg>';
+
+      const pauseButton = document.createElement('button');
+      pauseButton.type = 'button';
+      pauseButton.classList.add('d-block', 'video-icon', 'icon-pause', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer');
+      // Replaced hardcoded SVG path with inline SVG or Unicode as per Rule 25.4
+      pauseButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+
+      playPauseOverlay.append(playButton, pauseButton);
+
+      const muteOverlay = document.createElement('div');
+      muteOverlay.classList.add('position-absolute', 'z-2', 'd-flex', 'justify-content-center', 'align-items-center', 'cursor-pointer', 'mute-icon');
+
+      const volumeHighButton = document.createElement('button');
+      volumeHighButton.type = 'button';
+      volumeHighButton.classList.add('video-icon-volume', 'icon-mute', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer', 'd-none');
+      // Replaced hardcoded SVG path with inline SVG or Unicode as per Rule 25.4
+      volumeHighButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>';
+
+      const volumeCrossButton = document.createElement('button');
+      volumeCrossButton.type = 'button';
+      volumeCrossButton.classList.add('video-icon-volume', 'icon-unmute', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer', 'd-none');
+      // Replaced hardcoded SVG path with inline SVG or Unicode as per Rule 25.4
+      volumeCrossButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .9-.2 1.75-.56 2.57l1.44 1.44A9.994 9.994 0 0021 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.41.33-.88.62-1.4.85v2.06c1.91-.45 3.68-1.81 5.04-3.59L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>';
+
+      const volumeMuteButton = document.createElement('button');
+      volumeMuteButton.type = 'button';
+      volumeMuteButton.classList.add('video-icon-volume', 'no-audio-icon', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer');
+      // Replaced hardcoded SVG path with inline SVG or Unicode as per Rule 25.4
+      volumeMuteButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M7 9v6h4l5 5V4L11 9H7z"/></svg>';
+
+      muteOverlay.append(volumeHighButton, volumeCrossButton, volumeMuteButton);
+
+      videoWrapper.append(playPauseOverlay, muteOverlay);
+      bannerWrapper.append(videoWrapper);
+
+      playButton.addEventListener('click', () => {
+        video.play();
+        playButton.classList.add('d-none');
+        pauseButton.classList.remove('d-none');
+      });
+
+      pauseButton.addEventListener('click', () => {
+        video.pause();
+        pauseButton.classList.add('d-none');
+        playButton.classList.remove('d-none');
+      });
+
+      volumeHighButton.addEventListener('click', () => {
+        video.muted = true;
+        volumeHighButton.classList.add('d-none');
+        volumeMuteButton.classList.remove('d-none');
+      });
+
+      volumeMuteButton.addEventListener('click', () => {
+        video.muted = false;
+        volumeMuteButton.classList.add('d-none');
+        volumeHighButton.classList.remove('d-none');
+      });
     } else if (imagePicture) {
       const img = imagePicture.querySelector('img');
       if (img) {
-        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '2000' }]);
-        const optimizedImg = optimizedPic.querySelector('img');
-        optimizedImg.classList.add('w-100', 'h-100', 'object-fit-cover', 'banner-media', 'banner-image');
-        optimizedImg.setAttribute('fetchpriority', 'high');
-        optimizedImg.setAttribute('decoding', 'async');
+        const optimizedPic = createOptimizedPicture(img.src, imageAltText, false, [{ width: '750' }]);
+        optimizedPic.querySelector('img').classList.add('w-100', 'h-100', 'object-fit-cover', 'banner-media', 'banner-image');
         bannerWrapper.append(optimizedPic);
       }
     }
 
-    const ctaWrapper = document.createElement('div');
-    ctaWrapper.classList.add('position-absolute', 'start-50', 'translate-middle-x', 'w-100', 'boing__banner--cta');
+    const ctaDiv = document.createElement('div');
+    ctaDiv.classList.add('position-absolute', 'start-50', 'translate-middle-x', 'w-100', 'boing__banner--cta');
     const bannerCta = document.createElement('div');
-    bannerCta.classList.add('banner-cta');
+    bannerCta.classList.add('banner-cta', 'text-center');
 
-    const ctaLink = ctaLinkCell?.querySelector('a');
-    const ctaLabel = ctaLabelCell?.textContent.trim();
-
-    if (ctaLink && ctaLabel) {
-      const ctaDiv = document.createElement('div');
-      ctaDiv.classList.add('text-center');
-      const anchor = document.createElement('a');
-      anchor.classList.add('cmp-button', 'analytics_cta_click', 'text-center', 'cta-layout');
-      anchor.setAttribute('data-link-region', 'CTA');
-      anchor.setAttribute('data-is-internal', 'true');
-      anchor.setAttribute('data-enable-gating', 'false');
-      anchor.href = ctaLink.href;
-      anchor.setAttribute('target', '_blank'); // Assuming from original HTML
-
-      const span = document.createElement('span');
-      span.classList.add('cmp-button__text', 'primary-btn', 'w-75', 'p-5', 'rounded-pill', 'd-inline-flex', 'justify-content-center', 'align-items-center', 'famlf-cta-btn');
-      span.textContent = ctaLabel;
-      anchor.append(span);
-      ctaDiv.append(anchor);
-      bannerCta.append(ctaDiv);
+    if (ctaLinkHref && ctaLabelText) {
+      const ctaLink = document.createElement('a');
+      ctaLink.classList.add('cmp-button', 'analytics_cta_click', 'text-center', 'cta-layout');
+      ctaLink.href = ctaLinkHref;
+      ctaLink.target = '_blank';
+      ctaLink.innerHTML = `<span class="cmp-button__text primary-btn w-75 p-5 rounded-pill d-inline-flex justify-content-center align-items-center famlf-cta-btn">${ctaLabelText}</span>`;
+      bannerCta.append(ctaLink);
     }
-    ctaWrapper.append(bannerCta);
-    bannerWrapper.append(ctaWrapper);
+    ctaDiv.append(bannerCta);
+    bannerWrapper.append(ctaDiv);
     bannerSection.append(bannerWrapper);
-    bannerDiv.append(bannerSection);
-    swiperSlide.append(bannerDiv);
-    swiperWrapper.append(swiperSlide);
+    slide.append(bannerSection);
+    swiperWrapper.append(slide);
   });
 
-  swiperEl.append(swiperWrapper);
+  const actionsDiv = document.createElement('div');
+  actionsDiv.classList.add('cmp-carousel__actions');
 
-  // Navigation buttons
   const prevBtn = document.createElement('button');
-  prevBtn.classList.add('primary-swiper__buttonPrev', 'position-absolute', 'top-50', 'swiper-buttonBg', 'd-none', 'd-sm-block', 'cursor-pointer', 'analytics_cta_click');
-  prevBtn.innerHTML = '‹'; // Unicode arrow as placeholder
-  prevBtn.setAttribute('aria-label', 'Previous');
+  prevBtn.classList.add('cmp-carousel__action', 'cmp-carousel__action--previous');
+  prevBtn.type = 'button';
+  prevBtn.ariaLabel = 'Previous';
+  prevBtn.innerHTML = '<span class="cmp-carousel__action-icon"></span><span class="cmp-carousel__action-text">Previous</span>';
 
   const nextBtn = document.createElement('button');
-  nextBtn.classList.add('primary-swiper__buttonNext', 'position-absolute', 'top-50', 'swiper-buttonBg', 'd-none', 'd-sm-block', 'cursor-pointer', 'analytics_cta_click');
-  nextBtn.innerHTML = '›'; // Unicode arrow as placeholder
-  nextBtn.setAttribute('aria-label', 'Next');
+  nextBtn.classList.add('cmp-carousel__action', 'cmp-carousel__action--next');
+  nextBtn.type = 'button';
+  nextBtn.ariaLabel = 'Next';
+  nextBtn.innerHTML = '<span class="cmp-carousel__action-icon"></span><span class="cmp-carousel__action-text">Next</span>';
 
-  // Append navigation buttons directly to swiperEl, as per original HTML structure
-  // The original HTML has them inside a 'swiper-container' div, but that div
-  // also contains the pagination, and Swiper expects prevEl/nextEl to be direct DOM elements.
-  // Replicating the button structure from original HTML (without the extra wrapper div)
-  swiperEl.append(prevBtn, nextBtn);
+  const pauseBtn = document.createElement('button');
+  pauseBtn.classList.add('cmp-carousel__action', 'cmp-carousel__action--pause');
+  pauseBtn.type = 'button';
+  pauseBtn.ariaLabel = 'Pause';
+  pauseBtn.innerHTML = '<span class="cmp-carousel__action-icon"></span><span class="cmp-carousel__action-text">Pause</span>';
+
+  const playBtn = document.createElement('button');
+  playBtn.classList.add('cmp-carousel__action', 'cmp-carousel__action--play', 'cmp-carousel__action--disabled');
+  playBtn.type = 'button';
+  playBtn.ariaLabel = 'Play';
+  playBtn.innerHTML = '<span class="cmp-carousel__action-icon"></span><span class="cmp-carousel__action-text">Play</span>';
+
+  actionsDiv.append(prevBtn, nextBtn, pauseBtn, playBtn);
+
+  // Autoplay functionality for pause/play buttons
+  let swiperInstance; // Declare swiperInstance here to be accessible by event listeners
+  pauseBtn.addEventListener('click', () => {
+    if (swiperInstance && swiperInstance.autoplay.running) {
+      swiperInstance.autoplay.stop();
+      pauseBtn.classList.add('cmp-carousel__action--disabled');
+      playBtn.classList.remove('cmp-carousel__action--disabled');
+    }
+  });
+
+  playBtn.addEventListener('click', () => {
+    if (swiperInstance && !swiperInstance.autoplay.running) {
+      swiperInstance.autoplay.start();
+      playBtn.classList.add('cmp-carousel__action--disabled');
+      pauseBtn.classList.remove('cmp-carousel__action--disabled');
+    }
+  });
+
+
+  const swiperNavContainer = document.createElement('div');
+  swiperNavContainer.classList.add('swiper-container');
+
+  const nextButtonWrapper = document.createElement('div');
+  const nextButton = document.createElement('button');
+  nextButton.classList.add('primary-swiper__buttonNext', 'position-absolute', 'top-50', 'swiper-buttonBg', 'd-none', 'd-sm-block', 'cursor-pointer', 'analytics_cta_click', 'disabled');
+  nextButton.disabled = true;
+  nextButtonWrapper.append(nextButton);
+
+  const prevButtonWrapper = document.createElement('div');
+  const prevButton = document.createElement('button');
+  prevButton.classList.add('primary-swiper__buttonPrev', 'position-absolute', 'top-50', 'swiper-buttonBg', 'd-none', 'd-sm-block', 'cursor-pointer', 'analytics_cta_click');
+  prevButtonWrapper.append(prevButton);
+
+  swiperNavContainer.append(nextButtonWrapper, prevButtonWrapper);
 
   const paginationEl = document.createElement('div');
-  paginationEl.classList.add('swiper-pagination', 'primary-swiper-pagination', 'pagination-set', 'mb-md-8', 'mb-10', 'mt-6', 'position-absolute', 'swiper-pagination-clickable', 'swiper-pagination-bullets', 'swiper-pagination-horizontal');
-  swiperEl.append(paginationEl);
+  // Removed swiper-pagination-clickable, swiper-pagination-bullets, swiper-pagination-horizontal as Swiper adds them
+  paginationEl.classList.add('swiper-pagination', 'primary-swiper-pagination', 'pagination-set', 'mb-md-8', 'mb-10', 'mt-6', 'position-absolute');
 
-  root.append(swiperEl);
-  block.replaceChildren(root);
+  swiperContainer.append(actionsDiv, swiperNavContainer, paginationEl);
 
-  // Load Swiper and initialize
+  block.replaceChildren(swiperContainer);
+
+  // Swiper initialization
   await loadCSS('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
   await loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
 
+  // Read Swiper options from data attributes on the block
+  const isAutoplay = block.dataset.isAutoplay === 'true';
+  const delay = parseInt(block.dataset.delay, 10) || 5000;
+  const disableOnInteraction = block.dataset.autopauseDisabled === 'true';
+  const isLoop = block.dataset.isLoop === 'true';
+
   // eslint-disable-next-line no-undef
-  new Swiper(swiperEl, {
-    slidesPerView: 1, // Adjust as per original behavior
+  swiperInstance = new Swiper(swiperContainer, {
+    slidesPerView: 1,
     spaceBetween: 0,
-    loop: swiperEl.dataset.isLoop === 'true', // Correctly parse data-is-loop
-    autoplay: {
-      delay: parseInt(swiperEl.dataset.delay, 10) || 5000,
-      disableOnInteraction: swiperEl.dataset.autopauseDisabled !== 'true',
-    },
+    loop: isLoop,
+    autoplay: isAutoplay ? {
+      delay,
+      disableOnInteraction,
+    } : false,
     navigation: {
-      prevEl: prevBtn,
-      nextEl: nextBtn,
+      prevEl: prevButton,
+      nextEl: nextButton,
     },
     pagination: {
       el: paginationEl,
       clickable: true,
     },
-    breakpoints: {
-      // Example breakpoints, adjust based on original HTML/CSS
-      576: {
-        slidesPerView: 1,
-      },
-      768: {
-        slidesPerView: 1,
-      },
-      992: {
-        slidesPerView: 1,
-      },
-    },
   });
+
+  // Initial state for play/pause buttons based on autoplay
+  if (isAutoplay) {
+    playBtn.classList.add('cmp-carousel__action--disabled');
+    pauseBtn.classList.remove('cmp-carousel__action--disabled');
+  } else {
+    pauseBtn.classList.add('cmp-carousel__action--disabled');
+    playBtn.classList.remove('cmp-carousel__action--disabled');
+  }
 }

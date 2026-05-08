@@ -2,15 +2,20 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  // Destructure root rows based on BlockJson model
-  const [sectionTitleRow, sectionDescriptionRow, ctaLabelRow, ctaLinkRow, ...blogItemRows] = [...block.children];
+  const children = [...block.children];
 
-  const sectionWrapper = document.createElement('section');
-  sectionWrapper.classList.add('article_listing--wrapper');
+  const sectionTitleRow = children[0];
+  const sectionDescriptionRow = children[1];
+  const ctaLinkRow = children[2];
+  const ctaLabelRow = children[3];
+  const blogCardRows = children.slice(4);
+
+  const wrapper = document.createElement('section');
+  wrapper.classList.add('article_listing--wrapper');
 
   const articleListing = document.createElement('div');
   articleListing.classList.add('article_listing', 'position-relative');
-  sectionWrapper.append(articleListing);
+  wrapper.append(articleListing);
 
   const firstSection = document.createElement('div');
   firstSection.classList.add('article_listing_section--first', 'text-white', 'text-center');
@@ -38,30 +43,34 @@ export default function decorate(block) {
   if (ctaAnchor) {
     ctaLink.href = ctaAnchor.href;
   }
+  ctaLink.title = ctaLabelRow.textContent.trim();
+  ctaLink.textContent = ctaLabelRow.textContent.trim();
+
   moveInstrumentation(ctaLinkRow, ctaLink);
-  ctaLink.textContent = ctaLabelRow.textContent.trim(); // CTA Label from its own row
+  moveInstrumentation(ctaLabelRow, ctaLink);
 
   const arrowIcon = document.createElement('svg');
   arrowIcon.classList.add('arrow-icon');
-  // Replaced hardcoded /content/dam/ path with inline SVG as per Rule 25.4
-  arrowIcon.innerHTML = '<use href="#arrow_forward"></use>'; // Assuming #arrow_forward is defined globally or in a sprite
+  // Replaced hardcoded SVG path with inline SVG as per Rule 25.4
+  arrowIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px">
+    <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+  </svg>`;
   ctaLink.append(arrowIcon);
   ctaWrapper.append(ctaLink);
-  // moveInstrumentation(ctaLabelRow, ctaLink); // Redundant, already moved ctaLinkRow to ctaLink
 
   const secondSection = document.createElement('div');
   secondSection.classList.add('article_listing_section--second', 'd-flex');
   articleListing.append(secondSection);
 
-  blogItemRows.forEach((row) => {
-    // Destructure item row cells based on BlockJson model for 'blog-item'
-    const [imageCell, dateCell, blogTitleCell, blogLinkCell] = [...row.children];
+  blogCardRows.forEach((row) => {
+    const [imageCell, dateCell, titleCell, linkCell] = [...row.children];
 
     const cardLink = document.createElement('a');
     cardLink.classList.add('article_listing--cardWrapper', 'analytics_cta_click');
-    const blogAnchor = blogLinkCell.querySelector('a');
-    if (blogAnchor) {
-      cardLink.href = blogAnchor.href;
+    const authoredLink = linkCell.querySelector('a');
+    if (authoredLink) {
+      cardLink.href = authoredLink.href;
+      cardLink.dataset.ctaLabel = titleCell.textContent.trim();
     }
     moveInstrumentation(row, cardLink);
 
@@ -69,9 +78,9 @@ export default function decorate(block) {
     card.classList.add('article_listing--cards');
     cardLink.append(card);
 
-    const cardImageWrapper = document.createElement('div');
-    cardImageWrapper.classList.add('article_listing--cardImageWrapper');
-    card.append(cardImageWrapper);
+    const imageWrapper = document.createElement('div');
+    imageWrapper.classList.add('article_listing--cardImageWrapper');
+    card.append(imageWrapper);
 
     const picture = imageCell.querySelector('picture');
     if (picture) {
@@ -79,8 +88,8 @@ export default function decorate(block) {
       if (img) {
         const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
         optimizedPic.querySelector('img').classList.add('article_listing--cardImage', 'w-100', 'h-100');
-        // moveInstrumentation(img, optimizedPic.querySelector('img')); // img is not a row, moveInstrumentation not applicable
-        cardImageWrapper.append(optimizedPic);
+        moveInstrumentation(img, optimizedPic.querySelector('img'));
+        imageWrapper.append(optimizedPic);
       }
     }
 
@@ -93,13 +102,13 @@ export default function decorate(block) {
     date.textContent = dateCell.textContent.trim();
     contentWrapper.append(date);
 
-    const blogTitle = document.createElement('p');
-    blogTitle.classList.add('boing--text__body-2', 'boing--text__body');
-    blogTitle.textContent = blogTitleCell.textContent.trim();
-    contentWrapper.append(blogTitle);
+    const cardTitle = document.createElement('p');
+    cardTitle.classList.add('boing--text__body-2', 'boing--text__body');
+    cardTitle.textContent = titleCell.textContent.trim();
+    contentWrapper.append(cardTitle);
 
     secondSection.append(cardLink);
   });
 
-  block.replaceChildren(sectionWrapper);
+  block.replaceChildren(wrapper);
 }

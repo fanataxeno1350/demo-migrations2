@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Carousel Slide",
-      "id": "carousel-slide",
+      "title": "Carousel-Slide-Item",
+      "id": "carousel-slide-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "carousel-slide",
-              "name": "Carousel Slide"
+              "model": "carousel-slide-item",
+              "name": "Carousel-Slide-Item"
             }
           }
         }
@@ -38,18 +38,18 @@
       "fields": [
         {
           "component": "container",
-          "item": "carousel-slide",
+          "item": "carousel-slide-item",
           "label": "Slides",
           "name": "slides"
         }
       ]
     },
     {
-      "id": "carousel-slide",
+      "id": "carousel-slide-item",
       "fields": [
         {
           "component": "reference",
-          "label": "Video File",
+          "label": "Video Source",
           "name": "video",
           "valueType": "string"
         },
@@ -57,12 +57,6 @@
           "component": "reference",
           "label": "Banner Image",
           "name": "image",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Image Alt Text",
-          "name": "imageAlt",
           "valueType": "string"
         },
         {
@@ -84,7 +78,7 @@
     {
       "id": "carousel",
       "components": [
-        "carousel-slide"
+        "carousel-slide-item"
       ]
     }
   ]

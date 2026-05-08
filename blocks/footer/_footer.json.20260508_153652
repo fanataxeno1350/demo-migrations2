@@ -45,6 +45,21 @@
           }
         }
       }
+    },
+    {
+      "title": "Footer-Bottom-Link-Item",
+      "id": "footer-bottom-link-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "footer-bottom-link-item",
+              "name": "Footer-Bottom-Link-Item"
+            }
+          }
+        }
+      }
     }
   ],
   "models": [
@@ -54,25 +69,25 @@
         {
           "component": "reference",
           "label": "Primary Logo",
-          "name": "primaryLogo",
+          "name": "logoPrimary",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Primary Logo Link",
-          "name": "primaryLogoLink",
+          "name": "logoPrimaryLink",
           "valueType": "string"
         },
         {
           "component": "reference",
           "label": "Secondary Logo",
-          "name": "secondaryLogo",
+          "name": "logoSecondary",
           "valueType": "string"
         },
         {
           "component": "container",
           "item": "footer-link-item",
-          "label": "Footer Link Items",
+          "label": "Footer Links",
           "name": "footerLinks"
         },
         {
@@ -83,8 +98,8 @@
         },
         {
           "component": "container",
-          "item": "footer-link-item",
-          "label": "Bottom Footer Links",
+          "item": "footer-bottom-link-item",
+          "label": "Footer Bottom Links",
           "name": "bottomLinks"
         },
         {
@@ -130,7 +145,24 @@
         {
           "component": "aem-content",
           "label": "Social Link URL",
-          "name": "socialLink",
+          "name": "link",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "footer-bottom-link-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Link URL",
+          "name": "link",
           "valueType": "string"
         }
       ]
@@ -141,7 +173,8 @@
       "id": "footer",
       "components": [
         "footer-link-item",
-        "footer-social-item"
+        "footer-social-item",
+        "footer-bottom-link-item"
       ]
     }
   ]

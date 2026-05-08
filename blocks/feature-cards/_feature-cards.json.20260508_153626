@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Feature-Cards",
+      "title": "Feature Cards",
       "id": "feature-cards",
       "plugins": {
         "xwalk": {
@@ -10,14 +10,14 @@
             "template": {
               "filter": "feature-cards",
               "model": "feature-cards",
-              "name": "Feature-Cards"
+              "name": "Feature Cards"
             }
           }
         }
       }
     },
     {
-      "title": "Feature-Card-Item",
+      "title": "Feature Card Item",
       "id": "feature-card-item",
       "plugins": {
         "xwalk": {
@@ -25,7 +25,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "feature-card-item",
-              "name": "Feature-Card-Item"
+              "name": "Feature Card Item"
             }
           }
         }
@@ -38,8 +38,8 @@
       "fields": [
         {
           "component": "richtext",
-          "label": "Block Headline",
-          "name": "headline",
+          "label": "Heading",
+          "name": "heading",
           "valueType": "string"
         },
         {
