@@ -1,166 +1,111 @@
-import { getMetadata } from '../../scripts/aem.js';
-import { loadFragment } from '../fragment/fragment.js';
+import { createOptimizedPicture } from '../../scripts/aem.js';
+import { moveInstrumentation } from '../../scripts/scripts.js';
 
-// media query match that indicates mobile/tablet width
-const isDesktop = window.matchMedia('(min-width: 900px)');
+export default function decorate(block) {
+  const [logoRow, logoLinkRow, loginLinkRow, loginLabelRow] = [...block.children];
 
-function closeOnEscape(e) {
-  if (e.code === 'Escape') {
-    const nav = document.getElementById('nav');
-    const navSections = nav.querySelector('.nav-sections');
-    const navSectionExpanded = navSections.querySelector('[aria-expanded="true"]');
-    if (navSectionExpanded && isDesktop.matches) {
-      // eslint-disable-next-line no-use-before-define
-      toggleAllNavSections(navSections);
-      navSectionExpanded.focus();
-    } else if (!isDesktop.matches) {
-      // eslint-disable-next-line no-use-before-define
-      toggleMenu(nav, navSections);
-      nav.querySelector('button').focus();
-    }
+  const header = document.createElement('header');
+  header.classList.add(
+    'boing-container',
+    'header',
+    'd-flex',
+    'justify-content-between',
+    'align-items-center',
+    'h-15',
+    'px-5',
+    'py-2',
+    'fixed-top',
+    'w-100',
+    'bg-white',
+  );
+  moveInstrumentation(block, header);
+
+  // Left section (menu icon)
+  const leftSection = document.createElement('div');
+  leftSection.classList.add('d-flex', 'w-25');
+  // TODO: Replace hardcoded SVG path with a dynamic value from a block field if available.
+  // For now, keeping it hardcoded as it's an icon, but ideally it should be configurable.
+  leftSection.innerHTML = `
+    <svg class="header__menu-icon text-boing-primary analytics_cta_click">
+      <use xlink:href="/content/dam/aemigrate/uploaded-folder/letsboing-com/image/sprite-boing-fabbe8.svg#menu"></use>
+    </svg>
+  `;
+  header.append(leftSection);
+
+  // Middle section (logo)
+  const middleSection = document.createElement('div');
+  middleSection.classList.add('d-flex', 'justify-content-center', 'w-25');
+
+  const logoLink = document.createElement('a');
+  logoLink.classList.add('analytics_cta_click');
+  logoLink.setAttribute('data-ct', '');
+  logoLink.setAttribute('a-label', 'header-logo-boing');
+  if (logoLinkRow) {
+    logoLink.href = logoLinkRow.querySelector('a')?.href || '/';
+    moveInstrumentation(logoLinkRow, logoLink); // Move instrumentation for logoLinkRow
+  } else {
+    logoLink.href = '/';
   }
-}
 
-function closeOnFocusLost(e) {
-  const nav = e.currentTarget;
-  if (!nav.contains(e.relatedTarget)) {
-    const navSections = nav.querySelector('.nav-sections');
-    const navSectionExpanded = navSections.querySelector('[aria-expanded="true"]');
-    if (navSectionExpanded && isDesktop.matches) {
-      // eslint-disable-next-line no-use-before-define
-      toggleAllNavSections(navSections, false);
-    } else if (!isDesktop.matches) {
-      // eslint-disable-next-line no-use-before-define
-      toggleMenu(nav, navSections, false);
-    }
-  }
-}
+  const logoDiv = document.createElement('div');
+  logoDiv.classList.add('header__logo', 'd-flex', 'align-items-center');
 
-function openOnKeydown(e) {
-  const focused = document.activeElement;
-  const isNavDrop = focused.className === 'nav-drop';
-  if (isNavDrop && (e.code === 'Enter' || e.code === 'Space')) {
-    const dropExpanded = focused.getAttribute('aria-expanded') === 'true';
-    // eslint-disable-next-line no-use-before-define
-    toggleAllNavSections(focused.closest('.nav-sections'));
-    focused.setAttribute('aria-expanded', dropExpanded ? 'false' : 'true');
-  }
-}
-
-function focusNavSection() {
-  document.activeElement.addEventListener('keydown', openOnKeydown);
-}
-
-/**
- * Toggles all nav sections
- * @param {Element} sections The container element
- * @param {Boolean} expanded Whether the element should be expanded or collapsed
- */
-function toggleAllNavSections(sections, expanded = false) {
-  sections.querySelectorAll('.nav-sections .default-content-wrapper > ul > li').forEach((section) => {
-    section.setAttribute('aria-expanded', expanded);
-  });
-}
-
-/**
- * Toggles the entire nav
- * @param {Element} nav The container element
- * @param {Element} navSections The nav sections within the container element
- * @param {*} forceExpanded Optional param to force nav expand behavior when not null
- */
-function toggleMenu(nav, navSections, forceExpanded = null) {
-  const expanded = forceExpanded !== null ? !forceExpanded : nav.getAttribute('aria-expanded') === 'true';
-  const button = nav.querySelector('.nav-hamburger button');
-  document.body.style.overflowY = (expanded || isDesktop.matches) ? '' : 'hidden';
-  nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-  toggleAllNavSections(navSections, expanded || isDesktop.matches ? 'false' : 'true');
-  button.setAttribute('aria-label', expanded ? 'Open navigation' : 'Close navigation');
-  // enable nav dropdown keyboard accessibility
-  const navDrops = navSections.querySelectorAll('.nav-drop');
-  if (isDesktop.matches) {
-    navDrops.forEach((drop) => {
-      if (!drop.hasAttribute('tabindex')) {
-        drop.setAttribute('tabindex', 0);
-        drop.addEventListener('focus', focusNavSection);
+  if (logoRow) {
+    const picture = logoRow.querySelector('picture');
+    if (picture) {
+      const img = picture.querySelector('img');
+      if (img) {
+        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+        optimizedPic.querySelector('img').classList.add('header__logo-img');
+        moveInstrumentation(logoRow, optimizedPic.querySelector('img'));
+        logoDiv.append(optimizedPic);
       }
-    });
-  } else {
-    navDrops.forEach((drop) => {
-      drop.removeAttribute('tabindex');
-      drop.removeEventListener('focus', focusNavSection);
-    });
+    }
+  }
+  logoLink.append(logoDiv);
+  middleSection.append(logoLink);
+  header.append(middleSection);
+
+  // Right section (login button)
+  const rightSection = document.createElement('div');
+  rightSection.classList.add('d-flex', 'w-25', 'justify-content-end');
+
+  if (loginLinkRow || loginLabelRow) {
+    const loginLinkWrapper = document.createElement('a');
+    loginLinkWrapper.classList.add('header__login-btn-wrapper', 'analytics_cta_click');
+    loginLinkWrapper.style.display = 'inline'; // Match original HTML style
+
+    if (loginLinkRow) {
+      loginLinkWrapper.href = loginLinkRow.querySelector('a')?.href || '#';
+      moveInstrumentation(loginLinkRow, loginLinkWrapper); // Move instrumentation for loginLinkRow
+    } else {
+      loginLinkWrapper.href = '#';
+    }
+
+    const loginButton = document.createElement('button');
+    loginButton.classList.add(
+      'header__login-btn',
+      'btn',
+      'text-boing-primary',
+      'bg-transparent',
+      'fw-semibold',
+      'rounded-4',
+      'btn-sm',
+      'py-3',
+      'px-4',
+    );
+    if (loginLabelRow) {
+      loginButton.textContent = loginLabelRow.textContent.trim();
+      moveInstrumentation(loginLabelRow, loginButton);
+    } else {
+      loginButton.textContent = 'Login';
+    }
+
+    loginLinkWrapper.append(loginButton);
+    rightSection.append(loginLinkWrapper);
   }
 
-  // enable menu collapse on escape keypress
-  if (!expanded || isDesktop.matches) {
-    // collapse menu on escape press
-    window.addEventListener('keydown', closeOnEscape);
-    // collapse menu on focus lost
-    nav.addEventListener('focusout', closeOnFocusLost);
-  } else {
-    window.removeEventListener('keydown', closeOnEscape);
-    nav.removeEventListener('focusout', closeOnFocusLost);
-  }
-}
+  header.append(rightSection);
 
-/**
- * loads and decorates the header, mainly the nav
- * @param {Element} block The header block element
- */
-export default async function decorate(block) {
-  // load nav as fragment
-  const navMeta = getMetadata('nav');
-  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
-  const fragment = await loadFragment(navPath);
-
-  // decorate nav DOM
-  block.textContent = '';
-  const nav = document.createElement('nav');
-  nav.id = 'nav';
-  while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
-
-  const classes = ['brand', 'sections', 'tools'];
-  classes.forEach((c, i) => {
-    const section = nav.children[i];
-    if (section) section.classList.add(`nav-${c}`);
-  });
-
-  const navBrand = nav.querySelector('.nav-brand');
-  const brandLink = navBrand.querySelector('.button');
-  if (brandLink) {
-    brandLink.className = '';
-    brandLink.closest('.button-container').className = '';
-  }
-
-  const navSections = nav.querySelector('.nav-sections');
-  if (navSections) {
-    navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
-      if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
-      navSection.addEventListener('click', () => {
-        if (isDesktop.matches) {
-          const expanded = navSection.getAttribute('aria-expanded') === 'true';
-          toggleAllNavSections(navSections);
-          navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-        }
-      });
-    });
-  }
-
-  // hamburger for mobile
-  const hamburger = document.createElement('div');
-  hamburger.classList.add('nav-hamburger');
-  hamburger.innerHTML = `<button type="button" aria-controls="nav" aria-label="Open navigation">
-      <span class="nav-hamburger-icon"></span>
-    </button>`;
-  hamburger.addEventListener('click', () => toggleMenu(nav, navSections));
-  nav.prepend(hamburger);
-  nav.setAttribute('aria-expanded', 'false');
-  // prevent mobile nav behavior on window resize
-  toggleMenu(nav, navSections, isDesktop.matches);
-  isDesktop.addEventListener('change', () => toggleMenu(nav, navSections, isDesktop.matches));
-
-  const navWrapper = document.createElement('div');
-  navWrapper.className = 'nav-wrapper';
-  navWrapper.append(nav);
-  block.append(navWrapper);
+  block.replaceChildren(header);
 }
