@@ -1,0 +1,79 @@
+{
+  "definitions": [
+    {
+      "title": "Club-Carousel",
+      "id": "club-carousel",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "club-carousel",
+              "model": "club-carousel",
+              "name": "Club-Carousel"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Carousel-Item",
+      "id": "carousel-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "carousel-item",
+              "name": "Carousel-Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "club-carousel",
+      "fields": [
+        {
+          "component": "container",
+          "item": "carousel-item",
+          "label": "Carousel Items",
+          "name": "items"
+        }
+      ]
+    },
+    {
+      "id": "carousel-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Image",
+          "name": "image",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Title",
+          "name": "title",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Description",
+          "name": "description",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "club-carousel",
+      "components": [
+        "carousel-item"
+      ]
+    }
+  ]
+}

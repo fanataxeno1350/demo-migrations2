@@ -22,7 +22,12 @@
       "category-grid",
       "section-title",
       "features-grid",
-      "footer"
+      "footer",
+      "carousel",
+      "carousel-2",
+      "club-carousel",
+      "category-banner",
+      "card-grid"
     ]
   },
   {
@@ -32,15 +37,45 @@
     ]
   },
   {
+    "id": "card-grid",
+    "components": [
+      "card-item"
+    ]
+  },
+  {
     "id": "cards",
     "components": [
       "card"
     ]
   },
   {
+    "id": "carousel-2",
+    "components": [
+      "carousel-2-item"
+    ]
+  },
+  {
+    "id": "carousel",
+    "components": [
+      "carousel-item"
+    ]
+  },
+  {
+    "id": "category-banner",
+    "components": [
+      "category-item"
+    ]
+  },
+  {
     "id": "category-grid",
     "components": [
       "category-grid-item"
+    ]
+  },
+  {
+    "id": "club-carousel",
+    "components": [
+      "carousel-item"
     ]
   },
   {
@@ -86,5 +121,8 @@
   },
   {
     "id": "section-title"
+  },
+  {
+    "id": "text"
   }
 ]

@@ -53,14 +53,14 @@
       "fields": [
         {
           "component": "reference",
-          "label": "ITC Logo",
-          "name": "itcLogo",
+          "label": "Main Logo",
+          "name": "mainLogo",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "ITC Logo Link",
-          "name": "itcLogoLink",
+          "label": "Main Logo Link",
+          "name": "mainLogoLink",
           "valueType": "string"
         },
         {
@@ -95,7 +95,7 @@
         },
         {
           "component": "text",
-          "label": "Copyright Text",
+          "label": "Copyright",
           "name": "copyright",
           "valueType": "string"
         },
@@ -107,15 +107,9 @@
         },
         {
           "component": "container",
-          "item": "footer-link-item",
-          "label": "Main Links",
-          "name": "mainLinks"
-        },
-        {
-          "component": "container",
           "item": "footer-social-item",
-          "label": "Social Links",
-          "name": "socialLinks"
+          "label": "Footer Social Links",
+          "name": "footerSocialLinks"
         }
       ]
     },
@@ -153,7 +147,7 @@
         },
         {
           "component": "aem-content",
-          "label": "Social Link",
+          "label": "Social Link URL",
           "name": "link",
           "valueType": "string"
         }

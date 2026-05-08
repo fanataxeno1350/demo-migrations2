@@ -53,26 +53,26 @@
       "fields": [
         {
           "component": "reference",
-          "label": "ITC Logo",
-          "name": "itcLogo",
+          "label": "Primary Logo",
+          "name": "primaryLogo",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "ITC Logo Link",
-          "name": "itcLogoLink",
+          "label": "Primary Logo Link",
+          "name": "primaryLogoLink",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Main Logo",
-          "name": "mainLogo",
+          "label": "Secondary Logo",
+          "name": "secondaryLogo",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Main Logo Link",
-          "name": "mainLogoLink",
+          "label": "Secondary Logo Link",
+          "name": "secondaryLogoLink",
           "valueType": "string"
         },
         {
@@ -82,21 +82,81 @@
           "name": "navigationMenu"
         },
         {
+          "component": "reference",
+          "label": "Country Flag (Header)",
+          "name": "countryFlag",
+          "valueType": "string"
+        },
+        {
           "component": "text",
-          "label": "Country Code",
+          "label": "Country Code (Header)",
           "name": "countryCode",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Country Flag",
-          "name": "countryFlag",
+          "label": "Dropdown Icon (Header Country)",
+          "name": "dropdownIcon",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Country Dropdown Icon",
-          "name": "countryDropdownIcon",
+          "label": "Search Icon (Header)",
+          "name": "searchIcon",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Search Icon (Nav Link)",
+          "name": "searchIconNav",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Search Label",
+          "name": "searchLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Search Input Placeholder",
+          "name": "searchInputPlaceholder",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Search Close Icon",
+          "name": "closeIcon",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Popular Suggestions Title",
+          "name": "popularSuggestionsTitle",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Pages Title",
+          "name": "pagesTitle",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "View All Button Label",
+          "name": "viewAllButtonLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Country Modal Title",
+          "name": "modalTitle",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Country Modal Subtitle",
+          "name": "modalSubtitle",
           "valueType": "string"
         },
         {
@@ -104,12 +164,6 @@
           "item": "country-option-item",
           "label": "Country Options",
           "name": "countryOptions"
-        },
-        {
-          "component": "reference",
-          "label": "Search Icon",
-          "name": "searchIcon",
-          "valueType": "string"
         }
       ]
     },
@@ -149,6 +203,12 @@
           "component": "text",
           "label": "Country Name",
           "name": "countryName",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Country Code (Data Attribute)",
+          "name": "countryCode",
           "valueType": "string"
         },
         {

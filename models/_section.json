@@ -57,7 +57,12 @@
         "category-grid",
         "section-title",
         "features-grid",
-        "footer"
+        "footer",
+        "carousel",
+        "carousel-2",
+        "club-carousel",
+        "category-banner",
+        "card-grid"
       ]
     }
   ]
