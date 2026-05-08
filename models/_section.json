@@ -51,7 +51,18 @@
         "cards",
         "columns",
         "fragment",
-        "---- New Blocks ----"
+        "---- New Blocks ----",
+        "header",
+        "home_slider",
+        "what_we_do",
+        "purpose_led_section",
+        "performance_driven_section",
+        "performance_driven_section-2",
+        "future_ready_section",
+        "latest_news",
+        "work_with_us",
+        "faqs_section",
+        "footer"
       ]
     }
   ]
