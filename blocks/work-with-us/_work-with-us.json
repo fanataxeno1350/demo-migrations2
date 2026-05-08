@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Work-With-Us-Slide-Item",
-      "id": "work-with-us-slide-item",
+      "title": "Work-With-Us-Slide",
+      "id": "work-with-us-slide",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "work-with-us-slide-item",
-              "name": "Work-With-Us-Slide-Item"
+              "model": "work-with-us-slide",
+              "name": "Work-With-Us-Slide"
             }
           }
         }
@@ -38,20 +38,20 @@
       "fields": [
         {
           "component": "text",
-          "label": "Main Heading",
-          "name": "heading",
+          "label": "Section Title",
+          "name": "title",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "work-with-us-slide-item",
+          "item": "work-with-us-slide",
           "label": "Slides",
           "name": "slides"
         }
       ]
     },
     {
-      "id": "work-with-us-slide-item",
+      "id": "work-with-us-slide",
       "fields": [
         {
           "component": "reference",
@@ -74,13 +74,13 @@
         {
           "component": "text",
           "label": "Slide Heading",
-          "name": "slideHeading",
+          "name": "heading",
           "valueType": "string"
         },
         {
           "component": "richtext",
           "label": "Slide Description",
-          "name": "slideDescription",
+          "name": "description",
           "valueType": "string"
         },
         {
@@ -102,7 +102,7 @@
     {
       "id": "work-with-us",
       "components": [
-        "work-with-us-slide-item"
+        "work-with-us-slide"
       ]
     }
   ]

@@ -2,7 +2,7 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const [sectionHeadingRow, ...faqItemRows] = [...block.children];
+  const children = [...block.children];
 
   const section = document.createElement('section');
   section.classList.add('section', 'faqs-section');
@@ -11,70 +11,76 @@ export default function decorate(block) {
   container.classList.add('container');
   section.append(container);
 
-  if (sectionHeadingRow) {
+  // Heading
+  const headingRow = children[0];
+  if (headingRow) {
     const sectionHeader = document.createElement('div');
     sectionHeader.classList.add('section-header', 'text-center');
-    moveInstrumentation(sectionHeadingRow, sectionHeader);
 
     const heading = document.createElement('h2');
-    heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
-    heading.setAttribute('data-aos', 'fade-up');
-    heading.textContent = sectionHeadingRow.children[0]?.textContent.trim();
+    heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate'); // Add aos classes as per original HTML
+    heading.setAttribute('data-aos', 'fade-up'); // Add data-aos attribute
+    
+    // Fix: Use destructuring for heading cell
+    const [headingCell] = [...headingRow.children];
+    moveInstrumentation(headingCell, heading); // Move instrumentation from the cell, not the row
+    heading.textContent = headingCell?.textContent.trim();
     sectionHeader.append(heading);
     container.append(sectionHeader);
   }
 
-  if (faqItemRows.length > 0) {
-    const accoDiv = document.createElement('div');
-    accoDiv.classList.add('acco-div');
+  // FAQs List
+  const accoDiv = document.createElement('div');
+  accoDiv.classList.add('acco-div');
+  const ul = document.createElement('ul');
+  accoDiv.append(ul);
 
-    const ul = document.createElement('ul');
-    accoDiv.append(ul);
+  children.slice(1).forEach((row, index) => {
+    const [questionCell, answerCell] = [...row.children];
 
-    faqItemRows.forEach((row, index) => {
-      const [questionCell, answerCell] = [...row.children];
+    const li = document.createElement('li');
+    li.classList.add('aos-init', 'aos-animate'); // Add aos classes as per original HTML
+    li.setAttribute('data-aos', 'fade-up'); // Add data-aos attribute
 
-      const li = document.createElement('li');
-      li.classList.add('aos-init', 'aos-animate');
-      li.setAttribute('data-aos', 'fade-up');
-      if (index === 0) {
-        li.classList.add('active'); // First item is active by default
-      }
-      moveInstrumentation(row, li);
+    const question = document.createElement('h2');
+    question.setAttribute('data-once', 'faqsAccordion'); // Add data-once attribute
+    moveInstrumentation(questionCell, question);
+    question.textContent = questionCell.textContent.trim();
+    li.append(question);
 
-      const questionHeading = document.createElement('h2');
-      questionHeading.setAttribute('data-once', 'faqsAccordion');
-      questionHeading.textContent = questionCell?.textContent.trim();
-      li.append(questionHeading);
+    const answerDiv = document.createElement('div');
+    answerDiv.classList.add('acco-content-div');
+    moveInstrumentation(answerCell, answerDiv);
+    answerDiv.innerHTML = answerCell.innerHTML;
+    li.append(answerDiv);
 
-      const accoContentDiv = document.createElement('div');
-      accoContentDiv.classList.add('acco-content-div');
-      if (index === 0) {
-        accoContentDiv.classList.add('show');
-      }
-      accoContentDiv.innerHTML = answerCell?.innerHTML;
-      li.append(accoContentDiv);
+    // Set the first item as active and show its content
+    if (index === 0) {
+      li.classList.add('active');
+      answerDiv.classList.add('show');
+    }
 
-      ul.append(li);
+    question.addEventListener('click', () => {
+      const parentLi = question.closest('li');
+      const contentDiv = parentLi.querySelector('.acco-content-div');
 
-      questionHeading.addEventListener('click', () => {
-        const isActive = li.classList.contains('active');
+      // Toggle active state on the clicked item
+      parentLi.classList.toggle('active');
+      contentDiv.classList.toggle('show');
 
-        // Close all other active items
-        ul.querySelectorAll('li.active').forEach((activeLi) => {
-          activeLi.classList.remove('active');
-          activeLi.querySelector('.acco-content-div').classList.remove('show');
-        });
-
-        // Toggle current item
-        if (!isActive) {
-          li.classList.add('active');
-          accoContentDiv.classList.add('show');
+      // Close other active items
+      ul.querySelectorAll('li.active').forEach((otherLi) => {
+        if (otherLi !== parentLi) {
+          otherLi.classList.remove('active');
+          otherLi.querySelector('.acco-content-div').classList.remove('show');
         }
       });
     });
-    container.append(accoDiv);
-  }
+
+    ul.append(li);
+  });
+
+  container.append(accoDiv);
 
   block.replaceChildren(section);
 

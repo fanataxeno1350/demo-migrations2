@@ -93,13 +93,13 @@
         {
           "component": "container",
           "item": "footer-link-item",
-          "label": "Legal/Bottom Links",
-          "name": "legalLinks"
+          "label": "Footer Bottom Links",
+          "name": "footerLinks"
         },
         {
           "component": "text",
           "label": "Copyright Text",
-          "name": "copyrightText",
+          "name": "copyright",
           "valueType": "string"
         }
       ]

@@ -788,11 +788,11 @@ progress { vertical-align:baseline }
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-box-sizing:border-box;}
 
-@font-face{font-family:'Georama';src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-regular-d0c863.woff") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-regular-d0c863.woff") format('woff');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Georama';src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-regular-80f922.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-regular-d0c863.woff") format('woff');font-weight:400;font-style:normal;font-display:swap;}
 
 @font-face{font-family:'Georama-medium';src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-medium-f99b53.woff") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-medium-f99b53.woff") format('woff');font-weight:500;font-style:normal;font-display:swap;}
 
-@font-face{font-family:quantum-rise-medium;src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-medium-dbd160.woff2") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-medium-e21fab.woff") format("woff");font-style:normal;font-weight:400;font-display:swap;}
+@font-face{font-family:quantum-rise-medium;src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-medium-e21fab.woff") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-medium-e21fab.woff") format("woff");font-style:normal;font-weight:400;font-display:swap;}
 
 @font-face{font-family:quantum-rise-regular;src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-regular-e79a1e.woff") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-regular-e79a1e.woff") format("woff");font-style:normal;font-weight:400;font-display:swap;}
 

@@ -2,33 +2,28 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const [headingRow, subheadingRow, ...cardRows] = [...block.children];
+  const [headingRow, descriptionRow, ...cardRows] = [...block.children];
 
   const section = document.createElement('section');
-  section.classList.add('grey-bg', 'spirit-of-rise'); // Removed 'section' class as outer block already has it
+  section.classList.add('section', 'grey-bg', 'spirit-of-rise');
 
   const sectionHeader = document.createElement('div');
   sectionHeader.classList.add('section-header', 'text-center', 'pb-3');
-  moveInstrumentation(headingRow, sectionHeader); // Move instrumentation from headingRow to sectionHeader
+  moveInstrumentation(headingRow, sectionHeader);
 
   const heading = document.createElement('h2');
   heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
-  heading.setAttribute('data-aos-easing', 'ease-in-out');
-  heading.setAttribute('data-aos', 'fade-up');
-  heading.setAttribute('data-aos-delay', '200');
-  // Heading is type=text, read directly from cell.textContent.trim()
-  heading.textContent = headingRow.textContent.trim();
+  // FIX: headingRow is a row, not a cell. Access its first child (the cell) for content.
+  // Also, heading is a text field, so textContent is appropriate.
+  heading.textContent = headingRow.children[0]?.textContent.trim() || '';
   sectionHeader.append(heading);
 
-  const subheading = document.createElement('p');
-  subheading.setAttribute('data-aos', 'fade-up');
-  subheading.setAttribute('data-aos-offset', '100');
-  subheading.setAttribute('data-aos-duration', '650');
-  subheading.setAttribute('data-aos-easing', 'ease-in-out');
-  subheading.classList.add('aos-init', 'aos-animate');
-  // Subheading is type=text, read directly from cell.textContent.trim()
-  subheading.textContent = subheadingRow.textContent.trim();
-  sectionHeader.append(subheading);
+  const description = document.createElement('p');
+  description.classList.add('aos-init', 'aos-animate');
+  // FIX: descriptionRow is a row, not a cell. Access its first child (the cell) for content.
+  // Also, description is a text field, so textContent is appropriate.
+  description.textContent = descriptionRow.children[0]?.textContent.trim() || '';
+  sectionHeader.append(description);
 
   section.append(sectionHeader);
 
@@ -38,11 +33,11 @@ export default function decorate(block) {
   const container = document.createElement('div');
   container.classList.add('container');
 
-  const performaceDrivenCards = document.createElement('div');
-  performaceDrivenCards.classList.add('performace-driven-cards');
+  const cardsContainer = document.createElement('div');
+  cardsContainer.classList.add('performace-driven-cards');
 
   cardRows.forEach((row) => {
-    const [imageMobileCell, imageDesktopCell, cardTextCell, cardLinkCell] = [...row.children];
+    const [imageDesktopCell, imageMobileCell, cardLabelCell, cardLinkCell] = [...row.children];
 
     const cardLink = document.createElement('a');
     cardLink.classList.add('performace-driven-cards-link');
@@ -59,45 +54,54 @@ export default function decorate(block) {
     const cardImage = document.createElement('div');
     cardImage.classList.add('card-image');
 
-    const picture = document.createElement('picture');
-    const sourceMobile = document.createElement('source');
-    sourceMobile.setAttribute('media', '(max-width: 576px)');
-    const imgMobile = imageMobileCell.querySelector('img');
-    if (imgMobile) {
-      sourceMobile.srcset = imgMobile.src;
-    }
-
-    const imgDesktop = imageDesktopCell.querySelector('img');
-    const img = document.createElement('img');
+    const pictureDesktop = imageDesktopCell.querySelector('picture');
+    const imgDesktop = pictureDesktop ? pictureDesktop.querySelector('img') : null;
     if (imgDesktop) {
-      img.src = imgDesktop.src;
-      img.alt = imgDesktop.alt;
+      const optimizedPicDesktop = createOptimizedPicture(imgDesktop.src, imgDesktop.alt, false, [{ width: '750' }]);
+      moveInstrumentation(imgDesktop, optimizedPicDesktop.querySelector('img'));
+      cardImage.append(optimizedPicDesktop);
     }
 
-    picture.append(sourceMobile, img);
-    cardImage.append(picture);
+    const pictureMobile = imageMobileCell.querySelector('picture');
+    const imgMobile = pictureMobile ? pictureMobile.querySelector('img') : null;
+    if (imgMobile) {
+      const sourceMobile = document.createElement('source');
+      sourceMobile.media = '(max-width: 576px)';
+      sourceMobile.srcset = imgMobile.src;
+      // Ensure picture element exists before prepending source
+      const existingPicture = cardImage.querySelector('picture');
+      if (existingPicture) {
+        existingPicture.prepend(sourceMobile);
+      } else {
+        // Fallback if no picture element was created for desktop, create one for mobile
+        const newPicture = document.createElement('picture');
+        newPicture.append(sourceMobile);
+        const newImg = document.createElement('img');
+        newImg.src = imgMobile.src;
+        newImg.alt = imgMobile.alt;
+        newPicture.append(newImg);
+        cardImage.append(newPicture);
+      }
+    }
 
-    // Optimize images
-    cardImage.querySelectorAll('picture > img').forEach((image) => {
-      const optimizedPic = createOptimizedPicture(image.src, image.alt, false, [{ width: '750' }]);
-      moveInstrumentation(image, optimizedPic.querySelector('img'));
-      image.closest('picture').replaceWith(optimizedPic);
-    });
+    cardWrapper.append(cardImage);
 
     const homeBoxCard = document.createElement('div');
     homeBoxCard.classList.add('performace-driven-home-box-card');
 
     const desc = document.createElement('p');
     desc.classList.add('desc');
-    desc.innerHTML = cardTextCell.innerHTML; // richtext content
-
+    // FIX: cardLabel is a text field, but the original HTML shows it can contain <br/>,
+    // so innerHTML is safer than textContent to preserve formatting.
+    desc.innerHTML = cardLabelCell.innerHTML;
     homeBoxCard.append(desc);
-    cardWrapper.append(cardImage, homeBoxCard);
+
+    cardWrapper.append(homeBoxCard);
     cardLink.append(cardWrapper);
-    performaceDrivenCards.append(cardLink);
+    cardsContainer.append(cardLink);
   });
 
-  container.append(performaceDrivenCards);
+  container.append(cardsContainer);
   performanceDriven.append(container);
   section.append(performanceDriven);
 

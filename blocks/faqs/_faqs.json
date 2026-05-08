@@ -17,7 +17,7 @@
       }
     },
     {
-      "title": "Faq-Item",
+      "title": "Faq Item",
       "id": "faq-item",
       "plugins": {
         "xwalk": {
@@ -25,7 +25,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "faq-item",
-              "name": "Faq-Item"
+              "name": "Faq Item"
             }
           }
         }
@@ -39,14 +39,14 @@
         {
           "component": "text",
           "label": "Section Heading",
-          "name": "sectionHeading",
+          "name": "heading",
           "valueType": "string"
         },
         {
           "component": "container",
           "item": "faq-item",
-          "label": "FAQ Items",
-          "name": "faqItems"
+          "label": "FAQs List",
+          "name": "faqsList"
         }
       ]
     },

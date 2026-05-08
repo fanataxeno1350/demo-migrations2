@@ -2,100 +2,107 @@ import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.j
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
-  const [titleRow, ...itemRows] = [...block.children];
+  const children = [...block.children];
+  const headingRow = children[0];
+  const itemRows = children.slice(1);
+
+  const embedWidgetItems = itemRows.filter((row) => row.children.length === 3);
+  const newsItems = itemRows.filter((row) => row.children.length === 8);
 
   const section = document.createElement('section');
   section.classList.add('section', 'grey-bg', 'latest-stories', 'home-stories');
 
-  // Section Header
   const sectionHeader = document.createElement('div');
   sectionHeader.classList.add('section-header', 'text-center');
-  moveInstrumentation(titleRow, sectionHeader);
-
   const heading = document.createElement('h2');
-  heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
-  // FIX: Read textContent directly from titleRow, as it's a text field.
-  heading.textContent = titleRow.textContent.trim();
+  heading.classList.add('heading', 'font-regular'); // Removed aos-init, aos-animate
+  moveInstrumentation(headingRow, heading);
+  heading.textContent = headingRow.textContent.trim();
   sectionHeader.append(heading);
   section.append(sectionHeader);
 
   const container = document.createElement('div');
-  container.classList.add('container', 'aos-init', 'aos-animate');
+  container.classList.add('container'); // Removed aos-init, aos-animate
 
-  // Flickity is not supported, replacing with Swiper.js setup
-  // The original HTML uses 'flickity-slider-mobile-wrap' and 'grid-layout' for the main slider container.
-  // We'll use these classes for the Swiper container.
-  const swiperEl = document.createElement('div');
-  swiperEl.classList.add('flickity-slider-mobile-wrap', 'grid-layout', 'swiper'); // Add 'swiper' class for Swiper.js
-  // The data-flickity attribute is specific to Flickity and should not be carried over.
-  // Swiper options will be passed in the JS.
+  // Swiper setup - replacing flickity-slider-mobile-wrap
+  const swiperContainer = document.createElement('div');
+  swiperContainer.classList.add('swiper-container', 'grid-layout'); // Renamed from flickity-slider-mobile-wrap
 
-  const slidesWrapper = document.createElement('div');
-  slidesWrapper.classList.add('swiper-wrapper'); // Swiper requires 'swiper-wrapper' for slides container
+  const swiperWrapper = document.createElement('div');
+  swiperWrapper.classList.add('swiper-wrapper');
 
-  const embedItems = itemRows.filter((row) => row.children.length === 3);
-  const newsItems = itemRows.filter((row) => row.children.length === 7);
-
-  // Process Embed Items
-  embedItems.forEach((row) => {
+  embedWidgetItems.forEach((row) => {
     const [embedUrlCell, embedKindCell, embedConfigCell] = [...row.children];
+    const embedKind = embedKindCell.textContent.trim();
+    const embedUrl = embedUrlCell.textContent.trim();
+    const embedConfig = embedConfigCell.textContent.trim();
 
-    const embedEl = document.createElement('div');
-    embedEl.classList.add('swiper-slide'); // Each item is a swiper-slide
-    moveInstrumentation(row, embedEl);
+    const slide = document.createElement('div');
+    slide.classList.add('slides', 'swiper-slide'); // Added swiper-slide
+    moveInstrumentation(row, slide);
 
-    const kind = embedKindCell.textContent.trim();
-    embedEl.setAttribute('data-embed-kind', kind);
-    embedEl.setAttribute('data-embed-url', embedUrlCell.textContent.trim());
+    const embedDiv = document.createElement('div');
+    embedDiv.dataset.embedKind = embedKind;
+    embedDiv.dataset.embedUrl = embedUrl;
+    embedDiv.dataset.embedConfig = embedConfig;
 
-    if (embedConfigCell.textContent.trim()) {
-      embedEl.setAttribute('data-embed-config', embedConfigCell.textContent.trim());
+    switch (embedKind) {
+      case 'elfsight-widget':
+        try {
+          const config = JSON.parse(embedConfig);
+          embedDiv.classList.add(`elfsight-app-${config.app_id}`);
+          loadScript('https://static.elfsight.com/platform/platform.js');
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.error('Failed to parse Elfsight config:', e);
+        }
+        break;
+      case 'walls-io':
+        const wallScript = document.createElement('script');
+        wallScript.src = 'https://walls.io/js/wallsio-widget-1.2.js';
+        wallScript.dataset.wallurl = embedUrl;
+        wallScript.dataset.width = '100%';
+        wallScript.dataset.autoheight = '1';
+        wallScript.async = true;
+        embedDiv.append(wallScript);
+        break;
+      case 'twitter-embed':
+      case 'instagram-embed':
+      case 'tiktok-embed':
+        const platforms = {
+          'twitter-embed': 'https://platform.twitter.com/widgets.js',
+          'instagram-embed': 'https://www.instagram.com/embed.js',
+          'tiktok-embed': 'https://www.tiktok.com/embed.js',
+        };
+        loadScript(platforms[embedKind]);
+        const link = document.createElement('a');
+        link.href = embedUrl;
+        link.textContent = `View post on ${embedKind.split('-')[0].charAt(0).toUpperCase()}${embedKind.split('-')[0].slice(1)}`;
+        embedDiv.append(link);
+        break;
+      default:
+        // eslint-disable-next-line no-console
+        console.warn(`Unknown embed kind: ${embedKind}`);
+        break;
     }
-
-    if (kind === 'elfsight-widget') {
-      const config = JSON.parse(embedConfigCell.textContent.trim());
-      embedEl.classList.add(`elfsight-app-${config.app_id}`);
-      loadScript('https://static.elfsight.com/platform/platform.js');
-    } else if (kind === 'walls-io') {
-      const wallScript = document.createElement('script');
-      wallScript.src = 'https://walls.io/js/wallsio-widget-1.2.js';
-      wallScript.dataset.wallurl = embedUrlCell.textContent.trim();
-      wallScript.dataset.width = '100%';
-      wallScript.dataset.autoheight = '1';
-      wallScript.async = true;
-      embedEl.append(wallScript);
-    } else if (['twitter-embed', 'instagram-embed', 'tiktok-embed'].includes(kind)) {
-      const platforms = {
-        'twitter-embed': 'https://platform.twitter.com/widgets.js',
-        'instagram-embed': 'https://www.instagram.com/embed.js',
-        'tiktok-embed': 'https://www.tiktok.com/embed.js',
-      };
-      loadScript(platforms[kind]);
-      const link = document.createElement('a');
-      link.href = embedUrlCell.textContent.trim();
-      link.textContent = `View post on ${kind.split('-')[0].charAt(0).toUpperCase()}${kind.split('-')[0].slice(1)}`;
-      embedEl.append(link);
-    }
-    slidesWrapper.append(embedEl);
+    slide.append(embedDiv);
+    swiperWrapper.append(slide); // Append to swiperWrapper
   });
 
-  // Process News Items
   newsItems.forEach((row) => {
     const [
-      imageCell,
+      imageSmallCell,
       imageHorizontalCell,
       imageVerticalCell,
       categoryCell,
       headlineCell,
-      linkCell,
+      ctaLinkCell,
+      ctaLabelCell,
       dateCell,
     ] = [...row.children];
 
     const slide = document.createElement('div');
-    // FIX: Changed 'slides' to 'swiper-slide' to match Swiper.js structure.
-    // The original HTML uses 'slides' for the wrapper, and then individual divs inside.
-    // For Swiper, each individual item should be 'swiper-slide'.
-    slide.classList.add('swiper-slide');
+    slide.classList.add('slides', 'swiper-slide'); // Added swiper-slide
     moveInstrumentation(row, slide);
 
     const wrap = document.createElement('div');
@@ -104,21 +111,23 @@ export default async function decorate(block) {
     const imageWrap = document.createElement('div');
     imageWrap.classList.add('image-wrap');
 
-    const mainPicture = imageCell.querySelector('picture');
-    if (mainPicture) {
-      const img = mainPicture.querySelector('img');
-      if (img) {
-        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-        optimizedPic.querySelector('img').classList.add('thumb-img', 'img-fluid');
-        optimizedPic.querySelector('img').setAttribute('loading', 'lazy');
-        if (imageHorizontalCell.querySelector('picture > img')) {
-          optimizedPic.querySelector('img').setAttribute('data-img-horizontal', imageHorizontalCell.querySelector('picture > img').src);
-        }
-        if (imageVerticalCell.querySelector('picture > img')) {
-          optimizedPic.querySelector('img').setAttribute('data-img-vertical', imageVerticalCell.querySelector('picture > img').src);
-        }
-        imageWrap.append(optimizedPic);
+    const imageSmall = imageSmallCell.querySelector('picture');
+    const imageHorizontal = imageHorizontalCell.querySelector('picture');
+    const imageVertical = imageVerticalCell.querySelector('picture');
+
+    if (imageSmall) {
+      const img = imageSmall.querySelector('img');
+      // Corrected createOptimizedPicture to use img.src directly for optimization
+      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+      const optimizedImg = optimizedPic.querySelector('img');
+      optimizedImg.classList.add('thumb-img', 'img-fluid');
+      if (imageHorizontal) {
+        optimizedImg.dataset.imgHorizontal = imageHorizontal.querySelector('img').src;
       }
+      if (imageVertical) {
+        optimizedImg.dataset.imgVertical = imageVertical.querySelector('img').src;
+      }
+      imageWrap.append(optimizedPic);
     }
     wrap.append(imageWrap);
 
@@ -135,72 +144,68 @@ export default async function decorate(block) {
     text.textContent = headlineCell.textContent.trim();
     contentWrap.append(text);
 
-    const readMoreLink = document.createElement('a');
-    readMoreLink.classList.add('btn', 'btn-link');
-    // FIX: Ensure href is read from the <a> tag within the cell, not textContent.
-    readMoreLink.href = linkCell.querySelector('a')?.href || '#';
-    readMoreLink.textContent = 'Read more';
-    contentWrap.append(readMoreLink);
+    const ctaLink = document.createElement('a');
+    ctaLink.classList.add('btn', 'btn-link');
+    const ctaAnchor = ctaLinkCell.querySelector('a');
+    if (ctaAnchor) {
+      ctaLink.href = ctaAnchor.href;
+    }
+    ctaLink.textContent = ctaLabelCell.textContent.trim();
+    contentWrap.append(ctaLink);
 
     const date = document.createElement('div');
     date.classList.add('date');
     const time = document.createElement('time');
-    time.setAttribute('datetime', new Date(dateCell.textContent.trim()).toISOString());
+    time.datetime = dateCell.textContent.trim(); // Assuming date format is compatible with datetime
     time.textContent = dateCell.textContent.trim();
     date.append(time);
     contentWrap.append(date);
 
     wrap.append(contentWrap);
     slide.append(wrap);
-    slidesWrapper.append(slide);
+    swiperWrapper.append(slide); // Append to swiperWrapper
   });
 
-  swiperEl.append(slidesWrapper);
+  swiperContainer.append(swiperWrapper);
 
-  // Add Swiper navigation and pagination elements if needed based on original HTML,
-  // or if the design implies them. Original HTML had prevNextButtons: false and pageDots: true.
-  // So, we'll add pagination dots.
-  const paginationEl = document.createElement('div');
-  paginationEl.classList.add('swiper-pagination');
-  swiperEl.append(paginationEl);
+  // Add Swiper navigation and pagination elements
+  const swiperPagination = document.createElement('div');
+  swiperPagination.classList.add('swiper-pagination');
+  swiperContainer.append(swiperPagination);
 
-  container.append(swiperEl);
+  const swiperButtonPrev = document.createElement('div');
+  swiperButtonPrev.classList.add('swiper-button-prev');
+  swiperContainer.append(swiperButtonPrev);
+
+  const swiperButtonNext = document.createElement('div');
+  swiperButtonNext.classList.add('swiper-button-next');
+  swiperContainer.append(swiperButtonNext);
+
+  container.append(swiperContainer);
   section.append(container);
-
   block.replaceChildren(section);
 
-  // Image optimization - this part seems to be a generic optimization applied after block decoration.
-  // It should be fine as is, assuming createOptimizedPicture handles the replacement correctly.
-  block.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    // moveInstrumentation should be on the picture element, not the img inside it,
-    // as the picture is the instrumented element from AEM.
-    moveInstrumentation(img.closest('picture'), optimizedPic);
-    img.closest('picture').replaceWith(optimizedPic);
-  });
-
-  // Swiper.js Initialization
-  // Ensure decorate is async, and load Swiper assets after block content is replaced.
+  // Load Swiper CSS and JS, then initialize
   await loadCSS('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
   await loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
 
   // eslint-disable-next-line no-undef
-  new Swiper(swiperEl, {
+  new Swiper(swiperContainer, {
     slidesPerView: 'auto',
-    loop: false, // From original data-flickity="{ "wrapAround": false ... }"
-    // navigation: { prevEl: prevBtn, nextEl: nextBtn }, // Original had prevNextButtons: false
+    loop: false, // data-flickity="{ &quot;wrapAround&quot;: false
+    navigation: {
+      prevEl: swiperButtonPrev,
+      nextEl: swiperButtonNext,
+    },
     pagination: {
-      el: paginationEl,
-      clickable: true, // From original data-flickity="{ ... "pageDots": true ... }"
+      el: swiperPagination,
+      clickable: true, // data-flickity="{ &quot;pageDots&quot;: true
     },
-    // Add other Swiper options based on the original Flickity config and desired behavior
-    // "lazyLoad": true, "imagesLoaded": true, "cellAlign": "left", "watchCSS": true, "adaptiveHeight": true
-    lazy: {
-      loadPrevNext: true,
-    },
-    imagesLoaded: true,
-    centeredSlides: false, // cellAlign: "left" implies not centered
-    watchSlidesProgress: true, // watchCSS might relate to this
-    autoHeight: true, // adaptiveHeight
+    // Add other Swiper options based on Flickity config if needed
+    // lazyLoad: true, // data-flickity="{ &quot;lazyLoad&quot;: true
+    // imagesLoaded: true, // data-flickity="{ &quot;imagesLoaded&quot;: true
+    // autoHeight: true, // data-flickity="{ &quot;adaptiveHeight&quot;: true
+    // cellAlign: 'left', // data-flickity="{ &quot;cellAlign&quot;: &quot;left&quot;
+    // watchSlidesVisibility: true, // for lazyLoad
   });
 }

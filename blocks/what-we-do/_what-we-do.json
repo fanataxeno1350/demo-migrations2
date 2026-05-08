@@ -17,7 +17,7 @@
       }
     },
     {
-      "title": "Business Vertical",
+      "title": "Business Vertical Item",
       "id": "business-vertical-item",
       "plugins": {
         "xwalk": {
@@ -25,7 +25,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "business-vertical-item",
-              "name": "Business Vertical"
+              "name": "Business Vertical Item"
             }
           }
         }
@@ -38,13 +38,13 @@
       "fields": [
         {
           "component": "text",
-          "label": "Section Heading",
+          "label": "Block Heading",
           "name": "heading",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Section Description",
+          "label": "Block Description",
           "name": "description",
           "valueType": "string"
         },
@@ -52,7 +52,7 @@
           "component": "container",
           "item": "business-vertical-item",
           "label": "Business Verticals",
-          "name": "businessVerticals"
+          "name": "verticals"
         }
       ]
     },
@@ -67,8 +67,8 @@
         },
         {
           "component": "reference",
-          "label": "Mobile Image",
-          "name": "imageMobile",
+          "label": "Tablet/Mobile Image",
+          "name": "imageTablet",
           "valueType": "string"
         },
         {
@@ -85,7 +85,7 @@
         },
         {
           "component": "aem-content",
-          "label": "Learn More Link",
+          "label": "Vertical Link",
           "name": "link",
           "valueType": "string"
         }
