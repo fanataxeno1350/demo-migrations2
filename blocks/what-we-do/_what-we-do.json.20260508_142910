@@ -61,26 +61,14 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Image Desktop",
+          "label": "Desktop Image",
           "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Image Tablet",
+          "label": "Tablet/Mobile Image",
           "name": "imageTablet",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Image Mobile",
-          "name": "imageMobile",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Title",
-          "name": "title",
           "valueType": "string"
         },
         {
@@ -90,9 +78,15 @@
           "valueType": "string"
         },
         {
+          "component": "text",
+          "label": "Business Name",
+          "name": "title",
+          "valueType": "string"
+        },
+        {
           "component": "aem-content",
-          "label": "CTA Link",
-          "name": "ctaLink",
+          "label": "Business Link",
+          "name": "link",
           "valueType": "string"
         }
       ]

@@ -329,26 +329,26 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Main Logo",
-        "name": "mainLogo",
+        "label": "Logo",
+        "name": "logo",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Main Logo Link",
-        "name": "mainLogoLink",
+        "label": "Logo Link",
+        "name": "logoLink",
         "valueType": "string"
       },
       {
         "component": "reference",
         "label": "80th Year Logo",
-        "name": "year80Logo",
+        "name": "logo80",
         "valueType": "string"
       },
       {
         "component": "aem-content",
         "label": "80th Year Logo Link",
-        "name": "year80LogoLink",
+        "name": "logo80Link",
         "valueType": "string"
       },
       {
@@ -359,9 +359,15 @@
       },
       {
         "component": "container",
-        "item": "icon-nav-item",
-        "label": "Icon Navigation",
-        "name": "iconNav"
+        "item": "contact-link-item",
+        "label": "Contact Links",
+        "name": "contactLinks"
+      },
+      {
+        "component": "container",
+        "item": "press-release-item",
+        "label": "Latest Press Releases",
+        "name": "pressReleases"
       }
     ]
   },
@@ -382,31 +388,31 @@
       },
       {
         "component": "richtext",
-        "label": "Mega Menu Content",
-        "name": "megaMenuContent",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
         "valueType": "string"
       },
       {
         "component": "richtext",
-        "label": "Navigation Hierarchy",
-        "name": "hierarchy-tree",
+        "label": "Mega Menu Left Section Content",
+        "name": "leftSectionContent",
         "valueType": "string"
       }
     ]
   },
   {
-    "id": "icon-nav-item",
+    "id": "contact-link-item",
     "fields": [
       {
-        "component": "aem-content",
-        "label": "Icon Link",
-        "name": "link",
+        "component": "text",
+        "label": "Contact Link Label",
+        "name": "label",
         "valueType": "string"
       },
       {
-        "component": "text",
-        "label": "Icon Label",
-        "name": "label",
+        "component": "aem-content",
+        "label": "Contact Link URL",
+        "name": "link",
         "valueType": "string"
       }
     ]
@@ -417,25 +423,25 @@
       {
         "component": "aem-content",
         "label": "Press Release Link",
-        "name": "pressLink",
+        "name": "pressReleaseLink",
         "valueType": "string"
       },
       {
         "component": "text",
         "label": "Press Release Title",
-        "name": "pressTitle",
+        "name": "pressReleaseTitle",
         "valueType": "string"
       },
       {
         "component": "text",
         "label": "Press Release Date",
-        "name": "pressDate",
+        "name": "pressReleaseDate",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Press Release Tag",
-        "name": "pressTag",
+        "label": "Press Release Category",
+        "name": "pressReleaseCategory",
         "valueType": "string"
       }
     ]
@@ -810,14 +816,26 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Desktop Image",
+        "label": "Image Desktop",
         "name": "imageDesktop",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Tablet/Mobile Image",
+        "label": "Image Tablet",
         "name": "imageTablet",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Image Mobile",
+        "name": "imageMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Title",
+        "name": "title",
         "valueType": "string"
       },
       {
@@ -827,15 +845,9 @@
         "valueType": "string"
       },
       {
-        "component": "text",
-        "label": "Business Name",
-        "name": "title",
-        "valueType": "string"
-      },
-      {
         "component": "aem-content",
-        "label": "Business Link",
-        "name": "link",
+        "label": "CTA Link",
+        "name": "ctaLink",
         "valueType": "string"
       }
     ]
