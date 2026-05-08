@@ -2,42 +2,38 @@ import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.j
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
-  const slides = [...block.children];
+  const slideRows = [...block.children];
 
-  // The outer block div already has the 'carousel' class.
-  // Adding 'primary-swiper' to an inner wrapper would cause double padding/CSS.
-  // The original HTML shows 'primary-swiper' on the main swiper container, not a root wrapper.
-  // The block's own class 'carousel' should not be added to any inner element.
+  const root = document.createElement('div');
+  root.classList.add('position-relative');
+
+  const swiperEl = document.createElement('div');
+  swiperEl.classList.add('swiper', 'primary-swiper');
+  // Original HTML has a dynamic ID like primary-swiper-carousel-419d8524f7,
+  // but for EDS, a generic ID or omitting if not strictly required by CSS is fine.
+  // Using a generic ID for now.
+  swiperEl.setAttribute('id', `carousel-${Math.random().toString(36).substring(2, 11)}`);
+  swiperEl.setAttribute('role', 'group');
+  swiperEl.setAttribute('aria-live', 'polite');
+  swiperEl.setAttribute('aria-roledescription', 'carousel');
+  swiperEl.setAttribute('data-is-autoplay', 'true');
+  swiperEl.setAttribute('data-delay', '5000');
+  swiperEl.setAttribute('data-autopause-disabled', 'true');
+  swiperEl.setAttribute('data-is-loop', 'false'); // Default to false, check original HTML if it changes
+  swiperEl.setAttribute('data-placeholder-text', 'false');
 
   const swiperWrapper = document.createElement('div');
   swiperWrapper.classList.add('swiper-wrapper', 'primary-swiper-wrapper', 'z-0');
 
-  const swiperContainer = document.createElement('div');
-  swiperContainer.classList.add('swiper', 'primary-swiper'); // This is where primary-swiper belongs based on original HTML
-  swiperContainer.setAttribute('role', 'group');
-  swiperContainer.setAttribute('aria-live', 'polite');
-  swiperContainer.setAttribute('aria-roledescription', 'carousel');
+  slideRows.forEach((row) => {
+    const [videoCell, imageCell, ctaLinkCell, ctaLabelCell] = [...row.children];
 
-  const prevBtn = document.createElement('button');
-  prevBtn.classList.add('primary-swiper__buttonPrev', 'position-absolute', 'top-50', 'swiper-buttonBg', 'd-none', 'd-sm-block', 'cursor-pointer', 'analytics_cta_click');
-  prevBtn.setAttribute('aria-label', 'Previous');
-  prevBtn.innerHTML = '‹'; // Unicode arrow for prev, as per Rule 25.4
-
-  const nextBtn = document.createElement('button');
-  nextBtn.classList.add('primary-swiper__buttonNext', 'position-absolute', 'top-50', 'swiper-buttonBg', 'd-none', 'd-sm-block', 'cursor-pointer', 'analytics_cta_click');
-  nextBtn.setAttribute('aria-label', 'Next');
-  nextBtn.innerHTML = '›'; // Unicode arrow for next, as per Rule 25.4
-
-  const paginationEl = document.createElement('div');
-  paginationEl.classList.add('swiper-pagination', 'primary-swiper-pagination', 'pagination-set', 'mb-md-8', 'mb-10', 'mt-6', 'position-absolute');
-
-  slides.forEach((slideRow) => {
-    const [videoSrcCell, imageSrcCell, imageAltCell, ctaLinkCell, ctaLabelCell] = [...slideRow.children];
-
-    const slide = document.createElement('div');
-    slide.classList.add('swiper-slide', 'primary-swiper-slide');
-    slide.setAttribute('role', 'tabpanel');
-    slide.setAttribute('aria-roledescription', 'slide');
+    const swiperSlide = document.createElement('div');
+    swiperSlide.classList.add('swiper-slide', 'primary-swiper-slide');
+    swiperSlide.setAttribute('role', 'tabpanel');
+    swiperSlide.setAttribute('aria-roledescription', 'slide');
+    // Data attributes for slide instrumentation are handled by moveInstrumentation
+    moveInstrumentation(row, swiperSlide);
 
     const bannerDiv = document.createElement('div');
     bannerDiv.classList.add('banner');
@@ -48,184 +44,182 @@ export default async function decorate(block) {
     const bannerWrapper = document.createElement('div');
     bannerWrapper.classList.add('position-relative', 'boing', 'banner-section__wrapper');
 
-    const ctaWrapper = document.createElement('div');
-    ctaWrapper.classList.add('position-absolute', 'start-50', 'translate-middle-x', 'w-100', 'boing__banner--cta');
-
-    const bannerCta = document.createElement('div');
-    bannerCta.classList.add('banner-cta');
-
-    const ctaLink = ctaLinkCell.querySelector('a');
-    if (ctaLink) {
-      const ctaButtonContainer = document.createElement('div');
-      ctaButtonContainer.classList.add('text-center');
-
-      const ctaAnchor = document.createElement('a');
-      ctaAnchor.classList.add('cmp-button', 'analytics_cta_click', 'text-center', 'cta-layout');
-      ctaAnchor.href = ctaLink.href;
-      ctaAnchor.setAttribute('data-link-region', 'CTA');
-      ctaAnchor.setAttribute('data-is-internal', 'true');
-      ctaAnchor.setAttribute('data-enable-gating', 'false');
-      ctaAnchor.setAttribute('target', '_blank');
-
-      const ctaSpan = document.createElement('span');
-      ctaSpan.classList.add('cmp-button__text', 'primary-btn', 'w-75', 'p-5', 'rounded-pill', 'd-inline-flex', 'justify-content-center', 'align-items-center', 'famlf-cta-btn');
-      ctaSpan.textContent = ctaLabelCell.textContent.trim();
-
-      ctaAnchor.append(ctaSpan);
-      moveInstrumentation(ctaLinkCell, ctaAnchor);
-      moveInstrumentation(ctaLabelCell, ctaSpan);
-      ctaButtonContainer.append(ctaAnchor);
-      bannerCta.append(ctaButtonContainer);
-    }
-
-    const videoPicture = videoSrcCell.querySelector('picture');
-    const imagePicture = imageSrcCell.querySelector('picture');
-    const imageAlt = imageAltCell.textContent.trim();
+    const videoPicture = videoCell?.querySelector('picture');
+    const imagePicture = imageCell?.querySelector('picture');
 
     if (videoPicture && videoPicture.querySelector('img')) {
       const videoWrapper = document.createElement('div');
       videoWrapper.classList.add('video-wrapper');
 
-      const video = document.createElement('video');
-      video.classList.add('w-100', 'object-fit-cover', 'banner-media', 'banner-video');
-      video.setAttribute('title', 'Video');
-      video.setAttribute('aria-label', 'Video');
-      video.setAttribute('playsinline', '');
-      video.setAttribute('preload', 'metadata');
-      video.setAttribute('fetchpriority', 'high');
-      video.setAttribute('muted', 'true');
-      video.setAttribute('autoplay', 'true');
-      video.setAttribute('loop', 'false'); // Original HTML has loop="false"
+      const videoLink = videoPicture.querySelector('source') || videoPicture.querySelector('img');
+      if (videoLink && /\.(mp4|webm|ogg|mov)$/i.test(videoLink.src)) {
+        const video = document.createElement('video');
+        video.classList.add('w-100', 'object-fit-cover', 'banner-media', 'banner-video');
+        video.setAttribute('title', 'Video');
+        video.setAttribute('aria-label', 'Video');
+        video.setAttribute('data-is-autoplay', 'true');
+        video.setAttribute('playsinline', '');
+        video.setAttribute('preload', 'metadata');
+        video.setAttribute('fetchpriority', 'high');
+        video.setAttribute('loop', 'false');
+        video.setAttribute('muted', 'true');
+        video.setAttribute('autoplay', 'true');
 
-      const source = document.createElement('source');
-      source.src = videoPicture.querySelector('img').src;
-      source.type = 'video/mp4'; // Assuming mp4 based on original HTML
+        const source = document.createElement('source');
+        source.src = videoLink.src;
+        source.type = `video/${videoLink.src.split('.').pop()}`;
+        video.append(source);
+        videoWrapper.append(video);
 
-      video.append(source);
-      videoWrapper.append(video);
+        // Play/Pause buttons
+        const playPauseWrap = document.createElement('div');
+        playPauseWrap.classList.add('position-absolute', 'w-100', 'h-100', 'start-0', 'top-0', 'd-flex', 'justify-content-center', 'align-items-center', 'cursor-pointer');
+        const playBtn = document.createElement('button');
+        playBtn.classList.add('d-none', 'video-icon', 'icon-play', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer');
+        playBtn.setAttribute('type', 'button');
+        playBtn.innerHTML = '▶'; // Replaced SVG with Unicode
+        const pauseBtn = document.createElement('button');
+        pauseBtn.classList.add('d-block', 'video-icon', 'icon-pause', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer');
+        pauseBtn.setAttribute('type', 'button');
+        pauseBtn.innerHTML = '⏸'; // Replaced SVG with Unicode
+        playPauseWrap.append(playBtn, pauseBtn);
 
-      // Play/Pause button
-      const playPauseWrapper = document.createElement('div');
-      playPauseWrapper.classList.add('position-absolute', 'w-100', 'h-100', 'start-0', 'top-0', 'd-flex', 'justify-content-center', 'align-items-center', 'cursor-pointer');
-      const playButton = document.createElement('button');
-      playButton.classList.add('d-none', 'video-icon', 'icon-play', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer');
-      playButton.innerHTML = '▶'; // Replaced hardcoded SVG path with Unicode
-      const pauseButton = document.createElement('button');
-      pauseButton.classList.add('d-block', 'video-icon', 'icon-pause', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer');
-      pauseButton.innerHTML = '⏸'; // Replaced hardcoded SVG path with Unicode
-      playPauseWrapper.append(playButton, pauseButton);
+        // Mute/Unmute buttons
+        const muteWrap = document.createElement('div');
+        muteWrap.classList.add('position-absolute', 'z-2', 'd-flex', 'justify-content-center', 'align-items-center', 'cursor-pointer', 'mute-icon');
+        const muteBtn = document.createElement('button');
+        muteBtn.classList.add('video-icon-volume', 'icon-mute', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer', 'd-none');
+        muteBtn.setAttribute('type', 'button');
+        muteBtn.innerHTML = '🔊'; // Replaced SVG with Unicode
+        const unmuteBtn = document.createElement('button');
+        unmuteBtn.classList.add('video-icon-volume', 'icon-unmute', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer', 'd-none');
+        unmuteBtn.setAttribute('type', 'button');
+        unmuteBtn.innerHTML = '🔇'; // Replaced SVG with Unicode
+        const noAudioBtn = document.createElement('button');
+        noAudioBtn.classList.add('video-icon-volume', 'no-audio-icon', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer');
+        noAudioBtn.setAttribute('type', 'button');
+        noAudioBtn.innerHTML = '🔈'; // Replaced SVG with Unicode
+        muteWrap.append(muteBtn, unmuteBtn, noAudioBtn);
 
-      // Mute/Unmute button
-      const muteWrapper = document.createElement('div');
-      muteWrapper.classList.add('position-absolute', 'z-2', 'd-flex', 'justify-content-center', 'align-items-center', 'cursor-pointer', 'mute-icon');
-      const muteButton = document.createElement('button');
-      muteButton.classList.add('video-icon-volume', 'icon-mute', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer', 'd-none');
-      muteButton.innerHTML = '🔊'; // Replaced hardcoded SVG path with Unicode
-      const unmuteButton = document.createElement('button');
-      unmuteButton.classList.add('video-icon-volume', 'icon-unmute', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer', 'd-none');
-      unmuteButton.innerHTML = '🔇'; // Replaced hardcoded SVG path with Unicode
-      const noAudioButton = document.createElement('button');
-      noAudioButton.classList.add('video-icon-volume', 'no-audio-icon', 'bg-transparent', 'd-flex', 'align-items-center', 'justify-content-center', 'cursor-pointer');
-      noAudioButton.innerHTML = '🔈'; // Replaced hardcoded SVG path with Unicode
-      muteWrapper.append(muteButton, unmuteButton, noAudioButton);
+        videoWrapper.append(playPauseWrap, muteWrap);
 
-      videoWrapper.append(playPauseWrapper, muteWrapper);
+        // Video controls logic
+        video.addEventListener('play', () => {
+          playBtn.classList.add('d-none');
+          pauseBtn.classList.remove('d-none');
+        });
+        video.addEventListener('pause', () => {
+          playBtn.classList.remove('d-none');
+          pauseBtn.classList.add('d-none');
+        });
+        video.addEventListener('volumechange', () => {
+          if (video.muted) {
+            muteBtn.classList.add('d-none');
+            unmuteBtn.classList.add('d-none');
+            noAudioBtn.classList.remove('d-none');
+          } else if (video.volume === 0) {
+            muteBtn.classList.add('d-none');
+            unmuteBtn.classList.add('d-none');
+            noAudioBtn.classList.remove('d-none');
+          } else {
+            muteBtn.classList.remove('d-none');
+            unmuteBtn.classList.add('d-none');
+            noAudioBtn.classList.add('d-none');
+          }
+        });
 
-      video.addEventListener('play', () => {
-        playButton.classList.add('d-none');
-        pauseButton.classList.remove('d-none');
-      });
-      video.addEventListener('pause', () => {
-        playButton.classList.remove('d-none');
-        pauseButton.classList.add('d-none');
-      });
-      playButton.addEventListener('click', () => video.play());
-      pauseButton.addEventListener('click', () => video.pause());
+        playBtn.addEventListener('click', () => video.play());
+        pauseBtn.addEventListener('click', () => video.pause());
+        muteBtn.addEventListener('click', () => { video.muted = true; });
+        unmuteBtn.addEventListener('click', () => { video.muted = false; });
+        noAudioBtn.addEventListener('click', () => { video.muted = false; });
 
-      video.addEventListener('volumechange', () => {
-        if (video.muted) {
-          muteButton.classList.add('d-none');
-          unmuteButton.classList.add('d-none');
-          noAudioButton.classList.remove('d-none');
-        } else if (video.volume === 0) {
-          muteButton.classList.add('d-none');
-          unmuteButton.classList.add('d-none');
-          noAudioButton.classList.remove('d-none');
-        } else {
-          muteButton.classList.remove('d-none');
-          unmuteButton.classList.add('d-none');
-          noAudioButton.classList.add('d-none');
-        }
-      });
-      muteButton.addEventListener('click', () => {
-        video.muted = true;
-        muteButton.classList.add('d-none');
-        noAudioButton.classList.remove('d-none');
-      });
-      unmuteButton.addEventListener('click', () => {
-        video.muted = true;
-        unmuteButton.classList.add('d-none');
-        noAudioButton.classList.remove('d-none');
-      });
-      noAudioButton.addEventListener('click', () => {
-        video.muted = false;
-        video.volume = 1;
-        noAudioButton.classList.add('d-none');
-        muteButton.classList.remove('d-none');
-      });
-
-      bannerWrapper.append(videoWrapper);
-      moveInstrumentation(videoSrcCell, videoWrapper);
+        bannerWrapper.append(videoWrapper);
+      }
     } else if (imagePicture) {
       const img = imagePicture.querySelector('img');
-      const optimizedPic = createOptimizedPicture(img.src, imageAlt, false, [{ width: '2000' }]);
-      const optimizedImg = optimizedPic.querySelector('img');
-      optimizedImg.classList.add('w-100', 'h-100', 'object-fit-cover', 'banner-media', 'banner-image');
-      optimizedImg.setAttribute('fetchpriority', 'high');
-      optimizedImg.setAttribute('decoding', 'async');
-      moveInstrumentation(imageSrcCell, optimizedPic.querySelector('img'));
-      bannerWrapper.append(optimizedPic);
+      if (img) {
+        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '2000' }]);
+        const optimizedImg = optimizedPic.querySelector('img');
+        optimizedImg.classList.add('w-100', 'h-100', 'object-fit-cover', 'banner-media', 'banner-image');
+        optimizedImg.setAttribute('fetchpriority', 'high');
+        optimizedImg.setAttribute('decoding', 'async');
+        bannerWrapper.append(optimizedPic);
+      }
     }
 
-    bannerWrapper.append(ctaWrapper);
+    const ctaWrapper = document.createElement('div');
+    ctaWrapper.classList.add('position-absolute', 'start-50', 'translate-middle-x', 'w-100', 'boing__banner--cta');
+    const bannerCta = document.createElement('div');
+    bannerCta.classList.add('banner-cta');
+
+    const ctaLink = ctaLinkCell?.querySelector('a');
+    const ctaLabel = ctaLabelCell?.textContent.trim();
+
+    if (ctaLink && ctaLabel) {
+      const ctaDiv = document.createElement('div');
+      ctaDiv.classList.add('text-center');
+      const anchor = document.createElement('a');
+      anchor.classList.add('cmp-button', 'analytics_cta_click', 'text-center', 'cta-layout');
+      anchor.setAttribute('data-link-region', 'CTA');
+      anchor.setAttribute('data-is-internal', 'true');
+      anchor.setAttribute('data-enable-gating', 'false');
+      anchor.href = ctaLink.href;
+      anchor.setAttribute('target', '_blank'); // Assuming from original HTML
+
+      const span = document.createElement('span');
+      span.classList.add('cmp-button__text', 'primary-btn', 'w-75', 'p-5', 'rounded-pill', 'd-inline-flex', 'justify-content-center', 'align-items-center', 'famlf-cta-btn');
+      span.textContent = ctaLabel;
+      anchor.append(span);
+      ctaDiv.append(anchor);
+      bannerCta.append(ctaDiv);
+    }
     ctaWrapper.append(bannerCta);
+    bannerWrapper.append(ctaWrapper);
     bannerSection.append(bannerWrapper);
     bannerDiv.append(bannerSection);
-    slide.append(bannerDiv);
-    swiperWrapper.append(slide);
-    moveInstrumentation(slideRow, slide);
+    swiperSlide.append(bannerDiv);
+    swiperWrapper.append(swiperSlide);
   });
 
-  swiperContainer.append(swiperWrapper);
+  swiperEl.append(swiperWrapper);
 
-  // Original HTML has a wrapper div around the nav buttons, which is then appended to swiperContainer
-  const swiperNavWrapper = document.createElement('div');
-  swiperNavWrapper.classList.add('swiper-container'); // This class is present in original HTML for the nav wrapper
-  const navDiv1 = document.createElement('div');
-  navDiv1.append(nextBtn);
-  const navDiv2 = document.createElement('div');
-  navDiv2.append(prevBtn);
-  swiperNavWrapper.append(navDiv1, navDiv2);
+  // Navigation buttons
+  const prevBtn = document.createElement('button');
+  prevBtn.classList.add('primary-swiper__buttonPrev', 'position-absolute', 'top-50', 'swiper-buttonBg', 'd-none', 'd-sm-block', 'cursor-pointer', 'analytics_cta_click');
+  prevBtn.innerHTML = '‹'; // Unicode arrow as placeholder
+  prevBtn.setAttribute('aria-label', 'Previous');
 
-  swiperContainer.append(swiperNavWrapper, paginationEl);
+  const nextBtn = document.createElement('button');
+  nextBtn.classList.add('primary-swiper__buttonNext', 'position-absolute', 'top-50', 'swiper-buttonBg', 'd-none', 'd-sm-block', 'cursor-pointer', 'analytics_cta_click');
+  nextBtn.innerHTML = '›'; // Unicode arrow as placeholder
+  nextBtn.setAttribute('aria-label', 'Next');
 
-  block.replaceChildren(swiperContainer);
+  // Append navigation buttons directly to swiperEl, as per original HTML structure
+  // The original HTML has them inside a 'swiper-container' div, but that div
+  // also contains the pagination, and Swiper expects prevEl/nextEl to be direct DOM elements.
+  // Replicating the button structure from original HTML (without the extra wrapper div)
+  swiperEl.append(prevBtn, nextBtn);
 
-  // Swiper initialization
+  const paginationEl = document.createElement('div');
+  paginationEl.classList.add('swiper-pagination', 'primary-swiper-pagination', 'pagination-set', 'mb-md-8', 'mb-10', 'mt-6', 'position-absolute', 'swiper-pagination-clickable', 'swiper-pagination-bullets', 'swiper-pagination-horizontal');
+  swiperEl.append(paginationEl);
+
+  root.append(swiperEl);
+  block.replaceChildren(root);
+
+  // Load Swiper and initialize
   await loadCSS('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
   await loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
 
-  // Determine loop setting from data-is-loop attribute on the block, if present
-  const isLoop = block.dataset.isLoop === 'true'; // Correctly reads 'false' from original HTML
-
   // eslint-disable-next-line no-undef
-  new Swiper(swiperContainer, {
-    slidesPerView: 1,
+  new Swiper(swiperEl, {
+    slidesPerView: 1, // Adjust as per original behavior
     spaceBetween: 0,
-    loop: isLoop, // Use the dynamically determined loop value
+    loop: swiperEl.dataset.isLoop === 'true', // Correctly parse data-is-loop
     autoplay: {
-      delay: 5000,
-      disableOnInteraction: false,
+      delay: parseInt(swiperEl.dataset.delay, 10) || 5000,
+      disableOnInteraction: swiperEl.dataset.autopauseDisabled !== 'true',
     },
     navigation: {
       prevEl: prevBtn,
@@ -234,6 +228,18 @@ export default async function decorate(block) {
     pagination: {
       el: paginationEl,
       clickable: true,
+    },
+    breakpoints: {
+      // Example breakpoints, adjust based on original HTML/CSS
+      576: {
+        slidesPerView: 1,
+      },
+      768: {
+        slidesPerView: 1,
+      },
+      992: {
+        slidesPerView: 1,
+      },
     },
   });
 }

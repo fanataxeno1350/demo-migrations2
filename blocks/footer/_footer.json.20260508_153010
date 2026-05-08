@@ -69,43 +69,67 @@
         {
           "component": "reference",
           "label": "Primary Logo",
-          "name": "logoPrimary",
+          "name": "primaryLogo",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Primary Logo Link",
-          "name": "logoPrimaryLink",
+          "name": "primaryLogoLink",
           "valueType": "string"
         },
         {
           "component": "reference",
           "label": "Secondary Logo",
-          "name": "logoSecondary",
+          "name": "secondaryLogo",
           "valueType": "string"
         },
         {
           "component": "container",
           "item": "footer-link-item",
-          "label": "Footer Links",
-          "name": "footerLinks"
+          "label": "Footer Links Column 1",
+          "name": "footerLinksColumn1"
+        },
+        {
+          "component": "container",
+          "item": "footer-link-item",
+          "label": "Footer Links Column 2",
+          "name": "footerLinksColumn2"
+        },
+        {
+          "component": "container",
+          "item": "footer-link-item",
+          "label": "Footer Links Column 3",
+          "name": "footerLinksColumn3"
+        },
+        {
+          "component": "container",
+          "item": "footer-link-item",
+          "label": "Footer Links Column 4",
+          "name": "footerLinksColumn4"
+        },
+        {
+          "component": "text",
+          "label": "Social Media Title",
+          "name": "socialTitle",
+          "valueType": "string"
         },
         {
           "component": "container",
           "item": "footer-social-item",
-          "label": "Social Media Links",
+          "label": "Social Links",
           "name": "socialLinks"
         },
         {
           "component": "container",
           "item": "footer-bottom-link-item",
-          "label": "Footer Bottom Links",
+          "label": "Bottom Links",
           "name": "bottomLinks"
         },
         {
           "component": "text",
           "label": "Copyright Text",
-          "name": "copyright",
+          "name": "copyrightText",
           "valueType": "string"
         }
       ]
@@ -144,7 +168,7 @@
         },
         {
           "component": "aem-content",
-          "label": "Social Link URL",
+          "label": "Social Link",
           "name": "link",
           "valueType": "string"
         }
@@ -155,13 +179,13 @@
       "fields": [
         {
           "component": "text",
-          "label": "Label",
+          "label": "Bottom Link Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Link URL",
+          "label": "Bottom Link URL",
           "name": "link",
           "valueType": "string"
         }

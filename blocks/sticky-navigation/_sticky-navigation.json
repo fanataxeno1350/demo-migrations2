@@ -40,7 +40,7 @@
           "component": "container",
           "item": "sticky-navigation-item",
           "label": "Navigation Items",
-          "name": "navItems"
+          "name": "navigationItems"
         }
       ]
     },
@@ -49,19 +49,19 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Icon",
+          "label": "Navigation Icon",
           "name": "icon",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Label",
+          "label": "Navigation Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Link",
+          "label": "Navigation Link",
           "name": "link",
           "valueType": "string"
         }

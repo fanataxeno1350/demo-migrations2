@@ -38,8 +38,8 @@
       "fields": [
         {
           "component": "richtext",
-          "label": "Heading",
-          "name": "heading",
+          "label": "Section Headline",
+          "name": "headline",
           "valueType": "string"
         },
         {
@@ -79,8 +79,8 @@
         },
         {
           "component": "text",
-          "label": "CTA Label",
-          "name": "cta-label",
+          "label": "Button Label",
+          "name": "button-label",
           "valueType": "string"
         }
       ]

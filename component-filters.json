@@ -23,7 +23,8 @@
       "feature-cards",
       "article-listing",
       "footer",
-      "sticky-navigation"
+      "sticky-navigation",
+      "latest-blogs"
     ]
   },
   {
@@ -47,7 +48,7 @@
   {
     "id": "carousel",
     "components": [
-      "carousel-slide"
+      "carousel-slide-item"
     ]
   },
   {
@@ -81,6 +82,12 @@
   },
   {
     "id": "header"
+  },
+  {
+    "id": "latest-blogs",
+    "components": [
+      "blog-card-item"
+    ]
   },
   {
     "id": "sticky-navigation",

@@ -6,35 +6,13 @@
 100%{transform:rotate(360deg)}
 }
 
-.object-fit-cover{ -o-object-fit:cover !important;object-fit:cover !important }
-
-.d-inline-flex{ display:-webkit-inline-box !important;display:-ms-inline-flexbox !important;display:inline-flex !important }
-
-.position-absolute{ position:absolute !important }
-
-.top-0{ top:0 !important }
-
 .top-50{ top:50% !important }
-
-.start-0{ left:0 !important }
-
-.start-50{ left:50% !important }
-
-.translate-middle-x{ -webkit-transform:translateX(-50%) !important;transform:translateX(-50%) !important }
-
-.w-75{ width:75% !important }
 
 .mt-6{ margin-top:1.25rem !important }
 
 .mb-10{ margin-bottom:2.25rem !important }
 
-.p-5{ padding:1rem !important }
-
-.rounded-pill{ border-radius:var(--bs-border-radius-pill) !important }
-
 .z-0{ z-index:0 !important }
-
-.z-2{ z-index:2 !important }
 
 @media(min-width:576px) { .d-sm-block{ display:block !important } }
 
@@ -75,23 +53,7 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
 @keyframes spinner-boing{to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
 }
 
-.primary-btn{ font-family:Barlow;font-size:1rem;font-weight:600;line-height:normal }
-
-.banner-section .banner-media{ border-radius:.5rem;-o-object-position:center;object-position:center }
-
-.banner-section__wrapper{ padding-inline:.046875rem }
-
-.banner-section__wrapper .boing__banner--cta{ bottom:1.875rem }
-
 @media(min-width:540px) { .banner-section__wrapper .boing__banner--cta .cmp-button__text{ width:50% !important } }
-
-.banner-section .video-wrapper .banner-video{ border-radius:.5rem }
-
-.banner-section .video-wrapper .video-icon{ display:none;height:3rem;width:3rem }
-
-.banner-section .video-wrapper .mute-icon{ bottom:.8125rem;display:none;right:.6875rem }
-
-.banner-section .video-wrapper .video-icon-volume{ height:1.5rem;width:1.5rem }
 
 .primary-swiper .cmp-carousel__actions{ display:none }
 
@@ -138,7 +100,3 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
 @keyframes slideUp{0{-webkit-transform:translateY(100%);transform:translateY(100%)}
 to{-webkit-transform:translateY(0);transform:translateY(0)}
 }
-
-.primary-btn{ color:#fff;display:inline-block }
-
-.primary-btn, .primary-btn:active, .primary-btn:hover{ background-color:#aa1f30 }

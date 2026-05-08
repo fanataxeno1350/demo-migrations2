@@ -1,31 +1,31 @@
 {
   "definitions": [
     {
-      "title": "Carousel",
-      "id": "carousel",
+      "title": "Sticky-Navigation",
+      "id": "sticky-navigation",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "filter": "carousel",
-              "model": "carousel",
-              "name": "Carousel"
+              "filter": "sticky-navigation",
+              "model": "sticky-navigation",
+              "name": "Sticky-Navigation"
             }
           }
         }
       }
     },
     {
-      "title": "Carousel-Slide-Item",
-      "id": "carousel-slide-item",
+      "title": "Sticky-Navigation-Item",
+      "id": "sticky-navigation-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "carousel-slide-item",
-              "name": "Carousel-Slide-Item"
+              "model": "sticky-navigation-item",
+              "name": "Sticky-Navigation-Item"
             }
           }
         }
@@ -34,41 +34,35 @@
   ],
   "models": [
     {
-      "id": "carousel",
+      "id": "sticky-navigation",
       "fields": [
         {
           "component": "container",
-          "item": "carousel-slide-item",
-          "label": "Slides",
-          "name": "slides"
+          "item": "sticky-navigation-item",
+          "label": "Navigation Items",
+          "name": "navItems"
         }
       ]
     },
     {
-      "id": "carousel-slide-item",
+      "id": "sticky-navigation-item",
       "fields": [
         {
           "component": "reference",
-          "label": "Video Source",
-          "name": "video",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Banner Image",
-          "name": "image",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "CTA Link",
-          "name": "ctaLink",
+          "label": "Icon",
+          "name": "icon",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "CTA Label",
-          "name": "ctaLabel",
+          "label": "Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Link",
+          "name": "link",
           "valueType": "string"
         }
       ]
@@ -76,9 +70,9 @@
   ],
   "filters": [
     {
-      "id": "carousel",
+      "id": "sticky-navigation",
       "components": [
-        "carousel-slide-item"
+        "sticky-navigation-item"
       ]
     }
   ]

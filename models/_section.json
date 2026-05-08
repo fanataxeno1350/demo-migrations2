@@ -58,7 +58,8 @@
         "feature-cards",
         "article-listing",
         "footer",
-        "sticky-navigation"
+        "sticky-navigation",
+        "latest-blogs"
       ]
     }
   ]

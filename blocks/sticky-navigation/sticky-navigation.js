@@ -2,9 +2,9 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const section = document.createElement('section');
-  section.classList.add(
-    'sticky-bottom-nav',
+  const root = document.createElement('section');
+  // Removed 'sticky-bottom-nav' from root.classList.add as the outer block div already has it.
+  root.classList.add(
     'position-fixed',
     'bottom-0',
     'p-3',
@@ -14,8 +14,8 @@ export default function decorate(block) {
     'bg-boing-primary',
   );
 
-  const ul = document.createElement('ul');
-  ul.classList.add(
+  const navList = document.createElement('ul');
+  navList.classList.add(
     'sticky-bottom-nav__list',
     'd-flex',
     'justify-content-around',
@@ -26,11 +26,11 @@ export default function decorate(block) {
   [...block.children].forEach((row) => {
     const [iconCell, labelCell, linkCell] = [...row.children];
 
-    const li = document.createElement('li');
-    li.classList.add('sticky-bottom-nav__item', 'position-relative');
+    const listItem = document.createElement('li');
+    listItem.classList.add('sticky-bottom-nav__item', 'position-relative');
 
-    const linkEl = document.createElement('a');
-    linkEl.classList.add(
+    const linkAnchor = document.createElement('a');
+    linkAnchor.classList.add(
       'sticky-bottom-nav__link',
       'd-flex',
       'flex-column',
@@ -41,16 +41,16 @@ export default function decorate(block) {
 
     const foundLink = linkCell.querySelector('a');
     if (foundLink) {
-      linkEl.href = foundLink.href;
+      linkAnchor.href = foundLink.href;
       // Copy data attributes from the original link if they exist
       if (foundLink.dataset.consent) {
-        linkEl.dataset.consent = foundLink.dataset.consent;
+        linkAnchor.dataset.consent = foundLink.dataset.consent;
       }
       if (foundLink.dataset.link) {
-        linkEl.dataset.link = foundLink.dataset.link;
+        linkAnchor.dataset.link = foundLink.dataset.link;
       }
-      // Move instrumentation from the original <a> to the new <a>
-      moveInstrumentation(foundLink, linkEl);
+    } else {
+      linkAnchor.href = '#'; // Fallback href
     }
 
     const picture = iconCell.querySelector('picture');
@@ -58,23 +58,24 @@ export default function decorate(block) {
       const img = picture.querySelector('img');
       if (img) {
         const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-        optimizedPic.classList.add('sticky-bottom-nav__icon');
-        linkEl.append(optimizedPic);
-        // Move instrumentation from the original img to the new optimized img
-        moveInstrumentation(img, optimizedPic.querySelector('img'));
+        const optimizedImg = optimizedPic.querySelector('img');
+        optimizedImg.classList.add('sticky-bottom-nav__icon');
+        // moveInstrumentation from original img to optimized img
+        moveInstrumentation(img, optimizedImg);
+        linkAnchor.append(optimizedPic);
       }
     }
 
-    const span = document.createElement('span');
-    span.classList.add('sticky-bottom-nav__label');
-    span.textContent = labelCell.textContent.trim();
-    linkEl.append(span);
+    const labelSpan = document.createElement('span');
+    labelSpan.classList.add('sticky-bottom-nav__label');
+    labelSpan.textContent = labelCell.textContent.trim();
+    linkAnchor.append(labelSpan);
 
-    moveInstrumentation(row, li);
-    li.append(linkEl);
-    ul.append(li);
+    moveInstrumentation(row, listItem);
+    listItem.append(linkAnchor);
+    navList.append(listItem);
   });
 
-  section.append(ul);
-  block.replaceChildren(section);
+  root.append(navList);
+  block.replaceChildren(root);
 }
