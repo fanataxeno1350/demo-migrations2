@@ -1,0 +1,674 @@
+@keyframes cmp-search__loading-indicator-spin{0{transform:rotate(0)}
+100%{transform:rotate(360deg)}
+}
+
+@keyframes swiper-preloader-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+@font-face{
+  font-family: "proxima-nova-wide";
+  src: url("https://use.typekit.net/af/a99dfa/0000000000000000774e079a/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i3&v=3") format("woff2"), url("https://use.typekit.net/af/a99dfa/0000000000000000774e079a/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i3&v=3") format("woff"), url("https://use.typekit.net/af/a99dfa/0000000000000000774e079a/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i3&v=3") format("opentype");
+  font-display: swap;
+  font-style: italic;
+  font-weight: 300;
+  font-stretch: normal;
+}
+
+@font-face{
+  font-family: "proxima-nova-wide";
+  src: url("https://use.typekit.net/af/5928aa/0000000000000000774e079d/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i6&v=3") format("woff2"), url("https://use.typekit.net/af/5928aa/0000000000000000774e079d/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i6&v=3") format("woff"), url("https://use.typekit.net/af/5928aa/0000000000000000774e079d/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i6&v=3") format("opentype");
+  font-display: swap;
+  font-style: italic;
+  font-weight: 600;
+  font-stretch: normal;
+}
+
+@font-face{
+  font-family: "proxima-nova-wide";
+  src: url("https://use.typekit.net/af/bfcb85/0000000000000000774e0796/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("woff2"), url("https://use.typekit.net/af/bfcb85/0000000000000000774e0796/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("woff"), url("https://use.typekit.net/af/bfcb85/0000000000000000774e0796/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("opentype");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: normal;
+}
+
+@font-face{
+  font-family: "proxima-nova-wide";
+  src: url("https://use.typekit.net/af/568007/0000000000000000774e079f/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("woff2"), url("https://use.typekit.net/af/568007/0000000000000000774e079f/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("woff"), url("https://use.typekit.net/af/568007/0000000000000000774e079f/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("opentype");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: normal;
+}
+
+@font-face{
+  font-family: "proxima-nova-wide";
+  src: url("https://use.typekit.net/af/5c7a81/0000000000000000774e07a8/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i7&v=3") format("woff2"), url("https://use.typekit.net/af/5c7a81/0000000000000000774e07a8/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i7&v=3") format("woff"), url("https://use.typekit.net/af/5c7a81/0000000000000000774e07a8/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i7&v=3") format("opentype");
+  font-display: swap;
+  font-style: italic;
+  font-weight: 700;
+  font-stretch: normal;
+}
+
+@font-face{
+  font-family: "proxima-nova-wide";
+  src: url("https://use.typekit.net/af/b61979/0000000000000000774e07a3/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3") format("woff2"), url("https://use.typekit.net/af/b61979/0000000000000000774e07a3/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3") format("woff"), url("https://use.typekit.net/af/b61979/0000000000000000774e07a3/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3") format("opentype");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 300;
+  font-stretch: normal;
+}
+
+@font-face{
+  font-family: "proxima-nova-wide";
+  src: url("https://use.typekit.net/af/5e7fac/0000000000000000774e07a5/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n6&v=3") format("woff2"), url("https://use.typekit.net/af/5e7fac/0000000000000000774e07a5/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n6&v=3") format("woff"), url("https://use.typekit.net/af/5e7fac/0000000000000000774e07a5/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n6&v=3") format("opentype");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: normal;
+}
+
+@font-face{
+  font-family: "proxima-nova-wide";
+  src: url("https://use.typekit.net/af/254928/0000000000000000774e07a9/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3") format("woff2"), url("https://use.typekit.net/af/254928/0000000000000000774e07a9/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3") format("woff"), url("https://use.typekit.net/af/254928/0000000000000000774e07a9/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3") format("opentype");
+  font-display: swap;
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: normal;
+}
+
+@font-face{
+  font-family: "proxima-nova-wide";
+  src: url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/proxima-nova-extra-bold-df7a3f.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face{
+  font-family: "proxima-nova-wide";
+  src: url("https://qiddiya.com/etc.clientlibs/qiddiya-corporate/clientlibs/clientlib-site/resources/fonts/proxima-nova/proxima-nova-extra-bold-it.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face{
+  font-family: "29LT-bukra-variable";
+  src: url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/29ltbukravf-90c601.woff2") format("woff2"), url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/29ltbukravf-87ae20.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face{
+  font-family: "29LT-bukra-variable";
+  src: url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/29ltbukravf-90c601.woff2") format("woff2"), url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/29ltbukravf-87ae20.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face{
+  font-family: "29LT-bukra-variable";
+  src: url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/29ltbukravf-90c601.woff2") format("woff2"), url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/29ltbukravf-87ae20.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face{
+  font-family: "29LT-bukra-variable";
+  src: url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/29ltbukravf-90c601.woff2") format("woff2"), url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/29ltbukravf-87ae20.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face{
+  font-family: "29LT-bukra-variable";
+  src: url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/29ltbukravf-90c601.woff2") format("woff2"), url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/29ltbukravf-87ae20.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face{
+  font-family: "remixicon";
+  src: url("https://qiddiya.com/etc.clientlibs/qiddiya-corporate/clientlibs/clientlib-site/resources/fonts/remix-icons/remixicon.eot"), url("https://qiddiya.com/etc.clientlibs/qiddiya-corporate/clientlibs/clientlib-site/resources/fonts/remix-icons/remixicon.woff") format("woff"), url("https://qiddiya.com/etc.clientlibs/qiddiya-corporate/clientlibs/clientlib-site/resources/fonts/remix-icons/remixicon.woff2") format("woff2"), url("https://qiddiya.com/etc.clientlibs/qiddiya-corporate/clientlibs/clientlib-site/resources/fonts/remix-icons/remixicon.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face{
+  font-family: "proxima-nova-extra-wide";
+  src: url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/proximanovaexwd-regular-f08736.woff2") format("woff2");
+  font-display: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face{
+  font-family: "proxima-nova-extra-wide";
+  src: url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/proximanovaexwd-semibold-7ab728.woff2") format("woff2");
+  font-display: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face{
+  font-family: "proxima-nova-extra-wide";
+  src: url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/proximanovaexwd-extrabold-428c18.woff2") format("woff2");
+  font-display: auto;
+  font-weight: 900;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face{
+  font-family: "proxima-nova";
+  src: url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/proximanova-regular-16b94e.woff2") format("woff");
+  font-display: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face{
+  font-family: "proxima-nova";
+  src: url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/proximanova-semibold-142ad5.woff2") format("woff2");
+  font-display: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face{
+  font-family: "proxima-nova";
+  src: url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/proximanova-extrabold-2baf32.woff2") format("woff");
+  font-display: auto;
+  font-weight: 900;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face{
+  font-family: "qd-icomoon";
+  src: url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/qd-icomoon-8dba32.ttf") format("truetype"), url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/font/qd-icomoon-711957.x-font-woff") format("woff"), url("/content/dam/aemigrate/uploaded-folder/qiddiya-com/image/qd-icomoon-7e2935.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+.qd-icon--play:before{ 
+  content: "\e90a";
+ }
+
+.qd-icon--fullscreen:before{ 
+  content: "\e90b";
+ }
+
+.qd-icon--volume:before{ 
+  content: "\e90f";
+ }
+
+@keyframes zoomOutScale{
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes containerExpandUp{
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: bottom right;
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+    transform-origin: bottom right;
+  }
+}
+
+@keyframes imageExpandUp{
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown{
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft{
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight{
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes zoomOut{
+  0% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn{
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp{
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cmp-media__wrapper--no-title{ 
+  position: relative;
+  overflow-x: hidden;
+  width: 100vw;
+ }
+
+@media (max-width: 1024px) { .cmp-media__wrapper--no-title .video{ 
+    height: 690px !important;
+   }
+
+.cmp-media__wrapper--no-title .video-container, .cmp-media__wrapper--no-title .video-poster, .cmp-media__wrapper--no-title .video-container__video{ 
+    width: 100%;
+    height: 690px !important;
+    object-fit: cover;
+    position: absolute;
+   } }
+
+@media (min-width: 1025px) { .cmp-media__wrapper--no-title .video{ 
+    height: 728px !important;
+   }
+
+.cmp-media__wrapper--no-title .video-container, .cmp-media__wrapper--no-title .video-poster, .cmp-media__wrapper--no-title .video-container__video{ 
+    height: 728px !important;
+    width: 100%;
+    object-fit: cover;
+    position: absolute;
+   } }
+
+.video-poster, .video-container{ 
+  width: 100%;
+  height: 100%;
+  position: relative;
+ }
+
+.video-poster__video, .video-container__video{ 
+  width: 100%;
+  aspect-ratio: 16/9;
+  display: block;
+  position: relative;
+ }
+
+.video-hide{ 
+  display: none;
+ }
+
+.video-poster__play-button{ 
+  --clickable-element-block-size: clamp(48px, calc(48px + 16 * (100vw - 375px) / 817), 64px);
+  background: transparent;
+  padding: 0;
+  block-size: var(--clickable-element-block-size);
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  transform: translate(calc(var(--clickable-element-block-size) * -0.5), -50%);
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-1);
+  z-index: 2;
+ }
+
+.video-poster__play-button:focus-visible{ 
+  border-radius: 100px;
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+ }
+
+.video-poster__play-button:hover .video-poster__play-button__icon{ 
+  transform: translateX(0.2em);
+  background: transparent;
+  border-color: var(--white);
+ }
+
+.video-poster__play-button:hover .video-poster__play-button__icon::before{ 
+  color: var(--white);
+ }
+
+.video-poster__play-button:focus-visible .video-poster__play-button__icon{ 
+  background: transparent;
+  border-color: var(--white);
+ }
+
+.video-poster__play-button:focus-visible .video-poster__play-button__icon::before{ 
+  color: var(--white);
+ }
+
+.video-poster__play-button__icon{ 
+  block-size: var(--clickable-element-block-size);
+  inline-size: var(--clickable-element-block-size);
+  background: var(--white);
+  border: 2px solid var(--clickable-element-border-color, var(--clickable-element-base-border-color, var(--clickable-element-base-background-color)));
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ }
+
+.video-poster__play-button__icon::before{ 
+  font-size: 24px;
+  color: #054021;
+ }
+
+.video-poster__play-button__text{ 
+  font-family: var(--default-font-family);
+  font-weight: var(--heading-5-font-weight);
+  font-size: var(--heading-5-font-size);
+  line-height: var(--heading-5-line-height);
+  letter-spacing: var(--heading-5-letter-spacing);
+  color: var(--white);
+  padding-inline-end: var(--spacing-1);
+ }
+
+.video-container.show-controls .video-container__controls{ 
+  bottom: 0;
+  opacity: 1;
+  pointer-events: auto;
+  transition: all ease 0.13s;
+ }
+
+.video-container__controls{ 
+  position: absolute;
+  width: 100%;
+  padding: 16px;
+  color: var(--white);
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.5) 75%);
+  z-index: 2;
+  bottom: -15px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all ease 0.08s;
+  direction: ltr;
+ }
+
+.video-container__controls__timer{ 
+  position: relative;
+  width: 100%;
+  block-size: 32px;
+  margin-bottom: 16px;
+ }
+
+.video-container__controls__timer__progress-area{ 
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+ }
+
+.video-container__controls__timer__progress-area__progress-bar{ 
+  background-color: var(--white);
+  height: 3px;
+ }
+
+.video-container__controls__timer__progress-area__pointer{ 
+  background: transparent;
+  border: 2px solid var(--white);
+  width: 16px;
+  height: 16px;
+  display: block;
+  border-radius: 50%;
+ }
+
+.video-container__controls__timer__progress-area__progress-pending{ 
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.302);
+  flex: 1;
+ }
+
+.video-container__controls__timer__current-time{ 
+  left: 0;
+ }
+
+.video-container__controls__timer__duration{ 
+  right: 0;
+ }
+
+.video-container__controls__timer__current-time, .video-container__controls__timer__duration{ 
+  position: absolute;
+  inset-block-end: 0;
+ }
+
+.video-container__controls__buttons{ 
+  display: flex;
+  align-items: center;
+  gap: 8px;
+ }
+
+.video-container__controls__buttons__icon{ 
+  font-size: 24px;
+ }
+
+.video-container__controls__buttons--button{ 
+  background-color: var(--tertiary-base);
+  color: var(--white);
+  border: 2px solid var(--tertiary-base);
+  border-radius: 50%;
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+ }
+
+.video-container__controls__buttons--button:focus-visible{ 
+  outline: 2px solid var(--tertiary-base);
+  outline-offset: 2px;
+ }
+
+.video-container__controls__buttons--button:first-child{ 
+  margin-right: auto;
+ }
+
+.video-container__controls__buttons--button:hover{ 
+  background-color: var(--white);
+  color: var(--tertiary-base);
+ }
+
+@keyframes upFadeIn{
+  from {
+    transform: scaleY(0.1);
+    transform-origin: bottom;
+  }
+  to {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+}
+
+@keyframes zoomOutScale{
+  from {
+    visibility: visible;
+    transform: scale(0.8);
+  }
+  to {
+    visibility: visible;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomOutScaleRTL{
+  from {
+    visibility: visible;
+    transform: scale(0.8);
+  }
+  to {
+    visibility: visible;
+    transform: scale(1);
+  }
+}
+
+@media screen and (min-width: 832px) { .cmp-media{ 
+    --basic-card-layout-row-gap: 64px;
+   } }
+
+.cmp-media__background{ 
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--white) 83.36%), linear-gradient(180deg, #e5cff5 0%, var(--white) 100%);
+ }
+
+.cmp-media__wrapper{ 
+  padding-block-start: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: clamp(16px, 16px + 16 * (100vw - 375px) / 817, 32px);
+  display: grid;
+  width: 100%;
+  height: min-content;
+  grid-template: auto/repeat(var(6, 6), 1fr);
+  grid-column-gap: 24px;
+  position: relative;
+  grid-row-gap: var(--basic-card-layout-row-gap);
+  padding-inline: var(--grid-padding);
+  margin-inline: auto;
+  inline-size: min(100%, var(--grid-max-width));
+ }
+
+.cmp-media__wrapper--no-title{ 
+  position: relative;
+  overflow-x: hidden;
+  padding: 0 !important;
+  inline-size: auto !important;
+ }
+
+.cmp-media__wrapper--no-title .cmp-media__header, .cmp-media__wrapper--no-title .cmp-media__heading, .cmp-media__wrapper--no-title .cmp-media__title{ 
+  display: none !important;
+ }
+
+.cmp-media__wrapper--no-title .video, .cmp-media__wrapper--no-title .video-container, .cmp-media__wrapper--no-title .video-poster{ 
+  width: 100% !important;
+ }
+
+.cmp-media__wrapper--no-title .video-container__video, .cmp-media__wrapper--no-title .video-poster__video{ 
+  width: 100%;
+  max-width: 100%;
+  height: 100% !important;
+  object-fit: cover !important;
+ }
+
+.cmp-media__header, .cmp-media__heading{ 
+  display: flex;
+  flex-direction: column;
+ }
+
+.cmp-media__header{ 
+  display: grid;
+  grid-template: auto/repeat(var(--grid-columns, 12), 1fr);
+  grid-column: 1/-1;
+  gap: 32px;
+ }
+
+.cmp-media__heading{ 
+  gap: 16px;
+ }
+
+.cmp-media .video-poster, .cmp-media .video-container{ 
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+ }
+
+.cmp-media .video-poster__video, .cmp-media .video-container__video{ 
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+ }
+
+.cmp-media .video-container__controls{ 
+  bottom: 0;
+ }
+
+@media screen and (min-width: 832px) { .cmp-media{ 
+    --grid-columns: --grid-desktop-columns;
+   }
+
+.cmp-media__header{ 
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 48px;
+   }
+
+.cmp-media__heading{ 
+    /* grid-row: 1 / span 2; */
+    grid-column: 1/6;
+   } }
+
+@media screen and (min-width: 1024px) { .cmp-media .video-poster, .cmp-media .video-container{ 
+    height: auto;
+   }
+
+.cmp-media__header{ 
+    gap: 48px;
+   }
+
+.cmp-media__heading{ 
+    grid-column: 1/8;
+   } }
+
+@media screen and (min-width: 1440px) { .cmp-media .video-poster, .cmp-media .video-container{ 
+    aspect-ratio: 16/9;
+   } }
+
+@keyframes fadeInUp{
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes onetrust-fade-in{0%{opacity:0}100%{opacity:1}}
+
+@keyframes otFloatingBtnIntro{0%{opacity:0;left:-75px}100%{opacity:1;left:1%}}
+
+@keyframes otFloatingBtnImageIntro{0%{opacity:0;transform:scale(0) rotate(-270deg)}100%{opacity:100%;transform:scale(0.95) rotate(0deg)}}

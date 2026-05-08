@@ -15,28 +15,60 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "---- New Blocks ----",
+      "header",
+      "hero-full-width",
+      "text-and-media",
+      "card-list",
+      "media-inner-video",
+      "scarp-separator",
+      "stats-by-the-number",
+      "footer"
     ]
   },
   {
-    "id": "cards",
+    "id": "card-list",
     "components": [
       "card"
     ]
   },
   {
-    "id": "columns",
+    "id": "footer",
     "components": [
-      "column"
+      "footer-social-item",
+      "footer-link-item",
+      "footer-language-item"
     ]
   },
   {
-    "id": "column",
+    "id": "header",
     "components": [
-      "text",
-      "image",
-      "button",
-      "title"
+      "navigation-item",
+      "language-item"
     ]
+  },
+  {
+    "id": "hero-full-width",
+    "components": []
+  },
+  {
+    "id": "media-inner-video",
+    "components": []
+  },
+  {
+    "id": "scarp-separator",
+    "components": []
+  },
+  {
+    "id": "stats-by-the-number",
+    "components": [
+      "stats-tab",
+      "stats-card"
+    ]
+  },
+  {
+    "id": "text-and-media",
+    "components": []
   }
 ]
