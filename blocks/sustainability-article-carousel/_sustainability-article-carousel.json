@@ -1,0 +1,109 @@
+{
+  "definitions": [
+    {
+      "title": "Sustainability Article Carousel",
+      "id": "sustainability-article-carousel",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "sustainability-article-carousel",
+              "model": "sustainability-article-carousel",
+              "name": "Sustainability Article Carousel"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Sustainability Article Item",
+      "id": "sustainability-article-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "sustainability-article-item",
+              "name": "Sustainability Article Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "sustainability-article-carousel",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Carousel Title",
+          "name": "title",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "sustainability-article-item",
+          "label": "Articles",
+          "name": "articles"
+        }
+      ]
+    },
+    {
+      "id": "sustainability-article-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Tag Label",
+          "name": "tag",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Article Image",
+          "name": "image",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Article Title",
+          "name": "title",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Article Description",
+          "name": "description",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Article Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Reading Duration (number)",
+          "name": "readingDuration",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Reading Duration Suffix (e.g. mins)",
+          "name": "readingDurationSuffix",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "sustainability-article-carousel",
+      "components": [
+        "sustainability-article-item"
+      ]
+    }
+  ]
+}

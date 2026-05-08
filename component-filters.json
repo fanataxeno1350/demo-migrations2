@@ -26,7 +26,21 @@
       "blog-section",
       "faqs",
       "contact-section",
-      "footer"
+      "footer",
+      "search-autocomplete",
+      "header-main-navigation",
+      "burger-navigation",
+      "toaster-signin",
+      "tooltip-signin-register",
+      "homepage-banner",
+      "home-page-description",
+      "sustainability-hub-recycle-section",
+      "recipe-home",
+      "sustainability-article-carousel",
+      "campaign-carousel",
+      "coffee-profiler",
+      "back-to-top",
+      "footer-global"
     ]
   },
   {
@@ -36,9 +50,38 @@
     ]
   },
   {
+    "id": "back-to-top",
+    "components": []
+  },
+  {
     "id": "blog-section",
     "components": [
       "blog-card"
+    ]
+  },
+  {
+    "id": "burger-navigation",
+    "components": [
+      "burger-navigation-menu-item",
+      "burger-navigation-multi-link-item",
+      "burger-navigation-banner",
+      "burger-navigation-level3-banner",
+      "burger-navigation-level3-link-item"
+    ]
+  },
+  {
+    "id": "campaign-carousel",
+    "components": [
+      "quotation-slide",
+      "recipe-card-slide",
+      "fact-card-slide"
+    ]
+  },
+  {
+    "id": "coffee-profiler",
+    "components": [
+      "coffee-profiler-question",
+      "coffee-profiler-option"
     ]
   },
   {
@@ -55,10 +98,27 @@
     ]
   },
   {
+    "id": "footer-global",
+    "components": [
+      "footer-social-item",
+      "footer-link-item"
+    ]
+  },
+  {
     "id": "footer",
     "components": [
       "footer-link-item",
       "footer-section-item"
+    ]
+  },
+  {
+    "id": "header-main-navigation",
+    "components": [
+      "nav-level1-item",
+      "nav-level2-item",
+      "nav-level3-item",
+      "nav-level3-banner",
+      "nav-level2-banner"
     ]
   },
   {
@@ -72,14 +132,54 @@
     "components": []
   },
   {
+    "id": "home-page-description",
+    "components": []
+  },
+  {
+    "id": "homepage-banner",
+    "components": []
+  },
+  {
+    "id": "recipe-home",
+    "components": [
+      "recipe-card-item"
+    ]
+  },
+  {
+    "id": "search-autocomplete",
+    "components": [
+      "search-suggestion-item"
+    ]
+  },
+  {
     "id": "service-section",
     "components": [
       "service-card-item"
     ]
   },
   {
+    "id": "sustainability-article-carousel",
+    "components": [
+      "sustainability-article-item"
+    ]
+  },
+  {
+    "id": "sustainability-hub-recycle-section",
+    "components": []
+  },
+  {
     "id": "toast-message",
     "components": []
+  },
+  {
+    "id": "toaster-signin",
+    "components": []
+  },
+  {
+    "id": "tooltip-signin-register",
+    "components": [
+      "tooltip-cta-item"
+    ]
   },
   {
     "id": "why-techatom",
