@@ -6,7 +6,8 @@ export default function decorate(block) {
     decorStar1Row,
     decorStar2Row,
     headlineRow,
-    subheadlineRow,
+    headlineSpanRow,
+    descriptionRow,
     ctaLabelRow,
     ctaLinkRow,
     heroImageRow,
@@ -21,60 +22,67 @@ export default function decorate(block) {
   const heroDescription = document.createElement('div');
   heroDescription.classList.add('hero-description', 'col-lg-6', 'col-12');
 
-  const star1Picture = decorStar1Row?.querySelector('picture');
-  if (star1Picture) {
-    const star1Img = star1Picture.querySelector('img');
-    const optimizedStar1Pic = createOptimizedPicture(star1Img.src, star1Img.alt, false, [{ width: '750' }]);
-    const newStar1Img = optimizedStar1Pic.querySelector('img');
-    newStar1Img.classList.add('star-1');
-    moveInstrumentation(decorStar1Row, optimizedStar1Pic);
-    heroDescription.append(optimizedStar1Pic);
+  // Decor Star 1
+  const decorStar1Picture = decorStar1Row?.querySelector('picture');
+  if (decorStar1Picture) {
+    const decorStar1Img = decorStar1Picture.querySelector('img');
+    const star1 = createOptimizedPicture(decorStar1Img.src, decorStar1Img.alt, false, [{ width: '750' }]);
+    moveInstrumentation(decorStar1Picture, star1.querySelector('img'));
+    star1.querySelector('img').classList.add('star-1');
+    heroDescription.append(star1);
   }
 
-  const star2Picture = decorStar2Row?.querySelector('picture');
-  if (star2Picture) {
-    const star2Img = star2Picture.querySelector('img');
-    const optimizedStar2Pic = createOptimizedPicture(star2Img.src, star2Img.alt, false, [{ width: '750' }]);
-    const newStar2Img = optimizedStar2Pic.querySelector('img');
-    newStar2Img.classList.add('star-2');
-    moveInstrumentation(decorStar2Row, optimizedStar2Pic);
-    heroDescription.append(optimizedStar2Pic);
+  // Decor Star 2
+  const decorStar2Picture = decorStar2Row?.querySelector('picture');
+  if (decorStar2Picture) {
+    const decorStar2Img = decorStar2Picture.querySelector('img');
+    const star2 = createOptimizedPicture(decorStar2Img.src, decorStar2Img.alt, false, [{ width: '750' }]);
+    moveInstrumentation(decorStar2Picture, star2.querySelector('img'));
+    star2.querySelector('img').classList.add('star-2');
+    heroDescription.append(star2);
   }
 
-  const headline = document.createElement('h1');
-  moveInstrumentation(headlineRow, headline);
-  headline.innerHTML = headlineRow?.textContent.trim() || '';
-  heroDescription.append(headline);
+  // Headline
+  const h1 = document.createElement('h1');
+  h1.textContent = headlineRow?.textContent.trim() || '';
 
-  const subheadline = document.createElement('p');
-  moveInstrumentation(subheadlineRow, subheadline);
-  subheadline.textContent = subheadlineRow?.textContent.trim() || '';
-  heroDescription.append(subheadline);
+  // Headline Span
+  const span = document.createElement('span');
+  span.textContent = headlineSpanRow?.textContent.trim() || '';
+  h1.append(span);
+  heroDescription.append(h1);
 
+  // Description
+  const p = document.createElement('p');
+  p.textContent = descriptionRow?.textContent.trim() || '';
+  heroDescription.append(p);
+
+  // CTA Link
   const ctaLink = document.createElement('a');
   const foundCtaLink = ctaLinkRow?.querySelector('a');
   if (foundCtaLink) {
-    ctaLink.href = foundCtaLink.href; // Correctly read href from the anchor tag
+    ctaLink.href = foundCtaLink.href;
   }
-  ctaLink.classList.add('btn', 'btn-primary', 'shadow');
   ctaLink.textContent = ctaLabelRow?.textContent.trim() || '';
+  ctaLink.classList.add('btn', 'btn-primary', 'shadow');
   moveInstrumentation(ctaLinkRow, ctaLink);
   heroDescription.append(ctaLink);
 
+  row.append(heroDescription);
+
+  // Hero Main Image
   const heroImageDiv = document.createElement('div');
   heroImageDiv.classList.add('hero-image', 'col-lg-6', 'col-12');
-
   const heroPicture = heroImageRow?.querySelector('picture');
   if (heroPicture) {
     const heroImg = heroPicture.querySelector('img');
-    const optimizedHeroPic = createOptimizedPicture(heroImg.src, heroImg.alt, false, [{ width: '750' }]);
-    const newHeroImg = optimizedHeroPic.querySelector('img');
-    newHeroImg.classList.add('img-fluid');
-    moveInstrumentation(heroImageRow, optimizedHeroPic);
+    const optimizedHeroPic = createOptimizedPicture(heroImg.src, heroImg.alt, true, [{ width: '750' }]);
+    moveInstrumentation(heroPicture, optimizedHeroPic.querySelector('img'));
+    optimizedHeroPic.querySelector('img').classList.add('img-fluid');
     heroImageDiv.append(optimizedHeroPic);
   }
+  row.append(heroImageDiv);
 
-  row.append(heroDescription, heroImageDiv);
   container.append(row);
   block.replaceChildren(container);
 }

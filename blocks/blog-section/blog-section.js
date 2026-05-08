@@ -2,38 +2,37 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  // CHECK 0.5: The block already has 'blog-section' class from AEM.
-  // Do not add it to an inner wrapper.
-  const section = document.createElement('section');
-  // section.classList.add('blog-section'); // Removed - outer block div already has this class
+  const [sectionTitleRow, ...blogCardRows] = [...block.children];
 
-  const [sectionTitleRow, ...blogCardRows] = [...block.children]; // CHECK 0: Fixed direct children[0] access
+  const section = document.createElement('section');
+  // The outer block div already has 'blog-section' from AEM.
+  // No need to add it again to the inner wrapper 'section'.
 
   // Section Title
   const sectionTitle = document.createElement('h2');
   moveInstrumentation(sectionTitleRow, sectionTitle);
-  // CHECK 0: sectionTitleRow.children[0] is now handled by destructuring
+  // Access the cell via destructuring or querySelector for robustness
   const [titleCell] = [...sectionTitleRow.children];
   sectionTitle.textContent = titleCell?.textContent.trim() || '';
   section.append(sectionTitle);
 
+  // Blog Cards Container
   const container = document.createElement('div');
   container.classList.add('container', 'mt-6');
-
   const row = document.createElement('div');
   row.classList.add('row', 'justify-content-around');
 
   blogCardRows.forEach((blogCardRow) => {
-    // CHECK 0: Array destructuring is correct for fixed schema rows
+    // Destructuring for fixed schema item rows is correct
     const [
       imageCell,
       imageLinkCell,
-      categoryCell,
       categoryLinkCell,
-      titleCell,
-      titleLinkCell,
-      descriptionCell,
-      dateCell,
+      categoryLabelCell,
+      blogLinkCell,
+      blogTitleCell,
+      blogDescriptionCell,
+      publishDateCell,
       readMoreLinkCell,
       readMoreLabelCell,
     ] = [...blogCardRow.children];
@@ -42,25 +41,19 @@ export default function decorate(block) {
     blogCard.classList.add('blog-card', 'col-lg-4', 'col-md-6', 'col-12');
     moveInstrumentation(blogCardRow, blogCard);
 
-    // Image and Image Link
+    // Image Link and Image
     const imageLink = document.createElement('a');
-    const foundImageLink = imageLinkCell?.querySelector('a');
-    if (foundImageLink) {
-      imageLink.href = foundImageLink.href;
-      // CHECK 1.5: moveInstrumentation for aem-content links
-      moveInstrumentation(foundImageLink, imageLink);
-    } else {
-      imageLink.href = '#';
+    const originalImageLink = imageLinkCell?.querySelector('a');
+    if (originalImageLink) {
+      imageLink.href = originalImageLink.href;
     }
 
     const picture = imageCell?.querySelector('picture');
     if (picture) {
       const img = picture.querySelector('img');
       if (img) {
-        // createOptimizedPicture returns a <picture> element, not an <img>
-        // moveInstrumentation should be called on the original img, and the new picture's img
         const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-        moveInstrumentation(img, optimizedPic.querySelector('img')); // Corrected instrumentation target
+        optimizedPic.querySelector('img').classList.add('img-fluid');
         imageLink.append(optimizedPic);
       }
     }
@@ -71,62 +64,45 @@ export default function decorate(block) {
     categoriesDiv.classList.add('categories', 'align-items-center', 'gap-3', 'flex-wrap');
 
     const categoryLink = document.createElement('a');
-    const foundCategoryLink = categoryLinkCell?.querySelector('a');
-    if (foundCategoryLink) {
-      categoryLink.href = foundCategoryLink.href;
-      // CHECK 1.5: moveInstrumentation for aem-content links
-      moveInstrumentation(foundCategoryLink, categoryLink);
-    } else {
-      categoryLink.href = '#';
+    const originalCategoryLink = categoryLinkCell?.querySelector('a');
+    if (originalCategoryLink) {
+      categoryLink.href = originalCategoryLink.href;
     }
-    // CHECK 1.5: categoryCell is type=text, read textContent.trim()
-    categoryLink.textContent = categoryCell?.textContent.trim() || '';
+    categoryLink.textContent = categoryLabelCell?.textContent.trim() || '';
     categoriesDiv.append(categoryLink);
     blogCard.append(categoriesDiv);
 
-    // Title and Title Link, Description
-    const titleLink = document.createElement('a');
-    const foundTitleLink = titleLinkCell?.querySelector('a');
-    if (foundTitleLink) {
-      titleLink.href = foundTitleLink.href;
-      // CHECK 1.5: moveInstrumentation for aem-content links
-      moveInstrumentation(foundTitleLink, titleLink);
-    } else {
-      titleLink.href = '#';
+    // Blog Title and Description Link
+    const blogContentLink = document.createElement('a');
+    const originalBlogLink = blogLinkCell?.querySelector('a');
+    if (originalBlogLink) {
+      blogContentLink.href = originalBlogLink.href;
     }
 
-    const title = document.createElement('h5');
-    // CHECK 1.5: titleCell is type=text, read textContent.trim()
-    title.textContent = titleCell?.textContent.trim() || '';
-    titleLink.append(title);
+    const blogTitle = document.createElement('h5');
+    blogTitle.textContent = blogTitleCell?.textContent.trim() || '';
+    blogContentLink.append(blogTitle);
 
-    const description = document.createElement('p');
-    // CHECK 1.5: descriptionCell is type=text, read textContent.trim()
-    description.textContent = descriptionCell?.textContent.trim() || '';
-    titleLink.append(description);
-    blogCard.append(titleLink);
+    const blogDescription = document.createElement('p');
+    blogDescription.textContent = blogDescriptionCell?.textContent.trim() || '';
+    blogContentLink.append(blogDescription);
+    blogCard.append(blogContentLink);
 
-    // Date and Read More Link
+    // Date and Read More
     const dateReadDiv = document.createElement('div');
     dateReadDiv.classList.add('d-flex', 'date-read', 'justify-content-between', 'align-items-center');
 
-    const time = document.createElement('time');
-    // CHECK 1.5: dateCell is type=text, read textContent.trim()
-    time.setAttribute('datetime', dateCell?.textContent.trim() || '');
-    time.textContent = dateCell?.textContent.trim() || '';
-    dateReadDiv.append(time);
+    const publishDate = document.createElement('time');
+    publishDate.setAttribute('datetime', publishDateCell?.textContent.trim() || '');
+    publishDate.textContent = publishDateCell?.textContent.trim() || '';
+    dateReadDiv.append(publishDate);
 
     const readMoreLink = document.createElement('a');
     readMoreLink.classList.add('btn', 'btn-primary');
-    const foundReadMoreLink = readMoreLinkCell?.querySelector('a');
-    if (foundReadMoreLink) {
-      readMoreLink.href = foundReadMoreLink.href;
-      // CHECK 1.5: moveInstrumentation for aem-content links
-      moveInstrumentation(foundReadMoreLink, readMoreLink);
-    } else {
-      readMoreLink.href = '#';
+    const originalReadMoreLink = readMoreLinkCell?.querySelector('a');
+    if (originalReadMoreLink) {
+      readMoreLink.href = originalReadMoreLink.href;
     }
-    // CHECK 1.5: readMoreLabelCell is type=text, read textContent.trim()
     readMoreLink.textContent = readMoreLabelCell?.textContent.trim() || '';
     dateReadDiv.append(readMoreLink);
     blogCard.append(dateReadDiv);

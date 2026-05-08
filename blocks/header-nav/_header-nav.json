@@ -43,15 +43,15 @@
           "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "Logo Label",
-          "name": "logoLabel",
-          "valueType": "string"
-        },
-        {
           "component": "aem-content",
           "label": "Logo Link",
           "name": "logoLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Logo Label",
+          "name": "logoLabel",
           "valueType": "string"
         },
         {

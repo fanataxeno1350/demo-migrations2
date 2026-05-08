@@ -142,7 +142,7 @@
     ]
   },
   {
-    "id": "about-us",
+    "id": "about-section",
     "fields": [
       {
         "component": "text",
@@ -170,14 +170,14 @@
       },
       {
         "component": "text",
-        "label": "Features Title",
-        "name": "featuresTitle",
+        "label": "Feature Section Title",
+        "name": "featureSectionTitle",
         "valueType": "string"
       },
       {
         "component": "container",
         "item": "about-feature-item",
-        "label": "About Features",
+        "label": "Features",
         "name": "features"
       }
     ]
@@ -187,8 +187,8 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Feature Image",
-        "name": "featureImage",
+        "label": "Feature Icon",
+        "name": "featureIcon",
         "valueType": "string"
       },
       {
@@ -238,12 +238,6 @@
         "valueType": "string"
       },
       {
-        "component": "text",
-        "label": "Category",
-        "name": "category",
-        "valueType": "string"
-      },
-      {
         "component": "aem-content",
         "label": "Category Link",
         "name": "categoryLink",
@@ -251,26 +245,32 @@
       },
       {
         "component": "text",
-        "label": "Blog Title",
-        "name": "title",
+        "label": "Category Label",
+        "name": "categoryLabel",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Blog Title Link",
-        "name": "titleLink",
+        "label": "Blog Link",
+        "name": "blogLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Blog Title",
+        "name": "blogTitle",
         "valueType": "string"
       },
       {
         "component": "text",
         "label": "Blog Description",
-        "name": "description",
+        "name": "blogDescription",
         "valueType": "string"
       },
       {
         "component": "text",
         "label": "Publish Date",
-        "name": "date",
+        "name": "publishDate",
         "valueType": "string"
       },
       {
@@ -292,25 +292,25 @@
     "fields": [
       {
         "component": "text",
-        "label": "Section Heading",
-        "name": "heading",
+        "label": "Main Headline",
+        "name": "headline",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Section Subheading",
-        "name": "subheading",
+        "label": "Subheadline",
+        "name": "subheadline",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Work Location",
-        "name": "workLocation",
+        "label": "Working Status",
+        "name": "workingStatus",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Contact Email Address",
+        "label": "Email Link",
         "name": "email",
         "valueType": "string"
       },
@@ -321,34 +321,10 @@
         "name": "socialLinks"
       },
       {
-        "component": "text",
-        "label": "Form Name Placeholder",
-        "name": "formNamePlaceholder",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Form Email Placeholder",
-        "name": "formEmailPlaceholder",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Form Message Placeholder",
-        "name": "formMessagePlaceholder",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Form Button Label",
-        "name": "formButtonLabel",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Map Embed URL",
-        "name": "mapEmbedUrl",
-        "valueType": "string"
+        "component": "container",
+        "item": "external-embed",
+        "label": "External Embeds",
+        "name": "externalEmbeds"
       }
     ]
   },
@@ -364,6 +340,29 @@
     ]
   },
   {
+    "id": "external-embed",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Embed URL",
+        "name": "data-embed-url",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Embed Kind",
+        "name": "data-embed-kind",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Embed Config",
+        "name": "data-embed-config",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "faqs",
     "fields": [
       {
@@ -374,14 +373,14 @@
       },
       {
         "component": "container",
-        "item": "faq-accordion-item",
+        "item": "faq-item",
         "label": "FAQ Items",
-        "name": "items"
+        "name": "faqItems"
       }
     ]
   },
   {
-    "id": "faq-accordion-item",
+    "id": "faq-item",
     "fields": [
       {
         "component": "text",
@@ -402,13 +401,13 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Logo",
+        "label": "Footer Logo",
         "name": "logo",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Logo Link",
+        "label": "Footer Logo Link",
         "name": "logoLink",
         "valueType": "string"
       },
@@ -420,8 +419,8 @@
       },
       {
         "component": "text",
-        "label": "Newsletter Title",
-        "name": "newsletterTitle",
+        "label": "Newsletter Heading",
+        "name": "newsletterHeading",
         "valueType": "string"
       },
       {
@@ -438,13 +437,13 @@
       },
       {
         "component": "text",
-        "label": "Newsletter Input Placeholder",
-        "name": "newsletterInputPlaceholder",
+        "label": "Newsletter Email Placeholder",
+        "name": "newsletterEmailPlaceholder",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Newsletter Button Label",
+        "label": "Newsletter Subscribe Button Label",
         "name": "newsletterButtonLabel",
         "valueType": "string"
       },
@@ -452,11 +451,11 @@
         "component": "container",
         "item": "footer-link-section",
         "label": "Footer Link Sections",
-        "name": "footerLinkSections"
+        "name": "linkSections"
       },
       {
         "component": "text",
-        "label": "Copyright",
+        "label": "Copyright Notice",
         "name": "copyright",
         "valueType": "string"
       }
@@ -472,8 +471,7 @@
         "valueType": "string"
       },
       {
-        "component": "container",
-        "item": "footer-link-item",
+        "component": "richtext",
         "label": "Section Links",
         "name": "sectionLinks"
       },
@@ -481,23 +479,6 @@
         "component": "richtext",
         "label": "Navigation Hierarchy",
         "name": "hierarchy-tree",
-        "valueType": "string"
-      }
-    ]
-  },
-  {
-    "id": "footer-link-item",
-    "fields": [
-      {
-        "component": "text",
-        "label": "Link Label",
-        "name": "label",
-        "valueType": "string"
-      },
-      {
-        "component": "aem-content",
-        "label": "Link URL",
-        "name": "link",
         "valueType": "string"
       }
     ]
@@ -512,15 +493,15 @@
         "valueType": "string"
       },
       {
-        "component": "text",
-        "label": "Logo Label",
-        "name": "logoLabel",
-        "valueType": "string"
-      },
-      {
         "component": "aem-content",
         "label": "Logo Link",
         "name": "logoLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Logo Label",
+        "name": "logoLabel",
         "valueType": "string"
       },
       {
@@ -553,13 +534,13 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Decorative Star 1",
+        "label": "Decor Star 1 (Left Top)",
         "name": "decorStar1",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Decorative Star 2",
+        "label": "Decor Star 2 (Left Bottom)",
         "name": "decorStar2",
         "valueType": "string"
       },
@@ -571,8 +552,14 @@
       },
       {
         "component": "text",
-        "label": "Subheadline",
-        "name": "subheadline",
+        "label": "Headline Emphasized Text (span)",
+        "name": "headlineSpan",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Description",
+        "name": "description",
         "valueType": "string"
       },
       {
@@ -589,7 +576,7 @@
       },
       {
         "component": "reference",
-        "label": "Hero Image",
+        "label": "Hero Main Image",
         "name": "heroImage",
         "valueType": "string"
       }
@@ -600,8 +587,8 @@
     "fields": [
       {
         "component": "text",
-        "label": "Section Title",
-        "name": "title",
+        "label": "Section Heading",
+        "name": "heading",
         "valueType": "string"
       },
       {
@@ -624,31 +611,42 @@
       {
         "component": "aem-content",
         "label": "Card Link",
-        "name": "link",
+        "name": "cardLink",
         "valueType": "string"
       },
       {
         "component": "reference",
         "label": "Card Image",
-        "name": "image",
+        "name": "cardImage",
         "valueType": "string"
       },
       {
         "component": "text",
         "label": "Card Title",
-        "name": "title",
+        "name": "cardTitle",
         "valueType": "string"
       },
       {
-        "component": "text",
+        "component": "richtext",
         "label": "Card Description",
-        "name": "description",
+        "name": "cardDescription",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Button Label",
-        "name": "buttonLabel",
+        "label": "CTA Label",
+        "name": "ctaLabel",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "toast-message",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Toast Message",
+        "name": "message",
         "valueType": "string"
       }
     ]
@@ -657,8 +655,8 @@
     "id": "why-techatom",
     "fields": [
       {
-        "component": "richtext",
-        "label": "Block Headline",
+        "component": "text",
+        "label": "Section Headline",
         "name": "headline",
         "valueType": "string"
       },
@@ -675,8 +673,8 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Card Icon",
-        "name": "icon",
+        "label": "Card Image",
+        "name": "image",
         "valueType": "string"
       },
       {

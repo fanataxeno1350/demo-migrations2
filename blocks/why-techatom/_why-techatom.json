@@ -37,8 +37,8 @@
       "id": "why-techatom",
       "fields": [
         {
-          "component": "richtext",
-          "label": "Block Headline",
+          "component": "text",
+          "label": "Section Headline",
           "name": "headline",
           "valueType": "string"
         },
@@ -55,8 +55,8 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Card Icon",
-          "name": "icon",
+          "label": "Card Image",
+          "name": "image",
           "valueType": "string"
         },
         {

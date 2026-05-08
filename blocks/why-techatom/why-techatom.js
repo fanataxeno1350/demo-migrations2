@@ -2,7 +2,10 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const [headlineRow, ...cardRows] = [...block.children];
+  const children = [...block.children];
+
+  const headlineRow = children.find((row) => row.children.length === 1 && !row.querySelector('picture') && !row.querySelector('a'));
+  const cardRows = children.filter((row) => row.children.length === 4);
 
   const whyTechatomContainer = document.createElement('div');
   whyTechatomContainer.classList.add('why-techatom-container', 'shadow-lg');
@@ -10,87 +13,68 @@ export default function decorate(block) {
   const rowDiv = document.createElement('div');
   rowDiv.classList.add('row', 'justify-content-around', 'gy-5');
 
-  // Headline
   if (headlineRow) {
-    // headline is richtext, read innerHTML directly from the cell
-    const headlineCell = headlineRow.children[0];
-    const headlineContent = headlineCell?.innerHTML || '';
-    const h2 = document.createElement('h2');
-    moveInstrumentation(headlineRow, h2);
+    const headline = document.createElement('h2');
+    moveInstrumentation(headlineRow, headline);
+    const textContent = headlineRow.textContent.trim();
+    const chooseIndex = textContent.toLowerCase().indexOf('choose');
+    const techatomIndex = textContent.toLowerCase().indexOf('techatom');
 
-    // Check for "Techatom" with curve-underline
-    // Use a temporary div to parse HTML and then extract text for comparison
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = headlineContent;
-    const techatomText = tempDiv.textContent.trim();
+    if (chooseIndex !== -1 && techatomIndex !== -1 && techatomIndex > chooseIndex) {
+      const beforeTechatom = textContent.substring(0, techatomIndex);
+      const techatomText = textContent.substring(techatomIndex, techatomIndex + 'Techatom'.length);
+      const afterTechatom = textContent.substring(techatomIndex + 'Techatom'.length);
 
-    if (techatomText.includes('Techatom')) {
-      // Reconstruct HTML, preserving original tags if any, and applying curve-underline
-      // This is a simplified approach assuming 'Techatom' is within a single text node
-      // For more complex HTML, a DOM traversal would be needed.
-      // Given the original HTML example, it's a simple text node.
-      const parts = headlineContent.split('Techatom');
-      h2.innerHTML = `${parts[0]}<span class="curve-underline">Techatom</span>${parts[1]}`;
+      headline.innerHTML = `${beforeTechatom}<span class="curve-underline">${techatomText}</span>${afterTechatom}`;
     } else {
-      h2.innerHTML = headlineContent; // Use innerHTML to preserve any original formatting
+      headline.textContent = textContent;
     }
-    rowDiv.append(h2);
+    rowDiv.append(headline);
   }
 
-  // Cards
   cardRows.forEach((row) => {
-    const [iconCell, titleCell, descriptionCell, linkCell] = [...row.children];
+    const [imageCell, titleCell, descriptionCell, linkCell] = [...row.children];
 
-    const anchor = document.createElement('a');
-    anchor.classList.add('d-block', 'why-card', 'col-lg-4', 'col-12');
-    moveInstrumentation(row, anchor);
+    const cardLink = document.createElement('a');
+    cardLink.classList.add('d-block', 'why-card', 'col-lg-4', 'col-12');
 
-    const foundLink = linkCell?.querySelector('a');
+    const foundLink = linkCell.querySelector('a');
     if (foundLink) {
-      anchor.href = foundLink.href;
+      cardLink.href = foundLink.href;
     } else {
-      anchor.href = '#'; // Fallback link if none is provided
+      cardLink.href = '#';
     }
 
-    // Icon
-    const picture = iconCell?.querySelector('picture');
+    const picture = imageCell.querySelector('picture');
     if (picture) {
       const img = picture.querySelector('img');
       if (img) {
-        // Create optimized picture and apply instrumentation
         const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
         const optimizedImg = optimizedPic.querySelector('img');
         moveInstrumentation(img, optimizedImg); // Move instrumentation from original img to optimized img
 
-        // Apply specific icon classes based on alt text
-        if (img.alt.toLowerCase().includes('expert')) {
+        // Apply classes based on alt text, matching original HTML
+        if (img.alt === 'expert' || img.alt === 'customer') {
           optimizedImg.classList.add('expert-svg');
-        } else if (img.alt.toLowerCase().includes('badge')) {
+        } else if (img.alt === 'badge') {
           optimizedImg.classList.add('badge-svg');
-        } else if (img.alt.toLowerCase().includes('customer')) {
-          optimizedImg.classList.add('expert-svg'); // Original HTML uses expert-svg for customer
         }
-        anchor.append(optimizedPic);
+        cardLink.append(optimizedPic);
       }
     }
 
-    // Title
-    const h3 = document.createElement('h3');
-    h3.textContent = titleCell?.textContent.trim() || '';
-    anchor.append(h3);
+    const title = document.createElement('h3');
+    title.textContent = titleCell.textContent.trim();
+    cardLink.append(title);
 
-    // Description (richtext field, use innerHTML)
-    const p = document.createElement('p');
-    p.innerHTML = descriptionCell?.innerHTML || '';
-    anchor.append(p);
+    const description = document.createElement('p');
+    description.innerHTML = descriptionCell.innerHTML;
+    cardLink.append(description);
 
-    rowDiv.append(anchor);
+    moveInstrumentation(row, cardLink);
+    rowDiv.append(cardLink);
   });
 
   whyTechatomContainer.append(rowDiv);
   block.replaceChildren(whyTechatomContainer);
-
-  // The original JS had a redundant loop for image optimization.
-  // createOptimizedPicture already handles optimization, and instrumentation is moved above.
-  // This loop is no longer needed.
 }

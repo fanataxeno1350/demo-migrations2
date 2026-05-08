@@ -30,6 +30,21 @@
           }
         }
       }
+    },
+    {
+      "title": "External-Embed",
+      "id": "external-embed",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "external-embed",
+              "name": "External-Embed"
+            }
+          }
+        }
+      }
     }
   ],
   "models": [
@@ -38,25 +53,25 @@
       "fields": [
         {
           "component": "text",
-          "label": "Section Heading",
-          "name": "heading",
+          "label": "Main Headline",
+          "name": "headline",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Section Subheading",
-          "name": "subheading",
+          "label": "Subheadline",
+          "name": "subheadline",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Work Location",
-          "name": "workLocation",
+          "label": "Working Status",
+          "name": "workingStatus",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Contact Email Address",
+          "label": "Email Link",
           "name": "email",
           "valueType": "string"
         },
@@ -67,34 +82,10 @@
           "name": "socialLinks"
         },
         {
-          "component": "text",
-          "label": "Form Name Placeholder",
-          "name": "formNamePlaceholder",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Form Email Placeholder",
-          "name": "formEmailPlaceholder",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Form Message Placeholder",
-          "name": "formMessagePlaceholder",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Form Button Label",
-          "name": "formButtonLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Map Embed URL",
-          "name": "mapEmbedUrl",
-          "valueType": "string"
+          "component": "container",
+          "item": "external-embed",
+          "label": "External Embeds",
+          "name": "externalEmbeds"
         }
       ]
     },
@@ -108,13 +99,37 @@
           "valueType": "string"
         }
       ]
+    },
+    {
+      "id": "external-embed",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Embed URL",
+          "name": "data-embed-url",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Embed Kind",
+          "name": "data-embed-kind",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Embed Config",
+          "name": "data-embed-config",
+          "valueType": "string"
+        }
+      ]
     }
   ],
   "filters": [
     {
       "id": "contact-section",
       "components": [
-        "social-link-item"
+        "social-link-item",
+        "external-embed"
       ]
     }
   ]

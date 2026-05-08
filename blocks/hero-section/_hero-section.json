@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Hero Section",
+      "title": "Hero-Section",
       "id": "hero-section",
       "plugins": {
         "xwalk": {
@@ -10,7 +10,7 @@
             "template": {
               "filter": "hero-section",
               "model": "hero-section",
-              "name": "Hero Section"
+              "name": "Hero-Section"
             }
           }
         }
@@ -23,13 +23,13 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Decorative Star 1",
+          "label": "Decor Star 1 (Left Top)",
           "name": "decorStar1",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Decorative Star 2",
+          "label": "Decor Star 2 (Left Bottom)",
           "name": "decorStar2",
           "valueType": "string"
         },
@@ -41,8 +41,14 @@
         },
         {
           "component": "text",
-          "label": "Subheadline",
-          "name": "subheadline",
+          "label": "Headline Emphasized Text (span)",
+          "name": "headlineSpan",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Description",
+          "name": "description",
           "valueType": "string"
         },
         {
@@ -59,7 +65,7 @@
         },
         {
           "component": "reference",
-          "label": "Hero Image",
+          "label": "Hero Main Image",
           "name": "heroImage",
           "valueType": "string"
         }

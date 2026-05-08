@@ -2,82 +2,100 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const [titleRow, pointerImageRow, ...serviceCardRows] = [...block.children];
+  const children = [...block.children];
 
   const section = document.createElement('section');
   section.classList.add('service-section');
-  section.id = 'services'; // From original HTML
+  section.id = 'services';
 
   const containerTop = document.createElement('div');
   containerTop.classList.add('container', 'position-relative');
-  moveInstrumentation(titleRow, containerTop); // Move instrumentation for titleRow
+  section.append(containerTop);
 
-  // Title
-  // The titleRow itself is the cell wrapper, its firstChild is the div containing the text.
-  // The BlockJson model indicates "title" is a text field, so we read textContent.
+  // Heading and Pointer Image rows
+  const [headingRow, pointerImageRow, ...serviceCardRows] = children;
+
+  // Heading
+  const headingCell = headingRow.children[0]; // Access the first (and only) cell of the heading row
   const h2 = document.createElement('h2');
-  h2.textContent = titleRow.textContent.trim();
+  moveInstrumentation(headingRow, h2);
+  h2.textContent = headingCell ? headingCell.textContent.trim() : '';
   containerTop.append(h2);
 
   // Pointer Image
-  const pointerPicture = pointerImageRow.querySelector('picture');
+  const pointerImageCell = pointerImageRow.children[0]; // Access the first (and only) cell of the pointer image row
+  const pointerPicture = pointerImageCell ? pointerImageCell.querySelector('picture') : null;
   if (pointerPicture) {
-    const img = pointerPicture.querySelector('img');
-    if (img) {
-      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-      moveInstrumentation(img, optimizedPic.querySelector('img'));
-      optimizedPic.querySelector('img').classList.add('pointer');
-      containerTop.append(optimizedPic);
-    }
+    const pointerImg = pointerPicture.querySelector('img');
+    const optimizedPointerPic = createOptimizedPicture(
+      pointerImg.src,
+      pointerImg.alt,
+      false,
+      [{ width: '750' }],
+    );
+    // moveInstrumentation should be on the picture element itself, not just the img
+    moveInstrumentation(pointerImageRow, optimizedPointerPic);
+    optimizedPointerPic.querySelector('img').classList.add('pointer');
+    containerTop.append(optimizedPointerPic);
   }
-  section.append(containerTop);
 
-  const containerBottom = document.createElement('div');
-  containerBottom.classList.add('container');
+  const containerCards = document.createElement('div');
+  containerCards.classList.add('container');
+  section.append(containerCards);
 
   const row = document.createElement('div');
   row.classList.add('row', 'justify-content-around');
+  containerCards.append(row);
 
+  // Service Cards
   serviceCardRows.forEach((cardRow) => {
-    const [linkCell, imageCell, titleCell, descriptionCell, buttonLabelCell] = [...cardRow.children];
+    const [cardLinkCell, cardImageCell, cardTitleCell, cardDescriptionCell, ctaLabelCell] = [
+      ...cardRow.children,
+    ];
 
-    const cardLink = document.createElement('a');
-    cardLink.classList.add('d-block', 'col-lg-4', 'col-md-6', 'col-12', 'service-card');
-
-    const foundLink = linkCell.querySelector('a');
-    if (foundLink) {
-      cardLink.href = foundLink.href;
+    const cardLink = cardLinkCell ? cardLinkCell.querySelector('a') : null;
+    const cardAnchor = document.createElement('a');
+    cardAnchor.classList.add('d-block', 'col-lg-4', 'col-md-6', 'col-12', 'service-card');
+    if (cardLink) {
+      cardAnchor.href = cardLink.href;
     }
+    moveInstrumentation(cardRow, cardAnchor);
 
-    const picture = imageCell.querySelector('picture');
-    if (picture) {
-      const img = picture.querySelector('img');
-      if (img) {
-        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-        moveInstrumentation(img, optimizedPic.querySelector('img'));
-        optimizedPic.querySelector('img').classList.add('img-fluid', 'service-img');
-        cardLink.append(optimizedPic);
-      }
+    const cardPicture = cardImageCell ? cardImageCell.querySelector('picture') : null;
+    if (cardPicture) {
+      const cardImg = cardPicture.querySelector('img');
+      const optimizedCardPic = createOptimizedPicture(
+        cardImg.src,
+        cardImg.alt,
+        false,
+        [{ width: '750' }],
+      );
+      optimizedCardPic.querySelector('img').classList.add('img-fluid', 'service-img');
+      cardAnchor.append(optimizedCardPic);
     }
 
     const h3 = document.createElement('h3');
-    h3.textContent = titleCell.textContent.trim();
-    cardLink.append(h3);
+    h3.textContent = cardTitleCell ? cardTitleCell.textContent.trim() : '';
+    cardAnchor.append(h3);
 
     const p = document.createElement('p');
-    p.textContent = descriptionCell.textContent.trim();
-    cardLink.append(p);
+    // cardDescription is richtext, so innerHTML is correct
+    p.innerHTML = cardDescriptionCell ? cardDescriptionCell.innerHTML : '';
+    cardAnchor.append(p);
 
     const button = document.createElement('button');
-    button.textContent = buttonLabelCell.textContent.trim();
-    cardLink.append(button);
+    button.textContent = ctaLabelCell ? ctaLabelCell.textContent.trim() : '';
+    cardAnchor.append(button);
 
-    moveInstrumentation(cardRow, cardLink);
-    row.append(cardLink);
+    row.append(cardAnchor);
   });
 
-  containerBottom.append(row);
-  section.append(containerBottom);
-
   block.replaceChildren(section);
+
+  // The original block.querySelectorAll('picture > img') loop is redundant.
+  // createOptimizedPicture is already called for pointerImage and cardImages.
+  // This loop would re-optimize images that are already optimized or not part of the block's final structure.
+  // It's also problematic because moveInstrumentation is called on `img` but then `img.closest('picture').replaceWith(optimizedPic)`
+  // would remove the original `img` from the DOM, potentially losing instrumentation.
+  // Removing this redundant loop.
 }

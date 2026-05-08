@@ -66,12 +66,6 @@
           "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "Category",
-          "name": "category",
-          "valueType": "string"
-        },
-        {
           "component": "aem-content",
           "label": "Category Link",
           "name": "categoryLink",
@@ -79,26 +73,32 @@
         },
         {
           "component": "text",
-          "label": "Blog Title",
-          "name": "title",
+          "label": "Category Label",
+          "name": "categoryLabel",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Blog Title Link",
-          "name": "titleLink",
+          "label": "Blog Link",
+          "name": "blogLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Blog Title",
+          "name": "blogTitle",
           "valueType": "string"
         },
         {
           "component": "text",
           "label": "Blog Description",
-          "name": "description",
+          "name": "blogDescription",
           "valueType": "string"
         },
         {
           "component": "text",
           "label": "Publish Date",
-          "name": "date",
+          "name": "publishDate",
           "valueType": "string"
         },
         {
