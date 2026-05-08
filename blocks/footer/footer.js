@@ -3,10 +3,13 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 
 function transformNestedLists(rootUl) {
   rootUl.querySelectorAll('li').forEach((li) => {
+    li.classList.add('list-item'); // Add class from ORIGINAL HTML
     const nested = li.querySelector(':scope > ul');
-    // Handle label-only nodes
     const anchor = li.querySelector(':scope > a');
-    if (!anchor) {
+
+    if (anchor) {
+      anchor.classList.add('nav-menu-item'); // Add class from ORIGINAL HTML
+    } else {
       const textNode = [...li.childNodes].find(
         (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim(),
       );
@@ -17,10 +20,12 @@ function transformNestedLists(rootUl) {
         li.prepend(span);
       }
     }
+
     if (nested) {
+      nested.classList.add('footer-inner-list'); // Add class from ORIGINAL HTML
       nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('has-footer-sub-child'); // use ORIGINAL HTML class
+      subWrap.classList.add('has-footer-sub-child'); // Add class from ORIGINAL HTML
       subWrap.append(nested);
       li.append(subWrap);
       const trigger = li.querySelector(':scope > a, :scope > span');
@@ -28,7 +33,7 @@ function transformNestedLists(rootUl) {
         trigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          li.classList.toggle('active');
+          li.classList.toggle('active'); // 'active' is a common interactive class
           subWrap.classList.toggle('active');
         });
       }
@@ -39,31 +44,26 @@ function transformNestedLists(rootUl) {
 export default function decorate(block) {
   const children = [...block.children];
 
-  const logoRow = children.find((row) => row.querySelector('picture'));
-  const logoLinkRow = children.find(
-    (row) => !row.querySelector('picture') && row.querySelector('a'),
-  );
-  const copyrightRow = children.find(
-    (row) =>
-      !row.querySelector('picture') &&
-      !row.querySelector('a') &&
-      row.children.length === 1,
-  );
+  // Root fields are fixed schema, use destructuring
+  const [logoRow, logoLinkRow, copyrightRow, ...itemRows] = children;
 
-  const itemRows = children.filter(
-    (row) =>
-      row !== logoRow && row !== logoLinkRow && row !== copyrightRow,
-  );
+  const socialLinkRows = [];
+  const navSectionRows = [];
+  const legalLinkRows = [];
 
-  const socialLinkRows = itemRows.filter(
-    (row) => row.children.length === 2 && row.querySelector('div:first-child a'),
-  );
-  const navSectionRows = itemRows.filter(
-    (row) => row.children.length === 3,
-  );
-  const legalLinkRows = itemRows.filter(
-    (row) => row.children.length === 2 && !row.querySelector('div:first-child a'),
-  );
+  itemRows.forEach((row) => {
+    const cells = [...row.children];
+    if (cells.length === 2 && cells[0].querySelector('a') && cells[1].querySelector('ul')) {
+      // This is a social link item with a hierarchy-tree
+      socialLinkRows.push(row);
+    } else if (cells.length === 3) {
+      // This is a footer section item
+      navSectionRows.push(row);
+    } else if (cells.length === 2 && !cells[0].querySelector('picture')) {
+      // This is a footer link item (label, link)
+      legalLinkRows.push(row);
+    }
+  });
 
   const footerMain = document.createElement('footer');
   footerMain.classList.add('footer-main');
@@ -74,147 +74,161 @@ export default function decorate(block) {
   const footerHeader = document.createElement('div');
   footerHeader.classList.add('row', 'footer-header');
 
-  const logoWrap = document.createElement('div');
-  logoWrap.classList.add('col-md-6', 'col-12', 'justify-content-between', 'd-flex');
-
+  // Logo
+  const logoCol = document.createElement('div');
+  logoCol.classList.add('col-md-6', 'col-12', 'justify-content-between', 'd-flex');
   const logoDiv = document.createElement('div');
   logoDiv.classList.add('logo');
-
-  const logoAnchor = document.createElement('a');
-  const logoLink = logoLinkRow?.querySelector('a');
-  if (logoLink) {
-    logoAnchor.href = logoLink.href;
+  const logoLink = document.createElement('a');
+  const logoPic = logoRow.children[0].querySelector('picture'); // Access cell via children[0]
+  const logoImg = logoPic ? logoPic.querySelector('img') : null;
+  if (logoImg) {
+    const optimizedPic = createOptimizedPicture(logoImg.src, logoImg.alt, false, [{ width: '200' }]);
+    moveInstrumentation(logoPic, optimizedPic.querySelector('img'));
+    logoLink.append(optimizedPic);
   }
-  moveInstrumentation(logoLinkRow, logoAnchor);
-
-  const picture = logoRow?.querySelector('picture');
-  if (picture) {
-    const img = picture.querySelector('img');
-    if (img) {
-      const optimizedPic = createOptimizedPicture(
-        img.src,
-        img.alt,
-        false,
-        [{ width: '200' }],
-      );
-      moveInstrumentation(img, optimizedPic.querySelector('img'));
-      logoAnchor.append(optimizedPic);
-    }
+  const foundLogoLink = logoLinkRow.children[0].querySelector('a'); // Access cell via children[0]
+  if (foundLogoLink) {
+    logoLink.href = foundLogoLink.href;
   }
-  moveInstrumentation(logoRow, logoAnchor);
-  logoDiv.append(logoAnchor);
-  logoWrap.append(logoDiv);
-  footerHeader.append(logoWrap);
+  moveInstrumentation(logoRow, logoLink);
+  moveInstrumentation(logoLinkRow, logoLink);
+  logoDiv.append(logoLink);
+  logoCol.append(logoDiv);
+  footerHeader.append(logoCol);
 
-  const socialWrapCol = document.createElement('div');
-  socialWrapCol.classList.add('col-md-6', 'col-12', 'footer-social-wrap-center');
-
+  // Social Links
+  const socialCol = document.createElement('div');
+  socialCol.classList.add('col-md-6', 'col-12', 'footer-social-wrap-center');
   const socialUl = document.createElement('ul');
   socialUl.classList.add('social-wrap');
 
   socialLinkRows.forEach((row) => {
+    // Fixed schema for footer-social-item: socialLink, hierarchy-tree
     const [socialLinkCell, hierarchyTreeCell] = [...row.children];
-    const socialLink = socialLinkCell.querySelector('a');
-    const hierarchyTree = hierarchyTreeCell.querySelector('ul');
 
-    const li = document.createElement('li');
-    moveInstrumentation(row, li);
+    const socialLi = document.createElement('li');
+    // The original HTML has classes like 'fb', 'tw' on the <li>.
+    // We need to extract this from the socialLinkCell's content if possible,
+    // or assume it's handled by CSS based on the SVG content.
+    // For now, we'll just add a generic class if needed, or rely on CSS.
 
-    if (socialLink) {
-      const anchor = document.createElement('a');
-      anchor.href = socialLink.href;
-      anchor.target = '_blank';
-      // Determine social icon class based on href or content
-      if (socialLink.href.includes('facebook')) {
-        li.classList.add('fb');
-        anchor.innerHTML = `<svg width="30" height="30" viewBox="0 0 40 41" xmlns:xlink="http://www.w3.org/1999/xlink"><image xlink:href="data:stripped" x="0" y="0" width="30" height="30"></image></svg>`;
-      } else if (socialLink.href.includes('twitter')) {
-        li.classList.add('tw');
-        anchor.innerHTML = `<svg width="30" height="30" viewBox="0 0 40 41" xmlns:xlink="http://www.w3.org/1999/xlink"><image xlink:href="data:stripped" x="0" y="0" width="30" height="30"></image></svg>`;
-      } else if (socialLink.href.includes('instagram')) {
-        li.classList.add('inst');
-        anchor.innerHTML = `<svg width="30" height="30" viewBox="0 0 40 41" xmlns:xlink="http://www.w3.org/1999/xlink"><image xlink:href="data:stripped" x="0" y="0" width="30" height="30"></image></svg>`;
-      } else if (socialLink.href.includes('youtube')) {
-        li.classList.add('yt');
-        anchor.innerHTML = `<svg width="30" height="30" viewBox="0 0 40 41" xmlns:xlink="http://www.w3.org/1999/xlink"><image xlink:href="data:stripped" x="0" y="0" width="30" height="30"></image></svg>`;
-      } else if (socialLink.href.includes('linkedin')) {
-        li.classList.add('in');
-        anchor.innerHTML = `<svg width="30" height="30" viewBox="0 0 40 41" xmlns:xlink="http://www.w3.org/1999/xlink"><image xlink:href="data:stripped" x="0" y="0" width="30" height="30"></image></svg>`;
+    const socialLink = document.createElement('a');
+    const foundSocialLink = socialLinkCell.querySelector('a');
+    if (foundSocialLink) {
+      socialLink.href = foundSocialLink.href;
+      // For social links, the text content might be an SVG or just an empty anchor
+      // We need to check if there's an SVG within the cell and append it
+      const svg = foundSocialLink.querySelector('svg');
+      if (svg) {
+        socialLink.append(svg.cloneNode(true));
+      } else {
+        socialLink.textContent = foundSocialLink.textContent.trim();
       }
-      li.append(anchor);
+    }
+    moveInstrumentation(socialLinkCell, socialLink); // Move instrumentation from the cell
+    socialLi.append(socialLink);
+
+    // Handle hierarchy-tree for social links (if any)
+    const subList = hierarchyTreeCell.querySelector('ul');
+    if (subList) {
+      // The original HTML does not show nested lists directly under social links,
+      // but the model allows it. If present, we should process it.
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
+      moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation from the cell
+      transformNestedLists(tempDiv.querySelector('ul')); // Transform the nested list
+      while (tempDiv.firstChild) {
+        socialLi.append(tempDiv.firstChild);
+      }
     }
 
-    if (hierarchyTree) {
-      transformNestedLists(hierarchyTree);
-      const subWrap = document.createElement('div');
-      subWrap.classList.add('has-footer-sub-child');
-      subWrap.append(hierarchyTree);
-      li.append(subWrap);
-    }
-    socialUl.append(li);
+    socialUl.append(socialLi);
   });
-
-  socialWrapCol.append(socialUl);
-  footerHeader.append(socialWrapCol);
+  socialCol.append(socialUl);
+  footerHeader.append(socialCol);
   container.append(footerHeader);
 
+  // Footer Menu Box (Sections)
   const footerMenuBox = document.createElement('div');
   footerMenuBox.classList.add('row', 'footer-menu-box');
-
   const footerMenuCol = document.createElement('div');
   footerMenuCol.classList.add('col');
-
   const footerMenu = document.createElement('div');
   footerMenu.classList.add('footer-menu');
 
   navSectionRows.forEach((row) => {
+    // Fixed schema for footer-section-item: title, link, sectionLinks
     const [titleCell, linkCell, sectionLinksCell] = [...row.children];
-    const sectionLinksUl = sectionLinksCell.querySelector('ul');
-    const directLink = linkCell.querySelector('a');
-
     const linkBlocks = document.createElement('div');
     linkBlocks.classList.add('link-blocks');
-    moveInstrumentation(row, linkBlocks);
-
     const headDiv = document.createElement('div');
     headDiv.classList.add('head');
-
     const span = document.createElement('span');
-    const titleAnchor = document.createElement('a');
-    titleAnchor.textContent = titleCell.textContent.trim();
-    if (directLink) {
-      titleAnchor.href = directLink.href;
-    } else {
-      titleAnchor.href = 'javascript:void(0)';
+    const sectionTitleLink = document.createElement('a');
+    sectionTitleLink.textContent = titleCell.textContent.trim();
+
+    const subList = sectionLinksCell.querySelector('ul');
+    if (subList) {
+      // This is an accordion section
+      sectionTitleLink.href = 'javascript:void(0)'; // Placeholder for accordion toggle
       const small = document.createElement('small');
-      small.dataset.once = 'footerMobileInner';
-      span.append(small);
+      small.dataset.once = 'footerMobileInner'; // Add data attribute from ORIGINAL HTML
+      span.append(sectionTitleLink, small);
+      headDiv.append(span);
+
+      const footerInnerList = document.createElement('ul');
+      footerInnerList.classList.add('footer-inner-list');
+
+      // Use a temporary div to parse and move instrumentation for the richtext content
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = sectionLinksCell.innerHTML;
+      moveInstrumentation(sectionLinksCell, tempDiv); // Move instrumentation from the cell
+
+      const parsedUl = tempDiv.querySelector('ul');
+      if (parsedUl) {
+        [...parsedUl.children].forEach((li) => {
+          const newLi = document.createElement('li');
+          newLi.classList.add('list-item'); // Add class from ORIGINAL HTML
+          const anchor = li.querySelector('a');
+          if (anchor) {
+            const newAnchor = document.createElement('a');
+            newAnchor.href = anchor.href;
+            newAnchor.textContent = anchor.textContent.trim();
+            newAnchor.classList.add('nav-menu-item'); // Add class from ORIGINAL HTML
+            newLi.append(newAnchor);
+            const nestedUl = li.querySelector('ul');
+            if (nestedUl) {
+              const subChildDiv = document.createElement('div');
+              subChildDiv.classList.add('has-footer-sub-child');
+              subChildDiv.append(nestedUl);
+              transformNestedLists(nestedUl); // Recursively transform nested lists
+              newLi.append(subChildDiv);
+            }
+          } else {
+            newLi.textContent = li.textContent.trim();
+          }
+          footerInnerList.append(newLi);
+        });
+      }
+      linkBlocks.append(headDiv, footerInnerList);
+
+      // Add accordion toggle functionality
       span.addEventListener('click', () => {
-        linkBlocks.classList.toggle('active');
+        footerInnerList.classList.toggle('active');
+        headDiv.classList.toggle('active');
       });
+    } else {
+      // Simple top-level link
+      const directLink = linkCell.querySelector('a');
+      if (directLink) {
+        sectionTitleLink.href = directLink.href;
+      }
+      span.append(sectionTitleLink);
+      headDiv.append(span);
+      linkBlocks.append(headDiv);
     }
-    span.prepend(titleAnchor);
-    headDiv.append(span);
-    linkBlocks.append(headDiv);
-
-    if (sectionLinksUl) {
-      const footerInnerList = document.createElement('ul');
-      footerInnerList.classList.add('footer-inner-list');
-      transformNestedLists(sectionLinksUl);
-      footerInnerList.append(...sectionLinksUl.children);
-      linkBlocks.append(footerInnerList);
-    } else if (directLink) {
-      const footerInnerList = document.createElement('ul');
-      footerInnerList.classList.add('footer-inner-list');
-      const li = document.createElement('li');
-      const anchor = document.createElement('a');
-      anchor.href = directLink.href;
-      anchor.textContent = titleCell.textContent.trim();
-      li.append(anchor);
-      footerInnerList.append(li);
-      linkBlocks.append(footerInnerList);
-    }
-
+    moveInstrumentation(row, linkBlocks);
     footerMenu.append(linkBlocks);
   });
 
@@ -222,40 +236,46 @@ export default function decorate(block) {
   footerMenuBox.append(footerMenuCol);
   container.append(footerMenuBox);
 
+  // Copyright and Legal Links
   const copyrightWrap = document.createElement('div');
   copyrightWrap.classList.add('row', 'align-items-lg-end', 'copyright-wrap');
 
-  const secondaryNavCol = document.createElement('div');
-  secondaryNavCol.classList.add('col-12', 'col-lg-6');
-
+  const legalNavCol = document.createElement('div');
+  legalNavCol.classList.add('col-12', 'col-lg-6');
   const secondaryNavUl = document.createElement('ul');
   secondaryNavUl.classList.add('secondary-nav');
 
   legalLinkRows.forEach((row) => {
+    // Fixed schema for footer-link-item: label, link
     const [labelCell, linkCell] = [...row.children];
-    const link = linkCell.querySelector('a');
-    if (link) {
-      const li = document.createElement('li');
-      const anchor = document.createElement('a');
-      anchor.href = link.href;
-      anchor.textContent = labelCell.textContent.trim();
-      li.append(anchor);
-      secondaryNavUl.append(li);
-      moveInstrumentation(row, li);
+    const li = document.createElement('li');
+    const link = document.createElement('a');
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) {
+      link.href = foundLink.href;
     }
+    link.textContent = labelCell.textContent.trim();
+    moveInstrumentation(row, link);
+    li.append(link);
+    secondaryNavUl.append(li);
   });
-  secondaryNavCol.append(secondaryNavUl);
-  copyrightWrap.append(secondaryNavCol);
+  legalNavCol.append(secondaryNavUl);
+  copyrightWrap.append(legalNavCol);
 
   const copyrightTextCol = document.createElement('div');
   copyrightTextCol.classList.add('col-12', 'col-lg-6', 'copyright-text');
-  if (copyrightRow) {
-    copyrightTextCol.textContent = copyrightRow.textContent.trim();
-    moveInstrumentation(copyrightRow, copyrightTextCol);
-  }
+  copyrightTextCol.textContent = copyrightRow.children[0].textContent.trim(); // Access cell via children[0]
+  moveInstrumentation(copyrightRow, copyrightTextCol);
   copyrightWrap.append(copyrightTextCol);
   container.append(copyrightWrap);
 
   footerMain.append(container);
   block.replaceChildren(footerMain);
+
+  // Image optimization
+  footerMain.querySelectorAll('picture > img').forEach((img) => {
+    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '200' }]);
+    moveInstrumentation(img, optimizedPic.querySelector('img'));
+    img.closest('picture').replaceWith(optimizedPic);
+  });
 }

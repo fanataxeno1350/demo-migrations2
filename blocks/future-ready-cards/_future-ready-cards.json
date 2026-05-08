@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Purpose Card Item",
-      "id": "purpose-card-item",
+      "title": "Performance Card Item",
+      "id": "performance-card-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "purpose-card-item",
-              "name": "Purpose Card Item"
+              "model": "performance-card-item",
+              "name": "Performance Card Item"
             }
           }
         }
@@ -50,14 +50,14 @@
         },
         {
           "component": "container",
-          "item": "purpose-card-item",
+          "item": "performance-card-item",
           "label": "Cards",
           "name": "cards"
         }
       ]
     },
     {
-      "id": "purpose-card-item",
+      "id": "performance-card-item",
       "fields": [
         {
           "component": "reference",
@@ -73,13 +73,7 @@
         },
         {
           "component": "text",
-          "label": "Card Image Alt Text",
-          "name": "altText",
-          "valueType": "string"
-        },
-        {
-          "component": "richtext",
-          "label": "Card Description",
+          "label": "Description",
           "name": "description",
           "valueType": "string"
         },
@@ -96,7 +90,7 @@
     {
       "id": "future-ready-cards",
       "components": [
-        "purpose-card-item"
+        "performance-card-item"
       ]
     }
   ]

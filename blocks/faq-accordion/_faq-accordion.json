@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Faq-Item",
-      "id": "faq-item",
+      "title": "Faq-Accordion-Item",
+      "id": "faq-accordion-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "faq-item",
-              "name": "Faq-Item"
+              "model": "faq-accordion-item",
+              "name": "Faq-Accordion-Item"
             }
           }
         }
@@ -44,14 +44,14 @@
         },
         {
           "component": "container",
-          "item": "faq-item",
-          "label": "FAQ Items",
+          "item": "faq-accordion-item",
+          "label": "FAQs",
           "name": "faqs"
         }
       ]
     },
     {
-      "id": "faq-item",
+      "id": "faq-accordion-item",
       "fields": [
         {
           "component": "text",
@@ -61,7 +61,7 @@
         },
         {
           "component": "richtext",
-          "label": "Answer",
+          "label": "Answer (supports HTML links)",
           "name": "answer",
           "valueType": "string"
         }
@@ -72,7 +72,7 @@
     {
       "id": "faq-accordion",
       "components": [
-        "faq-item"
+        "faq-accordion-item"
       ]
     }
   ]

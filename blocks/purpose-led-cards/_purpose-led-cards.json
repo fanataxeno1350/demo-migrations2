@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Purpose-Led Cards",
+      "title": "Purpose-Led-Cards",
       "id": "purpose-led-cards",
       "plugins": {
         "xwalk": {
@@ -10,14 +10,14 @@
             "template": {
               "filter": "purpose-led-cards",
               "model": "purpose-led-cards",
-              "name": "Purpose-Led Cards"
+              "name": "Purpose-Led-Cards"
             }
           }
         }
       }
     },
     {
-      "title": "Purpose-Led Card Item",
+      "title": "Purpose-Led-Card-Item",
       "id": "purpose-led-card-item",
       "plugins": {
         "xwalk": {
@@ -25,7 +25,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "purpose-led-card-item",
-              "name": "Purpose-Led Card Item"
+              "name": "Purpose-Led-Card-Item"
             }
           }
         }
@@ -38,8 +38,8 @@
       "fields": [
         {
           "component": "text",
-          "label": "Section Heading",
-          "name": "heading",
+          "label": "Section Headline",
+          "name": "headline",
           "valueType": "string"
         },
         {
@@ -51,7 +51,7 @@
         {
           "component": "container",
           "item": "purpose-led-card-item",
-          "label": "Purpose-Led Cards",
+          "label": "Cards",
           "name": "cards"
         }
       ]
@@ -61,13 +61,13 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Card Image (Desktop)",
+          "label": "Desktop Image",
           "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Card Image (Mobile)",
+          "label": "Mobile Image",
           "name": "imageMobile",
           "valueType": "string"
         },
@@ -78,9 +78,9 @@
           "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "Card Description",
-          "name": "description",
+          "component": "richtext",
+          "label": "Card Text",
+          "name": "cardText",
           "valueType": "string"
         }
       ]

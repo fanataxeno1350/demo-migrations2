@@ -49,26 +49,26 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Desktop Image",
+          "label": "Card Image (Desktop)",
           "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Mobile Image",
+          "label": "Card Image (Mobile)",
           "name": "imageMobile",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Card Link",
-          "name": "cardLink",
           "valueType": "string"
         },
         {
           "component": "richtext",
           "label": "Card Description",
           "name": "description",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Card Link",
+          "name": "cardLink",
           "valueType": "string"
         }
       ]

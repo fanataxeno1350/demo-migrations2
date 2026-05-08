@@ -60,15 +60,15 @@
           "valueType": "string"
         },
         {
-          "component": "aem-content",
-          "label": "Card Link",
-          "name": "link",
+          "component": "text",
+          "label": "Card Description",
+          "name": "description",
           "valueType": "string"
         },
         {
-          "component": "richtext",
-          "label": "Card Description",
-          "name": "description",
+          "component": "aem-content",
+          "label": "Card Link",
+          "name": "link",
           "valueType": "string"
         }
       ]

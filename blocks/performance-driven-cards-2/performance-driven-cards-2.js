@@ -4,82 +4,92 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 export default function decorate(block) {
   const cards = [...block.children];
 
-  const rootDiv = document.createElement('div');
-  // Corrected typo: 'performace-driven-home' -> 'performance-driven-home' to match ORIGINAL HTML
-  rootDiv.classList.add('performance-driven', 'performance-driven-home');
+  // The outer block div already has 'performance-driven-cards-2' from AEM.
+  // The original HTML shows 'performance-driven performace-driven-home' as the root wrapper.
+  // We should create this root wrapper and move the block's content into it.
+  const root = document.createElement('div');
+  root.classList.add('performance-driven', 'performace-driven-home'); // Classes from ORIGINAL HTML
 
   const containerDiv = document.createElement('div');
-  containerDiv.classList.add('container');
-  rootDiv.append(containerDiv);
+  containerDiv.classList.add('container'); // Class from ORIGINAL HTML
+  root.append(containerDiv);
 
   const performaceDrivenCards = document.createElement('div');
-  performaceDrivenCards.classList.add('performace-driven-cards');
+  performaceDrivenCards.classList.add('performace-driven-cards'); // Class from ORIGINAL HTML
   containerDiv.append(performaceDrivenCards);
 
   cards.forEach((cardRow) => {
-    // CHECK 0: Array destructuring is correct for fixed-schema rows.
-    const [imageDesktopCell, imageMobileCell, linkCell, descriptionCell] = [...cardRow.children];
+    // Fixed schema for performance-driven-card-item: imageDesktop, imageMobile, description, link
+    const [imageDesktopCell, imageMobileCell, descriptionCell, linkCell] = [...cardRow.children];
 
     const cardLink = document.createElement('a');
-    cardLink.classList.add('performace-driven-cards-link');
-    const foundLink = linkCell?.querySelector('a');
+    cardLink.classList.add('performace-driven-cards-link'); // Class from ORIGINAL HTML
+    const foundLink = linkCell.querySelector('a');
     if (foundLink) {
       cardLink.href = foundLink.href;
-      cardLink.target = '_blank'; // Assuming target blank from original HTML
+      cardLink.target = foundLink.target || '_blank'; // Ensure target is taken from original link if present, else default
     }
     moveInstrumentation(cardRow, cardLink);
 
     const cardWrapper = document.createElement('div');
-    cardWrapper.classList.add('performace-driven-card-wrapper');
+    cardWrapper.classList.add('performace-driven-card-wrapper'); // Class from ORIGINAL HTML
     cardLink.append(cardWrapper);
 
     const cardImageDiv = document.createElement('div');
-    cardImageDiv.classList.add('card-image');
+    cardImageDiv.classList.add('card-image'); // Class from ORIGINAL HTML
     cardWrapper.append(cardImageDiv);
 
-    const picture = document.createElement('picture');
-    const desktopPicture = imageDesktopCell?.querySelector('picture');
-    const mobilePicture = imageMobileCell?.querySelector('picture');
+    const desktopImg = imageDesktopCell.querySelector('img');
+    const mobileImg = imageMobileCell.querySelector('img');
 
-    if (mobilePicture) {
-      const sourceMobile = document.createElement('source');
-      sourceMobile.media = '(max-width: 576px)';
-      const mobileImg = mobilePicture.querySelector('img');
+    // Create optimized picture with sources for responsive images
+    let optimizedPicture;
+    if (desktopImg) {
+      optimizedPicture = createOptimizedPicture(
+        desktopImg.src,
+        desktopImg.alt || '',
+        false, // Eager loading for cards
+        [{ media: '(max-width: 576px)', width: '576' }, { width: '750' }], // Mobile and Desktop widths
+      );
+      // If mobile image exists, update the srcset for the mobile source
       if (mobileImg) {
-        sourceMobile.srcset = mobileImg.src;
+        const sourceMobile = optimizedPicture.querySelector('source[media="(max-width: 576px)"]');
+        if (sourceMobile) {
+          sourceMobile.srcset = mobileImg.src;
+        } else {
+          // Fallback if createOptimizedPicture didn't create the mobile source (shouldn't happen with above widths)
+          const newSourceMobile = document.createElement('source');
+          newSourceMobile.media = '(max-width: 576px)';
+          newSourceMobile.srcset = mobileImg.src;
+          optimizedPicture.prepend(newSourceMobile);
+        }
       }
-      picture.append(sourceMobile);
+    } else if (mobileImg) {
+      // If only mobile image is available
+      optimizedPicture = createOptimizedPicture(
+        mobileImg.src,
+        mobileImg.alt || '',
+        false,
+        [{ width: '576' }],
+      );
+    } else {
+      // No image available
+      optimizedPicture = document.createElement('picture');
     }
 
-    if (desktopPicture) {
-      const desktopImg = desktopPicture.querySelector('img');
-      if (desktopImg) {
-        const optimizedPic = createOptimizedPicture(desktopImg.src, desktopImg.alt, false, [{ width: '750' }]);
-        // Move instrumentation from the original img to the optimized one
-        moveInstrumentation(desktopImg, optimizedPic.querySelector('img'));
-        // Append the entire optimized picture element, not just its inner img
-        picture.append(optimizedPic);
-      }
-    }
-    cardImageDiv.append(picture);
+    cardImageDiv.append(optimizedPicture);
 
     const homeBoxCard = document.createElement('div');
-    homeBoxCard.classList.add('performace-driven-home-box-card');
+    homeBoxCard.classList.add('performace-driven-home-box-card'); // Class from ORIGINAL HTML
     cardWrapper.append(homeBoxCard);
 
-    const descriptionParagraph = document.createElement('p');
-    descriptionParagraph.classList.add('desc');
-    // CHECK 0.7 B: descriptionCell is richtext, its innerHTML is "<p>...</p>".
-    // Assigning to <p> creates <p><p>...</p></p>. Changed to <div> for richtext safety.
-    // However, ORIGINAL HTML shows <p class="desc"> directly containing text and <br/>,
-    // so the current approach of assigning innerHTML to a <p> is correct for this specific case
-    // as long as the content doesn't contain block-level elements like <div> or <ul>.
-    // Given the example "Best in<br/> Talent", it's safe to use <p>.
-    descriptionParagraph.innerHTML = descriptionCell?.innerHTML || '';
-    homeBoxCard.append(descriptionParagraph);
+    const descriptionDiv = document.createElement('div'); // Use div for richtext content to avoid <p> inside <p>
+    descriptionDiv.classList.add('desc'); // Class from ORIGINAL HTML
+    descriptionDiv.innerHTML = descriptionCell.innerHTML; // Description is type=text but can contain <br/> from original HTML, so innerHTML is safer.
+    homeBoxCard.append(descriptionDiv);
 
     performaceDrivenCards.append(cardLink);
   });
 
-  block.replaceChildren(rootDiv);
+  block.replaceChildren(root);
 }

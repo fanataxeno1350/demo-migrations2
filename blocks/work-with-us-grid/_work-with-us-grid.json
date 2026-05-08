@@ -62,13 +62,13 @@
         {
           "component": "reference",
           "label": "Mobile Image (max-width: 576px)",
-          "name": "mobileImageSm",
+          "name": "mobileImage576",
           "valueType": "string"
         },
         {
           "component": "reference",
           "label": "Mobile Image (max-width: 799px)",
-          "name": "mobileImageMd",
+          "name": "mobileImage799",
           "valueType": "string"
         },
         {
@@ -78,8 +78,8 @@
           "valueType": "string"
         },
         {
-          "component": "richtext",
-          "label": "Item Description",
+          "component": "text",
+          "label": "Description",
           "name": "description",
           "valueType": "string"
         },

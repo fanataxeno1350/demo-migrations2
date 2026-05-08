@@ -1,31 +1,31 @@
 {
   "definitions": [
     {
-      "title": "Future-Ready-Cards-3",
-      "id": "future-ready-cards-3",
+      "title": "What We Do Grid",
+      "id": "what-we-do-grid",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "filter": "future-ready-cards-3",
-              "model": "future-ready-cards-3",
-              "name": "Future-Ready-Cards-3"
+              "filter": "what-we-do-grid",
+              "model": "what-we-do-grid",
+              "name": "What We Do Grid"
             }
           }
         }
       }
     },
     {
-      "title": "Future-Ready-Card-Item",
-      "id": "future-ready-card-item",
+      "title": "What We Do Grid Item",
+      "id": "what-we-do-grid-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "future-ready-card-item",
-              "name": "Future-Ready-Card-Item"
+              "model": "what-we-do-grid-item",
+              "name": "What We Do Grid Item"
             }
           }
         }
@@ -34,7 +34,7 @@
   ],
   "models": [
     {
-      "id": "future-ready-cards-3",
+      "id": "what-we-do-grid",
       "fields": [
         {
           "component": "text",
@@ -43,21 +43,21 @@
           "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "Subheading",
-          "name": "subheading",
+          "component": "richtext",
+          "label": "Description",
+          "name": "description",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "future-ready-card-item",
-          "label": "Cards",
-          "name": "cards"
+          "item": "what-we-do-grid-item",
+          "label": "What We Do Grid Items",
+          "name": "items"
         }
       ]
     },
     {
-      "id": "future-ready-card-item",
+      "id": "what-we-do-grid-item",
       "fields": [
         {
           "component": "reference",
@@ -67,14 +67,20 @@
         },
         {
           "component": "reference",
-          "label": "Mobile Image",
-          "name": "imageMobile",
+          "label": "Tablet/Mobile Image",
+          "name": "imageTablet",
           "valueType": "string"
         },
         {
-          "component": "richtext",
-          "label": "Description",
-          "name": "description",
+          "component": "text",
+          "label": "Title",
+          "name": "title",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Arrow Icon",
+          "name": "arrowIcon",
           "valueType": "string"
         },
         {
@@ -88,9 +94,9 @@
   ],
   "filters": [
     {
-      "id": "future-ready-cards-3",
+      "id": "what-we-do-grid",
       "components": [
-        "future-ready-card-item"
+        "what-we-do-grid-item"
       ]
     }
   ]

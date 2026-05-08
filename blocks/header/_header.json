@@ -32,15 +32,30 @@
       }
     },
     {
-      "title": "Press Release Item",
-      "id": "press-release-item",
+      "title": "Press Release Slide",
+      "id": "press-release-slide",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "press-release-item",
-              "name": "Press Release Item"
+              "model": "press-release-slide",
+              "name": "Press Release Slide"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Icon Nav Item",
+      "id": "icon-nav-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "icon-nav-item",
+              "name": "Icon Nav Item"
             }
           }
         }
@@ -53,26 +68,26 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Main Logo",
+          "label": "Logo",
           "name": "logo",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Main Logo Link",
+          "label": "Logo Link",
           "name": "logoLink",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Anniversary Logo",
-          "name": "anniversaryLogo",
+          "label": "80th Year Logo",
+          "name": "yearLogo",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Anniversary Logo Link",
-          "name": "anniversaryLogoLink",
+          "label": "80th Year Logo Link",
+          "name": "yearLogoLink",
           "valueType": "string"
         },
         {
@@ -83,9 +98,15 @@
         },
         {
           "component": "container",
-          "item": "press-release-item",
-          "label": "Latest Press Releases",
-          "name": "latestPressReleases"
+          "item": "press-release-slide",
+          "label": "Press Release Slides",
+          "name": "pressReleases"
+        },
+        {
+          "component": "container",
+          "item": "icon-nav-item",
+          "label": "Icon Navigation",
+          "name": "iconNav"
         }
       ]
     },
@@ -106,43 +127,60 @@
         },
         {
           "component": "richtext",
-          "label": "Navigation Hierarchy",
-          "name": "hierarchy-tree",
+          "label": "Mega Menu Content",
+          "name": "megaMenuContent",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Mega Menu Left Section (Title/Description/Facts)",
-          "name": "leftSection",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
           "valueType": "string"
         }
       ]
     },
     {
-      "id": "press-release-item",
+      "id": "press-release-slide",
       "fields": [
         {
           "component": "aem-content",
           "label": "Press Release Link",
-          "name": "link",
+          "name": "pressLink",
           "valueType": "string"
         },
         {
           "component": "text",
           "label": "Press Release Title",
-          "name": "title",
+          "name": "pressTitle",
           "valueType": "string"
         },
         {
           "component": "text",
           "label": "Press Release Date",
-          "name": "date",
+          "name": "pressDate",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Press Release Category",
-          "name": "category",
+          "label": "Press Release Tag",
+          "name": "pressTag",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "icon-nav-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Icon Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Icon Link",
+          "name": "link",
           "valueType": "string"
         }
       ]
@@ -153,7 +191,8 @@
       "id": "header",
       "components": [
         "navigation-item",
-        "press-release-item"
+        "press-release-slide",
+        "icon-nav-item"
       ]
     }
   ]

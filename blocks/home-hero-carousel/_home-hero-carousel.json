@@ -1,46 +1,46 @@
 {
   "definitions": [
     {
-      "title": "Hero Carousel",
-      "id": "hero-carousel",
+      "title": "Home Hero Carousel",
+      "id": "home-hero-carousel",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "filter": "hero-carousel",
-              "model": "hero-carousel",
-              "name": "Hero Carousel"
+              "filter": "home-hero-carousel",
+              "model": "home-hero-carousel",
+              "name": "Home Hero Carousel"
             }
           }
         }
       }
     },
     {
-      "title": "Hero Carousel Slide",
-      "id": "hero-carousel-slide",
+      "title": "Hero Slide Item",
+      "id": "hero-slide-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "hero-carousel-slide",
-              "name": "Hero Carousel Slide"
+              "model": "hero-slide-item",
+              "name": "Hero Slide Item"
             }
           }
         }
       }
     },
     {
-      "title": "Hero Carousel Quick Link",
-      "id": "hero-carousel-quick-link",
+      "title": "Quick Link Item",
+      "id": "quick-link-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "hero-carousel-quick-link",
-              "name": "Hero Carousel Quick Link"
+              "model": "quick-link-item",
+              "name": "Quick Link Item"
             }
           }
         }
@@ -49,77 +49,77 @@
   ],
   "models": [
     {
-      "id": "hero-carousel",
+      "id": "home-hero-carousel",
       "fields": [
         {
           "component": "container",
-          "item": "hero-carousel-slide",
-          "label": "Slides",
+          "item": "hero-slide-item",
+          "label": "Carousel Slides",
           "name": "slides"
         },
         {
           "component": "container",
-          "item": "hero-carousel-quick-link",
+          "item": "quick-link-item",
           "label": "Quick Links",
           "name": "quickLinks"
         }
       ]
     },
     {
-      "id": "hero-carousel-slide",
+      "id": "hero-slide-item",
       "fields": [
         {
           "component": "reference",
-          "label": "Desktop Background Image",
-          "name": "backgroundDesktop",
+          "label": "Desktop Image",
+          "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Tablet Background Image",
-          "name": "backgroundTablet",
+          "label": "Tablet Image",
+          "name": "imageTablet",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Mobile Background Image",
-          "name": "backgroundMobile",
+          "label": "Mobile Image",
+          "name": "imageMobile",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Supertitle (Above Heading)",
-          "name": "superTitle",
+          "label": "Small Text (Optional)",
+          "name": "smallText",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Heading",
-          "name": "heading",
+          "label": "Main Headline",
+          "name": "headline",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Description",
+          "label": "Description (Optional)",
           "name": "description",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "CTA Link",
+          "label": "CTA Link (Optional)",
           "name": "ctaLink",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "CTA Label",
+          "label": "CTA Label (Optional)",
           "name": "ctaLabel",
           "valueType": "string"
         }
       ]
     },
     {
-      "id": "hero-carousel-quick-link",
+      "id": "quick-link-item",
       "fields": [
         {
           "component": "text",
@@ -138,10 +138,10 @@
   ],
   "filters": [
     {
-      "id": "hero-carousel",
+      "id": "home-hero-carousel",
       "components": [
-        "hero-carousel-slide",
-        "hero-carousel-quick-link"
+        "hero-slide-item",
+        "quick-link-item"
       ]
     }
   ]
