@@ -292,20 +292,20 @@
     "fields": [
       {
         "component": "text",
-        "label": "Main Headline",
-        "name": "headline",
+        "label": "Main Heading",
+        "name": "mainHeading",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Subheadline",
-        "name": "subheadline",
+        "label": "Sub Heading",
+        "name": "subHeading",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Working Status",
-        "name": "workingStatus",
+        "label": "Location/Working Status",
+        "name": "locationInfo",
         "valueType": "string"
       },
       {
@@ -316,31 +316,55 @@
       },
       {
         "component": "container",
-        "item": "social-link-item",
+        "item": "contact-social-item",
         "label": "Social Links",
         "name": "socialLinks"
       },
       {
         "component": "container",
-        "item": "external-embed",
+        "item": "external-embed-item",
         "label": "External Embeds",
         "name": "externalEmbeds"
+      },
+      {
+        "component": "text",
+        "label": "Form Name Placeholder",
+        "name": "formNamePlaceholder",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Form Email Placeholder",
+        "name": "formEmailPlaceholder",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Form Message Placeholder",
+        "name": "formMessagePlaceholder",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Form Button Label",
+        "name": "formButtonLabel",
+        "valueType": "string"
       }
     ]
   },
   {
-    "id": "social-link-item",
+    "id": "contact-social-item",
     "fields": [
       {
         "component": "aem-content",
-        "label": "Social Link URL",
+        "label": "Social Link",
         "name": "link",
         "valueType": "string"
       }
     ]
   },
   {
-    "id": "external-embed",
+    "id": "external-embed-item",
     "fields": [
       {
         "component": "text",
@@ -373,14 +397,14 @@
       },
       {
         "component": "container",
-        "item": "faq-item",
+        "item": "faq-accordion-item",
         "label": "FAQ Items",
         "name": "faqItems"
       }
     ]
   },
   {
-    "id": "faq-item",
+    "id": "faq-accordion-item",
     "fields": [
       {
         "component": "text",
@@ -401,13 +425,13 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Footer Logo",
+        "label": "Logo",
         "name": "logo",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Footer Logo Link",
+        "label": "Logo Link",
         "name": "logoLink",
         "valueType": "string"
       },
@@ -419,8 +443,8 @@
       },
       {
         "component": "text",
-        "label": "Newsletter Heading",
-        "name": "newsletterHeading",
+        "label": "Newsletter Title",
+        "name": "newsletterTitle",
         "valueType": "string"
       },
       {
@@ -437,37 +461,54 @@
       },
       {
         "component": "text",
-        "label": "Newsletter Email Placeholder",
-        "name": "newsletterEmailPlaceholder",
+        "label": "Newsletter Input Placeholder",
+        "name": "newsletterInputPlaceholder",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Newsletter Subscribe Button Label",
+        "label": "Newsletter Button Label",
         "name": "newsletterButtonLabel",
         "valueType": "string"
       },
       {
         "component": "container",
-        "item": "footer-link-section",
-        "label": "Footer Link Sections",
-        "name": "linkSections"
+        "item": "footer-section-item",
+        "label": "Footer Sections",
+        "name": "footerSections"
       },
       {
         "component": "text",
-        "label": "Copyright Notice",
+        "label": "Copyright",
         "name": "copyright",
         "valueType": "string"
       }
     ]
   },
   {
-    "id": "footer-link-section",
+    "id": "footer-link-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Link Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Link URL",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "footer-section-item",
     "fields": [
       {
         "component": "text",
         "label": "Section Title",
-        "name": "sectionTitle",
+        "name": "title",
         "valueType": "string"
       },
       {

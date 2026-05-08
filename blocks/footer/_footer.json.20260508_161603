@@ -17,30 +17,15 @@
       }
     },
     {
-      "title": "Footer-Link-Item",
-      "id": "footer-link-item",
+      "title": "Footer-Link-Section",
+      "id": "footer-link-section",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "footer-link-item",
-              "name": "Footer-Link-Item"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Footer-Section-Item",
-      "id": "footer-section-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "footer-section-item",
-              "name": "Footer-Section-Item"
+              "model": "footer-link-section",
+              "name": "Footer-Link-Section"
             }
           }
         }
@@ -53,13 +38,13 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Logo",
+          "label": "Footer Logo",
           "name": "logo",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Logo Link",
+          "label": "Footer Logo Link",
           "name": "logoLink",
           "valueType": "string"
         },
@@ -71,8 +56,8 @@
         },
         {
           "component": "text",
-          "label": "Newsletter Title",
-          "name": "newsletterTitle",
+          "label": "Newsletter Heading",
+          "name": "newsletterHeading",
           "valueType": "string"
         },
         {
@@ -89,54 +74,37 @@
         },
         {
           "component": "text",
-          "label": "Newsletter Input Placeholder",
-          "name": "newsletterInputPlaceholder",
+          "label": "Newsletter Email Placeholder",
+          "name": "newsletterEmailPlaceholder",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Newsletter Button Label",
+          "label": "Newsletter Subscribe Button Label",
           "name": "newsletterButtonLabel",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "footer-section-item",
-          "label": "Footer Sections",
-          "name": "footerSections"
+          "item": "footer-link-section",
+          "label": "Footer Link Sections",
+          "name": "linkSections"
         },
         {
           "component": "text",
-          "label": "Copyright",
+          "label": "Copyright Notice",
           "name": "copyright",
           "valueType": "string"
         }
       ]
     },
     {
-      "id": "footer-link-item",
-      "fields": [
-        {
-          "component": "text",
-          "label": "Link Label",
-          "name": "label",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Link URL",
-          "name": "link",
-          "valueType": "string"
-        }
-      ]
-    },
-    {
-      "id": "footer-section-item",
+      "id": "footer-link-section",
       "fields": [
         {
           "component": "text",
           "label": "Section Title",
-          "name": "title",
+          "name": "sectionTitle",
           "valueType": "string"
         },
         {
@@ -157,8 +125,7 @@
     {
       "id": "footer",
       "components": [
-        "footer-link-item",
-        "footer-section-item"
+        "footer-link-section"
       ]
     }
   ]

@@ -161,30 +161,30 @@
           }
         },
         {
-          "title": "Social-Link-Item",
-          "id": "social-link-item",
+          "title": "Contact-Social-Item",
+          "id": "contact-social-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "social-link-item",
-                  "name": "Social-Link-Item"
+                  "model": "contact-social-item",
+                  "name": "Contact-Social-Item"
                 }
               }
             }
           }
         },
         {
-          "title": "External-Embed",
-          "id": "external-embed",
+          "title": "External-Embed-Item",
+          "id": "external-embed-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "external-embed",
-                  "name": "External-Embed"
+                  "model": "external-embed-item",
+                  "name": "External-Embed-Item"
                 }
               }
             }
@@ -207,15 +207,15 @@
           }
         },
         {
-          "title": "FAQ Item",
-          "id": "faq-item",
+          "title": "FAQ Accordion Item",
+          "id": "faq-accordion-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "faq-item",
-                  "name": "FAQ Item"
+                  "model": "faq-accordion-item",
+                  "name": "FAQ Accordion Item"
                 }
               }
             }
@@ -238,15 +238,30 @@
           }
         },
         {
-          "title": "Footer-Link-Section",
-          "id": "footer-link-section",
+          "title": "Footer-Link-Item",
+          "id": "footer-link-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "footer-link-section",
-                  "name": "Footer-Link-Section"
+                  "model": "footer-link-item",
+                  "name": "Footer-Link-Item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Footer-Section-Item",
+          "id": "footer-section-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "footer-section-item",
+                  "name": "Footer-Section-Item"
                 }
               }
             }

@@ -1,0 +1,70 @@
+@media (min-width:576px) { .container{ max-width:540px } }
+
+@media (min-width:768px) { .container{ max-width:720px } }
+
+@media (min-width:992px) { .container{ max-width:960px } }
+
+@media (min-width:1200px) { .container{ max-width:1140px } }
+
+@media (min-width:1400px) { .container{ max-width:1320px } }
+
+.row{ --bs-gutter-x:1.5rem;--bs-gutter-y:0;display:flex;flex-wrap:wrap;margin-top:calc(-1 * var(--bs-gutter-y));margin-right:calc(-.5 * var(--bs-gutter-x));margin-left:calc(-.5 * var(--bs-gutter-x)) }
+
+.row>*{ flex-shrink:0;width:100%;max-width:100%;padding-right:calc(var(--bs-gutter-x) * .5);padding-left:calc(var(--bs-gutter-x) * .5);margin-top:var(--bs-gutter-y) }
+
+.row > .col-6{ flex:0 0 auto;width:50% }
+
+.row.gy-5{ --bs-gutter-y:3rem }
+
+@media (min-width:992px) { .row > .col-lg-3{ flex:0 0 auto;width:25% }
+
+.row > .col-lg-6{ flex:0 0 auto;width:50% } }
+
+@media (prefers-reduced-motion:reduce) { .btn{ transition:none } }
+
+@keyframes progress-bar-stripes{0%{background-position-x:1rem}}
+
+@keyframes spinner-border{to{transform:rotate(360deg)}}
+
+@keyframes spinner-grow{0%{transform:scale(0)}50%{opacity:1;transform:none}}
+
+@keyframes placeholder-glow{50%{opacity:.2}}
+
+@keyframes placeholder-wave{100%{-webkit-mask-position:-200% 0%;mask-position:-200% 0%}}
+
+.text-center{ text-align:center!important }
+
+.footer-logo:link, .footer-logo:visited, .footer-logo:hover, .footer-logo:active{ 
+    text-decoration: none;
+    color: white;
+    margin-bottom: 4rem;
+ }
+
+.footer-logo h2{ 
+    margin: 0px 0px 0px 1rem;
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1.4;
+ }
+
+footer .subscribe-btn{ 
+    font-size: 1.6rem;
+    margin-left: -3rem;
+    background: #1400FF;
+    border-radius: 3px;
+ }
+
+.useful-links-list{ 
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+ }
+
+.useful-links-list li a:link, .useful-links-list li a:visited, .useful-links-list li a:hover, .useful-links-list li a:active{ 
+    display: inline-block;
+    margin: 1rem 0px;
+    font-size: 1.5rem;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+ }

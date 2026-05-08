@@ -44,20 +44,21 @@
   {
     "id": "contact-section",
     "components": [
-      "social-link-item",
-      "external-embed"
+      "contact-social-item",
+      "external-embed-item"
     ]
   },
   {
     "id": "faqs",
     "components": [
-      "faq-item"
+      "faq-accordion-item"
     ]
   },
   {
     "id": "footer",
     "components": [
-      "footer-link-section"
+      "footer-link-item",
+      "footer-section-item"
     ]
   },
   {

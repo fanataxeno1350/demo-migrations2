@@ -17,30 +17,30 @@
       }
     },
     {
-      "title": "Contact-Social-Item",
-      "id": "contact-social-item",
+      "title": "Social-Link-Item",
+      "id": "social-link-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "contact-social-item",
-              "name": "Contact-Social-Item"
+              "model": "social-link-item",
+              "name": "Social-Link-Item"
             }
           }
         }
       }
     },
     {
-      "title": "External-Embed-Item",
-      "id": "external-embed-item",
+      "title": "External-Embed",
+      "id": "external-embed",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "external-embed-item",
-              "name": "External-Embed-Item"
+              "model": "external-embed",
+              "name": "External-Embed"
             }
           }
         }
@@ -53,20 +53,20 @@
       "fields": [
         {
           "component": "text",
-          "label": "Main Heading",
-          "name": "mainHeading",
+          "label": "Main Headline",
+          "name": "headline",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Sub Heading",
-          "name": "subHeading",
+          "label": "Subheadline",
+          "name": "subheadline",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Location/Working Status",
-          "name": "locationInfo",
+          "label": "Working Status",
+          "name": "workingStatus",
           "valueType": "string"
         },
         {
@@ -77,55 +77,31 @@
         },
         {
           "component": "container",
-          "item": "contact-social-item",
+          "item": "social-link-item",
           "label": "Social Links",
           "name": "socialLinks"
         },
         {
           "component": "container",
-          "item": "external-embed-item",
+          "item": "external-embed",
           "label": "External Embeds",
           "name": "externalEmbeds"
-        },
-        {
-          "component": "text",
-          "label": "Form Name Placeholder",
-          "name": "formNamePlaceholder",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Form Email Placeholder",
-          "name": "formEmailPlaceholder",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Form Message Placeholder",
-          "name": "formMessagePlaceholder",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Form Button Label",
-          "name": "formButtonLabel",
-          "valueType": "string"
         }
       ]
     },
     {
-      "id": "contact-social-item",
+      "id": "social-link-item",
       "fields": [
         {
           "component": "aem-content",
-          "label": "Social Link",
+          "label": "Social Link URL",
           "name": "link",
           "valueType": "string"
         }
       ]
     },
     {
-      "id": "external-embed-item",
+      "id": "external-embed",
       "fields": [
         {
           "component": "text",
@@ -152,8 +128,8 @@
     {
       "id": "contact-section",
       "components": [
-        "contact-social-item",
-        "external-embed-item"
+        "social-link-item",
+        "external-embed"
       ]
     }
   ]
