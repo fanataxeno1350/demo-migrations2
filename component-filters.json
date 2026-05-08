@@ -50,7 +50,9 @@
   },
   {
     "id": "hero-full-width",
-    "components": []
+    "components": [
+      "hero-cta-item"
+    ]
   },
   {
     "id": "media-inner-video",
@@ -63,8 +65,8 @@
   {
     "id": "stats-by-the-number",
     "components": [
-      "stats-tab",
-      "stats-card"
+      "stats-tab-item",
+      "stats-card-item"
     ]
   },
   {

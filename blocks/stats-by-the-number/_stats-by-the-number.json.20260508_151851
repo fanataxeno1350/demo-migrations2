@@ -17,30 +17,30 @@
       }
     },
     {
-      "title": "Stats Tab Item",
-      "id": "stats-tab-item",
+      "title": "Stats Tab",
+      "id": "stats-tab",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "stats-tab-item",
-              "name": "Stats Tab Item"
+              "model": "stats-tab",
+              "name": "Stats Tab"
             }
           }
         }
       }
     },
     {
-      "title": "Stats Card Item",
-      "id": "stats-card-item",
+      "title": "Stats Card",
+      "id": "stats-card",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "stats-card-item",
-              "name": "Stats Card Item"
+              "model": "stats-card",
+              "name": "Stats Card"
             }
           }
         }
@@ -59,14 +59,14 @@
         },
         {
           "component": "container",
-          "item": "stats-tab-item",
-          "label": "Stats Tabs",
+          "item": "stats-tab",
+          "label": "Tabs",
           "name": "tabs"
         }
       ]
     },
     {
-      "id": "stats-tab-item",
+      "id": "stats-tab",
       "fields": [
         {
           "component": "text",
@@ -76,7 +76,7 @@
         },
         {
           "component": "reference",
-          "label": "Tab Main Image",
+          "label": "Main Image",
           "name": "mainImage",
           "valueType": "string"
         },
@@ -88,9 +88,9 @@
         },
         {
           "component": "container",
-          "item": "stats-card-item",
+          "item": "stats-card",
           "label": "Stats Cards",
-          "name": "cards"
+          "name": "statsCards"
         },
         {
           "component": "aem-content",
@@ -107,7 +107,7 @@
       ]
     },
     {
-      "id": "stats-card-item",
+      "id": "stats-card",
       "fields": [
         {
           "component": "reference",
@@ -117,20 +117,20 @@
         },
         {
           "component": "richtext",
-          "label": "Hover Details",
-          "name": "hoverDetails",
-          "valueType": "string"
-        },
-        {
-          "component": "richtext",
           "label": "Stat Number",
           "name": "statNumber",
           "valueType": "string"
         },
         {
-          "component": "richtext",
+          "component": "text",
           "label": "Stat Description",
           "name": "statDescription",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Hover Details",
+          "name": "hoverDetails",
           "valueType": "string"
         }
       ]
@@ -140,8 +140,8 @@
     {
       "id": "stats-by-the-number",
       "components": [
-        "stats-tab-item",
-        "stats-card-item"
+        "stats-tab",
+        "stats-card"
       ]
     }
   ]

@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Hero Full Width",
+      "title": "Hero-Full-Width",
       "id": "hero-full-width",
       "plugins": {
         "xwalk": {
@@ -10,22 +10,7 @@
             "template": {
               "filter": "hero-full-width",
               "model": "hero-full-width",
-              "name": "Hero Full Width"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Hero CTA Item",
-      "id": "hero-cta-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "hero-cta-item",
-              "name": "Hero CTA Item"
+              "name": "Hero-Full-Width"
             }
           }
         }
@@ -39,23 +24,23 @@
         {
           "component": "reference",
           "label": "Background Poster Image",
-          "name": "backgroundPosterImage",
+          "name": "backgroundPoster",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Background WebP Source",
-          "name": "backgroundWebpSource",
+          "label": "Background WebP Image",
+          "name": "backgroundWebp",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Background Image",
+          "label": "Background Image (fallback JPG/PNG)",
           "name": "backgroundImage",
           "valueType": "string"
         },
         {
-          "component": "richtext",
+          "component": "text",
           "label": "Title",
           "name": "title",
           "valueType": "string"
@@ -66,17 +51,6 @@
           "name": "description",
           "valueType": "string"
         },
-        {
-          "component": "container",
-          "item": "hero-cta-item",
-          "label": "Call To Actions",
-          "name": "ctas"
-        }
-      ]
-    },
-    {
-      "id": "hero-cta-item",
-      "fields": [
         {
           "component": "aem-content",
           "label": "CTA Link",
@@ -95,9 +69,7 @@
   "filters": [
     {
       "id": "hero-full-width",
-      "components": [
-        "hero-cta-item"
-      ]
+      "components": []
     }
   ]
 }

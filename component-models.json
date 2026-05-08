@@ -378,23 +378,23 @@
       {
         "component": "reference",
         "label": "Background Poster Image",
-        "name": "backgroundPoster",
+        "name": "backgroundPosterImage",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Background WebP Image",
-        "name": "backgroundWebp",
+        "label": "Background WebP Source",
+        "name": "backgroundWebpSource",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Background Image (fallback JPG/PNG)",
+        "label": "Background Image",
         "name": "backgroundImage",
         "valueType": "string"
       },
       {
-        "component": "text",
+        "component": "richtext",
         "label": "Title",
         "name": "title",
         "valueType": "string"
@@ -405,6 +405,17 @@
         "name": "description",
         "valueType": "string"
       },
+      {
+        "component": "container",
+        "item": "hero-cta-item",
+        "label": "Call To Actions",
+        "name": "ctas"
+      }
+    ]
+  },
+  {
+    "id": "hero-cta-item",
+    "fields": [
       {
         "component": "aem-content",
         "label": "CTA Link",
@@ -470,14 +481,14 @@
       },
       {
         "component": "container",
-        "item": "stats-tab",
-        "label": "Tabs",
+        "item": "stats-tab-item",
+        "label": "Stats Tabs",
         "name": "tabs"
       }
     ]
   },
   {
-    "id": "stats-tab",
+    "id": "stats-tab-item",
     "fields": [
       {
         "component": "text",
@@ -487,7 +498,7 @@
       },
       {
         "component": "reference",
-        "label": "Main Image",
+        "label": "Tab Main Image",
         "name": "mainImage",
         "valueType": "string"
       },
@@ -499,9 +510,9 @@
       },
       {
         "component": "container",
-        "item": "stats-card",
+        "item": "stats-card-item",
         "label": "Stats Cards",
-        "name": "statsCards"
+        "name": "cards"
       },
       {
         "component": "aem-content",
@@ -518,7 +529,7 @@
     ]
   },
   {
-    "id": "stats-card",
+    "id": "stats-card-item",
     "fields": [
       {
         "component": "reference",
@@ -528,20 +539,20 @@
       },
       {
         "component": "richtext",
+        "label": "Hover Details",
+        "name": "hoverDetails",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
         "label": "Stat Number",
         "name": "statNumber",
         "valueType": "string"
       },
       {
-        "component": "text",
+        "component": "richtext",
         "label": "Stat Description",
         "name": "statDescription",
-        "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "label": "Hover Details",
-        "name": "hoverDetails",
         "valueType": "string"
       }
     ]
