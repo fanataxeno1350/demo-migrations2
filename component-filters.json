@@ -15,28 +15,70 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "---- New Blocks ----",
+      "header-nav",
+      "hero-section",
+      "why-techatom",
+      "service-section",
+      "about-us",
+      "blog-section",
+      "faqs",
+      "contact-section",
+      "footer"
     ]
   },
   {
-    "id": "cards",
+    "id": "about-us",
     "components": [
-      "card"
+      "about-feature-item"
     ]
   },
   {
-    "id": "columns",
+    "id": "blog-section",
     "components": [
-      "column"
+      "blog-card"
     ]
   },
   {
-    "id": "column",
+    "id": "contact-section",
     "components": [
-      "text",
-      "image",
-      "button",
-      "title"
+      "social-link-item",
+      "external-embed"
+    ]
+  },
+  {
+    "id": "faqs",
+    "components": [
+      "faq-item"
+    ]
+  },
+  {
+    "id": "footer",
+    "components": [
+      "footer-section-item"
+    ]
+  },
+  {
+    "id": "header-nav",
+    "components": [
+      "navigation-item"
+    ]
+  },
+  {
+    "id": "hero-section",
+    "components": []
+  },
+  {
+    "id": "service-section",
+    "components": [
+      "service-card-item"
+    ]
+  },
+  {
+    "id": "why-techatom",
+    "components": [
+      "why-techatom-card"
     ]
   }
 ]
