@@ -17,30 +17,15 @@
       }
     },
     {
-      "title": "Footer-Link-Section",
-      "id": "footer-link-section",
+      "title": "Footer-Section-Item",
+      "id": "footer-section-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "footer-link-section",
-              "name": "Footer-Link-Section"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Footer-Link-Item",
-      "id": "footer-link-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "footer-link-item",
-              "name": "Footer-Link-Item"
+              "model": "footer-section-item",
+              "name": "Footer-Section-Item"
             }
           }
         }
@@ -65,8 +50,8 @@
         },
         {
           "component": "text",
-          "label": "Site Title",
-          "name": "siteTitle",
+          "label": "Site Name",
+          "name": "siteName",
           "valueType": "string"
         },
         {
@@ -101,9 +86,9 @@
         },
         {
           "component": "container",
-          "item": "footer-link-section",
-          "label": "Footer Link Sections",
-          "name": "footerLinkSections"
+          "item": "footer-section-item",
+          "label": "Footer Sections",
+          "name": "footerSections"
         },
         {
           "component": "text",
@@ -114,17 +99,16 @@
       ]
     },
     {
-      "id": "footer-link-section",
+      "id": "footer-section-item",
       "fields": [
         {
           "component": "text",
           "label": "Section Title",
-          "name": "sectionTitle",
+          "name": "title",
           "valueType": "string"
         },
         {
-          "component": "container",
-          "item": "footer-link-item",
+          "component": "richtext",
           "label": "Section Links",
           "name": "sectionLinks"
         },
@@ -135,31 +119,13 @@
           "valueType": "string"
         }
       ]
-    },
-    {
-      "id": "footer-link-item",
-      "fields": [
-        {
-          "component": "text",
-          "label": "Link Label",
-          "name": "label",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Link URL",
-          "name": "link",
-          "valueType": "string"
-        }
-      ]
     }
   ],
   "filters": [
     {
       "id": "footer",
       "components": [
-        "footer-link-section",
-        "footer-link-item"
+        "footer-section-item"
       ]
     }
   ]

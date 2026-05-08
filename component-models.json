@@ -292,26 +292,26 @@
     "fields": [
       {
         "component": "text",
-        "label": "Main Title",
-        "name": "mainTitle",
+        "label": "Section Heading",
+        "name": "heading",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Subtitle",
-        "name": "subtitle",
+        "label": "Section Subheading",
+        "name": "subheading",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Location Description",
-        "name": "location",
+        "label": "Work Location",
+        "name": "workLocation",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Email Link",
-        "name": "emailLink",
+        "label": "Contact Email Address",
+        "name": "email",
         "valueType": "string"
       },
       {
@@ -319,12 +319,6 @@
         "item": "social-link-item",
         "label": "Social Links",
         "name": "socialLinks"
-      },
-      {
-        "component": "container",
-        "item": "external-embed",
-        "label": "External Embeds",
-        "name": "externalEmbeds"
       },
       {
         "component": "text",
@@ -349,6 +343,12 @@
         "label": "Form Button Label",
         "name": "formButtonLabel",
         "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Map Embed URL",
+        "name": "mapEmbedUrl",
+        "valueType": "string"
       }
     ]
   },
@@ -364,47 +364,24 @@
     ]
   },
   {
-    "id": "external-embed",
-    "fields": [
-      {
-        "component": "text",
-        "label": "Embed URL",
-        "name": "data-embed-url",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Embed Kind",
-        "name": "data-embed-kind",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Embed Config",
-        "name": "data-embed-config",
-        "valueType": "string"
-      }
-    ]
-  },
-  {
     "id": "faqs",
     "fields": [
       {
         "component": "text",
-        "label": "Section Heading",
-        "name": "heading",
+        "label": "Section Title",
+        "name": "title",
         "valueType": "string"
       },
       {
         "component": "container",
-        "item": "faq-item",
+        "item": "faq-accordion-item",
         "label": "FAQ Items",
-        "name": "faqItems"
+        "name": "items"
       }
     ]
   },
   {
-    "id": "faq-item",
+    "id": "faq-accordion-item",
     "fields": [
       {
         "component": "text",
@@ -437,8 +414,8 @@
       },
       {
         "component": "text",
-        "label": "Site Name",
-        "name": "siteName",
+        "label": "Site Title",
+        "name": "siteTitle",
         "valueType": "string"
       },
       {
@@ -473,9 +450,9 @@
       },
       {
         "component": "container",
-        "item": "footer-section-item",
-        "label": "Footer Sections",
-        "name": "footerSections"
+        "item": "footer-link-section",
+        "label": "Footer Link Sections",
+        "name": "footerLinkSections"
       },
       {
         "component": "text",
@@ -486,16 +463,17 @@
     ]
   },
   {
-    "id": "footer-section-item",
+    "id": "footer-link-section",
     "fields": [
       {
         "component": "text",
         "label": "Section Title",
-        "name": "title",
+        "name": "sectionTitle",
         "valueType": "string"
       },
       {
-        "component": "richtext",
+        "component": "container",
+        "item": "footer-link-item",
         "label": "Section Links",
         "name": "sectionLinks"
       },
@@ -503,6 +481,23 @@
         "component": "richtext",
         "label": "Navigation Hierarchy",
         "name": "hierarchy-tree",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "footer-link-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Link Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Link URL",
+        "name": "link",
         "valueType": "string"
       }
     ]
@@ -605,8 +600,8 @@
     "fields": [
       {
         "component": "text",
-        "label": "Section Heading",
-        "name": "heading",
+        "label": "Section Title",
+        "name": "title",
         "valueType": "string"
       },
       {
@@ -619,7 +614,7 @@
         "component": "container",
         "item": "service-card-item",
         "label": "Service Cards",
-        "name": "cards"
+        "name": "serviceCards"
       }
     ]
   },
@@ -629,31 +624,31 @@
       {
         "component": "aem-content",
         "label": "Card Link",
-        "name": "cardLink",
+        "name": "link",
         "valueType": "string"
       },
       {
         "component": "reference",
         "label": "Card Image",
-        "name": "cardImage",
+        "name": "image",
         "valueType": "string"
       },
       {
         "component": "text",
         "label": "Card Title",
-        "name": "cardTitle",
-        "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "label": "Card Description",
-        "name": "cardDescription",
+        "name": "title",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "CTA Label",
-        "name": "ctaLabel",
+        "label": "Card Description",
+        "name": "description",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Button Label",
+        "name": "buttonLabel",
         "valueType": "string"
       }
     ]
@@ -663,31 +658,25 @@
     "fields": [
       {
         "component": "richtext",
-        "label": "Section Heading",
-        "name": "heading",
+        "label": "Block Headline",
+        "name": "headline",
         "valueType": "string"
       },
       {
         "component": "container",
-        "item": "why-techatom-card",
-        "label": "Why Techatom Cards",
+        "item": "why-card-item",
+        "label": "Why Cards",
         "name": "cards"
       }
     ]
   },
   {
-    "id": "why-techatom-card",
+    "id": "why-card-item",
     "fields": [
       {
         "component": "reference",
-        "label": "Card Image",
-        "name": "image",
-        "valueType": "string"
-      },
-      {
-        "component": "aem-content",
-        "label": "Card Link",
-        "name": "link",
+        "label": "Card Icon",
+        "name": "icon",
         "valueType": "string"
       },
       {
@@ -700,6 +689,12 @@
         "component": "richtext",
         "label": "Card Description",
         "name": "description",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Card Link",
+        "name": "link",
         "valueType": "string"
       }
     ]

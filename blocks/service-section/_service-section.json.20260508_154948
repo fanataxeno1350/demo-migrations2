@@ -38,8 +38,8 @@
       "fields": [
         {
           "component": "text",
-          "label": "Section Title",
-          "name": "title",
+          "label": "Section Heading",
+          "name": "heading",
           "valueType": "string"
         },
         {
@@ -52,7 +52,7 @@
           "component": "container",
           "item": "service-card-item",
           "label": "Service Cards",
-          "name": "serviceCards"
+          "name": "cards"
         }
       ]
     },
@@ -62,31 +62,31 @@
         {
           "component": "aem-content",
           "label": "Card Link",
-          "name": "link",
+          "name": "cardLink",
           "valueType": "string"
         },
         {
           "component": "reference",
           "label": "Card Image",
-          "name": "image",
+          "name": "cardImage",
           "valueType": "string"
         },
         {
           "component": "text",
           "label": "Card Title",
-          "name": "title",
+          "name": "cardTitle",
           "valueType": "string"
         },
         {
-          "component": "text",
+          "component": "richtext",
           "label": "Card Description",
-          "name": "description",
+          "name": "cardDescription",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Button Label",
-          "name": "buttonLabel",
+          "label": "CTA Label",
+          "name": "ctaLabel",
           "valueType": "string"
         }
       ]

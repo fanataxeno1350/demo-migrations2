@@ -43,20 +43,20 @@
   {
     "id": "contact-section",
     "components": [
-      "social-link-item",
-      "external-embed"
+      "social-link-item"
     ]
   },
   {
     "id": "faqs",
     "components": [
-      "faq-item"
+      "faq-accordion-item"
     ]
   },
   {
     "id": "footer",
     "components": [
-      "footer-section-item"
+      "footer-link-section",
+      "footer-link-item"
     ]
   },
   {
@@ -78,7 +78,7 @@
   {
     "id": "why-techatom",
     "components": [
-      "why-techatom-card"
+      "why-card-item"
     ]
   }
 ]
