@@ -3,85 +3,87 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 export default function decorate(block) {
   const [titleRow, ...ctaRows] = [...block.children];
 
-  const root = document.createElement('div');
-  root.classList.add('tooltip-signin-register', 'bg--white-accent');
-  root.id = 'tooltip-signin-register';
-  root.setAttribute('role', 'dialog');
+  // Create the main container div
+  const tooltipRegister = document.createElement('div');
+  tooltipRegister.classList.add('tooltip-signin-register', 'bg--white-accent');
+  tooltipRegister.id = 'tooltip-signin-register';
+  tooltipRegister.setAttribute('role', 'dialog');
 
+  // Create the arrow SVG
   const arrowSvg = document.createElement('svg');
-  arrowSvg.setAttribute('role', 'presentation');
   arrowSvg.classList.add('tooltip-signin-register--arrow');
+  arrowSvg.setAttribute('role', 'presentation');
   arrowSvg.setAttribute('width', '16');
   arrowSvg.setAttribute('height', '12');
   arrowSvg.setAttribute('viewBox', '0 0 16 12');
   arrowSvg.setAttribute('fill', 'none');
   arrowSvg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
   arrowSvg.innerHTML = '<path d="M6.26351 1.03885C7.0313 -0.304777 8.9687 -0.304778 9.73649 1.03885L16 12L0 12L6.26351 1.03885Z" fill="#FAFAFA"></path>';
-  root.append(arrowSvg);
+  tooltipRegister.append(arrowSvg);
 
+  // Create the inner container
   const container = document.createElement('div');
   container.classList.add('tooltip-signin-register--container');
 
-  if (titleRow) {
-    const title = document.createElement('div'); // Use div for richtext content
-    title.classList.add('labelMediumBold', 'tooltip-signin-register--title');
-    moveInstrumentation(titleRow, title);
-    // Fix: Read from the paragraph inside the cell, or fallback to textContent
-    title.innerHTML = titleRow.querySelector('p')?.innerHTML ?? titleRow.textContent.trim() ?? '';
-    container.append(title);
-  }
+  // Title
+  const titleDiv = document.createElement('div');
+  titleDiv.classList.add('labelMediumBold', 'tooltip-signin-register--title');
+  moveInstrumentation(titleRow, titleDiv);
+  // The title field is richtext, so we need to read the innerHTML of the row directly
+  // The row itself contains the cell div, so titleRow.innerHTML is correct here.
+  titleDiv.innerHTML = titleRow.innerHTML;
+  container.append(titleDiv);
 
+  // Close button
   const closeDiv = document.createElement('div');
   closeDiv.classList.add('tooltip-signin-register--close');
-  const closeButton = document.createElement('button');
-  closeButton.setAttribute('type', 'button');
-  closeButton.classList.add('icon', 'cross-icon-black', 'tooltip-signin-register--close-btn');
-  closeButton.setAttribute('aria-label', 'Close tooltip');
-  closeDiv.append(closeButton);
+  const closeBtn = document.createElement('button');
+  closeBtn.setAttribute('type', 'button');
+  closeBtn.classList.add('icon', 'cross-icon-black', 'tooltip-signin-register--close-btn');
+  closeBtn.setAttribute('aria-label', 'Close tooltip');
+  closeDiv.append(closeBtn);
   container.append(closeDiv);
 
+  // CTAs
   const ctasDiv = document.createElement('div');
   ctasDiv.classList.add('tooltip-signin-register--ctas');
 
   ctaRows.forEach((row, index) => {
-    const [ctaLinkCell, ctaLabelCell] = [...row.children]; // Correct: named destructuring
+    const [linkCell, labelCell] = [...row.children];
     const anchor = document.createElement('a');
-    const foundLink = ctaLinkCell?.querySelector('a');
+    const foundLink = linkCell.querySelector('a');
     if (foundLink) {
       anchor.href = foundLink.href;
     }
-    anchor.textContent = ctaLabelCell?.textContent.trim() || '';
+    // Original HTML shows a span with button-text inside the anchor,
+    // but the model is 'text' for label, so we'll just put textContent directly.
+    // If the original HTML had <a href><span class="button-text">Login</span></a>,
+    // we would need to create the span. For now, textContent is fine.
+    anchor.textContent = labelCell.textContent.trim();
+    anchor.classList.add('button', 'button-text'); // Added 'button-text' class from original HTML
     anchor.setAttribute('aria-label', '');
     anchor.setAttribute('rel', 'follow');
-    anchor.classList.add('button');
 
-    // Apply specific classes based on index or content if needed
     if (index === 0) {
       anchor.classList.add('red', 'tooltip-signin-register--signin');
-    } else if (index === 1) {
+    } else {
       anchor.classList.add('transparent-black', 'tooltip-signin-register--signup');
     }
-
-    const span = document.createElement('span');
-    span.classList.add('button-text');
-    span.textContent = anchor.textContent; // Use the label as button text
-    anchor.textContent = ''; // Clear anchor text to append span
-    anchor.append(span);
 
     moveInstrumentation(row, anchor);
     ctasDiv.append(anchor);
   });
-
   container.append(ctasDiv);
-  root.append(container);
+  tooltipRegister.append(container);
 
-  block.replaceChildren(root);
+  block.replaceChildren(tooltipRegister);
 
   // Add event listener for close button
-  closeButton.addEventListener('click', () => {
-    root.classList.remove('show'); // Assuming 'show' class controls visibility
-    // Add any other logic to hide the tooltip, e.g., focus management
+  closeBtn.addEventListener('click', () => {
+    tooltipRegister.classList.remove('show');
+    // For a real tooltip, you might also hide the trigger or manage other state
   });
 
-  // Removed image optimization as there are no images in this block's model or original HTML.
+  // No images in this block per the model, so createOptimizedPicture is not needed.
+  // Removing the image optimization logic.
 }

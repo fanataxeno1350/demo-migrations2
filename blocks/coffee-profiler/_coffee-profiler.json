@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Coffee Profiler Question",
-      "id": "coffee-profiler-question",
+      "title": "Coffee Profiler Slide",
+      "id": "coffee-profiler-slide",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "coffee-profiler-question",
-              "name": "Coffee Profiler Question"
+              "model": "coffee-profiler-slide",
+              "name": "Coffee Profiler Slide"
             }
           }
         }
@@ -53,7 +53,7 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Parallax Background Image",
+          "label": "Background Image",
           "name": "backgroundImage",
           "valueType": "string"
         },
@@ -101,19 +101,19 @@
         },
         {
           "component": "container",
-          "item": "coffee-profiler-question",
-          "label": "Questions",
-          "name": "questions"
+          "item": "coffee-profiler-slide",
+          "label": "Slides",
+          "name": "slides"
         }
       ]
     },
     {
-      "id": "coffee-profiler-question",
+      "id": "coffee-profiler-slide",
       "fields": [
         {
           "component": "text",
-          "label": "Question Label",
-          "name": "questionLabel",
+          "label": "Question",
+          "name": "question",
           "valueType": "string"
         },
         {
@@ -136,7 +136,7 @@
         {
           "component": "text",
           "label": "Option Label",
-          "name": "optionLabel",
+          "name": "label",
           "valueType": "string"
         }
       ]
@@ -146,7 +146,7 @@
     {
       "id": "coffee-profiler",
       "components": [
-        "coffee-profiler-question",
+        "coffee-profiler-slide",
         "coffee-profiler-option"
       ]
     }

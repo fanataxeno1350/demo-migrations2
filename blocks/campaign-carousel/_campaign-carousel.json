@@ -74,13 +74,13 @@
         },
         {
           "component": "text",
-          "label": "Carousel Title",
+          "label": "Title",
           "name": "title",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Carousel Description",
+          "label": "Description",
           "name": "description",
           "valueType": "string"
         },
@@ -109,13 +109,13 @@
       "fields": [
         {
           "component": "richtext",
-          "label": "Quotation Text",
-          "name": "quotationText",
+          "label": "Quote Text",
+          "name": "quote",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Quotation Author",
+          "label": "Author",
           "name": "author",
           "valueType": "string"
         },
@@ -155,7 +155,7 @@
           "valueType": "string"
         },
         {
-          "component": "richtext",
+          "component": "text",
           "label": "Recipe Description",
           "name": "description",
           "valueType": "string"
@@ -191,19 +191,19 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Fact Card Image",
+          "label": "Fact Image",
           "name": "image",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Fact Card Name",
-          "name": "name",
+          "label": "Fact Title",
+          "name": "title",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Fact Card Description",
+          "label": "Fact Description",
           "name": "description",
           "valueType": "string"
         },

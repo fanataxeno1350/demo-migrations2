@@ -38,8 +38,14 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Section Icon",
-          "name": "icon",
+          "label": "Icon Image",
+          "name": "iconImage",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Icon Image Alt Text",
+          "name": "iconImageAlt",
           "valueType": "string"
         },
         {
@@ -56,13 +62,13 @@
         },
         {
           "component": "aem-content",
-          "label": "CTA Link (See All Recipes)",
+          "label": "CTA Link",
           "name": "ctaLink",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "CTA Label (See All Recipes)",
+          "label": "CTA Label",
           "name": "ctaLabel",
           "valueType": "string"
         },
@@ -78,27 +84,33 @@
       "id": "recipe-card-item",
       "fields": [
         {
-          "component": "text",
-          "label": "Recipe Tag Label",
-          "name": "tagLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Recipe Image Desktop",
-          "name": "imageDesktop",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Recipe Image Mobile",
-          "name": "imageMobile",
-          "valueType": "string"
-        },
-        {
           "component": "aem-content",
           "label": "Recipe Link",
           "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Recipe Image (Desktop)",
+          "name": "desktopImage",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Recipe Image (Mobile)",
+          "name": "mobileImage",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Recipe Image Alt Text",
+          "name": "imageAlt",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Tag Label",
+          "name": "tagLabel",
           "valueType": "string"
         },
         {
@@ -114,16 +126,28 @@
           "valueType": "string"
         },
         {
-          "component": "number",
-          "label": "Number of Steps",
+          "component": "text",
+          "label": "Steps Count",
           "name": "stepsCount",
-          "valueType": "number"
+          "valueType": "string"
         },
         {
-          "component": "number",
-          "label": "Number of Ingredients",
+          "component": "text",
+          "label": "Steps Label",
+          "name": "stepsLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Ingredients Count",
           "name": "ingredientsCount",
-          "valueType": "number"
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Ingredients Label",
+          "name": "ingredientsLabel",
+          "valueType": "string"
         }
       ]
     }

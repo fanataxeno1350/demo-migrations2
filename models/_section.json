@@ -75,7 +75,8 @@
         "campaign-carousel",
         "coffee-profiler",
         "back-to-top",
-        "footer-global"
+        "footer-global",
+        "footer-cookie-button"
       ]
     }
   ]

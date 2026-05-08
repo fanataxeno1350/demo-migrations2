@@ -38,6 +38,42 @@
       "fields": [
         {
           "component": "text",
+          "label": "Close Button Aria Label",
+          "name": "closeButtonAriaLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Form Action URL",
+          "name": "formAction",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Input Field Name",
+          "name": "inputName",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Input Placeholder",
+          "name": "inputPlaceholder",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Clear Button Aria Label",
+          "name": "clearButtonAriaLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Submit Button Label",
+          "name": "submitButtonLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
           "label": "Trending Section Title",
           "name": "trendingTitle",
           "valueType": "string"
@@ -45,8 +81,8 @@
         {
           "component": "container",
           "item": "search-suggestion-item",
-          "label": "Suggestions",
-          "name": "suggestions"
+          "label": "Search Suggestions",
+          "name": "searchSuggestions"
         }
       ]
     },

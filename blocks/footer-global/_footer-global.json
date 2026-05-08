@@ -17,6 +17,21 @@
       }
     },
     {
+      "title": "Country-Selector-Item",
+      "id": "country-selector-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "country-selector-item",
+              "name": "Country-Selector-Item"
+            }
+          }
+        }
+      }
+    },
+    {
       "title": "Footer-Social-Item",
       "id": "footer-social-item",
       "plugins": {
@@ -45,6 +60,21 @@
           }
         }
       }
+    },
+    {
+      "title": "Footer-Legal-Link-Item",
+      "id": "footer-legal-link-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "footer-legal-link-item",
+              "name": "Footer-Legal-Link-Item"
+            }
+          }
+        }
+      }
     }
   ],
   "models": [
@@ -53,7 +83,7 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Logo",
+          "label": "Footer Logo",
           "name": "logo",
           "valueType": "string"
         },
@@ -64,22 +94,10 @@
           "valueType": "string"
         },
         {
-          "component": "reference",
-          "label": "Country Selector Icon",
-          "name": "countrySelectorIcon",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Country Selector Label",
-          "name": "countrySelectorLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Country Selector Link",
-          "name": "countrySelectorLink",
-          "valueType": "string"
+          "component": "container",
+          "item": "country-selector-item",
+          "label": "Country Selector",
+          "name": "countrySelector"
         },
         {
           "component": "text",
@@ -100,9 +118,38 @@
           "name": "footerLinks"
         },
         {
+          "component": "container",
+          "item": "footer-legal-link-item",
+          "label": "Footer Legal Links",
+          "name": "footerLegalLinks"
+        }
+      ]
+    },
+    {
+      "id": "country-selector-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Country Selector Icon",
+          "name": "countryIcon",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Country Label",
+          "name": "countryLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Country Link",
+          "name": "countryLink",
+          "valueType": "string"
+        },
+        {
           "component": "richtext",
-          "label": "Legal Links",
-          "name": "legalLinks",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
           "valueType": "string"
         }
       ]
@@ -120,12 +167,6 @@
           "component": "aem-content",
           "label": "Social Link",
           "name": "link",
-          "valueType": "string"
-        },
-        {
-          "component": "richtext",
-          "label": "Navigation Hierarchy",
-          "name": "hierarchy-tree",
           "valueType": "string"
         }
       ]
@@ -146,14 +187,33 @@
           "valueType": "string"
         }
       ]
+    },
+    {
+      "id": "footer-legal-link-item",
+      "fields": [
+        {
+          "component": "richtext",
+          "label": "Legal Link Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Legal Link URL",
+          "name": "link",
+          "valueType": "string"
+        }
+      ]
     }
   ],
   "filters": [
     {
       "id": "footer-global",
       "components": [
+        "country-selector-item",
         "footer-social-item",
-        "footer-link-item"
+        "footer-link-item",
+        "footer-legal-link-item"
       ]
     }
   ]

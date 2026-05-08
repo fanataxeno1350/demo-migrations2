@@ -23,14 +23,8 @@
       "fields": [
         {
           "component": "text",
-          "label": "Button Label",
+          "label": "CTA Label",
           "name": "ctaLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Button Link",
-          "name": "ctaLink",
           "valueType": "string"
         }
       ]

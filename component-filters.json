@@ -40,7 +40,8 @@
       "campaign-carousel",
       "coffee-profiler",
       "back-to-top",
-      "footer-global"
+      "footer-global",
+      "footer-cookie-button"
     ]
   },
   {
@@ -62,11 +63,10 @@
   {
     "id": "burger-navigation",
     "components": [
-      "burger-navigation-menu-item",
-      "burger-navigation-multi-link-item",
-      "burger-navigation-banner",
-      "burger-navigation-level3-banner",
-      "burger-navigation-level3-link-item"
+      "level2-nav-item",
+      "multiple-links-item",
+      "level3-banner-item",
+      "level3-link-item"
     ]
   },
   {
@@ -80,7 +80,7 @@
   {
     "id": "coffee-profiler",
     "components": [
-      "coffee-profiler-question",
+      "coffee-profiler-slide",
       "coffee-profiler-option"
     ]
   },
@@ -98,10 +98,16 @@
     ]
   },
   {
+    "id": "footer-cookie-button",
+    "components": []
+  },
+  {
     "id": "footer-global",
     "components": [
+      "country-selector-item",
       "footer-social-item",
-      "footer-link-item"
+      "footer-link-item",
+      "footer-legal-link-item"
     ]
   },
   {
@@ -114,11 +120,11 @@
   {
     "id": "header-main-navigation",
     "components": [
-      "nav-level1-item",
-      "nav-level2-item",
-      "nav-level3-item",
-      "nav-level3-banner",
-      "nav-level2-banner"
+      "navigation-primary-item",
+      "navigation-secondary-item",
+      "navigation-tertiary-item",
+      "level-2-banner",
+      "level-3-banner"
     ]
   },
   {
@@ -160,7 +166,7 @@
   {
     "id": "sustainability-article-carousel",
     "components": [
-      "sustainability-article-item"
+      "sustainability-article-card"
     ]
   },
   {

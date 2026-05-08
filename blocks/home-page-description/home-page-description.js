@@ -3,7 +3,7 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
   const [
-    mainImageRow,
+    imageRow,
     descriptionRow,
     signInLinkRow,
     signInLabelRow,
@@ -11,11 +11,23 @@ export default function decorate(block) {
     registerLabelRow,
   ] = [...block.children];
 
-  const gridContainer = document.createElement('div');
-  gridContainer.classList.add('grid-x', 'max-width-container');
+  const section = document.createElement('section');
+  section.classList.add(
+    'home-page-description',
+    'grid-container',
+    'padding',
+    'animate-enter',
+    'in-view',
+  );
+  section.setAttribute('aria-label', 'Home Page Description Module');
+  moveInstrumentation(block, section); // Move instrumentation from the block itself to the new root
 
-  const cellWrapper = document.createElement('div');
-  cellWrapper.classList.add(
+  const gridX = document.createElement('div');
+  gridX.classList.add('grid-x', 'max-width-container');
+  section.append(gridX);
+
+  const cell = document.createElement('div');
+  cell.classList.add(
     'cell',
     'large-offset-1',
     'large-10',
@@ -24,120 +36,124 @@ export default function decorate(block) {
     'text-center',
     'wrapper',
   );
+  gridX.append(cell);
 
-  // Main Image
-  const imageContainer = document.createElement('div');
-  imageContainer.classList.add(
-    'image-container',
-    'animate-enter-fade-up-short',
-    'animate-delay-3',
-  );
-  const mainImagePicture = mainImageRow.querySelector('picture');
-  if (mainImagePicture) {
-    const img = mainImagePicture.querySelector('img');
-    const optimizedPic = createOptimizedPicture(
-      img.src,
-      img.alt,
-      false,
-      [{ width: '750' }],
+  // Image
+  if (imageRow) {
+    const imageContainer = document.createElement('div');
+    imageContainer.classList.add(
+      'image-container',
+      'animate-enter-fade-up-short',
+      'animate-delay-3',
     );
-    moveInstrumentation(img, optimizedPic.querySelector('img'));
-    imageContainer.append(optimizedPic);
-    moveInstrumentation(mainImageRow, imageContainer);
+    const picture = imageRow.querySelector('picture');
+    if (picture) {
+      const img = picture.querySelector('img');
+      if (img) {
+        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [
+          { width: '750' },
+        ]);
+        moveInstrumentation(img, optimizedPic.querySelector('img'));
+        imageContainer.append(optimizedPic);
+      }
+    }
+    moveInstrumentation(imageRow, imageContainer);
+    cell.append(imageContainer);
   }
-  cellWrapper.append(imageContainer);
 
   // Description
-  const descriptionDiv = document.createElement('div');
-  descriptionDiv.classList.add(
-    'description1',
-    'bodyMediumRegular',
-    'animate-enter-fade-up-short',
-    'animate-delay-5',
-  );
-  // Description is richtext, read innerHTML directly from the cell
-  if (descriptionRow.children[0]) {
-    descriptionDiv.innerHTML = descriptionRow.children[0].innerHTML;
+  if (descriptionRow) {
+    const descriptionDiv = document.createElement('div');
+    descriptionDiv.classList.add(
+      'description1',
+      'bodyMediumRegular',
+      'animate-enter-fade-up-short',
+      'animate-delay-5',
+    );
     moveInstrumentation(descriptionRow, descriptionDiv);
+    // description is richtext, so use innerHTML from the cell itself
+    descriptionDiv.innerHTML = descriptionRow.children[0]?.innerHTML || '';
+    cell.append(descriptionDiv);
   }
-  cellWrapper.append(descriptionDiv);
 
   // CTA Container
   const ctaContainer = document.createElement('div');
   ctaContainer.classList.add('cta-container');
+  cell.append(ctaContainer);
 
   // Sign In Link
-  const signInLink = document.createElement('a');
-  signInLink.classList.add(
-    'link',
-    'small',
-    'black',
-    'sign-in',
-    'animate-enter-fade-up-short',
-    'animate-delay-9',
-  );
-  // signInLink is aem-content, read href from the anchor
-  const signInAnchor = signInLinkRow.children[0]?.querySelector('a');
-  if (signInAnchor) {
-    signInLink.href = signInAnchor.href;
+  if (signInLinkRow && signInLabelRow) {
+    const signInLink = document.createElement('a');
+    signInLink.classList.add(
+      'link',
+      'small',
+      'black',
+      'sign-in',
+      'animate-enter-fade-up-short',
+      'animate-delay-9',
+    );
+    signInLink.setAttribute('aria-label', 'Sign in');
+    signInLink.setAttribute('rel', 'follow');
+
+    const foundSignInLink = signInLinkRow.querySelector('a');
+    if (foundSignInLink) {
+      signInLink.href = foundSignInLink.href;
+    }
+    moveInstrumentation(signInLinkRow, signInLink); // Move instrumentation for the link row
+
+    const signInSpan = document.createElement('span');
+    signInSpan.classList.add('button-text');
+    // signInLabel is type=text, so use textContent.trim() from the cell
+    signInSpan.textContent = signInLabelRow.children[0]?.textContent.trim() || '';
+    signInLink.append(signInSpan);
+    moveInstrumentation(signInLabelRow, signInSpan); // Move instrumentation for the label row
+    ctaContainer.append(signInLink);
   }
-  const signInLabelSpan = document.createElement('span');
-  signInLabelSpan.classList.add('button-text');
-  // signInLabel is text, read textContent from the cell
-  if (signInLabelRow.children[0]) {
-    signInLabelSpan.textContent = signInLabelRow.children[0].textContent.trim();
-    moveInstrumentation(signInLabelRow, signInLabelSpan);
-  }
-  signInLink.append(signInLabelSpan);
-  moveInstrumentation(signInLinkRow, signInLink);
-  ctaContainer.append(signInLink);
 
   // Separator
-  const separatorSpan = document.createElement('span');
-  separatorSpan.classList.add(
+  const separator = document.createElement('span');
+  separator.classList.add(
     'labelSmallBold',
     'separator',
     'animate-enter-fade-up-short',
     'animate-delay-9',
   );
-  separatorSpan.textContent = ' / ';
-  ctaContainer.append(separatorSpan);
+  separator.textContent = ' / ';
+  ctaContainer.append(separator);
 
   // Register Link
-  const registerLink = document.createElement('a');
-  registerLink.classList.add(
-    'link',
-    'small',
-    'black',
-    'register',
-    'animate-enter-fade-up-short',
-    'animate-delay-9',
-  );
-  // registerLink is aem-content, read href from the anchor
-  const registerAnchor = registerLinkRow.children[0]?.querySelector('a');
-  if (registerAnchor) {
-    registerLink.href = registerAnchor.href;
+  if (registerLinkRow && registerLabelRow) {
+    const registerLink = document.createElement('a');
+    registerLink.classList.add(
+      'link',
+      'small',
+      'black',
+      'register',
+      'animate-enter-fade-up-short',
+      'animate-delay-9',
+    );
+    registerLink.setAttribute('aria-label', 'Register');
+    registerLink.setAttribute('rel', 'follow');
+
+    const foundRegisterLink = registerLinkRow.querySelector('a');
+    if (foundRegisterLink) {
+      registerLink.href = foundRegisterLink.href;
+    }
+    moveInstrumentation(registerLinkRow, registerLink); // Move instrumentation for the link row
+
+    const registerSpan = document.createElement('span');
+    registerSpan.classList.add('button-text');
+    // registerLabel is type=text, so use textContent.trim() from the cell
+    registerSpan.textContent = registerLabelRow.children[0]?.textContent.trim() || '';
+    registerLink.append(registerSpan);
+    moveInstrumentation(registerLabelRow, registerSpan); // Move instrumentation for the label row
+    ctaContainer.append(registerLink);
   }
-  const registerLabelSpan = document.createElement('span');
-  registerLabelSpan.classList.add('button-text');
-  // registerLabel is text, read textContent from the cell
-  if (registerLabelRow.children[0]) {
-    registerLabelSpan.textContent = registerLabelRow.children[0].textContent.trim();
-    moveInstrumentation(registerLabelRow, registerLabelSpan);
-  }
-  registerLink.append(registerLabelSpan);
-  moveInstrumentation(registerLinkRow, registerLink);
-  ctaContainer.append(registerLink);
 
-  cellWrapper.append(ctaContainer);
-
-  gridContainer.append(cellWrapper);
-
-  const section = document.createElement('section');
-  // Removed 'home-page-description' class as the outer block div already has it.
-  section.classList.add('grid-container', 'padding', 'animate-enter', 'in-view');
-  section.setAttribute('aria-label', 'Home Page Description Module');
-  section.append(gridContainer);
+  // Product Card WTB (empty div from original HTML)
+  const productCardWtb = document.createElement('div');
+  productCardWtb.classList.add('product-card__wtb');
+  cell.append(productCardWtb);
 
   block.replaceChildren(section);
 }

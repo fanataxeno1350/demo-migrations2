@@ -177,75 +177,60 @@
           }
         },
         {
-          "title": "Burger-Navigation-Menu-Item",
-          "id": "burger-navigation-menu-item",
+          "title": "Level2-Nav-Item",
+          "id": "level2-nav-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "burger-navigation-menu-item",
-                  "name": "Burger-Navigation-Menu-Item"
+                  "model": "level2-nav-item",
+                  "name": "Level2-Nav-Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Burger-Navigation-Multi-Link-Item",
-          "id": "burger-navigation-multi-link-item",
+          "title": "Multiple-Links-Item",
+          "id": "multiple-links-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "burger-navigation-multi-link-item",
-                  "name": "Burger-Navigation-Multi-Link-Item"
+                  "model": "multiple-links-item",
+                  "name": "Multiple-Links-Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Burger-Navigation-Banner",
-          "id": "burger-navigation-banner",
+          "title": "Level3-Banner-Item",
+          "id": "level3-banner-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "burger-navigation-banner",
-                  "name": "Burger-Navigation-Banner"
+                  "model": "level3-banner-item",
+                  "name": "Level3-Banner-Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Burger-Navigation-Level3-Link-Item",
-          "id": "burger-navigation-level3-link-item",
+          "title": "Level3-Link-Item",
+          "id": "level3-link-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "burger-navigation-level3-link-item",
-                  "name": "Burger-Navigation-Level3-Link-Item"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Burger-Navigation-Level3-Banner",
-          "id": "burger-navigation-level3-banner",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "burger-navigation-level3-banner",
-                  "name": "Burger-Navigation-Level3-Banner"
+                  "model": "level3-link-item",
+                  "name": "Level3-Link-Item"
                 }
               }
             }
@@ -329,15 +314,15 @@
           }
         },
         {
-          "title": "Coffee Profiler Question",
-          "id": "coffee-profiler-question",
+          "title": "Coffee Profiler Slide",
+          "id": "coffee-profiler-slide",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "coffee-profiler-question",
-                  "name": "Coffee Profiler Question"
+                  "model": "coffee-profiler-slide",
+                  "name": "Coffee Profiler Slide"
                 }
               }
             }
@@ -436,6 +421,22 @@
           }
         },
         {
+          "title": "Footer-Cookie-Button",
+          "id": "footer-cookie-button",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "filter": "footer-cookie-button",
+                  "model": "footer-cookie-button",
+                  "name": "Footer-Cookie-Button"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Footer-Global",
           "id": "footer-global",
           "plugins": {
@@ -446,6 +447,21 @@
                   "filter": "footer-global",
                   "model": "footer-global",
                   "name": "Footer-Global"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Country-Selector-Item",
+          "id": "country-selector-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "country-selector-item",
+                  "name": "Country-Selector-Item"
                 }
               }
             }
@@ -476,6 +492,21 @@
                 "template": {
                   "model": "footer-link-item",
                   "name": "Footer-Link-Item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Footer-Legal-Link-Item",
+          "id": "footer-legal-link-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "footer-legal-link-item",
+                  "name": "Footer-Legal-Link-Item"
                 }
               }
             }
@@ -528,7 +559,7 @@
           }
         },
         {
-          "title": "Header Main Navigation",
+          "title": "Header-Main-Navigation",
           "id": "header-main-navigation",
           "plugins": {
             "xwalk": {
@@ -537,82 +568,82 @@
                 "template": {
                   "filter": "header-main-navigation",
                   "model": "header-main-navigation",
-                  "name": "Header Main Navigation"
+                  "name": "Header-Main-Navigation"
                 }
               }
             }
           }
         },
         {
-          "title": "Nav Level 1 Item",
-          "id": "nav-level1-item",
+          "title": "Navigation-Primary-Item",
+          "id": "navigation-primary-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "nav-level1-item",
-                  "name": "Nav Level 1 Item"
+                  "model": "navigation-primary-item",
+                  "name": "Navigation-Primary-Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Nav Level 2 Item",
-          "id": "nav-level2-item",
+          "title": "Navigation-Secondary-Item",
+          "id": "navigation-secondary-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "nav-level2-item",
-                  "name": "Nav Level 2 Item"
+                  "model": "navigation-secondary-item",
+                  "name": "Navigation-Secondary-Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Nav Level 3 Item",
-          "id": "nav-level3-item",
+          "title": "Navigation-Tertiary-Item",
+          "id": "navigation-tertiary-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "nav-level3-item",
-                  "name": "Nav Level 3 Item"
+                  "model": "navigation-tertiary-item",
+                  "name": "Navigation-Tertiary-Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Nav Level 3 Banner",
-          "id": "nav-level3-banner",
+          "title": "Level-2-Banner",
+          "id": "level-2-banner",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "nav-level3-banner",
-                  "name": "Nav Level 3 Banner"
+                  "model": "level-2-banner",
+                  "name": "Level-2-Banner"
                 }
               }
             }
           }
         },
         {
-          "title": "Nav Level 2 Banner",
-          "id": "nav-level2-banner",
+          "title": "Level-3-Banner",
+          "id": "level-3-banner",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "nav-level2-banner",
-                  "name": "Nav Level 2 Banner"
+                  "model": "level-3-banner",
+                  "name": "Level-3-Banner"
                 }
               }
             }
@@ -807,22 +838,22 @@
           }
         },
         {
-          "title": "Sustainability Article Item",
-          "id": "sustainability-article-item",
+          "title": "Sustainability Article Card",
+          "id": "sustainability-article-card",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "sustainability-article-item",
-                  "name": "Sustainability Article Item"
+                  "model": "sustainability-article-card",
+                  "name": "Sustainability Article Card"
                 }
               }
             }
           }
         },
         {
-          "title": "Sustainability-Hub-Recycle-Section",
+          "title": "Sustainability Hub Recycle Section",
           "id": "sustainability-hub-recycle-section",
           "plugins": {
             "xwalk": {
@@ -831,7 +862,7 @@
                 "template": {
                   "filter": "sustainability-hub-recycle-section",
                   "model": "sustainability-hub-recycle-section",
-                  "name": "Sustainability-Hub-Recycle-Section"
+                  "name": "Sustainability Hub Recycle Section"
                 }
               }
             }
@@ -854,7 +885,7 @@
           }
         },
         {
-          "title": "Toaster-Signin",
+          "title": "Toaster Signin",
           "id": "toaster-signin",
           "plugins": {
             "xwalk": {
@@ -863,7 +894,7 @@
                 "template": {
                   "filter": "toaster-signin",
                   "model": "toaster-signin",
-                  "name": "Toaster-Signin"
+                  "name": "Toaster Signin"
                 }
               }
             }

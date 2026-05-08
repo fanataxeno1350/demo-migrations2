@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Toaster-Signin",
+      "title": "Toaster Signin",
       "id": "toaster-signin",
       "plugins": {
         "xwalk": {
@@ -10,7 +10,7 @@
             "template": {
               "filter": "toaster-signin",
               "model": "toaster-signin",
-              "name": "Toaster-Signin"
+              "name": "Toaster Signin"
             }
           }
         }
@@ -23,9 +23,15 @@
       "fields": [
         {
           "component": "text",
-          "label": "Auto-Close Timer (ms)",
-          "name": "timer",
+          "label": "Is Logged In (empty or true/false)",
+          "name": "isLoggedIn",
           "valueType": "string"
+        },
+        {
+          "component": "number",
+          "label": "Timer (ms)",
+          "name": "timer",
+          "valueType": "number"
         },
         {
           "component": "text",

@@ -23,25 +23,25 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Video Large Poster Image",
+          "label": "Video Poster (Large)",
           "name": "videoLargePoster",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Video Large Source (MP4)",
+          "label": "Video Source (Large)",
           "name": "videoLargeSource",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Video Small Poster Image",
+          "label": "Video Poster (Small)",
           "name": "videoSmallPoster",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Video Small Source (MP4)",
+          "label": "Video Source (Small)",
           "name": "videoSmallSource",
           "valueType": "string"
         },

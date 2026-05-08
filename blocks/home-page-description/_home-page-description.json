@@ -23,8 +23,8 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Main Image",
-          "name": "mainImage",
+          "label": "Image",
+          "name": "image",
           "valueType": "string"
         },
         {

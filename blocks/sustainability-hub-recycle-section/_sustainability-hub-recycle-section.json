@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Sustainability-Hub-Recycle-Section",
+      "title": "Sustainability Hub Recycle Section",
       "id": "sustainability-hub-recycle-section",
       "plugins": {
         "xwalk": {
@@ -10,7 +10,7 @@
             "template": {
               "filter": "sustainability-hub-recycle-section",
               "model": "sustainability-hub-recycle-section",
-              "name": "Sustainability-Hub-Recycle-Section"
+              "name": "Sustainability Hub Recycle Section"
             }
           }
         }
@@ -24,19 +24,19 @@
         {
           "component": "reference",
           "label": "Background Image (Desktop)",
-          "name": "backgroundImageDesktop",
+          "name": "backgroundDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
           "label": "Background Image (Mobile)",
-          "name": "backgroundImageMobile",
+          "name": "backgroundMobile",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Title",
-          "name": "title",
+          "label": "Headline",
+          "name": "headline",
           "valueType": "string"
         },
         {
