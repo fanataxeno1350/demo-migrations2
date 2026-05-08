@@ -51,32 +51,7 @@
         "cards",
         "columns",
         "fragment",
-        "---- New Blocks ----",
-        "header-nav",
-        "toast-message",
-        "hero-section",
-        "why-techatom",
-        "service-section",
-        "about-section",
-        "blog-section",
-        "faqs",
-        "contact-section",
-        "footer",
-        "search-autocomplete",
-        "header-main-navigation",
-        "burger-navigation",
-        "toaster-signin",
-        "tooltip-signin-register",
-        "homepage-banner",
-        "home-page-description",
-        "sustainability-hub-recycle-section",
-        "recipe-home",
-        "sustainability-article-carousel",
-        "campaign-carousel",
-        "coffee-profiler",
-        "back-to-top",
-        "footer-global",
-        "footer-cookie-button"
+        "---- New Blocks ----"
       ]
     }
   ]
