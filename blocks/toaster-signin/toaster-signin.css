@@ -1,0 +1,182 @@
+@font-face{font-family:GothamHTFBook;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/40651fc412786e546553-cf3e47.ttf") format("truetype");font-display:swap;}
+
+@font-face{font-family:GothamHTFMedium;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/5ef188273cbd2a4f3cfa-f879a1.ttf") format("truetype");font-display:swap;}
+
+@font-face{font-family:NescafeSansBold;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/a240ad40949cc29dcbbe-48132d.woff2") format("woff2");font-display:swap;}
+
+@media screen and (min-width:768px) { .bodySmallRegular{ font-size:0.875rem;line-height:1.25rem; } }
+
+@media screen and (min-width:1024px) { .bodySmallRegular{ font-size:0.875rem;line-height:1.25rem; } }
+
+.toaster{ --toaster-position-x:1rem;--toaster-position-y:var(--navHeight);position:fixed;left:0px;top:0px;width:100%;height:100%;z-index:-1;display:flex;opacity:0;visibility:hidden; }
+
+@media print,screen and (min-width:48em) { .toaster{ --toaster-position-x:1.25rem; } }
+
+@media print,screen and (min-width:64em) { .toaster{ --toaster-position-x:1.5625rem; } }
+
+.toaster--overlay{ background:rgba(34,34,34,0.3);width:100%;height:100%; }
+
+.toaster--container{ background:rgb(250,250,250);position:absolute;right:var(--toaster-position-x);top:calc(var(--toaster-position-y) - var(--persistNavHeight) + 3px);border-radius:0.25rem;padding:1.25rem 1rem 2rem; }
+
+@media print,screen and (min-width:48em) { .toaster--container{ top:calc(var(--toaster-position-y) - var(--persistNavHeight) + 5px); } }
+
+@media print,screen and (min-width:64em) { .toaster--container{ top:calc(var(--toaster-position-y) - 17px); } }
+
+@media print,screen and (min-width:64em) { .toaster--container{ border-radius:0.5rem;padding:1.25rem 2rem 2rem; } }
+
+@media print,screen and (max-width:47.9988em) { .toaster--container{ width:calc(100% - 32px); } }
+
+.toaster--container-inner{ width:100%;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;flex-direction:column;-webkit-box-align:start;align-items:flex-start;gap:1rem; }
+
+@media print,screen and (min-width:48em) { .toaster--container-inner{ width:23.1875rem; } }
+
+@media print,screen and (min-width:64em) { .toaster--container-inner{ width:31.5rem; } }
+
+.toaster--close{ width:100%; }
+
+.toaster--close{ text-align:right; }
+
+.toaster--close-btn{ width:1.5rem;height:1.5rem;background-size:0.875rem; }
+
+.toaster--arrow{ position:absolute;right:1rem;top:-0.6875rem; }
+
+@media print,screen and (min-width:48em) { .toaster--arrow{ right:1.25rem; } }
+
+@media print,screen and (min-width:64em) { .toaster--arrow{ right:1.5625rem; } }
+
+.toaster-signin .toaster--close{ width:auto; }
+
+.toaster-signin .toaster--message-wrapper{ gap:0.5rem; }
+
+.toaster-signin .toaster--container-inner, .toaster-signin .toaster--message-wrapper{ display:flex;-webkit-box-align:center;align-items:center; }
+
+.toaster-signin .toaster--container-inner{ -webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row;-webkit-box-pack:justify;justify-content:space-between;width:auto; }
+
+.toaster-signin .toaster--container{ padding:1rem;border-radius:0.25rem;width:auto;min-width:13.4375rem; }
+
+@font-face{font-family:GothamHTFBook;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/40651fc412786e546553-cf3e47.ttf") format("truetype");font-display:swap;}
+
+@font-face{font-family:GothamHTFMedium;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/5ef188273cbd2a4f3cfa-f879a1.ttf") format("truetype");font-display:swap;}
+
+@font-face{font-family:NescafeSansBold;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/a240ad40949cc29dcbbe-48132d.woff2") format("woff2");font-display:swap;}
+
+@media screen and (min-width:768px) { .bodySmallRegular{ font-size:0.875rem;line-height:1.25rem; } }
+
+@media screen and (min-width:1024px) { .bodySmallRegular{ font-size:0.875rem;line-height:1.25rem; } }
+
+.toaster{ --toaster-position-x:1rem;--toaster-position-y:var(--navHeight);position:fixed;left:0px;top:0px;width:100%;height:100%;z-index:-1;display:flex;opacity:0;visibility:hidden; }
+
+@media print,screen and (min-width:48em) { .toaster{ --toaster-position-x:1.25rem; } }
+
+@media print,screen and (min-width:64em) { .toaster{ --toaster-position-x:1.5625rem; } }
+
+.toaster--overlay{ background:rgba(34,34,34,0.3);width:100%;height:100%; }
+
+.toaster--container{ background:rgb(250,250,250);position:absolute;right:var(--toaster-position-x);top:calc(var(--toaster-position-y) - var(--persistNavHeight) + 3px);border-radius:0.25rem;padding:1.25rem 1rem 2rem; }
+
+@media print,screen and (min-width:48em) { .toaster--container{ top:calc(var(--toaster-position-y) - var(--persistNavHeight) + 5px); } }
+
+@media print,screen and (min-width:64em) { .toaster--container{ top:calc(var(--toaster-position-y) - 17px); } }
+
+@media print,screen and (min-width:64em) { .toaster--container{ border-radius:0.5rem;padding:1.25rem 2rem 2rem; } }
+
+@media print,screen and (max-width:47.9988em) { .toaster--container{ width:calc(100% - 32px); } }
+
+.toaster--container-inner{ width:100%;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;flex-direction:column;-webkit-box-align:start;align-items:flex-start;gap:1rem; }
+
+@media print,screen and (min-width:48em) { .toaster--container-inner{ width:23.1875rem; } }
+
+@media print,screen and (min-width:64em) { .toaster--container-inner{ width:31.5rem; } }
+
+.toaster--close{ width:100%; }
+
+.toaster--close{ text-align:right; }
+
+.toaster--close-btn{ width:1.5rem;height:1.5rem;background-size:0.875rem; }
+
+.toaster--arrow{ position:absolute;right:1rem;top:-0.6875rem; }
+
+@media print,screen and (min-width:48em) { .toaster--arrow{ right:1.25rem; } }
+
+@media print,screen and (min-width:64em) { .toaster--arrow{ right:1.5625rem; } }
+
+.toaster-signin .toaster--close{ width:auto; }
+
+.toaster-signin .toaster--message-wrapper{ gap:0.5rem; }
+
+.toaster-signin .toaster--container-inner, .toaster-signin .toaster--message-wrapper{ display:flex;-webkit-box-align:center;align-items:center; }
+
+.toaster-signin .toaster--container-inner{ -webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row;-webkit-box-pack:justify;justify-content:space-between;width:auto; }
+
+.toaster-signin .toaster--container{ padding:1rem;border-radius:0.25rem;width:auto;min-width:13.4375rem; }
+
+@font-face{font-family:GothamHTFBook;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/40651fc412786e546553-cf3e47.ttf") format("truetype");font-display:swap;}
+
+@font-face{font-family:GothamHTFMedium;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/5ef188273cbd2a4f3cfa-f879a1.ttf") format("truetype");font-display:swap;}
+
+@font-face{font-family:NescafeSansBold;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/a240ad40949cc29dcbbe-48132d.woff2") format("woff2");font-display:swap;}
+
+@media screen and (min-width:768px) { .bodySmallRegular{ font-size:0.875rem;line-height:1.25rem; } }
+
+@media screen and (min-width:1024px) { .bodySmallRegular{ font-size:0.875rem;line-height:1.25rem; } }
+
+.toaster{ --toaster-position-x:1rem;--toaster-position-y:var(--navHeight);position:fixed;left:0px;top:0px;width:100%;height:100%;z-index:-1;display:flex;opacity:0;visibility:hidden; }
+
+@media print,screen and (min-width:48em) { .toaster{ --toaster-position-x:1.25rem; } }
+
+@media print,screen and (min-width:64em) { .toaster{ --toaster-position-x:1.5625rem; } }
+
+.toaster--overlay{ background:rgba(34,34,34,0.3);width:100%;height:100%; }
+
+.toaster--container{ background:rgb(250,250,250);position:absolute;right:var(--toaster-position-x);top:calc(var(--toaster-position-y) - var(--persistNavHeight) + 3px);border-radius:0.25rem;padding:1.25rem 1rem 2rem; }
+
+@media print,screen and (min-width:48em) { .toaster--container{ top:calc(var(--toaster-position-y) - var(--persistNavHeight) + 5px); } }
+
+@media print,screen and (min-width:64em) { .toaster--container{ top:calc(var(--toaster-position-y) - 17px); } }
+
+@media print,screen and (min-width:64em) { .toaster--container{ border-radius:0.5rem;padding:1.25rem 2rem 2rem; } }
+
+@media print,screen and (max-width:47.9988em) { .toaster--container{ width:calc(100% - 32px); } }
+
+.toaster--container-inner{ width:100%;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;flex-direction:column;-webkit-box-align:start;align-items:flex-start;gap:1rem; }
+
+@media print,screen and (min-width:48em) { .toaster--container-inner{ width:23.1875rem; } }
+
+@media print,screen and (min-width:64em) { .toaster--container-inner{ width:31.5rem; } }
+
+.toaster--close{ width:100%; }
+
+.toaster--close{ text-align:right; }
+
+.toaster--close-btn{ width:1.5rem;height:1.5rem;background-size:0.875rem; }
+
+.toaster--arrow{ position:absolute;right:1rem;top:-0.6875rem; }
+
+@media print,screen and (min-width:48em) { .toaster--arrow{ right:1.25rem; } }
+
+@media print,screen and (min-width:64em) { .toaster--arrow{ right:1.5625rem; } }
+
+.toaster-signin .toaster--close{ width:auto; }
+
+.toaster-signin .toaster--message-wrapper{ gap:0.5rem; }
+
+.toaster-signin .toaster--container-inner, .toaster-signin .toaster--message-wrapper{ display:flex;-webkit-box-align:center;align-items:center; }
+
+.toaster-signin .toaster--container-inner{ -webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row;-webkit-box-pack:justify;justify-content:space-between;width:auto; }
+
+.toaster-signin .toaster--container{ padding:1rem;border-radius:0.25rem;width:auto;min-width:13.4375rem; }
+
+@keyframes onetrust-fade-in{0%{opacity:0}100%{opacity:1}}
+
+@keyframes slide-down-custom{
+            0% {
+                bottom: 10800px !important;
+            }
+            100% {
+                bottom: 0px;
+            }
+        }
+
+@keyframes otFloatingBtnIntro{0%{opacity:0;left:-75px}100%{opacity:1;left:1%}}
+
+@keyframes otFloatingBtnImageIntro{0%{opacity:0;transform:scale(0) rotate(-270deg)}100%{opacity:100%;transform:scale(0.95) rotate(0deg)}}

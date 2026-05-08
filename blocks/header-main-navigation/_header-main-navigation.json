@@ -1,0 +1,259 @@
+{
+  "definitions": [
+    {
+      "title": "Header Main Navigation",
+      "id": "header-main-navigation",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "header-main-navigation",
+              "model": "header-main-navigation",
+              "name": "Header Main Navigation"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Navigation Menu Item",
+      "id": "navigation-menu-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "navigation-menu-item",
+              "name": "Navigation Menu Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Level2 Submenu Item",
+      "id": "submenu-level2-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "submenu-level2-item",
+              "name": "Level2 Submenu Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Level3 Submenu Item",
+      "id": "submenu-level3-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "submenu-level3-item",
+              "name": "Level3 Submenu Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Level3 Submenu Banner",
+      "id": "submenu-level3-banner",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "submenu-level3-banner",
+              "name": "Level3 Submenu Banner"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Level2 Banner",
+      "id": "submenu-level2-banner",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "submenu-level2-banner",
+              "name": "Level2 Banner"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "header-main-navigation",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Logo",
+          "name": "logo",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Logo Link",
+          "name": "logoLink",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "navigation-menu-item",
+          "label": "Navigation Menu",
+          "name": "navigationMenu"
+        }
+      ]
+    },
+    {
+      "id": "navigation-menu-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Menu Label",
+          "name": "menuLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "submenu-level2-item",
+          "label": "Level2 Submenu",
+          "name": "submenuLevel2"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "submenu-level2-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Level2 Item Label",
+          "name": "submenuLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Level2 Item Link",
+          "name": "submenuLink",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Level2 Item Label Richtext",
+          "name": "submenuLabelRich",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "submenu-level3-item",
+          "label": "Level3 Submenu",
+          "name": "submenuLevel3"
+        },
+        {
+          "component": "container",
+          "item": "submenu-level3-banner",
+          "label": "Level3 Submenu Banner",
+          "name": "submenuLevel3Banner"
+        }
+      ]
+    },
+    {
+      "id": "submenu-level3-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Level3 Icon",
+          "name": "icon",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Level3 Item Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Level3 Item Link",
+          "name": "link",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "submenu-level3-banner",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Banner Image",
+          "name": "bannerImage",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Banner Description",
+          "name": "bannerDescription",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "submenu-level2-banner",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Banner Image Desktop",
+          "name": "bannerImageDesktop",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Banner Image Tablet",
+          "name": "bannerImageTablet",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Banner Image Mobile",
+          "name": "bannerImageMobile",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Banner Description",
+          "name": "bannerDescription",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "header-main-navigation",
+      "components": [
+        "navigation-menu-item",
+        "submenu-level2-item",
+        "submenu-level3-item",
+        "submenu-level3-banner",
+        "submenu-level2-banner"
+      ]
+    }
+  ]
+}

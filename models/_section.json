@@ -51,7 +51,22 @@
         "cards",
         "columns",
         "fragment",
-        "---- New Blocks ----"
+        "---- New Blocks ----",
+        "search-autocomplete",
+        "header-main-navigation",
+        "burger-navigation",
+        "toaster-signin",
+        "tooltip-signin-register",
+        "homepage-banner",
+        "home-page-description",
+        "sustainability-hub-recycle-section",
+        "recipe-home",
+        "sustainability-article-carousel",
+        "campaign-carousel",
+        "coffee-profiler",
+        "back-to-top",
+        "footer-section",
+        "footer-global"
       ]
     }
   ]

@@ -16,7 +16,114 @@
       "cards",
       "columns",
       "fragment",
-      "---- New Blocks ----"
+      "---- New Blocks ----",
+      "search-autocomplete",
+      "header-main-navigation",
+      "burger-navigation",
+      "toaster-signin",
+      "tooltip-signin-register",
+      "homepage-banner",
+      "home-page-description",
+      "sustainability-hub-recycle-section",
+      "recipe-home",
+      "sustainability-article-carousel",
+      "campaign-carousel",
+      "coffee-profiler",
+      "back-to-top",
+      "footer-section",
+      "footer-global"
+    ]
+  },
+  {
+    "id": "back-to-top",
+    "components": []
+  },
+  {
+    "id": "burger-navigation",
+    "components": [
+      "level2-item",
+      "level3-multiple-link-item",
+      "level3-banner-item",
+      "level3-simple-link-item"
+    ]
+  },
+  {
+    "id": "campaign-carousel",
+    "components": [
+      "quotation-slide",
+      "recipe-card-slide",
+      "fact-card-slide"
+    ]
+  },
+  {
+    "id": "coffee-profiler",
+    "components": [
+      "question-slide",
+      "option-item"
+    ]
+  },
+  {
+    "id": "footer-global",
+    "components": [
+      "footer-social-item",
+      "footer-link-item"
+    ]
+  },
+  {
+    "id": "footer-section",
+    "components": [
+      "footer-social-item",
+      "footer-link-item"
+    ]
+  },
+  {
+    "id": "header-main-navigation",
+    "components": [
+      "navigation-menu-item",
+      "submenu-level2-item",
+      "submenu-level3-item",
+      "submenu-level3-banner",
+      "submenu-level2-banner"
+    ]
+  },
+  {
+    "id": "home-page-description",
+    "components": []
+  },
+  {
+    "id": "homepage-banner",
+    "components": []
+  },
+  {
+    "id": "recipe-home",
+    "components": [
+      "recipe-card-item"
+    ]
+  },
+  {
+    "id": "search-autocomplete",
+    "components": [
+      "search-suggestion-item"
+    ]
+  },
+  {
+    "id": "sustainability-article-carousel",
+    "components": [
+      "sustainability-card-item"
+    ]
+  },
+  {
+    "id": "sustainability-hub-recycle-section",
+    "components": []
+  },
+  {
+    "id": "toaster-signin",
+    "components": []
+  },
+  {
+    "id": "tooltip-signin-register",
+    "components": [
+      "tooltip-signin-register-cta-item"
     ]
   }
 ]
