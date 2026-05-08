@@ -142,6 +142,58 @@
     ]
   },
   {
+    "id": "banner-carousel",
+    "fields": [
+      {
+        "component": "container",
+        "item": "banner-carousel-item",
+        "label": "Carousel Slides",
+        "name": "slides"
+      }
+    ]
+  },
+  {
+    "id": "banner-carousel-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Desktop Image",
+        "name": "desktopImage",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Mobile Image",
+        "name": "mobileImage",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Banner Heading",
+        "name": "heading",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Banner Description",
+        "name": "description",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "CTA Link",
+        "name": "ctaLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "CTA Label",
+        "name": "ctaLabel",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "card",
     "fields": [
       {
@@ -156,6 +208,76 @@
         "name": "text",
         "value": "",
         "label": "Text",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "category-grid",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Variation Image",
+        "name": "variationImage",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Main Heading",
+        "name": "heading",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Subheading",
+        "name": "subheading",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Description",
+        "name": "description",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "category-grid-item",
+        "label": "Categories",
+        "name": "categories"
+      },
+      {
+        "component": "text",
+        "label": "CTA Label",
+        "name": "ctaLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "CTA Link",
+        "name": "ctaLink",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "category-grid-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Category Image",
+        "name": "image",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Category Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Category Link",
+        "name": "link",
         "valueType": "string"
       }
     ]
@@ -180,12 +302,334 @@
     ]
   },
   {
+    "id": "features-grid",
+    "fields": [
+      {
+        "component": "container",
+        "item": "feature-card",
+        "label": "Cards",
+        "name": "cards"
+      }
+    ]
+  },
+  {
+    "id": "feature-card",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Main Image (visible)",
+        "name": "mainImage"
+      },
+      {
+        "component": "reference",
+        "label": "Hidden Image (rightshift-image, display: none)",
+        "name": "hiddenImage"
+      },
+      {
+        "component": "text",
+        "label": "Feature Title",
+        "name": "featureTitle"
+      },
+      {
+        "component": "richtext",
+        "label": "Feature Description",
+        "name": "featureDescription"
+      },
+      {
+        "component": "reference",
+        "label": "CTA Icon",
+        "name": "ctaIcon"
+      },
+      {
+        "component": "aem-content",
+        "label": "CTA Link",
+        "name": "ctaLink"
+      }
+    ]
+  },
+  {
+    "id": "footer",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "ITC Logo",
+        "name": "logo",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "ITC Logo Link",
+        "name": "logoLink",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "FSSAI Logo",
+        "name": "fssaiLogo",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Footer Links (HTML UL)",
+        "name": "footerLinks",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Footer Menu (HTML UL)",
+        "name": "footerMenu",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Grievance Officer Title",
+        "name": "grievanceTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Grievance Officer Name",
+        "name": "grievanceName",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Grievance Officer Contact Info",
+        "name": "grievanceContact",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Grievance Officer Hours",
+        "name": "grievanceHours",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "footer-social-item",
+        "label": "Footer Social Links",
+        "name": "footerSocialLinks"
+      },
+      {
+        "component": "text",
+        "label": "Copyright",
+        "name": "copyright",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "footer-link-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Link Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Link URL",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "footer-social-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Social Icon",
+        "name": "icon",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Social Link URL",
+        "name": "socialLink",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "fragment",
     "fields": [
       {
         "component": "aem-content",
         "name": "reference",
         "label": "Reference"
+      }
+    ]
+  },
+  {
+    "id": "header",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "ITC Logo",
+        "name": "logoItc",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "ITC Logo Link",
+        "name": "logoItcLink",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Kitchens of India Logo",
+        "name": "logoKoi",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Kitchens of India Logo Link",
+        "name": "logoKoiLink",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Flag Image (IN)",
+        "name": "countryFlagIn",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Flag Image (USA)",
+        "name": "countryFlagUsa",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Current Country Code",
+        "name": "countryCode",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Dropdown Icon",
+        "name": "dropdownIcon",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Search Icon",
+        "name": "searchIcon",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Search Close Icon",
+        "name": "searchCloseIcon",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Search Input Placeholder",
+        "name": "searchPlaceholder",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Search Label",
+        "name": "searchLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Popular Suggestions Label",
+        "name": "popularSuggestionsLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Pages Label",
+        "name": "pagesLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "View All Items Button Label",
+        "name": "viewAllItemsLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Country Modal Title",
+        "name": "countryModalTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Country Modal Experience Text",
+        "name": "countryModalExperienceText",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "navigation-item",
+        "label": "Navigation Menu",
+        "name": "navigationMenu"
+      },
+      {
+        "component": "container",
+        "item": "country-option-item",
+        "label": "Country Options",
+        "name": "countryOptions"
+      }
+    ]
+  },
+  {
+    "id": "navigation-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Menu Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Menu Link",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "country-option-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Country Flag Image",
+        "name": "flag",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Country Name",
+        "name": "countryName",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Country Link",
+        "name": "countryUrl",
+        "valueType": "string"
       }
     ]
   },
@@ -211,6 +655,51 @@
         "name": "text",
         "value": "",
         "label": "Text",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "info-carousel",
+    "fields": [
+      {
+        "component": "container",
+        "item": "info-carousel-item",
+        "label": "Carousel Items",
+        "name": "carouselItems"
+      }
+    ]
+  },
+  {
+    "id": "info-carousel-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Image",
+        "name": "image",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Title",
+        "name": "title",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Description",
+        "name": "description",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "section-title",
+    "fields": [
+      {
+        "component": "richtext",
+        "label": "Titles",
+        "name": "titles",
         "valueType": "string"
       }
     ]

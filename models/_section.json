@@ -50,7 +50,14 @@
         "hero",
         "cards",
         "columns",
-        "fragment"
+        "fragment",
+        "header",
+        "banner-carousel",
+        "info-carousel",
+        "category-grid",
+        "section-title",
+        "features-grid",
+        "footer"
       ]
     }
   ]

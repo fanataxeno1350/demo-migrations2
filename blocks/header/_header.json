@@ -1,0 +1,226 @@
+{
+  "definitions": [
+    {
+      "title": "Header",
+      "id": "header",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "header",
+              "model": "header",
+              "name": "Header"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Navigation-Item",
+      "id": "navigation-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "navigation-item",
+              "name": "Navigation-Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Country-Option-Item",
+      "id": "country-option-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "country-option-item",
+              "name": "Country-Option-Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "header",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "ITC Logo",
+          "name": "logoItc",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "ITC Logo Link",
+          "name": "logoItcLink",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Kitchens of India Logo",
+          "name": "logoKoi",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Kitchens of India Logo Link",
+          "name": "logoKoiLink",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Flag Image (IN)",
+          "name": "countryFlagIn",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Flag Image (USA)",
+          "name": "countryFlagUsa",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Current Country Code",
+          "name": "countryCode",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Dropdown Icon",
+          "name": "dropdownIcon",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Search Icon",
+          "name": "searchIcon",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Search Close Icon",
+          "name": "searchCloseIcon",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Search Input Placeholder",
+          "name": "searchPlaceholder",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Search Label",
+          "name": "searchLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Popular Suggestions Label",
+          "name": "popularSuggestionsLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Pages Label",
+          "name": "pagesLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "View All Items Button Label",
+          "name": "viewAllItemsLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Country Modal Title",
+          "name": "countryModalTitle",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Country Modal Experience Text",
+          "name": "countryModalExperienceText",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "navigation-item",
+          "label": "Navigation Menu",
+          "name": "navigationMenu"
+        },
+        {
+          "component": "container",
+          "item": "country-option-item",
+          "label": "Country Options",
+          "name": "countryOptions"
+        }
+      ]
+    },
+    {
+      "id": "navigation-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Menu Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Menu Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "country-option-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Country Flag Image",
+          "name": "flag",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Country Name",
+          "name": "countryName",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Country Link",
+          "name": "countryUrl",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "header",
+      "components": [
+        "navigation-item",
+        "country-option-item"
+      ]
+    }
+  ]
+}

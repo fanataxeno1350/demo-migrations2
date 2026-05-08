@@ -1,272 +1,276 @@
-/* header and nav layout */
-header .nav-wrapper {
-  background-color: var(--background-color);
-  width: 100%;
-  z-index: 2;
-  position: fixed;
+@keyframes cmp-search__loading-indicator-spin{0{transform:rotate(0)}
+100%{transform:rotate(360deg)}
 }
 
-header nav {
-  box-sizing: border-box;
-  display: grid;
-  grid-template:
-    'hamburger brand tools' var(--nav-height)
-    'sections sections sections' 1fr / auto 1fr auto;
-  align-items: center;
-  gap: 0 24px;
-  margin: auto;
-  max-width: 1248px;
-  height: var(--nav-height);
-  padding: 0 24px;
-  font-family: var(--body-font-family);
+@keyframes cmp-search__loading-indicator-spin{0{transform:rotate(0)}
+100%{transform:rotate(360deg)}
 }
 
-header nav[aria-expanded='true'] {
-  grid-template:
-    'hamburger brand' var(--nav-height)
-    'sections sections' 1fr
-    'tools tools' var(--nav-height) / auto 1fr;
-  overflow-y: auto;
-  min-height: 100dvh;
+@media(min-width:576px) { .container{ max-width:540px } }
+
+@media(min-width:768px) { .container{ max-width:720px } }
+
+@media(min-width:992px) { .container{ max-width:960px } }
+
+@media(min-width:1200px) { .container{ max-width:1140px } }
+
+.fade{ transition:opacity .15s linear }
+
+@media(prefers-reduced-motion:reduce) { .fade{ transition:none } }
+
+.fade:not(.show){ opacity:0 }
+
+.collapse:not(.show){ display:none }
+
+.nav-link{ display:block;padding:.5rem 1rem }
+
+.nav-link:focus, .nav-link:hover{ text-decoration:none }
+
+.navbar{ position:relative;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-ms-flex-align:center;align-items:center;-ms-flex-pack:justify;justify-content:space-between;padding:.5rem 1rem }
+
+.navbar-collapse{ -ms-flex-preferred-size:100%;flex-basis:100%;-ms-flex-positive:1;flex-grow:1;-ms-flex-align:center;align-items:center }
+
+.navbar-toggler{ padding:.25rem .75rem;font-size:1.25rem;line-height:1;background-color:transparent;border:1px solid transparent;border-radius:.25rem }
+
+.navbar-toggler:focus, .navbar-toggler:hover{ text-decoration:none }
+
+.navbar-toggler-icon{ display:inline-block;width:1.5em;height:1.5em;vertical-align:middle;content:"";background:50%/100% 100% no-repeat }
+
+@media(min-width:1200px) { .navbar-expand-xl{ -ms-flex-flow:row nowrap;flex-flow:row nowrap;-ms-flex-pack:start;justify-content:flex-start }
+
+.navbar-expand-xl .navbar-collapse{ display:-ms-flexbox !important;display:flex !important;-ms-flex-preferred-size:auto;flex-basis:auto }
+
+.navbar-expand-xl .navbar-toggler{ display:none } }
+
+.navbar-light .navbar-toggler{ color:rgba(0,0,0,.5);border-color:rgba(0,0,0,.1) }
+
+.navbar-light .navbar-toggler-icon{ background-image:url("data:image/svg+xml,%3csvgxmlns='http://www.w3.org/2000/svg'width='30'height='30'viewBox='003030'%3e%3cpathstroke='rgba%280,0,0,0.5%29'stroke-linecap='round'stroke-miterlimit='10'stroke-width='2'd='M47h22M415h22M423h22'/%3e%3c/svg%3e") }
+
+@keyframes progress-bar-stripes{from{background-position:1rem 0}
+to{background-position:0 0}
 }
 
-@media (width >= 900px) {
-  header .nav-wrapper {
-    position: relative;
-  }
+.modal{ position:fixed;top:0;left:0;z-index:1050;display:none;width:100%;height:100%;overflow:hidden;outline:0 }
 
-  header nav {
-    display: flex;
-    justify-content: space-between;
-    gap: 0 32px;
-    max-width: 1264px;
-    padding: 0 32px;
-  }
+.modal-dialog{ position:relative;width:auto;margin:.5rem;pointer-events:none }
 
-  header nav[aria-expanded='true'] {
-    min-height: 0;
-    overflow: visible;
-  }
+.modal.fade .modal-dialog{ transition:-webkit-transform .3s ease-out;transition:transform .3s ease-out;transition:transform .3s ease-out,-webkit-transform .3s ease-out;-webkit-transform:translate(0,-50px);transform:translate(0,-50px) }
+
+@media(prefers-reduced-motion:reduce) { .modal.fade .modal-dialog{ transition:none } }
+
+.modal.show .modal-dialog{ -webkit-transform:none;transform:none }
+
+.modal-dialog-centered{ display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;min-height:calc(100% - 1rem) }
+
+.modal-dialog-centered::before{ display:block;height:calc(100vh - 1rem);height:-webkit-min-content;height:-moz-min-content;height:min-content;content:"" }
+
+.modal-content{ position:relative;display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;width:100%;pointer-events:auto;background-color:#fff;background-clip:padding-box;border:1px solid rgba(0,0,0,.2);border-radius:.3rem;outline:0 }
+
+.modal-header{ display:-ms-flexbox;display:flex;-ms-flex-align:start;align-items:flex-start;-ms-flex-pack:justify;justify-content:space-between;padding:1rem 1rem;border-bottom:1px solid #dee2e6;border-top-left-radius:calc(.3rem - 1px);border-top-right-radius:calc(.3rem - 1px) }
+
+.modal-title{ margin-bottom:0;line-height:1.5 }
+
+.modal-body{ position:relative;-ms-flex:1 1 auto;flex:1 1 auto;padding:1rem }
+
+@media(min-width:576px) { .modal-dialog{ max-width:500px;margin:1.75rem auto }
+
+.modal-dialog-centered{ min-height:calc(100% - 3.5rem) }
+
+.modal-dialog-centered::before{ height:calc(100vh - 3.5rem);height:-webkit-min-content;height:-moz-min-content;height:min-content } }
+
+@keyframes spinner-border{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}
 }
 
-header nav p {
-  margin: 0;
-  line-height: 1;
+@keyframes spinner-grow{0{-webkit-transform:scale(0);transform:scale(0)}
+50%{opacity:1;-webkit-transform:none;transform:none}
 }
 
-header nav a:any-link {
-  color: currentcolor;
+.bg-light{ background-color:#f8f9fa !important }
+
+.border-0{ border:0 !important }
+
+@media(min-width:1200px) { .d-xl-none{ display:none !important } }
+
+.justify-content-end{ -ms-flex-pack:end !important;justify-content:flex-end !important }
+
+.justify-content-between{ -ms-flex-pack:justify !important;justify-content:space-between !important }
+
+.align-items-center{ -ms-flex-align:center !important;align-items:center !important }
+
+.mx-3{ margin-right:1rem !important }
+
+.mx-3{ margin-left:1rem !important }
+
+@media(min-width:1200px) { .px-xl-5{ padding-right:3rem !important }
+
+.px-xl-5{ padding-left:3rem !important } }
+
+@media print { .container{ min-width:992px !important }
+
+.navbar{ display:none } }
+
+.itc-header-section{ position:fixed;width:100%;background-color:#fff;z-index:9999;top:0;left:0 }
+
+.itc-header-section nav ul:first-child{ display:flex;list-style-type:none }
+
+.itc-header-section a{ color:var(--bg-dark);text-decoration:none;padding-bottom:5px }
+
+.itc-header-section li:hover a{ color:var(--dark-green);border-bottom:2px solid var(--dark-green);transition:.3s all ease }
+
+.itc-header-section .navbar{ height:92px }
+
+.itc-header-section ul li{ padding-right:22px;font-size:16px }
+
+.itc-header-section ul{ margin-bottom:0 }
+
+.itc-header-icon-list a.nav-link{ color:var(--bg-dark);font-size:16px }
+
+.itc-header-icon-list a span{ font-size:10px }
+
+.itc-header-section .navbar-toggler{ border:0 }
+
+@media(max-width:1438px) { .itc-header-section a, .itc-header-icon-list a{ font-size:1vw } }
+
+@media(max-width:1400px) { .itc-header-section .logo img{ padding-left:40px } }
+
+@media(max-width:1200px) { .itc-header-section div#navbarSupportedContent{ position:absolute;background:#fff7e3;min-width:300px;width:89%;z-index:1;padding:10px;top:66px;height:100vh }
+
+.itc-header-section .navbar{ height:78px }
+
+.itc-header-section li:hover a{ border-bottom:2px solid var(--light) }
+
+.itc-header-section div#navbarSupportedContent .nav-item{ background:#098040;border-radius:1.6rem }
+
+.itc-header-section div#navbarSupportedContent .nav-item li a{ color:#fff;font-size:1rem !important;font-weight:700 }
+
+.itc-header-section div#navbarSupportedContent .nav-item li{ padding:10px 0 !important }
+
+.itc-header-section div#navbarSupportedContent .nav-item ul{ padding:10px 0 20px 20px }
+
+.itc-header-section .navbar-toggler .navbar-toggler-icon{ max-width:19px;background:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/image/toggle-cross-8a5c18.svg");background-repeat:no-repeat }
+
+.itc-header-section .navbar-toggler.collapsed .navbar-toggler-icon{ background:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/image/toggle-2816e2.svg");background-repeat:no-repeat;max-width:19px }
+
+.itc-header-section nav ul:first-child{ display:block }
+
+.itc-header-section a, .itc-header-icon-list a{ font-size:2vw }
+
+.itc-header-section .logo img{ width:77px;height:47px }
+
+.itc-header-section .logo img{ padding-left:0 } }
+
+@media(max-width:991px) { .itc-header-icon-list a span{ font-size:8px }
+
+.itc-header-section a{ padding:0 } }
+
+.nav-item{ display:flex;align-items:center }
+
+.search-container{ display:flex;align-items:center;border:1px solid #ccc;padding:5px;border-radius:5px;width:100% }
+
+.search-container.hidden{ display:none }
+
+.search-container button{ background:0;border:0;cursor:pointer }
+
+.search-results{ border:1px solid #ccc;padding:10px;background:#fff;border-radius:5px;position:absolute;top:100%;left:15px;z-index:1000;width:calc(100% - 30px);max-height:380px;overflow-y:auto }
+
+.search-results.hidden{ display:none }
+
+.search-results ul{ list-style:none;padding-left:0 }
+
+.hidden{ display:none }
+
+.itc-header-section .navbar{ position:relative }
+
+.search-block{ position:absolute;right:0;top:100%;width:100% }
+
+.resultList{ text-align:left }
+
+.search-box{ border:1px solid #000;background:#FFF;display:flex;align-items:center;gap:15px;justify-content:space-between;padding:15px }
+
+@media(min-width:768px) { .search-results{ width:calc(100%);left:0 }
+
+.itc-header-icon-list{ text-align:right }
+
+.search-block{ max-width:300px;top:50%;transform:translateY(-50%) }
+
+.search-box{ padding:10px } }
+
+@media(min-width:1200px) { .search-results{ width:calc(100% + 50px);left:0 }
+
+.itc-header-icon-list{ display:flex;align-items:center }
+
+.search-block{ max-width:300px;position:relative;right:-60px;top:unset;transform:unset } }
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-black-b274ce.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-black-e09dd8.x-font-woff") format('woff');font-weight:900;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-blackitalic-1b544a.x-font-woff") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-blackitalic-1b544a.x-font-woff") format('woff');font-weight:900;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-light-4481b7.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-light-fba4a2.x-font-woff") format('woff');font-weight:300;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-regular-e479bd.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-regular-90f6da.x-font-woff") format('woff');font-weight:normal;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-extrabold-eda6b6.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-extrabold-a1a6fd.x-font-woff") format('woff');font-weight:bold;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-extralight-32f190.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-extralight-3f65be.x-font-woff") format('woff');font-weight:200;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-extrabolditalic-2699ed.x-font-woff") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-extrabolditalic-2699ed.x-font-woff") format('woff');font-weight:bold;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-bolditalic-bd329d.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-bolditalic-c058eb.x-font-woff") format('woff');font-weight:bold;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-mediumitalic-e1bd82.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-mediumitalic-54b13b.x-font-woff") format('woff');font-weight:500;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-extralightitalic-613803.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-extralightitalic-b140b1.x-font-woff") format('woff');font-weight:200;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-lightitalic-78af88.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-lightitalic-3b7333.x-font-woff") format('woff');font-weight:300;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-semibolditalic-ea0e8b.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-semibolditalic-edc2c3.x-font-woff") format('woff');font-weight:600;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-bold-b63085.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-bold-0b705f.x-font-woff") format('woff');font-weight:bold;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-thin-fc3bef.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-thin-ce7db6.x-font-woff") format('woff');font-weight:100;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-italic-009842.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-italic-611c68.x-font-woff") format('woff');font-weight:normal;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-medium-bd5615.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-medium-ca72ef.x-font-woff") format('woff');font-weight:500;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-thinitalic-f1dc0d.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-thinitalic-d93461.x-font-woff") format('woff');font-weight:100;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-semibold-6108ca.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-semibold-f601a0.x-font-woff") format('woff');font-weight:600;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Paytone One';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/paytoneone-regular-7d76e9.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/paytoneone-regular-e7f0ed.x-font-woff") format('woff'),url("https://kitchensofindia.com/etc.clientlibs/itc-rightshift/clientlibs/clientlib-rightshift/resources/fonts/aytoneOne-Regular.ttf") format('truetype'),url("https://kitchensofindia.com/etc.clientlibs/itc-rightshift/clientlibs/clientlib-rightshift/resources/fonts/PaytoneOne-Regular.svg#PaytoneOne-Regular") format('svg');font-weight:normal;font-style:normal;font-display:swap}
+
+@keyframes pulse{0{box-shadow:0 0 0 0 #098040 70}
+100%{box-shadow:0 0 0 10px #098040 0}
 }
 
-/* hamburger */
-header nav .nav-hamburger {
-  grid-area: hamburger;
-  height: 22px;
-  display: flex;
-  align-items: center;
+@keyframes nextStep{0{width:0}
+100%{width:100%}
 }
 
-header nav .nav-hamburger button {
-  height: 22px;
-  margin: 0;
-  border: 0;
-  border-radius: 0;
-  padding: 0;
-  background-color: var(--background-color);
-  color: inherit;
-  overflow: initial;
-  text-overflow: initial;
-  white-space: initial;
+@font-face{font-family:'slick';font-weight:normal;font-style:normal;font-display:swap;src:url("https://kitchensofindia.com/etc.clientlibs/itc-rightshift/clientlibs/clientlib-rightshift/css/fonts/slick.eot");src:url("https://kitchensofindia.com/etc.clientlibs/itc-rightshift/clientlibs/clientlib-rightshift/css/fonts/slick.eot?#iefix") format('embedded-opentype'),url("https://kitchensofindia.com/etc.clientlibs/itc-rightshift/clientlibs/clientlib-rightshift/css/fonts/slick.woff") format('woff'),url("https://kitchensofindia.com/etc.clientlibs/itc-rightshift/clientlibs/clientlib-rightshift/css/fonts/slick.ttf") format('truetype'),url("https://kitchensofindia.com/etc.clientlibs/itc-rightshift/clientlibs/clientlib-rightshift/css/fonts/slick.svg#slick") format('svg')}
+
+.header-section{ width:fit-content;@media(max-width:1200px){padding-left:13px;padding-top:10px}
+ }
+
+.itc-country-selector{ & .modal-title{font-size:30px;font-family:inherit;font-weight:bold;color:#4f250a;line-height:1}
+& .experience-text{font-family:"Cataneo";font-size:45px;font-weight:normal;color:#eeb144;margin-bottom:0;font-style:italic}
+& .modal-content{pointer-events:none !important}
+& .modal-body{padding-top:0 !important;padding-bottom:26px !important;& .country-option{pointer-events:auto;& .country-name{color:#282828;font-size:16px;font-weight:bold;text-align:center;line-height:1cm;.kitchens-of-india &{margin-bottom:0}
 }
-
-header nav .nav-hamburger-icon,
-header nav .nav-hamburger-icon::before,
-header nav .nav-hamburger-icon::after {
-  box-sizing: border-box;
-  display: block;
-  position: relative;
-  width: 20px;
 }
-
-header nav .nav-hamburger-icon::before,
-header nav .nav-hamburger-icon::after {
-  content: '';
-  position: absolute;
-  background: currentcolor;
+& .modal-content{background-color:#faf6f2}
 }
+& .country-options:hover{cursor:pointer}
+ }
 
-header nav[aria-expanded='false'] .nav-hamburger-icon,
-header nav[aria-expanded='false'] .nav-hamburger-icon::before,
-header nav[aria-expanded='false'] .nav-hamburger-icon::after {
-  height: 2px;
-  border-radius: 2px;
-  background: currentcolor;
-}
+.search-icon{ background:0;color:black;padding:2px 5px;border-radius:5px;cursor:pointer;gap:4px;font-size:14px;font-weight:bold }
 
-header nav[aria-expanded='false'] .nav-hamburger-icon::before {
-  top: -6px;
-}
+.search-icon:hover{ background:rgba(255,255,255,0.1) }
 
-header nav[aria-expanded='false'] .nav-hamburger-icon::after {
-  top: 6px;
-}
+.header-country-flag{ width:19px;height:19px;border-radius:50%;object-fit:cover }
 
-header nav[aria-expanded='true'] .nav-hamburger-icon {
-  height: 22px;
-}
+.dropdown-icon{ vertical-align:middle;border-style:none }
 
-header nav[aria-expanded='true'] .nav-hamburger-icon::before,
-header nav[aria-expanded='true'] .nav-hamburger-icon::after {
-  top: 3px;
-  left: 1px;
-  transform: rotate(45deg);
-  transform-origin: 2px 1px;
-  width: 24px;
-  height: 2px;
-  border-radius: 2px;
-}
+.itc-country-selector{ z-index:10000 }
 
-header nav[aria-expanded='true'] .nav-hamburger-icon::after {
-  top: unset;
-  bottom: 3px;
-  transform: rotate(-45deg);
-}
-
-@media (width >= 900px) {
-  header nav .nav-hamburger {
-    display: none;
-    visibility: hidden;
-  }
-}
-
-/* brand */
-header .nav-brand {
-  grid-area: brand;
-  flex-basis: 128px;
-  font-size: var(--heading-font-size-s);
-  font-weight: 700;
-  line-height: 1;
-}
-
-header nav .nav-brand img {
-  width: 128px;
-  height: auto;
-}
-
-/* sections */
-header nav .nav-sections {
-  grid-area: sections;
-  flex: 1 1 auto;
-  display: none;
-  visibility: hidden;
-}
-
-header nav[aria-expanded='true'] .nav-sections {
-  display: block;
-  visibility: visible;
-  align-self: start;
-}
-
-header nav .nav-sections ul {
-  list-style: none;
-  padding-left: 0;
-  font-size: var(--body-font-size-s);
-}
-
-header nav .nav-sections ul > li {
-  font-weight: 500;
-}
-
-header nav .nav-sections ul > li > ul {
-  margin-top: 0;
-}
-
-header nav .nav-sections ul > li > ul > li {
-  font-weight: 400;
-}
-
-@media (width >= 900px) {
-  header nav .nav-sections {
-    display: block;
-    visibility: visible;
-    white-space: nowrap;
-  }
-
-  header nav[aria-expanded='true'] .nav-sections {
-    align-self: unset;
-  }
-
-  header nav .nav-sections .nav-drop {
-    position: relative;
-    padding-right: 16px;
-    cursor: pointer;
-  }
-
-  header nav .nav-sections .nav-drop::after {
-    content: '';
-    display: inline-block;
-    position: absolute;
-    top: 0.5em;
-    right: 2px;
-    transform: rotate(135deg);
-    width: 6px;
-    height: 6px;
-    border: 2px solid currentcolor;
-    border-radius: 0 1px 0 0;
-    border-width: 2px 2px 0 0;
-  }
-
-  header nav .nav-sections .nav-drop[aria-expanded='true']::after {
-    top: unset;
-    bottom: 0.5em;
-    transform: rotate(315deg);
-  }
-
-  header nav .nav-sections ul {
-    display: flex;
-    gap: 24px;
-    margin: 0;
-  }
-
-  header nav .nav-sections .default-content-wrapper > ul > li {
-    flex: 0 1 auto;
-    position: relative;
-  }
-
-  header nav .nav-sections .default-content-wrapper > ul > li > ul {
-    display: none;
-    position: relative;
-  }
-
-  header nav .nav-sections .default-content-wrapper > ul > li[aria-expanded='true'] > ul {
-    display: block;
-    position: absolute;
-    left: -24px;
-    width: 200px;
-    top: 150%;
-    padding: 16px;
-    background-color: var(--light-color);
-    white-space: initial;
-  }
-
-  header nav .nav-sections .default-content-wrapper > ul > li > ul::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: 16px;
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid var(--light-color);
-  }
-
-  header nav .nav-sections .default-content-wrapper > ul > li > ul > li {
-    padding: 8px 0;
-  }
-}
-
-/* tools */
-header nav .nav-tools {
-  grid-area: tools;
-}
+.itc-country-selector.show{ background-color:rgba(0,0,0,0.4) }
