@@ -1,0 +1,129 @@
+@media (min-width:576px) { .container{ max-width:540px } }
+
+@media (min-width:768px) { .container{ max-width:720px } }
+
+@media (min-width:992px) { .container{ max-width:960px } }
+
+@media (min-width:1200px) { .container{ max-width:1140px } }
+
+@media (min-width:1400px) { .container{ max-width:1320px } }
+
+@media (prefers-reduced-motion:reduce) { .btn{ transition:none } }
+
+.btn-link{ --bs-btn-font-weight:400;--bs-btn-color:var(--bs-link-color);--bs-btn-bg:transparent;--bs-btn-border-color:transparent;--bs-btn-hover-color:var(--bs-link-hover-color);--bs-btn-hover-border-color:transparent;--bs-btn-active-color:var(--bs-link-hover-color);--bs-btn-active-border-color:transparent;--bs-btn-disabled-color:#6c757d;--bs-btn-disabled-border-color:transparent;--bs-btn-box-shadow:0 0 0 #000;--bs-btn-focus-shadow-rgb:49,132,253;text-decoration:underline }
+
+.btn-link:focus-visible{ color:var(--bs-btn-color) }
+
+.btn-link:hover{ color:var(--bs-btn-hover-color) }
+
+@keyframes progress-bar-stripes{0%{background-position-x:var(--bs-progress-height)}}
+
+@keyframes spinner-border{to{transform:rotate(360deg)}}
+
+@keyframes spinner-grow{0%{transform:scale(0)}50%{opacity:1;transform:none}}
+
+@keyframes placeholder-glow{50%{opacity:.2}}
+
+@keyframes placeholder-wave{100%{-webkit-mask-position:-200% 0%;mask-position:-200% 0%}}
+
+@keyframes swiper-preloader-spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}
+
+@font-face{font-family:'Georama';src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-regular-d0c863.woff") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-regular-d0c863.woff") format('woff');font-weight:400;font-style:normal;font-display:swap;}
+
+@font-face{font-family:'Georama-medium';src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-medium-f99b53.woff") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-medium-f99b53.woff") format('woff');font-weight:500;font-style:normal;font-display:swap;}
+
+@font-face{font-family:quantum-rise-medium;src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-medium-dbd160.woff2") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-medium-e21fab.woff") format("woff");font-style:normal;font-weight:400;font-display:swap;}
+
+@font-face{font-family:quantum-rise-regular;src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-regular-e79a1e.woff") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-regular-e79a1e.woff") format("woff");font-style:normal;font-weight:400;font-display:swap;}
+
+@media (max-device-width:1190px) and (min-device-width:834px) and (orientation:landscape) and (-webkit-min-device-pixel-ratio:2) { .container{ max-width:96%; } }
+
+@media (max-device-width:834px) and (min-device-width:767px) and (orientation:portrait) and (-webkit-min-device-pixel-ratio:2) { .container{ max-width:100%;padding:0 0.75rem; } }
+
+@media only screen and (max-width:767px) { .container{ max-width:100%; } }
+
+@media (max-width:834px) { .section{ padding:2rem 0; } }
+
+@media (max-width:834px) { .heading{ font-size:1.25rem; } }
+
+.flickity-slider-mobile-wrap:after{ content:"flickity";display:none; }
+
+@media (min-width:1025px) { .flickity-slider-mobile-wrap:after{ content:""; } }
+
+@media (max-width:834px) { .section-header{ padding-right:var(--bs-gutter-x,0.75rem);padding-left:var(--bs-gutter-x,0.75rem);padding-bottom:1rem; } }
+
+@media (min-width:1300px) { .container{ max-width:1280px; } }
+
+@keyframes scroll-left{0%{transform:translateX(0%);}100%{transform:translateX(-100%);}}
+
+@media (max-width:834px) { .latest-stories{ padding-bottom:4rem; } }
+
+@media (min-width:1025px) { .latest-stories .grid-layout{ display:grid;grid-template-rows:1fr 1fr;grid-template-columns:1fr 1fr;grid-template-columns:calc(45% - 5px) calc(55% - 5px);gap:20px; } }
+
+@media (max-device-width:834px) and (min-device-width:767px) and (orientation:portrait) and (-webkit-min-device-pixel-ratio:2) { .latest-stories .grid-layout .slides{ width:50%;padding:0 5px; } }
+
+.latest-stories .grid-layout .slides:first-child .wrap .image-wrap img{ height:365px;object-fit:cover; }
+
+.latest-stories .grid-layout .slides:nth-child(1) .wrap .image-wrap{ border-radius:10px 10px 0 0; }
+
+.latest-stories .grid-layout .slides:nth-child(2) .wrap .image-wrap{ border-radius:10px 0 0 10px; }
+
+.latest-stories .grid-layout .slides:nth-child(3) .wrap .image-wrap{ border-radius:0 10px 10px 0; }
+
+@media (max-width:1024px) { .latest-stories .grid-layout .slides:nth-child(2) .wrap .image-wrap, .latest-stories .grid-layout .slides:nth-child(3) .wrap .image-wrap{ border-radius:10px 10px 0 0; } }
+
+@media (max-width:834px) { .latest-stories .grid-layout .slides:first-child .wrap .image-wrap img{ height:auto; } }
+
+.latest-stories .grid-layout .slides .wrap .image-wrap{ overflow:hidden; }
+
+.latest-stories .grid-layout .slides .wrap .image-wrap img{ width:100%;transition:all 0.3s ease-in-out; }
+
+.latest-stories .grid-layout .slides .wrap .content-wrap{ padding:2.5rem; }
+
+@media (max-width:834px) { .latest-stories .grid-layout .slides .wrap .content-wrap{ padding:1rem; } }
+
+.latest-stories .grid-layout .slides .wrap .content-wrap .category{ font-family:quantum-rise-medium,sans-serif;color:#aaa;font-size:0.75rem;text-transform:uppercase;margin-bottom:0.5rem; }
+
+.latest-stories .grid-layout .slides .wrap .content-wrap .text{ font-weight:500;color:#fff; }
+
+.latest-stories .grid-layout .slides .wrap .content-wrap .btn{ font-size:0.9rem;color:#dd052b;text-decoration:none;padding-bottom:0.2rem;position:relative; }
+
+.latest-stories .grid-layout .slides .wrap .content-wrap .btn:after{ content:"";position:absolute;width:50%;left:0%;bottom:0;height:1px;background:rgba(255,255,255,0.5);transition:all 0.3s ease-in-out; }
+
+.latest-stories .grid-layout .slides .wrap .content-wrap .date{ margin-top:2rem;font-style:italic;font-size:0.85rem;color:rgba(0,0,0,0.6);color:#fff; }
+
+.latest-stories .grid-layout .slides .wrap:hover .btn:after{ width:90%; }
+
+.latest-stories .grid-layout .slides .wrap:hover .image-wrap img{ transform:scale(1.05); }
+
+.latest-stories .grid-layout .slides:nth-child(1){ background:#222; }
+
+.latest-stories .grid-layout .slides{ border-radius:10px; }
+
+@media (min-width:1025px) { .latest-stories .grid-layout .slides:nth-child(1){ grid-row-start:1;grid-column-start:1;grid-row-end:3;grid-column-end:2;height:570px; } }
+
+.latest-stories .grid-layout .slides:nth-child(2){ background:#222; }
+
+@media (min-width:1025px) { .latest-stories .grid-layout .slides:nth-child(2){ grid-row-start:1;grid-column-start:2;grid-row-end:2;grid-column-end:3;height:275px; } }
+
+.latest-stories .grid-layout .slides:nth-child(3){ background-color:#484848; }
+
+@media (min-width:1025px) { .latest-stories .grid-layout .slides:nth-child(3){ grid-row-start:2;grid-column-start:2;grid-row-end:3;grid-column-end:3;height:275px; } }
+
+.latest-stories .grid-layout .slides:nth-child(3) .wrap{ flex-direction:row-reverse !important; }
+
+.latest-stories .grid-layout .slides:nth-child(3) .wrap .category, .latest-stories .grid-layout .slides:nth-child(3) .wrap .text, .latest-stories .grid-layout .slides:nth-child(3) .wrap .date{ color:#fff; }
+
+@media (min-width:1025px) { .latest-stories .grid-layout .slides:nth-child(2) .wrap, .latest-stories .grid-layout .slides:nth-child(3) .wrap{ display:flex;height:100%;align-items:center; } }
+
+@media (min-width:1025px) { .latest-stories .grid-layout .slides:nth-child(2) .wrap .image-wrap, .latest-stories .grid-layout .slides:nth-child(3) .wrap .image-wrap{ width:50%;height:100%; } }
+
+.latest-stories .grid-layout .slides:nth-child(2) .wrap .image-wrap img, .latest-stories .grid-layout .slides:nth-child(3) .wrap .image-wrap img{ width:100%;height:100%;object-fit:cover; }
+
+@media (min-width:1025px) { .latest-stories .grid-layout .slides:nth-child(2) .wrap .content-wrap, .latest-stories .grid-layout .slides:nth-child(3) .wrap .content-wrap{ width:50%; } }
+
+@keyframes loader-1-1{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+@keyframes loader-1-2{0%{transform:rotate(0deg)}100%{transform:rotate(220deg)}}
+
+@keyframes loader-1-3{0%{transform:rotate(-140deg)}50%{transform:rotate(-160deg)}100%{transform:rotate(140deg)}}

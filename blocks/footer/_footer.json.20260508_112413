@@ -81,25 +81,25 @@
         {
           "component": "container",
           "item": "footer-social-item",
-          "label": "Social Links",
+          "label": "Footer Social Links",
           "name": "socialLinks"
         },
         {
           "component": "container",
           "item": "footer-section-item",
-          "label": "Footer Sections",
+          "label": "Footer Menu Sections",
           "name": "footerSections"
         },
         {
           "component": "container",
           "item": "footer-link-item",
-          "label": "Legal/Bottom Links",
-          "name": "legalLinks"
+          "label": "Footer Legal Links",
+          "name": "footerLegalLinks"
         },
         {
           "component": "text",
           "label": "Copyright Text",
-          "name": "copyrightText",
+          "name": "copyright",
           "valueType": "string"
         }
       ]
