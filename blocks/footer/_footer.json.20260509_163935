@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Footer-Link-Section-Item",
-      "id": "footer-link-section-item",
+      "title": "Footer-Section-Item",
+      "id": "footer-section-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "footer-link-section-item",
-              "name": "Footer-Link-Section-Item"
+              "model": "footer-section-item",
+              "name": "Footer-Section-Item"
             }
           }
         }
@@ -65,14 +65,14 @@
         },
         {
           "component": "text",
-          "label": "Brand Title",
-          "name": "brandTitle",
+          "label": "Site Title",
+          "name": "siteTitle",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Newsletter Title",
-          "name": "newsletterTitle",
+          "label": "Newsletter Heading",
+          "name": "newsletterHeading",
           "valueType": "string"
         },
         {
@@ -82,14 +82,14 @@
           "valueType": "string"
         },
         {
-          "component": "aem-content",
-          "label": "Newsletter Form Action URL",
+          "component": "text",
+          "label": "Newsletter Form Action",
           "name": "newsletterFormAction",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Newsletter Email Input Placeholder",
+          "label": "Newsletter Email Placeholder",
           "name": "newsletterEmailPlaceholder",
           "valueType": "string"
         },
@@ -101,9 +101,9 @@
         },
         {
           "component": "container",
-          "item": "footer-link-section-item",
-          "label": "Footer Link Sections",
-          "name": "linkSections"
+          "item": "footer-section-item",
+          "label": "Footer Sections",
+          "name": "footerSections"
         },
         {
           "component": "text",
@@ -114,12 +114,12 @@
       ]
     },
     {
-      "id": "footer-link-section-item",
+      "id": "footer-section-item",
       "fields": [
         {
           "component": "text",
           "label": "Section Title",
-          "name": "sectionTitle",
+          "name": "title",
           "valueType": "string"
         },
         {
@@ -158,7 +158,7 @@
     {
       "id": "footer",
       "components": [
-        "footer-link-section-item",
+        "footer-section-item",
         "footer-link-item"
       ]
     }

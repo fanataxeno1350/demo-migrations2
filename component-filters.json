@@ -56,7 +56,7 @@
   {
     "id": "footer",
     "components": [
-      "footer-section-item",
+      "footer-link-section-item",
       "footer-link-item"
     ]
   },

@@ -45,7 +45,7 @@
         {
           "component": "container",
           "item": "why-card-item",
-          "label": "Why Card Items",
+          "label": "Why Cards",
           "name": "cards"
         }
       ]
@@ -61,8 +61,8 @@
         },
         {
           "component": "reference",
-          "label": "Card Image",
-          "name": "image",
+          "label": "Card Icon",
+          "name": "icon",
           "valueType": "string"
         },
         {

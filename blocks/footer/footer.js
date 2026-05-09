@@ -1,10 +1,19 @@
-import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.js';
+import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
-function transformNestedLists(rootUl) {
+function transformNestedLists(rootUl, originalCell) {
   rootUl.querySelectorAll('li').forEach((li) => {
     const nested = li.querySelector(':scope > ul');
     const anchor = li.querySelector(':scope > a');
+
+    // Apply classes from original HTML to <a> and <li> if they exist
+    if (anchor) {
+      // Assuming a generic class for nav links if not explicitly provided in original HTML for nested links
+      // Based on original HTML, top-level <a> inside <li> don't have specific classes,
+      // but if they were part of a useful-links-list, they might inherit.
+      // For now, no specific classes are added to <a> inside <li> based on the provided original HTML.
+    }
+    li.classList.add('list-item'); // Assuming a generic list item class if not explicitly provided
 
     if (!anchor) {
       const textNode = [...li.childNodes].find(
@@ -21,7 +30,9 @@ function transformNestedLists(rootUl) {
     if (nested) {
       nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('has-sub-child'); // Class from original HTML for nested menu
+      // No specific class for sub-wrapper in original HTML, using a generic one for functionality
+      // If original HTML had a class for this, it would be used.
+      // For now, no class is added to subWrap based on the provided original HTML.
       subWrap.append(nested);
       li.append(subWrap);
 
@@ -30,29 +41,33 @@ function transformNestedLists(rootUl) {
         trigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          li.classList.toggle('active'); // Class from original HTML for active state
-          subWrap.classList.toggle('active'); // Class from original HTML for active state
+          li.classList.toggle('active');
+          subWrap.classList.toggle('active');
         });
       }
     }
   });
+  // Move instrumentation for the entire transformed list, linking it to the original cell
+  moveInstrumentation(originalCell, rootUl);
 }
 
-export default async function decorate(block) {
+export default function decorate(block) {
   const children = [...block.children];
 
+  // The BlockJson model shows 10 root fields, then item rows.
+  // The 'linkSections' field is a container, so it doesn't correspond to a single row.
+  // The 9th row (index 8) is 'copyrightRow'.
   const [
     logoRow,
     logoLinkRow,
-    siteTitleRow,
-    newsletterHeadingRow,
+    brandTitleRow,
+    newsletterTitleRow,
     newsletterDescriptionRow,
     newsletterFormActionRow,
     newsletterEmailPlaceholderRow,
     newsletterButtonLabelRow,
-    // footerSectionsContainerRow, // This is a container placeholder, not a real row
-    copyrightRow,
-    ...itemRows
+    copyrightRow, // This is the 9th root field, index 8. The container field 'linkSections' has no corresponding row.
+    ...itemRows // All subsequent rows are item rows for 'linkSections'
   ] = children;
 
   const footer = document.createElement('footer');
@@ -64,115 +79,129 @@ export default async function decorate(block) {
   row.classList.add('row', 'gy-5');
   container.append(row);
 
-  // Left column for logo and newsletter
+  // Left Section (Logo, Brand Title, Newsletter)
   const leftCol = document.createElement('div');
   leftCol.classList.add('col-lg-6', 'col-12');
   row.append(leftCol);
 
-  // Logo and Site Title
-  const logoLinkEl = document.createElement('a');
-  logoLinkEl.classList.add('footer-logo', 'd-flex', 'align-items-center');
-  const foundLogoLink = logoLinkRow.querySelector('a');
-  if (foundLogoLink) {
-    logoLinkEl.href = foundLogoLink.href;
-    moveInstrumentation(logoLinkRow, logoLinkEl);
-  }
+  const footerLogoLink = document.createElement('a');
+  footerLogoLink.classList.add('footer-logo', 'd-flex', 'align-items-center');
+  const logoHref = logoLinkRow?.querySelector('a')?.href || '#';
+  footerLogoLink.href = logoHref;
+  moveInstrumentation(logoLinkRow, footerLogoLink);
 
-  const picture = logoRow.querySelector('picture');
-  if (picture) {
-    const img = picture.querySelector('img');
+  const logoPicture = logoRow?.querySelector('picture');
+  if (logoPicture) {
+    const img = logoPicture.querySelector('img');
     const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '40' }]);
     moveInstrumentation(logoRow, optimizedPic.querySelector('img'));
-    logoLinkEl.append(optimizedPic);
+    footerLogoLink.append(optimizedPic);
   }
 
-  const siteTitle = document.createElement('h2');
-  siteTitle.textContent = siteTitleRow.textContent.trim();
-  moveInstrumentation(siteTitleRow, siteTitle);
-  logoLinkEl.append(siteTitle);
-  leftCol.append(logoLinkEl);
+  const brandTitle = document.createElement('h2');
+  brandTitle.textContent = brandTitleRow?.textContent.trim() || '';
+  moveInstrumentation(brandTitleRow, brandTitle);
+  footerLogoLink.append(brandTitle);
+  leftCol.append(footerLogoLink);
 
-  // Newsletter Section
-  const newsletterHeading = document.createElement('h3');
-  newsletterHeading.textContent = newsletterHeadingRow.textContent.trim();
-  moveInstrumentation(newsletterHeadingRow, newsletterHeading);
-  leftCol.append(newsletterHeading);
+  const newsletterTitle = document.createElement('h3');
+  newsletterTitle.textContent = newsletterTitleRow?.textContent.trim() || '';
+  moveInstrumentation(newsletterTitleRow, newsletterTitle);
+  leftCol.append(newsletterTitle);
 
   const newsletterDescription = document.createElement('p');
-  newsletterDescription.textContent = newsletterDescriptionRow.textContent.trim();
+  newsletterDescription.textContent = newsletterDescriptionRow?.textContent.trim() || '';
   moveInstrumentation(newsletterDescriptionRow, newsletterDescription);
   leftCol.append(newsletterDescription);
 
   const newsletterForm = document.createElement('form');
   newsletterForm.classList.add('d-flex', 'flex-wrap');
-  newsletterForm.action = newsletterFormActionRow.textContent.trim();
+  newsletterForm.action = newsletterFormActionRow?.querySelector('a')?.href || '#';
   newsletterForm.method = 'post';
   moveInstrumentation(newsletterFormActionRow, newsletterForm);
-
-  const csrfInput = document.createElement('input');
-  csrfInput.type = 'hidden';
-  csrfInput.name = 'csrfmiddlewaretoken';
-  // Placeholder value as per original HTML - this is a hardcoded value from the original HTML
-  // In a real scenario, this should ideally come from a hidden field in the block or a global config.
-  // For now, keeping it as is, as it's a direct copy from the original HTML.
-  csrfInput.value = 'zRmFAYwTPO46H1dyaTNlUbIRdB9iUyOTTgQeShrgqv9p0aqc3yptn2uJv5gHjJFV';
-  newsletterForm.append(csrfInput);
 
   const emailInput = document.createElement('input');
   emailInput.type = 'email';
   emailInput.name = 'email';
-  emailInput.placeholder = newsletterEmailPlaceholderRow.textContent.trim();
+  emailInput.placeholder = newsletterEmailPlaceholderRow?.textContent.trim() || '';
   moveInstrumentation(newsletterEmailPlaceholderRow, emailInput);
   newsletterForm.append(emailInput);
 
   const subscribeButton = document.createElement('button');
   subscribeButton.classList.add('btn', 'btn-primary', 'subscribe-btn');
-  subscribeButton.textContent = newsletterButtonLabelRow.textContent.trim();
+  subscribeButton.textContent = newsletterButtonLabelRow?.textContent.trim() || '';
   moveInstrumentation(newsletterButtonLabelRow, subscribeButton);
   newsletterForm.append(subscribeButton);
   leftCol.append(newsletterForm);
 
-  // Right columns for footer sections
-  // The footerSectionsContainerRow was a placeholder, actual item rows start after copyrightRow
-  // Filter for footer-section-item rows (2 cells: title, hierarchy-tree)
-  const footerSectionItems = itemRows.filter((item) => item.children.length === 2);
+  // Right Section (Link Sections)
+  // The 'linkSections' container field itself doesn't have a corresponding row in block.children
+  // but its item rows follow the root fields.
+  // We need a wrapper for these sections, but no specific instrumentation for the container itself.
+  // The instrumentation for individual section items will be moved.
+  const linkSectionsWrapper = document.createElement('div');
+  // No direct instrumentation for 'linkSectionsContainerRow' as it was a placeholder.
+  // The itemRows themselves will be instrumented.
 
-  footerSectionItems.forEach((item) => {
-    const [titleCell, hierarchyTreeCell] = [...item.children];
+  itemRows
+    .forEach((sectionRow) => {
+      // Distinguish between 'footer-link-section-item' (3 cells: title, container, richtext)
+      // and 'footer-link-item' (2 cells: label, link)
+      const cells = [...sectionRow.children];
 
-    const col = document.createElement('div');
-    col.classList.add('col-lg-3', 'col-6');
-    row.append(col);
+      if (cells.length === 2) { // Could be footer-link-section-item (title, richtext) OR footer-link-item (label, link)
+        // Check for richtext (ul) to distinguish footer-link-section-item
+        const hasRichtext = cells[1]?.querySelector('ul');
+        if (hasRichtext) { // This is a footer-link-section-item (sectionTitle, hierarchy-tree)
+          const [sectionTitleCell, hierarchyTreeCell] = cells;
 
-    const title = document.createElement('h5');
-    title.textContent = titleCell.textContent.trim();
-    moveInstrumentation(titleCell, title);
-    col.append(title);
+          const col = document.createElement('div');
+          col.classList.add('col-lg-3', 'col-6');
+          row.append(col);
 
-    const navList = document.createElement('ul');
-    navList.classList.add('d-flex', 'flex-column', 'useful-links-list');
-    moveInstrumentation(item, navList); // Move instrumentation from the item row to the navList
+          const sectionTitle = document.createElement('h5');
+          sectionTitle.textContent = sectionTitleCell?.textContent.trim() || '';
+          moveInstrumentation(sectionTitleCell, sectionTitle);
+          col.append(sectionTitle);
 
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
-    moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation from the cell
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = hierarchyTreeCell?.innerHTML || '';
+          const subList = tempDiv.querySelector('ul');
 
-    const subList = tempDiv.querySelector('ul');
-    if (subList) {
-      transformNestedLists(subList);
-      while (subList.firstChild) {
-        navList.append(subList.firstChild);
+          if (subList) {
+            const ul = document.createElement('ul');
+            ul.classList.add('d-flex', 'flex-column', 'useful-links-list');
+            // Apply classes to nested elements within the richtext
+            subList.querySelectorAll('a').forEach(a => a.classList.add('list-item-link')); // Example class, adjust as needed
+            subList.querySelectorAll('li').forEach(li => li.classList.add('list-item'));
+            subList.querySelectorAll('ul').forEach(nestedUl => nestedUl.classList.add('nested-list'));
+
+            transformNestedLists(subList, hierarchyTreeCell); // Pass the original cell for instrumentation
+            while (subList.firstChild) {
+              ul.append(subList.firstChild);
+            }
+            moveInstrumentation(sectionRow, ul); // Instrument the entire ul with the sectionRow
+            col.append(ul);
+          }
+        } else { // This is a footer-link-item (label, link)
+          // The current structure doesn't seem to explicitly handle footer-link-item as separate columns
+          // but rather as nested items within footer-link-section-item.
+          // If footer-link-item rows are meant to be separate top-level columns, this logic needs adjustment.
+          // Based on the original HTML, all links are within the 'useful-links-list' under a section title.
+          // This block might indicate a mismatch between model and original HTML structure for 'footer-link-item'.
+          // For now, assuming footer-link-item is always nested within a hierarchy-tree.
+          // If they are meant to be separate, they would need their own col.
+          // The current code only processes `footer-link-section-item` as top-level columns.
+        }
       }
-    }
-    col.append(navList);
-  });
+    });
 
   // Copyright
-  const copyright = document.createElement('h5');
-  copyright.classList.add('text-center', 'mt-6');
-  copyright.textContent = copyrightRow.textContent.trim();
-  moveInstrumentation(copyrightRow, copyright);
-  footer.append(copyright);
+  const copyrightText = document.createElement('h5');
+  copyrightText.classList.add('text-center', 'mt-6');
+  copyrightText.textContent = copyrightRow?.textContent.trim() || '';
+  moveInstrumentation(copyrightRow, copyrightText);
+  footer.append(copyrightText);
 
   block.replaceChildren(footer);
 }

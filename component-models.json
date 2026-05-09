@@ -414,14 +414,14 @@
       },
       {
         "component": "text",
-        "label": "Site Title",
-        "name": "siteTitle",
+        "label": "Brand Title",
+        "name": "brandTitle",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Newsletter Heading",
-        "name": "newsletterHeading",
+        "label": "Newsletter Title",
+        "name": "newsletterTitle",
         "valueType": "string"
       },
       {
@@ -431,14 +431,14 @@
         "valueType": "string"
       },
       {
-        "component": "text",
-        "label": "Newsletter Form Action",
+        "component": "aem-content",
+        "label": "Newsletter Form Action URL",
         "name": "newsletterFormAction",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Newsletter Email Placeholder",
+        "label": "Newsletter Email Input Placeholder",
         "name": "newsletterEmailPlaceholder",
         "valueType": "string"
       },
@@ -450,9 +450,9 @@
       },
       {
         "component": "container",
-        "item": "footer-section-item",
-        "label": "Footer Sections",
-        "name": "footerSections"
+        "item": "footer-link-section-item",
+        "label": "Footer Link Sections",
+        "name": "linkSections"
       },
       {
         "component": "text",
@@ -463,12 +463,12 @@
     ]
   },
   {
-    "id": "footer-section-item",
+    "id": "footer-link-section-item",
     "fields": [
       {
         "component": "text",
         "label": "Section Title",
-        "name": "title",
+        "name": "sectionTitle",
         "valueType": "string"
       },
       {
@@ -676,7 +676,7 @@
       {
         "component": "container",
         "item": "why-card-item",
-        "label": "Why Cards",
+        "label": "Why Card Items",
         "name": "cards"
       }
     ]
@@ -692,8 +692,8 @@
       },
       {
         "component": "reference",
-        "label": "Card Icon",
-        "name": "icon",
+        "label": "Card Image",
+        "name": "image",
         "valueType": "string"
       },
       {

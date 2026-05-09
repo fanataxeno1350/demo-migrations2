@@ -223,15 +223,15 @@
           }
         },
         {
-          "title": "Footer-Section-Item",
-          "id": "footer-section-item",
+          "title": "Footer-Link-Section-Item",
+          "id": "footer-link-section-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "footer-section-item",
-                  "name": "Footer-Section-Item"
+                  "model": "footer-link-section-item",
+                  "name": "Footer-Link-Section-Item"
                 }
               }
             }
