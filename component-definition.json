@@ -252,21 +252,6 @@
           }
         },
         {
-          "title": "Contact-Link-Item",
-          "id": "contact-link-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "contact-link-item",
-                  "name": "Contact-Link-Item"
-                }
-              }
-            }
-          }
-        },
-        {
           "title": "Home-Slider",
           "id": "home-slider",
           "plugins": {

@@ -54,8 +54,7 @@
     "id": "header",
     "components": [
       "navigation-item",
-      "press-release-item",
-      "contact-link-item"
+      "press-release-item"
     ]
   },
   {
