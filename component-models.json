@@ -256,26 +256,14 @@
     "fields": [
       {
         "component": "richtext",
-        "label": "Organization Address and Name",
+        "label": "Address and Organization Info",
         "name": "address",
-        "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "label": "Tax/Nonprofit Info",
-        "name": "taxInfo",
-        "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "label": "Copyright Notice",
-        "name": "copyright",
         "valueType": "string"
       },
       {
         "component": "container",
         "item": "footer-link-item",
-        "label": "Footer Legal Links",
+        "label": "Footer Links",
         "name": "footerLinks"
       }
     ]
