@@ -57,11 +57,7 @@
     "id": "header",
     "components": [
       "navigation-item",
-      "mega-menu-about-section",
-      "mega-menu-key-facts-item",
-      "mega-menu-investor-section",
-      "mega-menu-newsroom-press-item",
-      "mega-menu-career-section",
+      "press-release-item",
       "icon-link-item"
     ]
   },
@@ -106,7 +102,7 @@
   {
     "id": "work-with-us-grid",
     "components": [
-      "work-with-us-grid-item"
+      "work-with-us-item"
     ]
   }
 ]

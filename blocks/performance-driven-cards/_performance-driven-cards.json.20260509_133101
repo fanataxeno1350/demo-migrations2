@@ -1,31 +1,31 @@
 {
   "definitions": [
     {
-      "title": "Purpose-Led-Cards",
-      "id": "purpose-led-cards",
+      "title": "Performance-Driven-Cards",
+      "id": "performance-driven-cards",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "filter": "purpose-led-cards",
-              "model": "purpose-led-cards",
-              "name": "Purpose-Led-Cards"
+              "filter": "performance-driven-cards",
+              "model": "performance-driven-cards",
+              "name": "Performance-Driven-Cards"
             }
           }
         }
       }
     },
     {
-      "title": "Purpose-Led-Card-Item",
-      "id": "purpose-led-card-item",
+      "title": "Performance-Driven-Card-Item",
+      "id": "performance-driven-card-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "purpose-led-card-item",
-              "name": "Purpose-Led-Card-Item"
+              "model": "performance-driven-card-item",
+              "name": "Performance-Driven-Card-Item"
             }
           }
         }
@@ -34,35 +34,23 @@
   ],
   "models": [
     {
-      "id": "purpose-led-cards",
+      "id": "performance-driven-cards",
       "fields": [
         {
-          "component": "text",
-          "label": "Section Heading",
-          "name": "heading",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Section Description",
-          "name": "description",
-          "valueType": "string"
-        },
-        {
           "component": "container",
-          "item": "purpose-led-card-item",
+          "item": "performance-driven-card-item",
           "label": "Cards",
           "name": "cards"
         }
       ]
     },
     {
-      "id": "purpose-led-card-item",
+      "id": "performance-driven-card-item",
       "fields": [
         {
           "component": "reference",
           "label": "Card Image (Desktop)",
-          "name": "image",
+          "name": "imageDesktop",
           "valueType": "string"
         },
         {
@@ -72,15 +60,15 @@
           "valueType": "string"
         },
         {
-          "component": "aem-content",
-          "label": "Card Link",
-          "name": "cardLink",
+          "component": "richtext",
+          "label": "Card Description",
+          "name": "description",
           "valueType": "string"
         },
         {
-          "component": "richtext",
-          "label": "Card Text",
-          "name": "cardText",
+          "component": "aem-content",
+          "label": "Card Link",
+          "name": "link",
           "valueType": "string"
         }
       ]
@@ -88,9 +76,9 @@
   ],
   "filters": [
     {
-      "id": "purpose-led-cards",
+      "id": "performance-driven-cards",
       "components": [
-        "purpose-led-card-item"
+        "performance-driven-card-item"
       ]
     }
   ]

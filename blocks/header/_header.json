@@ -32,75 +32,15 @@
       }
     },
     {
-      "title": "Mega-Menu-About-Section",
-      "id": "mega-menu-about-section",
+      "title": "Press-Release-Item",
+      "id": "press-release-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "mega-menu-about-section",
-              "name": "Mega-Menu-About-Section"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Mega-Menu-Key-Facts-Item",
-      "id": "mega-menu-key-facts-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "mega-menu-key-facts-item",
-              "name": "Mega-Menu-Key-Facts-Item"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Mega-Menu-Investor-Section",
-      "id": "mega-menu-investor-section",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "mega-menu-investor-section",
-              "name": "Mega-Menu-Investor-Section"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Mega-Menu-Newsroom-Press-Item",
-      "id": "mega-menu-newsroom-press-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "mega-menu-newsroom-press-item",
-              "name": "Mega-Menu-Newsroom-Press-Item"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Mega-Menu-Career-Section",
-      "id": "mega-menu-career-section",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "mega-menu-career-section",
-              "name": "Mega-Menu-Career-Section"
+              "model": "press-release-item",
+              "name": "Press-Release-Item"
             }
           }
         }
@@ -128,19 +68,19 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Primary Logo",
-          "name": "logo",
+          "label": "Main Logo",
+          "name": "mainLogo",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Primary Logo Link",
-          "name": "logoLink",
+          "label": "Main Logo Link",
+          "name": "mainLogoLink",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Anniversary Logo",
+          "label": "Anniversary Logo (80th Year)",
           "name": "anniversaryLogo",
           "valueType": "string"
         },
@@ -153,14 +93,20 @@
         {
           "component": "container",
           "item": "navigation-item",
-          "label": "Navigation Items",
-          "name": "navigationItems"
+          "label": "Navigation Menu",
+          "name": "navigationMenu"
         },
         {
           "component": "container",
           "item": "icon-link-item",
-          "label": "Icon Links",
-          "name": "iconLinks"
+          "label": "Header Icon Links",
+          "name": "headerIcons"
+        },
+        {
+          "component": "container",
+          "item": "press-release-item",
+          "label": "Latest Press Releases",
+          "name": "latestPressReleases"
         }
       ]
     },
@@ -181,181 +127,43 @@
         },
         {
           "component": "richtext",
-          "label": "Navigation Hierarchy",
-          "name": "hierarchy-tree",
-          "valueType": "string"
-        },
-        {
-          "component": "container",
-          "item": "mega-menu-about-section",
-          "label": "About Section (Mega Menu)",
-          "name": "aboutSection"
-        },
-        {
-          "component": "container",
-          "item": "mega-menu-key-facts-item",
-          "label": "Key Facts (Mega Menu)",
-          "name": "keyFacts"
-        },
-        {
-          "component": "container",
-          "item": "mega-menu-investor-section",
-          "label": "Investor Section (Mega Menu)",
-          "name": "investorSection"
-        },
-        {
-          "component": "container",
-          "item": "mega-menu-newsroom-press-item",
-          "label": "Newsroom Press Releases (Mega Menu)",
-          "name": "newsroomPressReleases"
-        },
-        {
-          "component": "container",
-          "item": "mega-menu-career-section",
-          "label": "Career Section (Mega Menu)",
-          "name": "careerSection"
-        }
-      ]
-    },
-    {
-      "id": "mega-menu-about-section",
-      "fields": [
-        {
-          "component": "text",
-          "label": "About Section Heading",
-          "name": "heading",
+          "label": "Mega Menu Content (HTML)",
+          "name": "megaMenuContent",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "About Section Description",
-          "name": "description"
-        },
-        {
-          "component": "text",
-          "label": "About Section Sub Description",
-          "name": "subDescription",
+          "label": "Navigation Hierarchy (HTML)",
+          "name": "hierarchy-tree",
           "valueType": "string"
         }
       ]
     },
     {
-      "id": "mega-menu-key-facts-item",
-      "fields": [
-        {
-          "component": "text",
-          "label": "Key Fact Value",
-          "name": "fact",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Key Fact Label",
-          "name": "factLabel",
-          "valueType": "string"
-        }
-      ]
-    },
-    {
-      "id": "mega-menu-investor-section",
-      "fields": [
-        {
-          "component": "text",
-          "label": "Investor Section Heading",
-          "name": "heading",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Investor Section Description",
-          "name": "description",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Investor Fact One",
-          "name": "factOne",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Investor Fact One Label",
-          "name": "factOneLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Investor Fact Two",
-          "name": "factTwo",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Investor Fact Two Label",
-          "name": "factTwoLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Investor Fact Three",
-          "name": "factThree",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Investor Fact Three Label",
-          "name": "factThreeLabel",
-          "valueType": "string"
-        }
-      ]
-    },
-    {
-      "id": "mega-menu-newsroom-press-item",
+      "id": "press-release-item",
       "fields": [
         {
           "component": "aem-content",
           "label": "Press Release Link",
-          "name": "pressLink",
+          "name": "pressReleaseLink",
           "valueType": "string"
         },
         {
           "component": "text",
           "label": "Press Release Title",
-          "name": "pressTitle",
+          "name": "pressReleaseTitle",
           "valueType": "string"
         },
         {
           "component": "text",
           "label": "Press Release Date",
-          "name": "pressDate",
+          "name": "pressReleaseDate",
           "valueType": "string"
         },
         {
           "component": "text",
           "label": "Press Release Category",
-          "name": "pressCategory",
-          "valueType": "string"
-        }
-      ]
-    },
-    {
-      "id": "mega-menu-career-section",
-      "fields": [
-        {
-          "component": "text",
-          "label": "Career Section Heading",
-          "name": "heading",
-          "valueType": "string"
-        },
-        {
-          "component": "richtext",
-          "label": "Career Section Description",
-          "name": "description"
-        },
-        {
-          "component": "text",
-          "label": "Career Section Sub Description",
-          "name": "subDescription",
+          "name": "pressReleaseCategory",
           "valueType": "string"
         }
       ]
@@ -364,21 +172,15 @@
       "id": "icon-link-item",
       "fields": [
         {
-          "component": "reference",
-          "label": "Icon Image",
-          "name": "icon",
+          "component": "text",
+          "label": "Icon Label",
+          "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Link",
+          "label": "Icon Link",
           "name": "link",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Link Label",
-          "name": "label",
           "valueType": "string"
         }
       ]
@@ -389,11 +191,7 @@
       "id": "header",
       "components": [
         "navigation-item",
-        "mega-menu-about-section",
-        "mega-menu-key-facts-item",
-        "mega-menu-investor-section",
-        "mega-menu-newsroom-press-item",
-        "mega-menu-career-section",
+        "press-release-item",
         "icon-link-item"
       ]
     }

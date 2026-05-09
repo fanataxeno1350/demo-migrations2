@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Work-With-Us-Item",
-      "id": "work-with-us-item",
+      "title": "Work-With-Us-Grid-Item",
+      "id": "work-with-us-grid-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "work-with-us-item",
-              "name": "Work-With-Us-Item"
+              "model": "work-with-us-grid-item",
+              "name": "Work-With-Us-Grid-Item"
             }
           }
         }
@@ -38,49 +38,49 @@
       "fields": [
         {
           "component": "text",
-          "label": "Block Headline",
-          "name": "blockHeadline",
+          "label": "Section Heading",
+          "name": "heading",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "work-with-us-item",
+          "item": "work-with-us-grid-item",
           "label": "Work With Us Items",
           "name": "items"
         }
       ]
     },
     {
-      "id": "work-with-us-item",
+      "id": "work-with-us-grid-item",
       "fields": [
         {
           "component": "reference",
-          "label": "Desktop Image",
-          "name": "imageDesktop",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Mobile Image (max-width: 576px)",
+          "label": "Image (max-width: 576px)",
           "name": "imageMobile576",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Mobile Image (max-width: 799px)",
+          "label": "Image (max-width: 799px)",
           "name": "imageMobile799",
           "valueType": "string"
         },
         {
+          "component": "reference",
+          "label": "Image (Desktop/default)",
+          "name": "imageDesktop",
+          "valueType": "string"
+        },
+        {
           "component": "text",
-          "label": "Item Headline",
-          "name": "itemHeadline",
+          "label": "Item Title",
+          "name": "title",
           "valueType": "string"
         },
         {
           "component": "richtext",
           "label": "Item Description",
-          "name": "itemDescription",
+          "name": "description",
           "valueType": "string"
         },
         {
@@ -102,7 +102,7 @@
     {
       "id": "work-with-us-grid",
       "components": [
-        "work-with-us-item"
+        "work-with-us-grid-item"
       ]
     }
   ]

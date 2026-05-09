@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Business-Verticals-Grid",
+      "title": "Business Verticals Grid",
       "id": "business-verticals-grid",
       "plugins": {
         "xwalk": {
@@ -10,14 +10,14 @@
             "template": {
               "filter": "business-verticals-grid",
               "model": "business-verticals-grid",
-              "name": "Business-Verticals-Grid"
+              "name": "Business Verticals Grid"
             }
           }
         }
       }
     },
     {
-      "title": "Business-Vertical-Item",
+      "title": "Business Vertical Item",
       "id": "business-vertical-item",
       "plugins": {
         "xwalk": {
@@ -25,7 +25,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "business-vertical-item",
-              "name": "Business-Vertical-Item"
+              "name": "Business Vertical Item"
             }
           }
         }
@@ -61,19 +61,19 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Image (Desktop)",
+          "label": "Desktop Image",
           "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Image (Mobile)",
-          "name": "imageMobile",
+          "label": "Tablet/Mobile Image",
+          "name": "imageTablet",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Vertical Title",
+          "label": "Business Title",
           "name": "title",
           "valueType": "string"
         },
@@ -85,8 +85,8 @@
         },
         {
           "component": "aem-content",
-          "label": "Vertical Link",
-          "name": "link",
+          "label": "Business Link",
+          "name": "businessLink",
           "valueType": "string"
         }
       ]

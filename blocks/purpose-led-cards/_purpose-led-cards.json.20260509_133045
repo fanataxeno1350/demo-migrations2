@@ -51,7 +51,7 @@
         {
           "component": "container",
           "item": "purpose-led-card-item",
-          "label": "Cards",
+          "label": "Purpose Led Cards",
           "name": "cards"
         }
       ]
@@ -62,7 +62,7 @@
         {
           "component": "reference",
           "label": "Card Image (Desktop)",
-          "name": "image",
+          "name": "imageDesktop",
           "valueType": "string"
         },
         {
@@ -74,13 +74,13 @@
         {
           "component": "aem-content",
           "label": "Card Link",
-          "name": "cardLink",
+          "name": "link",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Card Text",
-          "name": "cardText",
+          "label": "Card Description",
+          "name": "description",
           "valueType": "string"
         }
       ]

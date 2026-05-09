@@ -2,43 +2,28 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  // Check 0.5: The block's own class 'performance-driven-cards' is added to cardsContainer.
-  // The outer block div already carries this class from AEM. Adding it again causes double CSS.
-  // FIX: Remove 'performance-driven-cards' from cardsContainer.
-  const cardsContainer = document.createElement('div');
-  // cardsContainer.classList.add('performace-driven-cards'); // Removed block's own class
+  const [containerRow, ...cardRows] = [...block.children];
 
-  const cardRows = [...block.children].filter(
-    (row) =>
-      row.children.length > 0 &&
-      [...row.children].some(
-        (c) => c.children.length > 0 || c.textContent.trim() !== '',
-      ),
-  );
+  const cardsWrapper = document.createElement('div');
+  cardsWrapper.classList.add('performace-driven-cards'); // This is correct, it's an inner wrapper with a specific class
+  moveInstrumentation(containerRow, cardsWrapper); // Move instrumentation from the placeholder row
 
   cardRows.forEach((row) => {
-    // CHECK 0: No direct children[n] access, destructuring is correct for fixed schema.
-    const [imageDesktopCell, imageMobileCell, descriptionCell, linkCell] = [
-      ...row.children,
-    ];
+    const [imageDesktopCell, imageMobileCell, descriptionCell, linkCell] = [...row.children];
 
     const linkEl = document.createElement('a');
-    // CHECK 2.6 B: Corrected class name to match ORIGINAL HTML.
     linkEl.classList.add('performace-driven-cards-link');
     const foundLink = linkCell?.querySelector('a');
     if (foundLink) {
       linkEl.href = foundLink.href;
-      // CHECK 2.6 C: Assuming target blank from original HTML as per example.
-      linkEl.target = '_blank';
+      linkEl.target = '_blank'; // Assuming target blank from original HTML
     }
     moveInstrumentation(row, linkEl);
 
     const cardWrapper = document.createElement('div');
-    // CHECK 2.6 B: Corrected class name to match ORIGINAL HTML.
     cardWrapper.classList.add('performace-driven-card-wrapper');
 
     const cardImage = document.createElement('div');
-    // CHECK 2.6 B: Corrected class name to match ORIGINAL HTML.
     cardImage.classList.add('card-image');
 
     const pictureDesktop = imageDesktopCell?.querySelector('picture');
@@ -48,75 +33,52 @@ export default function decorate(block) {
       const imgDesktop = pictureDesktop.querySelector('img');
       const imgMobile = pictureMobile.querySelector('img');
 
-      const sourceMobile = document.createElement('source');
-      sourceMobile.media = '(max-width: 576px)';
-      sourceMobile.srcset = imgMobile?.src || '';
+      if (imgDesktop && imgMobile) {
+        // Create optimized picture for desktop, with a source for mobile
+        const optimizedPic = createOptimizedPicture(
+          imgDesktop.src,
+          imgDesktop.alt,
+          false,
+          [{ media: '(max-width: 576px)', width: '576' }, { width: '750' }],
+        );
 
-      // The createOptimizedPicture call already handles the img element.
-      // No need to create a separate img element here.
-      const optimizedPicture = createOptimizedPicture(
-        imgDesktop?.src || '', // Use desktop image as default
-        imgDesktop?.alt || '',
-        false,
-        [{ width: '576', media: '(max-width: 576px)' }, { width: '750' }],
-      );
-      // The createOptimizedPicture function returns a <picture> element.
-      // The img element inside it will have the correct alt and loading.
-      optimizedPicture.prepend(sourceMobile);
-      cardImage.append(optimizedPicture);
-    } else if (pictureDesktop) {
-      const imgDesktop = pictureDesktop.querySelector('img');
-      const optimizedPicture = createOptimizedPicture(
-        imgDesktop?.src || '',
-        imgDesktop?.alt || '',
-        false,
-        [{ width: '750' }],
-      );
-      // moveInstrumentation should be on the picture element, not the img inside it.
-      // Also, the optimizedPicture is a new element, so instrumentation from the original
-      // pictureDesktop should be moved to the new optimizedPicture.
-      moveInstrumentation(pictureDesktop, optimizedPicture);
-      cardImage.append(optimizedPicture);
-    } else if (pictureMobile) {
-      const imgMobile = pictureMobile.querySelector('img');
-      const optimizedPicture = createOptimizedPicture(
-        imgMobile?.src || '',
-        imgMobile?.alt || '',
-        false,
-        [{ width: '576' }],
-      );
-      // moveInstrumentation should be on the picture element, not the img inside it.
-      // Also, the optimizedPicture is a new element, so instrumentation from the original
-      // pictureMobile should be moved to the new optimizedPicture.
-      moveInstrumentation(pictureMobile, optimizedPicture);
-      cardImage.append(optimizedPicture);
+        // Replace the mobile source in the optimized picture with the actual mobile image
+        const sourceMobile = optimizedPic.querySelector('source[media="(max-width: 576px)"]');
+        if (sourceMobile) {
+          sourceMobile.srcset = imgMobile.src;
+        }
+
+        cardImage.append(optimizedPic);
+        // Move instrumentation from original cells to the new picture/img/source elements
+        moveInstrumentation(imageDesktopCell, optimizedPic.querySelector('img'));
+        if (sourceMobile) {
+          moveInstrumentation(imageMobileCell, sourceMobile);
+        }
+      }
     }
 
     const homeBoxCard = document.createElement('div');
-    // CHECK 2.6 B: Corrected class name to match ORIGINAL HTML.
     homeBoxCard.classList.add('performace-driven-home-box-card');
 
-    const descriptionP = document.createElement('p');
-    // CHECK 2.6 B: Corrected class name to match ORIGINAL HTML.
-    descriptionP.classList.add('desc');
-    // CHECK 0.7 B: descriptionCell is richtext, so innerHTML is correct.
-    descriptionP.innerHTML = descriptionCell?.innerHTML || '';
+    const desc = document.createElement('p');
+    desc.classList.add('desc');
+    desc.innerHTML = descriptionCell?.innerHTML || '';
+    moveInstrumentation(descriptionCell, desc);
 
-    homeBoxCard.append(descriptionP);
+    homeBoxCard.append(desc);
     cardWrapper.append(cardImage, homeBoxCard);
     linkEl.append(cardWrapper);
-    cardsContainer.append(linkEl);
+    cardsWrapper.append(linkEl);
   });
 
-  const root = document.createElement('div');
-  // CHECK 2.6 B: Corrected class names to match ORIGINAL HTML.
-  root.classList.add('performance-driven', 'performace-driven-home');
+  const containerDiv = document.createElement('div');
+  containerDiv.classList.add('container');
+  containerDiv.append(cardsWrapper);
 
-  const container = document.createElement('div');
-  // CHECK 2.6 B: Corrected class name to match ORIGINAL HTML.
-  container.classList.add('container');
-  container.append(cardsContainer);
-  root.append(container);
+  const performanceDriven = document.createElement('div');
+  // Corrected typo: 'performace-driven-home' -> 'performance-driven-home' based on ORIGINAL HTML
+  performanceDriven.classList.add('performance-driven', 'performace-driven-home');
+  performanceDriven.append(containerDiv);
 
-  block.replaceChildren(root);
+  block.replaceChildren(performanceDriven);
 }

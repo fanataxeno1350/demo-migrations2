@@ -5,10 +5,8 @@ export default function decorate(block) {
   const [headingRow, descriptionRow, ...cardRows] = [...block.children];
 
   const section = document.createElement('section');
-  // block.classList already contains 'purpose-led-cards' and 'spirit-of-rise'
-  // Adding 'spirit-of-rise' again to an inner wrapper causes double padding/CSS.
-  // The 'section' and 'grey-bg' classes are from the original HTML and are valid.
-  section.classList.add('section', 'grey-bg');
+  // section.classList.add('section', 'grey-bg', 'spirit-of-rise'); // Removed 'spirit-of-rise' as block already has it
+  section.classList.add('section', 'grey-bg'); // Retained other classes from ORIGINAL HTML
 
   const container = document.createElement('div');
   container.classList.add('container');
@@ -16,111 +14,93 @@ export default function decorate(block) {
   // Section Header
   const sectionHeader = document.createElement('div');
   sectionHeader.classList.add('section-header', 'text-center', 'pb-3');
-  moveInstrumentation(headingRow, sectionHeader);
+  moveInstrumentation(headingRow, sectionHeader); // Move instrumentation for heading
 
   const heading = document.createElement('h2');
   heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
-  // headingRow is a row, its first child is the cell containing the text.
-  // The EDS Block Structure indicates 'heading' is type=text, so read textContent directly.
-  heading.textContent = headingRow.children[0]?.textContent.trim() || '';
+  heading.setAttribute('data-aos-easing', 'ease-in-out');
+  heading.setAttribute('data-aos', 'fade-up');
+  heading.setAttribute('data-aos-delay', '200');
+  heading.textContent = headingRow.textContent.trim();
   sectionHeader.append(heading);
 
   const description = document.createElement('p');
   description.classList.add('aos-init', 'aos-animate');
-  // descriptionRow is a row, its first child is the cell containing the text.
-  // The EDS Block Structure indicates 'description' is type=text, so read textContent directly.
-  description.textContent = descriptionRow.children[0]?.textContent.trim() || '';
-  moveInstrumentation(descriptionRow, description);
+  description.setAttribute('data-aos', 'fade-up');
+  description.setAttribute('data-aos-offset', '100');
+  description.setAttribute('data-aos-duration', '650');
+  description.setAttribute('data-aos-easing', 'ease-in-out');
+  description.textContent = descriptionRow.textContent.trim();
+  moveInstrumentation(descriptionRow, description); // Move instrumentation for description
   sectionHeader.append(description);
 
   container.append(sectionHeader);
 
   // Cards Grid
-  const cardsGrid = document.createElement('div');
-  cardsGrid.classList.add('row', 'g-4', 'purpose-led-grid', 'pt-3');
+  const purposeLedGrid = document.createElement('div');
+  purposeLedGrid.classList.add('row', 'g-4', 'purpose-led-grid', 'pt-3');
 
-  cardRows
-    .filter(row =>
-      row.children.length > 0 &&
-      [...row.children].some(c => c.children.length > 0 || c.textContent.trim() !== '')
-    )
-    .forEach((row) => {
-      // Fixed schema for purpose-led-card-item, use destructuring
-      const [imageDesktopCell, imageMobileCell, linkCell, descriptionCell] = [...row.children];
+  cardRows.forEach((row, index) => {
+    const [imageCell, imageMobileCell, cardLinkCell, cardTextCell] = [...row.children];
 
-      const col = document.createElement('div');
-      col.classList.add('col-md-6', 'aos-init', 'aos-animate');
-      moveInstrumentation(row, col);
+    const col = document.createElement('div');
+    col.classList.add('col-md-6', 'aos-init', 'aos-animate');
+    col.setAttribute('data-aos-easing', 'ease-in-out');
+    col.setAttribute('data-aos', 'fade-up');
+    col.setAttribute('data-aos-delay', `${700 + index * 100}`); // Stagger delay
 
-      const cardWrap = document.createElement('a');
-      cardWrap.classList.add('card-wrap');
-      const foundLink = linkCell?.querySelector('a');
-      if (foundLink) {
-        cardWrap.href = foundLink.href;
-        cardWrap.target = '_blank'; // Assuming target blank from original HTML
+    const cardLink = cardLinkCell.querySelector('a');
+    const anchor = document.createElement('a');
+    if (cardLink) {
+      anchor.href = cardLink.href;
+      anchor.target = '_blank';
+    }
+    anchor.classList.add('card-wrap');
+    moveInstrumentation(row, anchor); // Move instrumentation from row to anchor
+
+    const cardImageDiv = document.createElement('div');
+    cardImageDiv.classList.add('card-image');
+
+    const desktopPicture = imageCell.querySelector('picture');
+    const mobilePicture = imageMobileCell.querySelector('picture');
+
+    if (desktopPicture && mobilePicture) {
+      const sourceMobile = document.createElement('source');
+      sourceMobile.media = '(max-width: 576px)';
+      sourceMobile.srcset = mobilePicture.querySelector('img')?.src || '';
+
+      const img = desktopPicture.querySelector('img');
+      if (img) {
+        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+        optimizedPic.prepend(sourceMobile);
+        optimizedPic.querySelector('img').classList.add('img-fluid');
+        cardImageDiv.append(optimizedPic);
       }
-
-      const cardImage = document.createElement('div');
-      cardImage.classList.add('card-image');
-
-      const pictureDesktop = imageDesktopCell?.querySelector('picture');
-      const pictureMobile = imageMobileCell?.querySelector('picture');
-
-      if (pictureDesktop || pictureMobile) {
-        // createOptimizedPicture expects an img src and alt, and returns a <picture> element.
-        // We should construct the img src/alt first, then pass to createOptimizedPicture.
-        // The original code was trying to append the img from optimizedPic.querySelector('img')
-        // directly, which is redundant as createOptimizedPicture already returns a picture.
-        let imgSrc = '';
-        let imgAlt = '';
-        let sources = [];
-
-        if (pictureMobile) {
-          const mobileImg = pictureMobile.querySelector('img');
-          if (mobileImg) {
-            sources.push({ media: '(max-width: 576px)', srcset: mobileImg.src });
-            // If only mobile image is present, use its src/alt as default
-            if (!pictureDesktop) {
-              imgSrc = mobileImg.src;
-              imgAlt = mobileImg.alt || '';
-            }
-          }
-        }
-
-        if (pictureDesktop) {
-          const desktopImg = pictureDesktop.querySelector('img');
-          if (desktopImg) {
-            imgSrc = desktopImg.src; // Desktop image is primary
-            imgAlt = desktopImg.alt || '';
-          }
-        }
-
-        if (imgSrc) {
-          const optimizedPicture = createOptimizedPicture(imgSrc, imgAlt, false, [{ width: '750' }], sources);
-          // moveInstrumentation should be called on the original picture/img if it exists,
-          // but since we're creating a new one, we move it to the new picture element.
-          // The original picture elements are not directly moved, but their content is used.
-          // For instrumentation, we can move it from the original cell to the new picture.
-          moveInstrumentation(imageDesktopCell || imageMobileCell, optimizedPicture);
-          cardImage.append(optimizedPicture);
-        }
+    } else if (desktopPicture) {
+      const img = desktopPicture.querySelector('img');
+      if (img) {
+        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+        optimizedPic.querySelector('img').classList.add('img-fluid');
+        cardImageDiv.append(optimizedPic);
       }
+    }
 
-      const cardText = document.createElement('div');
-      cardText.classList.add('card-text');
+    anchor.append(cardImageDiv);
 
-      const desc = document.createElement('p');
-      desc.classList.add('desc');
-      // description is type=richtext, so read innerHTML directly from the cell
-      desc.innerHTML = descriptionCell?.innerHTML || '';
-      cardText.append(desc);
+    const cardTextDiv = document.createElement('div');
+    cardTextDiv.classList.add('card-text');
+    const p = document.createElement('p');
+    p.classList.add('desc');
+    p.innerHTML = cardTextCell.innerHTML; // Rich text content
+    cardTextDiv.append(p);
+    anchor.append(cardTextDiv);
 
-      cardWrap.append(cardImage, cardText);
-      col.append(cardWrap);
-      cardsGrid.append(col);
-    });
+    col.append(anchor);
+    purposeLedGrid.append(col);
+  });
 
-  container.append(cardsGrid);
+  container.append(purposeLedGrid);
   section.append(container);
+
   block.replaceChildren(section);
 }

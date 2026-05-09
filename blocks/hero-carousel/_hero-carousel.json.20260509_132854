@@ -54,7 +54,7 @@
         {
           "component": "container",
           "item": "hero-slide-item",
-          "label": "Slides",
+          "label": "Carousel Slides",
           "name": "slides"
         },
         {
@@ -71,25 +71,25 @@
         {
           "component": "reference",
           "label": "Desktop Background Image",
-          "name": "backgroundDesktop",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Tablet Background Image (max-width: 799px)",
-          "name": "backgroundTablet",
+          "name": "backgroundImage",
           "valueType": "string"
         },
         {
           "component": "reference",
           "label": "Mobile Background Image (max-width: 576px)",
-          "name": "backgroundMobile",
+          "name": "backgroundImageMobile576",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Mobile Background Image (max-width: 799px)",
+          "name": "backgroundImageMobile799",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Eyebrow Text (small/intro above headline)",
-          "name": "eyebrow",
+          "label": "Pre-title / Small Highlighted Text",
+          "name": "preTitle",
           "valueType": "string"
         },
         {
@@ -100,8 +100,8 @@
         },
         {
           "component": "richtext",
-          "label": "Subheadline/Description",
-          "name": "subheadline",
+          "label": "Description",
+          "name": "description",
           "valueType": "string"
         },
         {
