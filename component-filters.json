@@ -55,7 +55,7 @@
     "components": [
       "navigation-item",
       "press-release-item",
-      "icon-nav-item"
+      "contact-link-item"
     ]
   },
   {
