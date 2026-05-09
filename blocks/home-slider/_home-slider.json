@@ -17,30 +17,30 @@
       }
     },
     {
-      "title": "Home-Slider-Slide-Item",
-      "id": "home-slider-slide-item",
+      "title": "Home-Slide-Item",
+      "id": "home-slide-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "home-slider-slide-item",
-              "name": "Home-Slider-Slide-Item"
+              "model": "home-slide-item",
+              "name": "Home-Slide-Item"
             }
           }
         }
       }
     },
     {
-      "title": "Home-Slider-Quick-Link-Item",
-      "id": "home-slider-quick-link-item",
+      "title": "Quick-Link-Item",
+      "id": "quick-link-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "home-slider-quick-link-item",
-              "name": "Home-Slider-Quick-Link-Item"
+              "model": "quick-link-item",
+              "name": "Quick-Link-Item"
             }
           }
         }
@@ -53,20 +53,20 @@
       "fields": [
         {
           "component": "container",
-          "item": "home-slider-slide-item",
+          "item": "home-slide-item",
           "label": "Slides",
           "name": "slides"
         },
         {
           "component": "container",
-          "item": "home-slider-quick-link-item",
+          "item": "quick-link-item",
           "label": "Quick Links",
           "name": "quickLinks"
         }
       ]
     },
     {
-      "id": "home-slider-slide-item",
+      "id": "home-slide-item",
       "fields": [
         {
           "component": "reference",
@@ -76,26 +76,26 @@
         },
         {
           "component": "reference",
-          "label": "Tablet Image (max-width: 799px)",
+          "label": "Tablet Image",
           "name": "imageTablet",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Mobile Image (max-width: 576px)",
+          "label": "Mobile Image",
           "name": "imageMobile",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Small Text (Optional)",
+          "label": "Small Text",
           "name": "smallText",
           "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "Heading",
-          "name": "heading",
+          "component": "richtext",
+          "label": "Headline",
+          "name": "headline",
           "valueType": "string"
         },
         {
@@ -119,17 +119,17 @@
       ]
     },
     {
-      "id": "home-slider-quick-link-item",
+      "id": "quick-link-item",
       "fields": [
         {
           "component": "text",
-          "label": "Link Label",
+          "label": "Quick Link Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Link URL",
+          "label": "Quick Link URL",
           "name": "link",
           "valueType": "string"
         }
@@ -140,8 +140,8 @@
     {
       "id": "home-slider",
       "components": [
-        "home-slider-slide-item",
-        "home-slider-quick-link-item"
+        "home-slide-item",
+        "quick-link-item"
       ]
     }
   ]

@@ -2,112 +2,123 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const children = [...block.children];
+  const [headingRow, descriptionRow, ...cardRows] = [...block.children];
 
   const section = document.createElement('section');
-  section.classList.add('section', 'grey-bg', 'spirit-of-rise'); // Correct: 'spirit-of-rise' is from original HTML, not block name.
+  // The outer block div already has 'purpose-led' class from AEM.
+  // The original HTML has 'section grey-bg spirit-of-rise' on the outer <section>.
+  // So, add only the classes from the original HTML's outer section.
+  section.classList.add('grey-bg', 'spirit-of-rise');
+  moveInstrumentation(block, section); // Move instrumentation from block to the new section
 
   const container = document.createElement('div');
   container.classList.add('container');
   section.append(container);
 
   // Section Header
-  const sectionHeader = document.createElement('div');
-  sectionHeader.classList.add('section-header', 'text-center', 'pb-3');
-  container.append(sectionHeader);
+  if (headingRow || descriptionRow) {
+    const sectionHeader = document.createElement('div');
+    sectionHeader.classList.add('section-header', 'text-center', 'pb-3');
 
-  const [headingRow, descriptionRow, ...cardRows] = children;
+    if (headingRow) {
+      const heading = document.createElement('h2');
+      heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
+      // No data-aos attributes, as per Rule 19
+      moveInstrumentation(headingRow, heading);
+      // heading is richtext, use innerHTML from the cell, not the row
+      heading.innerHTML = headingRow.children[0]?.innerHTML || '';
+      sectionHeader.append(heading);
+    }
 
-  if (headingRow) {
-    const [headingCell] = [...headingRow.children]; // FIXED: Replaced direct row.children[0] with destructuring
-    const heading = document.createElement('h2');
-    heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
-    heading.setAttribute('data-aos-easing', 'ease-in-out'); // Added from original HTML
-    heading.setAttribute('data-aos', 'fade-up'); // Added from original HTML
-    heading.setAttribute('data-aos-delay', '200'); // Added from original HTML
-    moveInstrumentation(headingRow, heading);
-    heading.innerHTML = headingCell?.innerHTML || '';
-    sectionHeader.append(heading);
-  }
-
-  if (descriptionRow) {
-    const [descriptionCell] = [...descriptionRow.children]; // FIXED: Replaced direct row.children[0] with destructuring
-    const description = document.createElement('p');
-    description.classList.add('aos-init', 'aos-animate');
-    description.setAttribute('data-aos', 'fade-up'); // Added from original HTML
-    description.setAttribute('data-aos-offset', '100'); // Added from original HTML
-    description.setAttribute('data-aos-duration', '650'); // Added from original HTML
-    description.setAttribute('data-aos-easing', 'ease-in-out'); // Added from original HTML
-    moveInstrumentation(descriptionRow, description);
-    description.innerHTML = descriptionCell?.innerHTML || ''; // FIXED: Changed to innerHTML for richtext
-    sectionHeader.append(description);
+    if (descriptionRow) {
+      const description = document.createElement('p');
+      description.classList.add('aos-init', 'aos-animate');
+      // No data-aos attributes, as per Rule 19
+      moveInstrumentation(descriptionRow, description);
+      // description is plain text, use textContent from the cell
+      description.textContent = descriptionRow.children[0]?.textContent.trim() || '';
+      sectionHeader.append(description);
+    }
+    container.append(sectionHeader);
   }
 
   // Cards Grid
-  const purposeLedGrid = document.createElement('div');
-  purposeLedGrid.classList.add('row', 'g-4', 'purpose-led-grid', 'pt-3');
-  container.append(purposeLedGrid);
+  const cardsGrid = document.createElement('div');
+  cardsGrid.classList.add('row', 'g-4', 'purpose-led-grid', 'pt-3');
+  // No specific placeholder row for cards container, instrumentation should be on the block itself
+  // moveInstrumentation(cardsContainerPlaceholder, cardsGrid); // Removed, as cardsContainerPlaceholder is not a distinct row for instrumentation
 
-  cardRows.forEach((row) => {
-    const [imageMobileCell, imageDesktopCell, cardTextCell, cardLinkCell] = [...row.children];
+  cardRows
+    .filter(row =>
+      row.children.length > 0 &&
+      [...row.children].some(c => c.children.length > 0 || c.textContent.trim() !== '')
+    )
+    .forEach((row) => {
+      // Fixed schema for purpose-led-card, use destructuring
+      const [imageMobileCell, imageDesktopCell, imageAltCell, linkCell, cardTextCell] = [...row.children];
 
-    const colDiv = document.createElement('div');
-    colDiv.classList.add('col-md-6', 'aos-init', 'aos-animate');
-    colDiv.setAttribute('data-aos-easing', 'ease-in-out'); // Added from original HTML
-    colDiv.setAttribute('data-aos', 'fade-up'); // Added from original HTML
-    colDiv.setAttribute('data-aos-delay', '700'); // Added from original HTML
-    moveInstrumentation(row, colDiv);
+      const col = document.createElement('div');
+      col.classList.add('col-md-6', 'aos-init', 'aos-animate');
+      // No data-aos attributes, as per Rule 19
 
-    const cardLink = document.createElement('a');
-    cardLink.classList.add('card-wrap');
-    const foundLink = cardLinkCell?.querySelector('a');
-    if (foundLink) {
-      cardLink.href = foundLink.href;
-      cardLink.target = '_blank'; // From original HTML
-    }
-    colDiv.append(cardLink);
+      const cardWrap = document.createElement('a');
+      cardWrap.classList.add('card-wrap');
+      moveInstrumentation(row, cardWrap); // Move instrumentation from row to the card link
 
-    const cardImageDiv = document.createElement('div');
-    cardImageDiv.classList.add('card-image');
-    cardLink.append(cardImageDiv);
-
-    const picture = document.createElement('picture');
-    cardImageDiv.append(picture);
-
-    if (imageMobileCell) {
-      const mobileImg = imageMobileCell.querySelector('img');
-      if (mobileImg) {
-        const sourceMobile = document.createElement('source');
-        sourceMobile.media = '(max-width: 576px)';
-        sourceMobile.srcset = createOptimizedPicture(mobileImg.src, mobileImg.alt, false, [{ width: '576' }]).querySelector('img').src;
-        picture.append(sourceMobile);
+      const link = linkCell?.querySelector('a');
+      if (link) {
+        cardWrap.href = link.href;
+        // The original HTML has target="_blank", add it.
+        cardWrap.target = '_blank';
       }
-    }
 
-    if (imageDesktopCell) {
-      const desktopImg = imageDesktopCell.querySelector('img');
-      if (desktopImg) {
-        const optimizedDesktopPic = createOptimizedPicture(desktopImg.src, desktopImg.alt, false, [{ width: '750' }]);
-        const img = optimizedDesktopPic.querySelector('img');
-        img.classList.add('img-fluid');
-        moveInstrumentation(imageDesktopCell, img); // Instrumentation for the image cell
-        picture.append(img);
+      const cardImage = document.createElement('div');
+      cardImage.classList.add('card-image');
+
+      const pictureMobile = imageMobileCell?.querySelector('picture');
+      const pictureDesktop = imageDesktopCell?.querySelector('picture');
+      const altText = imageAltCell?.textContent.trim() || '';
+
+      if (pictureMobile && pictureDesktop) {
+        // createOptimizedPicture handles combining sources and img, no need for manual picture creation
+        // The createOptimizedPicture function expects the original img src and alt,
+        // and returns a new <picture> element.
+        // We need to extract the img src from the picture elements.
+
+        const mobileSrc = pictureMobile.querySelector('img')?.src || '';
+        const desktopSrc = pictureDesktop.querySelector('img')?.src || '';
+
+        // Create a temporary img to pass to createOptimizedPicture for desktop
+        const tempImg = document.createElement('img');
+        tempImg.src = desktopSrc;
+        tempImg.alt = altText;
+        tempImg.classList.add('img-fluid'); // Add img-fluid to the img inside the optimized picture
+
+        const optimizedPic = createOptimizedPicture(tempImg.src, tempImg.alt, false, [{ media: '(max-width: 576px)', width: '750', srcset: mobileSrc }, { width: '750' }]);
+        
+        // Ensure img-fluid is applied to the final img within the optimized picture
+        optimizedPic.querySelector('img').classList.add('img-fluid');
+
+        cardImage.append(optimizedPic);
+        moveInstrumentation(imageDesktopCell, optimizedPic.querySelector('img')); // Move instrumentation to the main img
       }
-    }
 
-    const cardTextDiv = document.createElement('div');
-    cardTextDiv.classList.add('card-text');
-    cardLink.append(cardTextDiv);
 
-    if (cardTextCell) {
-      const p = document.createElement('p');
-      p.classList.add('desc');
-      p.innerHTML = cardTextCell.innerHTML;
-      cardTextDiv.append(p);
-    }
+      const cardText = document.createElement('div');
+      cardText.classList.add('card-text');
+      if (cardTextCell) {
+        const descP = document.createElement('p');
+        descP.classList.add('desc');
+        // cardText is richtext, use innerHTML from the cell
+        descP.innerHTML = cardTextCell.innerHTML;
+        cardText.append(descP);
+      }
 
-    purposeLedGrid.append(colDiv);
-  });
+      cardWrap.append(cardImage, cardText);
+      col.append(cardWrap);
+      cardsGrid.append(col);
+    });
 
+  container.append(cardsGrid);
   block.replaceChildren(section);
 }

@@ -61,19 +61,19 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Image (Desktop)",
+          "label": "Desktop Image",
           "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Image (Mobile)",
+          "label": "Mobile Image",
           "name": "imageMobile",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Business Vertical Title",
+          "label": "Business Title",
           "name": "title",
           "valueType": "string"
         },
@@ -85,7 +85,7 @@
         },
         {
           "component": "aem-content",
-          "label": "Vertical Link",
+          "label": "Business Link",
           "name": "link",
           "valueType": "string"
         }

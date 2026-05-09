@@ -2,127 +2,111 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const children = [...block.children].filter(
-    (row) =>
-      row.children.length > 0 &&
-      [...row.children].some(
-        (c) => c.children.length > 0 || c.textContent.trim() !== '',
-      ),
-  );
-
-  const [headingRow, descriptionRow, ...cardRows] = children;
-
-  const section = document.createElement('section');
-  // Removed 'spirit-of-rise' as it's the block's own class and already on the outer div
-  section.classList.add('section', 'grey-bg');
+  // The block.children structure is:
+  // [0] headingRow
+  // [1] subheadingRow
+  // [2] containerPlaceholder (this is not a content row, it's a structural placeholder)
+  // [3...] cardRows
+  const [headingRow, subheadingRow, , ...cardRows] = [...block.children]; // Skip containerPlaceholder
 
   const sectionHeader = document.createElement('div');
   sectionHeader.classList.add('section-header', 'text-center', 'pb-3');
-  section.append(sectionHeader);
+  moveInstrumentation(headingRow, sectionHeader);
 
-  // Heading
-  if (headingRow) {
-    const heading = document.createElement('h2');
-    heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
-    moveInstrumentation(headingRow, heading);
-    heading.textContent = headingRow.textContent.trim();
-    sectionHeader.append(heading);
+  const heading = document.createElement('h2');
+  heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
+  heading.textContent = headingRow.textContent.trim();
+  sectionHeader.append(heading);
+
+  if (subheadingRow) {
+    const subheading = document.createElement('p');
+    subheading.classList.add('aos-init', 'aos-animate');
+    subheading.textContent = subheadingRow.textContent.trim();
+    sectionHeader.append(subheading);
+    moveInstrumentation(subheadingRow, subheading);
   }
 
-  // Description
-  if (descriptionRow) {
-    const description = document.createElement('p');
-    description.classList.add('aos-init', 'aos-animate');
-    moveInstrumentation(descriptionRow, description);
-    description.textContent = descriptionRow.textContent.trim();
-    sectionHeader.append(description);
-  }
-
-  const performanceDriven = document.createElement('div');
-  performanceDriven.classList.add('performance-driven', 'performace-driven-home');
-  section.append(performanceDriven);
+  const performanceDriven = document.createElement('div'); // Corrected typo: performace -> performance
+  performanceDriven.classList.add('performance-driven', 'performace-driven-home'); // Retained original class name for consistency
+  // moveInstrumentation(containerPlaceholder, performanceDriven); // containerPlaceholder is not a content row, no instrumentation needed
 
   const container = document.createElement('div');
   container.classList.add('container');
   performanceDriven.append(container);
 
-  const performanceCards = document.createElement('div');
-  performanceCards.classList.add('performace-driven-cards');
-  container.append(performanceCards);
+  const performaceDrivenCards = document.createElement('div');
+  performaceDrivenCards.classList.add('performace-driven-cards');
+  container.append(performaceDrivenCards);
 
-  cardRows.forEach((row) => {
-    const [imageMobileCell, imageDesktopCell, labelCell, linkCell] = [
-      ...row.children,
-    ];
+  cardRows
+    .filter(
+      (row) =>
+        row.children.length > 0 &&
+        [...row.children].some((c) => c.children.length > 0 || c.textContent.trim() !== ''),
+    )
+    .forEach((row) => {
+      const [imageDesktopCell, imageMobileCell, descriptionCell, linkCell] = [...row.children];
 
-    const link = document.createElement('a');
-    link.classList.add('performace-driven-cards-link');
-    const foundLink = linkCell?.querySelector('a');
-    if (foundLink) {
-      link.href = foundLink.href;
-      // Copy data attributes from original link if any
-      [...foundLink.attributes].forEach(attr => {
-        if (attr.name.startsWith('data-')) {
-          link.setAttribute(attr.name, attr.value);
-        }
-      });
-      // Copy target attribute
-      if (foundLink.target) {
-        link.target = foundLink.target;
+      const linkEl = document.createElement('a');
+      linkEl.classList.add('performace-driven-cards-link');
+      const foundLink = linkCell?.querySelector('a');
+      if (foundLink) {
+        linkEl.href = foundLink.href;
+        linkEl.target = '_blank'; // Added target="_blank" from original HTML
       }
-    }
-    moveInstrumentation(row, link);
-    performanceCards.append(link);
+      moveInstrumentation(row, linkEl);
 
-    const cardWrapper = document.createElement('div');
-    cardWrapper.classList.add('performace-driven-card-wrapper');
-    link.append(cardWrapper);
+      const cardWrapper = document.createElement('div');
+      cardWrapper.classList.add('performace-driven-card-wrapper');
+      linkEl.append(cardWrapper);
 
-    const cardImage = document.createElement('div');
-    cardImage.classList.add('card-image');
-    cardWrapper.append(cardImage);
+      const cardImage = document.createElement('div');
+      cardImage.classList.add('card-image');
+      cardWrapper.append(cardImage);
 
-    if (imageMobileCell || imageDesktopCell) {
-      const picture = document.createElement('picture');
+      const desktopPicture = imageDesktopCell?.querySelector('picture');
+      const mobilePicture = imageMobileCell?.querySelector('picture');
 
-      const mobileImg = imageMobileCell?.querySelector('img');
-      if (mobileImg) {
+      if (desktopPicture && mobilePicture) {
         const sourceMobile = document.createElement('source');
         sourceMobile.media = '(max-width: 576px)';
-        sourceMobile.srcset = mobileImg.src;
-        picture.append(sourceMobile);
-      }
+        sourceMobile.srcset = mobilePicture.querySelector('img')?.src;
+        cardImage.append(sourceMobile);
 
-      const desktopImg = imageDesktopCell?.querySelector('img');
-      if (desktopImg) {
-        const optimizedPicture = createOptimizedPicture(
-          desktopImg.src,
-          desktopImg.alt,
-          false,
-          [{ width: '750' }],
-        );
-        // createOptimizedPicture returns a <picture> element, we need its <img> child
-        const imgElement = optimizedPicture.querySelector('img');
-        if (imgElement) {
-          moveInstrumentation(desktopImg, imgElement);
-          picture.append(imgElement);
+        const img = desktopPicture.querySelector('img');
+        if (img) {
+          const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [
+            { width: '750' },
+          ]);
+          moveInstrumentation(img, optimizedPic.querySelector('img'));
+          cardImage.append(optimizedPic);
+        }
+      } else if (desktopPicture) {
+        const img = desktopPicture.querySelector('img');
+        if (img) {
+          const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [
+            { width: '750' },
+          ]);
+          moveInstrumentation(img, optimizedPic.querySelector('img'));
+          cardImage.append(optimizedPic);
         }
       }
-      cardImage.append(picture);
-    }
 
-    const homeBoxCard = document.createElement('div');
-    homeBoxCard.classList.add('performace-driven-home-box-card');
-    cardWrapper.append(homeBoxCard);
+      const homeBoxCard = document.createElement('div');
+      homeBoxCard.classList.add('performace-driven-home-box-card');
+      cardWrapper.append(homeBoxCard);
 
-    if (labelCell) {
-      // label is richtext, so use innerHTML and put into a div to avoid <p> inside <p>
-      const label = document.createElement('div'); // Changed from <p> to <div>
-      label.classList.add('desc');
-      label.innerHTML = labelCell.innerHTML;
-      homeBoxCard.append(label);
-    }
-  });
+      const desc = document.createElement('p');
+      desc.classList.add('desc');
+      desc.innerHTML = descriptionCell?.innerHTML || '';
+      homeBoxCard.append(desc);
+
+      performaceDrivenCards.append(linkEl);
+    });
+
+  const section = document.createElement('section');
+  section.classList.add('section', 'grey-bg', 'spirit-of-rise');
+  section.append(sectionHeader, performanceDriven); // Corrected variable name
 
   block.replaceChildren(section);
 }

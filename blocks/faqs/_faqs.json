@@ -39,14 +39,14 @@
         {
           "component": "text",
           "label": "Section Heading",
-          "name": "heading",
+          "name": "sectionHeading",
           "valueType": "string"
         },
         {
           "component": "container",
           "item": "faq-item",
-          "label": "FAQs List",
-          "name": "faqsList"
+          "label": "FAQ Items",
+          "name": "faqItems"
         }
       ]
     },

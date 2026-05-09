@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Future-Ready",
+      "title": "Future Ready",
       "id": "future-ready",
       "plugins": {
         "xwalk": {
@@ -10,14 +10,14 @@
             "template": {
               "filter": "future-ready",
               "model": "future-ready",
-              "name": "Future-Ready"
+              "name": "Future Ready"
             }
           }
         }
       }
     },
     {
-      "title": "Future-Ready-Card-Item",
+      "title": "Card Item",
       "id": "future-ready-card-item",
       "plugins": {
         "xwalk": {
@@ -25,7 +25,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "future-ready-card-item",
-              "name": "Future-Ready-Card-Item"
+              "name": "Card Item"
             }
           }
         }
@@ -44,8 +44,8 @@
         },
         {
           "component": "text",
-          "label": "Subheading",
-          "name": "subheading",
+          "label": "Description",
+          "name": "description",
           "valueType": "string"
         },
         {
@@ -61,26 +61,26 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Card Image (Desktop)",
-          "name": "imageDesktop",
+          "label": "Mobile Image",
+          "name": "imageMobile",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Card Image (Mobile)",
-          "name": "imageMobile",
+          "label": "Desktop Image",
+          "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "richtext",
           "label": "Card Description",
-          "name": "description",
+          "name": "cardDescription",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Card Link",
-          "name": "link",
+          "name": "cardLink",
           "valueType": "string"
         }
       ]

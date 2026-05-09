@@ -61,8 +61,8 @@
   {
     "id": "home-slider",
     "components": [
-      "home-slider-slide-item",
-      "home-slider-quick-link-item"
+      "home-slide-item",
+      "quick-link-item"
     ]
   },
   {
@@ -87,7 +87,7 @@
   {
     "id": "purpose-led",
     "components": [
-      "purpose-led-card-item"
+      "purpose-led-card"
     ]
   },
   {
