@@ -7,22 +7,29 @@ export default function decorate(block) {
   const section = document.createElement('section');
   section.classList.add('section', 'grey-bg', 'spirit-of-rise');
 
-  const headerDiv = document.createElement('div');
-  headerDiv.classList.add('section-header', 'text-center', 'pb-3');
-  moveInstrumentation(headingRow, headerDiv); // Move instrumentation from the first row
+  const sectionHeader = document.createElement('div');
+  sectionHeader.classList.add('section-header', 'text-center', 'pb-3');
 
   const heading = document.createElement('h2');
   heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
+  heading.setAttribute('data-aos-easing', 'ease-in-out');
+  heading.setAttribute('data-aos', 'fade-up');
+  heading.setAttribute('data-aos-delay', '200');
   heading.textContent = headingRow.textContent.trim();
-  headerDiv.append(heading);
+  moveInstrumentation(headingRow, heading);
+  sectionHeader.append(heading);
 
   const subheading = document.createElement('p');
   subheading.classList.add('aos-init', 'aos-animate');
-  moveInstrumentation(subheadingRow, subheading); // Move instrumentation from the second row
+  subheading.setAttribute('data-aos', 'fade-up');
+  subheading.setAttribute('data-aos-offset', '100');
+  subheading.setAttribute('data-aos-duration', '650');
+  subheading.setAttribute('data-aos-easing', 'ease-in-out');
   subheading.textContent = subheadingRow.textContent.trim();
-  headerDiv.append(subheading);
+  moveInstrumentation(subheadingRow, subheading);
+  sectionHeader.append(subheading);
 
-  section.append(headerDiv);
+  section.append(sectionHeader);
 
   const performanceDriven = document.createElement('div');
   performanceDriven.classList.add('performance-driven', 'performace-driven-home');
@@ -34,54 +41,58 @@ export default function decorate(block) {
   cardsWrapper.classList.add('performace-driven-cards');
 
   cardRows.forEach((row) => {
-    const [imageMobileCell, imageDesktopCell, descriptionCell, cardLinkCell] = [...row.children];
+    const [imageDesktopCell, imageMobileCell, descriptionCell, linkCell] = [...row.children];
 
     const cardLink = document.createElement('a');
     cardLink.classList.add('performace-driven-cards-link');
-    const foundLink = cardLinkCell.querySelector('a');
+    const foundLink = linkCell.querySelector('a');
     if (foundLink) {
       cardLink.href = foundLink.href;
       cardLink.target = '_blank';
     }
-    moveInstrumentation(row, cardLink);
 
     const cardWrapper = document.createElement('div');
     cardWrapper.classList.add('performace-driven-card-wrapper');
 
-    const cardImageDiv = document.createElement('div');
-    cardImageDiv.classList.add('card-image');
+    const cardImage = document.createElement('div');
+    cardImage.classList.add('card-image');
 
-    const pictureMobile = imageMobileCell.querySelector('picture');
     const pictureDesktop = imageDesktopCell.querySelector('picture');
+    const pictureMobile = imageMobileCell.querySelector('picture');
 
-    if (pictureMobile && pictureDesktop) {
-      const imgMobileSrc = pictureMobile.querySelector('img')?.src;
-      const imgDesktopSrc = pictureDesktop.querySelector('img')?.src;
-      const imgDesktopAlt = pictureDesktop.querySelector('img')?.alt || '';
+    if (pictureDesktop && pictureMobile) {
+      const imgDesktop = pictureDesktop.querySelector('img');
+      const imgMobile = pictureMobile.querySelector('img');
 
-      const optimizedPic = createOptimizedPicture(
-        imgDesktopSrc,
-        imgDesktopAlt,
-        false,
-        [{ media: '(max-width: 576px)', width: '576', url: imgMobileSrc }, { width: '750' }],
-      );
-      // move instrumentation from the original picture element to the new optimized one
-      moveInstrumentation(pictureDesktop, optimizedPic);
-      cardImageDiv.append(optimizedPic);
+      const sourceMobile = document.createElement('source');
+      sourceMobile.media = '(max-width: 576px)';
+      sourceMobile.srcset = imgMobile.src;
+
+      const img = document.createElement('img');
+      img.src = imgDesktop.src;
+      img.alt = imgDesktop.alt;
+
+      const picture = document.createElement('picture');
+      picture.append(sourceMobile, img);
+      cardImage.append(picture);
+      // moveInstrumentation for pictures should be on the picture element itself, not its children
+      moveInstrumentation(imageDesktopCell, picture);
+      moveInstrumentation(imageMobileCell, picture);
     }
 
-    const cardBox = document.createElement('div');
-    cardBox.classList.add('performace-driven-home-box-card');
+    const homeBoxCard = document.createElement('div');
+    homeBoxCard.classList.add('performace-driven-home-box-card');
 
     const description = document.createElement('p');
     description.classList.add('desc');
     description.innerHTML = descriptionCell.innerHTML;
     moveInstrumentation(descriptionCell, description);
+    homeBoxCard.append(description);
 
-    cardBox.append(description);
-    cardWrapper.append(cardImageDiv, cardBox);
+    cardWrapper.append(cardImage, homeBoxCard);
     cardLink.append(cardWrapper);
     cardsWrapper.append(cardLink);
+    moveInstrumentation(row, cardLink);
   });
 
   container.append(cardsWrapper);
@@ -89,4 +100,20 @@ export default function decorate(block) {
   section.append(performanceDriven);
 
   block.replaceChildren(section);
+
+  // The createOptimizedPicture call is already handled by the AEM core,
+  // and the pictures are already optimized if they come from AEM.
+  // This block of code is redundant and can cause issues with instrumentation.
+  // It should be removed unless there's a specific reason to re-optimize.
+  // For now, removing it as it's not needed for standard AEM picture handling.
+  // If the original HTML had non-optimized images that needed optimization,
+  // then this would be valid, but typically AEM handles this.
+  // The moveInstrumentation(img, optimizedPic.querySelector('img')) is also problematic
+  // because img is replaced, and the instrumentation should ideally be on the picture element.
+  // Given the input, the pictures are already present and presumably optimized.
+  // block.querySelectorAll('picture > img').forEach((img) => {
+  //   const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+  //   moveInstrumentation(img, optimizedPic.querySelector('img'));
+  //   img.closest('picture').replaceWith(optimizedPic);
+  // });
 }

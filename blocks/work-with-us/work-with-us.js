@@ -14,8 +14,7 @@ export default async function decorate(block) {
 
   const heading = document.createElement('h2');
   heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
-  const [sectionHeadingCell] = [...sectionHeadingRow.children]; // Fix: Named destructuring
-  heading.textContent = sectionHeadingCell?.textContent.trim();
+  heading.textContent = sectionHeadingRow.textContent.trim();
   sectionHeader.append(heading);
   section.append(sectionHeader);
 
@@ -23,127 +22,137 @@ export default async function decorate(block) {
   const positionRelativeDiv = document.createElement('div');
   positionRelativeDiv.classList.add('position-relative', 'aos-init', 'aos-animate');
 
-  const container = document.createElement('div');
-  container.classList.add('container');
+  const containerDiv = document.createElement('div');
+  containerDiv.classList.add('container');
 
-  const gridLayout = document.createElement('div');
-  gridLayout.classList.add('grid-layout');
+  // Flickity setup
+  // The original HTML uses Flickity, so we need to load it and initialize it.
+  await loadCSS('/blocks/work-with-us/flickity.css'); // Assuming flickity.css is local to the block
+  await loadScript('/blocks/work-with-us/flickity.pkgd.min.js'); // Assuming flickity.pkgd.min.js is local to the block
 
-  // Swiper container setup
-  const swiperContainer = document.createElement('div');
-  swiperContainer.classList.add('swiper', 'slides'); // 'slides' is the class for the swiper container
-  const swiperWrapper = document.createElement('div');
-  swiperWrapper.classList.add('swiper-wrapper');
+  const flickitySliderMobileWrap = document.createElement('div');
+  flickitySliderMobileWrap.classList.add('flickity-slider-mobile-wrap');
+  flickitySliderMobileWrap.dataset.flickity = '{ "wrapAround": false, "lazyLoad": true, "pageDots": true, "prevNextButtons": false, "imagesLoaded": true, "cellAlign": "left", "watchCSS": true, "adaptiveHeight": true }';
+
+  const gridLayoutDiv = document.createElement('div');
+  gridLayoutDiv.classList.add('grid-layout'); // This will be the Flickity container
 
   slideRows.forEach((row) => {
     const [
-      desktopImageCell,
-      mobileImage576Cell,
-      mobileImage799Cell,
+      imageDesktopCell,
+      imageMobile576Cell,
+      imageMobile799Cell,
       slideHeadingCell,
-      slideBodyCell,
+      slideDescriptionCell,
       ctaLinkCell,
       ctaLabelCell,
     ] = [...row.children];
 
-    const wrap = document.createElement('div');
-    wrap.classList.add('swiper-slide', 'wrap'); // Each slide item is a swiper-slide
-    moveInstrumentation(row, wrap);
+    const slidesDiv = document.createElement('div');
+    slidesDiv.classList.add('slides');
+    moveInstrumentation(row, slidesDiv);
+
+    const wrapDiv = document.createElement('div');
+    wrapDiv.classList.add('wrap');
 
     // Image Wrap
-    const imageWrap = document.createElement('div');
-    imageWrap.classList.add('image-wrap');
+    const imageWrapDiv = document.createElement('div');
+    imageWrapDiv.classList.add('image-wrap');
 
     const picture = document.createElement('picture');
+    const desktopImg = imageDesktopCell.querySelector('img');
+    const mobile576Img = imageMobile576Cell.querySelector('img');
+    const mobile799Img = imageMobile799Cell.querySelector('img');
 
-    // Mobile Image (max-width: 576px)
-    const mobileImage576 = mobileImage576Cell?.querySelector('img');
-    if (mobileImage576) {
+    if (mobile576Img) {
       const source576 = document.createElement('source');
       source576.media = '(max-width: 576px)';
-      source576.srcset = mobileImage576.src;
+      source576.srcset = mobile576Img.src;
       picture.append(source576);
     }
-
-    // Mobile Image (max-width: 799px)
-    const mobileImage799 = mobileImage799Cell?.querySelector('img');
-    if (mobileImage799) {
+    if (mobile799Img) {
       const source799 = document.createElement('source');
-      source799.media = '(max-width: 799px)';
-      source799.srcset = mobileImage799.src;
-      picture.append(source799);
+      source779.media = '(max-width: 799px)';
+      source779.srcset = mobile799Img.src;
+      picture.append(source779);
     }
-
-    // Desktop Image
-    const desktopImage = desktopImageCell?.querySelector('img');
-    if (desktopImage) {
-      const img = createOptimizedPicture(
-        desktopImage.src,
-        desktopImage.alt || '',
-        false,
-        [{ width: '750' }],
-      ).querySelector('img');
+    if (desktopImg) {
+      // createOptimizedPicture returns a <picture> element, we need its inner <img>
+      const optimizedDesktopPic = createOptimizedPicture(desktopImg.src, desktopImg.alt, false, [{ width: '750' }]);
+      const img = optimizedDesktopPic.querySelector('img');
       img.classList.add('img-fluid');
       picture.append(img);
     }
-    imageWrap.append(picture);
-    wrap.append(imageWrap);
+    imageWrapDiv.append(picture);
+    wrapDiv.append(imageWrapDiv);
 
     // Content Wrap
-    const contentWrap = document.createElement('div');
-    contentWrap.classList.add('content-wrap');
+    const contentWrapDiv = document.createElement('div');
+    contentWrapDiv.classList.add('content-wrap');
 
     const contentSectionHeader = document.createElement('div');
     contentSectionHeader.classList.add('section-header');
 
     const slideHeading = document.createElement('h3');
     slideHeading.classList.add('heading', 'font-regular');
-    slideHeading.textContent = slideHeadingCell?.textContent.trim();
+    slideHeading.textContent = slideHeadingCell.textContent.trim();
     contentSectionHeader.append(slideHeading);
 
-    const slideBody = document.createElement('p');
-    slideBody.classList.add('text-size-body');
-    slideBody.textContent = slideBodyCell?.textContent.trim();
-    contentSectionHeader.append(slideBody);
+    const slideDescription = document.createElement('p');
+    slideDescription.classList.add('text-size-body');
+    slideDescription.innerHTML = slideDescriptionCell.innerHTML; // richtext field
+    contentSectionHeader.append(slideDescription);
 
-    const ctaLink = ctaLinkCell?.querySelector('a');
-    const ctaLabel = ctaLabelCell?.textContent.trim();
-    if (ctaLink && ctaLabel) {
-      const ctaAnchor = document.createElement('a');
-      ctaAnchor.href = ctaLink.href;
-      ctaAnchor.textContent = ctaLabel;
-      ctaAnchor.classList.add('btn', 'btn-primary', 'stretched-link');
-      contentSectionHeader.append(ctaAnchor);
+    const ctaLink = document.createElement('a');
+    const foundCtaLink = ctaLinkCell.querySelector('a');
+    if (foundCtaLink) {
+      ctaLink.href = foundCtaLink.href;
     }
+    ctaLink.classList.add('btn', 'btn-primary', 'stretched-link');
+    ctaLink.textContent = ctaLabelCell.textContent.trim();
+    contentSectionHeader.append(ctaLink);
 
-    contentWrap.append(contentSectionHeader);
-    wrap.append(contentWrap);
-
-    swiperWrapper.append(wrap);
+    contentWrapDiv.append(contentSectionHeader);
+    wrapDiv.append(contentWrapDiv);
+    slidesDiv.append(wrapDiv);
+    gridLayoutDiv.append(slidesDiv);
   });
 
-  swiperContainer.append(swiperWrapper);
-  // Add Swiper pagination and navigation if needed based on original HTML (not present in this example)
-  // const paginationEl = document.createElement('div');
-  // paginationEl.classList.add('swiper-pagination');
-  // swiperContainer.append(paginationEl);
-
-  gridLayout.append(swiperContainer);
-  container.append(gridLayout);
-  positionRelativeDiv.append(container);
+  flickitySliderMobileWrap.append(gridLayoutDiv);
+  containerDiv.append(flickitySliderMobileWrap);
+  positionRelativeDiv.append(containerDiv);
   section.append(positionRelativeDiv);
 
   block.replaceChildren(section);
 
-  // Swiper Initialization
-  await loadCSS('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
-  await loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
-
+  // Initialize Flickity after elements are in DOM
   // eslint-disable-next-line no-undef
-  new Swiper(swiperContainer, {
-    slidesPerView: 'auto',
-    loop: false, // Based on original HTML data-flickity='{ "wrapAround": false, ... }'
-    // navigation: { prevEl: prevBtn, nextEl: nextBtn }, // Add if navigation buttons are present
-    // pagination: { el: paginationEl, clickable: true }, // Add if pagination is present
+  if (typeof Flickity !== 'undefined') {
+    // eslint-disable-next-line no-new, no-undef
+    new Flickity(gridLayoutDiv, {
+      wrapAround: false,
+      lazyLoad: true,
+      pageDots: true,
+      prevNextButtons: false,
+      imagesLoaded: true,
+      cellAlign: 'left',
+      watchCSS: true,
+      adaptiveHeight: true,
+    });
+  }
+
+  // Image optimization
+  // This part is redundant if createOptimizedPicture is used correctly above.
+  // If createOptimizedPicture is used to create the initial <img>, it's already optimized.
+  // This loop would re-optimize already optimized images or replace non-optimized ones.
+  // Given the current logic, the desktopImg is already handled by createOptimizedPicture.
+  // The mobile images are just srcsets, so they don't need re-optimization here.
+  // Removing this for now to avoid potential double processing or issues.
+  /*
+  block.querySelectorAll('picture > img').forEach((img) => {
+    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+    moveInstrumentation(img, optimizedPic.querySelector('img'));
+    img.closest('picture').replaceWith(optimizedPic);
   });
+  */
 }

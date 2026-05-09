@@ -55,7 +55,7 @@
     "components": [
       "navigation-item",
       "press-release-item",
-      "contact-link-item"
+      "icon-link-item"
     ]
   },
   {
@@ -81,7 +81,7 @@
   {
     "id": "performance-driven",
     "components": [
-      "performance-driven-card-item"
+      "performance-driven-card"
     ]
   },
   {

@@ -43,16 +43,16 @@
           "valueType": "string"
         },
         {
-          "component": "richtext",
-          "label": "Section Intro",
-          "name": "intro",
+          "component": "text",
+          "label": "Section Description",
+          "name": "description",
           "valueType": "string"
         },
         {
           "component": "container",
           "item": "business-vertical-item",
           "label": "Business Verticals",
-          "name": "verticals"
+          "name": "businessVerticals"
         }
       ]
     },
@@ -67,13 +67,19 @@
         },
         {
           "component": "reference",
-          "label": "Tablet/Mobile Image",
+          "label": "Tablet Image",
           "name": "imageTablet",
           "valueType": "string"
         },
         {
+          "component": "reference",
+          "label": "Mobile Image",
+          "name": "imageMobile",
+          "valueType": "string"
+        },
+        {
           "component": "text",
-          "label": "Business Title",
+          "label": "Business Vertical Title",
           "name": "title",
           "valueType": "string"
         },
@@ -85,7 +91,7 @@
         },
         {
           "component": "aem-content",
-          "label": "Business Link",
+          "label": "Learn More Link",
           "name": "link",
           "valueType": "string"
         }

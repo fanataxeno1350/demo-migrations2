@@ -2,45 +2,51 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const children = [...block.children];
+  const [headingRow, subheadingRow, ...cardRows] = [...block.children];
+
+  const section = document.createElement('section');
+  section.classList.add('section', 'spirit-of-rise');
 
   const sectionHeader = document.createElement('div');
   sectionHeader.classList.add('section-header', 'text-center', 'pb-3');
 
-  const [headingRow, descriptionRow, ...cardRows] = children; // Destructuring for fixed-schema root rows
-
   const heading = document.createElement('h2');
   heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
-  heading.setAttribute('data-aos-easing', 'ease-in-out');
-  heading.setAttribute('data-aos', 'fade-up');
-  heading.setAttribute('data-aos-delay', '200');
   moveInstrumentation(headingRow, heading);
   heading.textContent = headingRow.textContent.trim();
   sectionHeader.append(heading);
 
-  const description = document.createElement('p');
-  description.classList.add('aos-init', 'aos-animate');
-  description.setAttribute('data-aos', 'fade-up');
-  description.setAttribute('data-aos-offset', '100');
-  description.setAttribute('data-aos-duration', '650');
-  description.setAttribute('data-aos-easing', 'ease-in-out');
-  moveInstrumentation(descriptionRow, description);
-  description.textContent = descriptionRow.textContent.trim();
-  sectionHeader.append(description);
+  const subheading = document.createElement('p');
+  subheading.classList.add('aos-init', 'aos-animate');
+  moveInstrumentation(subheadingRow, subheading);
+  subheading.textContent = subheadingRow.textContent.trim();
+  sectionHeader.append(subheading);
 
-  const performaceDrivenCards = document.createElement('div');
-  performaceDrivenCards.classList.add('performace-driven-cards');
+  section.append(sectionHeader);
+
+  const performanceDrivenContainer = document.createElement('div');
+  performanceDrivenContainer.classList.add('performance-driven', 'performace-driven-home');
+
+  const container = document.createElement('div');
+  container.classList.add('container');
+
+  const cardsWrapper = document.createElement('div');
+  cardsWrapper.classList.add('performace-driven-cards');
 
   cardRows.forEach((row) => {
-    const [imageMobileCell, imageDesktopCell, cardDescriptionCell, cardLinkCell] = [...row.children];
+    const [imageDesktopCell, imageMobileCell, descriptionCell, linkCell] = [...row.children];
 
     const cardLink = document.createElement('a');
     cardLink.classList.add('performace-driven-cards-link');
-    const foundLink = cardLinkCell.querySelector('a');
-    if (foundLink) {
-      cardLink.href = foundLink.href;
-      cardLink.target = '_blank';
+    const linkElement = linkCell?.querySelector('a');
+    if (linkElement) {
+      cardLink.href = linkElement.href;
+      // Preserve target="_blank" if it exists in the original link
+      if (linkElement.target) {
+        cardLink.target = linkElement.target;
+      }
     }
+    moveInstrumentation(row, cardLink);
 
     const cardWrapper = document.createElement('div');
     cardWrapper.classList.add('performace-driven-card-wrapper');
@@ -48,61 +54,66 @@ export default function decorate(block) {
     const cardImage = document.createElement('div');
     cardImage.classList.add('card-image');
 
-    const pictureMobile = imageMobileCell.querySelector('picture');
-    const pictureDesktop = imageDesktopCell.querySelector('picture');
+    const pictureDesktop = imageDesktopCell?.querySelector('picture');
+    const pictureMobile = imageMobileCell?.querySelector('picture');
 
-    if (pictureMobile && pictureDesktop) {
-      const sourceMobile = document.createElement('source');
-      sourceMobile.media = '(max-width: 576px)';
-      sourceMobile.srcset = pictureMobile.querySelector('img').src;
-
+    if (pictureDesktop && pictureMobile) {
       const imgDesktop = pictureDesktop.querySelector('img');
-      const optimizedPic = createOptimizedPicture(imgDesktop.src, imgDesktop.alt, false, [{ width: '750' }]);
-      const newImg = optimizedPic.querySelector('img');
-      moveInstrumentation(imgDesktop, newImg);
-
-      const newPicture = document.createElement('picture');
-      newPicture.append(sourceMobile, newImg);
-      cardImage.append(newPicture);
-    } else if (pictureDesktop) {
-      const imgDesktop = pictureDesktop.querySelector('img');
-      const optimizedPic = createOptimizedPicture(imgDesktop.src, imgDesktop.alt, false, [{ width: '750' }]);
-      const newImg = optimizedPic.querySelector('img');
-      moveInstrumentation(imgDesktop, newImg);
-      cardImage.append(optimizedPic); // Append the entire picture element
-    } else if (pictureMobile) {
       const imgMobile = pictureMobile.querySelector('img');
-      const optimizedPic = createOptimizedPicture(imgMobile.src, imgMobile.alt, false, [{ width: '750' }]);
-      const newImg = optimizedPic.querySelector('img');
-      moveInstrumentation(imgMobile, newImg);
-      cardImage.append(optimizedPic); // Append the entire picture element
+
+      // Create optimized picture with both sources
+      const optimizedPic = createOptimizedPicture(
+        imgDesktop.src,
+        imgDesktop.alt,
+        false,
+        [{ media: '(max-width: 576px)', width: '576' }, { width: '750' }], // Mobile and Desktop widths
+        imgMobile.src, // Use mobile image for the mobile source
+      );
+      cardImage.append(optimizedPic);
+      // Move instrumentation from original img elements to the new optimized picture's img
+      moveInstrumentation(imgDesktop, optimizedPic.querySelector('img'));
+      if (imgMobile) {
+        moveInstrumentation(imgMobile, optimizedPic.querySelector('source[media="(max-width: 576px)"]'));
+      }
+    } else if (pictureDesktop) {
+      // Only desktop picture exists
+      const imgDesktop = pictureDesktop.querySelector('img');
+      const optimizedPic = createOptimizedPicture(imgDesktop.src, imgDesktop.alt, false, [{ width: '750' }]);
+      cardImage.append(optimizedPic);
+      moveInstrumentation(imgDesktop, optimizedPic.querySelector('img'));
+    } else if (pictureMobile) {
+      // Only mobile picture exists (less common, but handle)
+      const imgMobile = pictureMobile.querySelector('img');
+      const optimizedPic = createOptimizedPicture(imgMobile.src, imgMobile.alt, false, [{ width: '576' }]);
+      cardImage.append(optimizedPic);
+      moveInstrumentation(imgMobile, optimizedPic.querySelector('img'));
     }
+
 
     const cardBox = document.createElement('div');
     cardBox.classList.add('performace-driven-home-box-card');
 
-    const cardDesc = document.createElement('p');
-    cardDesc.classList.add('desc');
-    cardDesc.textContent = cardDescriptionCell.textContent.trim();
+    const description = document.createElement('p');
+    description.classList.add('desc');
+    // Ensure description content is handled correctly, preserving any rich text if present
+    // Although model says 'text', original HTML shows <br/>, so innerHTML is safer.
+    description.innerHTML = descriptionCell?.innerHTML || '';
+    cardBox.append(description);
 
-    cardBox.append(cardDesc);
     cardWrapper.append(cardImage, cardBox);
     cardLink.append(cardWrapper);
-    moveInstrumentation(row, cardLink);
-    performaceDrivenCards.append(cardLink);
+    cardsWrapper.append(cardLink);
   });
 
-  const container = document.createElement('div');
-  container.classList.add('container');
-  container.append(performaceDrivenCards);
-
-  const performaceDrivenHome = document.createElement('div');
-  performaceDrivenHome.classList.add('performance-driven', 'performace-driven-home');
-  performaceDrivenHome.append(container);
-
-  const section = document.createElement('section');
-  section.classList.add('section', 'spirit-of-rise');
-  section.append(sectionHeader, performaceDrivenHome);
+  container.append(cardsWrapper);
+  performanceDrivenContainer.append(container);
+  section.append(performanceDrivenContainer);
 
   block.replaceChildren(section);
+
+  // The createOptimizedPicture calls are now handled within the loop,
+  // so this block.querySelectorAll('picture > img') is no longer needed
+  // as the pictures are already optimized when created.
+  // If there were any other images outside the card loop, this might be relevant,
+  // but for this block, it's redundant.
 }
