@@ -4,247 +4,228 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 export default function decorate(block) {
   const children = [...block.children];
 
-  const rootContainer = document.createElement('div');
-  rootContainer.classList.add('cmp-stats-by-the-number__container');
+  // The first row is always the title.
+  const [titleRow, ...remainingRows] = children;
 
-  // Section Title
-  const titleRow = children.shift();
+  // Filter tab and card item rows based on cell count.
+  // stats-tab-item has 5 cells (tabLabel, backgroundImage, description, ctaLink, ctaLabel)
+  // stats-card-item has 4 cells (statNumber, statLabel, hoverImage, hoverDetails)
+  const tabItemRows = remainingRows.filter((row) => row.children.length === 5);
+  const cardItemRows = remainingRows.filter((row) => row.children.length === 4);
+
+  const container = document.createElement('div');
+  container.classList.add('cmp-stats-by-the-number__container');
+  moveInstrumentation(block, container);
+
+  // Title Section
   const titleSection = document.createElement('div');
   titleSection.classList.add('cmp-stats-by-the-number__title');
   moveInstrumentation(titleRow, titleSection);
-  // Fix: titleRow is a row, its children[0] is the cell.
-  // The cell contains the richtext HTML, so read innerHTML from the cell.
-  titleSection.innerHTML = titleRow.children[0]?.innerHTML || '';
-  rootContainer.append(titleSection);
+  const title = document.createElement('h2');
+  // title field is richtext, so use innerHTML
+  title.innerHTML = titleRow.children[0]?.innerHTML || '';
+  titleSection.append(title);
+  container.append(titleSection);
 
-  // Tabs and Main Content
-  const tabsWrapper = document.createElement('div');
-  tabsWrapper.classList.add('cmp-stats-by-the-number__tabs');
+  // Tabs Section
+  const tabsSection = document.createElement('div');
+  tabsSection.classList.add('cmp-stats-by-the-number__tabs');
+  container.append(tabsSection);
 
+  // Main Content Layout
   const mainContent = document.createElement('div');
   mainContent.classList.add('cmp-stats-by-the-number__main-content');
+  container.append(mainContent);
 
+  // Left Side - Dynamic Image
   const imageSection = document.createElement('div');
   imageSection.classList.add('cmp-stats-by-the-number__image-section');
   mainContent.append(imageSection);
 
+  // Right Side - Content and Stats
   const contentSection = document.createElement('div');
   contentSection.classList.add('cmp-stats-by-the-number__content-section');
   mainContent.append(contentSection);
 
-  const tabItems = [];
-  const cardItems = [];
+  const tabContents = [];
+  const cardGroups = []; // This will hold the cardsGrid elements for each tab
 
-  // Separate tab items from card items
-  children.forEach((row) => {
-    if (row.children.length === 6) { // stats-tab-item has 6 cells
-      tabItems.push(row);
-    } else if (row.children.length === 5) { // stats-card-item has 5 cells
-      cardItems.push(row);
-    }
-  });
+  tabItemRows.forEach((row, tabIndex) => {
+    // Destructure cells for stats-tab-item
+    const [tabLabelCell, backgroundImageCell, descriptionCell, ctaLinkCell, ctaLabelCell] = [...row.children];
 
-  // Process Tabs
-  tabItems.forEach((row, index) => {
-    const [tabLabelCell, backgroundImageCell, backgroundImageWebpCell, descriptionCell, ctaLinkCell, ctaLabelCell] = [...row.children];
-
+    // Create tab button
     const tabButton = document.createElement('button');
     tabButton.classList.add('cmp-stats-by-the-number__tab');
-    if (index === 0) {
+    if (tabIndex === 0) {
       tabButton.classList.add('cmp-stats-by-the-number__tab--active');
     }
     tabButton.dataset.tab = tabLabelCell.textContent.trim();
-    tabButton.dataset.tabIndex = index;
+    tabButton.dataset.tabIndex = tabIndex;
     tabButton.textContent = tabLabelCell.textContent.trim();
-    moveInstrumentation(tabLabelCell, tabButton); // Move instrumentation from label cell to button
-    tabsWrapper.append(tabButton);
+    tabsSection.append(tabButton);
+    moveInstrumentation(tabLabelCell, tabButton);
 
+    // Create image container
     const imageContainer = document.createElement('div');
     imageContainer.classList.add('cmp-stats-by-the-number__image-container');
-    if (index === 0) {
+    if (tabIndex === 0) {
       imageContainer.classList.add('cmp-stats-by-the-number__image-container--active');
     }
-    imageContainer.dataset.tabContent = index;
-
-    const picture = backgroundImageWebpCell?.querySelector('picture') || backgroundImageCell?.querySelector('picture');
+    imageContainer.dataset.tabContent = tabIndex;
+    const picture = backgroundImageCell.querySelector('picture');
     if (picture) {
       const img = picture.querySelector('img');
+      // createOptimizedPicture handles alt text and other attributes
       const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
       const optimizedImg = optimizedPic.querySelector('img');
       optimizedImg.classList.add('cmp-stats-by-the-number__main-image');
-      optimizedImg.dataset.tabImage = index;
+      optimizedImg.dataset.tabImage = tabIndex;
       imageContainer.append(optimizedPic);
-      // moveInstrumentation from image cell to optimized img
-      // The original image cell is the container for the picture, so instrumentation should be moved from it.
-      // The optimizedPic is the new <picture> element, and optimizedImg is the <img> inside it.
-      // moveInstrumentation should be on the outermost element that replaces the original cell's content.
       moveInstrumentation(backgroundImageCell, optimizedPic);
     }
     imageSection.append(imageContainer);
 
-    const tabContentContainer = document.createElement('div');
-    tabContentContainer.classList.add('cmp-stats-by-the-number__tab-content');
-    if (index === 0) {
-      tabContentContainer.classList.add('cmp-stats-by-the-number__tab-content--active');
+    // Create tab content container
+    const tabContent = document.createElement('div');
+    tabContent.classList.add('cmp-stats-by-the-number__tab-content');
+    if (tabIndex === 0) {
+      tabContent.classList.add('cmp-stats-by-the-number__tab-content--active');
     }
-    tabContentContainer.dataset.tabContent = index;
-    moveInstrumentation(row, tabContentContainer); // Move instrumentation from tab item row
+    tabContent.dataset.tabContent = tabIndex;
+    contentSection.append(tabContent);
+    tabContents.push(tabContent);
+    // moveInstrumentation for the entire tab content container
+    moveInstrumentation(row, tabContent); // Move from the tab row itself
 
-    const descriptionDiv = document.createElement('div'); // Fix: Use div for richtext to avoid <p> inside <p>
+    // Description Text
+    const descriptionDiv = document.createElement('div');
     descriptionDiv.classList.add('cmp-stats-by-the-number__description');
+    // description field is richtext, so use innerHTML
     descriptionDiv.innerHTML = descriptionCell?.innerHTML || '';
-    tabContentContainer.append(descriptionDiv);
+    tabContent.append(descriptionDiv);
 
+    // Stats Cards Grid
     const cardsGrid = document.createElement('div');
     cardsGrid.classList.add('cmp-stats-by-the-number__cards');
     cardsGrid.setAttribute('role', 'list');
-    tabContentContainer.append(cardsGrid);
+    tabContent.append(cardsGrid);
+    cardGroups.push(cardsGrid); // Store the cardsGrid for later population
 
-    // Filter cards for the current tab (assuming cards follow their respective tab in the block structure)
-    // This is a simplification. A more robust solution might involve a mapping or explicit card-to-tab linking.
-    // For now, we'll assume cards are grouped sequentially after their tab.
-    const currentTabCards = cardItems.splice(0, Math.min(4, cardItems.length)); // Assuming 4 cards per tab based on ORIGINAL HTML
-
-    currentTabCards.forEach((cardRow) => {
-      const [hoverImageCell, numberCell, ariaLabelCell, cardDescriptionCell, hoverDetailsCell] = [...cardRow.children];
-
-      const cardDiv = document.createElement('div');
-      cardDiv.classList.add('cmp-stats-by-the-number__card');
-      cardDiv.setAttribute('role', 'img');
-      cardDiv.setAttribute('tabindex', '0');
-      cardDiv.setAttribute('aria-label', ariaLabelCell.textContent.trim());
-
-      const hoverPicture = hoverImageCell?.querySelector('picture');
-      if (hoverPicture) {
-        const hoverImg = hoverPicture.querySelector('img');
-        cardDiv.dataset.hoverImage = hoverImg.src;
-        moveInstrumentation(hoverImageCell, hoverPicture); // Move instrumentation from hover image cell to the picture element
-      }
-      cardDiv.dataset.hoverDetails = hoverDetailsCell?.innerHTML || '';
-      moveInstrumentation(cardRow, cardDiv); // Move instrumentation from card item row
-
-      const numberDiv = document.createElement('div'); // Fix: Use div for richtext to avoid <p> inside <p>
-      numberDiv.classList.add('cmp-stats-by-the-number__card__number');
-      numberDiv.innerHTML = numberCell?.innerHTML || '';
-      cardDiv.append(numberDiv);
-
-      const descriptionDivCard = document.createElement('div'); // Fix: Use div for richtext to avoid <p> inside <p>
-      descriptionDivCard.classList.add('cmp-stats-by-the-number__card__description');
-      descriptionDivCard.innerHTML = cardDescriptionCell?.innerHTML || '';
-      cardDiv.append(descriptionDivCard);
-
-      cardsGrid.append(cardDiv);
-    });
-
+    // Call to Action Button
     const ctaDiv = document.createElement('div');
     ctaDiv.classList.add('cmp-stats-by-the-number__cta');
-
-    const ctaLink = ctaLinkCell?.querySelector('a');
+    const ctaLink = ctaLinkCell.querySelector('a');
     if (ctaLink) {
       const anchor = document.createElement('a');
       anchor.href = ctaLink.href;
       anchor.classList.add('cta', 'cta__primary');
-      anchor.setAttribute('target', ctaLink.target || '_self');
+      anchor.textContent = ctaLabelCell.textContent.trim();
       anchor.setAttribute('aria-label', ctaLabelCell.textContent.trim());
-
-      const iconSpan = document.createElement('span');
-      iconSpan.classList.add('cta__icon', 'qd-icon', 'qd-icon--cheveron-right');
-      iconSpan.setAttribute('aria-hidden', 'true');
-      anchor.append(iconSpan);
-
-      const labelSpan = document.createElement('span');
-      labelSpan.classList.add('cta__label');
-      labelSpan.textContent = ctaLabelCell.textContent.trim();
-      anchor.append(labelSpan);
-      // Fix: moveInstrumentation should be called once per original cell,
-      // and typically from the cell to the main element replacing its content.
-      // For CTA, the link cell contains the <a>, and the label cell contains the text.
-      // The anchor element replaces the content of the ctaLinkCell.
-      // The labelSpan replaces the content of the ctaLabelCell.
-      // If both are part of the same new anchor, move instrumentation from both to the anchor.
-      // Or, if the anchor is the primary replacement, move from ctaLinkCell to anchor.
-      // If ctaLabelCell's content is just text, and it's used to set textContent of labelSpan,
-      // then move instrumentation from ctaLabelCell to labelSpan.
-      // The current setup is fine, but ensure the original cells are emptied or replaced.
-      moveInstrumentation(ctaLinkCell, anchor);
-      moveInstrumentation(ctaLabelCell, labelSpan);
+      const icon = document.createElement('span');
+      icon.classList.add('cta__icon', 'qd-icon', 'qd-icon--cheveron-right');
+      icon.setAttribute('aria-hidden', 'true');
+      anchor.prepend(icon);
       ctaDiv.append(anchor);
+      moveInstrumentation(ctaLinkCell, anchor);
     }
-    tabContentContainer.append(ctaDiv);
-    contentSection.append(tabContentContainer);
+    tabContent.append(ctaDiv);
   });
 
-  rootContainer.append(tabsWrapper, mainContent);
+  // Populate card groups
+  // The BlockJson indicates 'cards' is a container field within 'stats-tab-item'.
+  // However, the EDS block structure shows stats-card-item rows as siblings.
+  // We need to associate them. The ORIGINAL HTML shows 4 cards per tab.
+  const cardsPerTab = 4;
+  let currentCardItemIndex = 0; // Track which cardItemRow we are processing
 
-  block.replaceChildren(rootContainer);
-  block.classList.add('animate-ready', 'animate-in');
-  block.setAttribute('role', 'region');
-  block.setAttribute('aria-label', 'Statistics by the numbers');
+  cardGroups.forEach((cardsGrid, tabIndex) => {
+    for (let i = 0; i < cardsPerTab && currentCardItemIndex < cardItemRows.length; i++) {
+      const cardRow = cardItemRows[currentCardItemIndex];
+      // Destructure cells for stats-card-item
+      const [statNumberCell, statLabelCell, hoverImageCell, hoverDetailsCell] = [...cardRow.children];
 
-  // Add event listeners for tabs
-  const tabButtons = block.querySelectorAll('.cmp-stats-by-the-number__tab');
-  const tabContents = block.querySelectorAll('.cmp-stats-by-the-number__tab-content');
-  const imageContainers = block.querySelectorAll('.cmp-stats-by-the-number__image-container');
+      const card = document.createElement('div');
+      card.classList.add('cmp-stats-by-the-number__card');
+      card.setAttribute('role', 'img');
+      card.setAttribute('tabindex', '0');
 
-  tabButtons.forEach((button) => {
+      const statNumberDiv = document.createElement('div');
+      statNumberDiv.classList.add('cmp-stats-by-the-number__card__number');
+      // statNumber field is richtext, so use innerHTML
+      statNumberDiv.innerHTML = statNumberCell?.innerHTML || '';
+      card.append(statNumberDiv);
+
+      const statLabelDiv = document.createElement('div');
+      statLabelDiv.classList.add('cmp-stats-by-the-number__card__description');
+      // statLabel is text, wrap in p as per original HTML
+      statLabelDiv.innerHTML = `<p>${statLabelCell.textContent.trim()}</p>`;
+      card.append(statLabelDiv);
+
+      const hoverImage = hoverImageCell.querySelector('picture > img');
+      if (hoverImage) {
+        card.dataset.hoverImage = hoverImage.src;
+      }
+      // hoverDetails field is richtext, so use innerHTML
+      card.dataset.hoverDetails = hoverDetailsCell?.innerHTML || '';
+      card.setAttribute('aria-label', `${statNumberCell.textContent.trim()}: ${statLabelCell.textContent.trim()}`);
+
+      cardsGrid.append(card);
+      moveInstrumentation(cardRow, card); // Move instrumentation from the card row to the new card div
+      currentCardItemIndex++;
+    }
+  });
+
+  // Tab switching logic
+  tabsSection.querySelectorAll('.cmp-stats-by-the-number__tab').forEach((button) => {
     button.addEventListener('click', () => {
       const tabIndex = button.dataset.tabIndex;
 
-      tabButtons.forEach((btn) => btn.classList.remove('cmp-stats-by-the-number__tab--active'));
+      // Deactivate all tabs and content
+      tabsSection.querySelectorAll('.cmp-stats-by-the-number__tab').forEach((btn) => {
+        btn.classList.remove('cmp-stats-by-the-number__tab--active');
+      });
+      imageSection.querySelectorAll('.cmp-stats-by-the-number__image-container').forEach((imgContainer) => {
+        imgContainer.classList.remove('cmp-stats-by-the-number__image-container--active');
+      });
+      contentSection.querySelectorAll('.cmp-stats-by-the-number__tab-content').forEach((tabContent) => {
+        tabContent.classList.remove('cmp-stats-by-the-number__tab-content--active');
+      });
+
+      // Activate selected tab and content
       button.classList.add('cmp-stats-by-the-number__tab--active');
-
-      tabContents.forEach((content) => {
-        if (content.dataset.tabContent === tabIndex) {
-          content.classList.add('cmp-stats-by-the-number__tab-content--active');
-        } else {
-          content.classList.remove('cmp-stats-by-the-number__tab-content--active');
-        }
-      });
-
-      imageContainers.forEach((imgContainer) => {
-        if (imgContainer.dataset.tabContent === tabIndex) {
-          imgContainer.classList.add('cmp-stats-by-the-number__image-container--active');
-          imgContainer.querySelector('img').style.opacity = '1';
-        } else {
-          imgContainer.classList.remove('cmp-stats-by-the-number__image-container--active');
-          imgContainer.querySelector('img').style.opacity = '0';
-        }
-      });
+      imageSection.querySelector(`[data-tab-content="${tabIndex}"]`).classList.add('cmp-stats-by-the-number__image-container--active');
+      contentSection.querySelector(`[data-tab-content="${tabIndex}"]`).classList.add('cmp-stats-by-the-number__tab-content--active');
     });
   });
 
-  // Add hover effects for cards
-  const cards = block.querySelectorAll('.cmp-stats-by-the-number__card');
-  cards.forEach((card) => {
+  // Card hover logic (for hover image and details)
+  contentSection.querySelectorAll('.cmp-stats-by-the-number__card').forEach((card) => {
     const hoverImageSrc = card.dataset.hoverImage;
     const hoverDetailsHtml = card.dataset.hoverDetails;
 
-    if (hoverImageSrc || hoverDetailsHtml) {
-      const hoverOverlay = document.createElement('div');
-      hoverOverlay.classList.add('cmp-stats-by-the-number__card-hover-overlay');
+    // Create hover details overlay
+    const hoverOverlay = document.createElement('div');
+    // No specific class for overlay in ORIGINAL HTML, so we'll add content directly
+    hoverOverlay.innerHTML = hoverDetailsHtml;
 
-      if (hoverImageSrc) {
-        const hoverImage = document.createElement('img');
-        hoverImage.src = hoverImageSrc;
-        hoverImage.alt = card.getAttribute('aria-label') || 'Hover image';
-        hoverImage.classList.add('cmp-stats-by-the-number__card-hover-image');
-        hoverOverlay.append(hoverImage);
-      }
+    // Create hover image element
+    const hoverImage = document.createElement('img');
+    // No specific class for hover image in ORIGINAL HTML
+    hoverImage.src = hoverImageSrc;
+    hoverImage.alt = card.getAttribute('aria-label'); // Use card's aria-label as alt text
 
-      if (hoverDetailsHtml) {
-        const hoverDetails = document.createElement('div');
-        hoverDetails.classList.add('cmp-stats-by-the-number__card-hover-details');
-        hoverDetails.innerHTML = hoverDetailsHtml;
-        hoverOverlay.append(hoverDetails);
-      }
-      card.append(hoverOverlay);
+    card.addEventListener('mouseenter', () => {
+      // Append hover image and overlay to the card for display
+      card.append(hoverImage, hoverOverlay);
+      // No specific class for hover state in ORIGINAL HTML, manage visibility with CSS on card
+    });
 
-      card.addEventListener('mouseenter', () => {
-        card.classList.add('cmp-stats-by-the-number__card--hover');
-      });
-      card.addEventListener('mouseleave', () => {
-        card.classList.remove('cmp-stats-by-the-number__card--hover');
-      });
-    }
+    card.addEventListener('mouseleave', () => {
+      hoverImage.remove();
+      hoverOverlay.remove();
+    });
   });
+
+  block.replaceChildren(container);
 }

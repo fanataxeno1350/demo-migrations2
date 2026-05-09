@@ -44,8 +44,8 @@
   {
     "id": "header",
     "components": [
-      "navigation-item",
-      "mobile-navigation-item",
+      "nav-item",
+      "mobile-nav-item",
       "language-item"
     ]
   },

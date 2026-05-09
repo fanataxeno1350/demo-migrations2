@@ -290,7 +290,7 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Logo (SVG markup as HTML string)",
+        "label": "Logo (SVG or Image)",
         "name": "logo",
         "valueType": "string"
       },
@@ -303,26 +303,26 @@
       {
         "component": "aem-content",
         "label": "Contact Us Link",
-        "name": "contactLink",
+        "name": "contactUsLink",
         "valueType": "string"
       },
       {
         "component": "text",
         "label": "Contact Us Label",
-        "name": "contactLabel",
+        "name": "contactUsLabel",
         "valueType": "string"
       },
       {
         "component": "container",
-        "item": "navigation-item",
-        "label": "Navigation Menu",
-        "name": "navigationMenu"
+        "item": "nav-item",
+        "label": "Desktop Navigation",
+        "name": "desktopNavigation"
       },
       {
         "component": "container",
-        "item": "mobile-navigation-item",
-        "label": "Mobile Navigation Menu",
-        "name": "mobileNavigationMenu"
+        "item": "mobile-nav-item",
+        "label": "Mobile Navigation",
+        "name": "mobileNavigation"
       },
       {
         "component": "container",
@@ -333,7 +333,7 @@
     ]
   },
   {
-    "id": "navigation-item",
+    "id": "nav-item",
     "fields": [
       {
         "component": "text",
@@ -356,23 +356,23 @@
     ]
   },
   {
-    "id": "mobile-navigation-item",
+    "id": "mobile-nav-item",
     "fields": [
       {
         "component": "text",
-        "label": "Mobile Menu Label",
+        "label": "Menu Label",
         "name": "label",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Mobile Menu Link",
+        "label": "Menu Link",
         "name": "link",
         "valueType": "string"
       },
       {
         "component": "richtext",
-        "label": "Mobile Navigation Hierarchy",
+        "label": "Navigation Hierarchy",
         "name": "hierarchy-tree",
         "valueType": "string"
       }
@@ -447,14 +447,14 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Video Poster Image (poster attribute)",
+        "label": "Video Poster Image",
         "name": "videoPoster",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Video Source (src attribute)",
-        "name": "videoSource",
+        "label": "Video Source",
+        "name": "videoSrc",
         "valueType": "string"
       }
     ]
@@ -498,14 +498,8 @@
       },
       {
         "component": "reference",
-        "label": "Main Image",
+        "label": "Main Image (Right Section)",
         "name": "backgroundImage",
-        "valueType": "string"
-      },
-      {
-        "component": "reference",
-        "label": "Main Image (WebP)",
-        "name": "backgroundImageWebp",
         "valueType": "string"
       },
       {
@@ -513,6 +507,12 @@
         "label": "Tab Description",
         "name": "description",
         "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "stats-card-item",
+        "label": "Stats Cards",
+        "name": "cards"
       },
       {
         "component": "aem-content",
@@ -525,18 +525,24 @@
         "label": "CTA Label",
         "name": "ctaLabel",
         "valueType": "string"
-      },
-      {
-        "component": "container",
-        "item": "stats-card-item",
-        "label": "Stats Cards",
-        "name": "cards"
       }
     ]
   },
   {
     "id": "stats-card-item",
     "fields": [
+      {
+        "component": "richtext",
+        "label": "Stat Number (Richtext, e.g. 360+<sub>KM<sup>2</sup></sub>)",
+        "name": "statNumber",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Stat Label",
+        "name": "statLabel",
+        "valueType": "string"
+      },
       {
         "component": "reference",
         "label": "Card Hover Image",
@@ -545,25 +551,7 @@
       },
       {
         "component": "richtext",
-        "label": "Stat Number (Richtext)",
-        "name": "number",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Aria Label",
-        "name": "ariaLabel",
-        "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "label": "Card Description",
-        "name": "description",
-        "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "label": "Hover Details (Richtext)",
+        "label": "Card Hover Details (Richtext)",
         "name": "hoverDetails",
         "valueType": "string"
       }

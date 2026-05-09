@@ -23,14 +23,14 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Video Poster Image",
+          "label": "Video Poster Image (poster attribute)",
           "name": "videoPoster",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Video Source",
-          "name": "videoSrc",
+          "label": "Video Source (src attribute)",
+          "name": "videoSource",
           "valueType": "string"
         }
       ]

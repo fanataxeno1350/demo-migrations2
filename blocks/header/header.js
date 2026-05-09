@@ -5,134 +5,76 @@ function transformNestedLists(rootUl, isMobile = false) {
   rootUl.querySelectorAll('li').forEach((li) => {
     const nested = li.querySelector(':scope > ul');
     const anchor = li.querySelector(':scope > a');
-    const textNode = [...li.childNodes].find(
-      (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim(),
-    );
 
-    let triggerElement;
-    if (anchor) {
-      triggerElement = anchor;
-    } else if (textNode) {
-      const span = document.createElement('span');
-      span.textContent = textNode.textContent.trim();
-      textNode.remove();
-      li.prepend(span);
-      triggerElement = span;
+    if (!anchor) {
+      const textNode = [...li.childNodes].find(
+        (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim(),
+      );
+      if (textNode) {
+        const span = document.createElement('span');
+        span.textContent = textNode.textContent.trim();
+        textNode.remove();
+        li.prepend(span);
+      }
     }
 
     if (nested) {
       nested.remove();
       const subWrap = document.createElement('ul');
-      subWrap.classList.add(
-        isMobile
-          ? 'cmp-navigation-wrapper__mobilenavbar-submenu'
-          : 'cmp-navigation-wrapper__navbar-submenu',
-      );
-      subWrap.append(nested);
+      if (isMobile) {
+        subWrap.classList.add('cmp-navigation-wrapper__mobilenavbar-submenu');
+      } else {
+        subWrap.classList.add('cmp-navigation-wrapper__navbar-submenu');
+      }
+      // Append children from the original nested UL to the new subWrap
+      while (nested.firstChild) {
+        subWrap.append(nested.firstChild);
+      }
+      li.append(subWrap); // Append subWrap to li
 
-      if (triggerElement) {
+      const trigger = li.querySelector(':scope > a, :scope > span');
+      if (trigger) {
+        const iconWrapper = document.createElement('span');
+        iconWrapper.classList.add('qd-icon-wrapper');
+        const icon = document.createElement('span');
         if (isMobile) {
-          const headerLi = document.createElement('li');
-          headerLi.classList.add('cmp-navigation-wrapper__mobilenavbar-menuheader');
-          const headerLink = document.createElement('a');
-          headerLink.textContent = triggerElement.textContent.trim();
-          headerLi.append(headerLink);
-          subWrap.prepend(headerLi);
-
-          const mobileLinkWrapper = document.createElement('a');
-          mobileLinkWrapper.classList.add('cmp-navigation-wrapper__mobilenavbar-menulink');
-          mobileLinkWrapper.innerHTML = `
-            <span>${triggerElement.textContent.trim()}</span>
-            <span class="qd-icon qd-icon--cheveron-right cmp-navigation-wrapper__mobilenavbar-menulink-icon"></span>
-          `;
-          li.replaceChild(mobileLinkWrapper, triggerElement);
-          triggerElement = mobileLinkWrapper;
+          icon.classList.add('qd-icon', 'qd-icon--cheveron-right', 'cmp-navigation-wrapper__mobilenavbar-menulink-icon');
         } else {
-          triggerElement.classList.add('cmp-navigation-wrapper__navbar-menulink');
-          triggerElement.setAttribute('aria-haspopup', 'true');
-          triggerElement.setAttribute('aria-expanded', 'false');
-          const iconWrapper = document.createElement('span');
-          iconWrapper.classList.add('qd-icon-wrapper');
-          iconWrapper.innerHTML = `<span class="menu-icon qd-icon qd-icon--cheveron-down"></span>`;
-          triggerElement.append(iconWrapper);
+          icon.classList.add('menu-icon', 'qd-icon', 'qd-icon--cheveron-down');
         }
+        iconWrapper.append(icon);
+        trigger.append(iconWrapper); // Append iconWrapper to trigger
 
-        triggerElement.addEventListener('click', (e) => {
+        trigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
+          li.classList.toggle('active');
           if (isMobile) {
-            li.closest('.cmp-navigation-wrapper__mobilenavbar-list').classList.add('sub-menu-open');
-            subWrap.classList.add('active');
-            subWrap.closest('.cmp-navigation-wrapper__mobilenavbar').classList.add('sub-menu-open');
-            const backButton = subWrap
-              .closest('.cmp-navigation-wrapper__mobilenavbar')
-              .querySelector('.cmp-navigation-wrapper__mobilenavbar-back');
-            if (backButton) {
-              backButton.classList.add('active');
-              const backLabel = backButton.querySelector('.cmp-navigation-wrapper__iconlabel');
-              if (backLabel) backLabel.textContent = triggerElement.textContent.trim();
-            }
-          } else {
-            li.classList.toggle('active');
-            triggerElement.setAttribute(
-              'aria-expanded',
-              triggerElement.classList.contains('active').toString(),
-            );
+            subWrap.classList.toggle('active');
           }
+          trigger.setAttribute('aria-expanded', trigger.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
         });
       }
-      li.append(subWrap);
-    } else if (isMobile && triggerElement) {
-      triggerElement.classList.add('cmp-navigation-wrapper__mobilenavbar-menulink');
-    } else if (triggerElement) {
-      triggerElement.classList.add('cmp-navigation-wrapper__navbar-menulink');
     }
   });
 }
 
 export default function decorate(block) {
+  const children = [...block.children];
+
   const [
     logoRow,
     logoLinkRow,
-    contactLinkRow,
-    contactLabelRow,
-    // These are container fields, their item rows appear below.
-    // We need to account for their positions in the block.children array.
-    // The generated JS correctly skips these "container" rows and starts
-    // processing item rows from index 4.
-    // However, the original JS had children[4], children[5], children[6]
-    // which are the container rows themselves. They should not be read as data.
-    // Instead, we should extract the actual item rows that follow these containers.
-    // The BlockJson model shows 4 root fields, then 3 container fields.
-    // So the actual item rows start from index 7.
+    contactUsLinkRow,
+    contactUsLabelRow,
+    // These are container fields, their instrumentation is on the rows that follow
+    // The original JS incorrectly destructured them as if they were single rows.
+    // We will consume their instrumentation on the generated wrappers.
+    desktopNavigationContainerRow, // This row holds instrumentation for desktopNavigation
+    mobileNavigationContainerRow,  // This row holds instrumentation for mobileNavigation
+    languagesContainerRow,         // This row holds instrumentation for languages
     ...itemRows
-  ] = [...block.children];
-
-  const navigationItemRows = [];
-  const mobileNavigationItemRows = [];
-  const languageItemRows = [];
-
-  // Categorize item rows based on their structure and order as per model
-  // The BlockJson model defines the order: navigation-item, mobile-navigation-item, language-item
-  // All navigation-item and mobile-navigation-item have 3 cells and a hierarchy-tree.
-  // Language-item has 2 cells.
-  itemRows.forEach((row) => {
-    const cells = [...row.children];
-    if (cells.length === 3 && cells[2].querySelector('ul')) {
-      // These are either navigation-item or mobile-navigation-item
-      // Distinguish by position as per the model: navigationMenu first, then mobileNavigationMenu
-      // The number of navigation-item rows is not explicitly given, but they come first.
-      // We assume the first set of 3-cell rows with a UL are navigation-item, then mobile-navigation-item.
-      // This is a heuristic based on the model's ordering.
-      if (navigationItemRows.length === 0 || navigationItemRows[0].children[0].textContent.trim() === 'example text value') { // Heuristic: first example text value is for navigation-item
-        navigationItemRows.push(row);
-      } else {
-        mobileNavigationItemRows.push(row);
-      }
-    } else if (cells.length === 2) {
-      languageItemRows.push(row);
-    }
-  });
+  ] = children;
 
   const headerWrapper = document.createElement('div');
   headerWrapper.classList.add('cmp-header-wrapper', 'layout-container', 'transparent-header');
@@ -140,19 +82,20 @@ export default function decorate(block) {
   const navigationDiv = document.createElement('div');
   navigationDiv.classList.add('navigation', 'header-nav-css-from-wrapper');
 
-  const cmpNavigationWrapper = document.createElement('div');
-  cmpNavigationWrapper.classList.add('cmp-navigation-wrapper');
-  cmpNavigationWrapper.setAttribute('role', 'banner');
-  cmpNavigationWrapper.setAttribute('aria-label', 'navigation.header.aria.label');
+  const navWrapper = document.createElement('div');
+  navWrapper.classList.add('cmp-navigation-wrapper');
+  navWrapper.setAttribute('role', 'banner');
+  navWrapper.setAttribute('aria-label', 'navigation.header.aria.label');
 
-  const logoWrapper = document.createElement('div');
-  logoWrapper.classList.add('cmp-navigation-wrapper__logo');
+  const logoDiv = document.createElement('div');
+  logoDiv.classList.add('cmp-navigation-wrapper__logo');
 
   const logoLink = document.createElement('a');
-  const logoHref = logoLinkRow.querySelector('a')?.href || '/';
-  logoLink.href = logoHref;
-  logoLink.target = '_self';
-  logoLink.setAttribute('aria-label', 'Qiddiya - Go to homepage');
+  const foundLogoLink = logoLinkRow.querySelector('a');
+  if (foundLogoLink) {
+    logoLink.href = foundLogoLink.href;
+    logoLink.setAttribute('aria-label', 'Qiddiya - Go to homepage');
+  }
   moveInstrumentation(logoLinkRow, logoLink);
 
   const logoPicture = logoRow.querySelector('picture');
@@ -161,98 +104,127 @@ export default function decorate(block) {
     moveInstrumentation(logoRow, optimizedPic.querySelector('img'));
     logoLink.append(optimizedPic);
   } else {
-    // Fallback if no picture, use SVG markup directly from logo cell if available
-    const svgContent = logoRow.children[0]?.innerHTML; // Access the cell, not the row
-    if (svgContent) {
-      logoLink.innerHTML = svgContent;
+    // Fallback for SVG icon from original HTML
+    const qdIcon = document.createElement('span');
+    qdIcon.classList.add('qd-icon', 'qd-icon--logo', 'qd-logo');
+    for (let i = 1; i <= 25; i += 1) {
+      const path = document.createElement('span');
+      path.classList.add(`path${i}`);
+      qdIcon.append(path);
     }
+    logoLink.append(qdIcon);
   }
+  logoDiv.append(logoLink);
 
-  logoWrapper.append(logoLink);
-
-  const contactUsCtaWrapper = document.createElement('div');
-  contactUsCtaWrapper.classList.add('cmp-navigation-wrapper__contactUs-cta');
+  const contactUsCtaDiv = document.createElement('div');
+  contactUsCtaDiv.classList.add('cmp-navigation-wrapper__contactUs-cta');
 
   const contactUsLink = document.createElement('a');
-  const contactHref = contactLinkRow.querySelector('a')?.href || '#';
-  contactUsLink.href = contactHref;
   contactUsLink.classList.add('cta', 'cta__', 'cmp-navigation--content__cta');
-  contactUsLink.target = '_self';
-  contactUsLink.setAttribute('aria-label', 'Contact Us'); // Hardcoded value from ORIGINAL HTML
-  moveInstrumentation(contactLinkRow, contactUsLink);
+  const foundContactUsLink = contactUsLinkRow.querySelector('a');
+  if (foundContactUsLink) {
+    contactUsLink.href = foundContactUsLink.href;
+    contactUsLink.setAttribute('aria-label', contactUsLabelRow.textContent.trim());
+  }
+  moveInstrumentation(contactUsLinkRow, contactUsLink);
 
-  contactUsLink.innerHTML = `
-    <span class="cta__icon qd-icon qd-icon--cheveron-right" aria-hidden="true"></span>
-    <span class="cta__label">${contactLabelRow.children[0].textContent.trim()}</span>
-  `;
-  moveInstrumentation(contactLabelRow, contactUsLink.querySelector('.cta__label'));
+  const ctaIcon = document.createElement('span');
+  ctaIcon.classList.add('cta__icon', 'qd-icon', 'qd-icon--cheveron-right');
+  ctaIcon.setAttribute('aria-hidden', 'true');
+  contactUsLink.append(ctaIcon);
 
-  contactUsCtaWrapper.append(contactUsLink);
+  const ctaLabel = document.createElement('span');
+  ctaLabel.classList.add('cta__label');
+  ctaLabel.textContent = contactUsLabelRow.textContent.trim();
+  moveInstrumentation(contactUsLabelRow, ctaLabel);
+  contactUsLink.append(ctaLabel);
+  contactUsCtaDiv.append(contactUsLink);
 
-  const navigationToggle = document.createElement('div');
-  navigationToggle.classList.add('cmp-navigation-wrapper__icon');
-  navigationToggle.id = 'navigation-toggle';
-  navigationToggle.innerHTML = `
-    <div class="hamburger-ellipse" tabindex="0">
-      <span class="hamburger-icon qd-icon qd-icon--hamburger"></span>
-      <span class="close-icon qd-icon qd-icon--cancel"></span>
-    </div>
-  `;
-  contactUsCtaWrapper.append(navigationToggle);
-  logoWrapper.append(contactUsCtaWrapper);
-  cmpNavigationWrapper.append(logoWrapper);
+  const navToggleDiv = document.createElement('div');
+  navToggleDiv.classList.add('cmp-navigation-wrapper__icon');
+  navToggleDiv.id = 'navigation-toggle';
+
+  const hamburgerEllipse = document.createElement('div');
+  hamburgerEllipse.classList.add('hamburger-ellipse');
+  hamburgerEllipse.setAttribute('tabindex', '0');
+
+  const hamburgerIcon = document.createElement('span');
+  hamburgerIcon.classList.add('hamburger-icon', 'qd-icon', 'qd-icon--hamburger');
+  hamburgerEllipse.append(hamburgerIcon);
+
+  const closeIcon = document.createElement('span');
+  closeIcon.classList.add('close-icon', 'qd-icon', 'qd-icon--cancel');
+  hamburgerEllipse.append(closeIcon);
+  navToggleDiv.append(hamburgerEllipse);
+  contactUsCtaDiv.append(navToggleDiv);
+  logoDiv.append(contactUsCtaDiv);
+  navWrapper.append(logoDiv);
 
   // Desktop Navigation
-  const desktopNavbar = document.createElement('nav');
-  desktopNavbar.classList.add('cmp-navigation-wrapper__navbar');
-  desktopNavbar.id = 'navbar-desktop';
-  desktopNavbar.setAttribute('role', 'navigation');
-  desktopNavbar.setAttribute('aria-label', 'navigation.main.aria.label');
+  const desktopNav = document.createElement('nav');
+  desktopNav.classList.add('cmp-navigation-wrapper__navbar');
+  desktopNav.id = 'navbar-desktop';
+  desktopNav.setAttribute('role', 'navigation');
+  desktopNav.setAttribute('aria-label', 'navigation.main.aria.label');
 
   const desktopNavList = document.createElement('ul');
   desktopNavList.classList.add('cmp-navigation-wrapper__navbar-list');
 
-  navigationItemRows.forEach((row) => {
+  // Filter itemRows based on their structure as defined in BlockJson
+  const navItems = itemRows.filter((row) => row.children.length === 3); // nav-item and mobile-nav-item
+  const languageItems = itemRows.filter((row) => row.children.length === 2); // language-item
+
+  // Consume desktopNavigationContainer instrumentation
+  const desktopNavWrapper = document.createElement('div');
+  moveInstrumentation(desktopNavigationContainerRow, desktopNavWrapper); // Use the correct row for instrumentation
+
+  navItems.forEach((row) => {
     const [labelCell, linkCell, hierarchyTreeCell] = [...row.children];
     const li = document.createElement('li');
     li.classList.add('cmp-navigation-wrapper__navbar-menu');
-    moveInstrumentation(row, li);
 
-    const link = document.createElement('a');
-    const href = linkCell.querySelector('a')?.href || '#';
-    link.href = href;
-    link.target = '_self';
-    link.textContent = labelCell.textContent.trim();
-    moveInstrumentation(labelCell, link);
-    moveInstrumentation(linkCell, link);
+    const subList = hierarchyTreeCell?.querySelector('ul');
+    const anchor = document.createElement('a');
+    anchor.classList.add('cmp-navigation-wrapper__navbar-menulink');
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) {
+      anchor.href = foundLink.href;
+      anchor.setAttribute('target', '_self');
+    }
+    anchor.textContent = labelCell.textContent.trim();
+    moveInstrumentation(row, anchor);
 
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
-    moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation from original cell to tempDiv
-
-    const subList = tempDiv.querySelector('ul');
     if (subList) {
-      li.append(link);
-      transformNestedLists(subList);
-      li.append(subList);
+      anchor.setAttribute('aria-haspopup', 'true');
+      anchor.setAttribute('aria-expanded', 'false');
+      const clonedSubList = subList.cloneNode(true);
+      transformNestedLists(clonedSubList);
+      li.append(anchor);
+      li.append(clonedSubList);
     } else {
-      li.append(link);
+      li.append(anchor);
     }
     desktopNavList.append(li);
   });
 
-  desktopNavbar.append(desktopNavList);
+  desktopNav.append(desktopNavList);
 
   const desktopContactUsLink = document.createElement('a');
-  desktopContactUsLink.href = contactHref;
   desktopContactUsLink.classList.add('cta', 'cta__', 'cmp-navigation--content__cta');
-  desktopContactUsLink.target = '_self';
-  desktopContactUsLink.setAttribute('aria-label', 'Contact Us'); // Corrected hardcoded value
-  desktopContactUsLink.innerHTML = `
-    <span class="cta__icon qd-icon qd-icon--cheveron-right" aria-hidden="true"></span>
-    <span class="cta__label">${contactLabelRow.children[0].textContent.trim()}</span>
-  `;
-  desktopNavbar.append(desktopContactUsLink);
+  const foundDesktopContactUsLink = contactUsLinkRow.querySelector('a');
+  if (foundDesktopContactUsLink) {
+    desktopContactUsLink.href = foundDesktopContactUsLink.href;
+    desktopContactUsLink.setAttribute('aria-label', contactUsLabelRow.textContent.trim());
+  }
+  const desktopCtaIcon = document.createElement('span');
+  desktopCtaIcon.classList.add('cta__icon', 'qd-icon', 'qd-icon--cheveron-right');
+  desktopCtaIcon.setAttribute('aria-hidden', 'true');
+  desktopContactUsLink.append(desktopCtaIcon);
+  const desktopCtaLabel = document.createElement('span');
+  desktopCtaLabel.classList.add('cta__label');
+  desktopCtaLabel.textContent = contactUsLabelRow.textContent.trim();
+  desktopContactUsLink.append(desktopCtaLabel);
+  desktopNav.append(desktopContactUsLink);
 
   const desktopLanguageSelector = document.createElement('div');
   desktopLanguageSelector.classList.add('language-selector', 'header-lang-css-from-wrapper');
@@ -261,142 +233,118 @@ export default function decorate(block) {
   const desktopLangList = document.createElement('ul');
   desktopLangList.classList.add('cmp-language-selector');
 
-  languageItemRows.forEach((row, i) => {
+  // Consume languagesContainer instrumentation
+  const languageWrapper = document.createElement('div');
+  moveInstrumentation(languagesContainerRow, languageWrapper); // Use the correct row for instrumentation
+
+  languageItems.forEach((row, index) => {
     const [labelCell, linkCell] = [...row.children];
     const li = document.createElement('li');
-    if (i === 0) li.classList.add('active');
-    moveInstrumentation(row, li);
-
-    const link = document.createElement('a');
-    const href = linkCell.querySelector('a')?.href || '#';
-    link.href = href;
-    link.setAttribute('aria-label', labelCell.textContent.trim());
-    link.classList.add('cmp-language-selector__link');
-    link.setAttribute('data-lang', labelCell.textContent.trim().toLowerCase().substring(0, 2));
-    link.textContent = labelCell.textContent.trim();
-    moveInstrumentation(labelCell, link);
-    moveInstrumentation(linkCell, link);
-    li.append(link);
+    if (index === 0) {
+      li.classList.add('active');
+    }
+    const anchor = document.createElement('a');
+    anchor.classList.add('cmp-language-selector__link');
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) {
+      anchor.href = foundLink.href;
+      anchor.setAttribute('aria-label', labelCell.textContent.trim());
+      anchor.setAttribute('data-lang', labelCell.textContent.trim().toLowerCase().substring(0, 2));
+    }
+    anchor.textContent = labelCell.textContent.trim();
+    moveInstrumentation(row, anchor);
+    li.append(anchor);
     desktopLangList.append(li);
   });
+
   desktopLanguageSelector.append(desktopLangList);
-  desktopNavbar.append(desktopLanguageSelector);
-  cmpNavigationWrapper.append(desktopNavbar);
+  desktopNav.append(desktopLanguageSelector);
+  navWrapper.append(desktopNav);
 
   // Mobile Navigation
-  const mobileNavbar = document.createElement('nav');
-  mobileNavbar.classList.add('cmp-navigation-wrapper__mobilenavbar');
-  mobileNavbar.id = 'navbar-mobile';
-  mobileNavbar.setAttribute('role', 'navigation');
-  mobileNavbar.setAttribute('aria-label', 'navigation.main.aria.label');
+  const mobileNav = document.createElement('nav');
+  mobileNav.classList.add('cmp-navigation-wrapper__mobilenavbar');
+  mobileNav.id = 'navbar-mobile';
+  mobileNav.setAttribute('role', 'navigation');
+  mobileNav.setAttribute('aria-label', 'navigation.main.aria.label');
 
   const mobileNavList = document.createElement('ul');
   mobileNavList.classList.add('cmp-navigation-wrapper__mobilenavbar-list');
 
-  mobileNavigationItemRows.forEach((row) => {
+  // Consume mobileNavigationContainer instrumentation
+  const mobileNavWrapper = document.createElement('div');
+  moveInstrumentation(mobileNavigationContainerRow, mobileNavWrapper); // Use the correct row for instrumentation
+
+  navItems.forEach((row) => { // Using same items for mobile as per original HTML structure
     const [labelCell, linkCell, hierarchyTreeCell] = [...row.children];
     const li = document.createElement('li');
     li.classList.add('cmp-navigation-wrapper__mobilenavbar-menu', 'border');
-    moveInstrumentation(row, li);
 
-    const link = document.createElement('a');
-    const href = linkCell.querySelector('a')?.href || '#';
-    link.href = href;
-    link.textContent = labelCell.textContent.trim();
-    moveInstrumentation(labelCell, link);
-    moveInstrumentation(linkCell, link);
+    const subList = hierarchyTreeCell?.querySelector('ul');
+    const anchor = document.createElement('a');
+    anchor.classList.add('cmp-navigation-wrapper__mobilenavbar-menulink');
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) {
+      anchor.href = foundLink.href;
+      anchor.setAttribute('target', '_self');
+    }
+    const spanLabel = document.createElement('span');
+    spanLabel.textContent = labelCell.textContent.trim();
+    anchor.append(spanLabel);
+    moveInstrumentation(row, anchor);
 
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
-    moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation from original cell to tempDiv
-
-    const subList = tempDiv.querySelector('ul');
     if (subList) {
-      li.append(link);
-      transformNestedLists(subList, true);
-      li.append(subList);
+      const clonedSubList = subList.cloneNode(true);
+      transformNestedLists(clonedSubList, true);
+      li.append(anchor);
+      li.append(clonedSubList);
     } else {
-      li.append(link);
+      li.append(anchor);
     }
     mobileNavList.append(li);
   });
-  mobileNavbar.append(mobileNavList);
 
-  const mobileNavbarBack = document.createElement('div');
-  mobileNavbarBack.classList.add('cmp-navigation-wrapper__mobilenavbar-back', 'nav-back');
-  mobileNavbarBack.innerHTML = `
-    <a class="cmp-navigation-wrapper__icon">
-      <span class="back-icon qd-icon qd-icon--cheveron-left"></span>
-    </a>
-    <span class="cmp-navigation-wrapper__iconlabel">Back</span>
-  `;
-  mobileNavbar.append(mobileNavbarBack);
+  mobileNav.append(mobileNavList);
 
-  const mobileLanguageSelector = document.createElement('div');
-  mobileLanguageSelector.classList.add('language-selector', 'header-lang-css-from-wrapper');
-  mobileLanguageSelector.style.visibility = 'visible';
+  const mobileNavBack = document.createElement('div');
+  mobileNavBack.classList.add('cmp-navigation-wrapper__mobilenavbar-back', 'nav-back');
 
-  const mobileLangList = document.createElement('ul');
-  mobileLangList.classList.add('cmp-language-selector');
+  const backIconLink = document.createElement('a');
+  backIconLink.classList.add('cmp-navigation-wrapper__icon');
+  const backIcon = document.createElement('span');
+  backIcon.classList.add('back-icon', 'qd-icon', 'qd-icon--cheveron-left');
+  backIconLink.append(backIcon);
+  mobileNavBack.append(backIconLink);
 
-  languageItemRows.forEach((row, i) => {
-    const [labelCell, linkCell] = [...row.children];
-    const li = document.createElement('li');
-    if (i === 0) li.classList.add('active');
-    moveInstrumentation(row, li);
+  const backLabel = document.createElement('span');
+  backLabel.classList.add('cmp-navigation-wrapper__iconlabel');
+  backLabel.textContent = 'Back';
+  mobileNavBack.append(backLabel);
+  mobileNav.append(mobileNavBack);
 
-    const link = document.createElement('a');
-    const href = linkCell.querySelector('a')?.href || '#';
-    link.href = href;
-    link.setAttribute('aria-label', labelCell.textContent.trim());
-    link.classList.add('cmp-language-selector__link');
-    link.setAttribute('data-lang', labelCell.textContent.trim().toLowerCase().substring(0, 2));
-    link.textContent = labelCell.textContent.trim();
-    moveInstrumentation(labelCell, link);
-    moveInstrumentation(linkCell, link);
-    li.append(link);
-    mobileLangList.append(li);
-  });
-  mobileLanguageSelector.append(mobileLangList);
-  mobileNavbar.append(mobileLanguageSelector);
-  cmpNavigationWrapper.append(mobileNavbar);
+  const mobileLanguageSelector = desktopLanguageSelector.cloneNode(true); // Re-use desktop language selector
+  mobileNav.append(mobileLanguageSelector);
+  navWrapper.append(mobileNav);
 
-  navigationDiv.append(cmpNavigationWrapper);
+  navigationDiv.append(navWrapper);
   headerWrapper.append(navigationDiv);
 
   block.replaceChildren(headerWrapper);
 
-  // Event Listeners for mobile navigation
-  const hamburger = block.querySelector('.hamburger-ellipse');
-  const mobileNav = block.querySelector('.cmp-navigation-wrapper__mobilenavbar');
-  const desktopNav = block.querySelector('.cmp-navigation-wrapper__navbar');
-  const navBack = block.querySelector('.cmp-navigation-wrapper__mobilenavbar-back');
+  // Event Listeners for mobile navigation toggle
+  hamburgerEllipse.addEventListener('click', () => {
+    navWrapper.classList.toggle('active');
+    document.body.classList.toggle('disable-scroll');
+  });
 
-  if (hamburger && mobileNav && desktopNav) {
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      mobileNav.classList.toggle('active');
-      desktopNav.classList.toggle('active');
-      block.querySelector('.cmp-navigation-wrapper').classList.toggle('active');
-    });
-  }
-
-  if (navBack && mobileNav) {
-    navBack.addEventListener('click', () => {
-      const activeSubmenu = mobileNav.querySelector('.cmp-navigation-wrapper__mobilenavbar-submenu.active');
-      if (activeSubmenu) {
-        activeSubmenu.classList.remove('active');
-        activeSubmenu.closest('.cmp-navigation-wrapper__mobilenavbar').classList.remove('sub-menu-open');
-        activeSubmenu.closest('.cmp-navigation-wrapper__mobilenavbar-list').classList.remove('sub-menu-open');
-        navBack.classList.remove('active');
-      }
-    });
-  }
-
-  // Optimize images
-  block.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    moveInstrumentation(img, optimizedPic.querySelector('img'));
-    img.closest('picture').replaceWith(optimizedPic);
+  backIconLink.addEventListener('click', () => {
+    const activeSubmenu = mobileNav.querySelector('.cmp-navigation-wrapper__mobilenavbar-submenu.active');
+    if (activeSubmenu) {
+      activeSubmenu.classList.remove('active');
+      activeSubmenu.closest('.cmp-navigation-wrapper__mobilenavbar-menu').classList.remove('active');
+    } else {
+      navWrapper.classList.remove('active');
+      document.body.classList.remove('disable-scroll');
+    }
   });
 }

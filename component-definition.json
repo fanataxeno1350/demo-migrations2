@@ -191,30 +191,30 @@
           }
         },
         {
-          "title": "Navigation-Item",
-          "id": "navigation-item",
+          "title": "Nav-Item",
+          "id": "nav-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "navigation-item",
-                  "name": "Navigation-Item"
+                  "model": "nav-item",
+                  "name": "Nav-Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Mobile-Navigation-Item",
-          "id": "mobile-navigation-item",
+          "title": "Mobile-Nav-Item",
+          "id": "mobile-nav-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "mobile-navigation-item",
-                  "name": "Mobile-Navigation-Item"
+                  "model": "mobile-nav-item",
+                  "name": "Mobile-Nav-Item"
                 }
               }
             }
