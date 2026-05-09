@@ -15,21 +15,6 @@
           }
         }
       }
-    },
-    {
-      "title": "Section-Our-Work-Button-Item",
-      "id": "section-our-work-button-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "section-our-work-button-item",
-              "name": "Section-Our-Work-Button-Item"
-            }
-          }
-        }
-      }
     }
   ],
   "models": [
@@ -37,38 +22,21 @@
       "id": "section-our-work",
       "fields": [
         {
-          "component": "text",
+          "component": "richtext",
           "label": "Headline",
           "name": "headline",
           "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "Headline Subtext",
-          "name": "headlineSubtext",
-          "valueType": "string"
-        },
-        {
-          "component": "container",
-          "item": "section-our-work-button-item",
-          "label": "Buttons",
-          "name": "buttons"
-        }
-      ]
-    },
-    {
-      "id": "section-our-work-button-item",
-      "fields": [
-        {
-          "component": "text",
-          "label": "Button Label",
-          "name": "label",
-          "valueType": "string"
-        },
-        {
           "component": "aem-content",
-          "label": "Button Link",
-          "name": "link",
+          "label": "CTA Link",
+          "name": "ctaLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "CTA Label",
+          "name": "ctaLabel",
           "valueType": "string"
         }
       ]
@@ -77,9 +45,7 @@
   "filters": [
     {
       "id": "section-our-work",
-      "components": [
-        "section-our-work-button-item"
-      ]
+      "components": []
     }
   ]
 }

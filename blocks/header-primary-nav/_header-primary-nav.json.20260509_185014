@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Header Primary Nav",
+      "title": "Header-Primary-Nav",
       "id": "header-primary-nav",
       "plugins": {
         "xwalk": {
@@ -10,14 +10,14 @@
             "template": {
               "filter": "header-primary-nav",
               "model": "header-primary-nav",
-              "name": "Header Primary Nav"
+              "name": "Header-Primary-Nav"
             }
           }
         }
       }
     },
     {
-      "title": "Primary Nav Item",
+      "title": "Primary-Nav-Item",
       "id": "primary-nav-item",
       "plugins": {
         "xwalk": {
@@ -25,29 +25,29 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "primary-nav-item",
-              "name": "Primary Nav Item"
+              "name": "Primary-Nav-Item"
             }
           }
         }
       }
     },
     {
-      "title": "Primary Action Item",
-      "id": "primary-action-item",
+      "title": "Action-Nav-Item",
+      "id": "action-nav-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "primary-action-item",
-              "name": "Primary Action Item"
+              "model": "action-nav-item",
+              "name": "Action-Nav-Item"
             }
           }
         }
       }
     },
     {
-      "title": "Social Link Item",
+      "title": "Social-Link-Item",
       "id": "social-link-item",
       "plugins": {
         "xwalk": {
@@ -55,7 +55,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "social-link-item",
-              "name": "Social Link Item"
+              "name": "Social-Link-Item"
             }
           }
         }
@@ -80,9 +80,9 @@
         },
         {
           "component": "container",
-          "item": "primary-action-item",
-          "label": "Primary Action Buttons",
-          "name": "primaryActions"
+          "item": "action-nav-item",
+          "label": "Action Navigation",
+          "name": "actionNav"
         },
         {
           "component": "container",
@@ -97,14 +97,8 @@
       "fields": [
         {
           "component": "text",
-          "label": "Menu Label",
+          "label": "Navigation Label",
           "name": "label",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Menu Link",
-          "name": "link",
           "valueType": "string"
         },
         {
@@ -116,18 +110,18 @@
       ]
     },
     {
-      "id": "primary-action-item",
+      "id": "action-nav-item",
       "fields": [
         {
           "component": "text",
-          "label": "Action Label",
+          "label": "Button Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Action Link",
-          "name": "link",
+          "label": "Button Link",
+          "name": "buttonLink",
           "valueType": "string"
         }
       ]
@@ -135,6 +129,12 @@
     {
       "id": "social-link-item",
       "fields": [
+        {
+          "component": "text",
+          "label": "Platform",
+          "name": "platform",
+          "valueType": "string"
+        },
         {
           "component": "aem-content",
           "label": "Social Link",
@@ -149,7 +149,7 @@
       "id": "header-primary-nav",
       "components": [
         "primary-nav-item",
-        "primary-action-item",
+        "action-nav-item",
         "social-link-item"
       ]
     }

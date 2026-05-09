@@ -1,11 +1,9 @@
-import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const [headlineRow, headlineSubtextRow, ...buttonRows] = [...block.children];
+  const [headlineRow, ctaLinkRow, ctaLabelRow] = [...block.children];
 
   const section = document.createElement('section');
-  // section.classList.add('section-our-work'); // Removed: block's own class already on outer div
   section.classList.add(
     'theme-dark',
     'theme-bg',
@@ -30,79 +28,76 @@ export default function decorate(block) {
   );
   gridFull.append(gridCentered);
 
-  const headlineWrapper = document.createElement('div');
-  headlineWrapper.classList.add('sm:col-span-10', 'xl:col-span-9');
-  gridCentered.append(headlineWrapper);
+  // Headline
+  if (headlineRow) {
+    const [headlineCell] = [...headlineRow.children]; // Destructure for fixed schema
+    const headlineWrapper = document.createElement('div');
+    headlineWrapper.classList.add('sm:col-span-10', 'xl:col-span-9');
+    const headline = document.createElement('h2');
+    headline.classList.add(
+      'text-h2',
+      'theme-dark:text-foreground-td',
+      'theme-medium:text-foreground-tm',
+      'text-foreground',
+      'text-pretty',
+    );
+    moveInstrumentation(headlineRow, headline);
+    headline.innerHTML = headlineCell?.innerHTML || ''; // Use innerHTML for richtext
+    headlineWrapper.append(headline);
+    gridCentered.append(headlineWrapper);
+  }
 
-  const h2 = document.createElement('h2');
-  h2.classList.add(
-    'text-h2',
-    'theme-dark:text-foreground-td',
-    'theme-medium:text-foreground-tm',
-    'text-foreground',
-    'text-pretty',
-  );
-  moveInstrumentation(headlineRow, h2);
-  h2.textContent = headlineRow.textContent.trim();
-
-  const span = document.createElement('span');
-  span.classList.add(
-    'theme-dark:text-foreground-colored-muted',
-    'text-foreground-muted',
-  );
-  moveInstrumentation(headlineSubtextRow, span);
-  span.textContent = headlineSubtextRow.textContent.trim();
-  h2.append(span);
-  headlineWrapper.append(h2);
-
-  if (buttonRows.length > 0) {
-    const buttonContainer = document.createElement('div');
-    buttonContainer.classList.add(
+  // CTA Link and Label
+  if (ctaLinkRow && ctaLabelRow) {
+    const ctaWrapper = document.createElement('div');
+    ctaWrapper.classList.add(
       'sm:col-span-4',
       'xl:col-span-3',
       'sm:flex',
       'sm:justify-end',
       'sm:items-end',
     );
-    gridCentered.append(buttonContainer);
 
-    buttonRows.forEach((row) => {
-      const [labelCell, linkCell] = [...row.children];
+    const ctaLink = document.createElement('a');
+    ctaLink.classList.add(
+      'button',
+      'button--dark-outline',
+      'theme-dark:button--light-outline',
+    );
 
-      const anchor = document.createElement('a');
-      anchor.classList.add(
-        'button',
-        'button--dark-outline',
-        'theme-dark:button--light-outline',
-      );
-      const foundLink = linkCell.querySelector('a');
-      if (foundLink) {
-        anchor.href = foundLink.href;
-      }
-      anchor.textContent = labelCell.textContent.trim();
+    const foundLink = ctaLinkRow.querySelector('a');
+    if (foundLink) {
+      ctaLink.href = foundLink.href;
+    }
 
-      const svg = document.createElement('svg');
-      svg.classList.add(
-        'icon',
-        'icon--arrow-right',
-        'size-4',
-        'shrink-0',
-        'ml-2',
-        'fill-foreground',
-        'transition-transform',
-        'motion-safe:group-hocus:translate-x-1',
-        'forced-colors:text-[LinkText]',
-      );
-      svg.setAttribute('aria-hidden', 'true');
-      const use = document.createElement('use');
-      use.setAttribute('xlink:href', '#arrow-right');
-      use.setAttribute('href', '#arrow-right');
-      svg.append(use);
-      anchor.append(svg);
+    const ctaLabel = ctaLabelRow.textContent.trim();
+    ctaLink.textContent = ctaLabel;
 
-      moveInstrumentation(row, anchor);
-      buttonContainer.append(anchor);
-    });
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.classList.add(
+      'icon',
+      'icon--arrow-right',
+      'size-4',
+      'shrink-0',
+      'ml-2',
+      'fill-foreground',
+      'transition-transform',
+      'motion-safe:group-hocus:translate-x-1',
+      'forced-colors:text-[LinkText]',
+    );
+    svg.setAttribute('aria-hidden', 'true');
+    const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    use.setAttribute('xlink:href', '#arrow-right');
+    use.setAttribute('href', '#arrow-right');
+    svg.append(use);
+    ctaLink.append(svg);
+
+    // moveInstrumentation for both original rows to the single CTA link element
+    moveInstrumentation(ctaLinkRow, ctaLink);
+    moveInstrumentation(ctaLabelRow, ctaLink);
+
+    ctaWrapper.append(ctaLink);
+    gridCentered.append(ctaWrapper);
   }
 
   block.replaceChildren(section);

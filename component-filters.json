@@ -63,7 +63,7 @@
     "id": "header-primary-nav",
     "components": [
       "primary-nav-item",
-      "action-nav-item",
+      "primary-action-item",
       "social-link-item"
     ]
   },
@@ -97,9 +97,7 @@
   },
   {
     "id": "section-our-work",
-    "components": [
-      "section-our-work-button-item"
-    ]
+    "components": []
   },
   {
     "id": "section-partners",

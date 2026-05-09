@@ -2,16 +2,9 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const allRows = [...block.children];
-
-  // The first row is the container placeholder for "items"
-  // Replaced direct bracket access with destructuring for consistency and clarity
-  const [containerPlaceholderRow, ...itemRows] = allRows;
+  const itemRows = [...block.children];
 
   const section = document.createElement('section');
-  // Remove the block's own class 'impact-list' if it was added here.
-  // The outer block div already carries this class from AEM.
-  // section.classList.add('impact-list'); // Removed if present, as it's redundant.
   section.classList.add('theme-medium', 'theme-bg', 'theme-section-spacing');
 
   const container = document.createElement('div');
@@ -19,11 +12,8 @@ export default function decorate(block) {
 
   const ul = document.createElement('ul');
 
-  // Move instrumentation from the placeholder row to the <ul>
-  moveInstrumentation(containerPlaceholderRow, ul);
-
   itemRows.forEach((row) => {
-    const [primaryStatCell, statLabelCell, descriptionCell] = [...row.children];
+    const [headlineHighlightCell, headlineRestCell, descriptionCell] = [...row.children];
 
     const li = document.createElement('li');
     li.classList.add(
@@ -47,49 +37,48 @@ export default function decorate(block) {
       'gap-grid-gutter',
     );
 
-    const statWrapper = document.createElement('div');
-    statWrapper.classList.add('col-span-1', 'md:col-span-7', 'flex', 'items-center', 'gap-grid-gutter');
+    const headlineWrapper = document.createElement('div');
+    headlineWrapper.classList.add('col-span-1', 'md:col-span-7', 'flex', 'items-center', 'gap-grid-gutter');
 
     const h3 = document.createElement('h3');
     h3.classList.add('font-semibold', 'inline', 'text-h2');
 
-    const primaryStatSpan = document.createElement('span');
-    primaryStatSpan.classList.add(
+    const headlineHighlightSpan = document.createElement('span');
+    headlineHighlightSpan.classList.add(
       'text-foreground-colored',
       'theme-dark:text-foreground-colored-light',
       'theme-medium:text-foreground-tm',
     );
-    primaryStatSpan.textContent = primaryStatCell ? primaryStatCell.textContent.trim() : '';
+    headlineHighlightSpan.textContent = headlineHighlightCell.textContent.trim();
 
-    const statLabelSpan = document.createElement('span');
-    statLabelSpan.classList.add(
+    const headlineRestSpan = document.createElement('span');
+    headlineRestSpan.classList.add(
       'text-foreground-colored-strong',
       'theme-dark:text-foreground-colored-muted',
       'theme-medium:text-foreground-muted',
     );
-    statLabelSpan.textContent = statLabelCell ? statLabelCell.textContent.trim() : '';
+    headlineRestSpan.textContent = headlineRestCell.textContent.trim();
 
-    h3.append(primaryStatSpan, statLabelSpan);
-    statWrapper.append(h3);
+    h3.append(headlineHighlightSpan, headlineRestSpan);
+    headlineWrapper.append(h3);
 
     const descriptionWrapper = document.createElement('div');
     descriptionWrapper.classList.add('col-span-1', 'md:col-span-5');
 
-    const descriptionDiv = document.createElement('div');
-    descriptionDiv.classList.add(
+    const descriptionContent = document.createElement('div');
+    descriptionContent.classList.add(
       'text-p1',
       'prose',
       'theme-dark:prose-td',
       'theme-medium:prose-p:text-foreground-strong',
       'theme-dark:text-foreground-td',
     );
-    // Richtext content is directly inside the cell, no extra div wrapper
-    descriptionDiv.innerHTML = descriptionCell ? descriptionCell.innerHTML : '';
+    descriptionContent.innerHTML = descriptionCell.innerHTML;
 
-    descriptionWrapper.append(descriptionDiv);
+    descriptionWrapper.append(descriptionContent);
 
-    innerDiv.append(statWrapper, descriptionWrapper);
-    moveInstrumentation(row, li); // Move instrumentation from the authored row to the new <li>
+    innerDiv.append(headlineWrapper, descriptionWrapper);
+    moveInstrumentation(row, li);
     li.append(innerDiv);
     ul.append(li);
   });
@@ -97,4 +86,10 @@ export default function decorate(block) {
   container.append(ul);
   section.append(container);
   block.replaceChildren(section);
+
+  block.querySelectorAll('picture > img').forEach((img) => {
+    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+    moveInstrumentation(img, optimizedPic.querySelector('img'));
+    img.closest('picture').replaceWith(optimizedPic);
+  });
 }

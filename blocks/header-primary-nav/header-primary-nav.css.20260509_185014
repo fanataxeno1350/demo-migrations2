@@ -1,0 +1,15 @@
+@keyframes swiper-preloader-spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}
+
+@font-face{font-display:swap;font-family:Open Sans;font-style:normal;font-weight:300 700;src:url("/content/dam/aemigrate/uploaded-folder/www-worldwildlife-org/font/opensans-variablefont-65c46fe9fcc0-62315f.woff2") format("woff2-variations")}
+
+@font-face{font-display:swap;font-family:Open Sans;font-style:italic;font-weight:300 700;src:url("/content/dam/aemigrate/uploaded-folder/www-worldwildlife-org/font/opensans-italic-variablefont-69316986c108-bb7b76.woff2") format("woff2-variations")}
+
+.animated-fade-in-up{ opacity:0;transform:translateY(16px);transition-duration:.4s;transition-property:opacity,transform;transition-timing-function:cubic-bezier(.4,0,.2,1);will-change:opacity,transform;&.is-animated{opacity:1;transform:translateY(0);visibility:visible} }
+
+@media (prefers-reduced-motion:reduce) { .animated-fade-in-up{ opacity:1;transform:none;transition-duration:.01s;transition-timing-function:linear } }
+
+.button--sedona:not(.mobile-primary-action), .button--zion:not(.mobile-primary-action){ transition:font-size .18s var(--nav-transition-linear),padding .18s var(--nav-transition-linear);&.nav-shrunk{font-size:1rem;transition:font-size .18s var(--nav-transition-linear),padding .18s var(--nav-transition-linear)} }
+
+@keyframes spin{to{transform:rotate(1turn)}}
+
+@keyframes onetrust-fade-in{0%{opacity:0}100%{opacity:1}}

@@ -256,27 +256,27 @@
     "fields": [
       {
         "component": "richtext",
-        "label": "Organization Info",
-        "name": "orgInfo",
+        "label": "Organization Address and Name",
+        "name": "address",
         "valueType": "string"
       },
       {
         "component": "richtext",
-        "label": "Disclaimer",
-        "name": "disclaimer",
+        "label": "Tax/Nonprofit Info",
+        "name": "taxInfo",
         "valueType": "string"
       },
       {
-        "component": "text",
-        "label": "Copyright",
+        "component": "richtext",
+        "label": "Copyright Notice",
         "name": "copyright",
         "valueType": "string"
       },
       {
         "component": "container",
         "item": "footer-link-item",
-        "label": "Legal Links",
-        "name": "legalLinks"
+        "label": "Footer Legal Links",
+        "name": "footerLinks"
       }
     ]
   },
@@ -291,7 +291,7 @@
       },
       {
         "component": "aem-content",
-        "label": "Link",
+        "label": "Link URL",
         "name": "link",
         "valueType": "string"
       }
@@ -387,9 +387,9 @@
       },
       {
         "component": "container",
-        "item": "action-nav-item",
-        "label": "Action Navigation",
-        "name": "actionNav"
+        "item": "primary-action-item",
+        "label": "Primary Action Buttons",
+        "name": "primaryActions"
       },
       {
         "component": "container",
@@ -404,8 +404,14 @@
     "fields": [
       {
         "component": "text",
-        "label": "Navigation Label",
+        "label": "Menu Label",
         "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Menu Link",
+        "name": "link",
         "valueType": "string"
       },
       {
@@ -417,18 +423,18 @@
     ]
   },
   {
-    "id": "action-nav-item",
+    "id": "primary-action-item",
     "fields": [
       {
         "component": "text",
-        "label": "Button Label",
+        "label": "Action Label",
         "name": "label",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Button Link",
-        "name": "buttonLink",
+        "label": "Action Link",
+        "name": "link",
         "valueType": "string"
       }
     ]
@@ -436,12 +442,6 @@
   {
     "id": "social-link-item",
     "fields": [
-      {
-        "component": "text",
-        "label": "Platform",
-        "name": "platform",
-        "valueType": "string"
-      },
       {
         "component": "aem-content",
         "label": "Social Link",
@@ -577,20 +577,21 @@
     "fields": [
       {
         "component": "text",
-        "label": "Headline Highlight",
-        "name": "headline-highlight",
+        "label": "Primary Statistic",
+        "name": "primaryStat",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Headline Remainder",
-        "name": "headline-rest",
+        "label": "Statistic Label",
+        "name": "statLabel",
         "valueType": "string"
       },
       {
         "component": "richtext",
         "label": "Description",
-        "name": "description"
+        "name": "description",
+        "valueType": "string"
       }
     ]
   },
@@ -643,38 +644,21 @@
     "id": "section-our-work",
     "fields": [
       {
-        "component": "text",
+        "component": "richtext",
         "label": "Headline",
         "name": "headline",
         "valueType": "string"
       },
       {
-        "component": "text",
-        "label": "Headline Subtext",
-        "name": "headlineSubtext",
-        "valueType": "string"
-      },
-      {
-        "component": "container",
-        "item": "section-our-work-button-item",
-        "label": "Buttons",
-        "name": "buttons"
-      }
-    ]
-  },
-  {
-    "id": "section-our-work-button-item",
-    "fields": [
-      {
-        "component": "text",
-        "label": "Button Label",
-        "name": "label",
-        "valueType": "string"
-      },
-      {
         "component": "aem-content",
-        "label": "Button Link",
-        "name": "link",
+        "label": "CTA Link",
+        "name": "ctaLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "CTA Label",
+        "name": "ctaLabel",
         "valueType": "string"
       }
     ]

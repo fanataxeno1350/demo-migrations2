@@ -49,21 +49,20 @@
       "fields": [
         {
           "component": "text",
-          "label": "Primary Statistic",
-          "name": "primaryStat",
+          "label": "Headline Highlight",
+          "name": "headline-highlight",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Statistic Label",
-          "name": "statLabel",
+          "label": "Headline Remainder",
+          "name": "headline-rest",
           "valueType": "string"
         },
         {
           "component": "richtext",
           "label": "Description",
-          "name": "description",
-          "valueType": "string"
+          "name": "description"
         }
       ]
     }
