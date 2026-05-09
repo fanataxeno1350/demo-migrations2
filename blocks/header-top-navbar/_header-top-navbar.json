@@ -1,0 +1,73 @@
+{
+  "definitions": [
+    {
+      "title": "Header-Top-Navbar",
+      "id": "header-top-navbar",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "header-top-navbar",
+              "model": "header-top-navbar",
+              "name": "Header-Top-Navbar"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Account-Menu-Item",
+      "id": "account-menu-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "account-menu-item",
+              "name": "Account-Menu-Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "header-top-navbar",
+      "fields": [
+        {
+          "component": "container",
+          "item": "account-menu-item",
+          "label": "Account Menu",
+          "name": "accountMenu"
+        }
+      ]
+    },
+    {
+      "id": "account-menu-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Menu Item Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Menu Item Link",
+          "name": "link",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "header-top-navbar",
+      "components": [
+        "account-menu-item"
+      ]
+    }
+  ]
+}

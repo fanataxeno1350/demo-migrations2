@@ -15,28 +15,42 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "---- New Blocks ----",
+      "header-top-navbar",
+      "header-main-navbar",
+      "hero-banner",
+      "call-to-action-section",
+      "latest-news-and-partnership"
     ]
   },
   {
-    "id": "cards",
+    "id": "call-to-action-section",
     "components": [
-      "card"
+      "call-to-action-item"
     ]
   },
   {
-    "id": "columns",
+    "id": "header-main-navbar",
     "components": [
-      "column"
+      "main-nav-item"
     ]
   },
   {
-    "id": "column",
+    "id": "header-top-navbar",
     "components": [
-      "text",
-      "image",
-      "button",
-      "title"
+      "account-menu-item"
+    ]
+  },
+  {
+    "id": "hero-banner",
+    "components": []
+  },
+  {
+    "id": "latest-news-and-partnership",
+    "components": [
+      "news-list-item",
+      "top-news-item"
     ]
   }
 ]

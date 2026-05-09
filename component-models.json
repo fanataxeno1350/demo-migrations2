@@ -142,75 +142,243 @@
     ]
   },
   {
-    "id": "card",
+    "id": "call-to-action-section",
     "fields": [
       {
-        "component": "reference",
-        "valueType": "string",
-        "name": "image",
-        "label": "Image",
-        "multi": false
+        "component": "container",
+        "item": "call-to-action-item",
+        "label": "Call To Action Items",
+        "name": "items"
+      }
+    ]
+  },
+  {
+    "id": "call-to-action-item",
+    "fields": [
+      {
+        "component": "aem-content",
+        "label": "Headline Link",
+        "name": "headlineLink",
+        "valueType": "string"
       },
       {
         "component": "richtext",
-        "name": "text",
-        "value": "",
-        "label": "Text",
+        "label": "Headline (Richtext)",
+        "name": "headline",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Description (Richtext)",
+        "name": "description",
         "valueType": "string"
       }
     ]
   },
   {
-    "id": "columns",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "number",
-        "name": "columns",
-        "value": "",
-        "label": "Columns"
-      },
-      {
-        "component": "text",
-        "valueType": "number",
-        "name": "rows",
-        "value": "",
-        "label": "Rows"
-      }
-    ]
-  },
-  {
-    "id": "fragment",
-    "fields": [
-      {
-        "component": "aem-content",
-        "name": "reference",
-        "label": "Reference"
-      }
-    ]
-  },
-  {
-    "id": "hero",
+    "id": "header-main-navbar",
     "fields": [
       {
         "component": "reference",
-        "valueType": "string",
-        "name": "image",
-        "label": "Image",
-        "multi": false
+        "label": "Logo",
+        "name": "logo",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Logo Link",
+        "name": "logoLink",
+        "valueType": "string"
       },
       {
         "component": "text",
-        "valueType": "string",
-        "name": "imageAlt",
-        "label": "Alt",
-        "value": ""
+        "label": "Site Name Line 1",
+        "name": "siteNameLine1",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Site Name Line 2",
+        "name": "siteNameLine2",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "main-nav-item",
+        "label": "Main Navigation",
+        "name": "mainNavigation"
+      }
+    ]
+  },
+  {
+    "id": "main-nav-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Menu Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Menu Link",
+        "name": "link",
+        "valueType": "string"
       },
       {
         "component": "richtext",
-        "name": "text",
-        "value": "",
-        "label": "Text",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "header-top-navbar",
+    "fields": [
+      {
+        "component": "container",
+        "item": "account-menu-item",
+        "label": "Account Menu",
+        "name": "accountMenu"
+      }
+    ]
+  },
+  {
+    "id": "account-menu-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Menu Item Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Menu Item Link",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "hero-banner",
+    "fields": [
+      {
+        "component": "richtext",
+        "label": "Headline",
+        "name": "headline",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Video Poster Image",
+        "name": "videoPoster",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Video Source",
+        "name": "videoSrc",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "latest-news-and-partnership",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Section Title",
+        "name": "sectionTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "news-list-item",
+        "label": "Latest News List",
+        "name": "newsList"
+      },
+      {
+        "component": "aem-content",
+        "label": "More News Link",
+        "name": "moreNewsLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "More News Label",
+        "name": "moreNewsLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "top-news-item",
+        "label": "Top News List",
+        "name": "topNewsList"
+      },
+      {
+        "component": "aem-content",
+        "label": "Partnership CTA Link",
+        "name": "partnershipCtaLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Partnership CTA Label",
+        "name": "partnershipCtaLabel",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "news-list-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "News Title",
+        "name": "newsTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "News Link",
+        "name": "newsLink",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "News Body",
+        "name": "newsBody",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "top-news-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "News Title",
+        "name": "newsTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "News Link",
+        "name": "newsLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "News Sub Heading",
+        "name": "newsSubHeading",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "News Image",
+        "name": "newsImage",
         "valueType": "string"
       }
     ]
