@@ -610,14 +610,14 @@
     "fields": [
       {
         "component": "text",
-        "label": "Primary Stat",
-        "name": "primaryStat",
+        "label": "Statistic (Number or Main Highlight)",
+        "name": "statistic",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Secondary Label",
-        "name": "secondaryLabel",
+        "label": "Statistic Label (Descriptor)",
+        "name": "statisticLabel",
         "valueType": "string"
       },
       {
@@ -685,8 +685,8 @@
       },
       {
         "component": "richtext",
-        "label": "Body",
-        "name": "body",
+        "label": "Description",
+        "name": "description",
         "valueType": "string"
       },
       {

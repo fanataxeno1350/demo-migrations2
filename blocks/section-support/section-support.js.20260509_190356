@@ -6,13 +6,13 @@ export default function decorate(block) {
     imageRow,
     imageCreditRow,
     headlineRow,
-    descriptionRow,
+    bodyRow,
     ctaLinkRow,
     ctaLabelRow,
   ] = [...block.children];
 
   const section = document.createElement('section');
-  section.classList.add('theme-dark', 'theme-bg', 'theme-section-spacing');
+  section.classList.add('theme-dark', 'theme-bg', 'theme-section-spacing'); // Block name 'section-support' is not added here
 
   const container = document.createElement('div');
   container.classList.add('container');
@@ -26,22 +26,22 @@ export default function decorate(block) {
   gridCentered.classList.add('grid-centered-12');
   gridFull.append(gridCentered);
 
-  const innerDiv = document.createElement('div');
-  gridCentered.append(innerDiv);
+  const contentWrapper = document.createElement('div');
+  gridCentered.append(contentWrapper);
 
-  const mainGrid = document.createElement('div');
-  mainGrid.classList.add(
+  const grid = document.createElement('div');
+  grid.classList.add(
     'grid',
     'md:grid-cols-12',
     'md:gap-x-grid-gutter',
     'justify-center',
     'items-center',
   );
-  innerDiv.append(mainGrid);
+  contentWrapper.append(grid);
 
-  // Image section
-  const imageWrapper = document.createElement('div');
-  imageWrapper.classList.add(
+  // Image Section
+  const imageSection = document.createElement('div');
+  imageSection.classList.add(
     'relative',
     'lg:z-10',
     'order-2',
@@ -52,35 +52,37 @@ export default function decorate(block) {
     'md:row-start-1',
     'md:row-end-1',
   );
-  mainGrid.append(imageWrapper);
+  grid.append(imageSection);
 
   const aspectDiv = document.createElement('div');
   aspectDiv.classList.add('aspect-4/3', 'max-w-[640px]', 'w-full', 'mx-auto');
-  imageWrapper.append(aspectDiv);
+  imageSection.append(aspectDiv);
 
-  const picture = imageRow.querySelector('picture');
+  const picture = imageRow?.querySelector('picture');
   if (picture) {
     const img = picture.querySelector('img');
     if (img) {
-      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '640' }]);
-      const optimizedImg = optimizedPic.querySelector('img');
-      optimizedImg.classList.add(
+      const optimizedPic = createOptimizedPicture(
+        img.src,
+        img.alt,
+        false,
+        [{ width: '640' }],
+      );
+      optimizedPic.querySelector('img').classList.add(
         'rounded-t-sm',
         'md:rounded-sm',
         'overflow-hidden',
         'w-full',
         'h-auto',
       );
-      optimizedImg.setAttribute('height', '480');
-      optimizedImg.setAttribute('width', '640');
-      moveInstrumentation(img, optimizedImg);
+      moveInstrumentation(imageRow, optimizedPic.querySelector('img'));
       aspectDiv.append(optimizedPic);
     }
   }
 
   // Image Credit
-  const creditWrapper = document.createElement('div');
-  creditWrapper.classList.add(
+  const imageCreditDiv = document.createElement('div');
+  imageCreditDiv.classList.add(
     'mb-2xs',
     'text-end',
     'md:col-start-6',
@@ -88,27 +90,29 @@ export default function decorate(block) {
     'md:mb-0',
     'md:mt-2xs',
   );
-  mainGrid.append(creditWrapper);
+  grid.append(imageCreditDiv);
 
-  const creditInnerDiv = document.createElement('div');
-  creditInnerDiv.classList.add('mt-2xs', 'mt-0!');
-  creditWrapper.append(creditInnerDiv);
+  const creditTextWrapper = document.createElement('div');
+  creditTextWrapper.classList.add('mt-2xs', 'mt-0!');
+  imageCreditDiv.append(creditTextWrapper);
 
-  const creditP = document.createElement('p');
-  creditP.classList.add(
+  const creditParagraph = document.createElement('p');
+  creditParagraph.classList.add(
     'text-caption-size',
     'z-1',
     'relative',
     'theme-dark:text-foreground-colored-muted',
     'text-foreground-muted',
   );
-  moveInstrumentation(imageCreditRow, creditP);
-  creditP.textContent = imageCreditRow.textContent.trim();
-  creditInnerDiv.append(creditP);
+  if (imageCreditRow) {
+    moveInstrumentation(imageCreditRow, creditParagraph);
+    creditParagraph.textContent = imageCreditRow.textContent.trim();
+  }
+  creditTextWrapper.append(creditParagraph);
 
-  // Content section
-  const contentWrapper = document.createElement('div');
-  contentWrapper.classList.add(
+  // Content Card
+  const contentCard = document.createElement('div');
+  contentCard.classList.add(
     'order-3',
     'bg-card-surface',
     'theme-dark:bg-card-surface-td',
@@ -128,10 +132,10 @@ export default function decorate(block) {
     'md:row-start-1',
     'md:row-end-1',
   );
-  mainGrid.append(contentWrapper);
+  grid.append(contentCard);
 
-  const textContentDiv = document.createElement('div');
-  contentWrapper.append(textContentDiv);
+  const contentDiv = document.createElement('div');
+  contentCard.append(contentDiv);
 
   const headline = document.createElement('h3');
   headline.classList.add(
@@ -146,12 +150,14 @@ export default function decorate(block) {
     'theme-dark:text-foreground-tm',
     'theme-medium:text-foreground-td',
   );
-  moveInstrumentation(headlineRow, headline);
-  headline.textContent = headlineRow.textContent.trim();
-  textContentDiv.append(headline);
+  if (headlineRow) {
+    moveInstrumentation(headlineRow, headline);
+    headline.textContent = headlineRow.textContent.trim();
+  }
+  contentDiv.append(headline);
 
-  const descriptionDiv = document.createElement('div');
-  descriptionDiv.classList.add(
+  const bodyDiv = document.createElement('div');
+  bodyDiv.classList.add(
     'prose',
     'theme-dark:prose-tm',
     'theme-medium:prose-td',
@@ -160,16 +166,17 @@ export default function decorate(block) {
     'mb-md',
     '*:mt-0',
   );
-  moveInstrumentation(descriptionRow, descriptionDiv);
-  descriptionDiv.innerHTML = descriptionRow.children[0]?.innerHTML || '';
-  textContentDiv.append(descriptionDiv);
+  if (bodyRow) {
+    moveInstrumentation(bodyRow, bodyDiv);
+    // bodyRow is a row, its innerHTML is "<div><p>content</p></div>".
+    // We need the content of the cell (bodyRow.children[0]), not the row itself.
+    // Also, since it's richtext, we should use innerHTML directly from the cell.
+    bodyDiv.innerHTML = bodyRow.children[0]?.innerHTML || '';
+  }
+  contentDiv.append(bodyDiv);
 
   // CTA Link
   const ctaLink = document.createElement('a');
-  const foundLink = ctaLinkRow.querySelector('a');
-  if (foundLink) {
-    ctaLink.href = foundLink.href;
-  }
   ctaLink.classList.add(
     'w-full',
     'md:w-fit',
@@ -177,10 +184,17 @@ export default function decorate(block) {
     'button--dark',
     'theme-medium:button--light',
   );
+  const foundLink = ctaLinkRow?.querySelector('a');
+  if (foundLink) {
+    ctaLink.href = foundLink.href;
+  }
+  if (ctaLabelRow) {
+    moveInstrumentation(ctaLabelRow, ctaLink);
+    ctaLink.textContent = ctaLabelRow.textContent.trim();
+  }
+  // moveInstrumentation for ctaLinkRow should be here, after the link is fully constructed
   moveInstrumentation(ctaLinkRow, ctaLink);
-  ctaLink.textContent = ctaLabelRow.textContent.trim();
-  contentWrapper.append(ctaLink);
-  // Removed redundant moveInstrumentation(ctaLabelRow, ctaLink); as ctaLinkRow already covers the link element.
+  contentCard.append(ctaLink);
 
   block.replaceChildren(section);
 }

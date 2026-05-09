@@ -49,14 +49,14 @@
       "fields": [
         {
           "component": "text",
-          "label": "Statistic (Number or Main Highlight)",
-          "name": "statistic",
+          "label": "Primary Stat",
+          "name": "primaryStat",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Statistic Label (Descriptor)",
-          "name": "statisticLabel",
+          "label": "Secondary Label",
+          "name": "secondaryLabel",
           "valueType": "string"
         },
         {
