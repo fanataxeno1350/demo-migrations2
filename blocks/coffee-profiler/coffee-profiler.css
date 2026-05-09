@@ -1,0 +1,110 @@
+@font-face{font-family:GothamHTFBook;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/40651fc412786e546553-cf3e47.ttf") format("truetype");font-display:swap;}
+
+@font-face{font-family:GothamHTFMedium;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/5ef188273cbd2a4f3cfa-f879a1.ttf") format("truetype");font-display:swap;}
+
+@font-face{font-family:NescafeSansBold;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/a240ad40949cc29dcbbe-48132d.woff2") format("woff2");font-display:swap;}
+
+@media print,screen and (min-width:48em) { .grid-container{ padding-right:2.5rem;padding-left:2.5rem; } }
+
+@media print,screen and (min-width:64em) { .grid-container{ padding-right:2.5rem;padding-left:2.5rem; } }
+
+.hide{ display:none !important; }
+
+@media screen and (min-width:768px) { .labelMediumRegular{ font-size:1.125rem;line-height:1.5rem; } }
+
+@media screen and (min-width:1024px) { .labelMediumRegular{ font-size:1.125rem;line-height:1.625rem; } }
+
+@media screen and (min-width:768px) { .bodyLargeRegular{ font-size:1.125rem;line-height:1.625rem; } }
+
+@media screen and (min-width:1024px) { .bodyLargeRegular{ font-size:1.125rem;line-height:1.625rem; } }
+
+@media print,screen and (min-width:48em) { .padding-x{ padding-left:2.5rem; } }
+
+@media print,screen and (min-width:64em) { .padding-x{ padding-left:2.5rem; } }
+
+@media print,screen and (min-width:48em) { .padding-x{ padding-right:2.5rem; } }
+
+@media print,screen and (min-width:64em) { .padding-x{ padding-right:2.5rem; } }
+
+.hide{ display:none; }
+
+.intro-info .greetings-container{ grid-area:greetings-text; }
+
+.intro-info .guide-text{ grid-area:intro-text; }
+
+.coffee-profiler .swiper-controls .swiper-control{ position:absolute;top:50%;z-index:2; }
+
+@media print,screen and (min-width:64em) { .coffee-profiler .swiper-controls .swiper-control--prev{ left:2.5rem; } }
+
+@media print,screen and (min-width:64em) { .coffee-profiler .swiper-controls .swiper-control--next{ right:2.5rem; } }
+
+.coffee-profiler .swiper-controls .swiper-control:disabled{ display:none; }
+
+.coffee-profiler .error-message{ display:none;position:absolute;top:0px;left:0px;z-index:5;width:100%;padding:2rem;background-color:rgb(31,31,31);color:rgb(255,255,255);text-align:center; }
+
+@font-face{font-family:GothamHTFBook;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/40651fc412786e546553-cf3e47.ttf") format("truetype");font-display:swap;}
+
+@font-face{font-family:GothamHTFMedium;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/5ef188273cbd2a4f3cfa-f879a1.ttf") format("truetype");font-display:swap;}
+
+@font-face{font-family:NescafeSansBold;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/a240ad40949cc29dcbbe-48132d.woff2") format("woff2");font-display:swap;}
+
+@media print,screen and (min-width:48em) { .grid-container{ padding-right:2.5rem;padding-left:2.5rem; } }
+
+@media print,screen and (min-width:64em) { .grid-container{ padding-right:2.5rem;padding-left:2.5rem; } }
+
+@media screen and (min-width:768px) { .labelMediumRegular{ font-size:1.125rem;line-height:1.5rem; } }
+
+@media screen and (min-width:1024px) { .labelMediumRegular{ font-size:1.125rem;line-height:1.625rem; } }
+
+@media print,screen and (min-width:48em) { .padding-x{ padding-left:2.5rem; } }
+
+@media print,screen and (min-width:64em) { .padding-x{ padding-left:2.5rem; } }
+
+@media print,screen and (min-width:48em) { .padding-x{ padding-right:2.5rem; } }
+
+@media print,screen and (min-width:64em) { .padding-x{ padding-right:2.5rem; } }
+
+.intro-info .greetings-container{ grid-area:greetings-text; }
+
+.intro-info .guide-text{ grid-area:intro-text; }
+
+@font-face{font-family:GothamHTFBook;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/40651fc412786e546553-cf3e47.ttf") format("truetype");font-display:swap;}
+
+@font-face{font-family:GothamHTFMedium;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/5ef188273cbd2a4f3cfa-f879a1.ttf") format("truetype");font-display:swap;}
+
+@font-face{font-family:NescafeSansBold;src:url("/content/dam/aemigrate/uploaded-folder/www-nescafe-com/font/a240ad40949cc29dcbbe-48132d.woff2") format("woff2");font-display:swap;}
+
+@media print,screen and (min-width:48em) { .grid-container{ padding-right:2.5rem;padding-left:2.5rem; } }
+
+@media print,screen and (min-width:64em) { .grid-container{ padding-right:2.5rem;padding-left:2.5rem; } }
+
+@media screen and (min-width:768px) { .labelMediumRegular{ font-size:1.125rem;line-height:1.5rem; } }
+
+@media screen and (min-width:1024px) { .labelMediumRegular{ font-size:1.125rem;line-height:1.625rem; } }
+
+@media print,screen and (min-width:48em) { .padding-x{ padding-left:2.5rem; } }
+
+@media print,screen and (min-width:64em) { .padding-x{ padding-left:2.5rem; } }
+
+@media print,screen and (min-width:48em) { .padding-x{ padding-right:2.5rem; } }
+
+@media print,screen and (min-width:64em) { .padding-x{ padding-right:2.5rem; } }
+
+.intro-info .greetings-container{ grid-area:greetings-text; }
+
+.intro-info .guide-text{ grid-area:intro-text; }
+
+@keyframes onetrust-fade-in{0%{opacity:0}100%{opacity:1}}
+
+@keyframes slide-down-custom{
+            0% {
+                bottom: 10800px !important;
+            }
+            100% {
+                bottom: 0px;
+            }
+        }
+
+@keyframes otFloatingBtnIntro{0%{opacity:0;left:-75px}100%{opacity:1;left:1%}}
+
+@keyframes otFloatingBtnImageIntro{0%{opacity:0;transform:scale(0) rotate(-270deg)}100%{opacity:100%;transform:scale(0.95) rotate(0deg)}}

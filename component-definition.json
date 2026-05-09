@@ -115,60 +115,45 @@
           }
         },
         {
-          "title": "Level2-Item",
-          "id": "level2-item",
+          "title": "Burger-Navigation-Menu-Item",
+          "id": "burger-navigation-menu-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "level2-item",
-                  "name": "Level2-Item"
+                  "model": "burger-navigation-menu-item",
+                  "name": "Burger-Navigation-Menu-Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Level3-Multiple-Link-Item",
-          "id": "level3-multiple-link-item",
+          "title": "Burger-Navigation-Multiple-Links-Item",
+          "id": "burger-navigation-multiple-links-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "level3-multiple-link-item",
-                  "name": "Level3-Multiple-Link-Item"
+                  "model": "burger-navigation-multiple-links-item",
+                  "name": "Burger-Navigation-Multiple-Links-Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Level3-Banner-Item",
-          "id": "level3-banner-item",
+          "title": "Burger-Navigation-Level3-Link-Item",
+          "id": "burger-navigation-level3-link-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "level3-banner-item",
-                  "name": "Level3-Banner-Item"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Level3-Simple-Link-Item",
-          "id": "level3-simple-link-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "level3-simple-link-item",
-                  "name": "Level3-Simple-Link-Item"
+                  "model": "burger-navigation-level3-link-item",
+                  "name": "Burger-Navigation-Level3-Link-Item"
                 }
               }
             }
@@ -252,30 +237,30 @@
           }
         },
         {
-          "title": "Question Slide",
-          "id": "question-slide",
+          "title": "Profiler Question Slide",
+          "id": "profiler-question-slide",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "question-slide",
-                  "name": "Question Slide"
+                  "model": "profiler-question-slide",
+                  "name": "Profiler Question Slide"
                 }
               }
             }
           }
         },
         {
-          "title": "Option Item",
-          "id": "option-item",
+          "title": "Profiler Option",
+          "id": "profiler-option",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "option-item",
-                  "name": "Option Item"
+                  "model": "profiler-option",
+                  "name": "Profiler Option"
                 }
               }
             }
@@ -328,52 +313,6 @@
           }
         },
         {
-          "title": "Footer Section",
-          "id": "footer-section",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "filter": "footer-section",
-                  "model": "footer-section",
-                  "name": "Footer Section"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Footer Social Item",
-          "id": "footer-social-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "footer-social-item",
-                  "name": "Footer Social Item"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Footer Link Item",
-          "id": "footer-link-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "footer-link-item",
-                  "name": "Footer Link Item"
-                }
-              }
-            }
-          }
-        },
-        {
           "title": "Header Main Navigation",
           "id": "header-main-navigation",
           "plugins": {
@@ -390,60 +329,45 @@
           }
         },
         {
-          "title": "Navigation Menu Item",
-          "id": "navigation-menu-item",
+          "title": "Nav Primary Item",
+          "id": "nav-primary-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "navigation-menu-item",
-                  "name": "Navigation Menu Item"
+                  "model": "nav-primary-item",
+                  "name": "Nav Primary Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Level2 Submenu Item",
-          "id": "submenu-level2-item",
+          "title": "Nav Secondary Item",
+          "id": "nav-secondary-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "submenu-level2-item",
-                  "name": "Level2 Submenu Item"
+                  "model": "nav-secondary-item",
+                  "name": "Nav Secondary Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Level3 Submenu Item",
-          "id": "submenu-level3-item",
+          "title": "Nav Tertiary Item",
+          "id": "nav-tertiary-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "submenu-level3-item",
-                  "name": "Level3 Submenu Item"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Level3 Submenu Banner",
-          "id": "submenu-level3-banner",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "submenu-level3-banner",
-                  "name": "Level3 Submenu Banner"
+                  "model": "nav-tertiary-item",
+                  "name": "Nav Tertiary Item"
                 }
               }
             }
@@ -451,13 +375,13 @@
         },
         {
           "title": "Level2 Banner",
-          "id": "submenu-level2-banner",
+          "id": "level2-banner",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "submenu-level2-banner",
+                  "model": "level2-banner",
                   "name": "Level2 Banner"
                 }
               }
@@ -528,7 +452,7 @@
           }
         },
         {
-          "title": "Search-Autocomplete",
+          "title": "Search Autocomplete",
           "id": "search-autocomplete",
           "plugins": {
             "xwalk": {
@@ -537,14 +461,14 @@
                 "template": {
                   "filter": "search-autocomplete",
                   "model": "search-autocomplete",
-                  "name": "Search-Autocomplete"
+                  "name": "Search Autocomplete"
                 }
               }
             }
           }
         },
         {
-          "title": "Search-Suggestion-Item",
+          "title": "Search Suggestion Item",
           "id": "search-suggestion-item",
           "plugins": {
             "xwalk": {
@@ -552,7 +476,7 @@
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
                   "model": "search-suggestion-item",
-                  "name": "Search-Suggestion-Item"
+                  "name": "Search Suggestion Item"
                 }
               }
             }
@@ -575,22 +499,22 @@
           }
         },
         {
-          "title": "Sustainability Article Carousel Card Item",
-          "id": "sustainability-card-item",
+          "title": "Sustainability Article Card",
+          "id": "sustainability-article-card",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "sustainability-card-item",
-                  "name": "Sustainability Article Carousel Card Item"
+                  "model": "sustainability-article-card",
+                  "name": "Sustainability Article Card"
                 }
               }
             }
           }
         },
         {
-          "title": "Sustainability Hub Recycle Section",
+          "title": "Sustainability-Hub-Recycle-Section",
           "id": "sustainability-hub-recycle-section",
           "plugins": {
             "xwalk": {
@@ -599,7 +523,7 @@
                 "template": {
                   "filter": "sustainability-hub-recycle-section",
                   "model": "sustainability-hub-recycle-section",
-                  "name": "Sustainability Hub Recycle Section"
+                  "name": "Sustainability-Hub-Recycle-Section"
                 }
               }
             }
@@ -638,15 +562,15 @@
           }
         },
         {
-          "title": "Tooltip-Signin-Register-CTA-Item",
-          "id": "tooltip-signin-register-cta-item",
+          "title": "Tooltip-CTA-Item",
+          "id": "tooltip-cta-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "tooltip-signin-register-cta-item",
-                  "name": "Tooltip-Signin-Register-CTA-Item"
+                  "model": "tooltip-cta-item",
+                  "name": "Tooltip-CTA-Item"
                 }
               }
             }

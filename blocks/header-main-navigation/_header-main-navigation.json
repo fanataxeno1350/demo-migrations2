@@ -1,0 +1,220 @@
+{
+  "definitions": [
+    {
+      "title": "Header Main Navigation",
+      "id": "header-main-navigation",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "header-main-navigation",
+              "model": "header-main-navigation",
+              "name": "Header Main Navigation"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Nav Primary Item",
+      "id": "nav-primary-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "nav-primary-item",
+              "name": "Nav Primary Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Nav Secondary Item",
+      "id": "nav-secondary-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "nav-secondary-item",
+              "name": "Nav Secondary Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Nav Tertiary Item",
+      "id": "nav-tertiary-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "nav-tertiary-item",
+              "name": "Nav Tertiary Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Level2 Banner",
+      "id": "level2-banner",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "level2-banner",
+              "name": "Level2 Banner"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "header-main-navigation",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Logo",
+          "name": "logo"
+        },
+        {
+          "component": "aem-content",
+          "label": "Logo Link",
+          "name": "logoLink"
+        },
+        {
+          "component": "container",
+          "item": "nav-primary-item",
+          "label": "Navigation Items",
+          "name": "navItems"
+        },
+        {
+          "component": "container",
+          "item": "level2-banner",
+          "label": "Level2 Banners",
+          "name": "banners"
+        }
+      ]
+    },
+    {
+      "id": "nav-primary-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Primary Nav Label",
+          "name": "label"
+        },
+        {
+          "component": "aem-content",
+          "label": "Primary Nav Link",
+          "name": "link"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree"
+        }
+      ]
+    },
+    {
+      "id": "nav-secondary-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Secondary Nav Label",
+          "name": "label"
+        },
+        {
+          "component": "aem-content",
+          "label": "Secondary Nav Link",
+          "name": "link"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree"
+        }
+      ]
+    },
+    {
+      "id": "nav-tertiary-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Tertiary Nav Icon",
+          "name": "icon"
+        },
+        {
+          "component": "text",
+          "label": "Tertiary Nav Label",
+          "name": "label"
+        },
+        {
+          "component": "aem-content",
+          "label": "Tertiary Nav Link",
+          "name": "link"
+        },
+        {
+          "component": "reference",
+          "label": "Tertiary Sub-banner Image",
+          "name": "subBannerImage"
+        },
+        {
+          "component": "richtext",
+          "label": "Tertiary Sub-banner Description",
+          "name": "subBannerDescription"
+        }
+      ]
+    },
+    {
+      "id": "level2-banner",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Banner Image (Desktop)",
+          "name": "bannerImageDesktop"
+        },
+        {
+          "component": "reference",
+          "label": "Banner Image (Tablet)",
+          "name": "bannerImageTablet"
+        },
+        {
+          "component": "reference",
+          "label": "Banner Image (Mobile)",
+          "name": "bannerImageMobile"
+        },
+        {
+          "component": "richtext",
+          "label": "Banner Description",
+          "name": "description"
+        },
+        {
+          "component": "richtext",
+          "label": "Banner Headline",
+          "name": "headline"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "header-main-navigation",
+      "components": [
+        "nav-primary-item",
+        "nav-secondary-item",
+        "nav-tertiary-item",
+        "level2-banner"
+      ]
+    }
+  ]
+}

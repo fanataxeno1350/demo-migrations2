@@ -30,7 +30,6 @@
       "campaign-carousel",
       "coffee-profiler",
       "back-to-top",
-      "footer-section",
       "footer-global"
     ]
   },
@@ -41,10 +40,9 @@
   {
     "id": "burger-navigation",
     "components": [
-      "level2-item",
-      "level3-multiple-link-item",
-      "level3-banner-item",
-      "level3-simple-link-item"
+      "burger-navigation-menu-item",
+      "burger-navigation-multiple-links-item",
+      "burger-navigation-level3-link-item"
     ]
   },
   {
@@ -58,8 +56,8 @@
   {
     "id": "coffee-profiler",
     "components": [
-      "question-slide",
-      "option-item"
+      "profiler-question-slide",
+      "profiler-option"
     ]
   },
   {
@@ -70,20 +68,12 @@
     ]
   },
   {
-    "id": "footer-section",
-    "components": [
-      "footer-social-item",
-      "footer-link-item"
-    ]
-  },
-  {
     "id": "header-main-navigation",
     "components": [
-      "navigation-menu-item",
-      "submenu-level2-item",
-      "submenu-level3-item",
-      "submenu-level3-banner",
-      "submenu-level2-banner"
+      "nav-primary-item",
+      "nav-secondary-item",
+      "nav-tertiary-item",
+      "level2-banner"
     ]
   },
   {
@@ -109,7 +99,7 @@
   {
     "id": "sustainability-article-carousel",
     "components": [
-      "sustainability-card-item"
+      "sustainability-article-card"
     ]
   },
   {
@@ -123,7 +113,7 @@
   {
     "id": "tooltip-signin-register",
     "components": [
-      "tooltip-signin-register-cta-item"
+      "tooltip-cta-item"
     ]
   }
 ]
