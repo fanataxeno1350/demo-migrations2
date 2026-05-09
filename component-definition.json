@@ -222,7 +222,7 @@
           }
         },
         {
-          "title": "Navigation-Item",
+          "title": "Navigation Item",
           "id": "navigation-item",
           "plugins": {
             "xwalk": {
@@ -230,14 +230,74 @@
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
                   "model": "navigation-item",
-                  "name": "Navigation-Item"
+                  "name": "Navigation Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Press-Release-Item",
+          "title": "Mega Menu About Us",
+          "id": "mega-menu-about-us",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "mega-menu-about-us",
+                  "name": "Mega Menu About Us"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Mega Menu What We Do",
+          "id": "mega-menu-what-we-do",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "mega-menu-what-we-do",
+                  "name": "Mega Menu What We Do"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Mega Menu Investor Relations",
+          "id": "mega-menu-investor-relations",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "mega-menu-investor-relations",
+                  "name": "Mega Menu Investor Relations"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Mega Menu Newsroom",
+          "id": "mega-menu-newsroom",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "mega-menu-newsroom",
+                  "name": "Mega Menu Newsroom"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Press Release Item",
           "id": "press-release-item",
           "plugins": {
             "xwalk": {
@@ -245,22 +305,37 @@
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
                   "model": "press-release-item",
-                  "name": "Press-Release-Item"
+                  "name": "Press Release Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Icon-Link-Item",
-          "id": "icon-link-item",
+          "title": "Mega Menu Careers",
+          "id": "mega-menu-careers",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "icon-link-item",
-                  "name": "Icon-Link-Item"
+                  "model": "mega-menu-careers",
+                  "name": "Mega Menu Careers"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Contact Link Item",
+          "id": "contact-link-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "contact-link-item",
+                  "name": "Contact Link Item"
                 }
               }
             }
@@ -283,15 +358,15 @@
           }
         },
         {
-          "title": "Home-Slide-Item",
-          "id": "home-slide-item",
+          "title": "Slider-Item",
+          "id": "slider-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "home-slide-item",
-                  "name": "Home-Slide-Item"
+                  "model": "slider-item",
+                  "name": "Slider-Item"
                 }
               }
             }
@@ -344,15 +419,15 @@
           }
         },
         {
-          "title": "News-Item",
-          "id": "news-item",
+          "title": "Latest-News-Item",
+          "id": "latest-news-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "news-item",
-                  "name": "News-Item"
+                  "model": "latest-news-item",
+                  "name": "Latest-News-Item"
                 }
               }
             }

@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Slider-Item",
-      "id": "slider-item",
+      "title": "Home-Slide-Item",
+      "id": "home-slide-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "slider-item",
-              "name": "Slider-Item"
+              "model": "home-slide-item",
+              "name": "Home-Slide-Item"
             }
           }
         }
@@ -53,7 +53,7 @@
       "fields": [
         {
           "component": "container",
-          "item": "slider-item",
+          "item": "home-slide-item",
           "label": "Slides",
           "name": "slides"
         },
@@ -66,40 +66,40 @@
       ]
     },
     {
-      "id": "slider-item",
+      "id": "home-slide-item",
       "fields": [
         {
           "component": "reference",
           "label": "Desktop Image",
-          "name": "desktopImage",
+          "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
           "label": "Tablet Image",
-          "name": "tabletImage",
+          "name": "imageTablet",
           "valueType": "string"
         },
         {
           "component": "reference",
           "label": "Mobile Image",
-          "name": "mobileImage",
+          "name": "imageMobile",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Pretitle",
-          "name": "pretitle",
+          "label": "Small Text",
+          "name": "smallText",
           "valueType": "string"
         },
         {
-          "component": "text",
+          "component": "richtext",
           "label": "Headline",
           "name": "headline",
           "valueType": "string"
         },
         {
-          "component": "text",
+          "component": "richtext",
           "label": "Description",
           "name": "description",
           "valueType": "string"
@@ -123,13 +123,13 @@
       "fields": [
         {
           "component": "text",
-          "label": "Link Label",
+          "label": "Quick Link Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Link URL",
+          "label": "Quick Link URL",
           "name": "link",
           "valueType": "string"
         }
@@ -140,7 +140,7 @@
     {
       "id": "home-slider",
       "components": [
-        "slider-item",
+        "home-slide-item",
         "quick-link-item"
       ]
     }

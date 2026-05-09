@@ -32,15 +32,15 @@
       }
     },
     {
-      "title": "Latest-News-Item",
-      "id": "latest-news-item",
+      "title": "News-Item",
+      "id": "news-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "latest-news-item",
-              "name": "Latest-News-Item"
+              "model": "news-item",
+              "name": "News-Item"
             }
           }
         }
@@ -53,8 +53,8 @@
       "fields": [
         {
           "component": "text",
-          "label": "Section Headline",
-          "name": "headline",
+          "label": "Section Heading",
+          "name": "heading",
           "valueType": "string"
         },
         {
@@ -65,7 +65,7 @@
         },
         {
           "component": "container",
-          "item": "latest-news-item",
+          "item": "news-item",
           "label": "News Items",
           "name": "newsItems"
         }
@@ -95,24 +95,24 @@
       ]
     },
     {
-      "id": "latest-news-item",
+      "id": "news-item",
       "fields": [
         {
           "component": "reference",
-          "label": "News Image (Default)",
-          "name": "newsImage",
+          "label": "Main Image",
+          "name": "image",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "News Image (Horizontal)",
-          "name": "newsImageHorizontal",
+          "label": "Horizontal Image",
+          "name": "imageHorizontal",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "News Image (Vertical)",
-          "name": "newsImageVertical",
+          "label": "Vertical Image",
+          "name": "imageVertical",
           "valueType": "string"
         },
         {
@@ -123,20 +123,14 @@
         },
         {
           "component": "text",
-          "label": "News Title",
-          "name": "title",
+          "label": "Headline",
+          "name": "headline",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Read More Link",
-          "name": "ctaLink",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "CTA Label",
-          "name": "ctaLabel",
+          "name": "link",
           "valueType": "string"
         },
         {
@@ -153,7 +147,7 @@
       "id": "latest-news",
       "components": [
         "elfsight-widget-embed",
-        "latest-news-item"
+        "news-item"
       ]
     }
   ]
