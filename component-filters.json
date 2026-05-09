@@ -16,75 +16,7 @@
       "cards",
       "columns",
       "fragment",
-      "---- New Blocks ----",
-      "header-nav",
-      "toast-message",
-      "hero-section",
-      "why-techatom",
-      "service-section",
-      "about-section",
-      "blog-section",
-      "faqs",
-      "contact-section",
-      "footer"
-    ]
-  },
-  {
-    "id": "about-section",
-    "components": [
-      "about-feature-item"
-    ]
-  },
-  {
-    "id": "blog-section",
-    "components": [
-      "blog-card"
-    ]
-  },
-  {
-    "id": "contact-section",
-    "components": [
-      "contact-social-item",
-      "external-embed-item"
-    ]
-  },
-  {
-    "id": "faqs",
-    "components": [
-      "faq-accordion-item"
-    ]
-  },
-  {
-    "id": "footer",
-    "components": [
-      "footer-link-item",
-      "footer-section-item"
-    ]
-  },
-  {
-    "id": "header-nav",
-    "components": [
-      "navigation-item"
-    ]
-  },
-  {
-    "id": "hero-section",
-    "components": []
-  },
-  {
-    "id": "service-section",
-    "components": [
-      "service-card-item"
-    ]
-  },
-  {
-    "id": "toast-message",
-    "components": []
-  },
-  {
-    "id": "why-techatom",
-    "components": [
-      "why-card-item"
+      "---- New Blocks ----"
     ]
   }
 ]
