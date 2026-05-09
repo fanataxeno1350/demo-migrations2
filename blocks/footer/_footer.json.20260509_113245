@@ -93,13 +93,13 @@
         {
           "component": "container",
           "item": "footer-link-item",
-          "label": "Secondary Links",
-          "name": "secondaryLinks"
+          "label": "Footer Legal/Secondary Links",
+          "name": "footerLinks"
         },
         {
           "component": "text",
           "label": "Copyright Text",
-          "name": "copyrightText",
+          "name": "copyright",
           "valueType": "string"
         }
       ]
@@ -137,7 +137,7 @@
         },
         {
           "component": "aem-content",
-          "label": "Link Href",
+          "label": "Link URL",
           "name": "link",
           "valueType": "string"
         }
@@ -148,7 +148,7 @@
       "fields": [
         {
           "component": "aem-content",
-          "label": "Social Link",
+          "label": "Social Link URL",
           "name": "socialLink",
           "valueType": "string"
         },

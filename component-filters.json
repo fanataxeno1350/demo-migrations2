@@ -55,20 +55,21 @@
     "id": "header",
     "components": [
       "navigation-item",
+      "icon-link-item",
       "press-release-item"
     ]
   },
   {
     "id": "home-slider",
     "components": [
-      "home-slider-slide",
-      "home-slider-quick-link-item"
+      "slide-item",
+      "quick-link-item"
     ]
   },
   {
     "id": "latest-news",
     "components": [
-      "elfsight-embed",
+      "elfsight-embed-item",
       "news-item"
     ]
   },
@@ -105,7 +106,7 @@
   {
     "id": "work-with-us",
     "components": [
-      "work-with-us-item"
+      "work-with-us-slide-item"
     ]
   }
 ]

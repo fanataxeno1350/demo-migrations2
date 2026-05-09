@@ -6,16 +6,23 @@ export default async function decorate(block) {
     (row) => row.children.length > 0 && [...row.children].some((c) => c.children.length > 0 || c.textContent.trim() !== ''),
   );
 
-  const [headingRow, ...itemRows] = children;
+  const headingRow = children[0];
+  const itemRows = children.slice(1);
+
+  const elfsightEmbeds = itemRows.filter((row) => row.children.length === 3);
+  const newsItems = itemRows.filter((row) => row.children.length === 8);
 
   const section = document.createElement('section');
   section.classList.add('section', 'grey-bg', 'latest-stories', 'home-stories');
 
   const sectionHeader = document.createElement('div');
   sectionHeader.classList.add('section-header', 'text-center');
-
   const heading = document.createElement('h2');
   heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
+  heading.setAttribute('data-aos', 'fade-up');
+  heading.setAttribute('data-aos-offset', '100');
+  heading.setAttribute('data-aos-duration', '650');
+  heading.setAttribute('data-aos-easing', 'ease-in-out');
   moveInstrumentation(headingRow, heading);
   heading.textContent = headingRow.textContent.trim();
   sectionHeader.append(heading);
@@ -23,69 +30,44 @@ export default async function decorate(block) {
 
   const container = document.createElement('div');
   container.classList.add('container', 'aos-init', 'aos-animate');
+  container.setAttribute('data-aos', 'fade-up');
+  container.setAttribute('data-aos-offset', '100');
+  container.setAttribute('data-aos-duration', '650');
+  container.setAttribute('data-aos-easing', 'ease-in-out');
 
-  const flickitySliderMobileWrap = document.createElement('div');
-  flickitySliderMobileWrap.classList.add('flickity-slider-mobile-wrap', 'grid-layout');
-  flickitySliderMobileWrap.dataset.flickity = '{ "wrapAround": false, "lazyLoad": true, "pageDots": true, "prevNextButtons": false, "imagesLoaded": true, "cellAlign": "left", "watchCSS": true, "adaptiveHeight": true }';
+  const flickitySliderWrap = document.createElement('div');
+  flickitySliderWrap.classList.add('flickity-slider-mobile-wrap', 'grid-layout');
+  flickitySliderWrap.setAttribute(
+    'data-flickity',
+    '{ "wrapAround": false, "lazyLoad": true, "pageDots": true, "prevNextButtons": false, "imagesLoaded": true, "cellAlign": "left", "watchCSS": true, "adaptiveHeight": true }',
+  );
 
   const slidesContainer = document.createElement('div');
-  slidesContainer.classList.add('slides'); // This is the wrapper for individual slides
-
-  const elfsightEmbeds = itemRows.filter((row) => row.children.length === 3);
-  const newsItems = itemRows.filter((row) => row.children.length === 7);
+  slidesContainer.classList.add('slides');
 
   elfsightEmbeds.forEach((row) => {
     const [embedUrlCell, embedKindCell, embedConfigCell] = [...row.children];
+    const kind = embedKindCell.textContent.trim();
+    const embedDiv = document.createElement('div');
+    embedDiv.setAttribute('data-embed-kind', kind);
+    embedDiv.setAttribute('data-embed-url', embedUrlCell.textContent.trim());
+    embedDiv.setAttribute('data-embed-config', embedConfigCell.textContent.trim());
 
-    const embedKind = embedKindCell?.textContent.trim();
-    const embedUrl = embedUrlCell?.textContent.trim();
-    const embedConfig = embedConfigCell?.textContent.trim();
-
-    const embedEl = document.createElement('div');
-    embedEl.classList.add('slides'); // Each embed is an individual slide
-    moveInstrumentation(row, embedEl);
-
-    if (embedKind === 'elfsight-widget') {
-      try {
-        const config = JSON.parse(embedConfig);
-        embedEl.classList.add(`elfsight-app-${config.app_id}`);
-        embedEl.dataset.elfsightAppLazy = '';
-        loadScript('https://static.elfsight.com/platform/platform.js');
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error('Failed to parse Elfsight config:', e);
-      }
-    } else if (embedKind === 'walls-io') {
-      const wallScript = document.createElement('script');
-      wallScript.src = 'https://walls.io/js/wallsio-widget-1.2.js';
-      wallScript.dataset.wallurl = embedUrl;
-      wallScript.dataset.width = '100%';
-      wallScript.dataset.autoheight = '1';
-      wallScript.async = true;
-      embedEl.append(wallScript);
-    } else if (['twitter-embed', 'instagram-embed', 'tiktok-embed'].includes(embedKind)) {
-      const platforms = {
-        'twitter-embed': 'https://platform.twitter.com/widgets.js',
-        'instagram-embed': 'https://www.instagram.com/embed.js',
-        'tiktok-embed': 'https://www.tiktok.com/embed.js',
-      };
-      loadScript(platforms[embedKind]);
-      const link = document.createElement('a');
-      link.href = embedUrl;
-      link.textContent = `View post on ${embedKind.split('-')[0].charAt(0).toUpperCase()}${embedKind.split('-')[0].slice(1)}`;
-      embedEl.append(link);
-    } else {
-      embedEl.textContent = `[${embedKind} placeholder]`;
+    if (kind === 'elfsight-widget') {
+      const config = JSON.parse(embedConfigCell.textContent.trim());
+      embedDiv.classList.add(`elfsight-app-${config.app_id}`);
+      embedDiv.setAttribute('data-elfsight-app-lazy', '');
+      loadScript('https://static.elfsight.com/platform/platform.js');
     }
-    slidesContainer.append(embedEl);
+    moveInstrumentation(row, embedDiv);
+    slidesContainer.append(embedDiv);
   });
 
   newsItems.forEach((row) => {
-    const [imageCell, imageHorizontalCell, imageVerticalCell, categoryCell, headlineCell, linkCell, dateCell] = [...row.children];
+    const [imageCell, imageHorizontalCell, imageVerticalCell, categoryCell, headlineCell, linkCell, dateCell, dateTimeCell] = [...row.children];
 
     const slide = document.createElement('div');
-    slide.classList.add('slides'); // Each news item is an individual slide
-    moveInstrumentation(row, slide);
+    slide.classList.add('slides');
 
     const wrap = document.createElement('div');
     wrap.classList.add('wrap');
@@ -93,24 +75,25 @@ export default async function decorate(block) {
     const imageWrap = document.createElement('div');
     imageWrap.classList.add('image-wrap');
 
-    const picture = imageCell?.querySelector('picture');
-    const img = picture ? picture.querySelector('img') : null;
-
+    const img = imageCell.querySelector('img');
     if (img) {
-      // Create optimized picture and replace the original picture element
       const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+      // moveInstrumentation should be called on the original cell, not the img inside the picture
+      moveInstrumentation(imageCell, optimizedPic); // Move instrumentation from the cell to the new picture element
+      imageWrap.append(optimizedPic);
+
       const optimizedImg = optimizedPic.querySelector('img');
       optimizedImg.classList.add('thumb-img', 'img-fluid');
+      optimizedImg.setAttribute('loading', 'lazy');
 
-      const horizontalImg = imageHorizontalCell?.querySelector('img');
+      const horizontalImg = imageHorizontalCell.querySelector('img');
       if (horizontalImg) {
-        optimizedImg.dataset.imgHorizontal = horizontalImg.src;
+        optimizedImg.setAttribute('data-img-horizontal', horizontalImg.src);
       }
-      const verticalImg = imageVerticalCell?.querySelector('img');
+      const verticalImg = imageVerticalCell.querySelector('img');
       if (verticalImg) {
-        optimizedImg.dataset.imgVertical = verticalImg.src;
+        optimizedImg.setAttribute('data-img-vertical', verticalImg.src);
       }
-      imageWrap.append(optimizedPic);
     }
     wrap.append(imageWrap);
 
@@ -119,67 +102,54 @@ export default async function decorate(block) {
 
     const category = document.createElement('div');
     category.classList.add('category');
-    category.textContent = categoryCell?.textContent.trim();
+    category.textContent = categoryCell.textContent.trim();
     contentWrap.append(category);
 
     const text = document.createElement('div');
     text.classList.add('text');
-    text.textContent = headlineCell?.textContent.trim();
+    text.textContent = headlineCell.textContent.trim();
     contentWrap.append(text);
 
-    const readMoreLink = document.createElement('a');
-    readMoreLink.classList.add('btn', 'btn-link');
-    const foundLink = linkCell?.querySelector('a');
+    const anchor = document.createElement('a');
+    anchor.classList.add('btn', 'btn-link');
+    const foundLink = linkCell.querySelector('a');
     if (foundLink) {
-      readMoreLink.href = foundLink.href;
+      anchor.href = foundLink.href;
     }
-    readMoreLink.textContent = 'Read more';
-    contentWrap.append(readMoreLink);
+    anchor.textContent = 'Read more';
+    contentWrap.append(anchor);
 
-    const date = document.createElement('div');
-    date.classList.add('date');
+    const dateDiv = document.createElement('div');
+    dateDiv.classList.add('date');
     const time = document.createElement('time');
-    time.datetime = dateCell?.textContent.trim();
-    time.textContent = dateCell?.textContent.trim(); // Assuming date format is already suitable
-    date.append(time);
-    contentWrap.append(date);
+    time.setAttribute('datetime', dateTimeCell.textContent.trim());
+    time.textContent = dateCell.textContent.trim();
+    dateDiv.append(time);
+    contentWrap.append(dateDiv);
 
     wrap.append(contentWrap);
+    moveInstrumentation(row, wrap);
     slide.append(wrap);
     slidesContainer.append(slide);
   });
 
-  flickitySliderMobileWrap.append(slidesContainer);
-  container.append(flickitySliderMobileWrap);
+  flickitySliderWrap.append(slidesContainer);
+  container.append(flickitySliderWrap);
   section.append(container);
 
   block.replaceChildren(section);
 
-  // Swiper initialization for the flickity-slider-mobile-wrap
-  // The original HTML uses flickity-slider-mobile-wrap with data-flickity,
-  // which implies Flickity.js. However, the prompt asks for Swiper.js if
-  // Swiper classes are present. Since no Swiper classes are in the original
-  // HTML, but the prompt specifically asked for Swiper initialization,
-  // I will assume Flickity.js is intended, but provide Swiper init as per prompt.
-  // If Flickity.js is truly intended, this Swiper code should be removed.
-
-  // Based on the original HTML's `data-flickity` attribute, this block
-  // is designed for Flickity.js, not Swiper.js.
-  // The prompt's instruction to add Swiper.js initialization is contradictory
-  // to the provided HTML. I will proceed with the assumption that Flickity.js
-  // is the intended library, and thus no Swiper.js initialization is needed.
-  // The `loadScript` for Flickity.js would typically be handled by a global
-  // script or a specific block-level script if it's not globally available.
-  // Since the prompt explicitly asked for Swiper.js checks, and no Swiper classes
-  // are present, I will not add Swiper.js init. The `flickity-slider-mobile-wrap`
-  // and `data-flickity` attribute suggest Flickity.js is expected to be loaded
-  // and initialized externally or via a different mechanism.
-
-  // The final `section.querySelectorAll('picture > img').forEach` loop
-  // is redundant and potentially problematic after `createOptimizedPicture`
-  // has already been called for each image. It should be removed.
-  // The `moveInstrumentation` call inside this loop is also incorrect as it
-  // tries to move instrumentation from an `img` element to an `img` element
-  // within a newly created `picture`. Instrumentation should be moved from
-  // the original cell to the new container element.
+  // Image optimization for all pictures within the block
+  // This section is problematic. It re-optimizes images already handled above
+  // and replaces existing pictures, potentially losing instrumentation.
+  // Given the newsItems loop already handles image optimization and instrumentation,
+  // this general block-wide optimization should be removed or carefully re-evaluated.
+  // For now, removing it to prevent double processing and potential instrumentation loss.
+  // If there are other images outside newsItems that need optimization,
+  // they should be handled specifically.
+  // block.querySelectorAll('picture > img').forEach((img) => {
+  //   const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+  //   moveInstrumentation(img, optimizedPic.querySelector('img')); // This moves instrumentation from the img to the new img
+  //   img.closest('picture').replaceWith(optimizedPic);
+  // });
 }

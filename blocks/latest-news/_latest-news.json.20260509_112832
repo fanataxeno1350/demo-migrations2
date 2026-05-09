@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Elfsight-Embed-Item",
-      "id": "elfsight-embed-item",
+      "title": "Elfsight-Embed",
+      "id": "elfsight-embed",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "elfsight-embed-item",
-              "name": "Elfsight-Embed-Item"
+              "model": "elfsight-embed",
+              "name": "Elfsight-Embed"
             }
           }
         }
@@ -53,15 +53,15 @@
       "fields": [
         {
           "component": "text",
-          "label": "Section Heading",
+          "label": "Heading",
           "name": "heading",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "elfsight-embed-item",
+          "item": "elfsight-embed",
           "label": "Elfsight Embeds",
-          "name": "elfsightEmbeds"
+          "name": "embeds"
         },
         {
           "component": "container",
@@ -72,7 +72,7 @@
       ]
     },
     {
-      "id": "elfsight-embed-item",
+      "id": "elfsight-embed",
       "fields": [
         {
           "component": "text",
@@ -99,50 +99,44 @@
       "fields": [
         {
           "component": "reference",
-          "label": "News Thumbnail Image",
+          "label": "Image",
           "name": "image",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "News Image - Horizontal",
+          "label": "Horizontal Image",
           "name": "imageHorizontal",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "News Image - Vertical",
+          "label": "Vertical Image",
           "name": "imageVertical",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "News Category",
+          "label": "Category",
           "name": "category",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "News Headline",
+          "label": "Headline",
           "name": "headline",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "News Link",
+          "label": "Read More Link",
           "name": "link",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Date Label",
+          "label": "Date",
           "name": "date",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Date ISO",
-          "name": "dateTime",
           "valueType": "string"
         }
       ]
@@ -152,7 +146,7 @@
     {
       "id": "latest-news",
       "components": [
-        "elfsight-embed-item",
+        "elfsight-embed",
         "news-item"
       ]
     }
