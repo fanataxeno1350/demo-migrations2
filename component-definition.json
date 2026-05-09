@@ -284,7 +284,7 @@
           }
         },
         {
-          "title": "Navigation-Item",
+          "title": "Navigation Item",
           "id": "navigation-item",
           "plugins": {
             "xwalk": {
@@ -292,29 +292,14 @@
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
                   "model": "navigation-item",
-                  "name": "Navigation-Item"
+                  "name": "Navigation Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Mega-Menu-Section",
-          "id": "mega-menu-section",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "mega-menu-section",
-                  "name": "Mega-Menu-Section"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Press-Release-Item",
+          "title": "Press Release Item",
           "id": "press-release-item",
           "plugins": {
             "xwalk": {
@@ -322,22 +307,22 @@
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
                   "model": "press-release-item",
-                  "name": "Press-Release-Item"
+                  "name": "Press Release Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Icon-Link-Item",
-          "id": "icon-link-item",
+          "title": "Icon Nav Item",
+          "id": "icon-nav-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "icon-link-item",
-                  "name": "Icon-Link-Item"
+                  "model": "icon-nav-item",
+                  "name": "Icon Nav Item"
                 }
               }
             }

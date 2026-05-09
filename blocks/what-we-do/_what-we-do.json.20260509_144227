@@ -67,8 +67,8 @@
         },
         {
           "component": "reference",
-          "label": "Tablet/Mobile Image",
-          "name": "imageTablet",
+          "label": "Mobile Image",
+          "name": "imageMobile",
           "valueType": "string"
         },
         {
@@ -80,12 +80,12 @@
         {
           "component": "reference",
           "label": "Arrow Icon",
-          "name": "arrowIcon",
+          "name": "icon",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Learn More Link",
+          "label": "Business Link",
           "name": "link",
           "valueType": "string"
         }

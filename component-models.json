@@ -451,9 +451,15 @@
       },
       {
         "component": "container",
-        "item": "icon-link-item",
-        "label": "Header Icon Links",
-        "name": "iconLinks"
+        "item": "press-release-item",
+        "label": "Press Releases",
+        "name": "pressReleases"
+      },
+      {
+        "component": "container",
+        "item": "icon-nav-item",
+        "label": "Icon Navigation Items",
+        "name": "iconNavItems"
       }
     ]
   },
@@ -479,44 +485,34 @@
         "valueType": "string"
       },
       {
-        "component": "container",
-        "item": "mega-menu-section",
-        "label": "Mega Menu Sections",
-        "name": "megaMenuSections"
-      }
-    ]
-  },
-  {
-    "id": "mega-menu-section",
-    "fields": [
+        "component": "text",
+        "label": "Mega Menu Left Heading",
+        "name": "leftHeading",
+        "valueType": "string"
+      },
       {
         "component": "text",
-        "label": "Section Heading",
-        "name": "sectionHeading",
+        "label": "Mega Menu Left Description",
+        "name": "leftDesc",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Mega Menu Left Sub Description",
+        "name": "leftSubDesc",
         "valueType": "string"
       },
       {
         "component": "richtext",
-        "label": "Section Description",
-        "name": "sectionDescription",
+        "label": "Mega Menu Left Stats",
+        "name": "leftStats",
         "valueType": "string"
       },
       {
         "component": "richtext",
-        "label": "Section Sub Description",
-        "name": "sectionSubDescription",
+        "label": "Sub Navigation Links",
+        "name": "subLinks",
         "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "label": "Section Links",
-        "name": "sectionLinks"
-      },
-      {
-        "component": "container",
-        "item": "press-release-item",
-        "label": "Press Releases",
-        "name": "pressReleases"
       }
     ]
   },
@@ -524,44 +520,44 @@
     "id": "press-release-item",
     "fields": [
       {
-        "component": "aem-content",
-        "label": "Press Release Link",
-        "name": "pressReleaseLink",
-        "valueType": "string"
-      },
-      {
         "component": "text",
         "label": "Press Release Title",
-        "name": "pressReleaseTitle",
+        "name": "title",
         "valueType": "string"
       },
-      {
-        "component": "text",
-        "label": "Press Release Date",
-        "name": "pressReleaseDate",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Press Release Type",
-        "name": "pressReleaseType",
-        "valueType": "string"
-      }
-    ]
-  },
-  {
-    "id": "icon-link-item",
-    "fields": [
       {
         "component": "aem-content",
-        "label": "Link",
+        "label": "Press Release Link",
         "name": "link",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Label",
+        "label": "Press Release Date",
+        "name": "date",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Press Release Category",
+        "name": "category",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "icon-nav-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Icon Nav Label",
         "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Icon Nav Link",
+        "name": "link",
         "valueType": "string"
       }
     ]
@@ -1138,8 +1134,8 @@
       },
       {
         "component": "reference",
-        "label": "Mobile Image",
-        "name": "imageMobile",
+        "label": "Tablet/Mobile Image",
+        "name": "imageTablet",
         "valueType": "string"
       },
       {
@@ -1151,12 +1147,12 @@
       {
         "component": "reference",
         "label": "Arrow Icon",
-        "name": "icon",
+        "name": "arrowIcon",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Business Link",
+        "label": "Learn More Link",
         "name": "link",
         "valueType": "string"
       }
