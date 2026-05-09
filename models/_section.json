@@ -51,7 +51,17 @@
         "cards",
         "columns",
         "fragment",
-        "---- New Blocks ----"
+        "---- New Blocks ----",
+        "header-nav",
+        "toast-message",
+        "hero-section",
+        "why-techatom",
+        "service-section",
+        "about-us",
+        "blog-section",
+        "faqs",
+        "contact-section",
+        "footer"
       ]
     }
   ]

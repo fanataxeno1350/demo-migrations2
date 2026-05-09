@@ -140,5 +140,574 @@
         ]
       }
     ]
+  },
+  {
+    "id": "about-us",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Section Title",
+        "name": "sectionTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "About Description",
+        "name": "aboutDescription",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "About Pointer Image",
+        "name": "aboutPointerImage",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "About Main Image",
+        "name": "aboutMainImage",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Feature Section Title",
+        "name": "featureSectionTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "about-feature-item",
+        "label": "About Feature Items",
+        "name": "features"
+      }
+    ]
+  },
+  {
+    "id": "about-feature-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Feature Image",
+        "name": "featureImage",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Feature Title",
+        "name": "featureTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Feature Description",
+        "name": "featureDescription",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "blog-section",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Section Title",
+        "name": "sectionTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "blog-card",
+        "label": "Blog Cards",
+        "name": "blogCards"
+      }
+    ]
+  },
+  {
+    "id": "blog-card",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Blog Image",
+        "name": "image",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Image Link",
+        "name": "imageLink",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Category Link",
+        "name": "categoryLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Category Label",
+        "name": "categoryLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Blog Title Link",
+        "name": "titleLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Blog Title",
+        "name": "title",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Blog Excerpt",
+        "name": "excerpt",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Publish Date",
+        "name": "date",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Read More Link",
+        "name": "readMoreLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Read More Label",
+        "name": "readMoreLabel",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "contact-section",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Main Headline",
+        "name": "mainHeadline",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Secondary Headline",
+        "name": "secondaryHeadline",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Location Text",
+        "name": "location",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Email Link",
+        "name": "emailLink",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "social-item",
+        "label": "Social Links",
+        "name": "socialLinks"
+      },
+      {
+        "component": "text",
+        "label": "Form Name Placeholder",
+        "name": "formNamePlaceholder",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Form Email Placeholder",
+        "name": "formEmailPlaceholder",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Form Message Placeholder",
+        "name": "formMessagePlaceholder",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Form Button Label",
+        "name": "formButtonLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Map Embed URL",
+        "name": "mapEmbedUrl",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "social-item",
+    "fields": [
+      {
+        "component": "aem-content",
+        "label": "Social Link",
+        "name": "socialLink",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "faqs",
+    "fields": [
+      {
+        "component": "text",
+        "label": "FAQs Section Title",
+        "name": "title",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "faq-item",
+        "label": "FAQs List",
+        "name": "faqsList"
+      }
+    ]
+  },
+  {
+    "id": "faq-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Question",
+        "name": "question",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Answer",
+        "name": "answer",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "footer",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Footer Logo",
+        "name": "logo",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Logo Link",
+        "name": "logoLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Site Title",
+        "name": "siteTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Newsletter Heading",
+        "name": "newsletterHeading",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Newsletter Description",
+        "name": "newsletterDescription",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Newsletter Form Action",
+        "name": "newsletterFormAction",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Newsletter Email Placeholder",
+        "name": "newsletterEmailPlaceholder",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Newsletter Button Label",
+        "name": "newsletterButtonLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "footer-section-item",
+        "label": "Footer Sections",
+        "name": "footerSections"
+      },
+      {
+        "component": "text",
+        "label": "Copyright Text",
+        "name": "copyright",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "footer-section-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Section Title",
+        "name": "title",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "footer-link-item",
+        "label": "Section Links",
+        "name": "sectionLinks"
+      },
+      {
+        "component": "richtext",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "footer-link-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Link Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Link URL",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "header-nav",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Logo",
+        "name": "logo",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Logo Link",
+        "name": "logoLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Site Title",
+        "name": "siteTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "navigation-item",
+        "label": "Navigation Menu",
+        "name": "navigationMenu"
+      }
+    ]
+  },
+  {
+    "id": "navigation-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Navigation Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Navigation Link",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "hero-section",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Star Decor Image 1",
+        "name": "starImage1",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Star Decor Image 2",
+        "name": "starImage2",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Headline",
+        "name": "headline",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Description",
+        "name": "description",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "CTA Link",
+        "name": "ctaLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "CTA Label",
+        "name": "ctaLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Hero Main Image",
+        "name": "heroImage",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "service-section",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Section Heading",
+        "name": "heading",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Pointer Image",
+        "name": "pointerImage",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "service-card-item",
+        "label": "Service Cards",
+        "name": "serviceCards"
+      }
+    ]
+  },
+  {
+    "id": "service-card-item",
+    "fields": [
+      {
+        "component": "aem-content",
+        "label": "Card Link",
+        "name": "cardLink",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Card Image",
+        "name": "cardImage",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Card Title",
+        "name": "cardTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Card Description",
+        "name": "cardDescription",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Button Label",
+        "name": "buttonLabel",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "toast-message",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Toast Message Text",
+        "name": "message",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "why-techatom",
+    "fields": [
+      {
+        "component": "richtext",
+        "label": "Section Headline",
+        "name": "headline",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "why-card-item",
+        "label": "Why Cards",
+        "name": "cards"
+      }
+    ]
+  },
+  {
+    "id": "why-card-item",
+    "fields": [
+      {
+        "component": "aem-content",
+        "label": "Card Link",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Card Icon",
+        "name": "icon",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Card Title",
+        "name": "title",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Card Description",
+        "name": "description",
+        "valueType": "string"
+      }
+    ]
   }
 ]
