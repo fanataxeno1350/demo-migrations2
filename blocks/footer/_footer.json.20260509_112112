@@ -93,8 +93,8 @@
         {
           "component": "container",
           "item": "footer-link-item",
-          "label": "Footer Legal/Secondary Links",
-          "name": "footerLinks"
+          "label": "Secondary Navigation Links",
+          "name": "secondaryLinks"
         },
         {
           "component": "text",

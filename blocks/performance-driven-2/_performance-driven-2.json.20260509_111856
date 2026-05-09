@@ -72,8 +72,8 @@
           "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "Card Description",
+          "component": "richtext",
+          "label": "Description",
           "name": "description",
           "valueType": "string"
         },

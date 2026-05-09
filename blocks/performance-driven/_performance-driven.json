@@ -51,7 +51,7 @@
         {
           "component": "container",
           "item": "performance-driven-card-item",
-          "label": "Performance Driven Cards",
+          "label": "Cards",
           "name": "cards"
         }
       ]
@@ -61,19 +61,19 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Card Image (Desktop)",
+          "label": "Desktop Image",
           "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Card Image (Mobile)",
+          "label": "Mobile Image",
           "name": "imageMobile",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Card Description",
+          "label": "Description",
           "name": "description",
           "valueType": "string"
         },

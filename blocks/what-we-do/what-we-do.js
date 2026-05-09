@@ -2,11 +2,11 @@ import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.j
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
+  // Destructure root rows based on BlockJson model
   const [headingRow, descriptionRow, ...itemRows] = [...block.children];
 
   const section = document.createElement('section');
   section.classList.add('section', 'what-we-do-wrap');
-  // moveInstrumentation(block, section); // Instrumentation is moved to the root element (section) by replaceChildren
 
   const container = document.createElement('div');
   container.classList.add('container');
@@ -17,18 +17,22 @@ export default async function decorate(block) {
   container.append(sectionHeader);
 
   // Heading
-  const heading = document.createElement('h2');
-  heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
-  moveInstrumentation(headingRow, heading);
-  heading.textContent = headingRow.textContent.trim();
-  sectionHeader.append(heading);
+  if (headingRow) {
+    const heading = document.createElement('h2');
+    heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
+    moveInstrumentation(headingRow, heading);
+    heading.textContent = headingRow.textContent.trim();
+    sectionHeader.append(heading);
+  }
 
-  // Description
-  const description = document.createElement('div'); // Use div for richtext to avoid <p> inside <p>
-  description.classList.add('aos-init', 'aos-animate');
-  moveInstrumentation(descriptionRow, description);
-  description.innerHTML = descriptionRow.children[0]?.innerHTML || ''; // Read innerHTML from the cell
-  sectionHeader.append(description);
+  // Description (richtext)
+  if (descriptionRow) {
+    const description = document.createElement('div'); // Use div for richtext to avoid <p> inside <p>
+    description.classList.add('aos-init', 'aos-animate');
+    moveInstrumentation(descriptionRow, description);
+    description.innerHTML = descriptionRow.children[0]?.innerHTML || ''; // Read innerHTML from the cell
+    sectionHeader.append(description);
+  }
 
   const ourBusinessVerticals = document.createElement('div');
   ourBusinessVerticals.classList.add('our-business-verticals');
@@ -43,157 +47,167 @@ export default async function decorate(block) {
   desktopRow.classList.add('row', 'row-cols-lg-3', 'row-cols-1', 'g-3');
   desktopContainer.append(desktopRow);
 
-  // Mobile view (Swiper based)
+  // Mobile view (Flickity setup)
   const mobileContainer = document.createElement('div');
   mobileContainer.classList.add('container', 'd-lg-none', 'd-block', 'aos-init', 'aos-animate');
   ourBusinessVerticals.append(mobileContainer);
 
-  const swiperContainer = document.createElement('div');
-  swiperContainer.classList.add('swiper'); // Swiper container
-  mobileContainer.append(swiperContainer);
+  const mobileSlider = document.createElement('div');
+  mobileSlider.classList.add('mobile-slider'); // Flickity adds flickity-enabled, is-draggable
+  mobileContainer.append(mobileSlider);
 
-  const swiperWrapper = document.createElement('div');
-  swiperWrapper.classList.add('swiper-wrapper'); // Swiper wrapper for slides
-  swiperContainer.append(swiperWrapper);
+  const flickityViewport = document.createElement('div');
+  flickityViewport.classList.add('flickity-viewport');
+  mobileSlider.append(flickityViewport);
 
-  const paginationEl = document.createElement('div');
-  paginationEl.classList.add('swiper-pagination');
-  swiperContainer.append(paginationEl);
+  const flickitySlider = document.createElement('div');
+  flickitySlider.classList.add('flickity-slider');
+  flickityViewport.append(flickitySlider);
 
-  // Consume the container row instrumentation (no explicit container row in model, so apply to desktopContainer)
-  // The original code had `containerRow` in destructuring, but the model only has heading, description, and then item rows.
-  // Assuming the `containerRow` variable was meant to represent the block itself for instrumentation,
-  // but `moveInstrumentation(block, section)` already handles the root.
-  // If there was an actual "container" row in the block.children, it would need its own instrumentation.
-  // Based on the model, `itemRows` start directly after `descriptionRow`.
+  const slides = [];
+  let currentSlide = document.createElement('div');
+  currentSlide.classList.add('slides');
+  let mobileRow = document.createElement('div'); // Declare mobileRow with let
+  mobileRow.classList.add('row', 'row-cols-1', 'gy-3');
+  currentSlide.append(mobileRow);
+  slides.push(currentSlide);
 
-  itemRows
-    .filter(row =>
-      row.children.length > 0 &&
-      [...row.children].some(c => c.children.length > 0 || c.textContent.trim() !== '')
-    )
-    .forEach((row, index) => {
-      const [imageDesktopCell, imageMobileCell, titleCell, arrowIconCell, linkCell] = [...row.children];
+  let itemCounter = 0;
 
-      // Desktop item
-      const desktopCol = document.createElement('div');
-      desktopCol.classList.add('col', 'aos-init', 'aos-animate');
-      desktopCol.dataset.aos = 'fade-up';
-      desktopCol.dataset.aosDelay = `${100 + (index % 3) * 300}`; // Stagger delay
-      desktopRow.append(desktopCol);
+  itemRows.forEach((row) => {
+    // Destructure item row cells based on BlockJson model
+    const [imageDesktopCell, imageTabletCell, imageMobileCell, titleCell, arrowIconCell, linkCell] = [...row.children];
 
-      const desktopWrap = document.createElement('div');
-      desktopWrap.classList.add('wrap');
-      moveInstrumentation(row, desktopWrap); // Move instrumentation to the desktop item wrapper
-      desktopCol.append(desktopWrap);
+    // Desktop item
+    const desktopCol = document.createElement('div');
+    desktopCol.classList.add('col', 'aos-init', 'aos-animate');
+    moveInstrumentation(row, desktopCol);
 
-      const desktopImageDiv = document.createElement('div');
-      desktopImageDiv.classList.add('image');
-      desktopWrap.append(desktopImageDiv);
+    const desktopWrap = document.createElement('div');
+    desktopWrap.classList.add('wrap');
+    desktopCol.append(desktopWrap);
 
-      const desktopPicture = imageDesktopCell?.querySelector('picture');
-      if (desktopPicture) {
-        desktopImageDiv.append(desktopPicture);
-        desktopImageDiv.querySelectorAll('picture > img').forEach((img) => {
-          const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ media: '(min-width: 992px)', width: '376' }, { media: '(min-width: 450px)', width: '376' }, { width: '376' }]);
-          // moveInstrumentation(img, optimizedPic.querySelector('img')); // Instrumentation moved to the parent picture
-          img.closest('picture').replaceWith(optimizedPic);
-        });
+    const desktopImage = document.createElement('div');
+    desktopImage.classList.add('image');
+    if (imageDesktopCell) {
+      const picture = imageDesktopCell.querySelector('picture');
+      if (picture) {
+        desktopImage.append(createOptimizedPicture(picture.querySelector('img').src, picture.querySelector('img').alt, false, [{ media: '(min-width: 992px)', width: '376' }]));
       }
+    }
+    desktopWrap.append(desktopImage);
 
-      const desktopTitleDiv = document.createElement('div');
-      desktopTitleDiv.classList.add('title');
-      desktopTitleDiv.textContent = titleCell?.textContent.trim() || '';
-      desktopWrap.append(desktopTitleDiv);
-
-      const desktopArrowIcon = arrowIconCell?.querySelector('picture');
-      if (desktopArrowIcon) {
-        desktopTitleDiv.append(desktopArrowIcon);
-        desktopTitleDiv.querySelectorAll('picture > img').forEach((img) => {
-          const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '10' }]);
-          // moveInstrumentation(img, optimizedPic.querySelector('img')); // Instrumentation moved to the parent picture
-          img.closest('picture').replaceWith(optimizedPic);
-        });
+    const desktopTitle = document.createElement('div');
+    desktopTitle.classList.add('title');
+    desktopTitle.textContent = titleCell?.textContent.trim() || '';
+    if (arrowIconCell) {
+      const arrowPicture = arrowIconCell.querySelector('picture');
+      if (arrowPicture) {
+        desktopTitle.append(createOptimizedPicture(arrowPicture.querySelector('img').src, arrowPicture.querySelector('img').alt, false, [{ width: '10' }]));
       }
+    }
+    desktopWrap.append(desktopTitle);
 
-      const desktopLink = document.createElement('a');
-      desktopLink.classList.add('stretched-link');
-      desktopLink.href = linkCell?.querySelector('a')?.href || '#';
-      desktopLink.setAttribute('aria-label', `Learn more about ${titleCell?.textContent.trim() || 'Business'}`);
-      desktopWrap.append(desktopLink);
+    const desktopLink = document.createElement('a');
+    desktopLink.classList.add('stretched-link');
+    desktopLink.href = linkCell?.querySelector('a')?.href || '#';
+    desktopLink.setAttribute('aria-label', `Learn more about ${titleCell?.textContent.trim() || ''}`);
+    desktopWrap.append(desktopLink);
 
-      // Mobile item (Swiper slide)
-      const mobileSlide = document.createElement('div');
-      mobileSlide.classList.add('swiper-slide'); // Swiper slide class
-      swiperWrapper.append(mobileSlide);
+    desktopRow.append(desktopCol);
 
-      const mobileCol = document.createElement('div');
-      mobileCol.classList.add('col'); // Original HTML has 'col' inside 'slides'
-      mobileSlide.append(mobileCol);
+    // Mobile item
+    if (itemCounter > 0 && itemCounter % 3 === 0) {
+      currentSlide = document.createElement('div');
+      currentSlide.classList.add('slides');
+      const newMobileRow = document.createElement('div');
+      newMobileRow.classList.add('row', 'row-cols-1', 'gy-3');
+      currentSlide.append(newMobileRow);
+      slides.push(currentSlide);
+      mobileRow = newMobileRow; // Assign newMobileRow to mobileRow
+    }
 
-      const mobileWrap = document.createElement('div');
-      mobileWrap.classList.add('wrap');
-      // Instrumentation for mobile item is already moved to desktopWrap, no need to move again for mobileWrap
-      mobileCol.append(mobileWrap);
+    const mobileCol = document.createElement('div');
+    mobileCol.classList.add('col');
+    moveInstrumentation(row, mobileCol);
 
-      const mobileImageDiv = document.createElement('div');
-      mobileImageDiv.classList.add('image');
-      mobileWrap.append(mobileImageDiv);
+    const mobileWrap = document.createElement('div');
+    mobileWrap.classList.add('wrap');
+    mobileCol.append(mobileWrap);
 
-      const mobilePicture = imageMobileCell?.querySelector('picture');
-      if (mobilePicture) {
-        mobileImageDiv.append(mobilePicture);
-        mobileImageDiv.querySelectorAll('picture > img').forEach((img) => {
-          // Optimized picture for mobile view, using the same breakpoints as desktop for consistency
-          // The original HTML had different srcset for mobile, but the JS used desktop's optimizedPicture config.
-          // Adjusting to match the original HTML's mobile specific sources if they were different,
-          // but for now, using the same as desktop as per original JS.
-          const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ media: '(min-width: 992px)', width: '376' }, { media: '(min-width: 450px)', width: '376' }, { width: '376' }]);
-          // moveInstrumentation(img, optimizedPic.querySelector('img')); // Instrumentation moved to the parent picture
-          img.closest('picture').replaceWith(optimizedPic);
-        });
+    const mobileImage = document.createElement('div');
+    mobileImage.classList.add('image');
+    if (imageMobileCell) {
+      const picture = imageMobileCell.querySelector('picture');
+      if (picture) {
+        mobileImage.append(createOptimizedPicture(picture.querySelector('img').src, picture.querySelector('img').alt, false, [{ media: '(min-width: 450px)', width: '376' }]));
       }
+    }
+    mobileWrap.append(mobileImage);
 
-      const mobileTitleDiv = document.createElement('div');
-      mobileTitleDiv.classList.add('title');
-      mobileTitleDiv.textContent = titleCell?.textContent.trim() || '';
-      mobileWrap.append(mobileTitleDiv);
-
-      const mobileArrowIcon = arrowIconCell?.querySelector('picture');
-      if (mobileArrowIcon) {
-        mobileTitleDiv.append(mobileArrowIcon);
-        mobileTitleDiv.querySelectorAll('picture > img').forEach((img) => {
-          const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '10' }]);
-          // moveInstrumentation(img, optimizedPic.querySelector('img')); // Instrumentation moved to the parent picture
-          img.closest('picture').replaceWith(optimizedPic);
-        });
+    const mobileTitle = document.createElement('div');
+    mobileTitle.classList.add('title');
+    mobileTitle.textContent = titleCell?.textContent.trim() || '';
+    if (arrowIconCell) {
+      const arrowPicture = arrowIconCell.querySelector('picture');
+      if (arrowPicture) {
+        mobileTitle.append(createOptimizedPicture(arrowPicture.querySelector('img').src, arrowPicture.querySelector('img').alt, false, [{ width: '10' }]));
       }
+    }
+    mobileWrap.append(mobileTitle);
 
-      const mobileLink = document.createElement('a');
-      mobileLink.classList.add('stretched-link');
-      mobileLink.href = linkCell?.querySelector('a')?.href || '#';
-      mobileLink.setAttribute('aria-label', `Learn more about ${titleCell?.textContent.trim() || 'Business'}`);
-      mobileWrap.append(mobileLink);
-    });
+    const mobileLink = document.createElement('a');
+    mobileLink.classList.add('stretched-link');
+    mobileLink.href = linkCell?.querySelector('a')?.href || '#';
+    mobileLink.setAttribute('aria-label', `Learn more about ${titleCell?.textContent.trim() || ''}`);
+    mobileWrap.append(mobileLink);
 
-  // Swiper (mobile slider) initialization
-  await loadCSS('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
-  await loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
+    mobileRow.append(mobileCol);
+    itemCounter += 1;
+  });
 
-  // eslint-disable-next-line no-undef
-  if (typeof Swiper !== 'undefined') {
-    // eslint-disable-next-line no-new, no-undef
-    new Swiper(swiperContainer, {
-      slidesPerView: 'auto',
-      loop: false, // Original HTML data-flickity had wrapAround: false
-      pagination: {
-        el: paginationEl,
-        clickable: true,
-      },
-      // No prev/next buttons in original Flickity config, so not adding them for Swiper
-      // navigation: { prevEl: prevBtn, nextEl: nextBtn }, // If buttons were needed
-    });
+  slides.forEach((slide, index) => {
+    if (index === 0) slide.classList.add('is-selected');
+    flickitySlider.append(slide);
+  });
+
+  const flickityPageDots = document.createElement('ol');
+  flickityPageDots.classList.add('flickity-page-dots');
+  for (let i = 0; i < slides.length; i += 1) {
+    const dot = document.createElement('li');
+    dot.classList.add('dot');
+    dot.setAttribute('aria-label', `Page dot ${i + 1}`);
+    if (i === 0) dot.classList.add('is-selected');
+    flickityPageDots.append(dot);
   }
+  mobileSlider.append(flickityPageDots);
 
   block.replaceChildren(section);
+
+  // Flickity Initialization
+  await loadCSS('/libs/flickity/flickity.min.css'); // Assuming Flickity CSS is available in /libs
+  await loadScript('/libs/flickity/flickity.pkgd.min.js'); // Assuming Flickity JS is available in /libs
+
+  // eslint-disable-next-line no-undef
+  new Flickity(mobileSlider, {
+    wrapAround: false,
+    lazyLoad: true,
+    pageDots: true,
+    prevNextButtons: false,
+    imagesLoaded: true,
+    cellAlign: 'left',
+    adaptiveHeight: true,
+  });
+
+  // Image optimization for all pictures in the block
+  // This should be done after all content is added to the DOM
+  block.querySelectorAll('picture > img').forEach((img) => {
+    // Ensure img.src is a valid URL before passing to createOptimizedPicture
+    const imgSrc = img.src || img.dataset.src; // Fallback for lazy-loaded images
+    if (imgSrc) {
+      const optimizedPic = createOptimizedPicture(imgSrc, img.alt, false, [{ width: '750' }]);
+      // moveInstrumentation is for block rows, not individual img elements
+      img.closest('picture').replaceWith(optimizedPic);
+    }
+  });
 }

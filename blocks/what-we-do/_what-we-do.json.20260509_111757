@@ -1,31 +1,31 @@
 {
   "definitions": [
     {
-      "title": "Performance-Driven-2",
-      "id": "performance-driven-2",
+      "title": "What-We-Do",
+      "id": "what-we-do",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "filter": "performance-driven-2",
-              "model": "performance-driven-2",
-              "name": "Performance-Driven-2"
+              "filter": "what-we-do",
+              "model": "what-we-do",
+              "name": "What-We-Do"
             }
           }
         }
       }
     },
     {
-      "title": "Performance-Driven-Card-Item",
-      "id": "performance-driven-card-item",
+      "title": "Business-Vertical-Item",
+      "id": "business-vertical-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "performance-driven-card-item",
-              "name": "Performance-Driven-Card-Item"
+              "model": "business-vertical-item",
+              "name": "Business-Vertical-Item"
             }
           }
         }
@@ -34,52 +34,58 @@
   ],
   "models": [
     {
-      "id": "performance-driven-2",
+      "id": "what-we-do",
       "fields": [
         {
           "component": "text",
-          "label": "Heading",
+          "label": "Section Heading",
           "name": "heading",
           "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "Subheading",
-          "name": "subheading",
+          "component": "richtext",
+          "label": "Section Description",
+          "name": "description",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "performance-driven-card-item",
-          "label": "Cards",
-          "name": "cards"
+          "item": "business-vertical-item",
+          "label": "Business Verticals",
+          "name": "verticals"
         }
       ]
     },
     {
-      "id": "performance-driven-card-item",
+      "id": "business-vertical-item",
       "fields": [
         {
           "component": "reference",
-          "label": "Card Image (Desktop)",
+          "label": "Desktop Image",
           "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Card Image (Mobile)",
+          "label": "Mobile Image",
           "name": "imageMobile",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Card Description",
-          "name": "description",
+          "label": "Business Title",
+          "name": "title",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Arrow Icon",
+          "name": "arrowIcon",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Card Link",
+          "label": "Business Link",
           "name": "link",
           "valueType": "string"
         }
@@ -88,9 +94,9 @@
   ],
   "filters": [
     {
-      "id": "performance-driven-2",
+      "id": "what-we-do",
       "components": [
-        "performance-driven-card-item"
+        "business-vertical-item"
       ]
     }
   ]

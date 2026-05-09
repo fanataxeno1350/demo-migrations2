@@ -19,7 +19,7 @@ function transformNestedLists(rootUl) {
     if (nested) {
       nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('has-footer-sub-child');
+      subWrap.classList.add('has-footer-inner-sub-child');
       subWrap.append(nested);
       li.append(subWrap);
       const trigger = li.querySelector(':scope > a, :scope > span');
@@ -27,8 +27,8 @@ function transformNestedLists(rootUl) {
         trigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          li.classList.toggle('active'); // 'active' is not in allowlist, but is for JS interaction
-          subWrap.classList.toggle('active'); // 'active' is not in allowlist, but is for JS interaction
+          li.classList.toggle('active');
+          subWrap.classList.toggle('active');
         });
       }
     }
@@ -40,221 +40,206 @@ export default function decorate(block) {
     (row) => row.children.length > 0 && [...row.children].some((c) => c.children.length > 0 || c.textContent.trim() !== ''),
   );
 
-  // Root fields based on BlockJson model
-  const logoRow = children[0];
-  const logoLinkRow = children[1];
-  const copyrightRow = children[2]; // This was children[5] in original, but is children[2] in model
+  const [logoRow, logoLinkRow, copyrightRow, ...itemRows] = children;
 
-  // Item rows start from index 3
-  const itemRows = children.slice(3);
+  const socialLinkRows = [];
+  const navSectionRows = [];
+  const legalLinkRows = [];
 
-  // Filter item rows by their structure to match sub-components
-  // footer-social-item: 2 cells, first has <a>, second has <ul>
-  const socialLinkRows = itemRows.filter((row) => row.children.length === 2 && row.children[0].querySelector('a') && row.children[1].querySelector('ul'));
-  // footer-section-item: 3 cells
-  const navSectionRows = itemRows.filter((row) => row.children.length === 3);
-  // footer-link-item: 2 cells, first has no <ul>
-  const legalLinkRows = itemRows.filter((row) => row.children.length === 2 && !row.children[1].querySelector('ul'));
+  itemRows.forEach((row) => {
+    const cells = [...row.children];
+    // Use cell count and querySelector for type detection
+    if (cells.length === 2 && cells[0].querySelector('a') && cells[1].querySelector('ul')) {
+      socialLinkRows.push(row);
+    } else if (cells.length === 3) {
+      navSectionRows.push(row);
+    } else if (cells.length === 2 && !cells[0].querySelector('picture') && cells[0].querySelector('a')) {
+      legalLinkRows.push(row);
+    }
+  });
 
   const footerMain = document.createElement('footer');
   footerMain.classList.add('footer-main');
 
   const container = document.createElement('div');
   container.classList.add('container');
-  footerMain.append(container);
 
-  // Footer Header
   const footerHeader = document.createElement('div');
   footerHeader.classList.add('row', 'footer-header');
-  container.append(footerHeader);
 
   const logoCol = document.createElement('div');
   logoCol.classList.add('col-md-6', 'col-12', 'justify-content-between', 'd-flex');
-  footerHeader.append(logoCol);
 
   const logoDiv = document.createElement('div');
   logoDiv.classList.add('logo');
-  logoCol.append(logoDiv);
 
   const logoLink = document.createElement('a');
-  if (logoLinkRow) {
-    const foundLink = logoLinkRow.querySelector('a');
-    if (foundLink) logoLink.href = foundLink.href;
-    moveInstrumentation(logoLinkRow, logoLink);
+  const foundLogoLink = logoLinkRow.querySelector('a');
+  if (foundLogoLink) {
+    logoLink.href = foundLogoLink.href;
   }
+  moveInstrumentation(logoLinkRow, logoLink);
 
-  if (logoRow) {
-    const picture = logoRow.querySelector('picture');
-    if (picture) {
-      const img = picture.querySelector('img');
-      if (img) {
-        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '200' }]);
-        optimizedPic.querySelector('img').classList.add('hiddenlogo1');
-        moveInstrumentation(logoRow, optimizedPic.querySelector('img'));
-        logoLink.append(optimizedPic);
-      }
+  const logoPicture = logoRow.querySelector('picture');
+  if (logoPicture) {
+    const img = logoPicture.querySelector('img');
+    if (img) {
+      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '200' }]);
+      moveInstrumentation(img, optimizedPic.querySelector('img'));
+      logoLink.append(optimizedPic);
     }
   }
+  moveInstrumentation(logoRow, logoLink);
   logoDiv.append(logoLink);
+  logoCol.append(logoDiv);
+  footerHeader.append(logoCol);
 
-  const socialWrapCol = document.createElement('div');
-  socialWrapCol.classList.add('col-md-6', 'col-12', 'footer-social-wrap-center');
-  footerHeader.append(socialWrapCol);
+  const socialCol = document.createElement('div');
+  socialCol.classList.add('col-md-6', 'col-12', 'footer-social-wrap-center');
 
-  const socialWrapUl = document.createElement('ul');
-  socialWrapUl.classList.add('social-wrap');
-  socialWrapCol.append(socialWrapUl);
-  // moveInstrumentation for socialLinksContainer is not applicable as it's a container field,
-  // instrumentation should be moved for individual item rows.
+  const socialWrap = document.createElement('ul');
+  socialWrap.classList.add('social-wrap');
 
   socialLinkRows.forEach((row) => {
+    // Fixed schema: socialLink (aem-content), hierarchy-tree (richtext)
     const [socialLinkCell, hierarchyTreeCell] = [...row.children];
-    const socialLink = socialLinkCell?.querySelector('a');
-    
-    if (socialLink && hierarchyTreeCell) {
+    const socialLink = socialLinkCell.querySelector('a');
+    if (socialLink) {
       const li = document.createElement('li');
-      // Add social icon class from original HTML, e.g., 'fb', 'tw'
-      // This requires parsing the original HTML for the specific social icon class,
-      // which is not directly available in the model. For now, we'll omit it
-      // or assume it's added by CSS based on the link.
-      // Example: li.classList.add('fb');
-
       const anchor = document.createElement('a');
       anchor.href = socialLink.href;
-      // The original HTML for social links uses SVGs, not textContent for the anchor.
-      // If the model implies text content, it's a mismatch. Assuming SVG for now.
-      // For now, we'll just use the href and rely on CSS to add the icon.
-      // If text content is needed, it should come from a separate text field in the model.
-      // anchor.textContent = socialLink.textContent.trim(); // This would be wrong if original has SVG
-
-      // Create a temporary div to hold the richtext content and apply classes
-      const tempDiv = document.createElement('div');
-      moveInstrumentation(hierarchyTreeCell, tempDiv);
-      tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
+      anchor.target = '_blank';
+      // Use a generic SVG or specific ones if available in original HTML
+      // For now, using a generic placeholder as original HTML has data:stripped
+      anchor.innerHTML = '<svg width="30" height="30" viewBox="0 0 40 41" xmlns:xlink="http://www.w3.org/1999/xlink"><rect width="40" height="41" fill="currentColor"/></svg>';
       
-      const hierarchyTree = tempDiv.querySelector('ul');
+      // Check for hierarchy-tree content and move instrumentation
+      if (hierarchyTreeCell) {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
+        moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation from original cell
+        
+        // Apply classes to nested elements if needed, based on original HTML
+        tempDiv.querySelectorAll('ul').forEach(ul => ul.classList.add('footer-inner-list')); // Example class
+        tempDiv.querySelectorAll('li').forEach(liItem => liItem.classList.add('list-item')); // Example class
+        tempDiv.querySelectorAll('a').forEach(aItem => aItem.classList.add('nav-link')); // Example class
 
-      if (hierarchyTree) {
-        const dropdown = document.createElement('div');
-        dropdown.classList.add('has-footer-sub-child');
-        dropdown.append(hierarchyTree);
-        transformNestedLists(hierarchyTree);
-
-        anchor.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          li.classList.toggle('active'); // 'active' is not in allowlist, but is for JS interaction
-          dropdown.classList.toggle('active'); // 'active' is not in allowlist, but is for JS interaction
-        });
-
-        li.append(anchor, dropdown);
-      } else {
-        li.append(anchor); // If no hierarchy tree, just append the social link
+        // Append the transformed hierarchy to the social link or a dedicated container
+        // For now, appending to the li, but this might need a specific wrapper based on design
+        while (tempDiv.firstChild) {
+          li.append(tempDiv.firstChild);
+        }
       }
-      socialWrapUl.append(li);
+
       moveInstrumentation(row, li);
+      li.prepend(anchor); // Prepend anchor to li
+      socialWrap.append(li);
     }
   });
+  socialCol.append(socialWrap);
+  footerHeader.append(socialCol);
+  container.append(footerHeader);
 
-  // Footer Menu
   const footerMenuBox = document.createElement('div');
   footerMenuBox.classList.add('row', 'footer-menu-box');
-  container.append(footerMenuBox);
 
-  const footerMenuCol = document.createElement('div');
-  footerMenuCol.classList.add('col');
-  footerMenuBox.append(footerMenuCol);
+  const menuCol = document.createElement('div');
+  menuCol.classList.add('col');
 
   const footerMenu = document.createElement('div');
   footerMenu.classList.add('footer-menu');
-  footerMenuCol.append(footerMenu);
-  // moveInstrumentation for footerSectionsContainer is not applicable as it's a container field,
-  // instrumentation should be moved for individual item rows.
 
   navSectionRows.forEach((row) => {
+    // Fixed schema: title (text), link (aem-content), sectionLinks (richtext)
     const [titleCell, linkCell, sectionLinksCell] = [...row.children];
-    
     const linkBlocks = document.createElement('div');
     linkBlocks.classList.add('link-blocks');
-    footerMenu.append(linkBlocks);
 
-    const headDiv = document.createElement('div');
-    headDiv.classList.add('head');
-    linkBlocks.append(headDiv);
+    const head = document.createElement('div');
+    head.classList.add('head');
 
     const span = document.createElement('span');
-    headDiv.append(span);
-
     const titleLink = document.createElement('a');
-    titleLink.textContent = titleCell?.textContent.trim() || '';
+    const directLink = linkCell.querySelector('a');
 
-    // Create a temporary div to hold the richtext content and apply classes
+    titleLink.textContent = titleCell.textContent.trim();
+    if (directLink) {
+      titleLink.href = directLink.href;
+    } else {
+      titleLink.href = 'javascript:void(0)';
+    }
+
+    span.append(titleLink);
+    const small = document.createElement('small');
+    head.append(span, small);
+
+    // Read richtext content using innerHTML
     const tempDiv = document.createElement('div');
-    moveInstrumentation(sectionLinksCell, tempDiv);
-    tempDiv.innerHTML = sectionLinksCell.innerHTML;
-    const subList = tempDiv.querySelector('ul');
+    tempDiv.innerHTML = sectionLinksCell?.innerHTML || '';
+    const subList = tempDiv.querySelector('ul'); // Find the ul inside the richtext content
 
     if (subList) {
-      titleLink.href = 'javascript:void(0)'; // As per original HTML for expandable sections
-      const small = document.createElement('small');
-      small.setAttribute('data-once', 'footerMobileInner'); // From original HTML
-      span.append(titleLink, small);
-
       const footerInnerList = document.createElement('ul');
       footerInnerList.classList.add('footer-inner-list');
-      const subLinksCvr = document.createElement('div');
-      subLinksCvr.classList.add('has-footer-sub-child');
-      subLinksCvr.append(subList);
       transformNestedLists(subList);
-      footerInnerList.append(subLinksCvr);
-      linkBlocks.append(footerInnerList);
+      footerInnerList.append(...subList.children);
+      head.append(footerInnerList);
 
-      span.addEventListener('click', () => {
-        footerInnerList.classList.toggle('active'); // 'active' is not in allowlist, but is for JS interaction
-        span.classList.toggle('active'); // 'active' is not in allowlist, but is for JS interaction
+      titleLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        footerInnerList.classList.toggle('active');
+        head.classList.toggle('active');
       });
-    } else {
-      const directHref = linkCell?.querySelector('a')?.href;
-      if (directHref) titleLink.href = directHref;
-      span.append(titleLink);
     }
+
     moveInstrumentation(row, linkBlocks);
+    linkBlocks.append(head);
+    footerMenu.append(linkBlocks);
   });
 
-  // Copyright and Secondary Nav
+  menuCol.append(footerMenu);
+  footerMenuBox.append(menuCol);
+  container.append(footerMenuBox);
+
   const copyrightWrap = document.createElement('div');
   copyrightWrap.classList.add('row', 'align-items-lg-end', 'copyright-wrap');
-  container.append(copyrightWrap);
 
   const secondaryNavCol = document.createElement('div');
   secondaryNavCol.classList.add('col-12', 'col-lg-6');
-  copyrightWrap.append(secondaryNavCol);
 
-  const secondaryNavUl = document.createElement('ul');
-  secondaryNavUl.classList.add('secondary-nav');
-  secondaryNavCol.append(secondaryNavUl);
-  // moveInstrumentation for secondaryLinksContainer is not applicable as it's a container field,
-  // instrumentation should be moved for individual item rows.
+  const secondaryNav = document.createElement('ul');
+  secondaryNav.classList.add('secondary-nav');
 
   legalLinkRows.forEach((row) => {
+    // Fixed schema: label (text), link (aem-content)
     const [labelCell, linkCell] = [...row.children];
     const li = document.createElement('li');
     const anchor = document.createElement('a');
-    const foundLink = linkCell?.querySelector('a');
-    if (foundLink) anchor.href = foundLink.href;
-    anchor.textContent = labelCell?.textContent.trim() || '';
-    li.append(anchor);
-    secondaryNavUl.append(li);
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) {
+      anchor.href = foundLink.href;
+    }
+    anchor.textContent = labelCell.textContent.trim();
     moveInstrumentation(row, li);
+    li.append(anchor);
+    secondaryNav.append(li);
   });
+  secondaryNavCol.append(secondaryNav);
+  copyrightWrap.append(secondaryNavCol);
 
-  const copyrightCol = document.createElement('div');
-  copyrightCol.classList.add('col-12', 'col-lg-6', 'copyright-text');
-  if (copyrightRow) {
-    copyrightCol.textContent = copyrightRow.textContent.trim();
-    moveInstrumentation(copyrightRow, copyrightCol);
-  }
-  copyrightWrap.append(copyrightCol);
+  const copyrightTextCol = document.createElement('div');
+  copyrightTextCol.classList.add('col-12', 'col-lg-6', 'copyright-text');
+  copyrightTextCol.textContent = copyrightRow.textContent.trim();
+  moveInstrumentation(copyrightRow, copyrightTextCol);
+  copyrightWrap.append(copyrightTextCol);
+  container.append(copyrightWrap);
 
+  footerMain.append(container);
   block.replaceChildren(footerMain);
+
+  footerMain.querySelectorAll('picture > img').forEach((img) => {
+    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+    moveInstrumentation(img, optimizedPic.querySelector('img'));
+    img.closest('picture').replaceWith(optimizedPic);
+  });
 }

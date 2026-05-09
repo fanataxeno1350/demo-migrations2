@@ -17,30 +17,30 @@
       }
     },
     {
-      "title": "Elfsight-Embed",
-      "id": "elfsight-embed",
+      "title": "Elfsight-Widget-Embed",
+      "id": "elfsight-widget-embed",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "elfsight-embed",
-              "name": "Elfsight-Embed"
+              "model": "elfsight-widget-embed",
+              "name": "Elfsight-Widget-Embed"
             }
           }
         }
       }
     },
     {
-      "title": "News-Item",
-      "id": "news-item",
+      "title": "Latest-News-Item",
+      "id": "latest-news-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "news-item",
-              "name": "News-Item"
+              "model": "latest-news-item",
+              "name": "Latest-News-Item"
             }
           }
         }
@@ -53,26 +53,26 @@
       "fields": [
         {
           "component": "text",
-          "label": "Heading",
-          "name": "heading",
+          "label": "Section Headline",
+          "name": "headline",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "elfsight-embed",
-          "label": "Elfsight Embeds",
+          "item": "elfsight-widget-embed",
+          "label": "External Embeds",
           "name": "embeds"
         },
         {
           "component": "container",
-          "item": "news-item",
+          "item": "latest-news-item",
           "label": "News Items",
           "name": "newsItems"
         }
       ]
     },
     {
-      "id": "elfsight-embed",
+      "id": "elfsight-widget-embed",
       "fields": [
         {
           "component": "text",
@@ -95,24 +95,24 @@
       ]
     },
     {
-      "id": "news-item",
+      "id": "latest-news-item",
       "fields": [
         {
           "component": "reference",
-          "label": "Image",
-          "name": "image",
+          "label": "News Image (Default)",
+          "name": "newsImage",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Horizontal Image",
-          "name": "imageHorizontal",
+          "label": "News Image (Horizontal)",
+          "name": "newsImageHorizontal",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Vertical Image",
-          "name": "imageVertical",
+          "label": "News Image (Vertical)",
+          "name": "newsImageVertical",
           "valueType": "string"
         },
         {
@@ -123,14 +123,20 @@
         },
         {
           "component": "text",
-          "label": "Headline",
-          "name": "headline",
+          "label": "News Title",
+          "name": "title",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Read More Link",
-          "name": "link",
+          "name": "ctaLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "CTA Label",
+          "name": "ctaLabel",
           "valueType": "string"
         },
         {
@@ -146,8 +152,8 @@
     {
       "id": "latest-news",
       "components": [
-        "elfsight-embed",
-        "news-item"
+        "elfsight-widget-embed",
+        "latest-news-item"
       ]
     }
   ]

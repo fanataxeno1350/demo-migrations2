@@ -54,13 +54,13 @@
         {
           "component": "reference",
           "label": "Main Logo",
-          "name": "logo",
+          "name": "mainLogo",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Main Logo Link",
-          "name": "logoLink",
+          "name": "mainLogoLink",
           "valueType": "string"
         },
         {
@@ -84,7 +84,7 @@
         {
           "component": "container",
           "item": "press-release-item",
-          "label": "Latest Press Releases",
+          "label": "Press Releases",
           "name": "pressReleases"
         },
         {
@@ -113,29 +113,32 @@
         {
           "component": "richtext",
           "label": "Navigation Hierarchy",
-          "name": "hierarchy-tree"
+          "name": "hierarchy-tree",
+          "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Mega Menu Left Heading",
+          "label": "Left Div Heading",
           "name": "leftHeading",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Mega Menu Left Description",
-          "name": "leftDescription"
+          "label": "Left Div Description",
+          "name": "leftDescription",
+          "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Mega Menu Left Subdescription",
-          "name": "leftSubdesc",
+          "label": "Left Div Sub Description",
+          "name": "leftSubDescription",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Mega Menu Left Stats",
-          "name": "leftStats"
+          "label": "Highlight List",
+          "name": "highlightList",
+          "valueType": "string"
         }
       ]
     },
@@ -145,25 +148,25 @@
         {
           "component": "aem-content",
           "label": "Press Release Link",
-          "name": "pressLink",
+          "name": "pressReleaseLink",
           "valueType": "string"
         },
         {
           "component": "text",
           "label": "Press Release Title",
-          "name": "pressTitle",
+          "name": "pressReleaseTitle",
           "valueType": "string"
         },
         {
           "component": "text",
           "label": "Press Release Date",
-          "name": "pressDate",
+          "name": "pressReleaseDate",
           "valueType": "string"
         },
         {
           "component": "text",
           "label": "Press Release Category",
-          "name": "pressCategory",
+          "name": "pressReleaseCategory",
           "valueType": "string"
         }
       ]

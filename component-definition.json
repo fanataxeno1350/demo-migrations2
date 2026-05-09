@@ -191,7 +191,7 @@
           }
         },
         {
-          "title": "Card Item",
+          "title": "Future Ready Card Item",
           "id": "future-ready-card-item",
           "plugins": {
             "xwalk": {
@@ -199,7 +199,7 @@
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
                   "model": "future-ready-card-item",
-                  "name": "Card Item"
+                  "name": "Future Ready Card Item"
                 }
               }
             }
@@ -268,30 +268,30 @@
           }
         },
         {
-          "title": "Slider-Item",
-          "id": "slider-item",
+          "title": "Home-Slider-Slide",
+          "id": "home-slider-slide",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "slider-item",
-                  "name": "Slider-Item"
+                  "model": "home-slider-slide",
+                  "name": "Home-Slider-Slide"
                 }
               }
             }
           }
         },
         {
-          "title": "Quick-Link-Item",
-          "id": "quick-link-item",
+          "title": "Home-Slider-Quick-Link-Item",
+          "id": "home-slider-quick-link-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "quick-link-item",
-                  "name": "Quick-Link-Item"
+                  "model": "home-slider-quick-link-item",
+                  "name": "Home-Slider-Quick-Link-Item"
                 }
               }
             }
@@ -314,30 +314,30 @@
           }
         },
         {
-          "title": "Elfsight-Widget-Embed",
-          "id": "elfsight-widget-embed",
+          "title": "Elfsight-Embed",
+          "id": "elfsight-embed",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "elfsight-widget-embed",
-                  "name": "Elfsight-Widget-Embed"
+                  "model": "elfsight-embed",
+                  "name": "Elfsight-Embed"
                 }
               }
             }
           }
         },
         {
-          "title": "Latest-News-Item",
-          "id": "latest-news-item",
+          "title": "News-Item",
+          "id": "news-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "latest-news-item",
-                  "name": "Latest-News-Item"
+                  "model": "news-item",
+                  "name": "News-Item"
                 }
               }
             }
@@ -406,6 +406,37 @@
           }
         },
         {
+          "title": "Purpose-Led-Grid",
+          "id": "purpose-led-grid",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "filter": "purpose-led-grid",
+                  "model": "purpose-led-grid",
+                  "name": "Purpose-Led-Grid"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Purpose-Led-Grid-Item",
+          "id": "purpose-led-grid-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "purpose-led-grid-item",
+                  "name": "Purpose-Led-Grid-Item"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Purpose-Led",
           "id": "purpose-led",
           "plugins": {
@@ -453,15 +484,15 @@
           }
         },
         {
-          "title": "Business-Vertical-Item",
-          "id": "business-vertical-item",
+          "title": "What-We-Do-Item",
+          "id": "what-we-do-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "business-vertical-item",
-                  "name": "Business-Vertical-Item"
+                  "model": "what-we-do-item",
+                  "name": "What-We-Do-Item"
                 }
               }
             }
@@ -484,15 +515,15 @@
           }
         },
         {
-          "title": "Work-With-Us-Slide-Item",
-          "id": "work-with-us-slide-item",
+          "title": "Work-With-Us-Item",
+          "id": "work-with-us-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "work-with-us-slide-item",
-                  "name": "Work-With-Us-Slide-Item"
+                  "model": "work-with-us-item",
+                  "name": "Work-With-Us-Item"
                 }
               }
             }

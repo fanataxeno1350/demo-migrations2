@@ -1,31 +1,31 @@
 {
   "definitions": [
     {
-      "title": "Performance-Driven-2",
-      "id": "performance-driven-2",
+      "title": "Purpose-Led-Grid",
+      "id": "purpose-led-grid",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "filter": "performance-driven-2",
-              "model": "performance-driven-2",
-              "name": "Performance-Driven-2"
+              "filter": "purpose-led-grid",
+              "model": "purpose-led-grid",
+              "name": "Purpose-Led-Grid"
             }
           }
         }
       }
     },
     {
-      "title": "Performance-Driven-Card-Item",
-      "id": "performance-driven-card-item",
+      "title": "Purpose-Led-Grid-Item",
+      "id": "purpose-led-grid-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "performance-driven-card-item",
-              "name": "Performance-Driven-Card-Item"
+              "model": "purpose-led-grid-item",
+              "name": "Purpose-Led-Grid-Item"
             }
           }
         }
@@ -34,53 +34,41 @@
   ],
   "models": [
     {
-      "id": "performance-driven-2",
+      "id": "purpose-led-grid",
       "fields": [
         {
-          "component": "text",
-          "label": "Heading",
-          "name": "heading",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Subheading",
-          "name": "subheading",
-          "valueType": "string"
-        },
-        {
           "component": "container",
-          "item": "performance-driven-card-item",
+          "item": "purpose-led-grid-item",
           "label": "Cards",
           "name": "cards"
         }
       ]
     },
     {
-      "id": "performance-driven-card-item",
+      "id": "purpose-led-grid-item",
       "fields": [
         {
           "component": "reference",
-          "label": "Card Image (Desktop)",
+          "label": "Desktop Image",
           "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Card Image (Mobile)",
+          "label": "Mobile Image",
           "name": "imageMobile",
           "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "Card Description",
+          "component": "richtext",
+          "label": "Description",
           "name": "description",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Card Link",
-          "name": "link",
+          "name": "cardLink",
           "valueType": "string"
         }
       ]
@@ -88,9 +76,9 @@
   ],
   "filters": [
     {
-      "id": "performance-driven-2",
+      "id": "purpose-led-grid",
       "components": [
-        "performance-driven-card-item"
+        "purpose-led-grid-item"
       ]
     }
   ]

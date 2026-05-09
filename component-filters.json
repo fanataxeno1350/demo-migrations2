@@ -27,7 +27,8 @@
       "latest-news",
       "work-with-us",
       "faqs",
-      "footer"
+      "footer",
+      "purpose-led-grid"
     ]
   },
   {
@@ -60,15 +61,15 @@
   {
     "id": "home-slider",
     "components": [
-      "slider-item",
-      "quick-link-item"
+      "home-slider-slide",
+      "home-slider-quick-link-item"
     ]
   },
   {
     "id": "latest-news",
     "components": [
-      "elfsight-widget-embed",
-      "latest-news-item"
+      "elfsight-embed",
+      "news-item"
     ]
   },
   {
@@ -84,6 +85,12 @@
     ]
   },
   {
+    "id": "purpose-led-grid",
+    "components": [
+      "purpose-led-grid-item"
+    ]
+  },
+  {
     "id": "purpose-led",
     "components": [
       "purpose-led-card"
@@ -92,13 +99,13 @@
   {
     "id": "what-we-do",
     "components": [
-      "business-vertical-item"
+      "what-we-do-item"
     ]
   },
   {
     "id": "work-with-us",
     "components": [
-      "work-with-us-slide-item"
+      "work-with-us-item"
     ]
   }
 ]

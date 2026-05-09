@@ -1,31 +1,31 @@
 {
   "definitions": [
     {
-      "title": "What-We-Do",
-      "id": "what-we-do",
+      "title": "Work-With-Us",
+      "id": "work-with-us",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "filter": "what-we-do",
-              "model": "what-we-do",
-              "name": "What-We-Do"
+              "filter": "work-with-us",
+              "model": "work-with-us",
+              "name": "Work-With-Us"
             }
           }
         }
       }
     },
     {
-      "title": "What-We-Do-Item",
-      "id": "what-we-do-item",
+      "title": "Work-With-Us-Slide-Item",
+      "id": "work-with-us-slide-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "what-we-do-item",
-              "name": "What-We-Do-Item"
+              "model": "work-with-us-slide-item",
+              "name": "Work-With-Us-Slide-Item"
             }
           }
         }
@@ -34,7 +34,7 @@
   ],
   "models": [
     {
-      "id": "what-we-do",
+      "id": "work-with-us",
       "fields": [
         {
           "component": "text",
@@ -43,56 +43,56 @@
           "valueType": "string"
         },
         {
-          "component": "richtext",
-          "label": "Section Description",
-          "name": "description",
-          "valueType": "string"
-        },
-        {
           "component": "container",
-          "item": "what-we-do-item",
-          "label": "Business Verticals",
-          "name": "items"
+          "item": "work-with-us-slide-item",
+          "label": "Slides",
+          "name": "slides"
         }
       ]
     },
     {
-      "id": "what-we-do-item",
+      "id": "work-with-us-slide-item",
       "fields": [
         {
           "component": "reference",
-          "label": "Desktop Image",
+          "label": "Image (max-width: 576px)",
+          "name": "imageMobile576",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Image (max-width: 799px)",
+          "name": "imageMobile799",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Image (desktop/default)",
           "name": "imageDesktop",
           "valueType": "string"
         },
         {
-          "component": "reference",
-          "label": "Tablet Image",
-          "name": "imageTablet",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Mobile Image",
-          "name": "imageMobile",
-          "valueType": "string"
-        },
-        {
           "component": "text",
-          "label": "Business Title",
+          "label": "Slide Title",
           "name": "title",
           "valueType": "string"
         },
         {
-          "component": "reference",
-          "label": "Arrow Icon",
-          "name": "arrowIcon",
+          "component": "text",
+          "label": "Slide Description",
+          "name": "description",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Learn More Link",
-          "name": "link",
+          "label": "CTA Link",
+          "name": "ctaLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "CTA Label",
+          "name": "ctaLabel",
           "valueType": "string"
         }
       ]
@@ -100,9 +100,9 @@
   ],
   "filters": [
     {
-      "id": "what-we-do",
+      "id": "work-with-us",
       "components": [
-        "what-we-do-item"
+        "work-with-us-slide-item"
       ]
     }
   ]
