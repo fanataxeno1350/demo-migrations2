@@ -2,240 +2,238 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const [videoPosterRow, videoSrcRow] = [...block.children];
+  const [videoPosterImageRow, videoPosterSrcRow, videoSrcRow] = [...block.children];
 
-  const posterPicture = videoPosterRow.querySelector('picture');
-  // Video source is an img in a picture element, but we need the img itself, not the picture.
-  // The original code was looking for 'picture img' which is correct, but then assigning to videoSourceLink.src
-  // which expects the img element.
-  const videoSourceImg = videoSrcRow.querySelector('img');
+  const rootDiv = document.createElement('div');
+  // rootDiv.classList.add('cmp-media'); // Removed: block already has 'media-inner-video' and 'cmp-media' from AEM
 
-  const root = document.createElement('div');
-  root.classList.add('cmp-media__wrapper', 'cmp-media__wrapper--no-title');
+  const viewportVideoHidden = document.createElement('div');
+  viewportVideoHidden.classList.add('viewport-video');
+  viewportVideoHidden.hidden = true;
+  viewportVideoHidden.setAttribute('aria-hidden', 'true');
+  rootDiv.append(viewportVideoHidden);
 
+  const backgroundDiv = document.createElement('div');
+  backgroundDiv.classList.add('cmp-media__background');
+  rootDiv.append(backgroundDiv);
+
+  const wrapperDiv = document.createElement('div');
+  wrapperDiv.classList.add('cmp-media__wrapper', 'cmp-media__wrapper--no-title');
+  rootDiv.append(wrapperDiv);
+
+  const headerDiv = document.createElement('div');
+  headerDiv.classList.add('cmp-media__header');
+  wrapperDiv.append(headerDiv);
+
+  const headingDiv = document.createElement('div');
+  headingDiv.classList.add('cmp-media__heading');
+  headerDiv.append(headingDiv);
+
+  const titleDiv = document.createElement('div');
+  titleDiv.classList.add('cmp-media__title');
+  headingDiv.append(titleDiv);
+
+  const videoWrapper = document.createElement('div');
+  videoWrapper.classList.add('video', 'apps.qiddiya__002d__commons.components.content.commons.video__002d__v1.v1.video__002d__v1.video__002d__v1__002e__html@1e5b80ff');
+  wrapperDiv.append(videoWrapper);
+
+  // Video Poster Section
   const videoPosterDiv = document.createElement('div');
   videoPosterDiv.classList.add('video-poster');
+  videoWrapper.append(videoPosterDiv);
 
   const playButton = document.createElement('button');
   playButton.classList.add('video-poster__play-button');
+  videoPosterDiv.append(playButton);
 
   const playIcon = document.createElement('span');
   playIcon.classList.add('qd-icon', 'qd-icon--play', 'video-poster__play-button__icon');
   playButton.append(playIcon);
 
-  const playText = document.createElement('span');
-  playText.classList.add('video-poster__play-button__text');
-  playText.setAttribute('visually-hidden', '');
-  playText.textContent = 'Watch Video';
-  playButton.append(playText);
+  const playButtonText = document.createElement('span');
+  playButtonText.classList.add('video-poster__play-button__text');
+  playButtonText.setAttribute('visually-hidden', '');
+  playButtonText.textContent = 'Watch Video';
+  playButton.append(playButtonText);
 
   const posterVideo = document.createElement('video');
   posterVideo.classList.add('video-poster__video');
-  if (posterPicture) {
-    const img = posterPicture.querySelector('img');
-    if (img) {
-      posterVideo.poster = img.src;
-      // moveInstrumentation(img, posterVideo); // This was redundant, instrumentation is moved at the end for the row
-    }
-  }
   posterVideo.muted = true;
   posterVideo.loop = true;
   posterVideo.playsInline = true;
   posterVideo.setAttribute('webkit-playsinline', '');
   posterVideo.setAttribute('x-webkit-airplay', 'allow');
   posterVideo.autoplay = true;
-  if (videoSourceImg) {
-    posterVideo.src = videoSourceImg.src;
+
+  // For video poster image, we need the src of the img inside the picture
+  const posterImage = videoPosterImageRow?.querySelector('img');
+  if (posterImage) {
+    posterVideo.poster = posterImage.src;
+    moveInstrumentation(videoPosterImageRow, posterVideo);
   }
 
-  videoPosterDiv.append(playButton, posterVideo);
+  // For video poster source, we need the src of the img inside the picture
+  const posterSrc = videoPosterSrcRow?.querySelector('img');
+  if (posterSrc) {
+    posterVideo.src = posterSrc.src;
+    moveInstrumentation(videoPosterSrcRow, posterVideo);
+  }
+  videoPosterDiv.append(posterVideo);
 
+  // Main Video Section
   const videoContainer = document.createElement('div');
   videoContainer.classList.add('video-container', 'show-controls', 'video-hide');
+  videoWrapper.append(videoContainer);
 
-  const viewportVideoHidden = document.createElement('div');
-  viewportVideoHidden.classList.add('viewport-video');
-  viewportVideoHidden.hidden = true;
-  viewportVideoHidden.setAttribute('aria-hidden', 'true');
-  videoContainer.append(viewportVideoHidden);
+  const viewportVideoMain = document.createElement('div');
+  viewportVideoMain.classList.add('viewport-video');
+  viewportVideoMain.hidden = true;
+  viewportVideoMain.setAttribute('aria-hidden', 'true');
+  videoContainer.append(viewportVideoMain);
 
-  const controlsDiv = document.createElement('div');
-  controlsDiv.classList.add('video-container__controls');
+  const videoControls = document.createElement('div');
+  videoControls.classList.add('video-container__controls');
+  videoContainer.append(videoControls);
 
   const timerDiv = document.createElement('div');
   timerDiv.classList.add('video-container__controls__timer');
-  timerDiv.innerHTML = `
-    <span class="video-container__controls__timer__progress-area"></span>
-    <span class="video-container__controls__timer__progress-area__pointer"></span>
-    <span class="video-container__controls__timer__progress-area__progress-pending"></span>
-  `;
-  controlsDiv.append(timerDiv);
+  videoControls.append(timerDiv);
+
+  const progressArea = document.createElement('span');
+  progressArea.classList.add('video-container__controls__timer__progress-area');
+  timerDiv.append(progressArea);
+
+  const pointer = document.createElement('span');
+  pointer.classList.add('video-container__controls__timer__progress-area__pointer');
+  timerDiv.append(pointer);
+
+  const progressPending = document.createElement('span');
+  progressPending.classList.add('video-container__controls__timer__progress-area__progress-pending');
+  timerDiv.append(progressPending);
 
   const currentTime = document.createElement('p');
   currentTime.classList.add('video-container__controls__timer__current-time');
   currentTime.textContent = '00:00';
-  controlsDiv.append(currentTime);
+  videoControls.append(currentTime);
 
   const duration = document.createElement('p');
   duration.classList.add('video-container__controls__timer__duration');
   duration.textContent = '00:00';
-  controlsDiv.append(duration);
+  videoControls.append(duration);
 
-  videoContainer.append(controlsDiv);
+  const controlsButtons = document.createElement('div');
+  controlsButtons.classList.add('video-container__controls__buttons');
+  videoContainer.append(controlsButtons);
 
-  const buttonsDiv = document.createElement('div');
-  buttonsDiv.classList.add('video-container__controls__buttons');
+  const playButtonMain = document.createElement('button');
+  playButtonMain.classList.add('video-container__controls__buttons__play-button', 'video-container__controls__buttons--button');
+  controlsButtons.append(playButtonMain);
 
-  const playControlBtn = document.createElement('button');
-  playControlBtn.classList.add('video-container__controls__buttons__play-button', 'video-container__controls__buttons--button');
-  playControlBtn.innerHTML = '<span class="video-container__controls__buttons__icon qd-icon qd-icon--play"></span>';
-  buttonsDiv.append(playControlBtn);
+  const playIconMain = document.createElement('span');
+  playIconMain.classList.add('video-container__controls__buttons__icon', 'qd-icon', 'qd-icon--play');
+  playButtonMain.append(playIconMain);
 
-  const muteControlBtn = document.createElement('button');
-  muteControlBtn.classList.add('video-container__controls__buttons__mute-button', 'video-container__controls__buttons--button');
-  muteControlBtn.innerHTML = '<span class="video-container__controls__buttons__icon qd-icon qd-icon--volume"></span>';
-  buttonsDiv.append(muteControlBtn);
+  const muteButton = document.createElement('button');
+  muteButton.classList.add('video-container__controls__buttons__mute-button', 'video-container__controls__buttons--button');
+  controlsButtons.append(muteButton);
 
-  const fullscreenControlBtn = document.createElement('button');
-  fullscreenControlBtn.classList.add('video-container__controls__buttons__fullscreen-button', 'video-container__controls__buttons--button');
-  fullscreenControlBtn.innerHTML = '<span class="video-container__controls__buttons__icon qd-icon qd-icon--fullscreen"></span>';
-  buttonsDiv.append(fullscreenControlBtn);
+  const volumeIcon = document.createElement('span');
+  volumeIcon.classList.add('video-container__controls__buttons__icon', 'qd-icon', 'qd-icon--volume');
+  muteButton.append(volumeIcon);
 
-  controlsDiv.append(buttonsDiv);
+  const fullscreenButton = document.createElement('button');
+  fullscreenButton.classList.add('video-container__controls__buttons__fullscreen-button', 'video-container__controls__buttons--button');
+  controlsButtons.append(fullscreenButton);
+
+  const fullscreenIcon = document.createElement('span');
+  fullscreenIcon.classList.add('video-container__controls__buttons__icon', 'qd-icon', 'qd-icon--fullscreen');
+  fullscreenButton.append(fullscreenIcon);
 
   const mainVideo = document.createElement('video');
   mainVideo.classList.add('video-container__video');
   mainVideo.playsInline = true;
   mainVideo.setAttribute('webkit-playsinline', '');
   mainVideo.setAttribute('x-webkit-airplay', 'allow');
-  if (videoSourceImg) {
-    mainVideo.src = videoSourceImg.src;
-    mainVideo.setAttribute('data-video-src', videoSourceImg.src);
+
+  // For main video source, we need the src of the img inside the picture
+  const mainVideoSrc = videoSrcRow?.querySelector('img');
+  if (mainVideoSrc) {
+    mainVideo.src = mainVideoSrc.src;
+    mainVideo.setAttribute('data-video-src', mainVideoSrc.src);
+    moveInstrumentation(videoSrcRow, mainVideo); // Added moveInstrumentation for mainVideo
   }
+  videoWrapper.append(mainVideo);
 
-  videoContainer.append(mainVideo);
-
-  root.append(videoPosterDiv, videoContainer);
-
-  // Move instrumentation from original rows to the new main video and poster video elements
-  moveInstrumentation(videoPosterRow, posterVideo);
-  moveInstrumentation(videoSrcRow, mainVideo);
-
-  block.replaceChildren(root);
-
-  // Video playback logic
-  let isPlaying = false;
-  let isMuted = true;
-  let isFullscreen = false;
-
-  const togglePlay = () => {
-    if (isPlaying) {
-      posterVideo.pause();
-      mainVideo.pause();
-      playButton.querySelector('.qd-icon').classList.replace('qd-icon--pause', 'qd-icon--play');
-      playControlBtn.querySelector('.qd-icon').classList.replace('qd-icon--pause', 'qd-icon--play');
-    } else {
-      posterVideo.play();
-      mainVideo.play();
-      playButton.querySelector('.qd-icon').classList.replace('qd-icon--play', 'qd-icon--pause');
-      playControlBtn.querySelector('.qd-icon').classList.replace('qd-icon--play', 'qd-icon--pause');
-    }
-    isPlaying = !isPlaying;
-  };
-
-  const toggleMute = () => {
-    isMuted = !isMuted;
-    posterVideo.muted = isMuted;
-    mainVideo.muted = isMuted;
-    if (isMuted) {
-      muteControlBtn.querySelector('.qd-icon').classList.replace('qd-icon--volume', 'qd-icon--volume-mute');
-    } else {
-      muteControlBtn.querySelector('.qd-icon').classList.replace('qd-icon--volume-mute', 'qd-icon--volume');
-    }
-  };
-
-  const toggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      if (mainVideo.requestFullscreen) {
-        mainVideo.requestFullscreen();
-      } else if (mainVideo.webkitRequestFullscreen) { /* Safari */
-        mainVideo.webkitRequestFullscreen();
-      } else if (mainVideo.msRequestFullscreen) { /* IE11 */
-        mainVideo.msRequestFullscreen();
-      }
-      fullscreenControlBtn.querySelector('.qd-icon').classList.replace('qd-icon--fullscreen', 'qd-icon--fullscreen-exit');
-      isFullscreen = true;
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) { /* Safari */
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) { /* IE11 */
-        document.msExitFullscreen();
-      }
-      fullscreenControlBtn.querySelector('.qd-icon').classList.replace('qd-icon--fullscreen-exit', 'qd-icon--fullscreen');
-      isFullscreen = false;
-    }
-  };
-
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
-  };
-
-  const updateProgressBar = () => {
-    const progress = (mainVideo.currentTime / mainVideo.duration) * 100;
-    timerDiv.querySelector('.video-container__controls__timer__progress-area').style.width = `${progress}%`;
-    timerDiv.querySelector('.video-container__controls__timer__progress-area__pointer').style.left = `${progress}%`;
-    currentTime.textContent = formatTime(mainVideo.currentTime);
-  };
-
-  const setProgressBar = (e) => {
-    const rect = timerDiv.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const percentage = (clickX / rect.width);
-    mainVideo.currentTime = mainVideo.duration * percentage;
-  };
-
+  // Event Listeners for video interaction
   playButton.addEventListener('click', () => {
-    videoPosterDiv.style.display = 'none';
+    videoPosterDiv.hidden = true;
     videoContainer.classList.remove('video-hide');
-    togglePlay();
+    mainVideo.play();
+    posterVideo.pause();
   });
 
-  playControlBtn.addEventListener('click', togglePlay);
-  muteControlBtn.addEventListener('click', toggleMute);
-  fullscreenControlBtn.addEventListener('click', toggleFullscreen);
-
-  mainVideo.addEventListener('loadedmetadata', () => {
-    duration.textContent = formatTime(mainVideo.duration);
-    updateProgressBar();
+  playButtonMain.addEventListener('click', () => {
+    if (mainVideo.paused) {
+      mainVideo.play();
+      playIconMain.classList.remove('qd-icon--play');
+      playIconMain.classList.add('qd-icon--pause');
+    } else {
+      mainVideo.pause();
+      playIconMain.classList.remove('qd-icon--pause');
+      playIconMain.classList.add('qd-icon--play');
+    }
   });
 
-  mainVideo.addEventListener('timeupdate', updateProgressBar);
+  muteButton.addEventListener('click', () => {
+    mainVideo.muted = !mainVideo.muted;
+    if (mainVideo.muted) {
+      volumeIcon.classList.remove('qd-icon--volume');
+      volumeIcon.classList.add('qd-icon--volume-mute');
+    } else {
+      volumeIcon.classList.remove('qd-icon--volume-mute');
+      volumeIcon.classList.add('qd-icon--volume');
+    }
+  });
 
-  timerDiv.addEventListener('click', setProgressBar);
+  fullscreenButton.addEventListener('click', () => {
+    if (mainVideo.requestFullscreen) {
+      mainVideo.requestFullscreen();
+    } else if (mainVideo.webkitRequestFullscreen) { /* Safari */
+      mainVideo.webkitRequestFullscreen();
+    } else if (mainVideo.msRequestFullscreen) { /* IE11 */
+      mainVideo.msRequestFullscreen();
+    }
+  });
+
+  mainVideo.addEventListener('timeupdate', () => {
+    const current = mainVideo.currentTime;
+    const durationTime = mainVideo.duration;
+    const progress = (current / durationTime) * 100;
+    progressArea.style.width = `${progress}%`;
+
+    const formatTime = (time) => {
+      const minutes = Math.floor(time / 60);
+      const seconds = Math.floor(time % 60);
+      return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    };
+
+    currentTime.textContent = formatTime(current);
+    duration.textContent = formatTime(durationTime);
+  });
 
   mainVideo.addEventListener('ended', () => {
-    isPlaying = false;
-    playControlBtn.querySelector('.qd-icon').classList.replace('qd-icon--pause', 'qd-icon--play');
+    playIconMain.classList.remove('qd-icon--pause');
+    playIconMain.classList.add('qd-icon--play');
   });
 
-  document.addEventListener('fullscreenchange', () => {
-    isFullscreen = !!document.fullscreenElement;
-    if (isFullscreen) {
-      fullscreenControlBtn.querySelector('.qd-icon').classList.replace('qd-icon--fullscreen', 'qd-icon--fullscreen-exit');
-    } else {
-      fullscreenControlBtn.querySelector('.qd-icon').classList.replace('qd-icon--fullscreen-exit', 'qd-icon--fullscreen');
-    }
-  });
+  // Optimize images - Removed as createOptimizedPicture is not needed for video poster/src
+  // and the original HTML does not have images that need optimization here.
+  // The video poster is set via the 'poster' attribute, not an <img> tag directly.
+  // rootDiv.querySelectorAll('picture > img').forEach((img) => {
+  //   const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+  //   moveInstrumentation(img, optimizedPic.querySelector('img'));
+  //   img.closest('picture').replaceWith(optimizedPic);
+  // });
 
-  // Optimize images
-  root.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    // For video poster, we move instrumentation to the video element itself, not the picture.
-    // So we don't need to moveInstrumentation here again for the optimized picture.
-    img.closest('picture').replaceWith(optimizedPic);
-  });
+  block.replaceChildren(rootDiv);
 }

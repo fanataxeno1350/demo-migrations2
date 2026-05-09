@@ -191,30 +191,15 @@
           }
         },
         {
-          "title": "Nav-Item",
-          "id": "nav-item",
+          "title": "Navigation-Item",
+          "id": "navigation-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "nav-item",
-                  "name": "Nav-Item"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Mobile-Nav-Item",
-          "id": "mobile-nav-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "mobile-nav-item",
-                  "name": "Mobile-Nav-Item"
+                  "model": "navigation-item",
+                  "name": "Navigation-Item"
                 }
               }
             }
@@ -230,6 +215,21 @@
                 "template": {
                   "model": "language-item",
                   "name": "Language-Item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Contact-Link-Item",
+          "id": "contact-link-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "contact-link-item",
+                  "name": "Contact-Link-Item"
                 }
               }
             }

@@ -290,7 +290,7 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Logo (SVG or Image)",
+        "label": "Logo",
         "name": "logo",
         "valueType": "string"
       },
@@ -301,62 +301,33 @@
         "valueType": "string"
       },
       {
-        "component": "aem-content",
-        "label": "Contact Us Link",
-        "name": "contactUsLink",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Contact Us Label",
-        "name": "contactUsLabel",
-        "valueType": "string"
-      },
-      {
         "component": "container",
-        "item": "nav-item",
+        "item": "navigation-item",
         "label": "Desktop Navigation",
         "name": "desktopNavigation"
       },
       {
         "component": "container",
-        "item": "mobile-nav-item",
+        "item": "navigation-item",
         "label": "Mobile Navigation",
         "name": "mobileNavigation"
       },
       {
         "component": "container",
         "item": "language-item",
-        "label": "Language Selector",
+        "label": "Languages",
         "name": "languages"
+      },
+      {
+        "component": "container",
+        "item": "contact-link-item",
+        "label": "Contact Links",
+        "name": "contactLinks"
       }
     ]
   },
   {
-    "id": "nav-item",
-    "fields": [
-      {
-        "component": "text",
-        "label": "Menu Label",
-        "name": "label",
-        "valueType": "string"
-      },
-      {
-        "component": "aem-content",
-        "label": "Menu Link",
-        "name": "link",
-        "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "label": "Navigation Hierarchy",
-        "name": "hierarchy-tree",
-        "valueType": "string"
-      }
-    ]
-  },
-  {
-    "id": "mobile-nav-item",
+    "id": "navigation-item",
     "fields": [
       {
         "component": "text",
@@ -390,6 +361,23 @@
       {
         "component": "aem-content",
         "label": "Language Link",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "contact-link-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Contact Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Contact Link",
         "name": "link",
         "valueType": "string"
       }
@@ -447,13 +435,19 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Video Poster Image",
-        "name": "videoPoster",
+        "label": "Video Poster Image (poster attribute of first video)",
+        "name": "videoPosterImage",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Video Source",
+        "label": "Video Poster Video Source (src of first video)",
+        "name": "videoPosterSrc",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Main Video Source (src of second video)",
         "name": "videoSrc",
         "valueType": "string"
       }

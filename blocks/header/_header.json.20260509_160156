@@ -17,15 +17,30 @@
       }
     },
     {
-      "title": "Navigation-Item",
-      "id": "navigation-item",
+      "title": "Nav-Item",
+      "id": "nav-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "navigation-item",
-              "name": "Navigation-Item"
+              "model": "nav-item",
+              "name": "Nav-Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Mobile-Nav-Item",
+      "id": "mobile-nav-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "mobile-nav-item",
+              "name": "Mobile-Nav-Item"
             }
           }
         }
@@ -45,21 +60,6 @@
           }
         }
       }
-    },
-    {
-      "title": "Contact-Link-Item",
-      "id": "contact-link-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "contact-link-item",
-              "name": "Contact-Link-Item"
-            }
-          }
-        }
-      }
     }
   ],
   "models": [
@@ -68,7 +68,7 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Logo",
+          "label": "Logo (SVG or Image)",
           "name": "logo",
           "valueType": "string"
         },
@@ -79,33 +79,62 @@
           "valueType": "string"
         },
         {
+          "component": "aem-content",
+          "label": "Contact Us Link",
+          "name": "contactUsLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Contact Us Label",
+          "name": "contactUsLabel",
+          "valueType": "string"
+        },
+        {
           "component": "container",
-          "item": "navigation-item",
+          "item": "nav-item",
           "label": "Desktop Navigation",
           "name": "desktopNavigation"
         },
         {
           "component": "container",
-          "item": "navigation-item",
+          "item": "mobile-nav-item",
           "label": "Mobile Navigation",
           "name": "mobileNavigation"
         },
         {
           "component": "container",
           "item": "language-item",
-          "label": "Languages",
+          "label": "Language Selector",
           "name": "languages"
-        },
-        {
-          "component": "container",
-          "item": "contact-link-item",
-          "label": "Contact Links",
-          "name": "contactLinks"
         }
       ]
     },
     {
-      "id": "navigation-item",
+      "id": "nav-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Menu Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Menu Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "mobile-nav-item",
       "fields": [
         {
           "component": "text",
@@ -143,32 +172,15 @@
           "valueType": "string"
         }
       ]
-    },
-    {
-      "id": "contact-link-item",
-      "fields": [
-        {
-          "component": "text",
-          "label": "Contact Label",
-          "name": "label",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Contact Link",
-          "name": "link",
-          "valueType": "string"
-        }
-      ]
     }
   ],
   "filters": [
     {
       "id": "header",
       "components": [
-        "navigation-item",
-        "language-item",
-        "contact-link-item"
+        "nav-item",
+        "mobile-nav-item",
+        "language-item"
       ]
     }
   ]

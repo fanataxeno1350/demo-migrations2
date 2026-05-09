@@ -23,19 +23,13 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Video Poster Image (poster attribute of first video)",
-          "name": "videoPosterImage",
+          "label": "Video Poster Image",
+          "name": "videoPoster",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Video Poster Video Source (src of first video)",
-          "name": "videoPosterSrc",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Main Video Source (src of second video)",
+          "label": "Video Source",
           "name": "videoSrc",
           "valueType": "string"
         }
