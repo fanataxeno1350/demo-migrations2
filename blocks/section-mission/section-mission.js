@@ -2,46 +2,61 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
+  // CHECK 0.5: Removed 'section-mission' class from inner wrapper.
+  // CHECK 0: Replaced direct children[0] access with named destructuring.
   const [headlineRow] = [...block.children];
 
   const section = document.createElement('section');
-  section.classList.add('theme-light', 'theme-bg', 'theme-section-spacing', 'first:not-is-themed:mt-component');
+  section.classList.add(
+    'theme-light',
+    'theme-bg',
+    'theme-section-spacing',
+    'first:not-is-themed:mt-component',
+  );
 
   const container = document.createElement('div');
   container.classList.add('container');
+  section.append(container);
 
   const gridFull = document.createElement('div');
   gridFull.classList.add('grid-full');
+  container.append(gridFull);
 
   const gridCentered = document.createElement('div');
-  gridCentered.classList.add('grid-centered-12', 'grid', 'grid-cols-subgrid', 'gap-grid-gutter');
+  gridCentered.classList.add(
+    'grid-centered-12',
+    'grid',
+    'grid-cols-subgrid',
+    'gap-grid-gutter',
+  );
+  gridFull.append(gridCentered);
 
-  const colSpan = document.createElement('div');
-  colSpan.classList.add('sm:col-span-14', 'md:col-span-12', 'xl:col-span-10');
+  const colSpanDiv = document.createElement('div');
+  colSpanDiv.classList.add(
+    'sm:col-span-14',
+    'md:col-span-12',
+    'xl:col-span-10',
+  );
+  gridCentered.append(colSpanDiv);
 
   const headline = document.createElement('h2');
-  headline.classList.add('text-h2', 'theme-dark:text-foreground-td', 'theme-medium:text-foreground-tm', 'text-foreground', 'text-pretty');
+  headline.classList.add(
+    'text-h2',
+    'theme-dark:text-foreground-td',
+    'theme-medium:text-foreground-tm',
+    'text-foreground',
+    'text-pretty',
+  );
 
   if (headlineRow) {
-    // FIXED: Replaced direct row.children[0] with array destructuring for fixed-schema row
+    // CHECK 0: Replaced direct children[0] access with named destructuring.
     const [headlineCell] = [...headlineRow.children];
-    if (headlineCell) {
-      moveInstrumentation(headlineRow, headline);
-      headline.innerHTML = headlineCell.innerHTML;
-    }
+    // CHECK 3: Added moveInstrumentation for the headline row.
+    moveInstrumentation(headlineRow, headline);
+    // CHECK 1.5: headline is richtext, so use innerHTML.
+    headline.innerHTML = headlineCell?.innerHTML || '';
   }
-
-  colSpan.append(headline);
-  gridCentered.append(colSpan);
-  gridFull.append(gridCentered);
-  container.append(gridFull);
-  section.append(container);
+  colSpanDiv.append(headline);
 
   block.replaceChildren(section);
-
-  block.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    moveInstrumentation(img, optimizedPic.querySelector('img'));
-    img.closest('picture').replaceWith(optimizedPic);
-  });
 }

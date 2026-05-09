@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Footer-Primary-Nav",
+      "title": "Footer Primary Nav",
       "id": "footer-primary-nav",
       "plugins": {
         "xwalk": {
@@ -10,14 +10,14 @@
             "template": {
               "filter": "footer-primary-nav",
               "model": "footer-primary-nav",
-              "name": "Footer-Primary-Nav"
+              "name": "Footer Primary Nav"
             }
           }
         }
       }
     },
     {
-      "title": "Footer-Section-Item",
+      "title": "Footer Section Item",
       "id": "footer-section-item",
       "plugins": {
         "xwalk": {
@@ -25,14 +25,14 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "footer-section-item",
-              "name": "Footer-Section-Item"
+              "name": "Footer Section Item"
             }
           }
         }
       }
     },
     {
-      "title": "Footer-Button-Item",
+      "title": "Footer Button Item",
       "id": "footer-button-item",
       "plugins": {
         "xwalk": {
@@ -40,14 +40,14 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "footer-button-item",
-              "name": "Footer-Button-Item"
+              "name": "Footer Button Item"
             }
           }
         }
       }
     },
     {
-      "title": "Footer-Social-Item",
+      "title": "Footer Social Item",
       "id": "footer-social-item",
       "plugins": {
         "xwalk": {
@@ -55,7 +55,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "footer-social-item",
-              "name": "Footer-Social-Item"
+              "name": "Footer Social Item"
             }
           }
         }
@@ -81,7 +81,7 @@
         {
           "component": "container",
           "item": "footer-social-item",
-          "label": "Social Links",
+          "label": "Footer Social Links",
           "name": "socialLinks"
         }
       ]
@@ -93,12 +93,6 @@
           "component": "text",
           "label": "Section Title",
           "name": "title",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Direct Link URL",
-          "name": "link",
           "valueType": "string"
         },
         {
@@ -118,15 +112,15 @@
       "id": "footer-button-item",
       "fields": [
         {
-          "component": "text",
-          "label": "Button Label",
-          "name": "label",
-          "valueType": "string"
-        },
-        {
           "component": "aem-content",
           "label": "Button Link",
           "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Button Label",
+          "name": "label",
           "valueType": "string"
         }
       ]
@@ -136,7 +130,7 @@
       "fields": [
         {
           "component": "aem-content",
-          "label": "Social Link URL",
+          "label": "Social Link",
           "name": "socialLink",
           "valueType": "string"
         }

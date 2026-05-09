@@ -40,7 +40,7 @@
           "component": "container",
           "item": "impact-item",
           "label": "Impact Items",
-          "name": "items"
+          "name": "impactItems"
         }
       ]
     },
@@ -49,14 +49,14 @@
       "fields": [
         {
           "component": "text",
-          "label": "Primary Stat",
-          "name": "primaryStat",
+          "label": "Statistic",
+          "name": "statistic",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Secondary Label",
-          "name": "secondaryLabel",
+          "label": "Statistic Label",
+          "name": "statisticLabel",
           "valueType": "string"
         },
         {

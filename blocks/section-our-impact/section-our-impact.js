@@ -2,103 +2,71 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const impactItems = [...block.children];
+  const rootSection = document.createElement('section');
+  rootSection.classList.add('theme-medium', 'theme-bg', 'theme-section-spacing');
 
-  const section = document.createElement('section');
-  section.classList.add('theme-medium', 'theme-bg', 'theme-section-spacing'); // Classes from ORIGINAL HTML
-
-  const container = document.createElement('div');
-  container.classList.add('container'); // Class from ORIGINAL HTML
+  const containerDiv = document.createElement('div');
+  containerDiv.classList.add('container');
+  rootSection.append(containerDiv);
 
   const ul = document.createElement('ul');
+  containerDiv.append(ul);
 
-  impactItems
-    .filter((row) => row.children.length === 3) // Filter for impact-item rows
-    .forEach((row) => {
-      const [statisticCell, statisticLabelCell, descriptionCell] = [...row.children];
+  // The first child of the block is the container placeholder for "items"
+  // We need to consume it and move its instrumentation.
+  const [containerPlaceholder, ...itemRows] = [...block.children];
+  moveInstrumentation(containerPlaceholder, ul); // Move instrumentation to the <ul>
 
-      const li = document.createElement('li');
-      li.classList.add(
-        'first:[&>div]:pt-0',
-        'theme-dark:border-stroke-light/10',
-        'grid-full',
-        'items-center',
-        'gap-grid-gutter',
-      );
+  itemRows.forEach((row, index) => {
+    const [primaryStatCell, secondaryLabelCell, descriptionCell] = [...row.children];
 
-      const divWrapper = document.createElement('div');
-      divWrapper.classList.add(
-        'py-lg',
-        'border-b',
-        'border-stroke-medium',
-        'flex',
-        'flex-col',
-        'md:grid-centered-12',
-        'md:grid',
-        'md:grid-cols-12',
-        'gap-grid-gutter',
-      );
+    const li = document.createElement('li');
+    li.classList.add('first:[&>div]:pt-0', 'theme-dark:border-stroke-light/10', 'grid-full', 'items-center', 'gap-grid-gutter');
+    moveInstrumentation(row, li); // Move instrumentation from the original row to the new <li>
 
-      const statisticWrapper = document.createElement('div');
-      statisticWrapper.classList.add(
-        'col-span-1',
-        'md:col-span-7',
-        'flex',
-        'items-center',
-        'gap-grid-gutter',
-      );
+    const innerDiv = document.createElement('div');
+    innerDiv.classList.add(
+      'py-lg',
+      'border-b',
+      'border-stroke-medium',
+      'flex',
+      'flex-col',
+      'md:grid-centered-12',
+      'md:grid',
+      'md:grid-cols-12',
+      'gap-grid-gutter',
+    );
+    li.append(innerDiv);
 
-      const h3 = document.createElement('h3');
-      h3.classList.add('font-semibold', 'inline', 'text-h2');
+    const statWrapper = document.createElement('div');
+    statWrapper.classList.add('col-span-1', 'md:col-span-7', 'flex', 'items-center', 'gap-grid-gutter');
+    innerDiv.append(statWrapper);
 
-      const statisticSpan = document.createElement('span');
-      statisticSpan.classList.add(
-        'text-foreground-colored',
-        'theme-dark:text-foreground-colored-light',
-        'theme-medium:text-foreground-tm',
-      );
-      statisticSpan.textContent = statisticCell.textContent.trim();
+    const h3 = document.createElement('h3');
+    h3.classList.add('font-semibold', 'inline', 'text-h2');
+    statWrapper.append(h3);
 
-      const statisticLabelSpan = document.createElement('span');
-      statisticLabelSpan.classList.add(
-        'text-foreground-colored-strong',
-        'theme-dark:text-foreground-colored-muted',
-        'theme-medium:text-foreground-muted',
-      );
-      statisticLabelSpan.textContent = statisticLabelCell.textContent.trim();
+    const primaryStatSpan = document.createElement('span');
+    primaryStatSpan.classList.add('text-foreground-colored', 'theme-dark:text-foreground-colored-light', 'theme-medium:text-foreground-tm');
+    primaryStatSpan.textContent = primaryStatCell?.textContent.trim() || '';
+    h3.append(primaryStatSpan);
 
-      h3.append(statisticSpan, statisticLabelSpan);
-      statisticWrapper.append(h3);
+    const secondaryLabelSpan = document.createElement('span');
+    secondaryLabelSpan.classList.add('text-foreground-colored-strong', 'theme-dark:text-foreground-colored-muted', 'theme-medium:text-foreground-muted');
+    secondaryLabelSpan.textContent = secondaryLabelCell?.textContent.trim() || '';
+    h3.append(secondaryLabelSpan);
 
-      const descriptionWrapper = document.createElement('div');
-      descriptionWrapper.classList.add('col-span-1', 'md:col-span-5');
+    const descriptionWrapper = document.createElement('div');
+    descriptionWrapper.classList.add('col-span-1', 'md:col-span-5');
+    innerDiv.append(descriptionWrapper);
 
-      const descriptionDiv = document.createElement('div');
-      descriptionDiv.classList.add(
-        'text-p1',
-        'prose',
-        'theme-dark:prose-td',
-        'theme-medium:prose-p:text-foreground-strong',
-        'theme-dark:text-foreground-td',
-      );
-      descriptionDiv.innerHTML = descriptionCell.innerHTML;
+    const descriptionContent = document.createElement('div');
+    descriptionContent.classList.add('text-p1', 'prose', 'theme-dark:prose-td', 'theme-medium:prose-p:text-foreground-strong', 'theme-dark:text-foreground-td');
+    descriptionContent.innerHTML = descriptionCell?.innerHTML || '';
+    descriptionWrapper.append(descriptionContent);
 
-      descriptionWrapper.append(descriptionDiv);
-
-      divWrapper.append(statisticWrapper, descriptionWrapper);
-      moveInstrumentation(row, li); // Move instrumentation from the authored row to the new <li>
-      li.append(divWrapper);
-      ul.append(li);
-    });
-
-  container.append(ul);
-  section.append(container);
-  block.replaceChildren(section);
-
-  // Image optimization (if any images were present in the original block)
-  block.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    moveInstrumentation(img, optimizedPic.querySelector('img'));
-    img.closest('picture').replaceWith(optimizedPic);
+    ul.append(li);
   });
+
+  block.replaceChildren(rootSection);
 }

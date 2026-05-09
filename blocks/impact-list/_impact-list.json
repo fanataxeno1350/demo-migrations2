@@ -49,21 +49,20 @@
       "fields": [
         {
           "component": "text",
-          "label": "Highlight Text",
-          "name": "highlight",
+          "label": "Headline Highlight",
+          "name": "headline-highlight",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Label Text",
-          "name": "label",
+          "label": "Headline Remainder",
+          "name": "headline-rest",
           "valueType": "string"
         },
         {
           "component": "richtext",
           "label": "Description",
-          "name": "description",
-          "valueType": "string"
+          "name": "description"
         }
       ]
     }

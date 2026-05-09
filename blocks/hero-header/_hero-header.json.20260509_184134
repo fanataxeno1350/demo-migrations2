@@ -29,26 +29,26 @@
         },
         {
           "component": "reference",
-          "label": "Background Image (Large Desktop)",
+          "label": "Background Image (Large)",
           "name": "backgroundImageLarge",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Background Image (Tablet)",
-          "name": "backgroundImageTablet",
+          "label": "Background Image (Medium)",
+          "name": "backgroundImageMedium",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Background Image (Mobile)",
-          "name": "backgroundImageMobile",
+          "label": "Background Image (Small/Mobile)",
+          "name": "backgroundImageSmall",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Photo Credit",
-          "name": "credit",
+          "label": "Image Credit",
+          "name": "imageCredit",
           "valueType": "string"
         },
         {

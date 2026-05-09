@@ -1,31 +1,31 @@
 {
   "definitions": [
     {
-      "title": "Section-Our-Impact",
-      "id": "section-our-impact",
+      "title": "Impact-List",
+      "id": "impact-list",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "filter": "section-our-impact",
-              "model": "section-our-impact",
-              "name": "Section-Our-Impact"
+              "filter": "impact-list",
+              "model": "impact-list",
+              "name": "Impact-List"
             }
           }
         }
       }
     },
     {
-      "title": "Impact-Item",
-      "id": "impact-item",
+      "title": "Impact-List-Item",
+      "id": "impact-list-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "impact-item",
-              "name": "Impact-Item"
+              "model": "impact-list-item",
+              "name": "Impact-List-Item"
             }
           }
         }
@@ -34,29 +34,29 @@
   ],
   "models": [
     {
-      "id": "section-our-impact",
+      "id": "impact-list",
       "fields": [
         {
           "component": "container",
-          "item": "impact-item",
-          "label": "Impact Items",
+          "item": "impact-list-item",
+          "label": "Impact List Items",
           "name": "items"
         }
       ]
     },
     {
-      "id": "impact-item",
+      "id": "impact-list-item",
       "fields": [
         {
           "component": "text",
-          "label": "Primary Stat",
-          "name": "primaryStat",
+          "label": "Highlight Text",
+          "name": "highlight",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Secondary Label",
-          "name": "secondaryLabel",
+          "label": "Label Text",
+          "name": "label",
           "valueType": "string"
         },
         {
@@ -70,9 +70,9 @@
   ],
   "filters": [
     {
-      "id": "section-our-impact",
+      "id": "impact-list",
       "components": [
-        "impact-item"
+        "impact-list-item"
       ]
     }
   ]

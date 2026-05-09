@@ -63,12 +63,8 @@
     "id": "header-primary-nav",
     "components": [
       "primary-nav-item",
-      "primary-action-item",
-      "primary-action-dropdown-item",
-      "mega-nav-column",
-      "mega-nav-highlight-card",
-      "mega-nav-button-link",
-      "mega-nav-social-link"
+      "action-nav-item",
+      "social-link-item"
     ]
   },
   {
@@ -101,7 +97,9 @@
   },
   {
     "id": "section-our-work",
-    "components": []
+    "components": [
+      "section-our-work-button-item"
+    ]
   },
   {
     "id": "section-partners",
