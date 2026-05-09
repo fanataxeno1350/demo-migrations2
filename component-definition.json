@@ -299,15 +299,90 @@
           }
         },
         {
-          "title": "Press Release Item",
-          "id": "press-release-item",
+          "title": "Mega Menu About Us",
+          "id": "mega-menu-about-us",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "press-release-item",
-                  "name": "Press Release Item"
+                  "model": "mega-menu-about-us",
+                  "name": "Mega Menu About Us"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Mega Menu What We Do",
+          "id": "mega-menu-what-we-do",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "mega-menu-what-we-do",
+                  "name": "Mega Menu What We Do"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Mega Menu Investor Relations",
+          "id": "mega-menu-investor-relations",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "mega-menu-investor-relations",
+                  "name": "Mega Menu Investor Relations"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Mega Menu Newsroom",
+          "id": "mega-menu-newsroom",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "mega-menu-newsroom",
+                  "name": "Mega Menu Newsroom"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Mega Menu Careers",
+          "id": "mega-menu-careers",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "mega-menu-careers",
+                  "name": "Mega Menu Careers"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Mega Menu Newsroom Slide",
+          "id": "newsroom-slide",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "newsroom-slide",
+                  "name": "Mega Menu Newsroom Slide"
                 }
               }
             }
@@ -483,21 +558,6 @@
           }
         },
         {
-          "title": "Elfsight-Widget-Embed",
-          "id": "elfsight-widget-embed",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "elfsight-widget-embed",
-                  "name": "Elfsight-Widget-Embed"
-                }
-              }
-            }
-          }
-        },
-        {
           "title": "News-Item",
           "id": "news-item",
           "plugins": {
@@ -507,6 +567,21 @@
                 "template": {
                   "model": "news-item",
                   "name": "News-Item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Elfsight-Widget-Embed",
+          "id": "elfsight-widget-embed",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "elfsight-widget-embed",
+                  "name": "Elfsight-Widget-Embed"
                 }
               }
             }

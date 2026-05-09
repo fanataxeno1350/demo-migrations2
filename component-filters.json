@@ -74,7 +74,12 @@
     "id": "header",
     "components": [
       "navigation-item",
-      "press-release-item",
+      "mega-menu-about-us",
+      "mega-menu-what-we-do",
+      "mega-menu-investor-relations",
+      "mega-menu-newsroom",
+      "mega-menu-careers",
+      "newsroom-slide",
       "icon-nav-item"
     ]
   },
@@ -102,8 +107,8 @@
   {
     "id": "latest-news",
     "components": [
-      "elfsight-widget-embed",
-      "news-item"
+      "news-item",
+      "elfsight-widget-embed"
     ]
   },
   {

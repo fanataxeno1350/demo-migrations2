@@ -17,21 +17,6 @@
       }
     },
     {
-      "title": "News-Item",
-      "id": "news-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "news-item",
-              "name": "News-Item"
-            }
-          }
-        }
-      }
-    },
-    {
       "title": "Elfsight-Widget-Embed",
       "id": "elfsight-widget-embed",
       "plugins": {
@@ -45,6 +30,21 @@
           }
         }
       }
+    },
+    {
+      "title": "News-Item",
+      "id": "news-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "news-item",
+              "name": "News-Item"
+            }
+          }
+        }
+      }
     }
   ],
   "models": [
@@ -53,74 +53,21 @@
       "fields": [
         {
           "component": "text",
-          "label": "Section Heading",
+          "label": "Heading",
           "name": "heading",
           "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "elfsight-widget-embed",
+          "label": "Embeds",
+          "name": "embeds"
         },
         {
           "component": "container",
           "item": "news-item",
           "label": "News Items",
           "name": "newsItems"
-        },
-        {
-          "component": "container",
-          "item": "elfsight-widget-embed",
-          "label": "Elfsight Embeds",
-          "name": "embeds"
-        }
-      ]
-    },
-    {
-      "id": "news-item",
-      "fields": [
-        {
-          "component": "reference",
-          "label": "News Image",
-          "name": "image",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "News Image Horizontal",
-          "name": "imageHorizontal",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "News Image Vertical",
-          "name": "imageVertical",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "News Category",
-          "name": "category",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "News Headline",
-          "name": "headline",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Read More Link",
-          "name": "readMoreLink",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Read More Label",
-          "name": "readMoreLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "News Date",
-          "name": "date",
-          "valueType": "string"
         }
       ]
     },
@@ -146,14 +93,67 @@
           "valueType": "string"
         }
       ]
+    },
+    {
+      "id": "news-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Image",
+          "name": "image",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Horizontal Image",
+          "name": "imageHorizontal",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Vertical Image",
+          "name": "imageVertical",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Category",
+          "name": "category",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Title",
+          "name": "title",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "CTA Link",
+          "name": "ctaLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "CTA Label",
+          "name": "ctaLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Date",
+          "name": "date",
+          "valueType": "string"
+        }
+      ]
     }
   ],
   "filters": [
     {
       "id": "latest-news",
       "components": [
-        "news-item",
-        "elfsight-widget-embed"
+        "elfsight-widget-embed",
+        "news-item"
       ]
     }
   ]
