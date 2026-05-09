@@ -15,28 +15,100 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "---- New Blocks ----",
+      "header-skip-link",
+      "header-primary-nav",
+      "hero-header",
+      "section-mission",
+      "section-our-work",
+      "featured-grid-section",
+      "image-and-text-card",
+      "section-our-impact",
+      "impact-list",
+      "section-partners",
+      "featured-layered-image",
+      "section-support",
+      "footer-primary-nav",
+      "footer-legal"
     ]
   },
   {
-    "id": "cards",
+    "id": "featured-grid-section",
     "components": [
-      "card"
+      "featured-grid-item"
     ]
   },
   {
-    "id": "columns",
+    "id": "featured-layered-image",
     "components": [
-      "column"
+      "featured-layered-image-card-item"
     ]
   },
   {
-    "id": "column",
+    "id": "footer-legal",
     "components": [
-      "text",
-      "image",
-      "button",
-      "title"
+      "footer-link-item"
     ]
+  },
+  {
+    "id": "footer-primary-nav",
+    "components": [
+      "footer-section-item",
+      "footer-button-item",
+      "footer-social-item"
+    ]
+  },
+  {
+    "id": "header-primary-nav",
+    "components": [
+      "primary-nav-item",
+      "primary-action-item",
+      "primary-action-dropdown-item",
+      "mega-nav-column",
+      "mega-nav-highlight-card",
+      "mega-nav-button-link",
+      "mega-nav-social-link"
+    ]
+  },
+  {
+    "id": "header-skip-link",
+    "components": []
+  },
+  {
+    "id": "hero-header",
+    "components": []
+  },
+  {
+    "id": "image-and-text-card",
+    "components": []
+  },
+  {
+    "id": "impact-list",
+    "components": [
+      "impact-list-item"
+    ]
+  },
+  {
+    "id": "section-mission",
+    "components": []
+  },
+  {
+    "id": "section-our-impact",
+    "components": [
+      "impact-item"
+    ]
+  },
+  {
+    "id": "section-our-work",
+    "components": []
+  },
+  {
+    "id": "section-partners",
+    "components": []
+  },
+  {
+    "id": "section-support",
+    "components": []
   }
 ]

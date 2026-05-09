@@ -51,7 +51,21 @@
         "cards",
         "columns",
         "fragment",
-        "---- New Blocks ----"
+        "---- New Blocks ----",
+        "header-skip-link",
+        "header-primary-nav",
+        "hero-header",
+        "section-mission",
+        "section-our-work",
+        "featured-grid-section",
+        "image-and-text-card",
+        "section-our-impact",
+        "impact-list",
+        "section-partners",
+        "featured-layered-image",
+        "section-support",
+        "footer-primary-nav",
+        "footer-legal"
       ]
     }
   ]

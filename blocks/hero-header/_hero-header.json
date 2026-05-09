@@ -1,0 +1,81 @@
+{
+  "definitions": [
+    {
+      "title": "Hero-Header",
+      "id": "hero-header",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "hero-header",
+              "model": "hero-header",
+              "name": "Hero-Header"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "hero-header",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Background Image (Desktop)",
+          "name": "backgroundImageDesktop",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Background Image (Large)",
+          "name": "backgroundImageLarge",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Background Image (Medium)",
+          "name": "backgroundImageMedium",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Background Image (Small/Mobile)",
+          "name": "backgroundImageSmall",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Image Credit",
+          "name": "imageCredit",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Headline",
+          "name": "headline",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Headline Link",
+          "name": "headlineLink",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Summary",
+          "name": "summary",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "hero-header",
+      "components": []
+    }
+  ]
+}

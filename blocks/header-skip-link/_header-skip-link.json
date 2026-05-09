@@ -1,0 +1,45 @@
+{
+  "definitions": [
+    {
+      "title": "Header-Skip-Link",
+      "id": "header-skip-link",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "header-skip-link",
+              "model": "header-skip-link",
+              "name": "Header-Skip-Link"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "header-skip-link",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Link Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Link Href",
+          "name": "link",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "header-skip-link",
+      "components": []
+    }
+  ]
+}
