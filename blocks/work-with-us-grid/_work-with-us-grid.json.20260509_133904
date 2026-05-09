@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Work-With-Us-Grid-Item",
-      "id": "work-with-us-grid-item",
+      "title": "Work-With-Us-Item",
+      "id": "work-with-us-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "work-with-us-grid-item",
-              "name": "Work-With-Us-Grid-Item"
+              "model": "work-with-us-item",
+              "name": "Work-With-Us-Item"
             }
           }
         }
@@ -38,20 +38,20 @@
       "fields": [
         {
           "component": "text",
-          "label": "Section Title",
-          "name": "sectionTitle",
+          "label": "Block Headline",
+          "name": "blockHeadline",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "work-with-us-grid-item",
-          "label": "Cards",
-          "name": "cards"
+          "item": "work-with-us-item",
+          "label": "Work With Us Items",
+          "name": "items"
         }
       ]
     },
     {
-      "id": "work-with-us-grid-item",
+      "id": "work-with-us-item",
       "fields": [
         {
           "component": "reference",
@@ -61,26 +61,26 @@
         },
         {
           "component": "reference",
-          "label": "Mobile Image (≤576px)",
+          "label": "Mobile Image (max-width: 576px)",
           "name": "imageMobile576",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Mobile Image (≤799px)",
+          "label": "Mobile Image (max-width: 799px)",
           "name": "imageMobile799",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Card Title",
-          "name": "cardTitle",
+          "label": "Item Headline",
+          "name": "itemHeadline",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Card Description",
-          "name": "cardDescription",
+          "label": "Item Description",
+          "name": "itemDescription",
           "valueType": "string"
         },
         {
@@ -102,7 +102,7 @@
     {
       "id": "work-with-us-grid",
       "components": [
-        "work-with-us-grid-item"
+        "work-with-us-item"
       ]
     }
   ]

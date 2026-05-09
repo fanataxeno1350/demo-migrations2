@@ -4,63 +4,60 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 export default function decorate(block) {
   const children = [...block.children];
 
-  const [sectionHeaderRow] = children; // Fixed: Use destructuring for fixed schema root rows
-  const faqItemRows = children.slice(1); // All subsequent rows are FAQ items
-
   const section = document.createElement('section');
   section.classList.add('section', 'faqs-section');
+  // moveInstrumentation(block, section); // Instrumentation should be moved to the root element that replaces 'block'
 
   const container = document.createElement('div');
   container.classList.add('container');
+  section.append(container);
 
-  // Section Header
+  // Section Heading
+  const [headingRow, ...faqItemRows] = children; // Destructuring to get headingRow and remaining faqItemRows
   const sectionHeader = document.createElement('div');
   sectionHeader.classList.add('section-header', 'text-center');
+  moveInstrumentation(headingRow, sectionHeader);
 
   const heading = document.createElement('h2');
   heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
-  moveInstrumentation(sectionHeaderRow, heading);
-  // Fixed: Access the first cell of the sectionHeaderRow using destructuring or direct access after destructuring
-  const [headingCell] = [...sectionHeaderRow.children];
-  heading.textContent = headingCell?.textContent.trim() || '';
-  heading.setAttribute('data-aos', 'fade-up');
+  heading.textContent = headingRow.children[0]?.textContent.trim() || ''; // Access content from the cell
   sectionHeader.append(heading);
   container.append(sectionHeader);
 
-  // Accordion Div
-  const accoDiv = document.createElement('div');
-  accoDiv.classList.add('acco-div');
+  // FAQs Container
+  const faqsWrapper = document.createElement('div');
+  faqsWrapper.classList.add('acco-div');
+  container.append(faqsWrapper);
 
   const ul = document.createElement('ul');
+  faqsWrapper.append(ul);
 
+  // FAQ Items
   faqItemRows.forEach((row, index) => {
-    const [questionCell, answerCell] = [...row.children]; // Correct: Destructuring for fixed schema item rows
+    const [questionCell, answerCell] = [...row.children];
 
     const li = document.createElement('li');
     li.classList.add('aos-init', 'aos-animate');
-    li.setAttribute('data-aos', 'fade-up');
-
-    // Make the first item active by default, matching original HTML
     if (index === 0) {
-      li.classList.add('active');
+      li.classList.add('active'); // First item is active by default in original HTML
     }
+    moveInstrumentation(row, li);
 
-    const h2 = document.createElement('h2');
-    moveInstrumentation(questionCell, h2);
-    h2.textContent = questionCell?.textContent.trim() || '';
-    h2.setAttribute('data-once', 'faqsAccordion');
+    const question = document.createElement('h2');
+    question.textContent = questionCell.textContent.trim();
+    li.append(question);
 
-    const accoContentDiv = document.createElement('div');
-    accoContentDiv.classList.add('acco-content-div');
-    moveInstrumentation(answerCell, accoContentDiv);
-    accoContentDiv.innerHTML = answerCell?.innerHTML || '';
-
-    // Make the first item's content visible by default, matching original HTML
+    const answer = document.createElement('div');
+    answer.classList.add('acco-content-div');
     if (index === 0) {
-      accoContentDiv.classList.add('show');
+      answer.classList.add('show');
     }
+    answer.innerHTML = answerCell.innerHTML; // richtext content
+    li.append(answer);
 
-    h2.addEventListener('click', () => {
+    ul.append(li);
+
+    question.addEventListener('click', () => {
       const isActive = li.classList.contains('active');
       // Close all other open accordions
       ul.querySelectorAll('li.active').forEach((activeLi) => {
@@ -71,24 +68,17 @@ export default function decorate(block) {
       // Toggle current accordion
       if (!isActive) {
         li.classList.add('active');
-        accoContentDiv.classList.add('show');
+        answer.classList.add('show');
       }
     });
-
-    li.append(h2, accoContentDiv);
-    ul.append(li);
   });
 
-  accoDiv.append(ul);
-  container.append(accoDiv);
-  section.append(container);
+  block.replaceChildren(section); // Instrumentation moved here
 
-  block.replaceChildren(section);
-
-  // Removed: Image optimization is not needed as per block structure and original HTML
-  // block.querySelectorAll('picture > img').forEach((img) => {
-  //   const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-  //   moveInstrumentation(img, optimizedPic.querySelector('img'));
-  //   img.closest('picture').replaceWith(optimizedPic);
-  // });
+  // Optimize images
+  section.querySelectorAll('picture > img').forEach((img) => {
+    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+    moveInstrumentation(img, optimizedPic.querySelector('img'));
+    img.closest('picture').replaceWith(optimizedPic);
+  });
 }

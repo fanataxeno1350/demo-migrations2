@@ -49,14 +49,14 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Card Image (Desktop)",
-          "name": "imageDesktop",
+          "label": "Card Image (Mobile)",
+          "name": "imageMobile",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Card Image (Mobile)",
-          "name": "imageMobile",
+          "label": "Card Image (Desktop)",
+          "name": "imageDesktop",
           "valueType": "string"
         },
         {

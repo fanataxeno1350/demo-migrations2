@@ -2,28 +2,25 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  // block.children[0] is blockHeadlineRow
-  // block.children[1] is the "container" field, but it's not a content row, it's just a placeholder for itemRows
-  // So, we take the first row as headline, and all subsequent rows as itemRows.
-  const [blockHeadlineRow, ...itemRows] = [...block.children];
+  const [sectionTitleRow, cardsContainerRow, ...cardRows] = [...block.children];
 
   const section = document.createElement('section');
-  section.classList.add('section', 'work-with-us', 'pb-0');
-  moveInstrumentation(blockHeadlineRow, section);
+  // Removed 'work-with-us' class as the outer block div already has it.
+  section.classList.add('section', 'pb-0');
+  moveInstrumentation(block, section);
 
   const sectionHeader = document.createElement('div');
   sectionHeader.classList.add('section-header', 'text-center');
 
   const heading = document.createElement('h2');
   heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
-  heading.textContent = blockHeadlineRow.textContent.trim();
+  moveInstrumentation(sectionTitleRow, heading);
+  heading.textContent = sectionTitleRow.textContent.trim();
   sectionHeader.append(heading);
   section.append(sectionHeader);
 
   const positionRelativeDiv = document.createElement('div');
   positionRelativeDiv.classList.add('position-relative', 'aos-init', 'aos-animate');
-  // There is no separate "containerRow" in the block.children that needs instrumentation moved.
-  // The instrumentation for the overall container is handled by the block itself.
 
   const containerDiv = document.createElement('div');
   containerDiv.classList.add('container');
@@ -31,19 +28,20 @@ export default function decorate(block) {
   const gridLayoutDiv = document.createElement('div');
   gridLayoutDiv.classList.add('grid-layout');
 
-  itemRows.forEach((row) => {
+  cardRows.forEach((row) => {
     const [
       imageDesktopCell,
       imageMobile576Cell,
       imageMobile799Cell,
-      itemHeadlineCell,
-      itemDescriptionCell,
+      cardTitleCell,
+      cardDescriptionCell,
       ctaLinkCell,
       ctaLabelCell,
     ] = [...row.children];
 
     const slidesDiv = document.createElement('div');
     slidesDiv.classList.add('slides');
+    moveInstrumentation(row, slidesDiv); // Move instrumentation from the row to the slide container
 
     const wrapDiv = document.createElement('div');
     wrapDiv.classList.add('wrap');
@@ -53,39 +51,38 @@ export default function decorate(block) {
 
     const picture = document.createElement('picture');
 
-    // Mobile image (max-width: 576px)
-    const img576 = imageMobile576Cell.querySelector('img');
-    if (img576) {
-      const source576 = document.createElement('source');
-      source576.media = '(max-width: 576px)';
-      source576.srcset = img576.src;
-      picture.append(source576);
+    const mobile576Source = document.createElement('source');
+    mobile576Source.media = '(max-width: 576px)';
+    const mobile576Img = imageMobile576Cell.querySelector('img');
+    if (mobile576Img) {
+      mobile576Source.srcset = mobile576Img.src;
+      moveInstrumentation(mobile576Img, mobile576Source);
     }
+    picture.append(mobile576Source);
 
-    // Mobile image (max-width: 799px)
-    const img799 = imageMobile799Cell.querySelector('img');
-    if (img799) {
-      const source799 = document.createElement('source');
-      source799.media = '(max-width: 799px)';
-      source799.srcset = img799.src;
-      picture.append(source799);
+    const mobile799Source = document.createElement('source');
+    mobile799Source.media = '(max-width: 799px)';
+    const mobile799Img = imageMobile799Cell.querySelector('img');
+    if (mobile799Img) {
+      mobile799Source.srcset = mobile799Img.src;
+      moveInstrumentation(mobile799Img, mobile799Source);
     }
+    picture.append(mobile799Source);
 
-    // Desktop image
-    const imgDesktop = imageDesktopCell.querySelector('img');
-    if (imgDesktop) {
-      const img = document.createElement('img');
-      img.src = imgDesktop.src;
-      img.alt = imgDesktop.alt;
-      img.classList.add('img-fluid');
-      img.loading = 'lazy';
-      picture.append(img);
+    const desktopImg = imageDesktopCell.querySelector('img');
+    if (desktopImg) {
+      // createOptimizedPicture returns a <picture> element, not just an <img>.
+      // We need to append the entire picture element and then move instrumentation to its inner img.
+      const optimizedPicture = createOptimizedPicture(desktopImg.src, desktopImg.alt, false, [{ width: '750' }]);
+      const imgElement = optimizedPicture.querySelector('img');
+      if (imgElement) {
+        imgElement.classList.add('img-fluid');
+        moveInstrumentation(desktopImg, imgElement);
+        picture.append(imgElement);
+      }
     }
-
-    if (picture.children.length > 0) {
-      imageWrapDiv.append(picture);
-      wrapDiv.append(imageWrapDiv);
-    }
+    imageWrapDiv.append(picture);
+    wrapDiv.append(imageWrapDiv);
 
     const contentWrapDiv = document.createElement('div');
     contentWrapDiv.classList.add('content-wrap');
@@ -93,20 +90,23 @@ export default function decorate(block) {
     const contentSectionHeader = document.createElement('div');
     contentSectionHeader.classList.add('section-header');
 
-    const itemHeadline = document.createElement('h3');
-    itemHeadline.classList.add('heading', 'font-regular');
-    itemHeadline.textContent = itemHeadlineCell.textContent.trim();
-    contentSectionHeader.append(itemHeadline);
+    const cardTitle = document.createElement('h3');
+    cardTitle.classList.add('heading', 'font-regular');
+    moveInstrumentation(cardTitleCell, cardTitle);
+    cardTitle.textContent = cardTitleCell.textContent.trim();
+    contentSectionHeader.append(cardTitle);
 
-    const itemDescription = document.createElement('p');
-    itemDescription.classList.add('text-size-body');
-    itemDescription.innerHTML = itemDescriptionCell.innerHTML; // richtext field
-    contentSectionHeader.append(itemDescription);
+    const cardDescription = document.createElement('p');
+    cardDescription.classList.add('text-size-body');
+    moveInstrumentation(cardDescriptionCell, cardDescription);
+    cardDescription.innerHTML = cardDescriptionCell.innerHTML;
+    contentSectionHeader.append(cardDescription);
 
     const ctaLink = document.createElement('a');
-    const ctaAnchor = ctaLinkCell.querySelector('a');
-    if (ctaAnchor) {
-      ctaLink.href = ctaAnchor.href;
+    const foundCtaLink = ctaLinkCell.querySelector('a');
+    if (foundCtaLink) {
+      ctaLink.href = foundCtaLink.href;
+      moveInstrumentation(foundCtaLink, ctaLink); // Move instrumentation from the original <a> to the new <a>
     }
     ctaLink.classList.add('btn', 'btn-primary', 'stretched-link');
     ctaLink.textContent = ctaLabelCell.textContent.trim();
@@ -115,9 +115,6 @@ export default function decorate(block) {
     contentWrapDiv.append(contentSectionHeader);
     wrapDiv.append(contentWrapDiv);
     slidesDiv.append(wrapDiv);
-
-    moveInstrumentation(row, slidesDiv); // Move instrumentation from the item row
-
     gridLayoutDiv.append(slidesDiv);
   });
 
@@ -125,21 +122,8 @@ export default function decorate(block) {
   positionRelativeDiv.append(containerDiv);
   section.append(positionRelativeDiv);
 
-  block.replaceChildren(section);
+  // Move instrumentation from the container placeholder row to the gridLayoutDiv
+  moveInstrumentation(cardsContainerRow, gridLayoutDiv);
 
-  // Optimize images
-  section.querySelectorAll('picture').forEach((pictureElement) => {
-    const img = pictureElement.querySelector('img');
-    if (img) {
-      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-      // moveInstrumentation should be called on the original img, not the new optimizedPic's img
-      // The original img is replaced, so its instrumentation is lost.
-      // We should move instrumentation from the original picture element if it exists,
-      // or from the original img if the picture was created by the block.
-      // Since the picture is created by the block, we can't move instrumentation from it.
-      // The instrumentation for the row is already moved to slidesDiv.
-      // The optimizedPic replaces the entire picture element, so no need to move instrumentation to its inner img.
-      pictureElement.replaceWith(optimizedPic);
-    }
-  });
+  block.replaceChildren(section);
 }

@@ -210,14 +210,14 @@
       },
       {
         "component": "container",
-        "item": "faq-accordion-item",
+        "item": "faq-item",
         "label": "FAQs",
         "name": "faqs"
       }
     ]
   },
   {
-    "id": "faq-accordion-item",
+    "id": "faq-item",
     "fields": [
       {
         "component": "text",
@@ -660,13 +660,13 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Card Image Desktop",
+        "label": "Card Image (Desktop)",
         "name": "imageDesktop",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Card Image Mobile",
+        "label": "Card Image (Mobile)",
         "name": "imageMobile",
         "valueType": "string"
       },
@@ -700,14 +700,14 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Card Image (Desktop)",
-        "name": "imageDesktop",
+        "label": "Card Image (Mobile)",
+        "name": "imageMobile",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Card Image (Mobile)",
-        "name": "imageMobile",
+        "label": "Card Image (Desktop)",
+        "name": "imageDesktop",
         "valueType": "string"
       },
       {
@@ -735,43 +735,43 @@
       },
       {
         "component": "text",
-        "label": "Section Description",
-        "name": "description",
+        "label": "Section Subheading",
+        "name": "subheading",
         "valueType": "string"
       },
       {
         "component": "container",
-        "item": "purpose-led-card-item",
+        "item": "purpose-card-item",
         "label": "Cards",
         "name": "cards"
       }
     ]
   },
   {
-    "id": "purpose-led-card-item",
+    "id": "purpose-card-item",
     "fields": [
       {
         "component": "reference",
-        "label": "Card Image (Desktop)",
+        "label": "Card Main Image",
         "name": "image",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Card Image (Mobile)",
+        "label": "Card Mobile Image",
         "name": "imageMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Card Description",
+        "name": "description",
         "valueType": "string"
       },
       {
         "component": "aem-content",
         "label": "Card Link",
         "name": "cardLink",
-        "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "label": "Card Text",
-        "name": "cardText",
         "valueType": "string"
       }
     ]
@@ -809,20 +809,20 @@
     "fields": [
       {
         "component": "text",
-        "label": "Block Headline",
-        "name": "blockHeadline",
+        "label": "Section Title",
+        "name": "sectionTitle",
         "valueType": "string"
       },
       {
         "component": "container",
-        "item": "work-with-us-item",
-        "label": "Work With Us Items",
-        "name": "items"
+        "item": "work-with-us-grid-item",
+        "label": "Cards",
+        "name": "cards"
       }
     ]
   },
   {
-    "id": "work-with-us-item",
+    "id": "work-with-us-grid-item",
     "fields": [
       {
         "component": "reference",
@@ -832,26 +832,26 @@
       },
       {
         "component": "reference",
-        "label": "Mobile Image (max-width: 576px)",
+        "label": "Mobile Image (≤576px)",
         "name": "imageMobile576",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Mobile Image (max-width: 799px)",
+        "label": "Mobile Image (≤799px)",
         "name": "imageMobile799",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Item Headline",
-        "name": "itemHeadline",
+        "label": "Card Title",
+        "name": "cardTitle",
         "valueType": "string"
       },
       {
         "component": "richtext",
-        "label": "Item Description",
-        "name": "itemDescription",
+        "label": "Card Description",
+        "name": "cardDescription",
         "valueType": "string"
       },
       {

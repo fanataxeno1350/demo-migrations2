@@ -4,102 +4,82 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 export default function decorate(block) {
   const allRows = [...block.children];
 
-  // The first row is the container placeholder for "cards" field.
-  // We need to consume it and move its instrumentation.
+  // Consume the container placeholder row (Rule 13a)
   const containerPlaceholder = allRows.shift();
-
-  const rootDiv = document.createElement('div');
-  // Corrected typo 'performace' to 'performance' and removed redundant 'performace-driven-home'
-  // as the outer block div already has 'performance-driven-cards-2' and 'performance-driven'
-  // from the original HTML. The 'performace-driven-home' class is already on the outer block.
-  rootDiv.classList.add('performance-driven'); // Only 'performance-driven' from original HTML
-
-  const containerDiv = document.createElement('div');
-  containerDiv.classList.add('container');
-  rootDiv.append(containerDiv);
-
   const cardsWrapper = document.createElement('div');
-  cardsWrapper.classList.add('performace-driven-cards');
-  containerDiv.append(cardsWrapper);
-
-  // Move instrumentation from the placeholder row to the actual cards wrapper
-  if (containerPlaceholder) {
-    moveInstrumentation(containerPlaceholder, cardsWrapper);
-  }
+  // cardsWrapper.classList.add('performace-driven-cards'); // VIOLATION: Block's own class on inner wrapper. Outer div already has it.
+  moveInstrumentation(containerPlaceholder, cardsWrapper);
 
   allRows
-    .filter((row) => row.children.length === 4) // Ensure it's a card item row
+    .filter(row => row.children.length > 0 && [...row.children].some(c => c.children.length > 0 || c.textContent.trim() !== ''))
     .forEach((row) => {
-      const [imageDesktopCell, imageMobileCell, descriptionCell, linkCell] = [...row.children];
+      const [imageDesktopCell, imageMobileCell, descriptionCell, linkCell] = [...row.children]; // Rule 17
 
-      const anchor = document.createElement('a');
-      anchor.classList.add('performace-driven-cards-link');
-
-      const foundLink = linkCell.querySelector('a');
+      const cardLink = document.createElement('a');
+      cardLink.classList.add('performace-driven-cards-link');
+      const foundLink = linkCell?.querySelector('a');
       if (foundLink) {
-        anchor.href = foundLink.href;
-        // The original HTML has target="_blank", so we add it here.
-        anchor.target = '_blank';
+        cardLink.href = foundLink.href;
+        // Check for target attribute in original HTML (Rule 23.3)
+        if (foundLink.getAttribute('target')) {
+          cardLink.setAttribute('target', foundLink.getAttribute('target'));
+        }
       }
 
       const cardWrapper = document.createElement('div');
       cardWrapper.classList.add('performace-driven-card-wrapper');
-      anchor.append(cardWrapper);
 
       const cardImage = document.createElement('div');
       cardImage.classList.add('card-image');
-      cardWrapper.append(cardImage);
 
-      // Create and append picture element for desktop and mobile images
-      const picture = document.createElement('picture');
+      if (imageDesktopCell || imageMobileCell) {
+        const picture = document.createElement('picture');
 
-      const mobileImg = imageMobileCell.querySelector('img');
-      if (mobileImg) {
-        const source = document.createElement('source');
-        source.media = '(max-width: 576px)';
-        source.srcset = mobileImg.src;
-        picture.append(source);
+        // Mobile image source (Rule 17)
+        const mobileImg = imageMobileCell?.querySelector('img');
+        if (mobileImg) {
+          const sourceMobile = document.createElement('source');
+          sourceMobile.media = '(max-width: 576px)';
+          sourceMobile.srcset = mobileImg.src;
+          picture.appendChild(sourceMobile);
+        }
+
+        // Desktop image (Rule 17)
+        const desktopImg = imageDesktopCell?.querySelector('img');
+        if (desktopImg) {
+          const optimizedPic = createOptimizedPicture(desktopImg.src, desktopImg.alt, false, [{ width: '750' }]);
+          const img = optimizedPic.querySelector('img');
+          if (img) {
+            moveInstrumentation(desktopImg, img); // Move instrumentation from original img to optimized img
+            picture.appendChild(img);
+          }
+        }
+        cardImage.appendChild(picture);
       }
 
-      const desktopImg = imageDesktopCell.querySelector('img');
-      if (desktopImg) {
-        const img = document.createElement('img');
-        img.src = desktopImg.src;
-        img.alt = desktopImg.alt || '';
-        picture.append(img);
-      }
+      const cardContentBox = document.createElement('div');
+      cardContentBox.classList.add('performace-driven-home-box-card');
 
-      cardImage.append(picture);
+      const description = document.createElement('p');
+      description.classList.add('desc');
+      description.innerHTML = descriptionCell?.innerHTML || ''; // Rule 17a, 17c
 
-      // Optimize images
-      cardImage.querySelectorAll('picture > img').forEach((img) => {
-        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-        // moveInstrumentation should be called on the original img element,
-        // and the new optimized picture should replace the original picture element.
-        // The img inside optimizedPic is a new element, so no need to move instrumentation to it.
-        // The instrumentation is on the original <div> row, which is moved to the anchor.
-        img.closest('picture').replaceWith(optimizedPic);
-      });
+      cardContentBox.appendChild(description);
+      cardWrapper.appendChild(cardImage);
+      cardWrapper.appendChild(cardContentBox);
+      cardLink.appendChild(cardWrapper);
 
-      const boxCard = document.createElement('div');
-      boxCard.classList.add('performace-driven-home-box-card');
-      cardWrapper.append(boxCard);
-
-      const descriptionP = document.createElement('p');
-      descriptionP.classList.add('desc');
-      // Richtext content is directly inside the cell div.
-      // We need to extract the innerHTML, not the cell's outerHTML or query for a div.
-      // The original HTML shows <p> inside the description cell, so assigning innerHTML
-      // to a <p> element would create <p><p>...</p></p>, which is invalid.
-      // Use a div to safely contain rich text.
-      const descriptionDiv = document.createElement('div');
-      descriptionDiv.classList.add('desc'); // Apply class to the div
-      descriptionDiv.innerHTML = descriptionCell.innerHTML;
-      boxCard.append(descriptionDiv);
-
-      moveInstrumentation(row, anchor); // Move instrumentation from the authored row to the new anchor
-      cardsWrapper.append(anchor);
+      moveInstrumentation(row, cardLink); // Rule 3
+      cardsWrapper.appendChild(cardLink);
     });
 
-  block.replaceChildren(rootDiv);
+  const container = document.createElement('div');
+  container.classList.add('container');
+  container.appendChild(cardsWrapper);
+
+  const rootDiv = document.createElement('div');
+  rootDiv.classList.add('performance-driven', 'performace-driven-home'); // Rule 12
+  rootDiv.appendChild(container);
+
+  block.replaceChildren(rootDiv); // Rule 21
 }

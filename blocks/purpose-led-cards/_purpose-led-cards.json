@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Purpose-Led-Card-Item",
-      "id": "purpose-led-card-item",
+      "title": "Purpose-Card-Item",
+      "id": "purpose-card-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "purpose-led-card-item",
-              "name": "Purpose-Led-Card-Item"
+              "model": "purpose-card-item",
+              "name": "Purpose-Card-Item"
             }
           }
         }
@@ -44,43 +44,43 @@
         },
         {
           "component": "text",
-          "label": "Section Description",
-          "name": "description",
+          "label": "Section Subheading",
+          "name": "subheading",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "purpose-led-card-item",
+          "item": "purpose-card-item",
           "label": "Cards",
           "name": "cards"
         }
       ]
     },
     {
-      "id": "purpose-led-card-item",
+      "id": "purpose-card-item",
       "fields": [
         {
           "component": "reference",
-          "label": "Card Image (Desktop)",
+          "label": "Card Main Image",
           "name": "image",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Card Image (Mobile)",
+          "label": "Card Mobile Image",
           "name": "imageMobile",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Card Description",
+          "name": "description",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Card Link",
           "name": "cardLink",
-          "valueType": "string"
-        },
-        {
-          "component": "richtext",
-          "label": "Card Text",
-          "name": "cardText",
           "valueType": "string"
         }
       ]
@@ -90,7 +90,7 @@
     {
       "id": "purpose-led-cards",
       "components": [
-        "purpose-led-card-item"
+        "purpose-card-item"
       ]
     }
   ]
