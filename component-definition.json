@@ -284,7 +284,7 @@
           }
         },
         {
-          "title": "Navigation Item",
+          "title": "Navigation-Item",
           "id": "navigation-item",
           "plugins": {
             "xwalk": {
@@ -292,112 +292,37 @@
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
                   "model": "navigation-item",
-                  "name": "Navigation Item"
+                  "name": "Navigation-Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Mega Menu About Us",
-          "id": "mega-menu-about-us",
+          "title": "Press-Release-Item",
+          "id": "press-release-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "mega-menu-about-us",
-                  "name": "Mega Menu About Us"
+                  "model": "press-release-item",
+                  "name": "Press-Release-Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Mega Menu What We Do",
-          "id": "mega-menu-what-we-do",
+          "title": "Contact-Link-Item",
+          "id": "contact-link-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "mega-menu-what-we-do",
-                  "name": "Mega Menu What We Do"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Mega Menu Investor Relations",
-          "id": "mega-menu-investor-relations",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "mega-menu-investor-relations",
-                  "name": "Mega Menu Investor Relations"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Mega Menu Newsroom",
-          "id": "mega-menu-newsroom",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "mega-menu-newsroom",
-                  "name": "Mega Menu Newsroom"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Mega Menu Careers",
-          "id": "mega-menu-careers",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "mega-menu-careers",
-                  "name": "Mega Menu Careers"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Mega Menu Newsroom Slide",
-          "id": "newsroom-slide",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "newsroom-slide",
-                  "name": "Mega Menu Newsroom Slide"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Icon Nav Item",
-          "id": "icon-nav-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "icon-nav-item",
-                  "name": "Icon Nav Item"
+                  "model": "contact-link-item",
+                  "name": "Contact-Link-Item"
                 }
               }
             }

@@ -1,0 +1,426 @@
+{
+  "definitions": [
+    {
+      "title": "Header",
+      "id": "header",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "header",
+              "model": "header",
+              "name": "Header"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Navigation Item",
+      "id": "navigation-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "navigation-item",
+              "name": "Navigation Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Mega Menu About Us",
+      "id": "mega-menu-about-us",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "mega-menu-about-us",
+              "name": "Mega Menu About Us"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Mega Menu What We Do",
+      "id": "mega-menu-what-we-do",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "mega-menu-what-we-do",
+              "name": "Mega Menu What We Do"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Mega Menu Investor Relations",
+      "id": "mega-menu-investor-relations",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "mega-menu-investor-relations",
+              "name": "Mega Menu Investor Relations"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Mega Menu Newsroom",
+      "id": "mega-menu-newsroom",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "mega-menu-newsroom",
+              "name": "Mega Menu Newsroom"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Mega Menu Careers",
+      "id": "mega-menu-careers",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "mega-menu-careers",
+              "name": "Mega Menu Careers"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Mega Menu Newsroom Slide",
+      "id": "newsroom-slide",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "newsroom-slide",
+              "name": "Mega Menu Newsroom Slide"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Icon Nav Item",
+      "id": "icon-nav-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "icon-nav-item",
+              "name": "Icon Nav Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "header",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Brand Logo",
+          "name": "logo",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Brand Logo Link",
+          "name": "logoLink",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Anniversary Logo",
+          "name": "anniversaryLogo",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Anniversary Logo Link",
+          "name": "anniversaryLogoLink",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "navigation-item",
+          "label": "Navigation Menu",
+          "name": "navigationMenu"
+        },
+        {
+          "component": "container",
+          "item": "icon-nav-item",
+          "label": "Icon Navigation Items",
+          "name": "iconNavItems"
+        }
+      ]
+    },
+    {
+      "id": "navigation-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Menu Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Menu Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "select",
+          "label": "Mega Menu Type",
+          "name": "megaMenuType",
+          "options": [
+            {
+              "label": "None",
+              "value": ""
+            },
+            {
+              "label": "About Us",
+              "value": "mega-menu-about-us"
+            },
+            {
+              "label": "What We Do",
+              "value": "mega-menu-what-we-do"
+            },
+            {
+              "label": "Investor Relations",
+              "value": "mega-menu-investor-relations"
+            },
+            {
+              "label": "Newsroom",
+              "value": "mega-menu-newsroom"
+            },
+            {
+              "label": "Careers",
+              "value": "mega-menu-careers"
+            }
+          ],
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "mega-menu-about-us",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Left Heading",
+          "name": "heading",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Left Description",
+          "name": "description",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Left Sub Description",
+          "name": "subDescription",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Section Links",
+          "name": "sectionLinks"
+        }
+      ]
+    },
+    {
+      "id": "mega-menu-what-we-do",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Left Heading",
+          "name": "heading",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Facts List",
+          "name": "factsList"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "mega-menu-investor-relations",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Left Heading",
+          "name": "heading",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Left Sub Heading",
+          "name": "subHeading",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Facts List",
+          "name": "factsList"
+        },
+        {
+          "component": "richtext",
+          "label": "Section Links",
+          "name": "sectionLinks"
+        }
+      ]
+    },
+    {
+      "id": "mega-menu-newsroom",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Left Heading",
+          "name": "heading",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "newsroom-slide",
+          "label": "Latest Press Releases",
+          "name": "newsroomSlides"
+        },
+        {
+          "component": "richtext",
+          "label": "Section Links",
+          "name": "sectionLinks"
+        }
+      ]
+    },
+    {
+      "id": "newsroom-slide",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Press Release Title",
+          "name": "title",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Press Release Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "date-time",
+          "label": "Press Release Date",
+          "name": "date"
+        },
+        {
+          "component": "text",
+          "label": "Press Release Category",
+          "name": "category",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "mega-menu-careers",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Left Heading",
+          "name": "heading",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Left Description",
+          "name": "description",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Left Sub Description",
+          "name": "subDescription",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "icon-nav-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Icon Nav Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Icon Nav Link",
+          "name": "link",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "header",
+      "components": [
+        "navigation-item",
+        "mega-menu-about-us",
+        "mega-menu-what-we-do",
+        "mega-menu-investor-relations",
+        "mega-menu-newsroom",
+        "mega-menu-careers",
+        "newsroom-slide",
+        "icon-nav-item"
+      ]
+    }
+  ]
+}
