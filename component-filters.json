@@ -21,7 +21,12 @@
       "header-main-navbar",
       "hero-banner",
       "call-to-action-section",
-      "latest-news-and-partnership"
+      "latest-news-and-partnership",
+      "footer-logo-and-contact",
+      "footer-navigation",
+      "footer-departments-navigation",
+      "footer-links-navigation",
+      "footer-copyright"
     ]
   },
   {
@@ -29,6 +34,30 @@
     "components": [
       "call-to-action-item"
     ]
+  },
+  {
+    "id": "footer-copyright",
+    "components": []
+  },
+  {
+    "id": "footer-departments-navigation",
+    "components": [
+      "department-link-item"
+    ]
+  },
+  {
+    "id": "footer-links-navigation",
+    "components": [
+      "footer-link-item"
+    ]
+  },
+  {
+    "id": "footer-logo-and-contact",
+    "components": []
+  },
+  {
+    "id": "footer-navigation",
+    "components": []
   },
   {
     "id": "header-main-navbar",

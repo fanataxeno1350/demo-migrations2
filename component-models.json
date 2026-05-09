@@ -176,6 +176,97 @@
     ]
   },
   {
+    "id": "footer-copyright",
+    "fields": [
+      {
+        "component": "richtext",
+        "label": "Copyright Text",
+        "name": "copyrightText",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Footer Note",
+        "name": "footerNote",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "footer-departments-navigation",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Heading",
+        "name": "heading",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "department-link-item",
+        "label": "Department Links",
+        "name": "departmentLinks"
+      }
+    ]
+  },
+  {
+    "id": "department-link-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Department Name",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Department Link",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "footer-links-navigation",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Navigation Heading",
+        "name": "heading",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "footer-link-item",
+        "label": "Footer Links",
+        "name": "links"
+      }
+    ]
+  },
+  {
+    "id": "footer-link-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Link Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Link URL",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "footer-logo-and-contact"
+  },
+  {
+    "id": "footer-navigation"
+  },
+  {
     "id": "header-main-navbar",
     "fields": [
       {

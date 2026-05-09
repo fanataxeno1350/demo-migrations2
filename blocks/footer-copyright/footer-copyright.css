@@ -1,0 +1,25 @@
+@keyframes rotateplane{0%{transform:perspective(120px) rotateX(0deg) rotateY(0deg);}50%{transform:perspective(120px) rotateX(-180.1deg) rotateY(0deg);}100%{transform:perspective(120px) rotateX(-180deg) rotateY(-179.9deg);}}
+
+.site-footer__bottom{ letter-spacing:0.2px;margin-top:30px;border-top:1px solid #555;border-color:rgba(255,255,255,0.15); }
+
+@keyframes progress-bar-stripes{from{background-position:1rem 0}to{background-position:0 0}}
+
+@keyframes spinner-border{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+
+@keyframes spinner-grow{0%{-webkit-transform:scale(0);transform:scale(0)}50%{opacity:1;-webkit-transform:none;transform:none}}
+
+.text-center{ text-align:center!important }
+
+.site-footer__bottom a:hover{ text-decoration:none; }
+
+.site-footer__bottom{ border-top:none;margin-top:70px; }
+
+.site-footer__bottom a{ text-shadow:none; }
+
+.site-footer__bottom p{ font-size:80%;font-weight:lighter; }
+
+.site-footer__bottom a{ color:var(--alt-blue-light) !important; }
+
+.site-footer__bottom a:hover{ color:var(--orange-highlight) !important; }
+
+@keyframes fa-spin{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
