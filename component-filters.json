@@ -52,14 +52,6 @@
     ]
   },
   {
-    "id": "footer-logo-and-contact",
-    "components": []
-  },
-  {
-    "id": "footer-navigation",
-    "components": []
-  },
-  {
     "id": "header-main-navbar",
     "components": [
       "main-nav-item"
