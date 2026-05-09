@@ -341,14 +341,14 @@
       },
       {
         "component": "reference",
-        "label": "80th Year Logo",
-        "name": "logo80",
+        "label": "Anniversary/Secondary Logo",
+        "name": "anniversaryLogo",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "80th Year Logo Link",
-        "name": "logo80Link",
+        "label": "Anniversary/Secondary Logo Link",
+        "name": "anniversaryLogoLink",
         "valueType": "string"
       },
       {
@@ -359,45 +359,15 @@
       },
       {
         "component": "container",
-        "item": "mega-menu-about-us",
-        "label": "Mega Menu About Us",
-        "name": "megaMenuAboutUs"
-      },
-      {
-        "component": "container",
-        "item": "mega-menu-what-we-do",
-        "label": "Mega Menu What We Do",
-        "name": "megaMenuWhatWeDo"
-      },
-      {
-        "component": "container",
-        "item": "mega-menu-investor-relations",
-        "label": "Mega Menu Investor Relations",
-        "name": "megaMenuInvestorRelations"
-      },
-      {
-        "component": "container",
-        "item": "mega-menu-newsroom",
-        "label": "Mega Menu Newsroom",
-        "name": "megaMenuNewsroom"
+        "item": "icon-nav-item",
+        "label": "Icon Nav Items",
+        "name": "iconNavItems"
       },
       {
         "component": "container",
         "item": "press-release-item",
-        "label": "Press Releases",
+        "label": "Latest Press Releases",
         "name": "pressReleaseItems"
-      },
-      {
-        "component": "container",
-        "item": "mega-menu-careers",
-        "label": "Mega Menu Careers",
-        "name": "megaMenuCareers"
-      },
-      {
-        "component": "container",
-        "item": "contact-link-item",
-        "label": "Contact Us Links",
-        "name": "contactLinks"
       }
     ]
   },
@@ -418,107 +388,15 @@
       },
       {
         "component": "richtext",
+        "label": "Mega Menu Content",
+        "name": "megaMenuContent",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
         "label": "Navigation Hierarchy",
         "name": "hierarchy-tree",
         "valueType": "string"
-      }
-    ]
-  },
-  {
-    "id": "mega-menu-about-us",
-    "fields": [
-      {
-        "component": "text",
-        "label": "Left Panel Heading",
-        "name": "heading",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Left Panel Description",
-        "name": "desc",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Left Panel Sub-description",
-        "name": "subdesc",
-        "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "label": "Section Links",
-        "name": "sectionLinks"
-      }
-    ]
-  },
-  {
-    "id": "mega-menu-what-we-do",
-    "fields": [
-      {
-        "component": "text",
-        "label": "Left Panel Heading",
-        "name": "heading",
-        "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "label": "Key Facts",
-        "name": "facts"
-      },
-      {
-        "component": "richtext",
-        "label": "Section Links",
-        "name": "sectionLinks"
-      }
-    ]
-  },
-  {
-    "id": "mega-menu-investor-relations",
-    "fields": [
-      {
-        "component": "text",
-        "label": "Left Panel Heading",
-        "name": "heading",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Left Panel Description",
-        "name": "desc",
-        "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "label": "Group Highlights",
-        "name": "facts"
-      },
-      {
-        "component": "richtext",
-        "label": "Section Links",
-        "name": "sectionLinks"
-      }
-    ]
-  },
-  {
-    "id": "mega-menu-newsroom",
-    "fields": [
-      {
-        "component": "text",
-        "label": "Left Panel Heading",
-        "name": "heading",
-        "valueType": "string"
-      },
-      {
-        "component": "container",
-        "item": "press-release-item",
-        "label": "Latest Press Releases",
-        "name": "pressReleases"
-      },
-      {
-        "component": "richtext",
-        "label": "Section Links",
-        "name": "sectionLinks"
       }
     ]
   },
@@ -528,69 +406,41 @@
       {
         "component": "aem-content",
         "label": "Press Release Link",
-        "name": "link",
+        "name": "pressLink",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Press Release Label",
-        "name": "label",
+        "label": "Press Release Title",
+        "name": "pressTitle",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Date",
-        "name": "date",
+        "label": "Press Release Date",
+        "name": "pressDate",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Category/Tag",
-        "name": "tag",
+        "label": "Press Release Category",
+        "name": "pressCategory",
         "valueType": "string"
       }
     ]
   },
   {
-    "id": "mega-menu-careers",
+    "id": "icon-nav-item",
     "fields": [
       {
         "component": "text",
-        "label": "Left Panel Heading",
-        "name": "heading",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Left Panel Description",
-        "name": "desc",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Left Panel Sub-description",
-        "name": "subdesc",
-        "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "label": "Section Links",
-        "name": "sectionLinks"
-      }
-    ]
-  },
-  {
-    "id": "contact-link-item",
-    "fields": [
-      {
-        "component": "text",
-        "label": "Contact Link Label",
+        "label": "Icon Nav Label",
         "name": "label",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Contact Link URL",
+        "label": "Icon Nav Link",
         "name": "link",
         "valueType": "string"
       }

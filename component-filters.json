@@ -54,13 +54,8 @@
     "id": "header",
     "components": [
       "navigation-item",
-      "mega-menu-about-us",
-      "mega-menu-what-we-do",
-      "mega-menu-investor-relations",
-      "mega-menu-newsroom",
       "press-release-item",
-      "mega-menu-careers",
-      "contact-link-item"
+      "icon-nav-item"
     ]
   },
   {
