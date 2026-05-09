@@ -65,7 +65,12 @@
         "faq-accordion",
         "footer",
         "quick-links-bar",
-        "business-verticals-grid"
+        "business-verticals-grid",
+        "home-slider",
+        "what-we-do",
+        "latest-news",
+        "work-with-us",
+        "faqs"
       ]
     }
   ]

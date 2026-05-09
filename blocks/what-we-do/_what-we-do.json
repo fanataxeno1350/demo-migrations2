@@ -1,31 +1,31 @@
 {
   "definitions": [
     {
-      "title": "Purpose-Led-Cards",
-      "id": "purpose-led-cards",
+      "title": "What-We-Do",
+      "id": "what-we-do",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "filter": "purpose-led-cards",
-              "model": "purpose-led-cards",
-              "name": "Purpose-Led-Cards"
+              "filter": "what-we-do",
+              "model": "what-we-do",
+              "name": "What-We-Do"
             }
           }
         }
       }
     },
     {
-      "title": "Purpose-Card-Item",
-      "id": "purpose-card-item",
+      "title": "Business-Vertical-Item",
+      "id": "business-vertical-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "purpose-card-item",
-              "name": "Purpose-Card-Item"
+              "model": "business-vertical-item",
+              "name": "Business-Vertical-Item"
             }
           }
         }
@@ -34,30 +34,30 @@
   ],
   "models": [
     {
-      "id": "purpose-led-cards",
+      "id": "what-we-do",
       "fields": [
         {
-          "component": "richtext",
+          "component": "text",
           "label": "Section Heading",
           "name": "heading",
           "valueType": "string"
         },
         {
-          "component": "text",
+          "component": "richtext",
           "label": "Section Description",
           "name": "description",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "purpose-card-item",
-          "label": "Purpose Cards",
-          "name": "cards"
+          "item": "business-vertical-item",
+          "label": "Business Verticals",
+          "name": "businessVerticals"
         }
       ]
     },
     {
-      "id": "purpose-card-item",
+      "id": "business-vertical-item",
       "fields": [
         {
           "component": "reference",
@@ -72,15 +72,21 @@
           "valueType": "string"
         },
         {
-          "component": "aem-content",
-          "label": "Card Link",
-          "name": "cardLink",
+          "component": "text",
+          "label": "Business Title",
+          "name": "title",
           "valueType": "string"
         },
         {
-          "component": "richtext",
-          "label": "Card Description",
-          "name": "cardDescription",
+          "component": "reference",
+          "label": "Arrow Icon",
+          "name": "icon",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Business Link",
+          "name": "link",
           "valueType": "string"
         }
       ]
@@ -88,9 +94,9 @@
   ],
   "filters": [
     {
-      "id": "purpose-led-cards",
+      "id": "what-we-do",
       "components": [
-        "purpose-card-item"
+        "business-vertical-item"
       ]
     }
   ]

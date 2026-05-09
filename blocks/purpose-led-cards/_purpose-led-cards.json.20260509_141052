@@ -37,21 +37,21 @@
       "id": "purpose-led-cards",
       "fields": [
         {
-          "component": "richtext",
+          "component": "text",
           "label": "Section Heading",
           "name": "heading",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Section Description",
-          "name": "description",
+          "label": "Section Subheading",
+          "name": "subheading",
           "valueType": "string"
         },
         {
           "component": "container",
           "item": "purpose-card-item",
-          "label": "Purpose Cards",
+          "label": "Cards",
           "name": "cards"
         }
       ]
@@ -61,26 +61,26 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Desktop Image",
-          "name": "imageDesktop",
+          "label": "Card Main Image",
+          "name": "image",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Mobile Image",
+          "label": "Card Mobile Image",
           "name": "imageMobile",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Card Description",
+          "name": "description",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Card Link",
           "name": "cardLink",
-          "valueType": "string"
-        },
-        {
-          "component": "richtext",
-          "label": "Card Description",
-          "name": "cardDescription",
           "valueType": "string"
         }
       ]

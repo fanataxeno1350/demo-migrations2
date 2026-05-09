@@ -34,8 +34,6 @@
 
 .justify-content-between{ justify-content:space-between!important }
 
-@media (min-width:992px) { .align-items-lg-end{ align-items:flex-end!important } }
-
 @keyframes swiper-preloader-spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}
 
 @font-face{font-family:'Georama';src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-regular-80f922.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-regular-d0c863.woff") format('woff');font-weight:400;font-style:normal;font-display:swap;}
@@ -149,10 +147,6 @@
 .footer-main .footer-social-wrap-center{ display:flex;justify-content:center;align-items:center; } }
 
 .footer-main .social-wrap li a{ text-decoration:none; }
-
-.footer-main .copyright-wrap{ background:#dd052b;box-shadow:0 0 0 100vmax #dd052b;-webkit-clip-path:inset(0 -100vmax);clip-path:inset(0 -100vmax);text-align:center;color:#fff;font-size:0.8rem;padding:20px 0;font-weight:500; }
-
-@media (max-width:834px) { .footer-main .copyright-wrap{ font-size:0.9rem;padding:1.5rem 15%;line-height:2; } }
 
 .footer-main .social-wrap svg{ fill:#000 !important; }
 

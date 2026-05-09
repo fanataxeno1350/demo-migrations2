@@ -32,6 +32,10 @@
 
 .pt-3{ padding-top:1rem!important }
 
+.pb-3{ padding-bottom:1rem!important }
+
+[data-aos][data-aos][data-aos-delay="200"].aos-animate{ transition-delay:.2s }
+
 @keyframes swiper-preloader-spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}
 
 @font-face{font-family:'Georama';src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-regular-80f922.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-regular-d0c863.woff") format('woff');font-weight:400;font-style:normal;font-display:swap;}
