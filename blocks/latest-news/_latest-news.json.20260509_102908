@@ -60,8 +60,8 @@
         {
           "component": "container",
           "item": "elfsight-widget-embed",
-          "label": "External Embeds",
-          "name": "embeds"
+          "label": "Embed Widgets",
+          "name": "embedWidgets"
         },
         {
           "component": "container",
@@ -99,19 +99,19 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Main Image",
+          "label": "News Image",
           "name": "image",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Horizontal Image",
+          "label": "News Image Horizontal Variant",
           "name": "imageHorizontal",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Vertical Image",
+          "label": "News Image Vertical Variant",
           "name": "imageVertical",
           "valueType": "string"
         },

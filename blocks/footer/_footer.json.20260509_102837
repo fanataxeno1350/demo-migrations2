@@ -17,7 +17,7 @@
       }
     },
     {
-      "title": "Footer Section Item",
+      "title": "Footer-Section-Item",
       "id": "footer-section-item",
       "plugins": {
         "xwalk": {
@@ -25,14 +25,14 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "footer-section-item",
-              "name": "Footer Section Item"
+              "name": "Footer-Section-Item"
             }
           }
         }
       }
     },
     {
-      "title": "Footer Link Item",
+      "title": "Footer-Link-Item",
       "id": "footer-link-item",
       "plugins": {
         "xwalk": {
@@ -40,14 +40,14 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "footer-link-item",
-              "name": "Footer Link Item"
+              "name": "Footer-Link-Item"
             }
           }
         }
       }
     },
     {
-      "title": "Footer Social Item",
+      "title": "Footer-Social-Item",
       "id": "footer-social-item",
       "plugins": {
         "xwalk": {
@@ -55,7 +55,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "footer-social-item",
-              "name": "Footer Social Item"
+              "name": "Footer-Social-Item"
             }
           }
         }
@@ -68,20 +68,20 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Logo",
+          "label": "Footer Logo",
           "name": "logo",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Logo Link",
+          "label": "Footer Logo Link",
           "name": "logoLink",
           "valueType": "string"
         },
         {
           "component": "container",
           "item": "footer-social-item",
-          "label": "Social Links",
+          "label": "Footer Social Links",
           "name": "socialLinks"
         },
         {
@@ -93,12 +93,12 @@
         {
           "component": "container",
           "item": "footer-link-item",
-          "label": "Secondary Navigation Links",
-          "name": "secondaryLinks"
+          "label": "Footer Legal/Secondary Links",
+          "name": "footerLinks"
         },
         {
-          "component": "text",
-          "label": "Copyright Text",
+          "component": "richtext",
+          "label": "Copyright",
           "name": "copyright",
           "valueType": "string"
         }

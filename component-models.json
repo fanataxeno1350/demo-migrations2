@@ -180,20 +180,20 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Footer Logo",
+        "label": "Logo",
         "name": "logo",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Footer Logo Link",
+        "label": "Logo Link",
         "name": "logoLink",
         "valueType": "string"
       },
       {
         "component": "container",
         "item": "footer-social-item",
-        "label": "Footer Social Links",
+        "label": "Social Links",
         "name": "socialLinks"
       },
       {
@@ -205,12 +205,12 @@
       {
         "component": "container",
         "item": "footer-link-item",
-        "label": "Footer Legal/Secondary Links",
-        "name": "footerLinks"
+        "label": "Secondary Navigation Links",
+        "name": "secondaryLinks"
       },
       {
-        "component": "richtext",
-        "label": "Copyright",
+        "component": "text",
+        "label": "Copyright Text",
         "name": "copyright",
         "valueType": "string"
       }
@@ -329,13 +329,13 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Main Logo",
+        "label": "Logo",
         "name": "logo",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Main Logo Link",
+        "label": "Logo Link",
         "name": "logoLink",
         "valueType": "string"
       },
@@ -366,7 +366,7 @@
       {
         "component": "container",
         "item": "icon-link-item",
-        "label": "Header Icon Links",
+        "label": "Icon Links",
         "name": "iconLinks"
       }
     ]
@@ -388,8 +388,8 @@
       },
       {
         "component": "richtext",
-        "label": "Mega Menu Content",
-        "name": "megaContent",
+        "label": "Mega Menu Content (HTML)",
+        "name": "megaMenuContent",
         "valueType": "string"
       },
       {
@@ -404,27 +404,27 @@
     "id": "press-release-item",
     "fields": [
       {
-        "component": "aem-content",
-        "label": "Press Release Link",
-        "name": "pressReleaseLink",
+        "component": "text",
+        "label": "Press Release Headline",
+        "name": "headline",
         "valueType": "string"
       },
       {
-        "component": "text",
-        "label": "Press Release Title",
-        "name": "pressReleaseTitle",
+        "component": "aem-content",
+        "label": "Press Release Link",
+        "name": "link",
         "valueType": "string"
       },
       {
         "component": "text",
         "label": "Press Release Date",
-        "name": "pressReleaseDate",
+        "name": "date",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Press Release Category",
-        "name": "pressReleaseCategory",
+        "label": "Category",
+        "name": "category",
         "valueType": "string"
       }
     ]
@@ -433,15 +433,15 @@
     "id": "icon-link-item",
     "fields": [
       {
-        "component": "text",
-        "label": "Icon Link Label",
-        "name": "label",
+        "component": "aem-content",
+        "label": "Icon Link",
+        "name": "link",
         "valueType": "string"
       },
       {
-        "component": "aem-content",
-        "label": "Icon Link URL",
-        "name": "link",
+        "component": "text",
+        "label": "Link Label",
+        "name": "label",
         "valueType": "string"
       }
     ]
@@ -545,8 +545,8 @@
       {
         "component": "container",
         "item": "elfsight-widget-embed",
-        "label": "Embed Widgets",
-        "name": "embedWidgets"
+        "label": "External Embeds",
+        "name": "embeds"
       },
       {
         "component": "container",
@@ -584,19 +584,19 @@
     "fields": [
       {
         "component": "reference",
-        "label": "News Image",
+        "label": "Main Image",
         "name": "image",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "News Image Horizontal Variant",
+        "label": "Horizontal Image",
         "name": "imageHorizontal",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "News Image Vertical Variant",
+        "label": "Vertical Image",
         "name": "imageVertical",
         "valueType": "string"
       },
@@ -689,14 +689,14 @@
       },
       {
         "component": "text",
-        "label": "Description",
-        "name": "description",
+        "label": "Subheading",
+        "name": "subheading",
         "valueType": "string"
       },
       {
         "component": "container",
         "item": "performance-driven-card-item",
-        "label": "Cards",
+        "label": "Performance Driven Cards",
         "name": "cards"
       }
     ]
@@ -706,26 +706,26 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Mobile Image",
-        "name": "imageMobile",
-        "valueType": "string"
-      },
-      {
-        "component": "reference",
-        "label": "Desktop Image",
+        "label": "Card Image (Desktop)",
         "name": "imageDesktop",
         "valueType": "string"
       },
       {
-        "component": "text",
+        "component": "reference",
+        "label": "Card Image (Mobile)",
+        "name": "imageMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
         "label": "Card Description",
-        "name": "cardDescription",
+        "name": "description",
         "valueType": "string"
       },
       {
         "component": "aem-content",
         "label": "Card Link",
-        "name": "cardLink",
+        "name": "link",
         "valueType": "string"
       }
     ]

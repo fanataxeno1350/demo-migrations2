@@ -6,114 +6,55 @@ export default async function decorate(block) {
     (row) => row.children.length > 0 && [...row.children].some((c) => c.children.length > 0 || c.textContent.trim() !== ''),
   );
 
-  const [headingRow, ...itemRows] = children; // Removed embedWidgetsContainer and newsItemsContainer as they are not distinct rows in the block.children
+  const [headingRow, embedsContainer, newsItemsContainer, ...itemRows] = children;
 
   const section = document.createElement('section');
   section.classList.add('section', 'grey-bg', 'latest-stories', 'home-stories');
 
-  // Section Header
   const sectionHeader = document.createElement('div');
   sectionHeader.classList.add('section-header', 'text-center');
   const heading = document.createElement('h2');
   heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
-  heading.setAttribute('data-aos', 'fade-up');
-  heading.setAttribute('data-aos-offset', '100');
-  heading.setAttribute('data-aos-duration', '650');
-  heading.setAttribute('data-aos-easing', 'ease-in-out');
   moveInstrumentation(headingRow, heading);
   heading.textContent = headingRow.textContent.trim();
   sectionHeader.append(heading);
   section.append(sectionHeader);
 
-  // Main container for items
   const container = document.createElement('div');
   container.classList.add('container', 'aos-init', 'aos-animate');
-  container.setAttribute('data-aos', 'fade-up');
-  container.setAttribute('data-aos-offset', '100');
-  container.setAttribute('data-aos-duration', '650');
-  container.setAttribute('data-aos-easing', 'ease-in-out');
 
-  const flickitySliderWrap = document.createElement('div');
-  flickitySliderWrap.classList.add('flickity-slider-mobile-wrap', 'grid-layout');
-  // Flickity data attributes from ORIGINAL HTML
-  flickitySliderWrap.setAttribute('data-flickity', '{ "wrapAround": false, "lazyLoad": true, "pageDots": true, "prevNextButtons": false, "imagesLoaded": true, "cellAlign": "left", "watchCSS": true, "adaptiveHeight": true }');
+  const sliderWrap = document.createElement('div');
+  sliderWrap.classList.add('flickity-slider-mobile-wrap', 'grid-layout');
+  sliderWrap.dataset.flickity = '{ "wrapAround": false, "lazyLoad": true, "pageDots": true, "prevNextButtons": false, "imagesLoaded": true, "cellAlign": "left", "watchCSS": true, "adaptiveHeight": true }';
 
+  const slidesWrapper = document.createElement('div');
+  slidesWrapper.classList.add('slides');
 
-  const embedSlides = document.createElement('div');
-  embedSlides.classList.add('slides');
-  // moveInstrumentation(embedWidgetsContainer, embedSlides); // This was incorrect, embedWidgetsContainer is not a row
+  const embedRows = itemRows.filter((row) => row.children.length === 3);
+  const newsItemRows = itemRows.filter((row) => row.children.length === 7);
 
-  const newsSlides = document.createElement('div');
-  newsSlides.classList.add('slides');
-  // moveInstrumentation(newsItemsContainer, newsSlides); // This was incorrect, newsItemsContainer is not a row
+  // Process embed items
+  embedRows.forEach((row) => {
+    const [embedUrlCell, embedKindCell, embedConfigCell] = [...row.children];
+    const kind = embedKindCell?.textContent.trim();
+    const embedEl = document.createElement('div');
+    moveInstrumentation(row, embedEl);
 
-  const embedItems = itemRows.filter((row) => row.children.length === 3);
-  const newsItems = itemRows.filter((row) => row.children.length === 7);
+    if (kind === 'elfsight-widget') {
+      const config = JSON.parse(embedConfigCell.textContent.trim());
+      embedEl.classList.add(`elfsight-app-${config.app_id}`);
+      embedEl.dataset.elfsightAppLazy = true;
+      loadScript('https://static.elfsight.com/platform/platform.js');
+    }
+    slidesWrapper.append(embedEl);
+  });
 
-  // Process Embed Widgets
-  await Promise.all(
-    embedItems.map(async (row) => {
-      const [embedUrlCell, embedKindCell, embedConfigCell] = [...row.children];
-      const embedKind = embedKindCell.textContent.trim();
-      const el = document.createElement('div');
-      moveInstrumentation(row, el);
-
-      switch (embedKind) {
-        case 'elfsight-widget': {
-          const config = JSON.parse(embedConfigCell.textContent.trim());
-          el.classList.add(`elfsight-app-${config.app_id}`);
-          el.setAttribute('data-embed-kind', embedKind);
-          el.setAttribute('data-embed-url', embedUrlCell.textContent.trim());
-          el.setAttribute('data-embed-config', embedConfigCell.textContent.trim());
-          await loadScript('https://static.elfsight.com/platform/platform.js');
-          break;
-        }
-        case 'walls-io': {
-          const wallScript = document.createElement('script');
-          wallScript.src = 'https://walls.io/js/wallsio-widget-1.2.js';
-          wallScript.dataset.wallurl = embedUrlCell.textContent.trim();
-          wallScript.dataset.width = '100%';
-          wallScript.dataset.autoheight = '1';
-          wallScript.async = true;
-          el.append(wallScript);
-          break;
-        }
-        case 'twitter-embed':
-        case 'instagram-embed':
-        case 'tiktok-embed': {
-          const platforms = {
-            'twitter-embed': 'https://platform.twitter.com/widgets.js',
-            'instagram-embed': 'https://www.instagram.com/embed.js',
-            'tiktok-embed': 'https://www.tiktok.com/embed.js',
-          };
-          await loadScript(platforms[embedKind]);
-          const link = document.createElement('a');
-          link.href = embedUrlCell.textContent.trim();
-          link.textContent = `View post on ${embedKind.split('-')[0].charAt(0).toUpperCase()}${embedKind.split('-')[0].slice(1)}`;
-          el.append(link);
-          break;
-        }
-        default:
-          break;
-      }
-      embedSlides.append(el);
-    }),
-  );
-
-  // Process News Items
-  newsItems.forEach((row) => {
-    const [
-      imageCell,
-      imageHorizontalCell,
-      imageVerticalCell,
-      categoryCell,
-      headlineCell,
-      linkCell,
-      dateCell,
-    ] = [...row.children];
+  // Process news items
+  newsItemRows.forEach((row) => {
+    const [imageCell, imageHorizontalCell, imageVerticalCell, categoryCell, headlineCell, linkCell, dateCell] = [...row.children];
 
     const slide = document.createElement('div');
-    slide.classList.add('slides');
+    slide.classList.add('slides'); // Corrected from 'slides' to 'slide-item' if it were a single item, but 'slides' is used in original HTML for each item.
     moveInstrumentation(row, slide);
 
     const wrap = document.createElement('div');
@@ -121,22 +62,22 @@ export default async function decorate(block) {
 
     const imageWrap = document.createElement('div');
     imageWrap.classList.add('image-wrap');
-    const picture = imageCell.querySelector('picture');
+    const picture = imageCell?.querySelector('picture');
     if (picture) {
       const img = picture.querySelector('img');
-      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-      moveInstrumentation(img, optimizedPic.querySelector('img'));
-      optimizedPic.querySelector('img').classList.add('thumb-img', 'img-fluid');
+      if (img) {
+        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+        // moveInstrumentation(img, optimizedPic.querySelector('img')); // Instrumentation should be moved from the original row, not the img
+        // The original picture is replaced, so move instrumentation to the new picture's img
+        const newImg = optimizedPic.querySelector('img');
+        moveInstrumentation(img, newImg); // Move instrumentation from original img to the new img
+        img.closest('picture').replaceWith(optimizedPic);
 
-      const imgEl = optimizedPic.querySelector('img');
-      if (imageHorizontalCell.querySelector('picture')) {
-        imgEl.setAttribute('data-img-horizontal', imageHorizontalCell.querySelector('img').src);
+        newImg.classList.add('thumb-img', 'img-fluid');
+        newImg.dataset.imgHorizontal = imageHorizontalCell?.querySelector('picture')?.querySelector('img')?.src || '';
+        newImg.dataset.imgVertical = imageVerticalCell?.querySelector('picture')?.querySelector('img')?.src || '';
+        imageWrap.append(optimizedPic);
       }
-      if (imageVerticalCell.querySelector('picture')) {
-        imgEl.setAttribute('data-img-vertical', imageVerticalCell.querySelector('img').src);
-      }
-
-      imageWrap.append(optimizedPic);
     }
     wrap.append(imageWrap);
 
@@ -145,45 +86,61 @@ export default async function decorate(block) {
 
     const category = document.createElement('div');
     category.classList.add('category');
-    category.textContent = categoryCell.textContent.trim();
+    category.textContent = categoryCell?.textContent.trim() || '';
     contentWrap.append(category);
 
     const text = document.createElement('div');
     text.classList.add('text');
-    text.textContent = headlineCell.textContent.trim();
+    text.textContent = headlineCell?.textContent.trim() || '';
     contentWrap.append(text);
 
-    const link = document.createElement('a');
-    link.classList.add('btn', 'btn-link');
-    const foundLink = linkCell.querySelector('a');
+    const readMoreLink = document.createElement('a');
+    readMoreLink.classList.add('btn', 'btn-link');
+    const foundLink = linkCell?.querySelector('a');
     if (foundLink) {
-      link.href = foundLink.href;
+      readMoreLink.href = foundLink.href;
+      // The original HTML has "Read more" hardcoded, so we'll keep it for now.
+      // If the link text was meant to be dynamic, it would come from a cell.
+      // For now, assume "Read more" is a static label.
     }
-    link.textContent = 'Read more';
-    contentWrap.append(link);
+    readMoreLink.textContent = 'Read more';
+    contentWrap.append(readMoreLink);
 
-    const date = document.createElement('div');
-    date.classList.add('date');
+    const dateDiv = document.createElement('div');
+    dateDiv.classList.add('date');
     const time = document.createElement('time');
-    time.setAttribute('datetime', new Date(dateCell.textContent.trim()).toISOString());
-    time.textContent = dateCell.textContent.trim();
-    date.append(time);
-    contentWrap.append(date);
+    time.setAttribute('datetime', dateCell?.textContent.trim() || '');
+    time.textContent = dateCell?.textContent.trim() || '';
+    dateDiv.append(time);
+    contentWrap.append(dateDiv);
 
     wrap.append(contentWrap);
     slide.append(wrap);
-    newsSlides.append(slide);
+    slidesWrapper.append(slide);
   });
 
-  if (embedSlides.children.length > 0) {
-    flickitySliderWrap.append(embedSlides);
-  }
-  if (newsSlides.children.length > 0) {
-    flickitySliderWrap.append(newsSlides);
-  }
-
-  container.append(flickitySliderWrap);
+  sliderWrap.append(slidesWrapper);
+  container.append(sliderWrap);
   section.append(container);
 
+  // Move instrumentation for container placeholders
+  // The original embedsContainer and newsItemsContainer are placeholders for the *list* of items.
+  // The items themselves are moved individually. The placeholders should be moved to the container
+  // that holds all the items, which is `sliderWrap` in this case.
+  moveInstrumentation(embedsContainer, sliderWrap);
+  moveInstrumentation(newsItemsContainer, sliderWrap);
+
   block.replaceChildren(section);
+
+  // Flickity initialization
+  // Load Flickity CSS and JS
+  await loadCSS('/libs/flickity/flickity.min.css'); // Assuming flickity is in libs/flickity
+  await loadScript('/libs/flickity/flickity.pkgd.min.js'); // Assuming flickity is in libs/flickity
+
+  // Initialize Flickity
+  // eslint-disable-next-line no-undef
+  if (typeof Flickity !== 'undefined') {
+    // eslint-disable-next-line no-new, no-undef
+    new Flickity(sliderWrap, JSON.parse(sliderWrap.dataset.flickity));
+  }
 }
