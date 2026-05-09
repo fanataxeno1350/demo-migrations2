@@ -53,7 +53,7 @@
       "fields": [
         {
           "component": "richtext",
-          "label": "Block Title",
+          "label": "Section Title",
           "name": "title",
           "valueType": "string"
         },
@@ -77,7 +77,13 @@
         {
           "component": "reference",
           "label": "Main Image",
-          "name": "mainImage",
+          "name": "backgroundImage",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Main Image (WebP)",
+          "name": "backgroundImageWebp",
           "valueType": "string"
         },
         {
@@ -85,12 +91,6 @@
           "label": "Tab Description",
           "name": "description",
           "valueType": "string"
-        },
-        {
-          "component": "container",
-          "item": "stats-card-item",
-          "label": "Statistics Cards",
-          "name": "cards"
         },
         {
           "component": "aem-content",
@@ -103,6 +103,12 @@
           "label": "CTA Label",
           "name": "ctaLabel",
           "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "stats-card-item",
+          "label": "Stats Cards",
+          "name": "cards"
         }
       ]
     },
@@ -117,19 +123,25 @@
         },
         {
           "component": "richtext",
-          "label": "Statistic Number",
+          "label": "Stat Number (Richtext)",
           "name": "number",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Statistic Description",
+          "label": "Aria Label",
+          "name": "ariaLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Card Description",
           "name": "description",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Hover Details",
+          "label": "Hover Details (Richtext)",
           "name": "hoverDetails",
           "valueType": "string"
         }

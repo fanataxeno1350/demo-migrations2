@@ -1,7 +1,7 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
-export default function decorate(block) {
+export default async function decorate(block) {
   const [scarpImageRow] = [...block.children];
 
   const scarpComponent = document.createElement('div');
@@ -11,25 +11,30 @@ export default function decorate(block) {
   const scarpContainer = document.createElement('div');
   scarpContainer.classList.add('scarp_container');
 
-  if (scarpImageRow) {
-    // FIX: Use index destructuring for fixed schema row, as per BlockJson model
-    const [imageCell] = [...scarpImageRow.children];
-    const picture = imageCell ? imageCell.querySelector('picture') : null;
-    const img = picture ? picture.querySelector('img') : null;
+  // Correctly access the cell using destructuring or direct children[0]
+  const scarpImageCell = scarpImageRow.children[0];
+  const picture = scarpImageCell ? scarpImageCell.querySelector('picture') : null;
 
+  if (picture) {
+    // createOptimizedPicture takes the picture element directly or its src/alt
+    // If we want to use the existing picture, we can append it directly
+    // or create a new optimized one. Given the original HTML, it's an img inside a picture.
+    // The original HTML shows an <img> with a specific class.
+    // Let's create an optimized picture and then apply the classes.
+    const img = picture.querySelector('img');
     if (img) {
-      const newPicture = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-      const newImgElement = newPicture.querySelector('img');
-      newImgElement.classList.add('scarp-separator__scarp', 'green-scarp');
-      newImgElement.setAttribute('aria-hidden', 'true');
-      // FIX: moveInstrumentation should be applied to the picture element, not the img
-      moveInstrumentation(picture, newPicture);
-      scarpContainer.append(newPicture);
+      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+      const optimizedImg = optimizedPic.querySelector('img');
+      if (optimizedImg) {
+        optimizedImg.setAttribute('aria-hidden', 'true');
+        optimizedImg.classList.add('scarp-separator__scarp', 'green-scarp');
+        moveInstrumentation(scarpImageCell, optimizedImg);
+        scarpContainer.append(optimizedPic);
+      }
     }
-    // moveInstrumentation for the row is also correct
-    moveInstrumentation(scarpImageRow, scarpContainer);
   }
 
+  moveInstrumentation(scarpImageRow, scarpComponent);
   scarpComponent.append(scarpContainer);
   block.replaceChildren(scarpComponent);
 }

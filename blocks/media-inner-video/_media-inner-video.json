@@ -24,25 +24,13 @@
         {
           "component": "reference",
           "label": "Video Poster Image (poster attribute)",
-          "name": "videoPosterImage",
+          "name": "videoPoster",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Video Poster Source (src attribute)",
-          "name": "videoPosterSrc",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Main Video Source (src attribute)",
-          "name": "videoSrc",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Play Button Label",
-          "name": "playButtonLabel",
+          "label": "Video Source (src attribute)",
+          "name": "videoSource",
           "valueType": "string"
         }
       ]

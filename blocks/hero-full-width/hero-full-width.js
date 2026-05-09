@@ -1,9 +1,9 @@
-import { createOptimizedPicture } from '../../scripts/aem.js';
+import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
-export default function decorate(block) {
+export default async function decorate(block) {
   const [
-    backgroundVideoPosterRow,
+    backgroundPosterRow,
     backgroundImageWebpRow,
     backgroundImageRow,
     titleRow,
@@ -12,156 +12,119 @@ export default function decorate(block) {
     ctaLabelRow,
   ] = [...block.children];
 
-  // Main wrapper
   const root = document.createElement('div');
   root.classList.add('cmp-hero-full-width', 'parallax-child-2');
-  moveInstrumentation(block, root);
-
-  // Add viewport divs and cover div as per original HTML
-  const viewportImage = document.createElement('div');
-  viewportImage.classList.add('viewport-image');
-  viewportImage.hidden = true;
-  viewportImage.setAttribute('aria-hidden', 'true');
-  root.append(viewportImage);
-
-  const viewportVideo = document.createElement('div');
-  viewportVideo.classList.add('viewport-video');
-  viewportVideo.hidden = true;
-  viewportVideo.setAttribute('aria-hidden', 'true');
-  root.append(viewportVideo);
-
-  const coverDiv = document.createElement('div');
-  coverDiv.classList.add('cmp-hero-full-width__cover');
-  root.append(coverDiv);
 
   // Background section
   const background = document.createElement('div');
   background.classList.add('cmp-hero-full-width__background');
+  root.append(background);
+
   const backgroundWrapper = document.createElement('div');
   backgroundWrapper.classList.add('cmp-hero-full-width__background-wrapper', 'zoom-out');
   background.append(backgroundWrapper);
 
-  // Background video (if available) - check if video poster is present
-  const videoPosterPicture = backgroundVideoPosterRow?.querySelector('picture');
-  if (videoPosterPicture) {
-    const video = document.createElement('video');
-    video.classList.add('cmp-hero-full-width__background-video');
-    video.loop = true;
-    video.muted = true;
-    video.playsInline = true;
-    video.autoplay = true;
-    video.style.display = 'none'; // Initially hidden, controlled by JS in original site
-    video.poster = videoPosterPicture.querySelector('img')?.src;
-    video.setAttribute('aria-label', titleRow?.textContent.trim() || ''); // From original HTML
-    video.setAttribute('aria-hidden', 'true');
-    video.setAttribute('data-responsive-video', '');
-
-    // Assuming video source is derived from poster or another field not in this model.
-    // For now, only poster is available, so video element is created but src is empty.
-    // If a video file link was available, it would be set here: video.src = videoLink.href;
-    // For now, we'll use a placeholder or assume it's handled by another script.
-    // If the original HTML had a <source> inside <video>, we'd replicate that.
-    // Since it doesn't, we'll leave src empty unless a model field for video source is added.
-    backgroundWrapper.append(video);
-
-    const posterImg = document.createElement('img');
+  // Background Poster Image
+  const backgroundPosterPicture = backgroundPosterRow.querySelector('picture');
+  if (backgroundPosterPicture) {
+    const img = backgroundPosterPicture.querySelector('img');
+    const posterImg = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
     posterImg.classList.add('cmp-hero-full-width__background-poster');
-    posterImg.src = videoPosterPicture.querySelector('img')?.src;
-    posterImg.alt = videoPosterPicture.querySelector('img')?.alt || '';
-    posterImg.loading = 'lazy';
-    posterImg.style.display = 'none'; // Initially hidden
-    posterImg.setAttribute('aria-hidden', 'true');
+    // moveInstrumentation should be on the picture element, not the img inside it,
+    // as the picture element is the one being replaced/moved.
+    moveInstrumentation(backgroundPosterRow, posterImg);
     backgroundWrapper.append(posterImg);
   }
 
-  // Background image
-  const picture = document.createElement('picture');
-  const sourceWebp = backgroundImageWebpRow?.querySelector('picture source');
-  const imgFallback = backgroundImageRow?.querySelector('picture img');
+  // Background Image (WebP and Fallback)
+  const pictureEl = document.createElement('picture');
+  const webpSource = backgroundImageWebpRow.querySelector('source');
+  const fallbackImg = backgroundImageRow.querySelector('img');
 
-  if (sourceWebp) {
-    const newSource = document.createElement('source');
-    newSource.srcset = sourceWebp.srcset;
-    picture.append(newSource);
+  if (webpSource) {
+    const newWebpSource = document.createElement('source');
+    newWebpSource.srcset = webpSource.srcset;
+    pictureEl.append(newWebpSource);
   }
-
-  if (imgFallback) {
-    const newImg = createOptimizedPicture(
-      imgFallback.src,
-      imgFallback.alt,
-      false,
-      [{ width: '750' }],
-    ).querySelector('img');
+  if (fallbackImg) {
+    const newImg = createOptimizedPicture(fallbackImg.src, fallbackImg.alt, false, [{ width: '750' }]);
     newImg.classList.add('cmp-hero-full-width__background-image');
-    moveInstrumentation(imgFallback, newImg);
-    picture.append(newImg);
+    // moveInstrumentation should be on the picture element, not the img inside it,
+    // as the picture element is the one being replaced/moved.
+    moveInstrumentation(backgroundImageRow, newImg);
+    pictureEl.append(newImg);
   }
-  backgroundWrapper.append(picture);
+  if (pictureEl.children.length > 0) {
+    backgroundWrapper.append(pictureEl);
+  }
 
   // Content section
   const content = document.createElement('div');
   content.classList.add('cmp-hero-full-width__content');
+  root.append(content);
 
   const slideWrap1 = document.createElement('div');
   slideWrap1.classList.add('slide-wrap');
-  const slideUp1 = document.createElement('div');
-  slideUp1.classList.add('slide-up');
-  slideUp1.setAttribute('data-slide-type', 'slide-up');
-  slideWrap1.append(slideUp1);
-
-  const titleDiv = document.createElement('div');
-  titleDiv.classList.add('cmp-hero-full-width__content__title');
-  titleDiv.setAttribute('tabindex', '0'); // From original HTML
-  moveInstrumentation(titleRow, titleDiv);
-  // Use innerHTML for richtext fields to preserve HTML structure
-  titleDiv.innerHTML = titleRow?.children[0]?.innerHTML || '';
-  slideUp1.append(titleDiv);
-
-  const descriptionDiv = document.createElement('div');
-  descriptionDiv.classList.add('cmp-hero-full-width__content__description');
-  descriptionDiv.setAttribute('tabindex', '0'); // From original HTML
-  moveInstrumentation(descriptionRow, descriptionDiv);
-  // Use innerHTML for richtext fields to preserve HTML structure
-  descriptionDiv.innerHTML = descriptionRow?.children[0]?.innerHTML || '';
-  slideUp1.append(descriptionDiv);
-
   content.append(slideWrap1);
 
+  const slideUp1 = document.createElement('div');
+  slideUp1.classList.add('slide-up');
+  slideUp1.dataset.slideType = 'slide-up'; // This is from original HTML
+  slideWrap1.append(slideUp1);
+
+  // Title
+  const title = document.createElement('div');
+  title.classList.add('cmp-hero-full-width__content__title');
+  moveInstrumentation(titleRow, title);
+  // FIX: Read innerHTML from the cell itself, not its child, for richtext.
+  title.innerHTML = titleRow.children[0]?.innerHTML || '';
+  slideUp1.append(title);
+
+  // Description
+  const description = document.createElement('div');
+  description.classList.add('cmp-hero-full-width__content__description');
+  moveInstrumentation(descriptionRow, description);
+  // FIX: Read innerHTML from the cell itself, not its child, for richtext.
+  description.innerHTML = descriptionRow.children[0]?.innerHTML || '';
+  slideUp1.append(description);
+
+  // CTA
   const slideWrap2 = document.createElement('div');
   slideWrap2.classList.add('slide-wrap');
+  content.append(slideWrap2);
+
   const slideUp2 = document.createElement('div');
   slideUp2.classList.add('slide-up');
-  slideUp2.setAttribute('data-slide-type', 'slide-up');
+  slideUp2.dataset.slideType = 'slide-up'; // This is from original HTML
   slideWrap2.append(slideUp2);
 
-  const ctaContainer = document.createElement('div');
-  ctaContainer.classList.add('cmp-hero-full-width__content--ctas');
+  const ctas = document.createElement('div');
+  ctas.classList.add('cmp-hero-full-width__content--ctas');
+  slideUp2.append(ctas);
 
-  const ctaLinkCell = ctaLinkRow?.children[0];
-  const ctaLinkAnchor = ctaLinkCell?.querySelector('a');
-  const ctaLabelCell = ctaLabelRow?.children[0];
-  const ctaLabelText = ctaLabelCell?.textContent.trim();
+  const ctaLink = ctaLinkRow.querySelector('a');
+  const ctaLabel = ctaLabelRow.textContent.trim();
 
-  if (ctaLinkAnchor && ctaLabelText) {
+  if (ctaLink && ctaLabel) {
     const anchor = document.createElement('a');
-    anchor.href = ctaLinkAnchor.href;
     anchor.classList.add('cta', 'cta__secondary', 'primaryCta');
-    anchor.setAttribute('target', '_blank'); // From original HTML
-    anchor.setAttribute('aria-label', ctaLabelText);
-    anchor.setAttribute('data-palette', 'palette-light'); // From original HTML
+    anchor.href = ctaLink.href;
+    anchor.setAttribute('target', '_blank'); // Assuming target="_blank" from original HTML
+    // moveInstrumentation should be on the anchor element, not the row,
+    // as the anchor is the element being created and moved.
+    moveInstrumentation(ctaLinkRow, anchor);
 
     const span = document.createElement('span');
     span.classList.add('cta__label');
-    span.textContent = ctaLabelText;
+    span.textContent = ctaLabel;
     anchor.append(span);
-    moveInstrumentation(ctaLinkRow, anchor); // Instrument the entire row for the CTA
-    ctaContainer.append(anchor);
+    ctas.append(anchor);
   }
-  slideUp2.append(ctaContainer);
-  content.append(slideWrap2);
 
-  root.append(background);
-  root.append(content);
+  // Add the cover div
+  const cover = document.createElement('div');
+  cover.classList.add('cmp-hero-full-width__cover');
+  root.prepend(cover); // Prepend to be behind content but above background
 
   block.replaceChildren(root);
 }

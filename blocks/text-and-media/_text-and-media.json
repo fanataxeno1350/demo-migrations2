@@ -23,14 +23,8 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Background Scarp Image",
-          "name": "backgroundScarpImage",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Main Image",
-          "name": "mainImage",
+          "label": "Scarp Image",
+          "name": "scarpImage",
           "valueType": "string"
         },
         {
@@ -40,9 +34,15 @@
           "valueType": "string"
         },
         {
+          "component": "reference",
+          "label": "Main Image (PNG)",
+          "name": "mainImage",
+          "valueType": "string"
+        },
+        {
           "component": "richtext",
-          "label": "Title",
-          "name": "title",
+          "label": "Headline",
+          "name": "headline",
           "valueType": "string"
         },
         {

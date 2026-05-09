@@ -36,10 +36,9 @@
   {
     "id": "footer",
     "components": [
-      "footer-navigation-item",
       "footer-social-item",
-      "footer-language-item",
-      "footer-policy-link-item"
+      "footer-link-item",
+      "footer-language-item"
     ]
   },
   {

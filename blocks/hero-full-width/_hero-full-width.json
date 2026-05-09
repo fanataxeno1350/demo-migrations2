@@ -23,31 +23,31 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Background Video Poster Image",
-          "name": "backgroundVideoPoster",
+          "label": "Background Poster Image",
+          "name": "backgroundPoster",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Background WebP Image (Source)",
+          "label": "Background Image (WebP)",
           "name": "backgroundImageWebp",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Background Image (Fallback JPG/PNG)",
+          "label": "Background Image (Fallback)",
           "name": "backgroundImage",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Hero Title (Rich Text)",
+          "label": "Title",
           "name": "title",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Hero Description (Rich Text)",
+          "label": "Description",
           "name": "description",
           "valueType": "string"
         },

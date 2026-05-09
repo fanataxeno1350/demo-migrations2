@@ -210,19 +210,19 @@
       },
       {
         "component": "container",
-        "item": "footer-navigation-item",
+        "item": "footer-link-item",
         "label": "Navigation Links",
         "name": "navigationLinks"
       },
       {
         "component": "container",
         "item": "footer-language-item",
-        "label": "Language Links",
+        "label": "Language Selector Links",
         "name": "languageLinks"
       },
       {
         "component": "container",
-        "item": "footer-policy-link-item",
+        "item": "footer-link-item",
         "label": "Policy Links",
         "name": "policyLinks"
       },
@@ -230,23 +230,6 @@
         "component": "text",
         "label": "Copyright",
         "name": "copyright",
-        "valueType": "string"
-      }
-    ]
-  },
-  {
-    "id": "footer-navigation-item",
-    "fields": [
-      {
-        "component": "text",
-        "label": "Navigation Label",
-        "name": "label",
-        "valueType": "string"
-      },
-      {
-        "component": "aem-content",
-        "label": "Navigation Link",
-        "name": "link",
         "valueType": "string"
       }
     ]
@@ -269,6 +252,23 @@
     ]
   },
   {
+    "id": "footer-link-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Link",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "footer-language-item",
     "fields": [
       {
@@ -286,29 +286,12 @@
     ]
   },
   {
-    "id": "footer-policy-link-item",
-    "fields": [
-      {
-        "component": "text",
-        "label": "Policy Link Label",
-        "name": "policyLabel",
-        "valueType": "string"
-      },
-      {
-        "component": "aem-content",
-        "label": "Policy Link",
-        "name": "policyLink",
-        "valueType": "string"
-      }
-    ]
-  },
-  {
     "id": "header",
     "fields": [
       {
-        "component": "text",
-        "label": "Logo Aria Label",
-        "name": "logoAriaLabel",
+        "component": "reference",
+        "label": "Logo (SVG markup as HTML string)",
+        "name": "logo",
         "valueType": "string"
       },
       {
@@ -319,32 +302,32 @@
       },
       {
         "component": "aem-content",
-        "label": "Contact Link",
+        "label": "Contact Us Link",
         "name": "contactLink",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Contact Label",
+        "label": "Contact Us Label",
         "name": "contactLabel",
         "valueType": "string"
       },
       {
         "component": "container",
         "item": "navigation-item",
-        "label": "Desktop Navigation",
-        "name": "desktopNavigation"
+        "label": "Navigation Menu",
+        "name": "navigationMenu"
       },
       {
         "component": "container",
         "item": "mobile-navigation-item",
-        "label": "Mobile Navigation",
-        "name": "mobileNavigation"
+        "label": "Mobile Navigation Menu",
+        "name": "mobileNavigationMenu"
       },
       {
         "component": "container",
         "item": "language-item",
-        "label": "Languages",
+        "label": "Language Selector",
         "name": "languages"
       }
     ]
@@ -377,13 +360,19 @@
     "fields": [
       {
         "component": "text",
-        "label": "Menu Label",
+        "label": "Mobile Menu Label",
         "name": "label",
         "valueType": "string"
       },
       {
+        "component": "aem-content",
+        "label": "Mobile Menu Link",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
         "component": "richtext",
-        "label": "Navigation Hierarchy",
+        "label": "Mobile Navigation Hierarchy",
         "name": "hierarchy-tree",
         "valueType": "string"
       }
@@ -411,31 +400,31 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Background Video Poster Image",
-        "name": "backgroundVideoPoster",
+        "label": "Background Poster Image",
+        "name": "backgroundPoster",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Background WebP Image (Source)",
+        "label": "Background Image (WebP)",
         "name": "backgroundImageWebp",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Background Image (Fallback JPG/PNG)",
+        "label": "Background Image (Fallback)",
         "name": "backgroundImage",
         "valueType": "string"
       },
       {
         "component": "richtext",
-        "label": "Hero Title (Rich Text)",
+        "label": "Title",
         "name": "title",
         "valueType": "string"
       },
       {
         "component": "richtext",
-        "label": "Hero Description (Rich Text)",
+        "label": "Description",
         "name": "description",
         "valueType": "string"
       },
@@ -459,25 +448,13 @@
       {
         "component": "reference",
         "label": "Video Poster Image (poster attribute)",
-        "name": "videoPosterImage",
+        "name": "videoPoster",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Video Poster Source (src attribute)",
-        "name": "videoPosterSrc",
-        "valueType": "string"
-      },
-      {
-        "component": "reference",
-        "label": "Main Video Source (src attribute)",
-        "name": "videoSrc",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Play Button Label",
-        "name": "playButtonLabel",
+        "label": "Video Source (src attribute)",
+        "name": "videoSource",
         "valueType": "string"
       }
     ]
@@ -498,7 +475,7 @@
     "fields": [
       {
         "component": "richtext",
-        "label": "Block Title",
+        "label": "Section Title",
         "name": "title",
         "valueType": "string"
       },
@@ -522,7 +499,13 @@
       {
         "component": "reference",
         "label": "Main Image",
-        "name": "mainImage",
+        "name": "backgroundImage",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Main Image (WebP)",
+        "name": "backgroundImageWebp",
         "valueType": "string"
       },
       {
@@ -530,12 +513,6 @@
         "label": "Tab Description",
         "name": "description",
         "valueType": "string"
-      },
-      {
-        "component": "container",
-        "item": "stats-card-item",
-        "label": "Statistics Cards",
-        "name": "cards"
       },
       {
         "component": "aem-content",
@@ -548,6 +525,12 @@
         "label": "CTA Label",
         "name": "ctaLabel",
         "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "stats-card-item",
+        "label": "Stats Cards",
+        "name": "cards"
       }
     ]
   },
@@ -562,19 +545,25 @@
       },
       {
         "component": "richtext",
-        "label": "Statistic Number",
+        "label": "Stat Number (Richtext)",
         "name": "number",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Statistic Description",
+        "label": "Aria Label",
+        "name": "ariaLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Card Description",
         "name": "description",
         "valueType": "string"
       },
       {
         "component": "richtext",
-        "label": "Hover Details",
+        "label": "Hover Details (Richtext)",
         "name": "hoverDetails",
         "valueType": "string"
       }
@@ -585,14 +574,8 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Background Scarp Image",
-        "name": "backgroundScarpImage",
-        "valueType": "string"
-      },
-      {
-        "component": "reference",
-        "label": "Main Image",
-        "name": "mainImage",
+        "label": "Scarp Image",
+        "name": "scarpImage",
         "valueType": "string"
       },
       {
@@ -602,9 +585,15 @@
         "valueType": "string"
       },
       {
+        "component": "reference",
+        "label": "Main Image (PNG)",
+        "name": "mainImage",
+        "valueType": "string"
+      },
+      {
         "component": "richtext",
-        "label": "Title",
-        "name": "title",
+        "label": "Headline",
+        "name": "headline",
         "valueType": "string"
       },
       {

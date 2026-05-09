@@ -3,10 +3,10 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
   const [
-    backgroundScarpImageRow,
-    mainImageRow,
+    scarpImageRow,
     mainImageWebpRow,
-    titleRow,
+    mainImagePngRow,
+    headlineRow,
     descriptionRow,
     ctaLinkRow,
     ctaLabelRow,
@@ -14,20 +14,25 @@ export default function decorate(block) {
 
   const wrapper = document.createElement('div');
   wrapper.classList.add('cmp-text-and-media-wrapper');
-  // moveInstrumentation(block, wrapper); // Removed: instrumentation should be moved from individual rows, not the block itself to a wrapper
 
-  // Background Scarp Image
-  const backgroundScarpImage = backgroundScarpImageRow.querySelector('picture > img');
-  if (backgroundScarpImage) {
-    const scarpImg = document.createElement('img');
-    scarpImg.classList.add('cmp-text-and-media__scarp', 'fade-in');
-    scarpImg.src = backgroundScarpImage.src;
-    scarpImg.alt = backgroundScarpImage.alt;
-    scarpImg.setAttribute('data-fade-in', '');
-    scarpImg.setAttribute('is-animated', 'true');
-    scarpImg.setAttribute('data-is-reverse', 'true');
-    moveInstrumentation(backgroundScarpImageRow, scarpImg);
-    wrapper.append(scarpImg);
+  // Scarp Image
+  // scarpImageRow is the div containing the cell, so scarpImageRow.children[0] is the cell itself
+  const scarpImageCell = scarpImageRow?.children[0];
+  if (scarpImageCell) {
+    const scarpImg = scarpImageCell.querySelector('picture > img');
+    if (scarpImg) {
+      const scarpElement = document.createElement('img');
+      scarpElement.classList.add('cmp-text-and-media__scarp', 'fade-in');
+      scarpElement.setAttribute('data-fade-in', '');
+      scarpElement.setAttribute('is-animated', 'true');
+      scarpElement.setAttribute('data-is-reverse', 'true');
+      scarpElement.src = scarpImg.src;
+      scarpElement.alt = scarpImg.alt;
+      scarpElement.loading = 'lazy';
+      scarpElement.setAttribute('aria-label', scarpImg.alt);
+      moveInstrumentation(scarpImageRow, scarpElement);
+      wrapper.append(scarpElement);
+    }
   }
 
   const cmpTextAndMedia = document.createElement('div');
@@ -37,9 +42,7 @@ export default function decorate(block) {
   cmpTextAndMedia.style.overflow = 'hidden';
   cmpTextAndMedia.setAttribute('is-animated', 'true');
   cmpTextAndMedia.setAttribute('data-is-reverse', 'true');
-  // moveInstrumentation(block, cmpTextAndMedia); // Removed: instrumentation should be moved from individual rows, not the block itself
 
-  // Main Image Container
   const imageContainer = document.createElement('div');
   imageContainer.classList.add(
     'cmp-text-and-media--image-container',
@@ -50,96 +53,101 @@ export default function decorate(block) {
   imageContainer.setAttribute('data-slide-type', 'slide-up');
   imageContainer.setAttribute('data-slide-no-wrap', '');
 
-  const picture = document.createElement('picture');
-  picture.classList.add('cmp-text-and-media--image-container__picture');
+  const pictureElement = document.createElement('picture');
+  pictureElement.classList.add('cmp-text-and-media--image-container__picture');
 
-  const mainImage = mainImageRow.querySelector('picture > img');
-  const mainImageWebp = mainImageWebpRow.querySelector('picture > img');
-
-  if (mainImageWebp) {
-    const source = document.createElement('source');
-    source.srcset = mainImageWebp.src;
-    source.type = 'image/webp';
-    picture.append(source);
-    moveInstrumentation(mainImageWebpRow, source);
+  // mainImageWebpRow is the div containing the cell, so mainImageWebpRow.children[0] is the cell itself
+  const mainImageWebpCell = mainImageWebpRow?.children[0];
+  if (mainImageWebpCell) {
+    const mainImageWebp = mainImageWebpCell.querySelector('picture > img');
+    if (mainImageWebp) {
+      const sourceWebp = document.createElement('source');
+      sourceWebp.srcset = mainImageWebp.src;
+      sourceWebp.type = 'image/webp';
+      pictureElement.append(sourceWebp);
+    }
   }
 
-  if (mainImage) {
-    const img = document.createElement('img');
-    img.src = mainImage.src;
-    img.alt = mainImage.alt;
-    img.loading = 'lazy';
-    img.classList.add(
-      'cmp-text-and-media--image-container__image',
-      'layout-portrait',
-      'animate-image-zoom-out',
-      'in-viewport',
-    );
-    img.setAttribute('role', 'img');
-    picture.append(img);
-    moveInstrumentation(mainImageRow, img);
+  // mainImagePngRow is the div containing the cell, so mainImagePngRow.children[0] is the cell itself
+  const mainImagePngCell = mainImagePngRow?.children[0];
+  if (mainImagePngCell) {
+    const mainImagePng = mainImagePngCell.querySelector('picture > img');
+    if (mainImagePng) {
+      const img = createOptimizedPicture(mainImagePng.src, mainImagePng.alt, false, [{ width: '750' }]);
+      const newImg = img.querySelector('img');
+      newImg.classList.add('cmp-text-and-media--image-container__image', 'layout-portrait', 'animate-image-zoom-out', 'in-viewport');
+      newImg.setAttribute('role', 'img');
+      moveInstrumentation(mainImagePngRow, newImg);
+      pictureElement.append(img);
+    }
   }
-  imageContainer.append(picture);
+  imageContainer.append(pictureElement);
   cmpTextAndMedia.append(imageContainer);
 
-  // Content
   const contentDiv = document.createElement('div');
   contentDiv.classList.add('cmp-text-and-media--content', 'in-viewport');
 
   const slideWrap = document.createElement('div');
   slideWrap.classList.add('slide-wrap');
 
-  const innerSlideUp = document.createElement('div');
-  innerSlideUp.setAttribute('data-slide-type', 'slide-up');
-  innerSlideUp.classList.add('slide-up');
+  const slideUpDiv = document.createElement('div');
+  slideUpDiv.setAttribute('data-slide-type', 'slide-up');
+  slideUpDiv.classList.add('slide-up');
 
-  // Title
-  const titleDiv = document.createElement('div');
-  titleDiv.id = 'text-and-media-title';
-  titleDiv.classList.add('cmp-text-and-media--content__title');
-  titleDiv.setAttribute('tabindex', '0');
-  if (titleRow) {
-    titleDiv.innerHTML = titleRow.children[0]?.innerHTML || '';
-    moveInstrumentation(titleRow, titleDiv);
+  // Headline
+  const headlineCell = headlineRow?.children[0];
+  if (headlineCell) {
+    const titleDiv = document.createElement('div');
+    titleDiv.id = 'text-and-media-title';
+    titleDiv.classList.add('cmp-text-and-media--content__title');
+    titleDiv.setAttribute('tabindex', '0');
+    titleDiv.innerHTML = headlineCell.innerHTML;
+    moveInstrumentation(headlineRow, titleDiv);
+    slideUpDiv.append(titleDiv);
   }
-  innerSlideUp.append(titleDiv);
 
   // Description
-  const descriptionDiv = document.createElement('div');
-  descriptionDiv.classList.add('cmp-text-and-media--content__description');
-  descriptionDiv.setAttribute('tabindex', '0');
-  if (descriptionRow) {
-    descriptionDiv.innerHTML = descriptionRow.children[0]?.innerHTML || '';
+  const descriptionCell = descriptionRow?.children[0];
+  if (descriptionCell) {
+    const descriptionDiv = document.createElement('div');
+    descriptionDiv.classList.add('cmp-text-and-media--content__description');
+    descriptionDiv.setAttribute('tabindex', '0');
+    descriptionDiv.innerHTML = descriptionCell.innerHTML;
     moveInstrumentation(descriptionRow, descriptionDiv);
-  }
-  innerSlideUp.append(descriptionDiv);
-
-  // CTA Link
-  const ctaLink = document.createElement('a');
-  ctaLink.classList.add('cta', 'cta__primary', 'cmp-text-and-media--content__cta');
-  if (ctaLinkRow) {
-    const foundLink = ctaLinkRow.querySelector('a');
-    if (foundLink) ctaLink.href = foundLink.href;
-    moveInstrumentation(ctaLinkRow, ctaLink);
-  }
-  if (ctaLabelRow) {
-    // The CTA label is plain text, but the original HTML shows a <span> with the label.
-    // To match the original HTML structure, we create a span for the label.
-    const ctaLabelSpan = document.createElement('span');
-    ctaLabelSpan.classList.add('cta__label'); // Add the class from original HTML
-    ctaLabelSpan.textContent = ctaLabelRow.textContent.trim();
-    ctaLink.append(ctaLabelSpan); // Append the span to the ctaLink
-    moveInstrumentation(ctaLabelRow, ctaLabelSpan); // Move instrumentation to the span
+    slideUpDiv.append(descriptionDiv);
   }
 
-  const ctaIcon = document.createElement('span');
-  ctaIcon.classList.add('cta__icon', 'qd-icon', 'qd-icon--cheveron-right');
-  ctaIcon.setAttribute('aria-hidden', 'true');
-  ctaLink.prepend(ctaIcon);
+  // CTA Link and Label
+  const ctaLinkCell = ctaLinkRow?.children[0];
+  const ctaLabelCell = ctaLabelRow?.children[0];
 
-  innerSlideUp.append(ctaLink);
+  if (ctaLinkCell && ctaLabelCell) {
+    const ctaLink = ctaLinkCell.querySelector('a');
+    const ctaLabel = ctaLabelCell.textContent.trim();
 
-  slideWrap.append(innerSlideUp);
+    if (ctaLink && ctaLabel) {
+      const anchor = document.createElement('a');
+      anchor.href = ctaLink.href;
+      anchor.classList.add('cta', 'cta__primary', 'cmp-text-and-media--content__cta');
+      anchor.setAttribute('target', '_self');
+      anchor.setAttribute('aria-label', ctaLabel);
+
+      const iconSpan = document.createElement('span');
+      iconSpan.classList.add('cta__icon', 'qd-icon', 'qd-icon--cheveron-right');
+      iconSpan.setAttribute('aria-hidden', 'true');
+      anchor.append(iconSpan);
+
+      const labelSpan = document.createElement('span');
+      labelSpan.classList.add('cta__label');
+      labelSpan.textContent = ctaLabel;
+      anchor.append(labelSpan);
+      moveInstrumentation(ctaLinkRow, anchor);
+      moveInstrumentation(ctaLabelRow, anchor); // move instrumentation for label row to the anchor as well
+      slideUpDiv.append(anchor);
+    }
+  }
+
+  slideWrap.append(slideUpDiv);
   contentDiv.append(slideWrap);
   cmpTextAndMedia.append(contentDiv);
 
@@ -150,10 +158,4 @@ export default function decorate(block) {
   wrapper.append(cmpTextAndMedia);
 
   block.replaceChildren(wrapper);
-
-  wrapper.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    moveInstrumentation(img, optimizedPic.querySelector('img'));
-    img.closest('picture').replaceWith(optimizedPic);
-  });
 }

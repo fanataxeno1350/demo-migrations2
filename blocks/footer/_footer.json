@@ -17,21 +17,6 @@
       }
     },
     {
-      "title": "Footer-Navigation-Item",
-      "id": "footer-navigation-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "footer-navigation-item",
-              "name": "Footer-Navigation-Item"
-            }
-          }
-        }
-      }
-    },
-    {
       "title": "Footer-Social-Item",
       "id": "footer-social-item",
       "plugins": {
@@ -47,6 +32,21 @@
       }
     },
     {
+      "title": "Footer-Link-Item",
+      "id": "footer-link-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "footer-link-item",
+              "name": "Footer-Link-Item"
+            }
+          }
+        }
+      }
+    },
+    {
       "title": "Footer-Language-Item",
       "id": "footer-language-item",
       "plugins": {
@@ -56,21 +56,6 @@
             "template": {
               "model": "footer-language-item",
               "name": "Footer-Language-Item"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Footer-Policy-Link-Item",
-      "id": "footer-policy-link-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "footer-policy-link-item",
-              "name": "Footer-Policy-Link-Item"
             }
           }
         }
@@ -95,19 +80,19 @@
         },
         {
           "component": "container",
-          "item": "footer-navigation-item",
+          "item": "footer-link-item",
           "label": "Navigation Links",
           "name": "navigationLinks"
         },
         {
           "component": "container",
           "item": "footer-language-item",
-          "label": "Language Links",
+          "label": "Language Selector Links",
           "name": "languageLinks"
         },
         {
           "component": "container",
-          "item": "footer-policy-link-item",
+          "item": "footer-link-item",
           "label": "Policy Links",
           "name": "policyLinks"
         },
@@ -115,23 +100,6 @@
           "component": "text",
           "label": "Copyright",
           "name": "copyright",
-          "valueType": "string"
-        }
-      ]
-    },
-    {
-      "id": "footer-navigation-item",
-      "fields": [
-        {
-          "component": "text",
-          "label": "Navigation Label",
-          "name": "label",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Navigation Link",
-          "name": "link",
           "valueType": "string"
         }
       ]
@@ -154,6 +122,23 @@
       ]
     },
     {
+      "id": "footer-link-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Link",
+          "name": "link",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
       "id": "footer-language-item",
       "fields": [
         {
@@ -169,33 +154,15 @@
           "valueType": "string"
         }
       ]
-    },
-    {
-      "id": "footer-policy-link-item",
-      "fields": [
-        {
-          "component": "text",
-          "label": "Policy Link Label",
-          "name": "policyLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Policy Link",
-          "name": "policyLink",
-          "valueType": "string"
-        }
-      ]
     }
   ],
   "filters": [
     {
       "id": "footer",
       "components": [
-        "footer-navigation-item",
         "footer-social-item",
-        "footer-language-item",
-        "footer-policy-link-item"
+        "footer-link-item",
+        "footer-language-item"
       ]
     }
   ]
