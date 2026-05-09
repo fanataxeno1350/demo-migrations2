@@ -2,14 +2,10 @@ import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.j
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
-  const children = [...block.children];
+  const [sectionHeadingRow, ...slideRows] = [...block.children];
 
-  const sectionHeadingRow = children[0];
-  const slideRows = children.slice(1);
-
-  const root = document.createElement('section');
-  root.classList.add('section', 'work-with-us', 'pb-0');
-  moveInstrumentation(block, root);
+  const section = document.createElement('section');
+  section.classList.add('section', 'work-with-us', 'pb-0');
 
   // Section Header
   const sectionHeader = document.createElement('div');
@@ -18,45 +14,50 @@ export default async function decorate(block) {
 
   const heading = document.createElement('h2');
   heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
-  heading.textContent = sectionHeadingRow.textContent.trim();
+  const [sectionHeadingCell] = [...sectionHeadingRow.children]; // Fix: Named destructuring
+  heading.textContent = sectionHeadingCell?.textContent.trim();
   sectionHeader.append(heading);
-  root.append(sectionHeader);
+  section.append(sectionHeader);
 
   // Slides Container
   const positionRelativeDiv = document.createElement('div');
   positionRelativeDiv.classList.add('position-relative', 'aos-init', 'aos-animate');
 
-  const containerDiv = document.createElement('div');
-  containerDiv.classList.add('container');
+  const container = document.createElement('div');
+  container.classList.add('container');
 
-  const gridLayoutDiv = document.createElement('div');
-  gridLayoutDiv.classList.add('grid-layout');
+  const gridLayout = document.createElement('div');
+  gridLayout.classList.add('grid-layout');
 
-  const slidesWrapper = document.createElement('div');
-  slidesWrapper.classList.add('slides'); // This will be the Swiper container
+  // Swiper container setup
+  const swiperContainer = document.createElement('div');
+  swiperContainer.classList.add('swiper', 'slides'); // 'slides' is the class for the swiper container
+  const swiperWrapper = document.createElement('div');
+  swiperWrapper.classList.add('swiper-wrapper');
 
   slideRows.forEach((row) => {
     const [
       desktopImageCell,
       mobileImage576Cell,
       mobileImage799Cell,
-      headingCell,
-      descriptionCell,
+      slideHeadingCell,
+      slideBodyCell,
       ctaLinkCell,
       ctaLabelCell,
     ] = [...row.children];
 
-    const wrapDiv = document.createElement('div');
-    wrapDiv.classList.add('wrap', 'swiper-slide'); // Add swiper-slide class
-    moveInstrumentation(row, wrapDiv);
+    const wrap = document.createElement('div');
+    wrap.classList.add('swiper-slide', 'wrap'); // Each slide item is a swiper-slide
+    moveInstrumentation(row, wrap);
 
+    // Image Wrap
     const imageWrap = document.createElement('div');
     imageWrap.classList.add('image-wrap');
 
     const picture = document.createElement('picture');
 
     // Mobile Image (max-width: 576px)
-    const mobileImage576 = mobileImage576Cell.querySelector('img');
+    const mobileImage576 = mobileImage576Cell?.querySelector('img');
     if (mobileImage576) {
       const source576 = document.createElement('source');
       source576.media = '(max-width: 576px)';
@@ -65,7 +66,7 @@ export default async function decorate(block) {
     }
 
     // Mobile Image (max-width: 799px)
-    const mobileImage799 = mobileImage799Cell.querySelector('img');
+    const mobileImage799 = mobileImage799Cell?.querySelector('img');
     if (mobileImage799) {
       const source799 = document.createElement('source');
       source799.media = '(max-width: 799px)';
@@ -74,86 +75,75 @@ export default async function decorate(block) {
     }
 
     // Desktop Image
-    const desktopImage = desktopImageCell.querySelector('img');
+    const desktopImage = desktopImageCell?.querySelector('img');
     if (desktopImage) {
-      const img = createOptimizedPicture(desktopImage.src, desktopImage.alt, false, [{ width: '750' }]);
-      // createOptimizedPicture returns a <picture> element, we need its <img> child
-      img.querySelector('img').classList.add('img-fluid');
-      picture.append(img.querySelector('img'));
+      const img = createOptimizedPicture(
+        desktopImage.src,
+        desktopImage.alt || '',
+        false,
+        [{ width: '750' }],
+      ).querySelector('img');
+      img.classList.add('img-fluid');
+      picture.append(img);
     }
+    imageWrap.append(picture);
+    wrap.append(imageWrap);
 
-    if (picture.children.length > 0) {
-      imageWrap.append(picture);
-      wrapDiv.append(imageWrap);
-    }
-
+    // Content Wrap
     const contentWrap = document.createElement('div');
     contentWrap.classList.add('content-wrap');
 
-    const contentHeader = document.createElement('div');
-    contentHeader.classList.add('section-header');
+    const contentSectionHeader = document.createElement('div');
+    contentSectionHeader.classList.add('section-header');
 
     const slideHeading = document.createElement('h3');
     slideHeading.classList.add('heading', 'font-regular');
-    slideHeading.textContent = headingCell.textContent.trim();
-    contentHeader.append(slideHeading);
+    slideHeading.textContent = slideHeadingCell?.textContent.trim();
+    contentSectionHeader.append(slideHeading);
 
-    const description = document.createElement('div'); // Changed to div to avoid <p> inside <p>
-    description.classList.add('text-size-body');
-    description.innerHTML = descriptionCell.innerHTML;
-    contentHeader.append(description);
+    const slideBody = document.createElement('p');
+    slideBody.classList.add('text-size-body');
+    slideBody.textContent = slideBodyCell?.textContent.trim();
+    contentSectionHeader.append(slideBody);
 
-    const ctaLink = document.createElement('a');
-    ctaLink.classList.add('btn', 'btn-primary', 'stretched-link');
-    const foundCtaLink = ctaLinkCell.querySelector('a');
-    if (foundCtaLink) {
-      ctaLink.href = foundCtaLink.href;
+    const ctaLink = ctaLinkCell?.querySelector('a');
+    const ctaLabel = ctaLabelCell?.textContent.trim();
+    if (ctaLink && ctaLabel) {
+      const ctaAnchor = document.createElement('a');
+      ctaAnchor.href = ctaLink.href;
+      ctaAnchor.textContent = ctaLabel;
+      ctaAnchor.classList.add('btn', 'btn-primary', 'stretched-link');
+      contentSectionHeader.append(ctaAnchor);
     }
-    ctaLink.textContent = ctaLabelCell.textContent.trim();
-    contentHeader.append(ctaLink);
 
-    contentWrap.append(contentHeader);
-    wrapDiv.append(contentWrap);
-    slidesWrapper.append(wrapDiv);
+    contentWrap.append(contentSectionHeader);
+    wrap.append(contentWrap);
+
+    swiperWrapper.append(wrap);
   });
 
-  gridLayoutDiv.append(slidesWrapper);
-  containerDiv.append(gridLayoutDiv);
-  positionRelativeDiv.append(containerDiv);
-  root.append(positionRelativeDiv);
+  swiperContainer.append(swiperWrapper);
+  // Add Swiper pagination and navigation if needed based on original HTML (not present in this example)
+  // const paginationEl = document.createElement('div');
+  // paginationEl.classList.add('swiper-pagination');
+  // swiperContainer.append(paginationEl);
 
-  block.replaceChildren(root);
+  gridLayout.append(swiperContainer);
+  container.append(gridLayout);
+  positionRelativeDiv.append(container);
+  section.append(positionRelativeDiv);
 
-  // Swiper initialization
+  block.replaceChildren(section);
+
+  // Swiper Initialization
   await loadCSS('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
   await loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
 
-  // Create Swiper navigation and pagination elements if needed
-  const swiperContainer = root.querySelector('.slides');
-  if (swiperContainer) {
-    // Add swiper-wrapper class to the slides container
-    swiperContainer.classList.add('swiper-wrapper');
-
-    // Create pagination dots container
-    const paginationEl = document.createElement('div');
-    paginationEl.classList.add('swiper-pagination');
-    positionRelativeDiv.append(paginationEl); // Append to the position-relative div
-
-    // Create navigation buttons (if needed, based on original HTML or design)
-    // The original HTML does not show prev/next buttons, only pageDots.
-    // If buttons are needed, they would be created here and passed to Swiper config.
-
-    // eslint-disable-next-line no-undef
-    new Swiper(swiperContainer, {
-      slidesPerView: 'auto',
-      loop: false, // Original HTML has data-flickity='{ "wrapAround": false ... }'
-      // navigation: { prevEl: prevBtn, nextEl: nextBtn }, // Uncomment if navigation buttons are added
-      pagination: {
-        el: paginationEl,
-        clickable: true,
-      },
-      // Add other Swiper options based on original Flickity config if applicable
-      // e.g., cellAlign: 'left', watchCSS: true, adaptiveHeight: true
-    });
-  }
+  // eslint-disable-next-line no-undef
+  new Swiper(swiperContainer, {
+    slidesPerView: 'auto',
+    loop: false, // Based on original HTML data-flickity='{ "wrapAround": false, ... }'
+    // navigation: { prevEl: prevBtn, nextEl: nextBtn }, // Add if navigation buttons are present
+    // pagination: { el: paginationEl, clickable: true }, // Add if pagination is present
+  });
 }

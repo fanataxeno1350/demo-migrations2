@@ -18,20 +18,20 @@
       "fragment",
       "---- New Blocks ----",
       "header",
-      "home_slider",
-      "what_we_do",
-      "purpose_led_section",
-      "performance_driven_section",
-      "performance_driven_section-2",
-      "future_ready_section",
-      "latest_news",
-      "work_with_us",
-      "faqs_section",
+      "home-slider",
+      "what-we-do",
+      "purpose-led",
+      "performance-driven",
+      "performance-driven-2",
+      "future-ready",
+      "latest-news",
+      "work-with-us",
+      "faqs",
       "footer"
     ]
   },
   {
-    "id": "faqs_section",
+    "id": "faqs",
     "components": [
       "faq-item"
     ]
@@ -45,7 +45,7 @@
     ]
   },
   {
-    "id": "future_ready_section",
+    "id": "future-ready",
     "components": [
       "future-ready-card-item"
     ]
@@ -55,51 +55,51 @@
     "components": [
       "navigation-item",
       "press-release-item",
-      "icon-link-item"
+      "contact-link-item"
     ]
   },
   {
-    "id": "home_slider",
+    "id": "home-slider",
     "components": [
-      "slider-item",
-      "quick-link-item"
+      "home-slider-slide-item",
+      "home-slider-quick-link-item"
     ]
   },
   {
-    "id": "latest_news",
+    "id": "latest-news",
     "components": [
       "elfsight-widget-embed",
       "news-item"
     ]
   },
   {
-    "id": "performance_driven_section-2",
+    "id": "performance-driven-2",
     "components": [
       "performance-driven-card-item"
     ]
   },
   {
-    "id": "performance_driven_section",
+    "id": "performance-driven",
     "components": [
-      "performance_driven_card"
+      "performance-driven-card-item"
     ]
   },
   {
-    "id": "purpose_led_section",
+    "id": "purpose-led",
     "components": [
       "purpose-led-card-item"
     ]
   },
   {
-    "id": "what_we_do",
+    "id": "what-we-do",
     "components": [
       "business-vertical-item"
     ]
   },
   {
-    "id": "work_with_us",
+    "id": "work-with-us",
     "components": [
-      "work-with-us-slide"
+      "work-with-us-slide-item"
     ]
   }
 ]

@@ -1,23 +1,23 @@
 {
   "definitions": [
     {
-      "title": "What We Do",
-      "id": "what_we_do",
+      "title": "What-We-Do",
+      "id": "what-we-do",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "filter": "what_we_do",
-              "model": "what_we_do",
-              "name": "What We Do"
+              "filter": "what-we-do",
+              "model": "what-we-do",
+              "name": "What-We-Do"
             }
           }
         }
       }
     },
     {
-      "title": "Business Vertical Item",
+      "title": "Business-Vertical-Item",
       "id": "business-vertical-item",
       "plugins": {
         "xwalk": {
@@ -25,7 +25,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "business-vertical-item",
-              "name": "Business Vertical Item"
+              "name": "Business-Vertical-Item"
             }
           }
         }
@@ -34,7 +34,7 @@
   ],
   "models": [
     {
-      "id": "what_we_do",
+      "id": "what-we-do",
       "fields": [
         {
           "component": "text",
@@ -43,16 +43,16 @@
           "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "Section Description",
-          "name": "description",
+          "component": "richtext",
+          "label": "Section Intro",
+          "name": "intro",
           "valueType": "string"
         },
         {
           "component": "container",
           "item": "business-vertical-item",
           "label": "Business Verticals",
-          "name": "businessVerticals"
+          "name": "verticals"
         }
       ]
     },
@@ -61,25 +61,19 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Image Desktop",
+          "label": "Desktop Image",
           "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Image Tablet",
+          "label": "Tablet/Mobile Image",
           "name": "imageTablet",
           "valueType": "string"
         },
         {
-          "component": "reference",
-          "label": "Image Mobile",
-          "name": "imageMobile",
-          "valueType": "string"
-        },
-        {
           "component": "text",
-          "label": "Title",
+          "label": "Business Title",
           "name": "title",
           "valueType": "string"
         },
@@ -91,8 +85,8 @@
         },
         {
           "component": "aem-content",
-          "label": "CTA Link",
-          "name": "ctaLink",
+          "label": "Business Link",
+          "name": "link",
           "valueType": "string"
         }
       ]
@@ -100,7 +94,7 @@
   ],
   "filters": [
     {
-      "id": "what_we_do",
+      "id": "what-we-do",
       "components": [
         "business-vertical-item"
       ]
