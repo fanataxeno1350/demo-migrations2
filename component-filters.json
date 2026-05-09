@@ -18,23 +18,29 @@
       "fragment",
       "---- New Blocks ----",
       "header",
-      "home-slider",
-      "what-we-do",
-      "purpose-led",
-      "performance-driven",
-      "performance-driven-2",
-      "future-ready",
-      "latest-news",
-      "work-with-us",
-      "faqs",
-      "footer",
-      "purpose-led-grid"
+      "hero-carousel",
+      "business-grid",
+      "purpose-led-cards",
+      "performance-driven-cards",
+      "performance-driven-cards-2",
+      "future-ready-cards",
+      "future-ready-cards-2",
+      "latest-news-carousel",
+      "work-with-us-grid",
+      "faq-accordion",
+      "footer"
     ]
   },
   {
-    "id": "faqs",
+    "id": "business-grid",
     "components": [
-      "faq-item"
+      "business-grid-item"
+    ]
+  },
+  {
+    "id": "faq-accordion",
+    "components": [
+      "faq-accordion-item"
     ]
   },
   {
@@ -46,7 +52,13 @@
     ]
   },
   {
-    "id": "future-ready",
+    "id": "future-ready-cards-2",
+    "components": [
+      "future-ready-card-item"
+    ]
+  },
+  {
+    "id": "future-ready-cards",
     "components": [
       "future-ready-card-item"
     ]
@@ -60,53 +72,41 @@
     ]
   },
   {
-    "id": "home-slider",
+    "id": "hero-carousel",
     "components": [
-      "slide-item",
-      "quick-link-item"
+      "hero-carousel-slide",
+      "hero-carousel-quick-link"
     ]
   },
   {
-    "id": "latest-news",
+    "id": "latest-news-carousel",
     "components": [
-      "elfsight-embed-item",
-      "news-item"
+      "latest-news-item",
+      "elfsight-widget-embed"
     ]
   },
   {
-    "id": "performance-driven-2",
+    "id": "performance-driven-cards-2",
     "components": [
       "performance-driven-card-item"
     ]
   },
   {
-    "id": "performance-driven",
+    "id": "performance-driven-cards",
     "components": [
-      "performance-driven-card-item"
+      "performance-card-item"
     ]
   },
   {
-    "id": "purpose-led-grid",
+    "id": "purpose-led-cards",
     "components": [
-      "purpose-led-grid-item"
+      "purpose-led-card-item"
     ]
   },
   {
-    "id": "purpose-led",
+    "id": "work-with-us-grid",
     "components": [
-      "purpose-led-card"
-    ]
-  },
-  {
-    "id": "what-we-do",
-    "components": [
-      "what-we-do-item"
-    ]
-  },
-  {
-    "id": "work-with-us",
-    "components": [
-      "work-with-us-slide-item"
+      "work-with-us-grid-item"
     ]
   }
 ]

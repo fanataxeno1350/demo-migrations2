@@ -1,0 +1,166 @@
+{
+  "definitions": [
+    {
+      "title": "Latest-News-Carousel",
+      "id": "latest-news-carousel",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "latest-news-carousel",
+              "model": "latest-news-carousel",
+              "name": "Latest-News-Carousel"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Latest-News-Item",
+      "id": "latest-news-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "latest-news-item",
+              "name": "Latest-News-Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Elfsight-Widget-Embed",
+      "id": "elfsight-widget-embed",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "elfsight-widget-embed",
+              "name": "Elfsight-Widget-Embed"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "latest-news-carousel",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Section Heading",
+          "name": "heading",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "latest-news-item",
+          "label": "News Items",
+          "name": "newsItems"
+        },
+        {
+          "component": "container",
+          "item": "elfsight-widget-embed",
+          "label": "Elfsight Widget Embeds",
+          "name": "embeds"
+        }
+      ]
+    },
+    {
+      "id": "latest-news-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Thumbnail Image",
+          "name": "thumbnailImage",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Horizontal Image",
+          "name": "imageHorizontal",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Vertical Image",
+          "name": "imageVertical",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Category",
+          "name": "category",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Headline",
+          "name": "headline",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "CTA Link",
+          "name": "ctaLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "CTA Label",
+          "name": "ctaLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Date Display",
+          "name": "date",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Date ISO",
+          "name": "dateIso",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "elfsight-widget-embed",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Embed URL",
+          "name": "data-embed-url",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Embed Kind",
+          "name": "data-embed-kind",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Embed Config",
+          "name": "data-embed-config",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "latest-news-carousel",
+      "components": [
+        "latest-news-item",
+        "elfsight-widget-embed"
+      ]
+    }
+  ]
+}
