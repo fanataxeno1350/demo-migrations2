@@ -81,7 +81,7 @@
   {
     "id": "performance-driven",
     "components": [
-      "performance-driven-card"
+      "performance-driven-card-item"
     ]
   },
   {

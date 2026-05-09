@@ -38,14 +38,14 @@
       "fields": [
         {
           "component": "text",
-          "label": "Heading",
+          "label": "Section Heading",
           "name": "heading",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Subheading",
-          "name": "subheading",
+          "label": "Section Description",
+          "name": "description",
           "valueType": "string"
         },
         {
@@ -61,20 +61,20 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Card Image (Desktop)",
-          "name": "imageDesktop",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
           "label": "Card Image (Mobile)",
           "name": "imageMobile",
           "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "Card Description",
-          "name": "description",
+          "component": "reference",
+          "label": "Card Image (Desktop)",
+          "name": "imageDesktop",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Card Label",
+          "name": "label",
           "valueType": "string"
         },
         {

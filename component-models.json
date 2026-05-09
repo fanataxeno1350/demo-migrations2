@@ -655,14 +655,66 @@
     "fields": [
       {
         "component": "text",
-        "label": "Heading",
+        "label": "Section Heading",
         "name": "heading",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Subheading",
-        "name": "subheading",
+        "label": "Section Description",
+        "name": "description",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "performance-driven-card-item",
+        "label": "Cards",
+        "name": "cards"
+      }
+    ]
+  },
+  {
+    "id": "performance-driven-card-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Card Image (Mobile)",
+        "name": "imageMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Card Image (Desktop)",
+        "name": "imageDesktop",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Card Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Card Link",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "performance-driven",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Section Heading",
+        "name": "heading",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Section Description",
+        "name": "description",
         "valueType": "string"
       },
       {
@@ -689,61 +741,9 @@
         "valueType": "string"
       },
       {
-        "component": "text",
-        "label": "Card Description",
-        "name": "description",
-        "valueType": "string"
-      },
-      {
-        "component": "aem-content",
-        "label": "Card Link",
-        "name": "link",
-        "valueType": "string"
-      }
-    ]
-  },
-  {
-    "id": "performance-driven",
-    "fields": [
-      {
-        "component": "text",
-        "label": "Heading",
-        "name": "heading",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Subheading",
-        "name": "subheading",
-        "valueType": "string"
-      },
-      {
-        "component": "container",
-        "item": "performance-driven-card",
-        "label": "Performance Driven Cards",
-        "name": "cards"
-      }
-    ]
-  },
-  {
-    "id": "performance-driven-card",
-    "fields": [
-      {
-        "component": "reference",
-        "label": "Card Image (Desktop)",
-        "name": "imageDesktop",
-        "valueType": "string"
-      },
-      {
-        "component": "reference",
-        "label": "Card Image (Mobile)",
-        "name": "imageMobile",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Card Description",
-        "name": "description",
+        "component": "richtext",
+        "label": "Card Label",
+        "name": "label",
         "valueType": "string"
       },
       {
@@ -816,7 +816,7 @@
         "valueType": "string"
       },
       {
-        "component": "text",
+        "component": "richtext",
         "label": "Section Description",
         "name": "description",
         "valueType": "string"
@@ -825,7 +825,7 @@
         "component": "container",
         "item": "business-vertical-item",
         "label": "Business Verticals",
-        "name": "businessVerticals"
+        "name": "verticals"
       }
     ]
   },
@@ -834,19 +834,13 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Desktop Image",
+        "label": "Image (Desktop)",
         "name": "imageDesktop",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Tablet Image",
-        "name": "imageTablet",
-        "valueType": "string"
-      },
-      {
-        "component": "reference",
-        "label": "Mobile Image",
+        "label": "Image (Mobile)",
         "name": "imageMobile",
         "valueType": "string"
       },
@@ -864,7 +858,7 @@
       },
       {
         "component": "aem-content",
-        "label": "Learn More Link",
+        "label": "Vertical Link",
         "name": "link",
         "valueType": "string"
       }
