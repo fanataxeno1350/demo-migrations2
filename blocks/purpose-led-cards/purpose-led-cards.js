@@ -2,127 +2,125 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const children = [...block.children];
+  const [headingRow, descriptionRow, ...cardRows] = [...block.children];
 
   const section = document.createElement('section');
-  section.classList.add('section', 'grey-bg', 'spirit-of-rise');
+  // block.classList already contains 'purpose-led-cards' and 'spirit-of-rise'
+  // Adding 'spirit-of-rise' again to an inner wrapper causes double padding/CSS.
+  // The 'section' and 'grey-bg' classes are from the original HTML and are valid.
+  section.classList.add('section', 'grey-bg');
 
   const container = document.createElement('div');
   container.classList.add('container');
-  section.append(container);
 
   // Section Header
-  const headerRow = children[0];
-  const subheadingRow = children[1];
+  const sectionHeader = document.createElement('div');
+  sectionHeader.classList.add('section-header', 'text-center', 'pb-3');
+  moveInstrumentation(headingRow, sectionHeader);
 
-  if (headerRow || subheadingRow) {
-    const sectionHeader = document.createElement('div');
-    sectionHeader.classList.add('section-header', 'text-center', 'pb-3');
+  const heading = document.createElement('h2');
+  heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
+  // headingRow is a row, its first child is the cell containing the text.
+  // The EDS Block Structure indicates 'heading' is type=text, so read textContent directly.
+  heading.textContent = headingRow.children[0]?.textContent.trim() || '';
+  sectionHeader.append(heading);
 
-    if (headerRow) {
-      const [headingCell] = [...headerRow.children]; // Fixed: named destructuring
-      const heading = document.createElement('h2');
-      heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
-      moveInstrumentation(headerRow, heading);
-      heading.textContent = headingCell?.textContent.trim() || '';
-      sectionHeader.append(heading);
-    }
+  const description = document.createElement('p');
+  description.classList.add('aos-init', 'aos-animate');
+  // descriptionRow is a row, its first child is the cell containing the text.
+  // The EDS Block Structure indicates 'description' is type=text, so read textContent directly.
+  description.textContent = descriptionRow.children[0]?.textContent.trim() || '';
+  moveInstrumentation(descriptionRow, description);
+  sectionHeader.append(description);
 
-    if (subheadingRow) {
-      const [subheadingCell] = [...subheadingRow.children]; // Fixed: named destructuring
-      const subheading = document.createElement('p'); // Fixed: correct element creation
-      subheading.classList.add('aos-init', 'aos-animate'); // Fixed: apply classes correctly
-      moveInstrumentation(subheadingRow, subheading);
-      subheading.textContent = subheadingCell?.textContent.trim() || '';
-      sectionHeader.append(subheading);
-    }
-    container.append(sectionHeader);
-  }
+  container.append(sectionHeader);
 
   // Cards Grid
-  const cardRows = children.slice(2).filter(row =>
-    row.children.length > 0 &&
-    [...row.children].some(c => c.children.length > 0 || c.textContent.trim() !== '')
-  );
+  const cardsGrid = document.createElement('div');
+  cardsGrid.classList.add('row', 'g-4', 'purpose-led-grid', 'pt-3');
 
-  if (cardRows.length > 0) {
-    const grid = document.createElement('div');
-    grid.classList.add('row', 'g-4', 'purpose-led-grid', 'pt-3');
-
-    cardRows.forEach((row) => {
+  cardRows
+    .filter(row =>
+      row.children.length > 0 &&
+      [...row.children].some(c => c.children.length > 0 || c.textContent.trim() !== '')
+    )
+    .forEach((row) => {
+      // Fixed schema for purpose-led-card-item, use destructuring
       const [imageDesktopCell, imageMobileCell, linkCell, descriptionCell] = [...row.children];
 
       const col = document.createElement('div');
       col.classList.add('col-md-6', 'aos-init', 'aos-animate');
+      moveInstrumentation(row, col);
 
       const cardWrap = document.createElement('a');
       cardWrap.classList.add('card-wrap');
       const foundLink = linkCell?.querySelector('a');
       if (foundLink) {
         cardWrap.href = foundLink.href;
-        cardWrap.target = '_blank'; // From original HTML
-      } else {
-        cardWrap.href = '#';
+        cardWrap.target = '_blank'; // Assuming target blank from original HTML
       }
-      moveInstrumentation(row, cardWrap);
 
       const cardImage = document.createElement('div');
       cardImage.classList.add('card-image');
 
-      let picture;
-      const desktopPicture = imageDesktopCell?.querySelector('picture');
-      const mobilePicture = imageMobileCell?.querySelector('picture');
+      const pictureDesktop = imageDesktopCell?.querySelector('picture');
+      const pictureMobile = imageMobileCell?.querySelector('picture');
 
-      if (desktopPicture && mobilePicture) {
-        picture = document.createElement('picture');
-        const sourceMobile = document.createElement('source');
-        sourceMobile.media = '(max-width: 576px)';
-        sourceMobile.srcset = mobilePicture.querySelector('img')?.src || '';
-        picture.append(sourceMobile);
+      if (pictureDesktop || pictureMobile) {
+        // createOptimizedPicture expects an img src and alt, and returns a <picture> element.
+        // We should construct the img src/alt first, then pass to createOptimizedPicture.
+        // The original code was trying to append the img from optimizedPic.querySelector('img')
+        // directly, which is redundant as createOptimizedPicture already returns a picture.
+        let imgSrc = '';
+        let imgAlt = '';
+        let sources = [];
 
-        const img = document.createElement('img');
-        img.classList.add('img-fluid');
-        img.src = desktopPicture.querySelector('img')?.src || '';
-        img.alt = desktopPicture.querySelector('img')?.alt || '';
-        img.loading = 'lazy';
-        picture.append(img);
-      } else if (desktopPicture) {
-        picture = desktopPicture.cloneNode(true);
-        const img = picture.querySelector('img');
-        if (img) img.classList.add('img-fluid');
-      } else if (mobilePicture) {
-        picture = mobilePicture.cloneNode(true);
-        const img = picture.querySelector('img');
-        if (img) img.classList.add('img-fluid');
-      }
+        if (pictureMobile) {
+          const mobileImg = pictureMobile.querySelector('img');
+          if (mobileImg) {
+            sources.push({ media: '(max-width: 576px)', srcset: mobileImg.src });
+            // If only mobile image is present, use its src/alt as default
+            if (!pictureDesktop) {
+              imgSrc = mobileImg.src;
+              imgAlt = mobileImg.alt || '';
+            }
+          }
+        }
 
-      if (picture) {
-        cardImage.append(picture);
-        cardWrap.append(cardImage);
+        if (pictureDesktop) {
+          const desktopImg = pictureDesktop.querySelector('img');
+          if (desktopImg) {
+            imgSrc = desktopImg.src; // Desktop image is primary
+            imgAlt = desktopImg.alt || '';
+          }
+        }
+
+        if (imgSrc) {
+          const optimizedPicture = createOptimizedPicture(imgSrc, imgAlt, false, [{ width: '750' }], sources);
+          // moveInstrumentation should be called on the original picture/img if it exists,
+          // but since we're creating a new one, we move it to the new picture element.
+          // The original picture elements are not directly moved, but their content is used.
+          // For instrumentation, we can move it from the original cell to the new picture.
+          moveInstrumentation(imageDesktopCell || imageMobileCell, optimizedPicture);
+          cardImage.append(optimizedPicture);
+        }
       }
 
       const cardText = document.createElement('div');
       cardText.classList.add('card-text');
 
-      if (descriptionCell) {
-        const descP = document.createElement('p');
-        descP.classList.add('desc');
-        descP.innerHTML = descriptionCell.innerHTML;
-        cardText.append(descP);
-      }
-      cardWrap.append(cardText);
+      const desc = document.createElement('p');
+      desc.classList.add('desc');
+      // description is type=richtext, so read innerHTML directly from the cell
+      desc.innerHTML = descriptionCell?.innerHTML || '';
+      cardText.append(desc);
+
+      cardWrap.append(cardImage, cardText);
       col.append(cardWrap);
-      grid.append(col);
+      cardsGrid.append(col);
     });
-    container.append(grid);
-  }
 
-  // Optimize images
-  section.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    moveInstrumentation(img, optimizedPic.querySelector('img'));
-    img.closest('picture').replaceWith(optimizedPic);
-  });
-
+  container.append(cardsGrid);
+  section.append(container);
   block.replaceChildren(section);
 }

@@ -67,20 +67,20 @@
         },
         {
           "component": "reference",
-          "label": "Image (Desktop/Main img src)",
+          "label": "Image (Desktop/default)",
           "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Item Heading",
-          "name": "itemHeading",
+          "label": "Item Title",
+          "name": "title",
           "valueType": "string"
         },
         {
           "component": "richtext",
           "label": "Item Description",
-          "name": "itemDescription",
+          "name": "description",
           "valueType": "string"
         },
         {

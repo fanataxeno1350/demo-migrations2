@@ -37,18 +37,6 @@
       "id": "performance-driven-cards-2",
       "fields": [
         {
-          "component": "text",
-          "label": "Section Heading",
-          "name": "heading",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Section Subheading",
-          "name": "subheading",
-          "valueType": "string"
-        },
-        {
           "component": "container",
           "item": "performance-driven-card-item",
           "label": "Cards",
@@ -61,13 +49,13 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Card Image (Desktop)",
+          "label": "Desktop Image",
           "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Card Image (Mobile)",
+          "label": "Mobile Image",
           "name": "imageMobile",
           "valueType": "string"
         },

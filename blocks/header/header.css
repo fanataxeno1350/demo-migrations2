@@ -18,13 +18,19 @@
 
 @keyframes placeholder-wave{100%{-webkit-mask-position:-200% 0%;mask-position:-200% 0%}}
 
+.swiper{ display:block;list-style:none;margin-left:auto;margin-right:auto;overflow:hidden;padding:0;position:relative;z-index:1 }
+
+.swiper:not(.swiper-watch-progress){ .swiper-lazy-preloader{animation:swiper-preloader-spin 1s linear infinite} }
+
 @keyframes swiper-preloader-spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}
+
+.swiper-scrollbar{ background:var(--swiper-scrollbar-bg-color,#0000001a);border-radius:var(--swiper-scrollbar-border-radius,10px);position:relative;touch-action:none;&.swiper-scrollbar-disabled,.swiper-scrollbar-disabled>&{display:none!important}&.swiper-scrollbar-horizontal,.swiper-horizontal>&{bottom:var(--swiper-scrollbar-bottom,4px);height:var(--swiper-scrollbar-size,4px);left:var(--swiper-scrollbar-sides-offset,1%);position:absolute;top:var(--swiper-scrollbar-top,auto);width:calc(100% - var(--swiper-scrollbar-sides-offset,1%)*2);z-index:50}&.swiper-scrollbar-vertical,.swiper-vertical>&{height:calc(100% - var(--swiper-scrollbar-sides-offset,1%)*2);left:var(--swiper-scrollbar-left,auto);position:absolute;right:var(--swiper-scrollbar-right,4px);top:var(--swiper-scrollbar-sides-offset,1%);width:var(--swiper-scrollbar-size,4px);z-index:50} }
 
 @font-face{font-family:'Georama';src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-regular-80f922.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-regular-d0c863.woff") format('woff');font-weight:400;font-style:normal;font-display:swap;}
 
 @font-face{font-family:'Georama-medium';src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-medium-f99b53.woff") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-medium-f99b53.woff") format('woff');font-weight:500;font-style:normal;font-display:swap;}
 
-@font-face{font-family:quantum-rise-medium;src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-medium-e21fab.woff") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-medium-e21fab.woff") format("woff");font-style:normal;font-weight:400;font-display:swap;}
+@font-face{font-family:quantum-rise-medium;src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-medium-dbd160.woff2") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-medium-e21fab.woff") format("woff");font-style:normal;font-weight:400;font-display:swap;}
 
 @font-face{font-family:quantum-rise-regular;src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-regular-e79a1e.woff") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-regular-e79a1e.woff") format("woff");font-style:normal;font-weight:400;font-display:swap;}
 
@@ -186,7 +192,47 @@
 
 .main-header .wrap .icon-nav ul{ display:flex; }
 
+.main-header .wrap .search-screen-wrap{ position:fixed;width:100vw;height:60vh;background:#f7f5ef;color:#1c1c1c;left:0;top:71px;border-top:1px solid #dad8d4;z-index:-1;opacity:0;pointer-events:none;transition:all 0.3s ease-in-out;transform:translate(0,0); }
+
 .main-header .wrap li.search, .main-header .wrap li.mail{ padding:0px 0; }
+
+.main-header .wrap .search-screen-wrap .wrap{ max-width:50%;margin:0 auto;margin-top:40px;display:block;position:relative; }
+
+.main-header .wrap .search-screen-wrap .wrap .search-wrap{ width:100%;position:relative; }
+
+.main-header .wrap .search-screen-wrap .wrap .search-wrap .input-text{ border:0;border-bottom:#1c1c1c solid 1px;padding:10px 0;padding-left:35px;padding-right:80px;outline:0;background:0 0;color:#1c1c1c;width:100%; }
+
+.main-header .wrap .search-screen-wrap .wrap .search-wrap .search-icon{ width:20px;position:absolute;left:0;top:50%;transform:translate(0,-50%); }
+
+.main-header .wrap .search-screen-wrap .wrap .search-wrap .search-icon svg{ width:100%;fill:#1c1c1c; }
+
+.main-header .wrap .search-screen-wrap .wrap .search-wrap .submit-button{ width:70px;position:absolute;right:0;top:50%;transform:translate(0,-50%);display:flex;background:0 0;border:0;cursor:pointer;color:#1c1c1c;align-items:center;font-size:0.9rem; }
+
+.main-header .wrap .search-screen-wrap .wrap .search-wrap .submit-button svg{ margin-left:5px;width:20px;fill:#1c1c1c;stroke:#1c1c1c; }
+
+.main-header .wrap .search-screen-wrap .wrap .searchResultBox{ background:#fff;border:1px solid #b4b4b4;margin-top:0.6rem;position:absolute;width:100%;height:400px;overflow:auto !important; }
+
+.main-header .wrap .search-screen-wrap .wrap .searchResultBox .swiper{ overflow:auto !important; }
+
+.main-header .wrap .search-screen-wrap .wrap .searchResultBox .scrollSwiper{ height:100%;scrollbar-width:none; }
+
+.main-header .wrap .search-screen-wrap .wrap .searchResultBox .scrollSwiper .swiper-wrapper{ transition:all 0.3s ease-in-out !important; }
+
+.main-header .wrap .search-screen-wrap .wrap .searchResultBox .scrollSwiper .swiper-wrapper .swiper-slide{ height:auto;-webkit-box-sizing:border-box;box-sizing:border-box; }
+
+.main-header .wrap .search-screen-wrap .wrap .searchResultBox .swiper-scrollbar{ position:absolute;right:5px;top:0;width:5px;height:100%; }
+
+.main-header .wrap .search-screen-wrap .wrap .search-suggestions-wrap{ max-width:100%;border-bottom:#1c1c1c99 solid 1px;padding-bottom:1rem;margin-top:30px; }
+
+.main-header .wrap .search-screen-wrap .wrap .search-suggestions-wrap .label{ font-size:0.9rem;margin-bottom:1rem; }
+
+.main-header .wrap .search-screen-wrap .wrap .search-suggestions-wrap .tokens-wrap ul{ flex-wrap:wrap; }
+
+.main-header .wrap .search-screen-wrap .wrap .search-suggestions-wrap .tokens-wrap ul li{ width:auto;padding:6px 20px;border:#1c1c1c99 solid 1px;border-radius:50px;margin-right:0.5rem;margin-bottom:0.5rem;cursor:pointer;white-space:nowrap;font-size:0.8rem;transition:all 0.3s ease-in-out; }
+
+.main-header .wrap .search-screen-wrap .wrap .search-suggestions-wrap .tokens-wrap ul li:hover{ border:#dd052b solid 1px;background:#dd052b;color:#fff; }
+
+.main-header .wrap .search-screen-wrap .wrap .search-suggestions-wrap:last-child{ border:0; }
 
 @keyframes scroll-left{0%{transform:translateX(0%);}100%{transform:translateX(-100%);}}
 
@@ -217,6 +263,8 @@
 .main-header .wrap .main-nav ul>li.has-child .mega-menu .wrap .sub-nav-wrap.careers-div{ width:30%; }
 
 .main-header .wrap .main-nav ul>li .mega-menu:has(.has-sub-child){ height:calc(100% - 200px);min-height:500px;max-height:550px; }
+
+.main-header .wrap li.search:hover .search-screen-wrap{ opacity:1;pointer-events:all;transform:translate(0,0rem); }
 
 .main-header .wrap li.search, .main-header .wrap li.mail{ padding:25px 0; }
 
@@ -276,6 +324,20 @@
 
 .main-header .wrap .icon-nav ul li{ margin-right:1rem; }
 
+.main-header .wrap .search-screen-wrap{ width:100%;height:100vh; }
+
+.main-header .wrap .search-screen-wrap .wrap{ max-width:calc(100% - 1.5rem);margin-top:0px; }
+
+.main-header .wrap .search-screen-wrap .wrap .search-wrap .input-text{ padding-right:30px; }
+
+.main-header .wrap .search-screen-wrap .wrap .search-wrap .submit-button{ width:20px; }
+
+.main-header .wrap .search-screen-wrap .wrap .search-wrap .submit-button .label{ display:none; }
+
+.main-header .wrap .search-screen-wrap .wrap .searchResultBox .scrollSwiper{ max-height:calc(100vh - 200px); }
+
+.main-header .wrap .search-screen-wrap .wrap .search-suggestions-wrap{ max-width:100%;margin-top:2rem; }
+
 .main-header .wrap .main-nav ul>li.has-child .mega-menu .wrap .center-div .left-div{ display:none !important; }
 
 .main-header .wrap .main-nav ul>li.has-child:hover.hover-red:before{ background-color:transparent; }
@@ -314,7 +376,9 @@
 
 .main-header .wrap .main-nav ul>li.has-child .mega-menu .wrap .sub-nav-wrap ul li a:hover, .main-header .wrap .main-nav ul>li.has-child .mega-menu .wrap .sub-nav-wrap ul li:has(.has-sub-child.active)>a{ border:none;color:#dd052b; }
 
-.main-header.with-marquee .wrap .main-nav{ top:67px; } }
+.main-header.with-marquee .wrap .main-nav{ top:67px; }
+
+.main-header.with-marquee .wrap .search-screen-wrap{ top:0; } }
 
 @media screen and (min-width) { .main-header .wrap .main-nav ul>li.has-child .mega-menu .wrap .sub-nav-wrap .has-sub-child:has(ul li .has-inner-sub-child.active-child){ border-right:2px solid #dad8d4; } }
 
@@ -322,7 +386,9 @@
 
 @media screen and (min-width:1040px) { .main-header .wrap .main-nav ul>li.has-child .mega-menu .wrap .sub-nav-wrap.what-we-do, .main-header .wrap .main-nav ul>li.has-child .mega-menu .wrap .sub-nav-wrap.careers-div{ width:33.3%; } }
 
-@media screen and (max-width:992px) { .main-header .wrap li.search::before{ bottom:-8px; } }
+@media screen and (max-width:992px) { .main-header .wrap li.search::before{ bottom:-8px; }
+
+.main-header .wrap .search-screen-wrap{ position:fixed;width:100vw;height:60vh;background:#f7f5ef;color:#1c1c1c;left:0;top:60px;border-top:1px solid #dad8d4;z-index:-1;opacity:0;pointer-events:none;transition:all 0.3s ease-in-out;transform:translate(0,0); } }
 
 @keyframes loader-1-1{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 
@@ -333,6 +399,14 @@
 .main-header .wrap .main-nav ul>li.has-child .mega-menu .wrap .center-div .left-div .left-div-heading a:hover{ 
       border-bottom: 2px solid #00000026;
       color: #1c1c1c;
+     }
+
+.main-header .wrap .search-screen-wrap .wrap .searchResultBox{ 
+      background: #fff;
+     }
+
+.main-header .wrap .search-screen-wrap .wrap .search-wrap .input-text{ 
+      color:#1c1c1c;
      }
 
 @media screen and (max-width: 991px) { .main-header .wrap .main-nav ul>li.has-child .mega-menu .wrap .sub-nav-wrap .has-sub-child.active, .main-header .wrap .main-nav ul>li.has-child .mega-menu .wrap .sub-nav-wrap .has-sub-child .has-inner-sub-child.active-child{ 
@@ -451,6 +525,35 @@
     background-color: transparent !important;
    }
 
+.main-header .wrap .search-screen-wrap .wrap .search-suggestions-wrap .tokens-wrap ul{ 
+    flex-wrap: wrap;
+    display: flex !important;
+   }
+
+.main-header .wrap .search-screen-wrap{ 
+      width: 100%;
+      height: 100vh;
+      top: 0;
+     }
+
+.icon-nav.mobile-menus-icon ul li .search-screen-wrap{ 
+      display: none !important;
+
+}
+
+.search-screen-wrap{ 
+  pointer-events: all !important;
+ }
+
+.main-header .wrap .search-screen-wrap .wrap .search-suggestions-wrap{ 
+    z-index: 1;
+    position: relative;
+   }
+
+.main-header .wrap .search-screen-wrap .wrap .searchResultBox{ 
+  z-index: 2;
+ }
+
 .main-header .wrap .main-nav ul{ 
   display: flex;
   position: relative;
@@ -462,6 +565,15 @@
     display: block !important;
     width: 96% !important;
    } }
+
+.main-header .wrap .search-screen-wrap .wrap .search-suggestions-wrap{ 
+    z-index: 1;
+    position: relative;
+   }
+
+.main-header .wrap .search-screen-wrap .wrap .searchResultBox{ 
+  z-index: 2;
+ }
 
 @media screen and (max-width: 1200px) { .main-header .wrap .main-nav ul>li{ 
         margin-right: 0.5rem;

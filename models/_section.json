@@ -63,7 +63,9 @@
         "latest-news-carousel",
         "work-with-us-grid",
         "faq-accordion",
-        "footer"
+        "footer",
+        "quick-links-bar",
+        "business-verticals-grid"
       ]
     }
   ]

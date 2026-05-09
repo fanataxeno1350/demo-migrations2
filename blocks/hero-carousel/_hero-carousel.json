@@ -17,30 +17,30 @@
       }
     },
     {
-      "title": "Hero-Carousel-Slide",
-      "id": "hero-carousel-slide",
+      "title": "Hero-Slide-Item",
+      "id": "hero-slide-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "hero-carousel-slide",
-              "name": "Hero-Carousel-Slide"
+              "model": "hero-slide-item",
+              "name": "Hero-Slide-Item"
             }
           }
         }
       }
     },
     {
-      "title": "Hero-Carousel-Quick-Link",
-      "id": "hero-carousel-quick-link",
+      "title": "Quick-Link-Item",
+      "id": "quick-link-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "hero-carousel-quick-link",
-              "name": "Hero-Carousel-Quick-Link"
+              "model": "quick-link-item",
+              "name": "Quick-Link-Item"
             }
           }
         }
@@ -53,55 +53,55 @@
       "fields": [
         {
           "component": "container",
-          "item": "hero-carousel-slide",
-          "label": "Slides",
+          "item": "hero-slide-item",
+          "label": "Carousel Slides",
           "name": "slides"
         },
         {
           "component": "container",
-          "item": "hero-carousel-quick-link",
+          "item": "quick-link-item",
           "label": "Quick Links",
           "name": "quickLinks"
         }
       ]
     },
     {
-      "id": "hero-carousel-slide",
+      "id": "hero-slide-item",
       "fields": [
         {
           "component": "reference",
-          "label": "Desktop Image",
-          "name": "imageDesktop",
+          "label": "Desktop Background Image",
+          "name": "backgroundImage",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Tablet Image (max-width: 799px)",
-          "name": "imageTablet",
+          "label": "Mobile Background Image (max-width: 576px)",
+          "name": "backgroundImageMobile576",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Mobile Image (max-width: 576px)",
-          "name": "imageMobile",
+          "label": "Mobile Background Image (max-width: 799px)",
+          "name": "backgroundImageMobile799",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Pretitle (Small/Intro Text)",
-          "name": "pretitle",
+          "label": "Pre-title / Small Highlighted Text",
+          "name": "preTitle",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Headline",
+          "name": "headline",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Title",
-          "name": "title",
-          "valueType": "string"
-        },
-        {
-          "component": "richtext",
-          "label": "Subtitle/Description",
-          "name": "subtitle",
+          "label": "Description",
+          "name": "description",
           "valueType": "string"
         },
         {
@@ -119,7 +119,7 @@
       ]
     },
     {
-      "id": "hero-carousel-quick-link",
+      "id": "quick-link-item",
       "fields": [
         {
           "component": "text",
@@ -140,8 +140,8 @@
     {
       "id": "hero-carousel",
       "components": [
-        "hero-carousel-slide",
-        "hero-carousel-quick-link"
+        "hero-slide-item",
+        "quick-link-item"
       ]
     }
   ]

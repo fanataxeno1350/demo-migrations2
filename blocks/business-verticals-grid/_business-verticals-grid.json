@@ -1,31 +1,31 @@
 {
   "definitions": [
     {
-      "title": "Business Grid",
-      "id": "business-grid",
+      "title": "Business-Verticals-Grid",
+      "id": "business-verticals-grid",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "filter": "business-grid",
-              "model": "business-grid",
-              "name": "Business Grid"
+              "filter": "business-verticals-grid",
+              "model": "business-verticals-grid",
+              "name": "Business-Verticals-Grid"
             }
           }
         }
       }
     },
     {
-      "title": "Business Grid Item",
-      "id": "business-grid-item",
+      "title": "Business-Vertical-Item",
+      "id": "business-vertical-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "business-grid-item",
-              "name": "Business Grid Item"
+              "model": "business-vertical-item",
+              "name": "Business-Vertical-Item"
             }
           }
         }
@@ -34,41 +34,35 @@
   ],
   "models": [
     {
-      "id": "business-grid",
+      "id": "business-verticals-grid",
       "fields": [
         {
           "component": "text",
-          "label": "Heading",
+          "label": "Section Heading",
           "name": "heading",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Description",
+          "label": "Section Description",
           "name": "description",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "business-grid-item",
-          "label": "Business Grid Items",
-          "name": "items"
+          "item": "business-vertical-item",
+          "label": "Business Verticals",
+          "name": "businessVerticals"
         }
       ]
     },
     {
-      "id": "business-grid-item",
+      "id": "business-vertical-item",
       "fields": [
         {
           "component": "reference",
           "label": "Image (Desktop)",
           "name": "imageDesktop",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Image (Tablet)",
-          "name": "imageTablet",
           "valueType": "string"
         },
         {
@@ -79,7 +73,7 @@
         },
         {
           "component": "text",
-          "label": "Business Title",
+          "label": "Vertical Title",
           "name": "title",
           "valueType": "string"
         },
@@ -91,7 +85,7 @@
         },
         {
           "component": "aem-content",
-          "label": "Business Link",
+          "label": "Vertical Link",
           "name": "link",
           "valueType": "string"
         }
@@ -100,9 +94,9 @@
   ],
   "filters": [
     {
-      "id": "business-grid",
+      "id": "business-verticals-grid",
       "components": [
-        "business-grid-item"
+        "business-vertical-item"
       ]
     }
   ]

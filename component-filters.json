@@ -28,13 +28,15 @@
       "latest-news-carousel",
       "work-with-us-grid",
       "faq-accordion",
-      "footer"
+      "footer",
+      "quick-links-bar",
+      "business-verticals-grid"
     ]
   },
   {
-    "id": "business-grid",
+    "id": "business-verticals-grid",
     "components": [
-      "business-grid-item"
+      "business-vertical-item"
     ]
   },
   {
@@ -52,36 +54,28 @@
     ]
   },
   {
-    "id": "future-ready-cards-2",
-    "components": [
-      "future-ready-card-item"
-    ]
-  },
-  {
-    "id": "future-ready-cards",
-    "components": [
-      "future-ready-card-item"
-    ]
-  },
-  {
     "id": "header",
     "components": [
       "navigation-item",
-      "icon-link-item",
-      "press-release-item"
+      "mega-menu-about-section",
+      "mega-menu-key-facts-item",
+      "mega-menu-investor-section",
+      "mega-menu-newsroom-press-item",
+      "mega-menu-career-section",
+      "icon-link-item"
     ]
   },
   {
     "id": "hero-carousel",
     "components": [
-      "hero-carousel-slide",
-      "hero-carousel-quick-link"
+      "hero-slide-item",
+      "quick-link-item"
     ]
   },
   {
     "id": "latest-news-carousel",
     "components": [
-      "latest-news-item",
+      "news-carousel-item",
       "elfsight-widget-embed"
     ]
   },
@@ -94,13 +88,19 @@
   {
     "id": "performance-driven-cards",
     "components": [
-      "performance-card-item"
+      "performance-driven-card-item"
     ]
   },
   {
     "id": "purpose-led-cards",
     "components": [
       "purpose-led-card-item"
+    ]
+  },
+  {
+    "id": "quick-links-bar",
+    "components": [
+      "quick-link-item"
     ]
   },
   {

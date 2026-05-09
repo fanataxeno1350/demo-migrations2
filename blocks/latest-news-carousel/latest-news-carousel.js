@@ -2,18 +2,25 @@ import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.j
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
+  // The block's own class 'latest-news-carousel' is already on the outer div.
+  // Adding 'section' to an inner element causes double padding/CSS.
+  // Instead, apply block-level classes to the block itself if needed, or
+  // ensure the outer block div already has them.
+  // The generated JS creates a <section> element and adds classes to it.
+  // The original HTML shows these classes on the <section> that wraps the block content.
+  // We should create the section and add the classes, but NOT the block name itself.
+  // The block name 'latest-news-carousel' is already on the block element.
+
   const children = [...block.children].filter(
-    (row) =>
-      row.children.length > 0 &&
-      [...row.children].some(
-        (c) => c.children.length > 0 || c.textContent.trim() !== '',
-      ),
+    (row) => row.children.length > 0 && [...row.children].some((c) => c.children.length > 0 || c.textContent.trim() !== ''),
   );
 
   const [headingRow, ...itemRows] = children;
 
   const section = document.createElement('section');
-  section.classList.add('section', 'grey-bg', 'latest-stories', 'home-stories');
+  // Add classes from ORIGINAL HTML, excluding the block name 'latest-news-carousel'
+  // which is already on the outer block div.
+  section.classList.add('grey-bg', 'latest-stories', 'home-stories');
 
   const sectionHeader = document.createElement('div');
   sectionHeader.classList.add('section-header', 'text-center');
@@ -21,47 +28,44 @@ export default async function decorate(block) {
 
   const heading = document.createElement('h2');
   heading.classList.add('heading', 'font-regular', 'aos-init', 'aos-animate');
+  heading.textContent = headingRow.textContent.trim();
+  // Add data-aos attributes from original HTML
   heading.setAttribute('data-aos', 'fade-up');
   heading.setAttribute('data-aos-offset', '100');
   heading.setAttribute('data-aos-duration', '650');
   heading.setAttribute('data-aos-easing', 'ease-in-out');
-  const [headingCell] = [...headingRow.children]; // Fixed: Destructuring for heading cell
-  heading.textContent = headingCell?.textContent.trim() || '';
   sectionHeader.append(heading);
   section.append(sectionHeader);
 
   const container = document.createElement('div');
   container.classList.add('container', 'aos-init', 'aos-animate');
+  // Add data-aos attributes from original HTML
   container.setAttribute('data-aos', 'fade-up');
   container.setAttribute('data-aos-offset', '100');
   container.setAttribute('data-aos-duration', '650');
   container.setAttribute('data-aos-easing', 'ease-in-out');
-  section.append(container);
 
-  const flickitySlider = document.createElement('div');
-  flickitySlider.classList.add('flickity-slider-mobile-wrap', 'grid-layout');
-  // Fixed: data-flickity attribute value should be a JSON string, not an object literal
-  flickitySlider.setAttribute(
-    'data-flickity',
-    '{ "wrapAround": false, "lazyLoad": true, "pageDots": true, "prevNextButtons": false, "imagesLoaded": true, "cellAlign": "left", "watchCSS": true, "adaptiveHeight": true }',
-  );
-  container.append(flickitySlider);
+  const flickitySliderWrap = document.createElement('div');
+  flickitySliderWrap.classList.add('flickity-slider-mobile-wrap', 'grid-layout');
+  // Add data-flickity attribute from original HTML
+  flickitySliderWrap.setAttribute('data-flickity', '{ "wrapAround": false, "lazyLoad": true, "pageDots": true, "prevNextButtons": false, "imagesLoaded": true, "cellAlign": "left", "watchCSS": true, "adaptiveHeight": true }');
+  container.append(flickitySliderWrap);
+  section.append(container);
 
   itemRows.forEach((row) => {
     const slide = document.createElement('div');
     slide.classList.add('slides');
     moveInstrumentation(row, slide);
 
-    // Detect item type based on cell count
+    // Detect if it's a news-carousel-item (9 cells) or an embed (3 cells)
     if (row.children.length === 9) {
-      // latest-news-item
       const [
-        thumbnailImageCell,
+        imageCell,
         imageHorizontalCell,
         imageVerticalCell,
         categoryCell,
         headlineCell,
-        ctaLinkCell,
+        linkCell,
         ctaLabelCell,
         dateCell,
         dateIsoCell,
@@ -73,35 +77,23 @@ export default async function decorate(block) {
       const imageWrap = document.createElement('div');
       imageWrap.classList.add('image-wrap');
 
-      const thumbnailPicture = thumbnailImageCell?.querySelector('picture');
-      const horizontalPicture = imageHorizontalCell?.querySelector('picture');
-      const verticalPicture = imageVerticalImageCell?.querySelector('picture'); // Fixed: Typo in variable name
-
-      if (thumbnailPicture) {
-        const img = thumbnailPicture.querySelector('img');
+      const thumbPic = imageCell?.querySelector('picture');
+      if (thumbPic) {
+        const img = thumbPic.querySelector('img');
         if (img) {
-          const optimizedPic = createOptimizedPicture(
-            img.src,
-            img.alt,
-            false,
-            [{ width: '750' }],
-          );
+          // Create optimized picture, then move instrumentation from the original img to the new img
+          const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
           const optimizedImg = optimizedPic.querySelector('img');
-          moveInstrumentation(img, optimizedImg); // Fixed: Added moveInstrumentation for optimized image
-          optimizedImg.classList.add('thumb-img', 'img-fluid');
+          moveInstrumentation(img, optimizedImg); // Move instrumentation from original img to the new optimized img
+          optimizedImg.classList.add('thumb-img', 'img-fluid'); // Add classes from original HTML
+          optimizedImg.setAttribute('loading', 'lazy'); // Add loading attribute from original HTML
 
-          if (horizontalPicture) {
-            optimizedImg.setAttribute(
-              'data-img-horizontal',
-              horizontalPicture.querySelector('img')?.src || '',
-            );
-          }
-          if (verticalPicture) {
-            optimizedImg.setAttribute(
-              'data-img-vertical',
-              verticalPicture.querySelector('img')?.src || '',
-            );
-          }
+          const horizontalImgSrc = imageHorizontalCell?.querySelector('picture > img')?.src;
+          const verticalImgSrc = imageVerticalCell?.querySelector('picture > img')?.src;
+
+          if (horizontalImgSrc) optimizedImg.dataset.imgHorizontal = horizontalImgSrc;
+          if (verticalImgSrc) optimizedImg.dataset.imgVertical = verticalImgSrc;
+
           imageWrap.append(optimizedPic);
         }
       }
@@ -120,22 +112,19 @@ export default async function decorate(block) {
       text.textContent = headlineCell?.textContent.trim() || '';
       contentWrap.append(text);
 
-      const ctaLink = ctaLinkCell?.querySelector('a');
-      const ctaButton = document.createElement('a');
-      ctaButton.classList.add('btn', 'btn-link');
-      if (ctaLink) {
-        ctaButton.href = ctaLink.href;
+      const link = document.createElement('a');
+      link.classList.add('btn', 'btn-link');
+      const foundLink = linkCell?.querySelector('a');
+      if (foundLink) {
+        link.href = foundLink.href;
       }
-      ctaButton.textContent = ctaLabelCell?.textContent.trim() || '';
-      contentWrap.append(ctaButton);
+      link.textContent = ctaLabelCell?.textContent.trim() || 'Read more';
+      contentWrap.append(link);
 
       const dateDiv = document.createElement('div');
       dateDiv.classList.add('date');
       const time = document.createElement('time');
-      const dateIso = dateIsoCell?.textContent.trim();
-      if (dateIso) {
-        time.setAttribute('datetime', dateIso);
-      }
+      time.setAttribute('datetime', dateIsoCell?.textContent.trim() || '');
       time.textContent = dateCell?.textContent.trim() || '';
       dateDiv.append(time);
       contentWrap.append(dateDiv);
@@ -143,43 +132,74 @@ export default async function decorate(block) {
       wrap.append(contentWrap);
       slide.append(wrap);
     } else if (row.children.length === 3) {
-      // elfsight-widget-embed
       const [embedUrlCell, embedKindCell, embedConfigCell] = [...row.children];
+      const kind = embedKindCell?.textContent.trim();
 
-      const embedKind = embedKindCell?.textContent.trim();
-      const embedUrl = embedUrlCell?.textContent.trim();
-      const embedConfig = embedConfigCell?.textContent.trim();
+      const embedContainer = document.createElement('div');
+      embedContainer.dataset.embedKind = kind;
+      embedContainer.dataset.embedUrl = embedUrlCell?.textContent.trim() || '';
+      embedContainer.dataset.embedConfig = embedConfigCell?.textContent.trim() || '';
 
-      if (embedKind === 'elfsight-widget') {
-        const config = embedConfig ? JSON.parse(embedConfig) : {};
-        // Fixed: Swiper/Flickity classes are added by the library, not manually
-        slide.classList.add(`elfsight-app-${config.app_id}`);
-        slide.setAttribute('data-elfsight-app-lazy', '');
-        if (embedUrl) slide.setAttribute('data-embed-url', embedUrl);
-        if (embedKind) slide.setAttribute('data-embed-kind', embedKind);
-        if (embedConfig) slide.setAttribute('data-embed-config', embedConfig);
-        loadScript('https://static.elfsight.com/platform/platform.js');
+      switch (kind) {
+        case 'elfsight-widget': {
+          const config = JSON.parse(embedConfigCell?.textContent.trim() || '{}');
+          embedContainer.classList.add(`elfsight-app-${config.app_id}`);
+          // The original HTML has data-elfsight-app-lazy, which is not handled by loadScript.
+          // The platform.js script should be loaded once.
+          loadScript('https://static.elfsight.com/platform/platform.js', { async: true, defer: true });
+          break;
+        }
+        case 'walls-io': {
+          const wallScript = document.createElement('script');
+          wallScript.src = 'https://walls.io/js/wallsio-widget-1.2.js';
+          wallScript.dataset.wallurl = embedUrlCell?.textContent.trim() || '';
+          wallScript.dataset.width = '100%';
+          wallScript.dataset.autoheight = '1';
+          wallScript.async = true;
+          embedContainer.append(wallScript);
+          break;
+        }
+        case 'twitter-embed':
+        case 'instagram-embed':
+        case 'tiktok-embed': {
+          const platforms = {
+            'twitter-embed': 'https://platform.twitter.com/widgets.js',
+            'instagram-embed': 'https://www.instagram.com/embed.js',
+            'tiktok-embed': 'https://www.tiktok.com/embed.js',
+          };
+          loadScript(platforms[kind], { async: true, defer: true });
+          const link = document.createElement('a');
+          link.href = embedUrlCell?.textContent.trim() || '';
+          link.textContent = `View post on ${kind.split('-')[0].charAt(0).toUpperCase()}${kind.split('-')[0].slice(1)}`;
+          embedContainer.append(link);
+          break;
+        }
+        default:
+          break;
       }
+      slide.append(embedContainer);
     }
-    flickitySlider.append(slide);
+    flickitySliderWrap.append(slide);
   });
 
   block.replaceChildren(section);
 
-  // Optimize images within the newly created section
-  section.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [
-      { width: '750' },
-    ]);
-    moveInstrumentation(img, optimizedPic.querySelector('img'));
-    img.closest('picture').replaceWith(optimizedPic);
-  });
+  // Flickity.js initialization
+  // Flickity is not Swiper, it's a different carousel library.
+  // The original HTML has data-flickity attribute, indicating Flickity.js.
+  // We need to load Flickity.js and initialize it.
+  await loadCSS('/blocks/latest-news-carousel/flickity.min.css'); // Assuming flickity.min.css is in the block folder
+  await loadScript('/blocks/latest-news-carousel/flickity.pkgd.min.js'); // Assuming flickity.pkgd.min.js is in the block folder
 
-  // Flickity/Swiper initialization
-  // Fixed: Added loadCSS and async to decorate for Flickity/Swiper
-  await loadCSS('https://unpkg.com/flickity@2/dist/flickity.min.css');
-  await loadScript('https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js');
-
+  // Initialize Flickity after the block is in the DOM and scripts are loaded
   // eslint-disable-next-line no-undef
-  // new Flickity(flickitySlider, JSON.parse(flickitySlider.dataset.flickity)); // This line would be needed if Flickity was not auto-initializing via data-flickity attribute
+  if (typeof Flickity !== 'undefined') {
+    // The data-flickity attribute contains the configuration.
+    // Flickity will automatically initialize on elements with data-flickity attribute.
+    // We just need to ensure the script is loaded.
+    // However, if we want to manually initialize or ensure it's initialized,
+    // we can do it here. The current setup with data-flickity should work.
+    // For explicit initialization:
+    // const flkty = new Flickity(flickitySliderWrap, JSON.parse(flickitySliderWrap.dataset.flickity));
+  }
 }

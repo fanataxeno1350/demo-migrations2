@@ -44,8 +44,8 @@
         },
         {
           "component": "text",
-          "label": "Section Subheading",
-          "name": "subheading",
+          "label": "Section Description",
+          "name": "description",
           "valueType": "string"
         },
         {
@@ -61,13 +61,13 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Desktop Image",
+          "label": "Card Image (Desktop)",
           "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Mobile Image",
+          "label": "Card Image (Mobile)",
           "name": "imageMobile",
           "valueType": "string"
         },

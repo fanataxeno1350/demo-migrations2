@@ -20,29 +20,13 @@
 
 @keyframes placeholder-wave{100%{-webkit-mask-position:-200% 0%;mask-position:-200% 0%}}
 
-.bottom-0{ bottom:0!important }
-
-.w-100{ width:100%!important }
-
 .m-0{ margin:0!important }
-
-.mt-0{ margin-top:0!important }
 
 .p-0{ padding:0!important }
 
-.pt-1{ padding-top:.25rem!important }
-
-.pb-1{ padding-bottom:.25rem!important }
-
 @media (min-width:992px) { .text-lg-start{ text-align:left!important } }
 
-.swiper-wrapper{ box-sizing:initial;display:flex;height:100%;position:relative;transition-property:transform;transition-timing-function:var(--swiper-wrapper-transition-timing-function,initial);width:100%;z-index:1 }
-
-.swiper-wrapper{ transform:translateZ(0) }
-
 .swiper-horizontal{ touch-action:pan-y }
-
-.swiper-slide{ display:block;flex-shrink:0;height:100%;position:relative;transition-property:transform;width:100% }
 
 .swiper-watch-progress .swiper-slide-visible{ .swiper-lazy-preloader{animation:swiper-preloader-spin 1s linear infinite} }
 
@@ -64,7 +48,7 @@
 
 @font-face{font-family:'Georama-medium';src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-medium-f99b53.woff") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/georama-medium-f99b53.woff") format('woff');font-weight:500;font-style:normal;font-display:swap;}
 
-@font-face{font-family:quantum-rise-medium;src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-medium-e21fab.woff") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-medium-e21fab.woff") format("woff");font-style:normal;font-weight:400;font-display:swap;}
+@font-face{font-family:quantum-rise-medium;src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-medium-dbd160.woff2") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-medium-e21fab.woff") format("woff");font-style:normal;font-weight:400;font-display:swap;}
 
 @font-face{font-family:quantum-rise-regular;src:url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-regular-e79a1e.woff") format("woff2"),url("/content/dam/aemigrate/uploaded-folder/www-mahindra-com/font/quantumrise-regular-e79a1e.woff") format("woff");font-style:normal;font-weight:400;font-display:swap;}
 
@@ -239,18 +223,6 @@
 .quick-links-parents-div .quick-links-div li:nth-child(4), .quick-links-parents-div .quick-links-div li:nth-child(6){ order:4;border-right:0px; }
 
 .quick-links-parents-div .quick-links-div li:nth-child(5), .quick-links-parents-div .quick-links-div li:nth-child(6){ border-bottom:1px solid #000; } }
-
-.quick-links-parents-div{ background:#f7f5ef; }
-
-.quick-links-parents-div .quick-links-div{ display:flex;justify-content:center;align-items:center;flex-wrap:wrap; }
-
-.with-full-underline{ font-family:georama,sans-serif;font-style:normal;font-weight:400;font-size:18px;line-height:26px;color:#000;position:relative;border-bottom:1px solid transparent;text-decoration:none;transition:all 0.3s ease-in-out; }
-
-.with-full-underline:hover{ color:#000 !important;border-bottom:1px solid #000;transition:all 0.3s ease-in-out; }
-
-.quick-links-parents-div .quick-links-div li .with-full-underline{ margin:0 30px;font-size:15px; }
-
-.quick-links-parents-div .quick-links-div li .with-full-underline:hover{ border-color:#fff;border-bottom:1px solid #000; }
 
 @media (max-width:834px) { .quick-links-parents-div{ padding:0 !important;position:static !important; }
 

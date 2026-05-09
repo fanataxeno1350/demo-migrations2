@@ -17,7 +17,7 @@
       }
     },
     {
-      "title": "Footer-Section-Item",
+      "title": "Footer Section Item",
       "id": "footer-section-item",
       "plugins": {
         "xwalk": {
@@ -25,14 +25,14 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "footer-section-item",
-              "name": "Footer-Section-Item"
+              "name": "Footer Section Item"
             }
           }
         }
       }
     },
     {
-      "title": "Footer-Link-Item",
+      "title": "Footer Link Item",
       "id": "footer-link-item",
       "plugins": {
         "xwalk": {
@@ -40,14 +40,14 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "footer-link-item",
-              "name": "Footer-Link-Item"
+              "name": "Footer Link Item"
             }
           }
         }
       }
     },
     {
-      "title": "Footer-Social-Item",
+      "title": "Footer Social Item",
       "id": "footer-social-item",
       "plugins": {
         "xwalk": {
@@ -55,7 +55,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "footer-social-item",
-              "name": "Footer-Social-Item"
+              "name": "Footer Social Item"
             }
           }
         }
@@ -93,13 +93,13 @@
         {
           "component": "container",
           "item": "footer-link-item",
-          "label": "Legal/Bottom Links",
-          "name": "legalLinks"
+          "label": "Footer Legal/Bottom Links",
+          "name": "footerLinks"
         },
         {
-          "component": "text",
+          "component": "richtext",
           "label": "Copyright Text",
-          "name": "copyright",
+          "name": "copyrightText",
           "valueType": "string"
         }
       ]
