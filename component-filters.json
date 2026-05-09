@@ -16,61 +16,7 @@
       "cards",
       "columns",
       "fragment",
-      "---- New Blocks ----",
-      "header",
-      "hero-full-width",
-      "text-and-media",
-      "card-list",
-      "media-inner-video",
-      "scarp-separator",
-      "stats-by-the-number",
-      "footer"
+      "---- New Blocks ----"
     ]
-  },
-  {
-    "id": "card-list",
-    "components": [
-      "card"
-    ]
-  },
-  {
-    "id": "footer",
-    "components": [
-      "footer-social-item",
-      "footer-link-item",
-      "footer-language-item"
-    ]
-  },
-  {
-    "id": "header",
-    "components": [
-      "navigation-item",
-      "language-selector-item"
-    ]
-  },
-  {
-    "id": "hero-full-width",
-    "components": [
-      "hero-cta-item"
-    ]
-  },
-  {
-    "id": "media-inner-video",
-    "components": []
-  },
-  {
-    "id": "scarp-separator",
-    "components": []
-  },
-  {
-    "id": "stats-by-the-number",
-    "components": [
-      "stats-tab-item",
-      "stats-card-item"
-    ]
-  },
-  {
-    "id": "text-and-media",
-    "components": []
   }
 ]
