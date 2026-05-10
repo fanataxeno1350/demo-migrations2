@@ -38,8 +38,7 @@
       "footer-social-item",
       "footer-section-item",
       "footer-link-item",
-      "footer-address-item",
-      "be-related-link-item"
+      "footer-address-item"
     ]
   },
   {
@@ -47,8 +46,8 @@
     "components": [
       "utility-link-item",
       "language-menu-item",
-      "main-navigation-item",
-      "cta-button-item"
+      "cta-button-item",
+      "navigation-item"
     ]
   },
   {

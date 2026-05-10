@@ -75,6 +75,21 @@
           }
         }
       }
+    },
+    {
+      "title": "Be-Related-Link-Item",
+      "id": "be-related-link-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "be-related-link-item",
+              "name": "Be-Related-Link-Item"
+            }
+          }
+        }
+      }
     }
   ],
   "models": [
@@ -102,68 +117,44 @@
         {
           "component": "reference",
           "label": "Footer Logo",
-          "name": "footerLogo",
-          "valueType": "string"
+          "name": "footerLogo"
         },
         {
           "component": "container",
           "item": "footer-address-item",
           "label": "Footer Address Items",
-          "name": "footerAddressItems"
+          "name": "footerAddresses"
         },
         {
           "component": "container",
-          "item": "footer-link-item",
-          "label": "Footer Related Links",
-          "name": "footerRelatedLinks"
+          "item": "be-related-link-item",
+          "label": "Also Of Interest Links",
+          "name": "beRelatedLinks"
         },
         {
           "component": "richtext",
-          "label": "Footer Legal Text",
-          "name": "footerLegal",
-          "valueType": "string"
+          "label": "Legal Text",
+          "name": "legal"
         },
         {
           "component": "text",
-          "label": "First-Time Banner Headline",
-          "name": "firstTimeBannerHeadline",
-          "valueType": "string"
+          "label": "Welcome Headline",
+          "name": "welcomeHeadline"
         },
         {
           "component": "richtext",
-          "label": "First-Time Banner Body",
-          "name": "firstTimeBannerBody",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "First-Time Banner CTA Link",
-          "name": "firstTimeBannerCtaLink",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "First-Time Banner CTA Label",
-          "name": "firstTimeBannerCtaLabel",
-          "valueType": "string"
+          "label": "Promo Body",
+          "name": "promoBody"
         },
         {
           "component": "richtext",
-          "label": "GDPR Message Body",
-          "name": "gdprMessage",
-          "valueType": "string"
+          "label": "Cookie Message",
+          "name": "cookieBody"
         },
         {
           "component": "text",
           "label": "Accept Cookie Button Label",
-          "name": "acceptCookieLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Privacy Policy Link",
-          "name": "privacyPolicyLink",
-          "valueType": "string"
+          "name": "acceptCookieLabel"
         }
       ]
     },
@@ -172,9 +163,13 @@
       "fields": [
         {
           "component": "aem-content",
-          "label": "Social Link URL",
-          "name": "socialLink",
-          "valueType": "string"
+          "label": "Social Link",
+          "name": "link"
+        },
+        {
+          "component": "text",
+          "label": "Platform",
+          "name": "platform"
         },
         {
           "component": "richtext",
@@ -190,14 +185,12 @@
         {
           "component": "text",
           "label": "Section Title",
-          "name": "title",
-          "valueType": "string"
+          "name": "title"
         },
         {
           "component": "aem-content",
           "label": "Direct Link URL",
-          "name": "link",
-          "valueType": "string"
+          "name": "link"
         },
         {
           "component": "richtext",
@@ -212,14 +205,12 @@
         {
           "component": "text",
           "label": "Link Label",
-          "name": "label",
-          "valueType": "string"
+          "name": "label"
         },
         {
           "component": "aem-content",
-          "label": "Link URL",
-          "name": "link",
-          "valueType": "string"
+          "label": "Link",
+          "name": "link"
         }
       ]
     },
@@ -228,14 +219,43 @@
       "fields": [
         {
           "component": "aem-content",
-          "label": "Address Link URL",
-          "name": "addressLink",
-          "valueType": "string"
+          "label": "Address Link",
+          "name": "addressLink"
         },
         {
-          "component": "richtext",
-          "label": "Address Text",
-          "name": "addressText"
+          "component": "text",
+          "label": "Address Line 1",
+          "name": "addressLine1"
+        },
+        {
+          "component": "text",
+          "label": "Address Line 2",
+          "name": "addressLine2"
+        },
+        {
+          "component": "aem-content",
+          "label": "Phone Link",
+          "name": "phoneLink"
+        },
+        {
+          "component": "text",
+          "label": "Phone Number",
+          "name": "phoneNumber"
+        }
+      ]
+    },
+    {
+      "id": "be-related-link-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Related Link Label",
+          "name": "label"
+        },
+        {
+          "component": "aem-content",
+          "label": "Related Link URL",
+          "name": "link"
         }
       ]
     }
@@ -247,7 +267,8 @@
         "footer-social-item",
         "footer-section-item",
         "footer-link-item",
-        "footer-address-item"
+        "footer-address-item",
+        "be-related-link-item"
       ]
     }
   ]

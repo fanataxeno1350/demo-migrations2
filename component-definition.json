@@ -190,21 +190,6 @@
           }
         },
         {
-          "title": "Be-Related-Link-Item",
-          "id": "be-related-link-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "be-related-link-item",
-                  "name": "Be-Related-Link-Item"
-                }
-              }
-            }
-          }
-        },
-        {
           "title": "Header Global Navigation",
           "id": "header-global-navigation",
           "plugins": {
@@ -221,7 +206,7 @@
           }
         },
         {
-          "title": "Utility Link",
+          "title": "Utility Link Item",
           "id": "utility-link-item",
           "plugins": {
             "xwalk": {
@@ -229,7 +214,7 @@
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
                   "model": "utility-link-item",
-                  "name": "Utility Link"
+                  "name": "Utility Link Item"
                 }
               }
             }
@@ -251,22 +236,7 @@
           }
         },
         {
-          "title": "Main Navigation Item",
-          "id": "main-navigation-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "main-navigation-item",
-                  "name": "Main Navigation Item"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "CTA Button",
+          "title": "CTA Button Item",
           "id": "cta-button-item",
           "plugins": {
             "xwalk": {
@@ -274,7 +244,22 @@
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
                   "model": "cta-button-item",
-                  "name": "CTA Button"
+                  "name": "CTA Button Item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Navigation Item",
+          "id": "navigation-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "navigation-item",
+                  "name": "Navigation Item"
                 }
               }
             }

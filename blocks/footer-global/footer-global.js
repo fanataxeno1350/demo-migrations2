@@ -5,6 +5,7 @@ function transformNestedLists(rootUl) {
   rootUl.querySelectorAll('li').forEach((li) => {
     const nested = li.querySelector(':scope > ul');
     const anchor = li.querySelector(':scope > a');
+
     if (!anchor) {
       const textNode = [...li.childNodes].find(
         (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim(),
@@ -16,19 +17,21 @@ function transformNestedLists(rootUl) {
         li.prepend(span);
       }
     }
+
     if (nested) {
       nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('has-sub-child'); // This class is not in ORIGINAL HTML, but seems to be for JS functionality
+      subWrap.classList.add('has-sub-child');
       subWrap.append(nested);
       li.append(subWrap);
+
       const trigger = li.querySelector(':scope > a, :scope > span');
       if (trigger) {
         trigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          li.classList.toggle('active'); // This class is not in ORIGINAL HTML, but seems to be for JS functionality
-          subWrap.classList.toggle('active'); // This class is not in ORIGINAL HTML, but seems to be for JS functionality
+          li.classList.toggle('active');
+          subWrap.classList.toggle('active');
         });
       }
     }
@@ -38,101 +41,80 @@ function transformNestedLists(rootUl) {
 export default function decorate(block) {
   const children = [...block.children];
 
-  // Root fields based on BlockJson model and EDS Block Structure
-  // block.children[0]: field="footerLogo"
-  // block.children[1]: field="legal"
-  // block.children[2]: field="welcomeHeadline"
-  // block.children[3]: field="promoBody"
-  // block.children[4]: field="cookieBody"
-  // block.children[5]: field="acceptCookieLabel"
-  // The remaining children are item rows for various containers.
+  // Fixed fields and container placeholders - reordered to match BlockJson and EDS Block Structure
+  const [
+    footerSocialMobileContainer, // container field "footerSocialMobile"
+    footerSectionsContainer,     // container field "footerSections"
+    footerSocialDesktopContainer,// container field "footerSocialDesktop"
+    footerLogo,                  // field="footerLogo"
+    footerAddressItemsContainer, // container field "footerAddressItems"
+    footerRelatedLinksContainer, // container field "footerRelatedLinks"
+    footerLegalRow,              // field="footerLegal"
+    firstTimeBannerHeadlineRow,  // field="firstTimeBannerHeadline"
+    firstTimeBannerBodyRow,      // field="firstTimeBannerBody"
+    firstTimeBannerCtaLinkRow,   // field="firstTimeBannerCtaLink"
+    firstTimeBannerCtaLabelRow,  // field="firstTimeBannerCtaLabel"
+    gdprMessageRow,              // field="gdprMessage"
+    acceptCookieLabelRow,        // field="acceptCookieLabel"
+    privacyPolicyLinkRow,        // field="privacyPolicyLink"
+    ...itemRows
+  ] = children;
 
-  const footerLogoRow = children[0];
-  const legalTextRow = children[1];
-  const welcomeHeadlineRow = children[2];
-  const promoBodyRow = children[3];
-  const cookieBodyRow = children[4];
-  const acceptCookieLabelRow = children[5];
-
-  // Item rows start from index 6
-  const itemRows = children.slice(6);
-
-  // Filter item rows based on their structure (cell count and content)
-  const footerSocialMobileItems = itemRows.filter(
-    (row) => row.children.length === 3 && row.querySelector('ul'), // Social items have 3 cells and a hierarchy-tree (ul)
-  );
-  const footerSocialDesktopItems = itemRows.filter(
-    (row) => row.children.length === 3 && row.querySelector('ul'), // Social items have 3 cells and a hierarchy-tree (ul)
-  );
-  const footerSectionItems = itemRows.filter(
-    (row) => row.children.length === 3 && !row.querySelector('ul'), // Section items have 3 cells but NO hierarchy-tree (ul)
-  );
-  const footerAddressItems = itemRows.filter(
-    (row) => row.children.length === 5, // Address items have 5 cells
-  );
-  const beRelatedLinkItems = itemRows.filter(
-    (row) => row.children.length === 2 && row.querySelector('a'), // Related links have 2 cells and a link
-  );
-  // footerLinkItems is not explicitly defined in the BlockJson as a top-level container,
-  // but it's present in the original filtering logic. Based on the BlockJson,
-  // all item rows are accounted for by the above filters.
-  // Removing the unused footerLinkItems filter.
-
-  const section = document.createElement('section');
-  section.classList.add('component-global-footer', 'notranslate');
+  const root = document.createElement('section');
+  root.classList.add('component-global-footer', 'notranslate');
 
   const container = document.createElement('div');
   container.classList.add('container');
-  section.append(container);
+  root.append(container);
 
   const mainRow = document.createElement('div');
   mainRow.classList.add('row');
   container.append(mainRow);
 
-  // Footer Social Mobile
-  const col12 = document.createElement('div');
-  col12.classList.add('col-12');
-  // No direct container row for footerSocialMobile, so instrumentation is moved from the first item
-  // moveInstrumentation(footerSocialMobileContainer, col12); // This variable is no longer a root row
-  mainRow.append(col12);
+  // --- Mobile Social Links ---
+  const mobileSocialCol = document.createElement('div');
+  mobileSocialCol.classList.add('col-12');
+  mainRow.append(mobileSocialCol);
 
   const footerSocialMobile = document.createElement('div');
   footerSocialMobile.classList.add('footer-social', 'mobile');
-  col12.append(footerSocialMobile);
+  moveInstrumentation(footerSocialMobileContainer, footerSocialMobile);
+  mobileSocialCol.append(footerSocialMobile);
 
-  footerSocialMobileItems.forEach((row) => {
-    const [linkCell, platformCell, hierarchyTreeCell] = [...row.children]; // Destructuring for fixed schema
-
-    const linkEl = document.createElement('a');
-    if (linkCell?.querySelector('a')) {
-      linkEl.href = linkCell.querySelector('a').href;
-      linkEl.target = '_blank';
-      linkEl.setAttribute('aria-label', `${platformCell.textContent.trim()} - open in a new tab`);
-      linkEl.classList.add(platformCell.textContent.trim().toLowerCase());
+  // Filter for footer-social-item: 2 cells, first has <a>, second has <ul> (hierarchy-tree)
+  const socialMobileItems = itemRows.filter((row) => row.children.length === 2 && row.children[0].querySelector('a') && row.children[1].querySelector('ul'));
+  socialMobileItems.forEach((row) => {
+    const [socialLinkCell, hierarchyTreeCell] = [...row.children]; // Destructuring for fixed schema
+    const link = socialLinkCell.querySelector('a');
+    if (link) {
+      const socialAnchor = document.createElement('a');
+      socialAnchor.href = link.href;
+      socialAnchor.target = '_blank';
+      socialAnchor.setAttribute('aria-label', `${link.href.split('/').pop()} - open in a new tab`);
       const icon = document.createElement('i');
-      icon.classList.add('fa', `fa-${platformCell.textContent.trim().toLowerCase()}`);
-      icon.setAttribute('aria-hidden', 'true');
-      linkEl.append(icon);
+      // Original HTML uses class="facebook", "instagram" etc. directly on <a>, not on <i>
+      // The `fa` prefix is for FontAwesome icons, which is correct.
+      socialAnchor.classList.add(link.href.split('/').pop()); // Add specific social class to anchor
+      icon.classList.add('fa', `fa-${link.href.split('/').pop()}`);
+      socialAnchor.append(icon);
+      moveInstrumentation(row, socialAnchor);
+      footerSocialMobile.append(socialAnchor);
     }
-    moveInstrumentation(row, linkEl);
-    footerSocialMobile.append(linkEl);
   });
 
-  // Footer Sections
+  // --- Footer Sections (Accordion) ---
   const footerSectionsWrapper = document.createElement('div');
-  footerSectionsWrapper.classList.add('footer-sections-wrapper'); // Custom wrapper for sections
+  moveInstrumentation(footerSectionsContainer, footerSectionsWrapper);
   mainRow.append(footerSectionsWrapper);
 
+  // Filter for footer-section-item: 3 cells, first is text, second is aem-content, third is richtext (ul)
+  const footerSectionItems = itemRows.filter((row) => row.children.length === 3 && !row.children[0].querySelector('picture') && row.children[2].querySelector('ul'));
   footerSectionItems.forEach((row, index) => {
     const [titleCell, linkCell, sectionLinksCell] = [...row.children]; // Destructuring for fixed schema
-
-    const colLg2 = document.createElement('div');
-    colLg2.classList.add('col-lg-2');
-    if (index === 0) {
-      colLg2.classList.add('offset-lg-1');
-    }
-    moveInstrumentation(row, colLg2);
-    footerSectionsWrapper.append(colLg2);
+    const sectionCol = document.createElement('div');
+    sectionCol.classList.add('col-lg-2');
+    if (index === 0) sectionCol.classList.add('offset-lg-1'); // Only first section has offset
+    moveInstrumentation(row, sectionCol);
 
     const headSpan = document.createElement('span');
     headSpan.classList.add('head');
@@ -140,178 +122,150 @@ export default function decorate(block) {
     const openIcon = document.createElement('div');
     openIcon.classList.add('open-icon');
     headSpan.append(openIcon);
-    colLg2.append(headSpan);
+    sectionCol.append(headSpan);
 
     const ul = document.createElement('ul');
-    const subList = sectionLinksCell?.querySelector('ul'); // Check for UL inside richtext cell
-    const directHref = linkCell?.querySelector('a')?.href; // Get href from aem-content cell
+    const subList = sectionLinksCell?.querySelector('ul');
+    const directLink = linkCell?.querySelector('a'); // Get the anchor element
 
     if (subList) {
-      // Create a temporary div to hold the content and apply instrumentation
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = sectionLinksCell.innerHTML;
-      moveInstrumentation(sectionLinksCell, tempDiv); // Move instrumentation from the original cell
-      const tempSubList = tempDiv.querySelector('ul'); // Get the UL from the temporary div
-
-      if (tempSubList) {
-        transformNestedLists(tempSubList);
-        [...tempSubList.children].forEach((li) => {
-          li.classList.add('footer-menu-track');
-          ul.append(li);
-        });
-      }
-    } else if (directHref) {
+      transformNestedLists(subList);
+      ul.append(subList);
+    } else if (directLink) { // If there's a direct link, create a single li
       const li = document.createElement('li');
       li.classList.add('footer-menu-track');
       const anchor = document.createElement('a');
-      anchor.href = directHref;
-      anchor.textContent = titleCell.textContent.trim();
+      anchor.href = directLink.href;
+      anchor.textContent = titleCell.textContent.trim(); // Use titleCell for text content
       li.append(anchor);
       ul.append(li);
     }
-    colLg2.append(ul);
+    sectionCol.append(ul);
+    footerSectionsWrapper.append(sectionCol);
 
     headSpan.addEventListener('click', () => {
-      colLg2.classList.toggle('active'); // This class is not in ORIGINAL HTML, but seems to be for JS functionality
-      ul.classList.toggle('active'); // This class is not in ORIGINAL HTML, but seems to be for JS functionality
+      sectionCol.classList.toggle('active');
     });
   });
 
-  // Footer Social Desktop
-  const colLg3 = document.createElement('div');
-  colLg3.classList.add('col-lg-3', 'offset-lg-1');
-  // No direct container row for footerSocialDesktop, so instrumentation is moved from the first item
-  // moveInstrumentation(footerSocialDesktopContainer, colLg3); // This variable is no longer a root row
-  mainRow.append(colLg3);
+  // --- Desktop Social Links ---
+  const desktopSocialCol = document.createElement('div');
+  desktopSocialCol.classList.add('col-lg-3', 'offset-lg-1');
+  mainRow.append(desktopSocialCol);
 
   const footerSocialDesktop = document.createElement('div');
   footerSocialDesktop.classList.add('footer-social', 'desktop');
-  colLg3.append(footerSocialDesktop);
+  moveInstrumentation(footerSocialDesktopContainer, footerSocialDesktop); // Instrumentation for container
+  desktopSocialCol.append(footerSocialDesktop);
 
-  footerSocialDesktopItems.forEach((row) => {
-    const [linkCell, platformCell, hierarchyTreeCell] = [...row.children]; // Destructuring for fixed schema
-
-    const linkEl = document.createElement('a');
-    if (linkCell?.querySelector('a')) {
-      linkEl.href = linkCell.querySelector('a').href;
-      linkEl.target = '_blank';
-      linkEl.setAttribute('aria-label', `${platformCell.textContent.trim()} - open in a new tab`);
-      linkEl.classList.add(platformCell.textContent.trim().toLowerCase());
+  socialMobileItems.forEach((row) => { // Reuse social items
+    const [socialLinkCell] = [...row.children]; // Destructuring for fixed schema
+    const link = socialLinkCell.querySelector('a');
+    if (link) {
+      const socialAnchor = document.createElement('a');
+      socialAnchor.href = link.href;
+      socialAnchor.target = '_blank';
+      socialAnchor.setAttribute('aria-label', `${link.href.split('/').pop()} - open in a new tab`);
+      socialAnchor.classList.add(link.href.split('/').pop()); // Add specific social class to anchor
       const icon = document.createElement('i');
-      icon.classList.add('fa', `fa-${platformCell.textContent.trim().toLowerCase()}`);
-      icon.setAttribute('aria-hidden', 'true');
-      linkEl.append(icon);
+      icon.classList.add('fa', `fa-${link.href.split('/').pop()}`);
+      socialAnchor.append(icon);
+      moveInstrumentation(row, socialAnchor); // Instrumentation for each item row
+      footerSocialDesktop.append(socialAnchor);
     }
-    moveInstrumentation(row, linkEl);
-    footerSocialDesktop.append(linkEl);
   });
 
-  // Footer Info (Logo and Address)
+  // --- Footer Info (Logo & Address) ---
   const footerInfo = document.createElement('div');
   footerInfo.classList.add('footer-info');
-  colLg3.append(footerInfo);
+  desktopSocialCol.append(footerInfo);
 
   const headlineDiv = document.createElement('div');
   headlineDiv.classList.add('headline');
-  const logoPicture = footerLogoRow.querySelector('picture');
-  if (logoPicture) {
-    const optimizedPic = createOptimizedPicture(logoPicture.querySelector('img').src, logoPicture.querySelector('img').alt, false, [{ width: '750' }]);
-    moveInstrumentation(footerLogoRow, optimizedPic.querySelector('img'));
+  const footerLogoPicture = footerLogo?.querySelector('picture'); // Use footerLogo variable
+  if (footerLogoPicture) {
+    const optimizedPic = createOptimizedPicture(footerLogoPicture.querySelector('img').src, footerLogoPicture.querySelector('img').alt, false, [{ width: '750' }]);
+    moveInstrumentation(footerLogo, optimizedPic.querySelector('img')); // Use footerLogo variable
     headlineDiv.append(optimizedPic);
-  } else {
-    moveInstrumentation(footerLogoRow, headlineDiv);
   }
   footerInfo.append(headlineDiv);
 
   const addressDiv = document.createElement('div');
   addressDiv.classList.add('address');
-  // No direct container row for footerAddresses, so instrumentation is moved from the first item
-  // moveInstrumentation(footerAddressesContainer, addressDiv); // This variable is no longer a root row
-
-  footerAddressItems.forEach((row) => {
-    const [addressLinkCell, addressLine1Cell, addressLine2Cell, phoneLinkCell, phoneNumberCell] = [...row.children]; // Destructuring for fixed schema
-
-    const addressLink = document.createElement('a');
-    if (addressLinkCell?.querySelector('a')) {
-      addressLink.href = addressLinkCell.querySelector('a').href;
-      addressLink.target = '_blank';
-      addressLink.setAttribute('aria-label', `${addressLine1Cell.textContent.trim()} ${addressLine2Cell.textContent.trim()} - open in a new tab`);
-    }
-    const p1 = document.createElement('p');
-    p1.textContent = addressLine1Cell.textContent.trim();
-    addressLink.append(p1);
-    const p2 = document.createElement('p');
-    p2.textContent = addressLine2Cell.textContent.trim();
-    addressLink.append(p2);
-    addressDiv.append(addressLink);
-
-    const phoneLink = document.createElement('a');
-    if (phoneLinkCell?.querySelector('a')) {
-      phoneLink.href = phoneLinkCell.querySelector('a').href;
-    }
-    const p3 = document.createElement('p');
-    p3.textContent = phoneNumberCell.textContent.trim();
-    phoneLink.append(p3);
-    addressDiv.append(phoneLink);
-    moveInstrumentation(row, addressDiv.lastElementChild); // Move instrumentation to the last appended element
-  });
+  moveInstrumentation(footerAddressItemsContainer, addressDiv);
   footerInfo.append(addressDiv);
 
-  // Also of Interest Links
-  const beIxLinkBlock = document.createElement('div');
-  beIxLinkBlock.classList.add('be-ix-link-block');
-  // No direct container row for beRelatedLinks, so instrumentation is moved from the first item
-  // moveInstrumentation(beRelatedLinksContainer, beIxLinkBlock); // This variable is no longer a root row
-  container.append(beIxLinkBlock);
-
-  const beRelatedLinkContainer = document.createElement('div');
-  beRelatedLinkContainer.classList.add('be-related-link-container');
-  beIxLinkBlock.append(beRelatedLinkContainer);
-
-  const beLabel = document.createElement('div');
-  beLabel.classList.add('be-label');
-  beLabel.textContent = 'Also of Interest'; // This is hardcoded, but it's a label, not content from AEM.
-  beRelatedLinkContainer.append(beLabel);
-
-  const beList = document.createElement('ul');
-  beList.classList.add('be-list');
-  beRelatedLinkContainer.append(beList);
-
-  beRelatedLinkItems.forEach((row) => {
-    const [labelCell, linkCell] = [...row.children]; // Destructuring for fixed schema
-
-    const li = document.createElement('li');
-    li.classList.add('be-list-item');
-    const link = document.createElement('a');
-    link.classList.add('be-related-link');
-    if (linkCell?.querySelector('a')) link.href = linkCell.querySelector('a').href;
-    link.textContent = labelCell.textContent.trim();
-    li.append(link);
-    moveInstrumentation(row, li);
-    beList.append(li);
+  // Filter for footer-address-item: 2 cells, first has <a>, second is richtext (p)
+  const footerAddressItems = itemRows.filter((row) => row.children.length === 2 && row.children[0].querySelector('a') && row.children[1].querySelector('p'));
+  footerAddressItems.forEach((row) => {
+    const [addressLinkCell, addressTextCell] = [...row.children]; // Destructuring for fixed schema
+    const addressLink = addressLinkCell.querySelector('a');
+    if (addressLink) {
+      const anchor = document.createElement('a');
+      anchor.href = addressLink.href;
+      anchor.target = '_blank';
+      anchor.setAttribute('aria-label', `${addressTextCell.textContent.trim()} - open in a new tab`);
+      anchor.innerHTML = addressTextCell.innerHTML; // richtext content
+      moveInstrumentation(row, anchor);
+      addressDiv.append(anchor);
+    }
   });
 
-  // Footer Legal Section
-  const footerLegalSection = document.createElement('div');
-  footerLegalSection.classList.add('row', 'footer-legal-section');
-  container.append(footerLegalSection);
+  // --- Related Links ---
+  const relatedLinksWrapper = document.createElement('div');
+  moveInstrumentation(footerRelatedLinksContainer, relatedLinksWrapper);
+  // Assuming related links are part of a general "Also of Interest" section
+  const beIxLinkBlock = document.createElement('div');
+  beIxLinkBlock.classList.add('be-ix-link-block');
+  const beRelatedLinkContainer = document.createElement('div');
+  beRelatedLinkContainer.classList.add('be-related-link-container');
+  const beLabel = document.createElement('div');
+  beLabel.classList.add('be-label');
+  beLabel.textContent = 'Also of Interest'; // Hardcoded text from ORIGINAL HTML
+  const beList = document.createElement('ul');
+  beList.classList.add('be-list');
 
-  const colXs11 = document.createElement('div');
-  colXs11.classList.add('col-xs-11', 'offset-lg-1');
-  moveInstrumentation(legalTextRow, colXs11);
-  footerLegalSection.append(colXs11);
+  // Filter for footer-link-item: 2 cells, first is text, second has <a>
+  const footerRelatedLinks = itemRows.filter((row) => row.children.length === 2 && !row.children[0].querySelector('picture') && row.children[0].textContent.trim() && row.children[1].querySelector('a'));
+  footerRelatedLinks.forEach((row) => {
+    const [labelCell, linkCell] = [...row.children]; // Destructuring for fixed schema
+    const link = linkCell.querySelector('a');
+    if (link) {
+      const li = document.createElement('li');
+      li.classList.add('be-list-item');
+      const anchor = document.createElement('a');
+      anchor.classList.add('be-related-link');
+      anchor.href = link.href;
+      anchor.textContent = labelCell.textContent.trim();
+      moveInstrumentation(row, anchor);
+      li.append(anchor);
+      beList.append(li);
+    }
+  });
+  beRelatedLinkContainer.append(beLabel, beList);
+  beIxLinkBlock.append(beRelatedLinkContainer);
+  container.append(beIxLinkBlock);
+
+  // --- Footer Legal Section ---
+  const footerLegalSectionRow = document.createElement('div');
+  footerLegalSectionRow.classList.add('row', 'footer-legal-section');
+  container.append(footerLegalSectionRow);
+
+  const legalCol = document.createElement('div');
+  legalCol.classList.add('col-xs-11', 'offset-lg-1');
+  footerLegalSectionRow.append(legalCol);
 
   const legalP = document.createElement('p');
   legalP.classList.add('legal');
-  // Richtext cell, read innerHTML directly
-  legalP.innerHTML = legalTextRow.children[0]?.innerHTML || '';
-  colXs11.append(legalP);
+  legalP.innerHTML = footerLegalRow?.children[0]?.innerHTML || '';
+  moveInstrumentation(footerLegalRow, legalP);
+  legalCol.append(legalP);
 
-  // First Time Banner
+  // --- First-Time Banner ---
   const firstTimeBanner = document.createElement('div');
   firstTimeBanner.classList.add('first-time-banner');
-  firstTimeBanner.style.display = 'block';
-  section.append(firstTimeBanner);
+  firstTimeBanner.style.display = 'block'; // Ensure it's visible by default
+  root.append(firstTimeBanner);
 
   const bannerContainer = document.createElement('div');
   bannerContainer.classList.add('container');
@@ -321,55 +275,77 @@ export default function decorate(block) {
   welcomeDiv.classList.add('welcome');
   bannerContainer.append(welcomeDiv);
 
-  const welcomeH4 = document.createElement('h4');
-  moveInstrumentation(welcomeHeadlineRow, welcomeH4);
-  welcomeH4.textContent = welcomeHeadlineRow.children[0].textContent.trim();
-  welcomeDiv.append(welcomeH4);
+  const welcomeHeadline = document.createElement('h4');
+  welcomeHeadline.textContent = firstTimeBannerHeadlineRow?.children[0]?.textContent.trim() || ''; // Access cell content
+  moveInstrumentation(firstTimeBannerHeadlineRow, welcomeHeadline);
+  welcomeDiv.append(welcomeHeadline);
 
-  const promoBodyDiv = document.createElement('div');
-  promoBodyDiv.classList.add('promo-body');
-  moveInstrumentation(promoBodyRow, promoBodyDiv);
-  // Richtext cell, read innerHTML directly
-  promoBodyDiv.innerHTML = promoBodyRow.children[0]?.innerHTML || '';
-  welcomeDiv.append(promoBodyDiv);
+  const promoBody = document.createElement('div');
+  promoBody.classList.add('promo-body');
+  const ctaLink = firstTimeBannerCtaLinkRow?.querySelector('a');
+  const ctaLabel = firstTimeBannerCtaLabelRow?.children[0]?.textContent.trim(); // Access cell content
+  if (ctaLink && ctaLabel) {
+    const anchor = document.createElement('a');
+    anchor.href = ctaLink.href;
+    anchor.textContent = ctaLabel;
+    promoBody.append(anchor);
+    moveInstrumentation(firstTimeBannerCtaLinkRow, anchor);
+    moveInstrumentation(firstTimeBannerCtaLabelRow, anchor);
+  }
+  // Append richtext content from firstTimeBannerBodyRow
+  const bannerBodyContent = document.createElement('div');
+  bannerBodyContent.innerHTML = firstTimeBannerBodyRow?.children[0]?.innerHTML || '';
+  moveInstrumentation(firstTimeBannerBodyRow, bannerBodyContent);
+  while (bannerBodyContent.firstChild) {
+    promoBody.append(bannerBodyContent.firstChild);
+  }
+  welcomeDiv.append(promoBody);
 
-  const gdprMessage = document.createElement('div');
-  gdprMessage.classList.add('gdpr-message');
-  bannerContainer.append(gdprMessage);
+  // --- GDPR Message ---
+  const gdprMessageDiv = document.createElement('div');
+  gdprMessageDiv.classList.add('gdpr-message');
+  bannerContainer.append(gdprMessageDiv);
 
   const gdprRow = document.createElement('div');
   gdprRow.classList.add('row');
-  gdprMessage.append(gdprRow);
+  gdprMessageDiv.append(gdprRow);
 
-  const colMd6Cookie = document.createElement('div');
-  colMd6Cookie.classList.add('col-md-6');
-  gdprRow.append(colMd6Cookie);
+  const cookieBodyCol = document.createElement('div');
+  cookieBodyCol.classList.add('col-md-6');
+  gdprRow.append(cookieBodyCol);
 
-  const cookieBodyDiv = document.createElement('div');
-  cookieBodyDiv.classList.add('cookie-body');
-  moveInstrumentation(cookieBodyRow, cookieBodyDiv);
-  // Richtext cell, read innerHTML directly
-  cookieBodyDiv.innerHTML = cookieBodyRow.children[0]?.innerHTML || '';
-  colMd6Cookie.append(cookieBodyDiv);
+  const cookieBody = document.createElement('div');
+  cookieBody.classList.add('cookie-body');
+  cookieBody.innerHTML = gdprMessageRow?.children[0]?.innerHTML || '';
+  moveInstrumentation(gdprMessageRow, cookieBody);
 
-  const colMd6Cta = document.createElement('div');
-  colMd6Cta.classList.add('col-md-6');
-  gdprRow.append(colMd6Cta);
+  const privacyLink = privacyPolicyLinkRow?.querySelector('a');
+  if (privacyLink) {
+    const privacyAnchor = document.createElement('a');
+    privacyAnchor.href = privacyLink.href;
+    privacyAnchor.textContent = 'View our Privacy Policy'; // Hardcoded text from ORIGINAL HTML
+    cookieBody.append(privacyAnchor);
+    moveInstrumentation(privacyPolicyLinkRow, privacyAnchor);
+  }
+  cookieBodyCol.append(cookieBody);
+
+  const ctaCol = document.createElement('div');
+  ctaCol.classList.add('col-md-6');
+  gdprRow.append(ctaCol);
 
   const ctaDiv = document.createElement('div');
   ctaDiv.classList.add('cta');
-  colMd6Cta.append(ctaDiv);
+  ctaCol.append(ctaDiv);
 
   const acceptCookieBtn = document.createElement('a');
   acceptCookieBtn.classList.add('btn', 'bg-white', 'accept-cookie');
+  acceptCookieBtn.textContent = acceptCookieLabelRow?.children[0]?.textContent.trim() || ''; // Access cell content
   moveInstrumentation(acceptCookieLabelRow, acceptCookieBtn);
-  acceptCookieBtn.textContent = acceptCookieLabelRow.children[0].textContent.trim();
-  acceptCookieBtn.tabIndex = 0;
   ctaDiv.append(acceptCookieBtn);
 
   acceptCookieBtn.addEventListener('click', () => {
     firstTimeBanner.style.display = 'none';
   });
 
-  block.replaceChildren(section);
+  block.replaceChildren(root);
 }

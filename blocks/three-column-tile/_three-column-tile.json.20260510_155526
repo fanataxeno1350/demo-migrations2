@@ -67,7 +67,7 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Background Image",
+          "label": "Tile Background Image",
           "name": "backgroundImage",
           "valueType": "string"
         },

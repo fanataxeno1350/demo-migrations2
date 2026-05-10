@@ -38,15 +38,15 @@
       "fields": [
         {
           "component": "text",
-          "label": "Section Headline",
-          "name": "headline",
+          "label": "Section Heading",
+          "name": "heading",
           "valueType": "string"
         },
         {
           "component": "container",
           "item": "stats-card-item",
           "label": "Stats Cards",
-          "name": "statsCards"
+          "name": "cards"
         }
       ]
     },
@@ -55,25 +55,25 @@
       "fields": [
         {
           "component": "text",
-          "label": "Number Prefix (e.g. US$ or empty)",
+          "label": "Number Prefix (e.g. US$)",
           "name": "prefix",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Number Value",
+          "label": "Stat Number",
           "name": "number",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Number Suffix (e.g. million, billion, or empty)",
-          "name": "numberSuffix",
+          "label": "Number Suffix (e.g. million, billion)",
+          "name": "suffix",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Card Description",
+          "label": "Stat Description",
           "name": "description",
           "valueType": "string"
         }

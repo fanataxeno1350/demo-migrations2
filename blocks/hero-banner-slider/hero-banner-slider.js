@@ -4,143 +4,151 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 export default async function decorate(block) {
   const allRows = [...block.children];
 
-  const sliderContainer = document.createElement('div');
-  sliderContainer.classList.add('regular', 'slider', 'hero_banner_height_70'); // Removed slick-initialized, slick-slider
-  sliderContainer.setAttribute('role', 'region');
-  sliderContainer.setAttribute('aria-roledescription', 'carousel');
+  // The first row is the container placeholder for 'slides'
+  // We need to consume it and move its instrumentation
+  const containerRow = allRows.shift();
+  const sliderWrapper = document.createElement('div');
+  moveInstrumentation(containerRow, sliderWrapper);
 
-  const swiperWrapper = document.createElement('div'); // Renamed from slickList
-  swiperWrapper.classList.add('swiper-wrapper'); // Changed from slick-list, draggable
-  sliderContainer.append(swiperWrapper);
+  sliderWrapper.classList.add('regular', 'slider', 'hero_banner_height_70');
+  sliderWrapper.setAttribute('data-rotation', 'False'); // From original HTML
+  sliderWrapper.setAttribute('data-interval', '3000'); // From original HTML
+  sliderWrapper.setAttribute('role', 'region');
+  sliderWrapper.setAttribute('aria-roledescription', 'carousel');
 
-  // Swiper does not use slick-track, slides are appended directly to swiper-wrapper
-  // const slickTrack = document.createElement('div');
-  // slickTrack.classList.add('slick-track');
-  // slickList.append(slickTrack);
+  const slickList = document.createElement('div');
+  slickList.classList.add('slick-list', 'draggable');
+  sliderWrapper.append(slickList);
 
-  allRows
-    .filter(row => row.children.length === 5) // Filter for hero-banner-slide-item rows
-    .forEach((row, index) => {
-      const [videoCell, desktopImageCell, mobileImageCell, headlineCell, subheadlineCell] = [...row.children];
+  const slickTrack = document.createElement('div');
+  slickTrack.classList.add('slick-track');
+  slickList.append(slickTrack);
 
-      const swiperSlide = document.createElement('div'); // Renamed from slickSlide
-      swiperSlide.classList.add('swiper-slide'); // Changed from slick-slide
-      if (index === 0) {
-        swiperSlide.classList.add('slick-current', 'slick-active'); // Keep these for initial styling if needed, Swiper adds its own active classes
+  allRows.forEach((row, index) => {
+    const [videoCell, desktopImageCell, mobileImageCell, headlineCell, subheadlineCell] = [...row.children];
+
+    const slickSlide = document.createElement('div');
+    slickSlide.classList.add('slick-slide');
+    // Swiper adds slick-current and slick-active automatically
+    slickSlide.setAttribute('data-slick-index', index);
+    slickSlide.setAttribute('role', 'group');
+    slickSlide.setAttribute('aria-roledescription', 'slide');
+    moveInstrumentation(row, slickSlide);
+
+    const bannerSlider = document.createElement('div');
+    bannerSlider.classList.add('banner-slider', 'hero_banner_height_70');
+    slickSlide.append(bannerSlider);
+
+    // Background Video
+    const videoLink = videoCell?.querySelector('a');
+    const videoPicture = videoCell?.querySelector('picture');
+
+    if (videoLink && /\.(mp4|webm|ogg|mov)$/i.test(videoLink.href)) {
+      const videoWrapper = document.createElement('div');
+      videoWrapper.classList.add('carousel-video');
+      const video = document.createElement('video');
+      video.playsInline = true;
+      video.preload = 'auto';
+      video.autoplay = true;
+      video.loop = true;
+      video.muted = true;
+      video.src = videoLink.href;
+      videoWrapper.append(video);
+      bannerSlider.append(videoWrapper);
+    } else if (videoPicture) {
+      // If it's not a video link, but a picture element is present
+      const videoWrapper = document.createElement('div');
+      videoWrapper.classList.add('carousel-video'); // Still use video class for consistency
+      const img = videoPicture.querySelector('img');
+      if (img) {
+        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+        moveInstrumentation(img, optimizedPic.querySelector('img'));
+        videoWrapper.append(optimizedPic);
       }
-      swiperSlide.setAttribute('data-slick-index', index); // Keep for potential data reference, Swiper uses its own index
-      swiperSlide.setAttribute('role', 'group');
-      swiperSlide.setAttribute('aria-roledescription', 'slide');
+      bannerSlider.append(videoWrapper);
+    }
 
-      const bannerSlider = document.createElement('div');
-      bannerSlider.classList.add('banner-slider', 'hero_banner_height_70');
-      swiperSlide.append(bannerSlider);
 
-      // Video
-      const videoPicture = videoCell.querySelector('picture');
-      if (videoPicture) {
-        const videoSource = videoPicture.querySelector('source[type="video/mp4"]');
-        const videoLink = videoSource?.srcset || videoPicture.querySelector('img')?.src;
-        if (videoLink && /\.(mp4|webm|ogg|mov)$/i.test(videoLink)) {
-          const carouselVideo = document.createElement('div');
-          carouselVideo.classList.add('carousel-video');
-          const videoEl = document.createElement('video');
-          videoEl.setAttribute('playsinline', '');
-          videoEl.setAttribute('preload', '');
-          videoEl.setAttribute('autoplay', '');
-          videoEl.setAttribute('loop', '');
-          videoEl.setAttribute('muted', '');
-          videoEl.src = videoLink;
-          carouselVideo.append(videoEl);
-          bannerSlider.append(carouselVideo);
-        }
+    // Desktop Background Image
+    const desktopImageWrapper = document.createElement('div');
+    desktopImageWrapper.classList.add('carousel-image', 'carousel-desktop-image');
+    const desktopPicture = desktopImageCell?.querySelector('picture');
+    if (desktopPicture) {
+      const img = desktopPicture.querySelector('img');
+      if (img) {
+        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '2000' }]);
+        moveInstrumentation(img, optimizedPic.querySelector('img'));
+        desktopImageWrapper.style.backgroundImage = `url(${optimizedPic.querySelector('img').src})`;
       }
+    }
+    bannerSlider.append(desktopImageWrapper);
 
-      // Desktop Image
-      const desktopPicture = desktopImageCell.querySelector('picture');
-      if (desktopPicture) {
-        const carouselDesktopImage = document.createElement('div');
-        carouselDesktopImage.classList.add('carousel-image', 'carousel-desktop-image');
-        const desktopImg = desktopPicture.querySelector('img');
-        if (desktopImg) {
-          const optimizedDesktopPic = createOptimizedPicture(desktopImg.src, desktopImg.alt, false, [{ width: '2000' }]);
-          carouselDesktopImage.style.backgroundImage = `url(${optimizedDesktopPic.querySelector('img').src})`;
-          moveInstrumentation(desktopImageCell, carouselDesktopImage);
-        }
-        bannerSlider.append(carouselDesktopImage);
+    // Mobile Background Image
+    const mobileImageWrapper = document.createElement('div');
+    mobileImageWrapper.classList.add('carousel-image', 'carousel-mobile-image');
+    const mobilePicture = mobileImageCell?.querySelector('picture');
+    if (mobilePicture) {
+      const img = mobilePicture.querySelector('img');
+      if (img) {
+        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+        moveInstrumentation(img, optimizedPic.querySelector('img'));
+        mobileImageWrapper.style.backgroundImage = `url(${optimizedPic.querySelector('img').src})`;
       }
+    }
+    bannerSlider.append(mobileImageWrapper);
 
-      // Mobile Image
-      const mobilePicture = mobileImageCell.querySelector('picture');
-      if (mobilePicture) {
-        const carouselMobileImage = document.createElement('div');
-        carouselMobileImage.classList.add('carousel-image', 'carousel-mobile-image');
-        const mobileImg = mobilePicture.querySelector('img');
-        if (mobileImg) {
-          const optimizedMobilePic = createOptimizedPicture(mobileImg.src, mobileImg.alt, false, [{ width: '750' }]);
-          carouselMobileImage.style.backgroundImage = `url(${optimizedMobilePic.querySelector('img').src})`;
-          moveInstrumentation(mobileImageCell, carouselMobileImage);
-        }
-        bannerSlider.append(carouselMobileImage);
-      }
+    // Caption
+    const carouselCaption = document.createElement('div');
+    carouselCaption.classList.add('carousel-caption');
+    const captionContent = document.createElement('div');
+    captionContent.classList.add('caption-content', 'text-align', 'text-align-center');
 
-      const carouselCaption = document.createElement('div');
-      carouselCaption.classList.add('carousel-caption');
-      const captionContent = document.createElement('div');
-      captionContent.classList.add('caption-content', 'text-align', 'text-align-center');
-      carouselCaption.append(captionContent);
+    if (headlineCell?.textContent.trim()) {
+      const headline = document.createElement('h1');
+      headline.classList.add('banner-title-medium');
+      headline.textContent = headlineCell.textContent.trim();
+      captionContent.append(headline);
+    }
 
-      // Headline
-      if (headlineCell && headlineCell.textContent.trim()) {
-        const headline = document.createElement('h1');
-        headline.classList.add('banner-title-medium');
-        headline.textContent = headlineCell.textContent.trim();
-        moveInstrumentation(headlineCell, headline);
-        captionContent.append(headline);
-      }
+    if (subheadlineCell?.textContent.trim()) {
+      const subheadline = document.createElement('p');
+      subheadline.classList.add('yellow-large');
+      subheadline.textContent = subheadlineCell.textContent.trim();
+      captionContent.append(subheadline);
+    }
 
-      // Subheadline
-      if (subheadlineCell && subheadlineCell.textContent.trim()) {
-        const subheadline = document.createElement('p');
-        subheadline.classList.add('yellow-large');
-        subheadline.textContent = subheadlineCell.textContent.trim();
-        moveInstrumentation(subheadlineCell, subheadline);
-        captionContent.append(subheadline);
-      }
+    carouselCaption.append(captionContent);
+    bannerSlider.append(carouselCaption);
+    slickTrack.append(slickSlide);
+  });
 
-      bannerSlider.append(carouselCaption);
-      swiperWrapper.append(swiperSlide); // Append to swiperWrapper
-      moveInstrumentation(row, swiperSlide); // Move instrumentation from original row to swiperSlide
-    });
+  const section = document.createElement('section');
+  section.classList.add('component-custom-slick-slider');
+  section.append(sliderWrapper);
 
-  block.replaceChildren(sliderContainer);
+  block.replaceChildren(section);
 
-  // Add Swiper navigation and pagination elements
-  const paginationEl = document.createElement('div');
-  paginationEl.classList.add('swiper-pagination');
-  sliderContainer.append(paginationEl);
-
-  const prevBtn = document.createElement('div');
-  prevBtn.classList.add('swiper-button-prev');
-  sliderContainer.append(prevBtn);
-
-  const nextBtn = document.createElement('div');
-  nextBtn.classList.add('swiper-button-next');
-  sliderContainer.append(nextBtn);
-
-  // Load Swiper Carousel and initialize
+  // Swiper.js initialization
   await loadCSS('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
   await loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
 
+  // Create navigation and pagination elements for Swiper
+  const prevBtn = document.createElement('button');
+  prevBtn.classList.add('swiper-button-prev');
+  sliderWrapper.append(prevBtn);
+
+  const nextBtn = document.createElement('button');
+  nextBtn.classList.add('swiper-button-next');
+  sliderWrapper.append(nextBtn);
+
+  const paginationEl = document.createElement('div');
+  paginationEl.classList.add('swiper-pagination');
+  sliderWrapper.append(paginationEl);
+
   // eslint-disable-next-line no-undef
-  new Swiper(sliderContainer, {
-    slidesPerView: 1,
-    loop: sliderContainer.dataset.rotation === 'True', // Use data-rotation for loop
-    speed: 500,
-    autoplay: {
-      delay: parseInt(sliderContainer.dataset.interval, 10) || 3000, // Use data-interval for autoplaySpeed
-      disableOnInteraction: false,
-    },
+  new Swiper(sliderWrapper, {
+    slidesPerView: 'auto',
+    loop: sliderWrapper.dataset.rotation === 'True', // Use data-rotation for loop
     navigation: {
       prevEl: prevBtn,
       nextEl: nextBtn,
@@ -148,6 +156,10 @@ export default async function decorate(block) {
     pagination: {
       el: paginationEl,
       clickable: true,
+    },
+    autoplay: {
+      delay: parseInt(sliderWrapper.dataset.interval, 10) || 3000,
+      disableOnInteraction: false,
     },
   });
 }

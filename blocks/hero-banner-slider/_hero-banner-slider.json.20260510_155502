@@ -49,7 +49,7 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Background Video",
+          "label": "Video Source",
           "name": "video",
           "valueType": "string"
         },

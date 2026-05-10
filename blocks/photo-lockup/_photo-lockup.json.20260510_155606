@@ -41,7 +41,7 @@
         },
         {
           "component": "richtext",
-          "label": "Body",
+          "label": "Body Text",
           "name": "body",
           "valueType": "string"
         },

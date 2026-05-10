@@ -4,8 +4,8 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 function transformNestedLists(rootUl) {
   rootUl.querySelectorAll('li').forEach((li) => {
     const nested = li.querySelector(':scope > ul');
+    // Handle label-only nodes
     const anchor = li.querySelector(':scope > a');
-
     if (!anchor) {
       const textNode = [...li.childNodes].find(
         (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim(),
@@ -17,72 +17,60 @@ function transformNestedLists(rootUl) {
         li.prepend(span);
       }
     }
-
     if (nested) {
       nested.remove();
       const subWrap = document.createElement('div');
       subWrap.classList.add('tbm-group-container', 'tbm-item-child');
       subWrap.append(nested);
       li.append(subWrap);
-
       const trigger = li.querySelector(':scope > a, :scope > span');
       if (trigger) {
         trigger.classList.add('tbm-toggle');
-        trigger.setAttribute('aria-expanded', 'false');
         trigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
           li.classList.toggle('active');
           subWrap.classList.toggle('active');
-          trigger.setAttribute('aria-expanded', li.classList.contains('active'));
         });
       }
     }
   });
-
-  // Apply classes to nested elements from ORIGINAL HTML
-  rootUl.querySelectorAll('ul').forEach((ul, index) => {
-    if (index === 0) { // Root ul of the hierarchy tree
-      ul.classList.add('tbm-subnav', 'level-2');
-    } else {
-      ul.classList.add('tbm-subnav', 'level-3'); // Assuming further nesting
-    }
-  });
-  rootUl.querySelectorAll('li').forEach((li) => {
-    li.classList.add('tbm-item', 'level-3', 'tb-megamenu-item', 'mega');
-  });
-  rootUl.querySelectorAll('a').forEach((a) => {
-    a.classList.add('tbm-link', 'level-3');
-  });
 }
 
 export default function decorate(block) {
-  const children = [...block.children];
-
+  // Destructure root rows based on BlockJson model
   const [
     searchPlaceholderRow,
     searchButtonLabelRow,
     logoRow,
     logoLinkRow,
-    searchFormActionRow, // New row for search form action
-    utilityLinksContainer,
-    languageMenuContainer,
-    ctaButtonsContainer,
-    mainNavigationContainer,
-    ...itemRows
-  ] = children;
+    // The following are container fields, their item rows appear later in `children`
+    // We still need to capture their instrumentation.
+    utilityLinksContainerRow,
+    languageMenuContainerRow,
+    ctaButtonsContainerRow,
+    navigationMenuContainerRow,
+    ...itemRows // All item rows follow these root fields
+  ] = [...block.children];
 
-  const root = document.createElement('section');
-  root.classList.add('component-global-navigation', 'notranslate');
-  // 'scrolled' class is a dynamic state class, not added initially
+  const searchPlaceholderCell = searchPlaceholderRow.children[0];
+  const searchButtonLabelCell = searchButtonLabelRow.children[0];
+  const logoCell = logoRow.children[0];
+  const logoLinkCell = logoLinkRow.children[0];
+
+  // Filter item rows based on their structure (cell count and content)
+  const utilityLinkRows = itemRows.filter((row) => row.children.length === 3 && row.querySelector('div:nth-child(3) ul'));
+  const languageMenuRows = itemRows.filter((row) => row.children.length === 2 && row.querySelector('div:nth-child(2) a'));
+  const ctaButtonRows = itemRows.filter((row) => row.children.length === 2 && row.querySelector('div:nth-child(2) a'));
+  const navigationItemRows = itemRows.filter((row) => row.children.length === 3 && row.querySelector('div:nth-child(3) ul'));
+
+  const section = document.createElement('section');
+  section.classList.add('component-global-navigation', 'notranslate');
+  moveInstrumentation(block, section);
 
   // Search Module
   const searchModule = document.createElement('div');
   searchModule.classList.add('search-module');
-  moveInstrumentation(searchPlaceholderRow, searchModule);
-  moveInstrumentation(searchButtonLabelRow, searchModule);
-  moveInstrumentation(searchFormActionRow, searchModule); // Move instrumentation for new row
-
   const searchContainer = document.createElement('div');
   searchContainer.classList.add('container');
   const searchRow = document.createElement('div');
@@ -90,157 +78,184 @@ export default function decorate(block) {
 
   const navTrigger = document.createElement('div');
   navTrigger.classList.add('nav-trigger');
-  navTrigger.innerHTML = '<i></i><i></i><i></i>';
+  const i1 = document.createElement('i');
+  const i2 = document.createElement('i');
+  const i3 = document.createElement('i');
+  navTrigger.append(i1, i2, i3);
 
   const searchCol = document.createElement('div');
   searchCol.classList.add('col-10', 'offset-1', 'search-col');
   const searchBoxContainer = document.createElement('div');
   searchBoxContainer.classList.add('search-box-container');
-
   const searchForm = document.createElement('form');
   searchForm.classList.add('views-exposed-form', 'bef-exposed-form');
-  const searchFormAction = searchFormActionRow.querySelector('a')?.href || '/en/search-results';
-  searchForm.setAttribute('action', searchFormAction);
-  searchForm.setAttribute('method', 'get');
+  searchForm.action = '/en/search-results';
+  searchForm.method = 'get';
 
-  const searchInputDiv = document.createElement('div');
-  searchInputDiv.classList.add('js-form-item', 'form-item', 'form-type-search-api-autocomplete', 'js-form-type-search-api-autocomplete', 'form-item-keys', 'js-form-item-keys', 'form-no-label');
+  const searchInputContainer = document.createElement('div');
+  searchInputContainer.classList.add('search-box-container');
+  const formItem = document.createElement('div');
+  formItem.classList.add('js-form-item', 'form-item', 'form-type-search-api-autocomplete', 'js-form-type-search-api-autocomplete', 'form-item-keys', 'js-form-item-keys', 'form-no-label');
   const searchInput = document.createElement('input');
   searchInput.classList.add('form-autocomplete', 'top-search-text-box', 'form-text', 'ui-autocomplete-input');
-  searchInput.setAttribute('type', 'text');
-  searchInput.setAttribute('id', 'edit-keys');
-  searchInput.setAttribute('name', 'keys');
-  searchInput.setAttribute('maxlength', '128');
-  searchInput.setAttribute('aria-label', searchPlaceholderRow.textContent.trim());
-  searchInput.setAttribute('placeholder', searchPlaceholderRow.textContent.trim());
-  searchInputDiv.append(searchInput);
+  searchInput.type = 'text';
+  // Read from richtext cell, but only text content for placeholder
+  searchInput.placeholder = searchPlaceholderCell?.textContent.trim() || 'Type to Search...';
+  searchInput.name = 'keys';
+  searchInput.id = 'edit-keys';
+  formItem.append(searchInput);
 
   const searchButton = document.createElement('input');
   searchButton.classList.add('top-search', 'button', 'js-form-submit', 'form-submit', 'disabled');
-  searchButton.setAttribute('type', 'submit');
-  searchButton.setAttribute('id', 'edit-submit-lions-solr-search');
-  searchButton.setAttribute('value', searchButtonLabelRow.textContent.trim());
-  searchButton.setAttribute('aria-label', searchButtonLabelRow.textContent.trim());
-  searchButton.setAttribute('disabled', '');
+  searchButton.type = 'submit';
+  searchButton.value = searchButtonLabelCell?.textContent.trim() || 'Search';
+  searchButton.disabled = true;
 
-  searchForm.append(searchInputDiv, searchButton);
+  searchInputContainer.append(formItem, searchButton);
+  searchForm.append(searchInputContainer);
   searchBoxContainer.append(searchForm);
   searchCol.append(searchBoxContainer);
   searchRow.append(navTrigger, searchCol);
   searchContainer.append(searchRow);
   searchModule.append(searchContainer);
-  root.append(searchModule);
+  section.append(searchModule);
 
-  // Desktop header
-  const desktopHeader = document.createElement('div');
-  desktopHeader.classList.add('desktop');
+  // Desktop Header
+  const desktopDiv = document.createElement('div');
+  desktopDiv.classList.add('desktop');
   const relativeWrapper = document.createElement('div');
   relativeWrapper.classList.add('relative-wrapper');
   const desktopContainer = document.createElement('div');
   desktopContainer.classList.add('container');
+  desktopDiv.append(relativeWrapper);
   relativeWrapper.append(desktopContainer);
-  desktopHeader.append(relativeWrapper);
-  root.append(desktopHeader);
-
-  // Filter item rows based on their structure (cell count and content)
-  const utilityLinks = itemRows.filter((row) => row.children.length === 3 && row.children[2].querySelector('ul')); // Utility links have 3 cells, 3rd is richtext hierarchy
-  const languageMenuLinks = itemRows.filter((row) => row.children.length === 2 && !row.querySelector('picture')); // Language links have 2 cells, no picture
-  const ctaButtons = itemRows.filter((row) => row.children.length === 2 && !row.querySelector('picture') && !row.children[1].querySelector('ul')); // CTA buttons have 2 cells, no picture, no hierarchy
-  const mainNavigationLinks = itemRows.filter((row) => row.children.length === 3 && row.children[2].querySelector('ul')); // Main nav links have 3 cells, 3rd is richtext hierarchy
 
   // Utility Bar
-  const utilityRow = document.createElement('div');
-  utilityRow.classList.add('row', 'row-utility');
+  const rowUtility = document.createElement('div');
+  rowUtility.classList.add('row', 'row-utility');
   const utilityBar = document.createElement('div');
   utilityBar.classList.add('utility-bar');
-  moveInstrumentation(utilityLinksContainer, utilityBar);
+  moveInstrumentation(utilityLinksContainerRow, utilityBar);
 
-  utilityLinks.forEach((row) => {
-    const [labelCell, linkCell] = [...row.children];
-    const anchor = document.createElement('a');
-    const foundLink = linkCell.querySelector('a');
-    if (foundLink) {
-      anchor.href = foundLink.href;
-      if (foundLink.getAttribute('target') === '_blank') {
-        anchor.setAttribute('target', '_blank');
-        anchor.setAttribute('aria-label', `${labelCell.textContent.trim()} - open in a new tab`);
+  utilityLinkRows.forEach((row) => {
+    // Destructure cells for utility-link-item
+    const [labelCell, linkCell, hierarchyTreeCell] = [...row.children];
+
+    const linkEl = document.createElement('a');
+    const foundLink = linkCell?.querySelector('a');
+    if (foundLink) linkEl.href = foundLink.href;
+    linkEl.textContent = labelCell?.textContent.trim() || '';
+    moveInstrumentation(row, linkEl);
+
+    const ul = hierarchyTreeCell?.querySelector('ul');
+    if (ul) {
+      // This is a dropdown utility link
+      const dropdownWrapper = document.createElement('div');
+      dropdownWrapper.classList.add('dropdown-utility-menu');
+      const dropdownButton = document.createElement('button');
+      dropdownButton.type = 'button';
+      dropdownButton.textContent = linkEl.textContent;
+      dropdownButton.addEventListener('click', () => {
+        dropdownWrapper.classList.toggle('active');
+      });
+
+      const dropdownMenu = document.createElement('ul');
+      dropdownMenu.classList.add('dropdown-utility-menu-list');
+      // Create a temporary div to hold the hierarchyTreeCell content for transformation
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
+      moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation from original cell
+      transformNestedLists(tempDiv.querySelector('ul')); // Transform the UL inside tempDiv
+
+      // Append children from the transformed tempDiv to dropdownMenu
+      while (tempDiv.firstChild) {
+        dropdownMenu.append(tempDiv.firstChild);
       }
+      dropdownWrapper.append(dropdownButton, dropdownMenu);
+      utilityBar.append(dropdownWrapper);
+    } else {
+      // Simple utility link
+      utilityBar.append(linkEl);
     }
-    anchor.textContent = labelCell.textContent.trim();
-    moveInstrumentation(row, anchor);
-    utilityBar.append(anchor);
   });
 
   // Language Dropdown
-  const langDropdown = document.createElement('div');
-  langDropdown.classList.add('dropdown-lang');
-  moveInstrumentation(languageMenuContainer, langDropdown);
-
+  const dropdownLang = document.createElement('div');
+  dropdownLang.classList.add('dropdown-lang');
   const langButton = document.createElement('button');
-  langButton.setAttribute('type', 'button');
-  langButton.textContent = 'EN'; // Default language, should be dynamic if possible
-  langDropdown.append(langButton);
+  langButton.type = 'button';
+  langButton.textContent = 'EN'; // Default language
+  const dropdownLangMenu = document.createElement('ul');
+  dropdownLangMenu.classList.add('dropdown-lang-menu');
+  moveInstrumentation(languageMenuContainerRow, dropdownLang);
 
-  const langMenu = document.createElement('ul');
-  langMenu.classList.add('dropdown-lang-menu');
-  languageMenuLinks.forEach((row) => {
-    const [labelCell, linkCell] = [...row.children];
+  languageMenuRows.forEach((row) => {
+    // Destructure cells for language-menu-item
+    const [languageLabelCell, languageLinkCell] = [...row.children];
+
     const li = document.createElement('li');
-    const anchor = document.createElement('a');
-    const foundLink = linkCell.querySelector('a');
-    if (foundLink) anchor.href = foundLink.href;
-    anchor.textContent = labelCell.textContent.trim();
-    moveInstrumentation(row, li); // Move instrumentation to the li element
-    li.append(anchor);
-    langMenu.append(li);
+    const langLink = document.createElement('a');
+    const foundLangLink = languageLinkCell?.querySelector('a');
+    if (foundLangLink) langLink.href = foundLangLink.href;
+    langLink.textContent = languageLabelCell?.textContent.trim() || '';
+    moveInstrumentation(row, langLink);
+    li.append(langLink);
+    dropdownLangMenu.append(li);
   });
-  langDropdown.append(langMenu);
-  utilityBar.append(langDropdown);
-  utilityRow.append(utilityBar);
-  desktopContainer.append(utilityRow);
 
-  // Top Row (Logo, Mobile CTA, Mobile Search, Mobile Nav Trigger, Desktop CTA)
-  const topRow = document.createElement('div');
-  topRow.classList.add('row', 'row-top');
+  langButton.addEventListener('click', () => {
+    dropdownLangMenu.classList.toggle('active');
+  });
+  dropdownLang.append(langButton, dropdownLangMenu);
+  utilityBar.append(dropdownLang);
+  rowUtility.append(utilityBar);
+  desktopContainer.append(rowUtility);
+
+  // Top Row (Logo and CTA)
+  const rowTop = document.createElement('div');
+  rowTop.classList.add('row', 'row-top');
   const col = document.createElement('div');
   col.classList.add('col');
   const innerRow = document.createElement('div');
   innerRow.classList.add('row');
-  col.append(innerRow);
-  topRow.append(col);
-
   const logoTagCol = document.createElement('div');
   logoTagCol.classList.add('col', 'logo-tag-col');
+
   const logoLink = document.createElement('a');
   logoLink.classList.add('logo', 'logo-full');
-  const foundLogoLink = logoLinkRow.querySelector('a');
+  const foundLogoLink = logoLinkCell?.querySelector('a');
   if (foundLogoLink) logoLink.href = foundLogoLink.href;
-  logoLink.setAttribute('aria-label', 'Open this option');
-  moveInstrumentation(logoLinkRow, logoLink);
 
-  const picture = logoRow.querySelector('picture');
-  if (picture) {
-    const optimizedPic = createOptimizedPicture(picture.querySelector('img').src, picture.querySelector('img').alt, false, [{ width: '750' }]);
-    moveInstrumentation(logoRow, optimizedPic.querySelector('img'));
+  const logoPicture = logoCell?.querySelector('picture');
+  if (logoPicture) {
+    const optimizedPic = createOptimizedPicture(logoPicture.querySelector('img').src, logoPicture.querySelector('img').alt, false, [{ width: '100' }]);
+    moveInstrumentation(logoPicture, optimizedPic.querySelector('img'));
     logoLink.append(optimizedPic);
   }
+  moveInstrumentation(logoCell, logoLink);
+  moveInstrumentation(logoLinkCell, logoLink);
   logoTagCol.append(logoLink);
-  innerRow.append(logoTagCol);
 
-  // Mobile elements (btns-scrolled, search-mobile, mobile-nav-trigger)
+  // Mobile CTA and Search (hidden on desktop)
   const visibleMobile = document.createElement('div');
   visibleMobile.classList.add('visible-mobile');
   const btnsScrolled = document.createElement('div');
   btnsScrolled.classList.add('btns-scrolled');
-  ctaButtons.forEach((row) => {
+  ctaButtonRows.forEach((row) => {
+    // Destructure cells for cta-button-item
     const [labelCell, linkCell] = [...row.children];
-    const anchor = document.createElement('a');
-    const foundLink = linkCell.querySelector('a');
-    if (foundLink) anchor.href = foundLink.href;
-    anchor.textContent = labelCell.textContent.trim();
-    anchor.setAttribute('tabindex', '-1');
-    moveInstrumentation(row, anchor); // Move instrumentation for each CTA button
-    btnsScrolled.append(anchor);
+    const ctaLink = document.createElement('a');
+    const foundCtaLink = linkCell?.querySelector('a');
+    if (foundCtaLink) ctaLink.href = foundCtaLink.href;
+    ctaLink.textContent = labelCell?.textContent.trim() || '';
+    ctaLink.classList.add('btn');
+    if (ctaLink.textContent.toLowerCase() === 'join') {
+      ctaLink.classList.add('joinBtn', 'bg-primary-e2-blue');
+    } else if (ctaLink.textContent.toLowerCase() === 'donate') {
+      ctaLink.classList.add('donateBtn');
+    }
+    moveInstrumentation(row, ctaLink);
+    btnsScrolled.append(ctaLink);
   });
   visibleMobile.append(btnsScrolled);
 
@@ -248,40 +263,42 @@ export default function decorate(block) {
   searchMobile.classList.add('search', 'search-mobile', 'visible-mobile');
   searchMobile.href = '#';
   searchMobile.setAttribute('aria-label', 'Search');
-  searchMobile.setAttribute('tabindex', '-1');
   visibleMobile.append(searchMobile);
 
   const mobileNavTrigger = document.createElement('a');
   mobileNavTrigger.classList.add('mobile-nav-trigger', 'visible-mobile');
   mobileNavTrigger.href = '#';
   mobileNavTrigger.setAttribute('aria-label', 'Mobile menu');
-  mobileNavTrigger.setAttribute('tabindex', '-1');
   mobileNavTrigger.innerHTML = '<span></span><span></span><span></span><span></span>';
   visibleMobile.append(mobileNavTrigger);
   logoTagCol.append(visibleMobile);
+  innerRow.append(logoTagCol);
+  col.append(innerRow);
+  rowTop.append(col);
 
-  // Desktop Utility Column (CTA buttons and Search)
-  const utilityColDesktop = document.createElement('div');
-  utilityColDesktop.classList.add('col', 'utility-col', 'visible-desktop');
+  const utilityCol = document.createElement('div');
+  utilityCol.classList.add('col', 'utility-col', 'visible-desktop');
   const menuParent = document.createElement('div');
   menuParent.classList.add('menu-parent');
   const ctaCol = document.createElement('div');
   ctaCol.classList.add('cta-col');
-  moveInstrumentation(ctaButtonsContainer, ctaCol);
+  moveInstrumentation(ctaButtonsContainerRow, ctaCol);
 
-  ctaButtons.forEach((row, index) => {
+  ctaButtonRows.forEach((row) => {
+    // Destructure cells for cta-button-item
     const [labelCell, linkCell] = [...row.children];
-    const anchor = document.createElement('a');
-    const foundLink = linkCell.querySelector('a');
-    if (foundLink) anchor.href = foundLink.href;
-    anchor.textContent = labelCell.textContent.trim();
-    if (index === 0) {
-      anchor.classList.add('joinBtn', 'btn', 'bg-primary-e2-blue');
-    } else {
-      anchor.classList.add('donateBtn', 'btn');
+    const ctaLink = document.createElement('a');
+    const foundCtaLink = linkCell?.querySelector('a');
+    if (foundCtaLink) ctaLink.href = foundCtaLink.href;
+    ctaLink.textContent = labelCell?.textContent.trim() || '';
+    ctaLink.classList.add('btn');
+    if (ctaLink.textContent.toLowerCase() === 'join') {
+      ctaLink.classList.add('joinBtn', 'bg-primary-e2-blue');
+    } else if (ctaLink.textContent.toLowerCase() === 'donate') {
+      ctaLink.classList.add('donateBtn');
     }
-    // Instrumentation already moved for mobile CTA, no need to move again if it's the same row
-    ctaCol.append(anchor);
+    moveInstrumentation(row, ctaLink);
+    ctaCol.append(ctaLink);
   });
 
   const searchDesktop = document.createElement('a');
@@ -290,251 +307,235 @@ export default function decorate(block) {
   searchDesktop.setAttribute('aria-label', 'Search');
   ctaCol.append(searchDesktop);
   menuParent.append(ctaCol);
-  utilityColDesktop.append(menuParent);
-  topRow.append(utilityColDesktop);
-  desktopContainer.append(topRow);
+  utilityCol.append(menuParent);
+  rowTop.append(utilityCol);
+  desktopContainer.append(rowTop);
 
-  // Bottom Row (Mobile CTA, Main Navigation)
-  const bottomRow = document.createElement('div');
-  bottomRow.classList.add('row', 'row-bottom');
-
+  // Bottom Row (Navigation Menu)
+  const rowBottom = document.createElement('div');
+  rowBottom.classList.add('row', 'row-bottom');
+  const col12Mobile = document.createElement('div');
+  col12Mobile.classList.add('col-12', 'visible-mobile');
   const mobileButtonCol = document.createElement('div');
-  mobileButtonCol.classList.add('col-12', 'visible-mobile');
-  const mobileButtonInner = document.createElement('div');
-  mobileButtonInner.classList.add('mobile-button-col');
-  // Re-add CTA buttons for mobile bottom section
-  ctaButtons.forEach((row, index) => {
+  mobileButtonCol.classList.add('mobile-button-col');
+  // Re-add CTA buttons for mobile
+  ctaButtonRows.forEach((row) => {
+    // Destructure cells for cta-button-item
     const [labelCell, linkCell] = [...row.children];
-    const anchor = document.createElement('a');
-    const foundLink = linkCell.querySelector('a');
-    if (foundLink) anchor.href = foundLink.href;
-    anchor.textContent = labelCell.textContent.trim();
-    if (index === 0) {
-      anchor.classList.add('joinBtn', 'btn', 'bg-primary-e2-blue');
-    } else {
-      anchor.classList.add('donateBtn', 'btn');
+    const ctaLink = document.createElement('a');
+    const foundCtaLink = linkCell?.querySelector('a');
+    if (foundCtaLink) ctaLink.href = foundCtaLink.href;
+    ctaLink.textContent = labelCell?.textContent.trim() || '';
+    ctaLink.classList.add('btn');
+    if (ctaLink.textContent.toLowerCase() === 'join') {
+      ctaLink.classList.add('joinBtn', 'bg-primary-e2-blue');
+    } else if (ctaLink.textContent.toLowerCase() === 'donate') {
+      ctaLink.classList.add('donateBtn');
     }
-    // Instrumentation already moved for desktop CTA, no need to move again if it's the same row
-    mobileButtonInner.append(anchor);
+    // No moveInstrumentation needed here as they are already moved above
+    mobileButtonCol.append(ctaLink);
   });
-  mobileButtonCol.append(mobileButtonInner);
-  bottomRow.append(mobileButtonCol);
+  col12Mobile.append(mobileButtonCol);
+  rowBottom.append(col12Mobile);
 
   const menuCol = document.createElement('div');
   menuCol.classList.add('col-12', 'menu-col');
   const menuColInner = document.createElement('div');
   menuColInner.classList.add('menu-col-inner');
-  moveInstrumentation(mainNavigationContainer, menuColInner);
-
-  const navWrapper = document.createElement('div');
-  navWrapper.classList.add('tbm', 'tbm-tb-mega-main', 'tbm-no-arrows', 'tb-megamenu', 'tb-megamenu-tb-mega-main');
-  navWrapper.setAttribute('data-breakpoint', '1200');
-  navWrapper.setAttribute('aria-label', 'tb-mega-main navigation');
-
-  const navButton = document.createElement('button');
-  navButton.classList.add('btn', 'btn-navbar', 'tb-megamenu-button');
-  navButton.setAttribute('type', 'button');
-  navButton.setAttribute('aria-label', 'reorder');
-  navButton.innerHTML = '<i class="fa fa-reorder"></i>';
-  navWrapper.append(navButton);
+  const tbm = document.createElement('div');
+  tbm.classList.add('tbm', 'tbm-tb-mega-main', 'tbm-no-arrows', 'tb-megamenu', 'tb-megamenu-tb-mega-main');
+  moveInstrumentation(navigationMenuContainerRow, tbm);
 
   const navCollapse = document.createElement('div');
   navCollapse.classList.add('nav-collapse');
-  const navList = document.createElement('ul');
-  navList.classList.add('tbm-nav', 'level-0', 'tb-megamenu-nav', 'nav');
+  const tbmNav = document.createElement('ul');
+  tbmNav.classList.add('tbm-nav', 'level-0', 'tb-megamenu-nav', 'nav');
 
-  mainNavigationLinks.forEach((row) => {
+  navigationItemRows.forEach((row) => {
+    // Destructure cells for navigation-item
     const [labelCell, linkCell, hierarchyTreeCell] = [...row.children];
+
     const li = document.createElement('li');
     li.classList.add('tbm-item', 'level-1', 'tb-megamenu-item', 'mega');
     moveInstrumentation(row, li);
 
-    const subList = hierarchyTreeCell?.querySelector('ul');
-    const directLink = linkCell?.querySelector('a')?.href;
-
-    if (subList) {
+    const ul = hierarchyTreeCell?.querySelector('ul');
+    if (ul) {
       li.classList.add('tbm-item--has-dropdown');
-      const trigger = document.createElement('span');
-      trigger.classList.add('tbm-link', 'level-1', 'no-link', 'tbm-toggle', 'tb-megamenu-no-link');
-      trigger.textContent = labelCell.textContent.trim();
-      trigger.setAttribute('tabindex', '0');
-      trigger.setAttribute('aria-expanded', 'false');
-      li.append(trigger);
+      const span = document.createElement('span');
+      span.classList.add('tbm-link', 'level-1', 'no-link', 'tbm-toggle', 'tb-megamenu-no-link');
+      span.textContent = labelCell?.textContent.trim() || '';
+      span.setAttribute('tabindex', '0');
+      span.setAttribute('aria-expanded', 'false');
 
       const submenu = document.createElement('div');
       submenu.classList.add('tbm-submenu', 'tbm-item-child', 'tbm-has-width');
-      submenu.style.width = '800px';
+      submenu.style.width = '800px'; // Example width, adjust as needed
 
-      const subRow = document.createElement('div');
-      subRow.classList.add('tbm-row');
-      submenu.append(subRow);
+      const submenuRow = document.createElement('div');
+      submenuRow.classList.add('tbm-row');
 
-      const column = document.createElement('div');
-      column.classList.add('tbm-column', 'span3');
-      const columnInner = document.createElement('div');
-      columnInner.classList.add('tbm-column-inner');
-      const subNavUl = document.createElement('ul');
-      subNavUl.classList.add('tbm-subnav', 'level-1', 'items-1');
+      // Create a temporary div to hold the hierarchyTreeCell content for transformation
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
+      moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation from original cell
+      transformNestedLists(tempDiv.querySelector('ul')); // Transform the UL inside tempDiv
 
-      const subLi = document.createElement('li');
-      subLi.classList.add('tbm-item', 'level-2', 'tbm-group', 'tb-megamenu-item', 'mega');
-      const subTrigger = document.createElement('span');
-      subTrigger.classList.add('tbm-link', 'level-2', 'no-link', 'tbm-group-title', 'tb-megamenu-no-link');
-      subTrigger.textContent = labelCell.textContent.trim();
-      subTrigger.setAttribute('tabindex', '0');
-      subTrigger.setAttribute('aria-expanded', 'false');
-      subLi.append(subTrigger);
+      [...tempDiv.querySelector('ul').children].forEach((topLevelLi) => {
+        const submenuColumn = document.createElement('div');
+        submenuColumn.classList.add('tbm-column', 'span3');
+        const submenuColumnInner = document.createElement('div');
+        submenuColumnInner.classList.add('tbm-column-inner');
+        const subnav = document.createElement('ul');
+        subnav.classList.add('tbm-subnav', 'level-1', 'items-1');
 
-      const subGroupContainer = document.createElement('div');
-      subGroupContainer.classList.add('tbm-group-container', 'tbm-item-child');
-      const subGroupRow = document.createElement('div');
-      subGroupRow.classList.add('tbm-row');
-      const subGroupColumn = document.createElement('div');
-      subGroupColumn.classList.add('tbm-column', 'span12');
-      const subGroupColumnInner = document.createElement('div');
-      subGroupColumnInner.classList.add('tbm-column-inner');
-      const nestedUl = document.createElement('ul');
-      nestedUl.classList.add('tbm-subnav', 'level-2'); // Initial class for the nested UL
-      nestedUl.innerHTML = hierarchyTreeCell.innerHTML;
-      transformNestedLists(nestedUl); // Apply recursive transformation
+        const newTopLevelLi = document.createElement('li');
+        newTopLevelLi.classList.add('tbm-item', 'level-2', 'tbm-group', 'tb-megamenu-item', 'mega');
+        while (topLevelLi.firstChild) newTopLevelLi.append(topLevelLi.firstChild);
+        subnav.append(newTopLevelLi);
+        submenuColumnInner.append(subnav);
+        submenuColumn.append(submenuColumnInner);
+        submenuRow.append(submenuColumn);
+      });
+      submenu.append(submenuRow);
+      li.append(span, submenu);
 
-      subGroupColumnInner.append(nestedUl);
-      subGroupColumn.append(subGroupColumnInner);
-      subGroupRow.append(subGroupColumn);
-      subGroupContainer.append(subGroupRow);
-      subLi.append(subGroupContainer);
-      subNavUl.append(subLi);
-      columnInner.append(subNavUl);
-      column.append(columnInner);
-      subRow.append(column);
-      li.append(submenu);
-
-      trigger.addEventListener('click', () => {
-        li.classList.toggle('active');
+      span.addEventListener('click', () => {
+        span.classList.toggle('active');
         submenu.classList.toggle('active');
-        trigger.setAttribute('aria-expanded', li.classList.contains('active'));
+        span.setAttribute('aria-expanded', span.classList.contains('active'));
       });
     } else {
       const anchor = document.createElement('a');
       anchor.classList.add('tbm-link', 'level-1');
-      if (directLink) anchor.href = directLink;
-      anchor.textContent = labelCell.textContent.trim();
+      const foundLink = linkCell?.querySelector('a');
+      if (foundLink) anchor.href = foundLink.href;
+      anchor.textContent = labelCell?.textContent.trim() || '';
       li.append(anchor);
     }
-    navList.append(li);
+    tbmNav.append(li);
   });
 
-  navCollapse.append(navList);
-  navWrapper.append(navCollapse);
-  menuColInner.append(navWrapper);
+  navCollapse.append(tbmNav);
+  tbm.append(navCollapse);
+  menuColInner.append(tbm);
 
-  // Mobile utility bar (duplicate from desktop for mobile view)
+  // Mobile Utility Bar (duplicate for mobile view)
   const mobileUtilityBar = document.createElement('div');
   mobileUtilityBar.classList.add('visible-mobile', 'utility-bar');
   // Re-add utility links for mobile
-  utilityLinks.forEach((row) => {
-    const [labelCell, linkCell] = [...row.children];
-    const anchor = document.createElement('a');
-    const foundLink = linkCell.querySelector('a');
-    if (foundLink) {
-      anchor.href = foundLink.href;
-      if (foundLink.getAttribute('target') === '_blank') {
-        anchor.setAttribute('target', '_blank');
-        anchor.setAttribute('aria-label', `${labelCell.textContent.trim()} - open in a new tab`);
+  utilityLinkRows.forEach((row) => {
+    // Destructure cells for utility-link-item
+    const [labelCell, linkCell, hierarchyTreeCell] = [...row.children];
+
+    const linkEl = document.createElement('a');
+    const foundLink = linkCell?.querySelector('a');
+    if (foundLink) linkEl.href = foundLink.href;
+    linkEl.textContent = labelCell?.textContent.trim() || '';
+
+    const ul = hierarchyTreeCell?.querySelector('ul');
+    if (ul) {
+      const dropdownWrapper = document.createElement('div');
+      dropdownWrapper.classList.add('dropdown-utility-menu');
+      const dropdownButton = document.createElement('button');
+      dropdownButton.type = 'button';
+      dropdownButton.textContent = linkEl.textContent;
+      dropdownButton.addEventListener('click', () => {
+        dropdownWrapper.classList.toggle('active');
+      });
+
+      const dropdownMenu = document.createElement('ul');
+      dropdownMenu.classList.add('dropdown-utility-menu-list');
+      // Create a temporary div to hold the hierarchyTreeCell content for transformation
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
+      // No moveInstrumentation here as this is a duplicate for mobile, original is already moved
+      transformNestedLists(tempDiv.querySelector('ul')); // Transform the UL inside tempDiv
+
+      // Append children from the transformed tempDiv to dropdownMenu
+      while (tempDiv.firstChild) {
+        dropdownMenu.append(tempDiv.firstChild);
       }
+      dropdownWrapper.append(dropdownButton, dropdownMenu);
+      mobileUtilityBar.append(dropdownWrapper);
+    } else {
+      mobileUtilityBar.append(linkEl);
     }
-    anchor.textContent = labelCell.textContent.trim();
-    moveInstrumentation(row, anchor); // Move instrumentation for each utility link
-    mobileUtilityBar.append(anchor);
   });
-  // Re-add language dropdown for mobile
-  const mobileLangDropdown = document.createElement('div');
-  mobileLangDropdown.classList.add('dropdown-lang');
+
+  // Mobile Language Dropdown
+  const mobileDropdownLang = document.createElement('div');
+  mobileDropdownLang.classList.add('dropdown-lang');
   const mobileLangButton = document.createElement('button');
-  mobileLangButton.setAttribute('type', 'button');
+  mobileLangButton.type = 'button';
   mobileLangButton.textContent = 'EN';
-  mobileLangDropdown.append(mobileLangButton);
-  const mobileLangMenu = document.createElement('ul');
-  mobileLangMenu.classList.add('dropdown-lang-menu');
-  languageMenuLinks.forEach((row) => {
-    const [labelCell, linkCell] = [...row.children];
+  const mobileDropdownLangMenu = document.createElement('ul');
+  mobileDropdownLangMenu.classList.add('dropdown-lang-menu');
+
+  languageMenuRows.forEach((row) => {
+    // Destructure cells for language-menu-item
+    const [languageLabelCell, languageLinkCell] = [...row.children];
+
     const li = document.createElement('li');
-    const anchor = document.createElement('a');
-    const foundLink = linkCell.querySelector('a');
-    if (foundLink) anchor.href = foundLink.href;
-    anchor.textContent = labelCell.textContent.trim();
-    moveInstrumentation(row, li); // Move instrumentation to the li element
-    li.append(anchor);
-    mobileLangMenu.append(li);
+    const langLink = document.createElement('a');
+    const foundLangLink = languageLinkCell?.querySelector('a');
+    if (foundLangLink) langLink.href = foundLangLink.href;
+    langLink.textContent = languageLabelCell?.textContent.trim() || '';
+    li.append(langLink);
+    mobileDropdownLangMenu.append(li);
   });
-  mobileLangDropdown.append(mobileLangMenu);
-  mobileUtilityBar.append(mobileLangDropdown);
+
+  mobileLangButton.addEventListener('click', () => {
+    mobileDropdownLangMenu.classList.toggle('active');
+  });
+  mobileDropdownLang.append(mobileLangButton, mobileDropdownLangMenu);
+  mobileUtilityBar.append(mobileDropdownLang);
   menuColInner.append(mobileUtilityBar);
 
   menuCol.append(menuColInner);
-  bottomRow.append(menuCol);
-  desktopContainer.append(bottomRow);
+  rowBottom.append(menuCol);
+  desktopContainer.append(rowBottom);
 
-  block.replaceChildren(root);
+  section.append(desktopDiv);
 
-  // Optimize images
-  root.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    moveInstrumentation(img, optimizedPic.querySelector('img'));
-    img.closest('picture').replaceWith(optimizedPic);
-  });
+  block.replaceChildren(section);
 
-  // Toggle search module
-  const searchTrigger = root.querySelector('.nav-trigger');
-  const searchModuleEl = root.querySelector('.search-module');
-  searchTrigger.addEventListener('click', () => {
-    searchModuleEl.classList.toggle('active');
-    searchTrigger.classList.toggle('active');
-  });
-
-  // Toggle language dropdown
-  root.querySelectorAll('.dropdown-lang').forEach((dropdown) => {
-    const button = dropdown.querySelector('button');
-    const menu = dropdown.querySelector('.dropdown-lang-menu');
-    button.addEventListener('click', (e) => {
-      e.stopPropagation();
-      menu.classList.toggle('active');
-    });
-    document.addEventListener('click', (e) => {
-      if (!dropdown.contains(e.target)) {
-        menu.classList.remove('active');
-      }
-    });
-  });
-
-  // Mobile nav toggle
-  const mobileNavTriggerEl = root.querySelector('.mobile-nav-trigger');
-  const mobileMenuCol = root.querySelector('.menu-col');
-  mobileNavTriggerEl.addEventListener('click', (e) => {
-    e.preventDefault();
-    mobileMenuCol.classList.toggle('active');
-    mobileNavTriggerEl.classList.toggle('active');
-    root.classList.toggle('mobile-menu-open');
-  });
-
-  // Scroll behavior for header
+  // Add scroll listener for header
   let lastScrollY = window.scrollY;
   window.addEventListener('scroll', () => {
-    if (window.scrollY > lastScrollY && window.scrollY > 0) {
-      root.classList.add('nav-up');
-      root.classList.remove('nav-down');
-    } else if (window.scrollY < lastScrollY && window.scrollY > 0) {
-      root.classList.add('nav-down');
-      root.classList.remove('nav-up');
+    if (window.scrollY > lastScrollY) {
+      section.classList.add('nav-up');
+      section.classList.remove('nav-down');
     } else {
-      root.classList.remove('nav-up', 'nav-down');
-    }
-
-    if (window.scrollY > 50) { // Example threshold for 'scrolled' class
-      root.classList.add('scrolled');
-    } else {
-      root.classList.remove('scrolled');
+      section.classList.remove('nav-up');
+      section.classList.add('nav-down');
     }
     lastScrollY = window.scrollY;
+
+    if (window.scrollY > 0) {
+      section.classList.add('scrolled');
+    } else {
+      section.classList.remove('scrolled');
+    }
   });
+
+  // Mobile menu toggle
+  mobileNavTrigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.body.classList.toggle('mobile-menu-open');
+    mobileNavTrigger.classList.toggle('active');
+  });
+
+  // Search toggle
+  const searchToggle = (e) => {
+    e.preventDefault();
+    searchModule.classList.toggle('active');
+    navTrigger.classList.toggle('active');
+    if (searchModule.classList.contains('active')) {
+      searchInput.focus();
+    }
+  };
+  navTrigger.addEventListener('click', searchToggle);
+  searchMobile.addEventListener('click', searchToggle);
+  searchDesktop.addEventListener('click', searchToggle);
 }

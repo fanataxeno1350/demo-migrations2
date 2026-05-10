@@ -17,7 +17,7 @@
       }
     },
     {
-      "title": "Utility Link Item",
+      "title": "Utility Link",
       "id": "utility-link-item",
       "plugins": {
         "xwalk": {
@@ -25,7 +25,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "utility-link-item",
-              "name": "Utility Link Item"
+              "name": "Utility Link"
             }
           }
         }
@@ -47,7 +47,22 @@
       }
     },
     {
-      "title": "CTA Button Item",
+      "title": "Main Navigation Item",
+      "id": "main-navigation-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "main-navigation-item",
+              "name": "Main Navigation Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "CTA Button",
       "id": "cta-button-item",
       "plugins": {
         "xwalk": {
@@ -55,22 +70,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "cta-button-item",
-              "name": "CTA Button Item"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Navigation Item",
-      "id": "navigation-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "navigation-item",
-              "name": "Navigation Item"
+              "name": "CTA Button"
             }
           }
         }
@@ -82,9 +82,10 @@
       "id": "header-global-navigation",
       "fields": [
         {
-          "component": "richtext",
+          "component": "text",
           "label": "Search Placeholder",
-          "name": "searchPlaceholder"
+          "name": "searchPlaceholder",
+          "valueType": "string"
         },
         {
           "component": "text",
@@ -94,18 +95,20 @@
         },
         {
           "component": "reference",
-          "label": "Logo",
-          "name": "logo"
+          "label": "Logo Image",
+          "name": "logo",
+          "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Logo Link",
-          "name": "logoLink"
+          "name": "logoLink",
+          "valueType": "string"
         },
         {
           "component": "container",
           "item": "utility-link-item",
-          "label": "Utility Links",
+          "label": "Utility Bar Links",
           "name": "utilityLinks"
         },
         {
@@ -122,9 +125,9 @@
         },
         {
           "component": "container",
-          "item": "navigation-item",
-          "label": "Navigation Menu",
-          "name": "navigationMenu"
+          "item": "main-navigation-item",
+          "label": "Main Navigation",
+          "name": "mainNavigation"
         }
       ]
     },
@@ -133,14 +136,15 @@
       "fields": [
         {
           "component": "text",
-          "label": "Utility Link Label",
+          "label": "Link Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Utility Link URL",
-          "name": "link"
+          "label": "Link URL",
+          "name": "link",
+          "valueType": "string"
         },
         {
           "component": "richtext",
@@ -155,35 +159,20 @@
       "fields": [
         {
           "component": "text",
-          "label": "Language Label",
-          "name": "languageLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Language URL",
-          "name": "languageLink"
-        }
-      ]
-    },
-    {
-      "id": "cta-button-item",
-      "fields": [
-        {
-          "component": "text",
-          "label": "Button Label",
+          "label": "Language Name",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Button URL",
-          "name": "link"
+          "label": "Language Link",
+          "name": "link",
+          "valueType": "string"
         }
       ]
     },
     {
-      "id": "navigation-item",
+      "id": "main-navigation-item",
       "fields": [
         {
           "component": "text",
@@ -194,12 +183,31 @@
         {
           "component": "aem-content",
           "label": "Menu Item Link",
-          "name": "link"
+          "name": "link",
+          "valueType": "string"
         },
         {
           "component": "richtext",
           "label": "Navigation Hierarchy",
-          "name": "hierarchy-tree"
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "cta-button-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "CTA Button Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "CTA Button Link",
+          "name": "link",
+          "valueType": "string"
         }
       ]
     }
@@ -210,8 +218,8 @@
       "components": [
         "utility-link-item",
         "language-menu-item",
-        "cta-button-item",
-        "navigation-item"
+        "main-navigation-item",
+        "cta-button-item"
       ]
     }
   ]
