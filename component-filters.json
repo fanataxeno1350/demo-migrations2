@@ -33,13 +33,13 @@
   {
     "id": "banner-carousel",
     "components": [
-      "banner-carousel-slide"
+      "banner-carousel-item"
     ]
   },
   {
     "id": "card-grid",
     "components": [
-      "rs-card"
+      "card-grid-item"
     ]
   },
   {
@@ -109,7 +109,6 @@
   {
     "id": "header",
     "components": [
-      "logo-item",
       "navigation-item",
       "country-option-item"
     ]

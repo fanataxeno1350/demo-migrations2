@@ -38,44 +38,44 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Left Side Image",
-          "name": "leftImage",
+          "label": "Variation Image",
+          "name": "variationImage",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Main Heading",
-          "name": "mainHeading",
+          "label": "Main Title",
+          "name": "mainTitle",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Section Title",
-          "name": "sectionTitle",
+          "label": "Subtitle",
+          "name": "subtitle",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Section Description",
-          "name": "sectionDescription",
+          "label": "Description",
+          "name": "description",
           "valueType": "string"
         },
         {
           "component": "container",
           "item": "category-grid-item",
-          "label": "Category Items",
+          "label": "Categories",
           "name": "categories"
         },
         {
-          "component": "text",
-          "label": "CTA Button Label",
-          "name": "ctaLabel",
+          "component": "aem-content",
+          "label": "CTA Link",
+          "name": "ctaLink",
           "valueType": "string"
         },
         {
-          "component": "aem-content",
-          "label": "CTA Button Link",
-          "name": "ctaLink",
+          "component": "text",
+          "label": "CTA Label",
+          "name": "ctaLabel",
           "valueType": "string"
         }
       ]
@@ -90,15 +90,15 @@
           "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "Category Label",
-          "name": "categoryLabel",
-          "valueType": "string"
-        },
-        {
           "component": "aem-content",
           "label": "Category Link",
           "name": "categoryLink",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Category Label",
+          "name": "categoryLabel",
           "valueType": "string"
         }
       ]

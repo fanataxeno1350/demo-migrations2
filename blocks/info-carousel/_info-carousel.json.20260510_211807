@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Info Carousel",
+      "title": "Info-Carousel",
       "id": "info-carousel",
       "plugins": {
         "xwalk": {
@@ -10,14 +10,14 @@
             "template": {
               "filter": "info-carousel",
               "model": "info-carousel",
-              "name": "Info Carousel"
+              "name": "Info-Carousel"
             }
           }
         }
       }
     },
     {
-      "title": "Carousel Item",
+      "title": "Carousel-Item",
       "id": "carousel-item",
       "plugins": {
         "xwalk": {
@@ -25,7 +25,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "carousel-item",
-              "name": "Carousel Item"
+              "name": "Carousel-Item"
             }
           }
         }
@@ -54,14 +54,14 @@
           "valueType": "string"
         },
         {
-          "component": "richtext",
-          "label": "Carousel Item Title",
+          "component": "text",
+          "label": "Carousel Title",
           "name": "title",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Carousel Item Description",
+          "label": "Carousel Description",
           "name": "description",
           "valueType": "string"
         }

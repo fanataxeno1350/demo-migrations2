@@ -3,23 +3,35 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 
 function transformNestedLists(rootUl) {
   rootUl.querySelectorAll('li').forEach((li) => {
+    li.classList.add('cmp-list__item'); // Add class from ORIGINAL HTML
     const nested = li.querySelector(':scope > ul');
     const anchor = li.querySelector(':scope > a');
-    if (!anchor) {
+
+    if (anchor) {
+      anchor.classList.add('cmp-list__item-link'); // Add class from ORIGINAL HTML
+      const span = document.createElement('span');
+      span.classList.add('cmp-list__item-title'); // Add class from ORIGINAL HTML
+      span.textContent = anchor.textContent.trim();
+      anchor.textContent = ''; // Clear anchor text
+      anchor.prepend(span); // Wrap text in span
+    } else {
       const textNode = [...li.childNodes].find(
         (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim(),
       );
       if (textNode) {
         const span = document.createElement('span');
+        span.classList.add('cmp-list__item-title'); // Add class from ORIGINAL HTML
         span.textContent = textNode.textContent.trim();
         textNode.remove();
         li.prepend(span);
       }
     }
+
     if (nested) {
+      nested.classList.add('cmp-list'); // Add class from ORIGINAL HTML
       nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('has-sub-child'); // This class is not in the allowlist. Assuming it's a new class for JS behavior.
+      subWrap.classList.add('has-sub-child'); // This class is not in original HTML, but seems to be for JS behavior
       subWrap.append(nested);
       li.append(subWrap);
       const trigger = li.querySelector(':scope > a, :scope > span');
@@ -27,8 +39,8 @@ function transformNestedLists(rootUl) {
         trigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          li.classList.toggle('active'); // This class is not in the allowlist. Assuming it's a new class for JS behavior.
-          subWrap.classList.toggle('active'); // This class is not in the allowlist. Assuming it's a new class for JS behavior.
+          li.classList.toggle('active');
+          subWrap.classList.toggle('active');
         });
       }
     }
@@ -36,34 +48,32 @@ function transformNestedLists(rootUl) {
 }
 
 export default function decorate(block) {
-  const allRows = [...block.children];
+  const children = [...block.children];
 
-  // Fixed-schema root rows (8 of them)
-  const [
-    itcLogoRow,
-    itcLogoLinkRow,
-    fssaiLogoRow,
-    grievanceTitleRow,
-    grievanceNameRow,
-    grievanceContactInfoRow,
-    grievanceTimingsRow,
-    copyrightRow,
-    ...itemRows
-  ] = allRows;
+  const itcLogoRow = children[0];
+  const itcLogoLinkRow = children[1];
+  const fssaiLogoRow = children[2];
+  const grievanceTitleRow = children[3];
+  const grievanceNameRow = children[4];
+  const grievanceContactRow = children[5];
+  const grievanceTimeRow = children[6];
+  const copyrightRow = children[7];
 
-  // Extract cells from fixed-schema root rows
-  const itcLogoCell = itcLogoRow.children[0];
-  const itcLogoLinkCell = itcLogoLinkRow.children[0];
-  const fssaiLogoCell = fssaiLogoRow.children[0];
-  const grievanceTitleCell = grievanceTitleRow.children[0];
-  const grievanceNameCell = grievanceNameRow.children[0];
-  const grievanceContactInfoCell = grievanceContactInfoRow.children[0];
-  const grievanceTimingsCell = grievanceTimingsRow.children[0];
-  const copyrightCell = copyrightRow.children[0];
+  const itemRows = children.slice(8);
 
-  // Filter item rows based on cell count
-  const footerLinkItems = itemRows.filter((row) => row.children.length === 3);
-  const footerSocialItems = itemRows.filter((row) => row.children.length === 2);
+  const footerLinkItems = [];
+  const footerSocialItems = [];
+
+  itemRows.forEach((row) => {
+    // Footer Link Item: label (text), link (aem-content), hierarchy-tree (richtext)
+    if (row.children.length === 3) {
+      footerLinkItems.push(row);
+    }
+    // Footer Social Item: socialLink (aem-content), socialIcon (reference)
+    else if (row.children.length === 2) {
+      footerSocialItems.push(row);
+    }
+  });
 
   const footerSection = document.createElement('footer');
   footerSection.classList.add('itc-footer-section');
@@ -76,7 +86,7 @@ export default function decorate(block) {
   row.classList.add('row');
   container.append(row);
 
-  // Logos Section
+  // Left column for logos
   const logoCol = document.createElement('div');
   logoCol.classList.add('col-lg-6', 'col-sm-12', 'd-flex', 'd-lg-block', 'justify-content-center');
   row.append(logoCol);
@@ -85,6 +95,7 @@ export default function decorate(block) {
   footerLogos.classList.add('footer-logos');
   logoCol.append(footerLogos);
 
+  // ITC Logo
   const footerItcLogo = document.createElement('div');
   footerItcLogo.classList.add('footer-itc-logo');
   footerLogos.append(footerItcLogo);
@@ -93,21 +104,27 @@ export default function decorate(block) {
   itcLogoDiv.classList.add('logo', 'image');
   footerItcLogo.append(itcLogoDiv);
 
-  const itcPictureElement = itcLogoCell?.querySelector('picture');
-  if (itcPictureElement) {
-    const itcLink = document.createElement('a');
-    itcLink.classList.add('cmp-image__link');
-    const itcLinkHref = itcLogoLinkCell?.querySelector('a')?.href;
-    if (itcLinkHref) {
-      itcLink.href = itcLinkHref;
+  const itcPicture = itcLogoRow?.querySelector('picture');
+  const itcLink = itcLogoLinkRow?.querySelector('a');
+
+  if (itcPicture) {
+    const itcImg = itcPicture.querySelector('img');
+    const optimizedItcPic = createOptimizedPicture(itcImg.src, itcImg.alt, false, [{ width: '750' }]);
+    moveInstrumentation(itcImg, optimizedItcPic.querySelector('img'));
+
+    if (itcLink) {
+      const linkEl = document.createElement('a');
+      linkEl.classList.add('cmp-image__link');
+      linkEl.href = itcLink.href;
+      linkEl.append(optimizedItcPic);
+      itcLogoDiv.append(linkEl);
+    } else {
+      itcLogoDiv.append(optimizedItcPic);
     }
-    const itcPicture = itcPictureElement.cloneNode(true);
-    itcLink.append(itcPicture);
-    moveInstrumentation(itcLogoRow, itcLink);
-    moveInstrumentation(itcLogoLinkRow, itcLink);
-    itcLogoDiv.append(itcLink);
+    moveInstrumentation(itcLogoRow, itcLogoDiv);
   }
 
+  // FSSAI Logo
   const footerFssaiLogo = document.createElement('div');
   footerFssaiLogo.classList.add('footer-fssai-logo');
   footerLogos.append(footerFssaiLogo);
@@ -116,136 +133,119 @@ export default function decorate(block) {
   fssaiLogoDiv.classList.add('fssailogo', 'logo', 'image');
   footerFssaiLogo.append(fssaiLogoDiv);
 
-  const fssaiPictureElement = fssaiLogoCell?.querySelector('picture');
-  if (fssaiPictureElement) {
-    const fssaiImg = fssaiPictureElement.cloneNode(true);
-    moveInstrumentation(fssaiLogoRow, fssaiImg);
-    fssaiLogoDiv.append(fssaiImg);
+  const fssaiPicture = fssaiLogoRow?.querySelector('picture');
+  if (fssaiPicture) {
+    const fssaiImg = fssaiPicture.querySelector('img');
+    const optimizedFssaiPic = createOptimizedPicture(fssaiImg.src, fssaiImg.alt, false, [{ width: '750' }]);
+    moveInstrumentation(fssaiImg, optimizedFssaiPic.querySelector('img'));
+    fssaiLogoDiv.append(optimizedFssaiPic);
+    moveInstrumentation(fssaiLogoRow, fssaiLogoDiv);
   }
 
-  // Footer Links Section
-  const footerLinksCol = document.createElement('div');
-  footerLinksCol.classList.add('col-lg-3', 'col-sm-12', 'd-flex', 'justify-content-xl-between', 'footer-page-links-wrapper', 'pt-md-0', 'pt-4', 'px-1');
-  row.append(footerLinksCol);
+  // Middle column for footer links
+  const footerPageLinksWrapper = document.createElement('div');
+  footerPageLinksWrapper.classList.add('col-lg-3', 'col-sm-12', 'd-flex', 'justify-content-xl-between', 'footer-page-links-wrapper', 'pt-md-0', 'pt-4', 'px-1');
+  row.append(footerPageLinksWrapper);
+
+  const footerListsContainer = document.createElement('div');
+  footerListsContainer.classList.add('footer-lists-container', 'd-flex'); // This class is in the rightCol in original HTML, but seems to be intended for this section
+  footerPageLinksWrapper.append(footerListsContainer);
 
   const list1 = document.createElement('div');
   list1.classList.add('list-1', 'list');
-  footerLinksCol.append(list1);
+  footerListsContainer.append(list1);
 
   const list2 = document.createElement('div');
   list2.classList.add('list-2', 'list');
-  footerLinksCol.append(list2);
+  footerListsContainer.append(list2);
 
-  const footerListsContainer = document.createElement('div');
-  footerListsContainer.classList.add('col-lg-6', 'col-sm-12', 'itc-footer-link-left');
-  row.append(footerListsContainer);
+  // The original HTML has list-3 and list-4 inside the rightCol, not here.
+  // We'll create them in the rightCol as per original HTML.
 
-  const footerListsWrapper = document.createElement('div');
-  footerListsWrapper.classList.add('footer-lists-container', 'd-flex');
-  footerListsContainer.append(footerListsWrapper);
-
-  const list4 = document.createElement('div');
-  list4.classList.add('list-4', 'list');
-  footerListsWrapper.append(list4);
-
-  const list3 = document.createElement('div');
-  list3.classList.add('list-3', 'list');
-  footerListsWrapper.append(list3);
-
-  let currentList = list4;
-  footerLinkItems.forEach((rowItem, index) => {
+  let currentListIndex = 0;
+  footerLinkItems.forEach((rowItem) => {
     const [labelCell, linkCell, hierarchyTreeCell] = [...rowItem.children];
-    const subListHtml = hierarchyTreeCell?.innerHTML || '';
-    const directHref = linkCell?.querySelector('a')?.href;
+    const directLink = linkCell?.querySelector('a')?.href;
     const labelText = labelCell?.textContent.trim();
 
-    if (index === Math.ceil(footerLinkItems.length / 2)) {
-      currentList = list3;
-    }
-
-    const ul = currentList.querySelector('ul') || document.createElement('ul');
-    ul.classList.add('cmp-list'); // Add class from original HTML
-    if (!currentList.querySelector('ul')) {
-      currentList.append(ul);
-    }
-
     const li = document.createElement('li');
-    li.classList.add('cmp-list__item'); // Add class from original HTML
     moveInstrumentation(rowItem, li);
-    ul.append(li);
 
-    // Create a temporary div to parse the richtext HTML
     const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = subListHtml;
+    moveInstrumentation(hierarchyTreeCell, tempDiv);
+    tempDiv.innerHTML = hierarchyTreeCell?.innerHTML || '';
     const subList = tempDiv.querySelector('ul');
 
     if (subList) {
-      const triggerLink = document.createElement('a');
-      triggerLink.classList.add('cmp-list__item-link');
-      triggerLink.href = 'javascript:void(0)'; // Placeholder for interactive trigger
-      const span = document.createElement('span');
-      span.classList.add('cmp-list__item-title');
-      span.textContent = labelText;
-      triggerLink.append(span);
-      li.append(triggerLink);
+      const titleLink = document.createElement('a');
+      titleLink.href = directLink || 'javascript:void(0)';
+      titleLink.textContent = labelText;
+      li.append(titleLink);
 
-      // Apply classes and instrumentation to nested elements
-      moveInstrumentation(hierarchyTreeCell, subList); // Move instrumentation from the original cell to the new ul
-      subList.querySelectorAll('a').forEach((a) => a.classList.add('cmp-list__item-link'));
-      subList.querySelectorAll('li').forEach((nestedLi) => nestedLi.classList.add('cmp-list__item'));
-      subList.querySelectorAll('span').forEach((nestedSpan) => nestedSpan.classList.add('cmp-list__item-title'));
-
-      transformNestedLists(subList); // Apply transformations to the nested list
+      transformNestedLists(subList);
       li.append(subList);
-
-      triggerLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        li.classList.toggle('active'); // This class is not in the allowlist. Assuming it's a new class for JS behavior.
-        subList.classList.toggle('active'); // This class is not in the allowlist. Assuming it's a new class for JS behavior.
-      });
     } else {
       const anchor = document.createElement('a');
-      anchor.classList.add('cmp-list__item-link');
-      if (directHref) anchor.href = directHref;
-      const span = document.createElement('span');
-      span.classList.add('cmp-list__item-title');
-      span.textContent = labelText;
-      anchor.append(span);
+      if (directLink) anchor.href = directLink;
+      anchor.textContent = labelText;
       li.append(anchor);
     }
+
+    const targetListDiv = (currentListIndex % 2 === 0) ? list1 : list2;
+    const ul = targetListDiv.querySelector('ul') || document.createElement('ul');
+    ul.classList.add('cmp-list'); // Add class from ORIGINAL HTML
+    ul.append(li);
+    targetListDiv.append(ul);
+    currentListIndex += 1;
   });
 
-  // Grievance Details
+  // Right column for contact details and social links
+  const rightCol = document.createElement('div');
+  rightCol.classList.add('col-lg-6', 'col-sm-12', 'itc-footer-link-left'); // itc-footer-link-left is on this col in original HTML
+  row.append(rightCol);
+
+  // The original HTML has list-3 and list-4 inside this rightCol, wrapped by footer-lists-container
+  const rightColListsContainer = document.createElement('div');
+  rightColListsContainer.classList.add('footer-lists-container', 'd-flex');
+  rightCol.append(rightColListsContainer);
+
+  const list4 = document.createElement('div');
+  list4.classList.add('list-4', 'list');
+  rightColListsContainer.append(list4);
+
+  const list3 = document.createElement('div');
+  list3.classList.add('list-3', 'list');
+  rightColListsContainer.append(list3);
+
+  // Contact Details
   const contactDetails = document.createElement('div');
   contactDetails.classList.add('contact-details');
-  footerListsContainer.append(contactDetails);
+  rightCol.append(contactDetails);
 
   const grievanceTitle = document.createElement('h5');
   grievanceTitle.classList.add('contact-details__title', 'mb-md-3', 'mb-0');
+  grievanceTitle.textContent = grievanceTitleRow?.children[0]?.textContent.trim() || ''; // Fixed: read from cell, not querySelector('div')
   moveInstrumentation(grievanceTitleRow, grievanceTitle);
-  grievanceTitle.textContent = grievanceTitleCell?.textContent.trim() || '';
   contactDetails.append(grievanceTitle);
 
   const grievanceName = document.createElement('p');
   grievanceName.classList.add('contact-details__description', 'mb-md-1', 'mb-0');
+  grievanceName.textContent = grievanceNameRow?.children[0]?.textContent.trim() || ''; // Fixed: read from cell, not querySelector('div')
   moveInstrumentation(grievanceNameRow, grievanceName);
-  grievanceName.textContent = grievanceNameCell?.textContent.trim() || '';
   contactDetails.append(grievanceName);
 
-  const grievanceContactInfo = document.createElement('p');
-  grievanceContactInfo.classList.add('contact-details__description', 'mb-md-1', 'mb-0');
-  moveInstrumentation(grievanceContactInfoRow, grievanceContactInfo);
-  grievanceContactInfo.textContent = grievanceContactInfoCell?.textContent.trim() || '';
-  contactDetails.append(grievanceContactInfo);
+  const grievanceContact = document.createElement('p');
+  grievanceContact.classList.add('contact-details__description', 'mb-md-1', 'mb-0');
+  grievanceContact.textContent = grievanceContactRow?.children[0]?.textContent.trim() || ''; // Fixed: read from cell, not querySelector('div')
+  moveInstrumentation(grievanceContactRow, grievanceContact);
+  contactDetails.append(grievanceContact);
 
-  const grievanceTimings = document.createElement('p');
-  grievanceTimings.classList.add('contact-details__description', 'mb-0');
-  moveInstrumentation(grievanceTimingsRow, grievanceTimings);
-  grievanceTimings.textContent = grievanceTimingsCell?.textContent.trim() || '';
-  contactDetails.append(grievanceTimings);
+  const grievanceTime = document.createElement('p');
+  grievanceTime.classList.add('contact-details__description', 'mb-0');
+  grievanceTime.textContent = grievanceTimeRow?.children[0]?.textContent.trim() || ''; // Fixed: read from cell, not querySelector('div')
+  moveInstrumentation(grievanceTimeRow, grievanceTime);
+  contactDetails.append(grievanceTime);
 
-  // Social Links & Copyright
   const socialCol = document.createElement('div');
   socialCol.classList.add('col-lg-6', 'col-sm-12', 'align-items-md-end', 'd-flex', 'flex-column', 'itc-footer-link-right');
   row.append(socialCol);
@@ -254,40 +254,50 @@ export default function decorate(block) {
   socialCol.append(socialLinksDiv);
 
   footerSocialItems.forEach((rowItem) => {
-    const [socialIconCell, socialLinkCell] = [...rowItem.children]; // Destructuring for fixed schema
-    const socialIconPicture = socialIconCell?.querySelector('picture');
-    const socialLinkAnchor = socialLinkCell?.querySelector('a');
+    const [socialLinkCell, socialIconCell] = [...rowItem.children];
+    const socialLink = socialLinkCell?.querySelector('a');
+    const socialPicture = socialIconCell?.querySelector('picture');
 
-    const ul = document.createElement('ul');
-    ul.classList.add('list-unstyled');
-    socialLinksDiv.append(ul);
+    if (socialLink && socialPicture) {
+      const ul = socialLinksDiv.querySelector('ul') || document.createElement('ul');
+      ul.classList.add('list-unstyled');
+      socialLinksDiv.append(ul);
 
-    const li = document.createElement('li');
-    moveInstrumentation(rowItem, li);
-    ul.append(li);
+      const li = document.createElement('li');
+      moveInstrumentation(rowItem, li);
+      ul.append(li);
 
-    const socialAnchor = document.createElement('a');
-    socialAnchor.id = 'socialIcons'; // Keep ID if it's from original HTML, but generally avoid IDs in loops
-    socialAnchor.target = '_blank';
-    if (socialLinkAnchor) {
-      socialAnchor.href = socialLinkAnchor.href;
+      const anchor = document.createElement('a');
+      anchor.id = 'socialIcons'; // This ID is repeated in original HTML, which is invalid. Keeping for fidelity.
+      anchor.href = socialLink.href;
+      anchor.target = '_blank';
+      anchor.setAttribute('data-cmp-clickable', '');
+      li.append(anchor);
+
+      const socialImg = socialPicture.querySelector('img');
+      const optimizedSocialPic = createOptimizedPicture(socialImg.src, socialImg.alt, false, [{ width: '750' }]);
+      moveInstrumentation(socialImg, optimizedSocialPic.querySelector('img'));
+      anchor.append(optimizedSocialPic);
+
+      const screenReaderSpan = document.createElement('span');
+      screenReaderSpan.classList.add('cmp-link__screen-reader-only');
+      screenReaderSpan.textContent = 'opens in a new tab';
+      anchor.append(screenReaderSpan);
     }
-    if (socialIconPicture) {
-      const socialIcon = socialIconPicture.cloneNode(true);
-      socialAnchor.append(socialIcon);
-    }
-    li.append(socialAnchor);
   });
 
   const copyrightSpan = document.createElement('span');
   copyrightSpan.classList.add('footer-link');
+  copyrightSpan.textContent = copyrightRow?.children[0]?.textContent.trim() || ''; // Fixed: read from cell, not querySelector('div')
   moveInstrumentation(copyrightRow, copyrightSpan);
-  copyrightSpan.textContent = copyrightCell?.textContent.trim() || '';
   socialCol.append(copyrightSpan);
 
   block.replaceChildren(footerSection);
 
-  footerSection.querySelectorAll('picture > img').forEach((img) => {
+  // This loop seems to be a generic image optimization, not specific to footer images already handled above.
+  // It's applied to the entire block AFTER the block's content has been replaced.
+  // This might be a leftover or intended for images not explicitly moved.
+  block.querySelectorAll('picture > img').forEach((img) => {
     const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
     moveInstrumentation(img, optimizedPic.querySelector('img'));
     img.closest('picture').replaceWith(optimizedPic);

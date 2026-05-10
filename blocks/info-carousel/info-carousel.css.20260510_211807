@@ -1,0 +1,183 @@
+@keyframes cmp-search__loading-indicator-spin{0{transform:rotate(0)}
+100%{transform:rotate(360deg)}
+}
+
+@keyframes cmp-search__loading-indicator-spin{0{transform:rotate(0)}
+100%{transform:rotate(360deg)}
+}
+
+@media(min-width:576px) { .container{ max-width:540px } }
+
+@media(min-width:768px) { .container{ max-width:720px } }
+
+@media(min-width:992px) { .container{ max-width:960px } }
+
+@media(min-width:1200px) { .container{ max-width:1140px } }
+
+@keyframes progress-bar-stripes{from{background-position:1rem 0}
+to{background-position:0 0}
+}
+
+@media(prefers-reduced-motion:reduce) { .carousel-item{ transition:none } }
+
+@media(prefers-reduced-motion:reduce) { .carousel-control-next, .carousel-control-prev{ transition:none } }
+
+@media(prefers-reduced-motion:reduce) { .carousel-indicators li{ transition:none } }
+
+@keyframes spinner-border{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}
+}
+
+@keyframes spinner-grow{0{-webkit-transform:scale(0);transform:scale(0)}
+50%{opacity:1;-webkit-transform:none;transform:none}
+}
+
+@media(min-width:768px) { .d-md-flex{ display:-ms-flexbox !important;display:flex !important } }
+
+.mx-4{ margin-right:1.5rem !important }
+
+.mx-4{ margin-left:1.5rem !important }
+
+@media(min-width:768px) { .mx-md-0{ margin-right:0 !important }
+
+.mx-md-0{ margin-left:0 !important } }
+
+@media print { .container{ min-width:992px !important } }
+
+.itc-club-section{ background-color:var(--color-light);padding-bottom:100px }
+
+.itc-carousel-shift{ max-width:1069px;margin:0 auto;border-radius:45px;position:relative }
+
+.itc-club-right-wrapper{ background:linear-gradient(0,#F8D765 0,#F8D765 100%);padding:0 45px 56px 46px;display:flex;flex-direction:column;align-items:baseline;overflow-y:auto;height:434px;justify-content:space-evenly;@media(max-width:768px){min-height:335px;height:auto}
+ }
+
+@media(max-width:990px) { .itc-club-right-wrapper h2{ font-size:3.43vw !important }
+
+.itc-club-right-wrapper p{ font-size:14px } }
+
+.itc-club-right-wrapper h2, .itc-club-right-wrapper p{ color:var(--bg-dark) }
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-black-e09dd8.x-font-woff") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-black-e09dd8.x-font-woff") format('woff');font-weight:900;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-blackitalic-82f6e5.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-blackitalic-1b544a.x-font-woff") format('woff');font-weight:900;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-light-4481b7.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-light-fba4a2.x-font-woff") format('woff');font-weight:300;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-regular-90f6da.x-font-woff") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-regular-90f6da.x-font-woff") format('woff');font-weight:normal;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-extrabold-eda6b6.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-extrabold-a1a6fd.x-font-woff") format('woff');font-weight:bold;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-extralight-32f190.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-extralight-3f65be.x-font-woff") format('woff');font-weight:200;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-extrabolditalic-632f04.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-extrabolditalic-2699ed.x-font-woff") format('woff');font-weight:bold;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-bolditalic-bd329d.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-bolditalic-c058eb.x-font-woff") format('woff');font-weight:bold;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-mediumitalic-e1bd82.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-mediumitalic-54b13b.x-font-woff") format('woff');font-weight:500;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-extralightitalic-613803.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-extralightitalic-b140b1.x-font-woff") format('woff');font-weight:200;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-lightitalic-3b7333.x-font-woff") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-lightitalic-3b7333.x-font-woff") format('woff');font-weight:300;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-semibolditalic-ea0e8b.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-semibolditalic-edc2c3.x-font-woff") format('woff');font-weight:600;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-bold-b63085.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-bold-0b705f.x-font-woff") format('woff');font-weight:bold;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-thin-fc3bef.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-thin-ce7db6.x-font-woff") format('woff');font-weight:100;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-italic-009842.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-italic-611c68.x-font-woff") format('woff');font-weight:normal;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-medium-ca72ef.x-font-woff") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-medium-ca72ef.x-font-woff") format('woff');font-weight:500;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-thinitalic-f1dc0d.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-thinitalic-d93461.x-font-woff") format('woff');font-weight:100;font-style:italic;font-display:swap}
+
+@font-face{font-family:'Urbanist';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-semibold-6108ca.woff2") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/urbanist-semibold-f601a0.x-font-woff") format('woff');font-weight:600;font-style:normal;font-display:swap}
+
+@font-face{font-family:'Paytone One';src:url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/paytoneone-regular-e7f0ed.x-font-woff") format('woff2'),url("/content/dam/aemigrate/uploaded-folder/kitchensofindia-com/font/paytoneone-regular-e7f0ed.x-font-woff") format('woff'),url("https://kitchensofindia.com/etc.clientlibs/itc-rightshift/clientlibs/clientlib-rightshift/resources/fonts/aytoneOne-Regular.ttf") format('truetype'),url("https://kitchensofindia.com/etc.clientlibs/itc-rightshift/clientlibs/clientlib-rightshift/resources/fonts/PaytoneOne-Regular.svg#PaytoneOne-Regular") format('svg');font-weight:normal;font-style:normal;font-display:swap}
+
+@keyframes pulse{0{box-shadow:0 0 0 0 #098040 70}
+100%{box-shadow:0 0 0 10px #098040 0}
+}
+
+@keyframes nextStep{0{width:0}
+100%{width:100%}
+}
+
+.itc-club-section{ padding-bottom:0 !important }
+
+@media(max-width:767.98px) { .itc-club-right-wrapper{ padding:10px 12px 22px 10px !important }
+
+.itc-club-section button.carousel-control-next{ display:none !important } }
+
+@media(max-width:374.98px) { .itc-club-section .carousel-indicators{ top:214px !important } }
+
+.itc-club-right-wrapper h2{ font-size:45px;font-family:'Paytone One' }
+
+.itc-club-section .carousel-inner .carousel-item{ max-height:413px;object-fit:cover }
+
+.carousel-inner .carousel-item:last-child h2{ max-width:450px;width:100% }
+
+.itc-club-carousel .carousel-indicators{ left:-50% }
+
+.itc-club-carousel p{ font-size:20px !important }
+
+.carousel-control-next{ display:block !important }
+
+@media(max-width:767.98px) { .carousel-inner .carousel-item:last-child h2{ max-width:350px }
+
+.itc-club-carousel p{ font-size:16px !important;line-height:20px }
+
+@media(max-width:767.98px) { .itc-club-section .carousel-indicators{ left:0 } }
+
+.itc-club-carousel .carousel-indicators{ left:-50% }
+
+@media(max-width:767.98px) { .itc-club-section .carousel-indicators{ bottom:0 !important } }
+
+@media(max-width:767.98px) { .carousel-indicators{ bottom:11px } }
+
+.itc-club-section h2{ font-size:27px !important }
+
+.carousel-indicators li{ width:7px !important;height:7px !important }
+
+.itc-club-section .carousel-inner .carousel-item{ flex-direction:column;align-items:center;width:100% }
+
+.itc-club-section button.carousel-control-next, .itc-club-section button.carousel-control-prev{ display:none }
+
+.itc-club-section .carousel-inner .carousel-item{ max-height:unset }
+
+.itc-club-section{ text-align:center;margin-top:-50px }
+
+.itc-club-section .carousel-indicators{ left:0 } }
+
+.itc-club-section{ background-color:var(--color-light);padding-bottom:50px !important }
+
+.itc-club-section .carousel-inner{ max-width:1069px;margin:0 auto;margin-top:-40px;border-radius:45px }
+
+.carousel-control-next{ display:none }
+
+.itc-club-right-wrapper{ background:linear-gradient(0,#f8d765 0,#f8d765 100%);padding:40px 45px 56px 46px }
+
+@media(max-width:1300px) { .itc-club-section .carousel-inner{ margin-top:-8px } }
+
+@media(max-width:767.98px) { .carousel-indicators .active{ background-color:var(--color-light) }
+
+.itc-carousel-shift img{ max-height:281px !important;object-fit:cover }
+
+.itc-club-section .carousel-indicators{ bottom:219px !important;top:unset !important }
+
+.carousel-indicators{ bottom:11px }
+
+.itc-club-section{ padding-bottom:40px !important } }
+
+.itc-club-section button.carousel-control-prev, .itc-club-section button.carousel-control-next{ background:#fff;height:46px;width:46px;top:50%;left:-17px;border-radius:50px;z-index:9;opacity:1 }
+
+.itc-club-section button.carousel-control-next{ right:-17px !important;left:unset !important }
+
+@font-face{font-family:'slick';font-weight:normal;font-style:normal;font-display:swap;src:url("https://kitchensofindia.com/etc.clientlibs/itc-rightshift/clientlibs/clientlib-rightshift/css/fonts/slick.eot");src:url("https://kitchensofindia.com/etc.clientlibs/itc-rightshift/clientlibs/clientlib-rightshift/css/fonts/slick.eot?#iefix") format('embedded-opentype'),url("https://kitchensofindia.com/etc.clientlibs/itc-rightshift/clientlibs/clientlib-rightshift/css/fonts/slick.woff") format('woff'),url("https://kitchensofindia.com/etc.clientlibs/itc-rightshift/clientlibs/clientlib-rightshift/css/fonts/slick.ttf") format('truetype'),url("https://kitchensofindia.com/etc.clientlibs/itc-rightshift/clientlibs/clientlib-rightshift/css/fonts/slick.svg#slick") format('svg')}
+
+.itc-club-section .carousel-inner{ margin-top:0 }
+
+@media only screen and (max-width:767.9px) { .carousel-control-prev{ left:0 }
+
+.carousel-control-next{ right:0 }
+
+.itc-club-section .carousel-indicators{ bottom:-35px !important } }

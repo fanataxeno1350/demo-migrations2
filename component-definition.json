@@ -99,15 +99,15 @@
           }
         },
         {
-          "title": "Banner Carousel Slide",
-          "id": "banner-carousel-slide",
+          "title": "Banner Carousel Item",
+          "id": "banner-carousel-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "banner-carousel-slide",
-                  "name": "Banner Carousel Slide"
+                  "model": "banner-carousel-item",
+                  "name": "Banner Carousel Item"
                 }
               }
             }
@@ -130,15 +130,15 @@
           }
         },
         {
-          "title": "Rs-Card",
-          "id": "rs-card",
+          "title": "Card-Grid-Item",
+          "id": "card-grid-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "rs-card",
-                  "name": "Rs-Card"
+                  "model": "card-grid-item",
+                  "name": "Card-Grid-Item"
                 }
               }
             }
@@ -453,21 +453,6 @@
           }
         },
         {
-          "title": "Logo-Item",
-          "id": "logo-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "logo-item",
-                  "name": "Logo-Item"
-                }
-              }
-            }
-          }
-        },
-        {
           "title": "Navigation-Item",
           "id": "navigation-item",
           "plugins": {
@@ -513,7 +498,7 @@
           }
         },
         {
-          "title": "Info-Carousel",
+          "title": "Info Carousel",
           "id": "info-carousel",
           "plugins": {
             "xwalk": {
@@ -522,14 +507,14 @@
                 "template": {
                   "filter": "info-carousel",
                   "model": "info-carousel",
-                  "name": "Info-Carousel"
+                  "name": "Info Carousel"
                 }
               }
             }
           }
         },
         {
-          "title": "Carousel-Item",
+          "title": "Carousel Item",
           "id": "carousel-item",
           "plugins": {
             "xwalk": {
@@ -537,7 +522,7 @@
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
                   "model": "carousel-item",
-                  "name": "Carousel-Item"
+                  "name": "Carousel Item"
                 }
               }
             }

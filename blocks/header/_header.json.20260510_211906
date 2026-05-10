@@ -17,6 +17,21 @@
       }
     },
     {
+      "title": "Logo-Item",
+      "id": "logo-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "logo-item",
+              "name": "Logo-Item"
+            }
+          }
+        }
+      }
+    },
+    {
       "title": "Navigation-Item",
       "id": "navigation-item",
       "plugins": {
@@ -52,28 +67,10 @@
       "id": "header",
       "fields": [
         {
-          "component": "reference",
-          "label": "ITC Logo",
-          "name": "itcLogo",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "ITC Logo Link",
-          "name": "itcLogoLink",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Kitchens of India Logo",
-          "name": "koiLogo",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Kitchens of India Logo Link",
-          "name": "koiLogoLink",
-          "valueType": "string"
+          "component": "container",
+          "item": "logo-item",
+          "label": "Logos",
+          "name": "logos"
         },
         {
           "component": "container",
@@ -83,44 +80,103 @@
         },
         {
           "component": "text",
-          "label": "Current Country Code (Header)",
+          "label": "Country Code",
           "name": "countryCode",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Current Country Flag Image (Header)",
-          "name": "countryFlag",
+          "label": "Selected Country Flag",
+          "name": "selectedCountryFlag",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Country Dropdown Icon",
+          "label": "Dropdown Icon",
           "name": "dropdownIcon",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Search Icon Image",
-          "name": "searchIcon",
           "valueType": "string"
         },
         {
           "component": "container",
           "item": "country-option-item",
-          "label": "Country Options (Modal)",
+          "label": "Country Options",
           "name": "countryOptions"
         },
         {
-          "component": "text",
-          "label": "Country Modal Title",
-          "name": "countryModalTitle",
+          "component": "reference",
+          "label": "Search Icon",
+          "name": "searchIcon",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Search Close Icon",
+          "name": "searchCloseIcon",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Country Modal Experience Text",
-          "name": "countryModalExperienceText",
+          "label": "Search Input Placeholder",
+          "name": "searchPlaceholder",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Search Button Label",
+          "name": "searchButtonLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Popular Suggestions Label",
+          "name": "popularSuggestionsLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Pages Label",
+          "name": "pagesLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "View All Items Button Label",
+          "name": "viewAllItemsLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Modal Title",
+          "name": "modalTitle",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Modal Experience Text",
+          "name": "modalExperienceText",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "logo-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Logo Image",
+          "name": "logoImage",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Logo Link",
+          "name": "logoLink",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
           "valueType": "string"
         }
       ]
@@ -139,12 +195,6 @@
           "label": "Menu Link",
           "name": "link",
           "valueType": "string"
-        },
-        {
-          "component": "richtext",
-          "label": "Navigation Hierarchy",
-          "name": "hierarchy-tree",
-          "valueType": "string"
         }
       ]
     },
@@ -153,7 +203,7 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Country Flag Image",
+          "label": "Country Flag",
           "name": "flag",
           "valueType": "string"
         },
@@ -165,8 +215,8 @@
         },
         {
           "component": "aem-content",
-          "label": "Country Link URL",
-          "name": "countryLink",
+          "label": "Country URL",
+          "name": "countryUrl",
           "valueType": "string"
         }
       ]
@@ -176,6 +226,7 @@
     {
       "id": "header",
       "components": [
+        "logo-item",
         "navigation-item",
         "country-option-item"
       ]

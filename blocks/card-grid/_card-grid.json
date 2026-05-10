@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Rs-Card",
-      "id": "rs-card",
+      "title": "Card-Grid-Item",
+      "id": "card-grid-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "rs-card",
-              "name": "Rs-Card"
+              "model": "card-grid-item",
+              "name": "Card-Grid-Item"
             }
           }
         }
@@ -38,44 +38,40 @@
       "fields": [
         {
           "component": "container",
-          "item": "rs-card",
+          "item": "card-grid-item",
           "label": "Cards",
           "name": "cards"
         }
       ]
     },
     {
-      "id": "rs-card",
+      "id": "card-grid-item",
       "fields": [
         {
           "component": "reference",
-          "label": "Main Image (shown, kitchens-image)",
-          "name": "mainImage",
-          "valueType": "string"
+          "label": "Main Image",
+          "name": "mainImage"
+        },
+        {
+          "component": "aem-content",
+          "label": "CTA Link",
+          "name": "ctaLink"
+        },
+        {
+          "component": "reference",
+          "label": "CTA Icon",
+          "name": "ctaIcon"
         },
         {
           "component": "text",
-          "label": "Headline (blog-card-title)",
+          "label": "Headline",
           "name": "headline",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Description (card-title)",
-          "name": "description",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "CTA Link (Explore Button)",
-          "name": "ctaLink",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "CTA Icon (Explore Button Arrow Image)",
-          "name": "ctaIcon",
-          "valueType": "string"
+          "label": "Description",
+          "name": "description"
         }
       ]
     }
@@ -84,7 +80,7 @@
     {
       "id": "card-grid",
       "components": [
-        "rs-card"
+        "card-grid-item"
       ]
     }
   ]
