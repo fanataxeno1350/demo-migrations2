@@ -23,9 +23,8 @@
       "fields": [
         {
           "component": "richtext",
-          "label": "Content",
-          "name": "content",
-          "valueType": "string"
+          "label": "Body",
+          "name": "body"
         }
       ]
     }

@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Card-Grid",
+      "title": "Card Grid",
       "id": "card-grid",
       "plugins": {
         "xwalk": {
@@ -10,22 +10,22 @@
             "template": {
               "filter": "card-grid",
               "model": "card-grid",
-              "name": "Card-Grid"
+              "name": "Card Grid"
             }
           }
         }
       }
     },
     {
-      "title": "Rs-Card",
-      "id": "rs-card",
+      "title": "Card Item",
+      "id": "card-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "rs-card",
-              "name": "Rs-Card"
+              "model": "card-item",
+              "name": "Card Item"
             }
           }
         }
@@ -38,43 +38,49 @@
       "fields": [
         {
           "component": "container",
-          "item": "rs-card",
+          "item": "card-item",
           "label": "Cards",
           "name": "cards"
         }
       ]
     },
     {
-      "id": "rs-card",
+      "id": "card-item",
       "fields": [
         {
           "component": "reference",
-          "label": "Main Image (shown, kitchens-image)",
-          "name": "mainImage",
+          "label": "Rightshift Image (hidden decorative image)",
+          "name": "rightshiftImage",
           "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "Headline (blog-card-title)",
-          "name": "headline",
-          "valueType": "string"
-        },
-        {
-          "component": "richtext",
-          "label": "Description (card-title)",
-          "name": "description",
+          "component": "reference",
+          "label": "Kitchens Image (main card image)",
+          "name": "kitchensImage",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "CTA Link (Explore Button)",
+          "label": "CTA Link (Read more link)",
           "name": "ctaLink",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "CTA Icon (Explore Button Arrow Image)",
+          "label": "CTA Icon (arrow image in link)",
           "name": "ctaIcon",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Headline",
+          "name": "headline",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Description",
+          "name": "description",
           "valueType": "string"
         }
       ]
@@ -84,7 +90,7 @@
     {
       "id": "card-grid",
       "components": [
-        "rs-card"
+        "card-item"
       ]
     }
   ]

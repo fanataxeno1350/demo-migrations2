@@ -38,20 +38,20 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Variation Image",
-          "name": "variationImage",
+          "label": "Main Left Image",
+          "name": "mainImage",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Main Title",
-          "name": "mainTitle",
+          "label": "Main Headline",
+          "name": "headline",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Subtitle",
-          "name": "subtitle",
+          "label": "Sub Headline",
+          "name": "subHeadline",
           "valueType": "string"
         },
         {
@@ -59,12 +59,6 @@
           "label": "Description",
           "name": "description",
           "valueType": "string"
-        },
-        {
-          "component": "container",
-          "item": "category-grid-item",
-          "label": "Categories",
-          "name": "categories"
         },
         {
           "component": "aem-content",
@@ -77,6 +71,12 @@
           "label": "CTA Label",
           "name": "ctaLabel",
           "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "category-grid-item",
+          "label": "Categories",
+          "name": "categories"
         }
       ]
     },
@@ -86,19 +86,19 @@
         {
           "component": "reference",
           "label": "Category Image",
-          "name": "categoryImage",
+          "name": "image",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Category Link",
-          "name": "categoryLink",
+          "name": "link",
           "valueType": "string"
         },
         {
           "component": "richtext",
           "label": "Category Label",
-          "name": "categoryLabel",
+          "name": "label",
           "valueType": "string"
         }
       ]

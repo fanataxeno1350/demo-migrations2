@@ -5,7 +5,6 @@ function transformNestedLists(rootUl) {
   rootUl.querySelectorAll('li').forEach((li) => {
     const nested = li.querySelector(':scope > ul');
     const anchor = li.querySelector(':scope > a');
-
     if (!anchor) {
       const textNode = [...li.childNodes].find(
         (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim(),
@@ -17,11 +16,10 @@ function transformNestedLists(rootUl) {
         li.prepend(span);
       }
     }
-
     if (nested) {
       nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('has-sub-child'); // This class is not in the allowlist, but it's for JS behavior.
+      subWrap.classList.add('has-sub-child'); // This class is not in the allowlist. Assuming it's a new class for JS behavior.
       subWrap.append(nested);
       li.append(subWrap);
       const trigger = li.querySelector(':scope > a, :scope > span');
@@ -29,8 +27,8 @@ function transformNestedLists(rootUl) {
         trigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          li.classList.toggle('active'); // This class is not in the allowlist, but it's for JS behavior.
-          subWrap.classList.toggle('active'); // This class is not in the allowlist, but it's for JS behavior.
+          li.classList.toggle('active'); // This class is not in the allowlist. Assuming it's a new class for JS behavior.
+          subWrap.classList.toggle('active'); // This class is not in the allowlist. Assuming it's a new class for JS behavior.
         });
       }
     }
@@ -38,273 +36,258 @@ function transformNestedLists(rootUl) {
 }
 
 export default function decorate(block) {
-  const children = [...block.children];
+  const allRows = [...block.children];
 
+  // Fixed-schema root rows (8 of them)
   const [
     itcLogoRow,
     itcLogoLinkRow,
     fssaiLogoRow,
     grievanceTitleRow,
     grievanceNameRow,
-    grievanceContactRow,
-    grievanceHoursRow,
+    grievanceContactInfoRow,
+    grievanceTimingsRow,
     copyrightRow,
     ...itemRows
-  ] = children;
+  ] = allRows;
+
+  // Extract cells from fixed-schema root rows
+  const itcLogoCell = itcLogoRow.children[0];
+  const itcLogoLinkCell = itcLogoLinkRow.children[0];
+  const fssaiLogoCell = fssaiLogoRow.children[0];
+  const grievanceTitleCell = grievanceTitleRow.children[0];
+  const grievanceNameCell = grievanceNameRow.children[0];
+  const grievanceContactInfoCell = grievanceContactInfoRow.children[0];
+  const grievanceTimingsCell = grievanceTimingsRow.children[0];
+  const copyrightCell = copyrightRow.children[0];
 
   // Filter item rows based on cell count
-  const footerLinkItems = itemRows.filter((row) => row.children.length === 3); // label, link, hierarchy-tree
-  const socialLinkItems = itemRows.filter((row) => row.children.length === 2); // icon, link
+  const footerLinkItems = itemRows.filter((row) => row.children.length === 3);
+  const footerSocialItems = itemRows.filter((row) => row.children.length === 2);
 
-  const root = document.createElement('div');
-  root.classList.add('container'); // From ORIGINAL HTML
+  const footerSection = document.createElement('footer');
+  footerSection.classList.add('itc-footer-section');
 
-  const mainRow = document.createElement('div');
-  mainRow.classList.add('row'); // From ORIGINAL HTML
+  const container = document.createElement('div');
+  container.classList.add('container');
+  footerSection.append(container);
 
-  const logoColumn = document.createElement('div');
-  logoColumn.classList.add('col-lg-6', 'col-sm-12', 'd-flex', 'd-lg-block', 'justify-content-center'); // From ORIGINAL HTML
+  const row = document.createElement('div');
+  row.classList.add('row');
+  container.append(row);
+
+  // Logos Section
+  const logoCol = document.createElement('div');
+  logoCol.classList.add('col-lg-6', 'col-sm-12', 'd-flex', 'd-lg-block', 'justify-content-center');
+  row.append(logoCol);
+
   const footerLogos = document.createElement('div');
-  footerLogos.classList.add('footer-logos'); // From ORIGINAL HTML
+  footerLogos.classList.add('footer-logos');
+  logoCol.append(footerLogos);
 
   const footerItcLogo = document.createElement('div');
-  footerItcLogo.classList.add('footer-itc-logo'); // From ORIGINAL HTML
-  const itcLogoDiv = document.createElement('div');
-  itcLogoDiv.classList.add('logo', 'image'); // From ORIGINAL HTML
-  const itcLogoPicture = itcLogoRow.querySelector('picture');
-  const itcLogoAnchor = document.createElement('a');
-  itcLogoAnchor.classList.add('cmp-image__link'); // From ORIGINAL HTML
-  if (itcLogoLinkRow) {
-    const itcLink = itcLogoLinkRow.querySelector('a');
-    if (itcLink) {
-      itcLogoAnchor.href = itcLink.href;
-    }
-  }
-  if (itcLogoPicture) {
-    const optimizedPic = createOptimizedPicture(
-      itcLogoPicture.querySelector('img').src,
-      itcLogoPicture.querySelector('img').alt,
-      false,
-      [{ width: '93' }],
-    );
-    moveInstrumentation(itcLogoPicture.querySelector('img'), optimizedPic.querySelector('img'));
-    itcLogoAnchor.append(optimizedPic);
-  }
-  moveInstrumentation(itcLogoRow, itcLogoAnchor);
-  itcLogoDiv.append(itcLogoAnchor);
-  footerItcLogo.append(itcLogoDiv);
+  footerItcLogo.classList.add('footer-itc-logo');
   footerLogos.append(footerItcLogo);
 
-  const footerFssaiLogo = document.createElement('div');
-  footerFssaiLogo.classList.add('footer-fssai-logo'); // From ORIGINAL HTML
-  const fssaiLogoDiv = document.createElement('div');
-  fssaiLogoDiv.classList.add('fssailogo', 'logo', 'image'); // From ORIGINAL HTML
-  const fssaiLogoPicture = fssaiLogoRow.querySelector('picture');
-  if (fssaiLogoPicture) {
-    const optimizedPic = createOptimizedPicture(
-      fssaiLogoPicture.querySelector('img').src,
-      fssaiLogoPicture.querySelector('img').alt,
-      false,
-      [{ width: '192' }],
-    );
-    moveInstrumentation(fssaiLogoPicture.querySelector('img'), optimizedPic.querySelector('img'));
-    fssaiLogoDiv.append(optimizedPic);
+  const itcLogoDiv = document.createElement('div');
+  itcLogoDiv.classList.add('logo', 'image');
+  footerItcLogo.append(itcLogoDiv);
+
+  const itcPictureElement = itcLogoCell?.querySelector('picture');
+  if (itcPictureElement) {
+    const itcLink = document.createElement('a');
+    itcLink.classList.add('cmp-image__link');
+    const itcLinkHref = itcLogoLinkCell?.querySelector('a')?.href;
+    if (itcLinkHref) {
+      itcLink.href = itcLinkHref;
+    }
+    const itcPicture = itcPictureElement.cloneNode(true);
+    itcLink.append(itcPicture);
+    moveInstrumentation(itcLogoRow, itcLink);
+    moveInstrumentation(itcLogoLinkRow, itcLink);
+    itcLogoDiv.append(itcLink);
   }
-  moveInstrumentation(fssaiLogoRow, fssaiLogoDiv);
-  footerFssaiLogo.append(fssaiLogoDiv);
+
+  const footerFssaiLogo = document.createElement('div');
+  footerFssaiLogo.classList.add('footer-fssai-logo');
   footerLogos.append(footerFssaiLogo);
 
-  logoColumn.append(footerLogos);
-  mainRow.append(logoColumn);
+  const fssaiLogoDiv = document.createElement('div');
+  fssaiLogoDiv.classList.add('fssailogo', 'logo', 'image');
+  footerFssaiLogo.append(fssaiLogoDiv);
 
-  const linksColumn = document.createElement('div');
-  linksColumn.classList.add('col-lg-3', 'col-sm-12', 'd-flex', 'justify-content-xl-between', 'footer-page-links-wrapper', 'pt-md-0', 'pt-4', 'px-1'); // From ORIGINAL HTML
-
-  const list1 = document.createElement('div');
-  list1.classList.add('list-1', 'list'); // From ORIGINAL HTML
-  const list2 = document.createElement('div');
-  list2.classList.add('list-2', 'list'); // From ORIGINAL HTML
-
-  const mainLinksUl = document.createElement('ul');
-  mainLinksUl.classList.add('cmp-list'); // From ORIGINAL HTML
-
-  // Process footerLinkItems for main links and legal links
-  // The model has 'footerLinks' and 'mainLinks' as containers for 'footer-link-item'.
-  // The original HTML shows 'Privacy Policy', 'Terms and Conditions', 'Talk To Us' as hardcoded.
-  // We need to distinguish these from the hierarchy-tree links.
-  // Assuming 'footerLinkItems' contains all 3-cell rows.
-  // We'll separate them based on the presence of a hierarchy-tree.
-
-  const hierarchyLinks = [];
-  const directLinks = [];
-
-  footerLinkItems.forEach((row) => {
-    const [labelCell, linkCell, hierarchyTreeCell] = [...row.children];
-    if (hierarchyTreeCell?.querySelector('ul')) {
-      hierarchyLinks.push({ row, labelCell, linkCell, hierarchyTreeCell });
-    } else {
-      directLinks.push({ row, labelCell, linkCell });
-    }
-  });
-
-  hierarchyLinks.forEach(({ row, labelCell, hierarchyTreeCell }) => {
-    const li = document.createElement('li');
-    li.classList.add('cmp-list__item'); // From ORIGINAL HTML
-
-    const subList = hierarchyTreeCell?.querySelector('ul');
-    if (subList) {
-      const titleLink = document.createElement('a');
-      titleLink.classList.add('cmp-list__item-link'); // From ORIGINAL HTML
-      titleLink.href = 'javascript:void(0)';
-      titleLink.textContent = labelCell.textContent.trim();
-
-      const subLinksContainer = document.createElement('div');
-      subLinksContainer.classList.add('cmp-list__sub-links'); // Not in allowlist, but common for sub-menus
-      // moveInstrumentation for the hierarchyTreeCell content
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
-      transformNestedLists(tempDiv.querySelector('ul'));
-      moveInstrumentation(hierarchyTreeCell, tempDiv.querySelector('ul')); // Move instrumentation from original cell to the transformed UL
-      while (tempDiv.firstChild) subLinksContainer.append(tempDiv.firstChild);
-
-      titleLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        li.classList.toggle('active');
-        subLinksContainer.classList.toggle('active');
-      });
-
-      li.append(titleLink, subLinksContainer);
-    }
-    moveInstrumentation(row, li);
-    mainLinksUl.append(li);
-  });
-
-  // Distribute main links into list1 and list2
-  const half = Math.ceil(mainLinksUl.children.length / 2);
-  for (let i = 0; i < mainLinksUl.children.length; i += 1) {
-    if (i < half) {
-      list1.append(mainLinksUl.children[i]);
-    } else {
-      list2.append(mainLinksUl.children[i]);
-    }
+  const fssaiPictureElement = fssaiLogoCell?.querySelector('picture');
+  if (fssaiPictureElement) {
+    const fssaiImg = fssaiPictureElement.cloneNode(true);
+    moveInstrumentation(fssaiLogoRow, fssaiImg);
+    fssaiLogoDiv.append(fssaiImg);
   }
 
-  linksColumn.append(list1, list2);
-  mainRow.append(linksColumn);
+  // Footer Links Section
+  const footerLinksCol = document.createElement('div');
+  footerLinksCol.classList.add('col-lg-3', 'col-sm-12', 'd-flex', 'justify-content-xl-between', 'footer-page-links-wrapper', 'pt-md-0', 'pt-4', 'px-1');
+  row.append(footerLinksCol);
 
-  const grievanceAndLegalColumn = document.createElement('div');
-  grievanceAndLegalColumn.classList.add('col-lg-6', 'col-sm-12', 'itc-footer-link-left'); // From ORIGINAL HTML
+  const list1 = document.createElement('div');
+  list1.classList.add('list-1', 'list');
+  footerLinksCol.append(list1);
+
+  const list2 = document.createElement('div');
+  list2.classList.add('list-2', 'list');
+  footerLinksCol.append(list2);
 
   const footerListsContainer = document.createElement('div');
-  footerListsContainer.classList.add('footer-lists-container', 'd-flex'); // From ORIGINAL HTML
+  footerListsContainer.classList.add('col-lg-6', 'col-sm-12', 'itc-footer-link-left');
+  row.append(footerListsContainer);
+
+  const footerListsWrapper = document.createElement('div');
+  footerListsWrapper.classList.add('footer-lists-container', 'd-flex');
+  footerListsContainer.append(footerListsWrapper);
 
   const list4 = document.createElement('div');
-  list4.classList.add('list-4', 'list'); // From ORIGINAL HTML
-  const legalLinksUl = document.createElement('ul');
-  legalLinksUl.classList.add('list-unstyled'); // From ORIGINAL HTML
+  list4.classList.add('list-4', 'list');
+  footerListsWrapper.append(list4);
 
-  // Process directLinks for legal links
-  directLinks.forEach(({ row, labelCell, linkCell }, index) => {
-    const li = document.createElement('li');
-    li.id = `footerLinks-${index + 1}`; // Match original HTML ID pattern
-    const anchor = document.createElement('a');
-    anchor.target = '_blank';
-    if (linkCell) {
-      anchor.href = linkCell.querySelector('a')?.href || '';
+  const list3 = document.createElement('div');
+  list3.classList.add('list-3', 'list');
+  footerListsWrapper.append(list3);
+
+  let currentList = list4;
+  footerLinkItems.forEach((rowItem, index) => {
+    const [labelCell, linkCell, hierarchyTreeCell] = [...rowItem.children];
+    const subListHtml = hierarchyTreeCell?.innerHTML || '';
+    const directHref = linkCell?.querySelector('a')?.href;
+    const labelText = labelCell?.textContent.trim();
+
+    if (index === Math.ceil(footerLinkItems.length / 2)) {
+      currentList = list3;
     }
-    anchor.textContent = labelCell.textContent.trim();
-    const srOnly = document.createElement('span');
-    srOnly.classList.add('cmp-link__screen-reader-only'); // From ORIGINAL HTML
-    srOnly.textContent = 'opens in a new tab';
-    anchor.append(srOnly);
-    li.append(anchor);
-    moveInstrumentation(row, li); // Move instrumentation from original row to the new li
-    legalLinksUl.append(li);
-  });
 
-  list4.append(legalLinksUl);
-  footerListsContainer.append(list4);
+    const ul = currentList.querySelector('ul') || document.createElement('ul');
+    ul.classList.add('cmp-list'); // Add class from original HTML
+    if (!currentList.querySelector('ul')) {
+      currentList.append(ul);
+    }
+
+    const li = document.createElement('li');
+    li.classList.add('cmp-list__item'); // Add class from original HTML
+    moveInstrumentation(rowItem, li);
+    ul.append(li);
+
+    // Create a temporary div to parse the richtext HTML
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = subListHtml;
+    const subList = tempDiv.querySelector('ul');
+
+    if (subList) {
+      const triggerLink = document.createElement('a');
+      triggerLink.classList.add('cmp-list__item-link');
+      triggerLink.href = 'javascript:void(0)'; // Placeholder for interactive trigger
+      const span = document.createElement('span');
+      span.classList.add('cmp-list__item-title');
+      span.textContent = labelText;
+      triggerLink.append(span);
+      li.append(triggerLink);
+
+      // Apply classes and instrumentation to nested elements
+      moveInstrumentation(hierarchyTreeCell, subList); // Move instrumentation from the original cell to the new ul
+      subList.querySelectorAll('a').forEach((a) => a.classList.add('cmp-list__item-link'));
+      subList.querySelectorAll('li').forEach((nestedLi) => nestedLi.classList.add('cmp-list__item'));
+      subList.querySelectorAll('span').forEach((nestedSpan) => nestedSpan.classList.add('cmp-list__item-title'));
+
+      transformNestedLists(subList); // Apply transformations to the nested list
+      li.append(subList);
+
+      triggerLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        li.classList.toggle('active'); // This class is not in the allowlist. Assuming it's a new class for JS behavior.
+        subList.classList.toggle('active'); // This class is not in the allowlist. Assuming it's a new class for JS behavior.
+      });
+    } else {
+      const anchor = document.createElement('a');
+      anchor.classList.add('cmp-list__item-link');
+      if (directHref) anchor.href = directHref;
+      const span = document.createElement('span');
+      span.classList.add('cmp-list__item-title');
+      span.textContent = labelText;
+      anchor.append(span);
+      li.append(anchor);
+    }
+  });
 
   // Grievance Details
   const contactDetails = document.createElement('div');
-  contactDetails.classList.add('contact-details'); // From ORIGINAL HTML
+  contactDetails.classList.add('contact-details');
+  footerListsContainer.append(contactDetails);
 
   const grievanceTitle = document.createElement('h5');
-  grievanceTitle.classList.add('contact-details__title', 'mb-md-3', 'mb-0'); // From ORIGINAL HTML
+  grievanceTitle.classList.add('contact-details__title', 'mb-md-3', 'mb-0');
   moveInstrumentation(grievanceTitleRow, grievanceTitle);
-  grievanceTitle.textContent = grievanceTitleRow.textContent.trim();
+  grievanceTitle.textContent = grievanceTitleCell?.textContent.trim() || '';
   contactDetails.append(grievanceTitle);
 
   const grievanceName = document.createElement('p');
-  grievanceName.classList.add('contact-details__description', 'mb-md-1', 'mb-0'); // From ORIGINAL HTML
+  grievanceName.classList.add('contact-details__description', 'mb-md-1', 'mb-0');
   moveInstrumentation(grievanceNameRow, grievanceName);
-  grievanceName.textContent = `Name: ${grievanceNameRow.textContent.trim()}`;
+  grievanceName.textContent = grievanceNameCell?.textContent.trim() || '';
   contactDetails.append(grievanceName);
 
-  const grievanceContact = document.createElement('p');
-  grievanceContact.classList.add('contact-details__description', 'mb-md-1', 'mb-0'); // From ORIGINAL HTML
-  moveInstrumentation(grievanceContactRow, grievanceContact);
-  grievanceContact.textContent = `Contact Info: ${grievanceContactRow.textContent.trim()}`;
-  contactDetails.append(grievanceContact);
+  const grievanceContactInfo = document.createElement('p');
+  grievanceContactInfo.classList.add('contact-details__description', 'mb-md-1', 'mb-0');
+  moveInstrumentation(grievanceContactInfoRow, grievanceContactInfo);
+  grievanceContactInfo.textContent = grievanceContactInfoCell?.textContent.trim() || '';
+  contactDetails.append(grievanceContactInfo);
 
-  const grievanceHours = document.createElement('p');
-  grievanceHours.classList.add('contact-details__description', 'mb-0'); // From ORIGINAL HTML
-  moveInstrumentation(grievanceHoursRow, grievanceHours);
-  grievanceHours.textContent = `(${grievanceHoursRow.textContent.trim()})`;
-  contactDetails.append(grievanceHours);
+  const grievanceTimings = document.createElement('p');
+  grievanceTimings.classList.add('contact-details__description', 'mb-0');
+  moveInstrumentation(grievanceTimingsRow, grievanceTimings);
+  grievanceTimings.textContent = grievanceTimingsCell?.textContent.trim() || '';
+  contactDetails.append(grievanceTimings);
 
-  grievanceAndLegalColumn.append(footerListsContainer, contactDetails);
-  mainRow.append(grievanceAndLegalColumn);
+  // Social Links & Copyright
+  const socialCol = document.createElement('div');
+  socialCol.classList.add('col-lg-6', 'col-sm-12', 'align-items-md-end', 'd-flex', 'flex-column', 'itc-footer-link-right');
+  row.append(socialCol);
 
-  const socialAndCopyrightColumn = document.createElement('div');
-  socialAndCopyrightColumn.classList.add('col-lg-6', 'col-sm-12', 'align-items-md-end', 'd-flex', 'flex-column', 'itc-footer-link-right'); // From ORIGINAL HTML
+  const socialLinksDiv = document.createElement('div');
+  socialCol.append(socialLinksDiv);
 
-  const socialLinksUl = document.createElement('ul'); // Create a single UL for all social links
-  socialLinksUl.classList.add('list-unstyled'); // From ORIGINAL HTML
+  footerSocialItems.forEach((rowItem) => {
+    const [socialIconCell, socialLinkCell] = [...rowItem.children]; // Destructuring for fixed schema
+    const socialIconPicture = socialIconCell?.querySelector('picture');
+    const socialLinkAnchor = socialLinkCell?.querySelector('a');
 
-  socialLinkItems.forEach((row) => {
-    const [iconCell, linkCell] = [...row.children]; // Destructure cells for social links
-    const iconPicture = iconCell.querySelector('picture');
-    const socialLink = linkCell.querySelector('a');
+    const ul = document.createElement('ul');
+    ul.classList.add('list-unstyled');
+    socialLinksDiv.append(ul);
 
-    if (iconPicture && socialLink) {
-      const li = document.createElement('li');
-      const anchor = document.createElement('a');
-      anchor.id = 'socialIcons'; // From ORIGINAL HTML
-      anchor.href = socialLink.href;
-      anchor.target = '_blank';
-      const optimizedPic = createOptimizedPicture(
-        iconPicture.querySelector('img').src,
-        iconPicture.querySelector('img').alt,
-        false,
-        [{ width: '32' }],
-      );
-      moveInstrumentation(iconPicture.querySelector('img'), optimizedPic.querySelector('img'));
-      anchor.append(optimizedPic);
-      const srOnly = document.createElement('span');
-      srOnly.classList.add('cmp-link__screen-reader-only'); // From ORIGINAL HTML
-      srOnly.textContent = 'opens in a new tab';
-      anchor.append(srOnly);
-      li.append(anchor);
-      moveInstrumentation(row, li); // Move instrumentation from original row to the new li
-      socialLinksUl.append(li);
+    const li = document.createElement('li');
+    moveInstrumentation(rowItem, li);
+    ul.append(li);
+
+    const socialAnchor = document.createElement('a');
+    socialAnchor.id = 'socialIcons'; // Keep ID if it's from original HTML, but generally avoid IDs in loops
+    socialAnchor.target = '_blank';
+    if (socialLinkAnchor) {
+      socialAnchor.href = socialLinkAnchor.href;
     }
+    if (socialIconPicture) {
+      const socialIcon = socialIconPicture.cloneNode(true);
+      socialAnchor.append(socialIcon);
+    }
+    li.append(socialAnchor);
   });
-  socialAndCopyrightColumn.append(socialLinksUl); // Append the single UL
 
   const copyrightSpan = document.createElement('span');
-  copyrightSpan.classList.add('footer-link'); // From ORIGINAL HTML
+  copyrightSpan.classList.add('footer-link');
   moveInstrumentation(copyrightRow, copyrightSpan);
-  copyrightSpan.textContent = copyrightRow.textContent.trim();
-  socialAndCopyrightColumn.append(copyrightSpan);
+  copyrightSpan.textContent = copyrightCell?.textContent.trim() || '';
+  socialCol.append(copyrightSpan);
 
-  mainRow.append(socialAndCopyrightColumn);
-  root.append(mainRow);
-  block.replaceChildren(root);
+  block.replaceChildren(footerSection);
 
-  // Image optimization (this part seems to be a generic block-level optimization,
-  // but it's already handled for specific logos above. Keeping it if it's a general rule.)
-  block.querySelectorAll('picture > img').forEach((img) => {
+  footerSection.querySelectorAll('picture > img').forEach((img) => {
     const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
     moveInstrumentation(img, optimizedPic.querySelector('img'));
     img.closest('picture').replaceWith(optimizedPic);

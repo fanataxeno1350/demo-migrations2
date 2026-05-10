@@ -2,71 +2,54 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  // The outer block div already has 'rs-cards' from AEM.
-  // We create an inner div to hold the 'row' and other content.
-  const rootContainer = document.createElement('div');
-  // No classList.add('rs-cards') here to avoid double padding/CSS.
-  // The original HTML shows 'rs-cards' on the outermost div, which is `block` itself.
+  // The outer block div already has the 'card-grid' class from AEM.
+  // No need to add it to an inner wrapper.
+  // const cardGridDiv = document.createElement('div');
+  // cardGridDiv.classList.add('card-grid'); // Removed this line
+
+  const cardRows = [...block.children];
+
+  const rsCardsDiv = document.createElement('div');
+  rsCardsDiv.classList.add('rs-cards');
 
   const rowDiv = document.createElement('div');
   rowDiv.classList.add('row');
-  // moveInstrumentation(block, rowDiv); // No, moveInstrumentation should be on individual rows/cells
 
-  [...block.children].forEach((cardRow) => {
-    const [
-      rightshiftImageCell,
-      kitchensImageCell,
-      ctaLinkCell,
-      ctaIconCell,
-      headlineCell,
-      descriptionCell,
-    ] = [...cardRow.children];
+  cardRows.forEach((row) => {
+    const [mainImageCell, headlineCell, descriptionCell, ctaLinkCell, ctaIconCell] = [...row.children];
 
     const colDiv = document.createElement('div');
     colDiv.classList.add('col-xl-4', 'col-lg-6', 'pb-md-0', 'pb-4', 'row-gap-4', 'koi-rscard-padding');
-    moveInstrumentation(cardRow, colDiv); // Move instrumentation from cardRow to colDiv
 
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('card', 'rs-card');
 
-    // Rightshift Image
-    const rightshiftPicture = rightshiftImageCell?.querySelector('picture');
-    if (rightshiftPicture) {
-      const rightshiftImg = rightshiftPicture.querySelector('img');
-      if (rightshiftImg) {
-        const optimizedRightshiftPic = createOptimizedPicture(
-          rightshiftImg.src,
-          rightshiftImg.alt,
-          false,
-          [{ width: '750' }],
-        );
-        optimizedRightshiftPic.querySelector('img').classList.add('w-100', 'rightshift-image');
-        optimizedRightshiftPic.querySelector('img').style.display = 'none';
-        moveInstrumentation(rightshiftImageCell, optimizedRightshiftPic.querySelector('img'));
-        cardDiv.append(optimizedRightshiftPic);
-      }
-    }
-
-    // Kitchens Image
-    const kitchensPicture = kitchensImageCell?.querySelector('picture');
-    if (kitchensPicture) {
-      const kitchensImg = kitchensPicture.querySelector('img');
-      if (kitchensImg) {
-        const optimizedKitchensPic = createOptimizedPicture(
-          kitchensImg.src,
-          kitchensImg.alt,
-          false,
-          [{ width: '750' }],
-        );
-        optimizedKitchensPic.querySelector('img').classList.add('w-100', 'kitchens-image');
-        optimizedKitchensPic.querySelector('img').style.display = 'block';
-        moveInstrumentation(kitchensImageCell, optimizedKitchensPic.querySelector('img'));
-        cardDiv.append(optimizedKitchensPic);
+    // Main Image
+    const mainPicture = mainImageCell?.querySelector('picture');
+    if (mainPicture) {
+      const img = mainPicture.querySelector('img');
+      if (img) {
+        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+        moveInstrumentation(img, optimizedPic.querySelector('img'));
+        optimizedPic.classList.add('w-100', 'kitchens-image');
+        cardDiv.append(optimizedPic);
       }
     }
 
     const cardBodyDiv = document.createElement('div');
     cardBodyDiv.classList.add('card-body');
+
+    // Headline
+    const headline = document.createElement('h5');
+    headline.classList.add('blog-card-title');
+    headline.textContent = headlineCell?.textContent.trim() || '';
+    cardBodyDiv.append(headline);
+
+    // Description - Changed from h5 to div to avoid <p> inside <p>
+    const description = document.createElement('div'); // Changed from h5 to div
+    description.classList.add('card-title');
+    description.innerHTML = descriptionCell?.innerHTML || '';
+    cardBodyDiv.append(description);
 
     // CTA Link and Icon
     const ctaLink = ctaLinkCell?.querySelector('a');
@@ -74,69 +57,44 @@ export default function decorate(block) {
 
     if (ctaLink || ctaIconPicture) {
       const anchor = document.createElement('a');
-      anchor.setAttribute('aria-label', `Read more about '${headlineCell?.textContent.trim()}'`);
-      anchor.setAttribute('target', '_self');
-      anchor.setAttribute('id', 'explore-btn-hide-id');
-      // The original HTML shows display: none on the first card's anchor, but not others.
-      // We should only apply it if the original ctaLink has it, or if it's a default.
-      // For now, mirroring the generated JS, but this might need refinement based on specific original HTML.
-      // If the original HTML has a consistent display style, it should be applied.
-      // For now, keeping the `style.display = 'none'` as generated, assuming it's a default that gets overridden.
-      anchor.style.display = 'none';
-
       if (ctaLink) {
         anchor.href = ctaLink.href;
-        moveInstrumentation(ctaLinkCell, anchor); // Move instrumentation from ctaLinkCell to anchor
+        // The original HTML does not have text content for this anchor,
+        // it only contains an image. So, we don't set textContent here.
       }
+      anchor.setAttribute('aria-label', `Read more about '${headline.textContent}'`);
+      anchor.setAttribute('target', '_self');
+      anchor.id = 'explore-btn-hide-id';
 
       if (ctaIconPicture) {
-        const ctaIconImg = ctaIconPicture.querySelector('img');
-        if (ctaIconImg) {
-          const optimizedCtaIconPic = createOptimizedPicture(
-            ctaIconImg.src,
-            ctaIconImg.alt,
-            false,
-            [{ width: '24' }], // Assuming a small icon size
-          );
-          optimizedCtaIconPic.querySelector('img').setAttribute('loading', 'lazy');
-          moveInstrumentation(ctaIconCell, optimizedCtaIconPic.querySelector('img'));
-          anchor.append(optimizedCtaIconPic);
+        const img = ctaIconPicture.querySelector('img');
+        if (img) {
+          const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '40' }]); // Assuming a small icon width
+          moveInstrumentation(img, optimizedPic.querySelector('img'));
+          anchor.append(optimizedPic);
         }
       }
       cardBodyDiv.append(anchor);
     }
 
-    // Headline
-    const headline = document.createElement('h5');
-    headline.classList.add('blog-card-title');
-    headline.style.display = 'block';
-    headline.textContent = headlineCell?.textContent.trim() || '';
-    moveInstrumentation(headlineCell, headline);
-    cardBodyDiv.append(headline);
-
-    // Description
-    // Description is richtext, so it can contain <p> tags. Assigning to <h5> creates invalid HTML.
-    // Use a <div> instead for richtext content.
-    const description = document.createElement('div'); // Changed from h5 to div
-    description.classList.add('card-title'); // Keep the class from original HTML
-    description.innerHTML = descriptionCell?.innerHTML || '';
-    moveInstrumentation(descriptionCell, description);
-    cardBodyDiv.append(description);
-
     cardDiv.append(cardBodyDiv);
+    moveInstrumentation(row, colDiv); // Move instrumentation from the authored row to the new column div
     colDiv.append(cardDiv);
     rowDiv.append(colDiv);
   });
 
-  // The 'tab-para' div is present in the original HTML, but it's an empty div
-  // and not part of the card-item structure. It appears after all card columns.
-  // It should be appended to the rowDiv, not the rootDiv.
-  // The original HTML shows it as a sibling to the col-xl-4 divs, inside the 'row' div.
+  rsCardsDiv.append(rowDiv);
+
+  // The tab-para div is a sibling of the row div, not a child of it.
+  // Also, it's an empty div in the original HTML, so it should be created and appended
+  // at the same level as rsCardsDiv, or if it's meant to be inside the row,
+  // it should be outside the forEach loop and appended once.
+  // Based on the original HTML, it's inside the 'row' div but after all 'col' divs.
+  // The current code appends it to rowDiv, which is correct for its position.
+  // However, the original HTML shows it as an empty div, so no need to populate it.
   const tabParaDiv = document.createElement('div');
   tabParaDiv.classList.add('tab-para');
-  // No moveInstrumentation for an empty structural div that doesn't map to a block row.
-  rowDiv.append(tabParaDiv);
+  rowDiv.append(tabParaDiv); // This places it correctly after all colDivs within rowDiv.
 
-  rootContainer.append(rowDiv);
-  block.replaceChildren(rootContainer);
+  block.replaceChildren(rsCardsDiv);
 }

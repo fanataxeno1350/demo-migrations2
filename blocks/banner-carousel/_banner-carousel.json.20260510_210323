@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Banner Carousel",
+      "title": "Banner-Carousel",
       "id": "banner-carousel",
       "plugins": {
         "xwalk": {
@@ -10,22 +10,22 @@
             "template": {
               "filter": "banner-carousel",
               "model": "banner-carousel",
-              "name": "Banner Carousel"
+              "name": "Banner-Carousel"
             }
           }
         }
       }
     },
     {
-      "title": "Banner Carousel Slide",
-      "id": "banner-carousel-slide",
+      "title": "Carousel-Banner-Item",
+      "id": "carousel-banner-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "banner-carousel-slide",
-              "name": "Banner Carousel Slide"
+              "model": "carousel-banner-item",
+              "name": "Carousel-Banner-Item"
             }
           }
         }
@@ -38,14 +38,14 @@
       "fields": [
         {
           "component": "container",
-          "item": "banner-carousel-slide",
-          "label": "Slides",
-          "name": "slides"
+          "item": "carousel-banner-item",
+          "label": "Carousel Banners",
+          "name": "banners"
         }
       ]
     },
     {
-      "id": "banner-carousel-slide",
+      "id": "carousel-banner-item",
       "fields": [
         {
           "component": "reference",
@@ -61,13 +61,13 @@
         },
         {
           "component": "text",
-          "label": "Headline",
-          "name": "headline",
+          "label": "Banner Heading",
+          "name": "heading",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Description",
+          "label": "Banner Description",
           "name": "description",
           "valueType": "string"
         },
@@ -90,7 +90,7 @@
     {
       "id": "banner-carousel",
       "components": [
-        "banner-carousel-slide"
+        "carousel-banner-item"
       ]
     }
   ]

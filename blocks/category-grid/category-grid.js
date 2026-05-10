@@ -5,136 +5,183 @@ export default function decorate(block) {
   const children = [...block.children];
 
   const [
-    mainImageRow,
-    headlineRow,
-    subHeadlineRow,
+    variationImageRow,
+    mainTitleRow,
+    subtitleRow,
     descriptionRow,
-    ctaLinkRow,
-    ctaLabelRow,
-    ...categoryItemRows
+    ...restRows
   ] = children;
 
+  const ctaLinkRow = restRows.find(
+    (row) => row.children.length === 1 && row.querySelector('a'),
+  );
+  const ctaLabelRow = restRows.find(
+    (row) => row.children.length === 1 && !row.querySelector('a'),
+  );
+  const categoryItemRows = restRows.filter(
+    (row) => row.children.length === 3,
+  );
+
   const section = document.createElement('section');
-  section.classList.add('itc-how-shift'); // From ORIGINAL HTML
+  section.classList.add('itc-how-shift');
 
   // Left Image Div
   const leftImageDiv = document.createElement('div');
-  leftImageDiv.classList.add('left-image-div'); // From ORIGINAL HTML
-  moveInstrumentation(mainImageRow, leftImageDiv);
-  const mainPicture = mainImageRow.querySelector('picture');
-  if (mainPicture) {
-    const mainImg = mainPicture.querySelector('img');
-    const optimizedPic = createOptimizedPicture(mainImg.src, mainImg.alt, false, [{ width: '750' }]);
-    moveInstrumentation(mainImg, optimizedPic.querySelector('img'));
-    mainPicture.replaceWith(optimizedPic);
-    leftImageDiv.append(optimizedPic);
+  leftImageDiv.classList.add('left-image-div');
+  leftImageDiv.id = 'leftDivId';
+  if (variationImageRow) {
+    const picture = variationImageRow.querySelector('picture');
+    if (picture) {
+      const img = picture.querySelector('img');
+      const optimizedPic = createOptimizedPicture(
+        img.src,
+        img.alt,
+        false,
+        [{ width: '750' }],
+      );
+      moveInstrumentation(img, optimizedPic.querySelector('img'));
+      leftImageDiv.append(optimizedPic);
+    }
+    moveInstrumentation(variationImageRow, leftImageDiv);
   }
   section.append(leftImageDiv);
 
   // Container Read More Div
   const containerDiv = document.createElement('div');
-  containerDiv.classList.add('container', 'read-more'); // From ORIGINAL HTML
-  section.append(containerDiv);
+  containerDiv.classList.add('container', 'read-more');
 
-  // Headline
-  const headline = document.createElement('h1');
-  headline.classList.add('text-center', 'pb-4', 'rs-heading'); // From ORIGINAL HTML
-  moveInstrumentation(headlineRow, headline);
-  headline.textContent = headlineRow.textContent.trim();
-  containerDiv.append(headline);
+  // Main Title
+  if (mainTitleRow) {
+    const mainTitle = document.createElement('h1');
+    mainTitle.classList.add('text-center', 'pb-4', 'rs-heading');
+    moveInstrumentation(mainTitleRow, mainTitle);
+    mainTitle.textContent = mainTitleRow.textContent.trim();
+    containerDiv.append(mainTitle);
+  }
 
-  // Read More Text Div (for Sub Headline and Description)
+  // Subtitle and Description
   const readMoreTextDiv = document.createElement('div');
-  readMoreTextDiv.classList.add('read-more-text'); // From ORIGINAL HTML
+  readMoreTextDiv.classList.add('read-more-text');
+  if (subtitleRow) {
+    const subtitle = document.createElement('h2');
+    moveInstrumentation(subtitleRow, subtitle);
+    subtitle.textContent = subtitleRow.textContent.trim();
+    readMoreTextDiv.append(subtitle);
+  }
+  if (descriptionRow) {
+    const description = document.createElement('div'); // Use div for richtext to avoid <p> inside <p>
+    moveInstrumentation(descriptionRow, description);
+    description.innerHTML = descriptionRow.innerHTML; // Read innerHTML directly from the row
+    readMoreTextDiv.append(description);
+  }
   containerDiv.append(readMoreTextDiv);
 
-  // Sub Headline
-  const subHeadline = document.createElement('h2');
-  moveInstrumentation(subHeadlineRow, subHeadline);
-  subHeadline.textContent = subHeadlineRow.textContent.trim();
-  readMoreTextDiv.append(subHeadline);
-
-  // Description
-  const description = document.createElement('div'); // Use div for richtext
-  moveInstrumentation(descriptionRow, description);
-  description.innerHTML = descriptionRow.innerHTML; // Read innerHTML directly from the row for richtext
-  readMoreTextDiv.append(description);
-
-  // Read More Span (empty in original, for JS functionality)
   const readMoreSpan = document.createElement('span');
-  readMoreSpan.classList.add('readMore'); // From ORIGINAL HTML
+  readMoreSpan.classList.add('readMore');
   containerDiv.append(readMoreSpan);
 
-  // Categories Wrapper
-  const categoriesWrapper = document.createElement('div');
-  categoriesWrapper.classList.add('d-flex', 'justify-content-evenly', 'flex-wrap', 'why-shift-wrapper'); // From ORIGINAL HTML
-  containerDiv.append(categoriesWrapper);
+  // Category Grid Items
+  if (categoryItemRows.length > 0) {
+    const whyShiftWrapper = document.createElement('div');
+    whyShiftWrapper.classList.add(
+      'd-flex',
+      'justify-content-evenly',
+      'flex-wrap',
+      'why-shift-wrapper',
+    );
 
-  categoryItemRows.forEach((row) => {
-    const [imageCell, linkCell, labelCell] = [...row.children]; // Fixed schema, use index destructuring
+    categoryItemRows.forEach((row) => {
+      const [categoryImageCell, categoryLinkCell, categoryLabelCell] = [
+        ...row.children,
+      ];
 
-    const categoryItemDiv = document.createElement('div');
-    categoryItemDiv.classList.add('mb-md-0', 'mb-3', 'text-center'); // From ORIGINAL HTML
-    moveInstrumentation(row, categoryItemDiv); // Move instrumentation from row to new div
+      const itemDiv = document.createElement('div');
+      itemDiv.classList.add('mb-md-0', 'mb-3', 'text-center');
 
-    const itcHealthGoalWrapper = document.createElement('div');
-    itcHealthGoalWrapper.classList.add('itc-health-goal-wrapper'); // From ORIGINAL HTML
-    categoryItemDiv.append(itcHealthGoalWrapper);
+      const imageWrapper = document.createElement('div');
+      imageWrapper.classList.add('itc-health-goal-wrapper');
+      if (categoryImageCell) {
+        const picture = categoryImageCell.querySelector('picture');
+        if (picture) {
+          const img = picture.querySelector('img');
+          const optimizedPic = createOptimizedPicture(
+            img.src,
+            img.alt,
+            false,
+            [{ width: '750' }],
+          );
+          moveInstrumentation(img, optimizedPic.querySelector('img'));
+          imageWrapper.append(optimizedPic);
+        }
+      }
+      itemDiv.append(imageWrapper);
 
-    const categoryPicture = imageCell.querySelector('picture');
-    if (categoryPicture) {
-      const categoryImg = categoryPicture.querySelector('img');
-      const optimizedPic = createOptimizedPicture(categoryImg.src, categoryImg.alt, false, [{ width: '200' }]);
-      moveInstrumentation(categoryImg, optimizedPic.querySelector('img'));
-      categoryPicture.replaceWith(optimizedPic);
-      itcHealthGoalWrapper.append(optimizedPic);
-    }
+      const link = document.createElement('a');
+      link.classList.add(
+        'text-center',
+        'd-block',
+        'text-capitalize',
+        'pt-2',
+        'image-label',
+      );
+      const foundLink = categoryLinkCell.querySelector('a');
+      if (foundLink) {
+        link.href = foundLink.href;
+      }
+      if (categoryLabelCell) {
+        // categoryLabel is richtext, so use innerHTML
+        link.innerHTML = categoryLabelCell.innerHTML;
+      }
+      moveInstrumentation(row, link);
+      itemDiv.append(link);
+      whyShiftWrapper.append(itemDiv);
+    });
+    containerDiv.append(whyShiftWrapper);
+  }
 
-    const categoryLink = document.createElement('a');
-    const foundLink = linkCell.querySelector('a');
-    if (foundLink) {
-      categoryLink.href = foundLink.href;
-      categoryLink.alt = labelCell.textContent.trim(); // Use label as alt text
-    }
-    categoryLink.classList.add('text-center', 'd-block', 'text-capitalize', 'pt-2', 'image-label'); // From ORIGINAL HTML
-    categoryLink.innerHTML = labelCell.innerHTML; // richtext label
-    categoryItemDiv.append(categoryLink);
-
-    categoriesWrapper.append(categoryItemDiv);
-  });
-
-  // Empty div for mobile spacing
-  const mobileSpacingDiv = document.createElement('div');
-  mobileSpacingDiv.classList.add('d-md-none', 'd-block'); // From ORIGINAL HTML
-  containerDiv.append(mobileSpacingDiv);
+  const emptyDiv = document.createElement('div');
+  emptyDiv.classList.add('d-md-none', 'd-block');
+  containerDiv.append(emptyDiv);
 
   // CTA Button
-  const buttonDiv = document.createElement('div');
-  buttonDiv.classList.add('button', 'how-shift-button'); // From ORIGINAL HTML
-  containerDiv.append(buttonDiv);
+  if (ctaLinkRow && ctaLabelRow) {
+    const buttonDiv = document.createElement('div');
+    buttonDiv.classList.add('button', 'how-shift-button');
 
-  const ctaAnchor = document.createElement('a');
-  ctaAnchor.classList.add('cmp-button'); // From ORIGINAL HTML
-  const foundCtaLink = ctaLinkRow.querySelector('a');
-  if (foundCtaLink) {
-    ctaAnchor.href = foundCtaLink.href;
+    const ctaAnchor = document.createElement('a');
+    ctaAnchor.classList.add('cmp-button');
+    const foundCtaLink = ctaLinkRow.querySelector('a');
+    if (foundCtaLink) {
+      ctaAnchor.href = foundCtaLink.href;
+    }
+
+    const spanText = document.createElement('span');
+    spanText.classList.add('cmp-button__text');
+    spanText.textContent = ctaLabelRow.textContent.trim();
+    ctaAnchor.append(spanText);
+
+    const spanScreenReader = document.createElement('span');
+    spanScreenReader.classList.add('cmp-link__screen-reader-only');
+    spanScreenReader.textContent = 'opens in a new tab'; // Default text, adjust if needed
+    ctaAnchor.append(spanScreenReader);
+
+    moveInstrumentation(ctaLinkRow, ctaAnchor);
+    moveInstrumentation(ctaLabelRow, ctaAnchor);
+    buttonDiv.append(ctaAnchor);
+    containerDiv.append(buttonDiv);
   }
-  ctaAnchor.alt = ctaLabelRow.textContent.trim(); // Use label as alt text
-  moveInstrumentation(ctaLinkRow, ctaAnchor); // Move instrumentation from ctaLinkRow to new anchor
 
-  const ctaSpanText = document.createElement('span');
-  ctaSpanText.classList.add('cmp-button__text'); // From ORIGINAL HTML
-  ctaSpanText.textContent = ctaLabelRow.textContent.trim();
-  ctaAnchor.append(ctaSpanText);
-
-  // Screen reader only span (empty in original, for accessibility)
-  const screenReaderSpan = document.createElement('span');
-  screenReaderSpan.classList.add('cmp-link__screen-reader-only'); // From ORIGINAL HTML
-  // No specific text content for this span in the provided original HTML example
-  ctaAnchor.append(screenReaderSpan);
-
-  buttonDiv.append(ctaAnchor);
-  moveInstrumentation(ctaLabelRow, ctaAnchor); // Also move instrumentation from ctaLabelRow
-
+  section.append(containerDiv);
   block.replaceChildren(section);
+
+  // The following block.querySelectorAll('picture > img') loop is redundant
+  // because createOptimizedPicture is already called for each image when it's appended.
+  // Removing it to prevent double optimization and potential issues.
+  // block.querySelectorAll('picture > img').forEach((img) => {
+  //   const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [
+  //     { width: '750' },
+  //   ]);
+  //   moveInstrumentation(img, optimizedPic.querySelector('img'));
+  //   img.closest('picture').replaceWith(optimizedPic);
+  // });
 }

@@ -17,22 +17,7 @@
       }
     },
     {
-      "title": "Logo-Item",
-      "id": "logo-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "logo-item",
-              "name": "Logo-Item"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Navigation-Item",
+      "title": "Navigation Item",
       "id": "navigation-item",
       "plugins": {
         "xwalk": {
@@ -40,14 +25,14 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "navigation-item",
-              "name": "Navigation-Item"
+              "name": "Navigation Item"
             }
           }
         }
       }
     },
     {
-      "title": "Country-Option-Item",
+      "title": "Country Option Item",
       "id": "country-option-item",
       "plugins": {
         "xwalk": {
@@ -55,7 +40,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "country-option-item",
-              "name": "Country-Option-Item"
+              "name": "Country Option Item"
             }
           }
         }
@@ -67,10 +52,28 @@
       "id": "header",
       "fields": [
         {
-          "component": "container",
-          "item": "logo-item",
-          "label": "Logos",
-          "name": "logos"
+          "component": "reference",
+          "label": "Primary Logo",
+          "name": "primaryLogo",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Primary Logo Link",
+          "name": "primaryLogoLink",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Secondary Logo",
+          "name": "secondaryLogo",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Secondary Logo Link",
+          "name": "secondaryLogoLink",
+          "valueType": "string"
         },
         {
           "component": "container",
@@ -79,21 +82,81 @@
           "name": "navigationMenu"
         },
         {
+          "component": "reference",
+          "label": "Country Flag (Header)",
+          "name": "countryFlag",
+          "valueType": "string"
+        },
+        {
           "component": "text",
-          "label": "Country Code",
+          "label": "Country Code (Header)",
           "name": "countryCode",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Selected Country Flag",
-          "name": "selectedCountryFlag",
+          "label": "Dropdown Icon (Header Country)",
+          "name": "dropdownIcon",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Dropdown Icon",
-          "name": "dropdownIcon",
+          "label": "Search Icon (Header)",
+          "name": "searchIcon",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Search Icon (Nav Link)",
+          "name": "searchIconNav",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Search Label",
+          "name": "searchLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Search Input Placeholder",
+          "name": "searchInputPlaceholder",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Search Close Icon",
+          "name": "closeIcon",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Popular Suggestions Title",
+          "name": "popularSuggestionsTitle",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Pages Title",
+          "name": "pagesTitle",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "View All Button Label",
+          "name": "viewAllButtonLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Country Modal Title",
+          "name": "modalTitle",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Country Modal Subtitle",
+          "name": "modalSubtitle",
           "valueType": "string"
         },
         {
@@ -101,83 +164,6 @@
           "item": "country-option-item",
           "label": "Country Options",
           "name": "countryOptions"
-        },
-        {
-          "component": "reference",
-          "label": "Search Icon",
-          "name": "searchIcon",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Search Close Icon",
-          "name": "searchCloseIcon",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Search Input Placeholder",
-          "name": "searchPlaceholder",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Search Button Label",
-          "name": "searchButtonLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Popular Suggestions Label",
-          "name": "popularSuggestionsLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Pages Label",
-          "name": "pagesLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "View All Items Button Label",
-          "name": "viewAllItemsLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Modal Title",
-          "name": "modalTitle",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Modal Experience Text",
-          "name": "modalExperienceText",
-          "valueType": "string"
-        }
-      ]
-    },
-    {
-      "id": "logo-item",
-      "fields": [
-        {
-          "component": "reference",
-          "label": "Logo Image",
-          "name": "logoImage",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Logo Link",
-          "name": "logoLink",
-          "valueType": "string"
-        },
-        {
-          "component": "richtext",
-          "label": "Navigation Hierarchy",
-          "name": "hierarchy-tree",
-          "valueType": "string"
         }
       ]
     },
@@ -194,6 +180,12 @@
           "component": "aem-content",
           "label": "Menu Link",
           "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
           "valueType": "string"
         }
       ]
@@ -214,6 +206,12 @@
           "valueType": "string"
         },
         {
+          "component": "text",
+          "label": "Country Code (Data Attribute)",
+          "name": "countryCode",
+          "valueType": "string"
+        },
+        {
           "component": "aem-content",
           "label": "Country URL",
           "name": "countryUrl",
@@ -226,7 +224,6 @@
     {
       "id": "header",
       "components": [
-        "logo-item",
         "navigation-item",
         "country-option-item"
       ]

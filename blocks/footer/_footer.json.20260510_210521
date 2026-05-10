@@ -54,17 +54,20 @@
         {
           "component": "reference",
           "label": "ITC Logo",
-          "name": "itcLogo"
+          "name": "itcLogo",
+          "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "ITC Logo Link",
-          "name": "itcLogoLink"
+          "name": "itcLogoLink",
+          "valueType": "string"
         },
         {
           "component": "reference",
           "label": "FSSAI Logo",
-          "name": "fssaiLogo"
+          "name": "fssaiLogo",
+          "valueType": "string"
         },
         {
           "component": "text",
@@ -81,13 +84,13 @@
         {
           "component": "text",
           "label": "Grievance Officer Contact Info",
-          "name": "grievanceContactInfo",
+          "name": "grievanceContact",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Grievance Officer Timings",
-          "name": "grievanceTimings",
+          "label": "Grievance Officer Working Hours",
+          "name": "grievanceHours",
           "valueType": "string"
         },
         {
@@ -104,9 +107,15 @@
         },
         {
           "component": "container",
+          "item": "footer-link-item",
+          "label": "Main Links",
+          "name": "mainLinks"
+        },
+        {
+          "component": "container",
           "item": "footer-social-item",
-          "label": "Footer Social Links",
-          "name": "footerSocialLinks"
+          "label": "Social Links",
+          "name": "socialLinks"
         }
       ]
     },
@@ -139,12 +148,14 @@
         {
           "component": "reference",
           "label": "Social Icon",
-          "name": "socialIcon"
+          "name": "icon",
+          "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Social Link",
-          "name": "socialLink"
+          "name": "link",
+          "valueType": "string"
         }
       ]
     }

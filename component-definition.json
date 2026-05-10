@@ -83,7 +83,7 @@
       "id": "blocks",
       "components": [
         {
-          "title": "Banner-Carousel",
+          "title": "Banner Carousel",
           "id": "banner-carousel",
           "plugins": {
             "xwalk": {
@@ -92,29 +92,29 @@
                 "template": {
                   "filter": "banner-carousel",
                   "model": "banner-carousel",
-                  "name": "Banner-Carousel"
+                  "name": "Banner Carousel"
                 }
               }
             }
           }
         },
         {
-          "title": "Carousel-Banner-Item",
-          "id": "carousel-banner-item",
+          "title": "Banner Carousel Slide",
+          "id": "banner-carousel-slide",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "carousel-banner-item",
-                  "name": "Carousel-Banner-Item"
+                  "model": "banner-carousel-slide",
+                  "name": "Banner Carousel Slide"
                 }
               }
             }
           }
         },
         {
-          "title": "Card Grid",
+          "title": "Card-Grid",
           "id": "card-grid",
           "plugins": {
             "xwalk": {
@@ -123,22 +123,22 @@
                 "template": {
                   "filter": "card-grid",
                   "model": "card-grid",
-                  "name": "Card Grid"
+                  "name": "Card-Grid"
                 }
               }
             }
           }
         },
         {
-          "title": "Card Item",
-          "id": "card-item",
+          "title": "Rs-Card",
+          "id": "rs-card",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "card-item",
-                  "name": "Card Item"
+                  "model": "rs-card",
+                  "name": "Rs-Card"
                 }
               }
             }
@@ -453,7 +453,22 @@
           }
         },
         {
-          "title": "Navigation Item",
+          "title": "Logo-Item",
+          "id": "logo-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "logo-item",
+                  "name": "Logo-Item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Navigation-Item",
           "id": "navigation-item",
           "plugins": {
             "xwalk": {
@@ -461,14 +476,14 @@
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
                   "model": "navigation-item",
-                  "name": "Navigation Item"
+                  "name": "Navigation-Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Country Option Item",
+          "title": "Country-Option-Item",
           "id": "country-option-item",
           "plugins": {
             "xwalk": {
@@ -476,7 +491,7 @@
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
                   "model": "country-option-item",
-                  "name": "Country Option Item"
+                  "name": "Country-Option-Item"
                 }
               }
             }
@@ -498,7 +513,7 @@
           }
         },
         {
-          "title": "Info Carousel",
+          "title": "Info-Carousel",
           "id": "info-carousel",
           "plugins": {
             "xwalk": {
@@ -507,22 +522,22 @@
                 "template": {
                   "filter": "info-carousel",
                   "model": "info-carousel",
-                  "name": "Info Carousel"
+                  "name": "Info-Carousel"
                 }
               }
             }
           }
         },
         {
-          "title": "Info Carousel Slide",
-          "id": "info-carousel-slide",
+          "title": "Carousel-Item",
+          "id": "carousel-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "info-carousel-slide",
-                  "name": "Info Carousel Slide"
+                  "model": "carousel-item",
+                  "name": "Carousel-Item"
                 }
               }
             }
