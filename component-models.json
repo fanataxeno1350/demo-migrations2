@@ -599,25 +599,25 @@
     "fields": [
       {
         "component": "container",
-        "item": "impact-item",
+        "item": "our-impact-item",
         "label": "Impact Items",
         "name": "items"
       }
     ]
   },
   {
-    "id": "impact-item",
+    "id": "our-impact-item",
     "fields": [
       {
         "component": "text",
-        "label": "Statistic (Number or Main Highlight)",
-        "name": "statistic",
+        "label": "Primary Stat Highlight",
+        "name": "statPrimary",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Statistic Label (Descriptor)",
-        "name": "statisticLabel",
+        "label": "Secondary Stat Text",
+        "name": "statSecondary",
         "valueType": "string"
       },
       {

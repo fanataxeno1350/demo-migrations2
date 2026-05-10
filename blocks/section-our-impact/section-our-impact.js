@@ -2,62 +2,62 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const root = document.createElement('section');
-  root.classList.add('theme-medium', 'theme-bg', 'theme-section-spacing');
+  const rootSection = document.createElement('section');
+  rootSection.classList.add('theme-medium', 'theme-bg', 'theme-section-spacing');
 
-  const container = document.createElement('div');
-  container.classList.add('container');
+  const containerDiv = document.createElement('div');
+  containerDiv.classList.add('container');
 
   const ul = document.createElement('ul');
 
-  [...block.children].forEach((row) => {
-    const [statisticCell, statisticLabelCell, descriptionCell] = [...row.children];
+  // The first child of the block is the container placeholder for 'items'
+  // We need to consume it and move its instrumentation.
+  const [containerPlaceholder, ...itemRows] = [...block.children];
+  moveInstrumentation(containerPlaceholder, ul); // Move instrumentation from placeholder to the ul
+
+  itemRows.forEach((row) => {
+    const [statPrimaryCell, statSecondaryCell, descriptionCell] = [...row.children];
 
     const li = document.createElement('li');
     li.classList.add('first:[&>div]:pt-0', 'theme-dark:border-stroke-light/10', 'grid-full', 'items-center', 'gap-grid-gutter');
-    moveInstrumentation(row, li); // Move instrumentation from original row to new li
 
-    const itemWrapper = document.createElement('div');
-    itemWrapper.classList.add('py-lg', 'border-b', 'border-stroke-medium', 'flex', 'flex-col', 'md:grid-centered-12', 'md:grid', 'md:grid-cols-12', 'gap-grid-gutter');
+    const itemDiv = document.createElement('div');
+    itemDiv.classList.add('py-lg', 'border-b', 'border-stroke-medium', 'flex', 'flex-col', 'md:grid-centered-12', 'md:grid', 'md:grid-cols-12', 'gap-grid-gutter');
 
-    const statisticWrapper = document.createElement('div');
-    statisticWrapper.classList.add('col-span-1', 'md:col-span-7', 'flex', 'items-center', 'gap-grid-gutter');
+    const statWrapperDiv = document.createElement('div');
+    statWrapperDiv.classList.add('col-span-1', 'md:col-span-7', 'flex', 'items-center', 'gap-grid-gutter');
 
     const h3 = document.createElement('h3');
     h3.classList.add('font-semibold', 'inline', 'text-h2');
 
-    const statisticSpan = document.createElement('span');
-    statisticSpan.classList.add('text-foreground-colored', 'theme-dark:text-foreground-colored-light', 'theme-medium:text-foreground-tm');
-    statisticSpan.textContent = statisticCell.textContent.trim();
+    const primarySpan = document.createElement('span');
+    primarySpan.classList.add('text-foreground-colored', 'theme-dark:text-foreground-colored-light', 'theme-medium:text-foreground-tm');
+    primarySpan.textContent = statPrimaryCell?.textContent.trim() || '';
 
-    const labelSpan = document.createElement('span');
-    labelSpan.classList.add('text-foreground-colored-strong', 'theme-dark:text-foreground-colored-muted', 'theme-medium:text-foreground-muted');
-    labelSpan.textContent = statisticLabelCell.textContent.trim();
+    const secondarySpan = document.createElement('span');
+    secondarySpan.classList.add('text-foreground-colored-strong', 'theme-dark:text-foreground-colored-muted', 'theme-medium:text-foreground-muted');
+    secondarySpan.textContent = statSecondaryCell?.textContent.trim() || '';
 
-    h3.append(statisticSpan, labelSpan);
-    statisticWrapper.append(h3);
+    h3.append(primarySpan, secondarySpan);
+    statWrapperDiv.append(h3);
 
-    const descriptionWrapper = document.createElement('div');
-    descriptionWrapper.classList.add('col-span-1', 'md:col-span-5');
+    const descriptionWrapperDiv = document.createElement('div');
+    descriptionWrapperDiv.classList.add('col-span-1', 'md:col-span-5');
 
-    const descriptionDiv = document.createElement('div');
-    descriptionDiv.classList.add('text-p1', 'prose', 'theme-dark:prose-td', 'theme-medium:prose-p:text-foreground-strong', 'theme-dark:text-foreground-td');
-    descriptionDiv.innerHTML = descriptionCell.innerHTML;
+    const descriptionContentDiv = document.createElement('div');
+    descriptionContentDiv.classList.add('text-p1', 'prose', 'theme-dark:prose-td', 'theme-medium:prose-p:text-foreground-strong', 'theme-dark:text-foreground-td');
+    descriptionContentDiv.innerHTML = descriptionCell?.innerHTML || '';
 
-    descriptionWrapper.append(descriptionDiv);
+    descriptionWrapperDiv.append(descriptionContentDiv);
 
-    itemWrapper.append(statisticWrapper, descriptionWrapper);
-    li.append(itemWrapper);
+    itemDiv.append(statWrapperDiv, descriptionWrapperDiv);
+    moveInstrumentation(row, li); // Move instrumentation from item row to the new li
+    li.append(itemDiv);
     ul.append(li);
   });
 
-  container.append(ul);
-  root.append(container);
-  block.replaceChildren(root);
+  containerDiv.append(ul);
+  rootSection.append(containerDiv);
 
-  root.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    moveInstrumentation(img, optimizedPic.querySelector('img'));
-    img.closest('picture').replaceWith(optimizedPic);
-  });
+  block.replaceChildren(rootSection);
 }

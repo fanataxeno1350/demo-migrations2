@@ -409,15 +409,15 @@
           }
         },
         {
-          "title": "Impact-Item",
-          "id": "impact-item",
+          "title": "Our-Impact-Item",
+          "id": "our-impact-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "impact-item",
-                  "name": "Impact-Item"
+                  "model": "our-impact-item",
+                  "name": "Our-Impact-Item"
                 }
               }
             }

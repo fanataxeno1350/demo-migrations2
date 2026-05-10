@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Our-Impact-Item",
-      "id": "our-impact-item",
+      "title": "Impact-Item",
+      "id": "impact-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "our-impact-item",
-              "name": "Our-Impact-Item"
+              "model": "impact-item",
+              "name": "Impact-Item"
             }
           }
         }
@@ -38,25 +38,25 @@
       "fields": [
         {
           "component": "container",
-          "item": "our-impact-item",
+          "item": "impact-item",
           "label": "Impact Items",
           "name": "items"
         }
       ]
     },
     {
-      "id": "our-impact-item",
+      "id": "impact-item",
       "fields": [
         {
           "component": "text",
-          "label": "Primary Stat Highlight",
-          "name": "statPrimary",
+          "label": "Statistic (Number or Main Highlight)",
+          "name": "statistic",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Secondary Stat Text",
-          "name": "statSecondary",
+          "label": "Statistic Label (Descriptor)",
+          "name": "statisticLabel",
           "valueType": "string"
         },
         {
@@ -72,7 +72,7 @@
     {
       "id": "section-our-impact",
       "components": [
-        "our-impact-item"
+        "impact-item"
       ]
     }
   ]

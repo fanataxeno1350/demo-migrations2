@@ -92,7 +92,7 @@
   {
     "id": "section-our-impact",
     "components": [
-      "impact-item"
+      "our-impact-item"
     ]
   },
   {
