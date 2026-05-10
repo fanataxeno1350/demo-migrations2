@@ -4,137 +4,117 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 export default function decorate(block) {
   const children = [...block.children];
 
-  // Corrected destructuring to match the BlockJson model:
-  // block.children[0]: headingRow
-  // block.children[1]: tilesContainerRow (container field, its instrumentation needs to be moved)
-  // block.children[2]: ctaLabelRow
-  // block.children[3]: ctaLinkRow
-  // ...tileItemRows (remaining rows are tile-item sub-components)
-  const [headingRow, tilesContainerRow, ctaLabelRow, ctaLinkRow, ...tileItemRows] = children;
-
-  const section = document.createElement('section');
-  section.classList.add('component-three-column-tile', 'pad-top-lg');
+  const root = document.createElement('section');
+  root.classList.add('component-three-column-tile', 'pad-top-lg');
 
   const containerXl = document.createElement('div');
   containerXl.classList.add('container-xl');
-  section.append(containerXl);
+  root.append(containerXl);
 
   const container = document.createElement('div');
   container.classList.add('container');
   containerXl.append(container);
 
-  const tileContainerWrapper = document.createElement('div');
-  tileContainerWrapper.classList.add('tile-container');
-  container.append(tileContainerWrapper);
-
-  // Section Heading
-  if (headingRow) {
-    const heading = document.createElement('h3');
-    moveInstrumentation(headingRow, heading);
-    heading.textContent = headingRow.textContent.trim();
-    tileContainerWrapper.append(heading);
-  }
+  // Headline
+  // The model defines: headline, tiles (container), ctaLink, ctaLabel
+  // So the first row is headline, then item rows, then ctaLink, then ctaLabel.
+  // The original JS had a `containerPlaceholder` which is not in the model.
+  // Let's re-evaluate the children based on the model.
+  // The first row is the headline.
+  const headlineRow = children[0];
+  const headline = document.createElement('h3');
+  moveInstrumentation(headlineRow, headline);
+  headline.textContent = headlineRow.textContent.trim();
+  container.append(headline); // Append to 'container' as per original HTML structure
 
   const separator = document.createElement('div');
   separator.classList.add('separator');
-  tileContainerWrapper.append(separator);
+  container.append(separator); // Append to 'container' as per original HTML structure
 
-  const innerTileContainer = document.createElement('div');
-  innerTileContainer.classList.add('tile-container');
-  tileContainerWrapper.append(innerTileContainer);
+  // The item rows (tiles) start from the second row (index 1) up to the last two rows (ctaLink, ctaLabel)
+  // The model has: headline (1st row), tiles (N rows), ctaLink (last-1 row), ctaLabel (last row)
+  const tileItemRows = children.slice(1, children.length - 2);
+  const ctaLinkRow = children[children.length - 2];
+  const ctaLabelRow = children[children.length - 1];
+
+  const tileContainerWrapper = document.createElement('div');
+  tileContainerWrapper.classList.add('tile-container'); // This is the wrapper for the tiles
+  container.append(tileContainerWrapper);
 
   const row = document.createElement('div');
   row.classList.add('row', 'tile-slider');
-  innerTileContainer.append(row);
+  tileContainerWrapper.append(row);
 
-  // Tiles
-  tileItemRows.forEach((tileItemRow) => {
-    const [linkCell, backgroundImageCell, flagLabelCell, titleCell, readMoreLabelCell] = [...tileItemRow.children];
+  tileItemRows
+    .filter((tileRow) => tileRow.children.length === 5) // Ensure it's a tile-item row
+    .forEach((tileRow) => {
+      const [backgroundImageCell, flagLabelCell, titleCell, tileLinkCell, readMoreLabelCell] = [...tileRow.children];
 
-    const col = document.createElement('div');
-    col.classList.add('col-md-6');
-    row.append(col);
+      const col = document.createElement('div');
+      col.classList.add('col-md-6');
+      row.append(col);
 
-    const tileBlockLink = document.createElement('a');
-    tileBlockLink.classList.add('tile-block-link');
-    moveInstrumentation(tileItemRow, tileBlockLink);
-    const foundLink = linkCell?.querySelector('a');
-    if (foundLink) {
-      tileBlockLink.href = foundLink.href;
-    }
-    col.append(tileBlockLink);
-
-    const tile = document.createElement('div');
-    tile.classList.add('tile');
-    tileBlockLink.append(tile);
-
-    const tileImage = document.createElement('div');
-    tileImage.classList.add('tile-image', 'show-overlay');
-    tile.append(tileImage);
-
-    const picture = backgroundImageCell?.querySelector('picture');
-    if (picture) {
-      const img = picture.querySelector('img');
-      if (img) {
-        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-        moveInstrumentation(img, optimizedPic.querySelector('img'));
-        tileImage.append(optimizedPic);
+      const tileBlockLink = document.createElement('a');
+      tileBlockLink.classList.add('tile-block-link');
+      const tileLink = tileLinkCell.querySelector('a');
+      if (tileLink) {
+        tileBlockLink.href = tileLink.href;
       }
-    }
+      moveInstrumentation(tileRow, tileBlockLink);
+      col.append(tileBlockLink);
 
-    const tileOverlay = document.createElement('div');
-    tileOverlay.classList.add('tile-overlay');
-    tileImage.append(tileOverlay);
+      const tileDiv = document.createElement('div');
+      tileDiv.classList.add('tile');
+      tileBlockLink.append(tileDiv);
 
-    if (flagLabelCell && flagLabelCell.textContent.trim()) {
+      const tileImageDiv = document.createElement('div');
+      tileImageDiv.classList.add('tile-image', 'show-overlay');
+      const picture = backgroundImageCell.querySelector('picture');
+      if (picture) {
+        tileImageDiv.append(createOptimizedPicture(picture.querySelector('img').src, picture.querySelector('img').alt, false, [{ width: '750' }]));
+      }
+      tileDiv.append(tileImageDiv);
+
+      const tileOverlay = document.createElement('div');
+      tileOverlay.classList.add('tile-overlay');
+      tileImageDiv.append(tileOverlay);
+
       const flag = document.createElement('div');
+      // Original HTML shows dynamic classes like 'bg-secondary-d8-spearmint'
+      // The generated JS only adds 'flag'. We should add 'flag' and any other static classes.
+      // Dynamic classes are not handled by the block JS.
       flag.classList.add('flag');
-      // Original HTML has bg-secondary-d8-spearmint and bg-secondary-d4-cornflower
-      // We cannot determine which color to apply from the block data, so we omit specific color classes.
-      // If color is authorable, it should be a separate field.
       const flagText = document.createElement('div');
       flagText.classList.add('text');
       flagText.textContent = flagLabelCell.textContent.trim();
       flag.append(flagText);
-      tileImage.append(flag);
-    }
+      tileDiv.append(flag);
 
-    if (titleCell && titleCell.textContent.trim()) {
       const tileCaption = document.createElement('h4');
       tileCaption.classList.add('tile-caption');
       tileCaption.textContent = titleCell.textContent.trim();
-      tile.append(tileCaption);
-    }
+      tileDiv.append(tileCaption);
 
-    if (readMoreLabelCell && readMoreLabelCell.textContent.trim()) {
       const readMore = document.createElement('div');
       readMore.classList.add('read-more');
       readMore.textContent = readMoreLabelCell.textContent.trim();
-      tile.append(readMore);
-    }
-  });
+      tileDiv.append(readMore);
+    });
 
-  // CTA Button
-  const cta = document.createElement('div');
-  cta.classList.add('cta');
-  innerTileContainer.append(cta);
+  const ctaDiv = document.createElement('div');
+  ctaDiv.classList.add('cta');
+  container.append(ctaDiv);
 
-  if (ctaLinkRow && ctaLabelRow) {
-    const ctaAnchor = document.createElement('a');
-    ctaAnchor.classList.add('btn', 'transparent', 'border-white');
-    moveInstrumentation(ctaLinkRow, ctaAnchor); // Move instrumentation from ctaLinkRow
-    const foundCtaLink = ctaLinkRow.querySelector('a');
-    if (foundCtaLink) {
-      ctaAnchor.href = foundCtaLink.href;
-    }
-    ctaAnchor.textContent = ctaLabelRow.textContent.trim();
-    cta.append(ctaAnchor);
+  const ctaLink = document.createElement('a');
+  ctaLink.classList.add('btn', 'transparent', 'border-white');
+  const originalCtaLink = ctaLinkRow.querySelector('a');
+  if (originalCtaLink) {
+    ctaLink.href = originalCtaLink.href;
   }
+  ctaLink.textContent = ctaLabelRow.textContent.trim(); // CTA Label comes from ctaLabelRow
+  moveInstrumentation(ctaLinkRow, ctaLink); // Instrumentation for the link row
+  moveInstrumentation(ctaLabelRow, ctaLink); // Instrumentation for the label row
+  ctaDiv.append(ctaLink);
 
-  // Move instrumentation for the tiles container row (block.children[1])
-  // This row represents the "Tiles" container field in the model.
-  // Its instrumentation needs to be moved even if it doesn't directly become a visible element.
-  moveInstrumentation(tilesContainerRow, section); // Moving to the root section for UE tracking
-
-  block.replaceChildren(section);
+  block.replaceChildren(root);
 }

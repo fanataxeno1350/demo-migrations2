@@ -5,6 +5,7 @@ function transformNestedLists(rootUl) {
   rootUl.querySelectorAll('li').forEach((li) => {
     const nested = li.querySelector(':scope > ul');
     const anchor = li.querySelector(':scope > a');
+
     if (!anchor) {
       const textNode = [...li.childNodes].find(
         (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim(),
@@ -16,474 +17,524 @@ function transformNestedLists(rootUl) {
         li.prepend(span);
       }
     }
+
     if (nested) {
       nested.remove();
       const subWrap = document.createElement('div');
       subWrap.classList.add('tbm-group-container', 'tbm-item-child');
       subWrap.append(nested);
       li.append(subWrap);
+
       const trigger = li.querySelector(':scope > a, :scope > span');
       if (trigger) {
+        trigger.classList.add('tbm-toggle');
+        trigger.setAttribute('aria-expanded', 'false');
         trigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
           li.classList.toggle('active');
           subWrap.classList.toggle('active');
+          trigger.setAttribute('aria-expanded', li.classList.contains('active'));
         });
       }
     }
+  });
+
+  // Apply classes to nested elements from ORIGINAL HTML
+  rootUl.querySelectorAll('ul').forEach((ul, index) => {
+    if (index === 0) { // Root ul of the hierarchy tree
+      ul.classList.add('tbm-subnav', 'level-2');
+    } else {
+      ul.classList.add('tbm-subnav', 'level-3'); // Assuming further nesting
+    }
+  });
+  rootUl.querySelectorAll('li').forEach((li) => {
+    li.classList.add('tbm-item', 'level-3', 'tb-megamenu-item', 'mega');
+  });
+  rootUl.querySelectorAll('a').forEach((a) => {
+    a.classList.add('tbm-link', 'level-3');
   });
 }
 
 export default function decorate(block) {
   const children = [...block.children];
 
-  // Root fields based on BlockJson model
-  // block.children[0]: logoLinkRow
-  // block.children[1]: languageSelectedRow
-  // All subsequent rows are item rows for containers: utilityLinks, languageOptions, ctaButtons, navigationMenu
   const [
+    searchPlaceholderRow,
+    searchButtonLabelRow,
+    logoRow,
     logoLinkRow,
-    languageSelectedRow,
+    searchFormActionRow, // New row for search form action
+    utilityLinksContainer,
+    languageMenuContainer,
+    ctaButtonsContainer,
+    mainNavigationContainer,
     ...itemRows
   ] = children;
 
-  // Filter item rows based on cell count and content to match BlockJson sub-components
-  // utility-link-item: 3 cells, cell[1] is aem-content link, cell[2] is richtext hierarchy-tree
-  const utilityLinkItems = itemRows.filter(
-    (row) => row.children.length === 3 && row.children[1]?.querySelector('a') && row.children[2]?.querySelector('ul'),
-  );
-  // language-option-item: 2 cells, cell[1] is aem-content link
-  const languageOptionItems = itemRows.filter(
-    (row) => row.children.length === 2 && row.children[1]?.querySelector('a'),
-  );
-  // cta-button-item: 2 cells, cell[1] is aem-content link
-  // Note: ctaButtonItems are distinct from utilityLinkItems by cell count, and from languageOptionItems by position.
-  const ctaButtonItems = itemRows.filter(
-    (row) => row.children.length === 2 && row.children[1]?.querySelector('a') && !languageOptionItems.includes(row),
-  );
-  // navigation-item: 3 cells, cell[1] is aem-content link, cell[2] is richtext hierarchy-tree
-  // Note: navigationMenuItems are distinct from utilityLinkItems by position (they appear later in the itemRows list)
-  const navigationMenuItems = itemRows.filter(
-    (row) => row.children.length === 3 && row.children[1]?.querySelector('a') && row.children[2]?.querySelector('ul'),
-  );
+  const root = document.createElement('section');
+  root.classList.add('component-global-navigation', 'notranslate');
+  // 'scrolled' class is a dynamic state class, not added initially
 
-  const header = document.createElement('section');
-  header.classList.add('component-global-navigation', 'notranslate');
-  moveInstrumentation(block, header);
-
+  // Search Module
   const searchModule = document.createElement('div');
   searchModule.classList.add('search-module');
-  searchModule.innerHTML = `
-    <div class="container">
-      <div class="row">
-        <div class="nav-trigger">
-          <i></i>
-          <i></i>
-          <i></i>
-        </div>
-        <div class="col-10 offset-1 search-col">
-          <div class="search-box-container">
-            <form class="views-exposed-form bef-exposed-form" data-drupal-selector="views-exposed-form-lions-solr-search-default" action="/en/search-results" method="get" id="views-exposed-form-lions-solr-search-default" accept-charset="UTF-8" data-once="befSingleCheckboxFix">
-              <div class="search-box-container">
-                <div class="js-form-item form-item form-type-search-api-autocomplete js-form-type-search-api-autocomplete form-item-keys js-form-item-keys form-no-label">
-                  <input placeholder="Type to Search..." data-drupal-selector="edit-keys" data-search-api-autocomplete-search="lions_solr_search" class="form-autocomplete top-search-text-box form-text ui-autocomplete-input" data-autocomplete-path="/en/search_api_autocomplete/lions_solr_search?display=default&amp;&amp;filter=keys" type="text" id="edit-keys" name="keys" value="" size="30" maxlength="128" data-once="autocomplete search-api-autocomplete" autocomplete="off" data-uw-rm-form="fx" aria-label="Type to Search..." data-uw-hidden-control="hidden-control-element"/>
-                </div>
-                <input data-drupal-selector="edit-submit-lions-solr-search" class="top-search button js-form-submit form-submit disabled" type="submit" id="edit-submit-lions-solr-search" value="Search" disabled="" data-uw-rm-form="fx" aria-label="Submit button" data-uw-hidden-control="hidden-control-element"/>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-  header.append(searchModule);
+  moveInstrumentation(searchPlaceholderRow, searchModule);
+  moveInstrumentation(searchButtonLabelRow, searchModule);
+  moveInstrumentation(searchFormActionRow, searchModule); // Move instrumentation for new row
 
-  const desktopDiv = document.createElement('div');
-  desktopDiv.classList.add('desktop');
+  const searchContainer = document.createElement('div');
+  searchContainer.classList.add('container');
+  const searchRow = document.createElement('div');
+  searchRow.classList.add('row');
 
+  const navTrigger = document.createElement('div');
+  navTrigger.classList.add('nav-trigger');
+  navTrigger.innerHTML = '<i></i><i></i><i></i>';
+
+  const searchCol = document.createElement('div');
+  searchCol.classList.add('col-10', 'offset-1', 'search-col');
+  const searchBoxContainer = document.createElement('div');
+  searchBoxContainer.classList.add('search-box-container');
+
+  const searchForm = document.createElement('form');
+  searchForm.classList.add('views-exposed-form', 'bef-exposed-form');
+  const searchFormAction = searchFormActionRow.querySelector('a')?.href || '/en/search-results';
+  searchForm.setAttribute('action', searchFormAction);
+  searchForm.setAttribute('method', 'get');
+
+  const searchInputDiv = document.createElement('div');
+  searchInputDiv.classList.add('js-form-item', 'form-item', 'form-type-search-api-autocomplete', 'js-form-type-search-api-autocomplete', 'form-item-keys', 'js-form-item-keys', 'form-no-label');
+  const searchInput = document.createElement('input');
+  searchInput.classList.add('form-autocomplete', 'top-search-text-box', 'form-text', 'ui-autocomplete-input');
+  searchInput.setAttribute('type', 'text');
+  searchInput.setAttribute('id', 'edit-keys');
+  searchInput.setAttribute('name', 'keys');
+  searchInput.setAttribute('maxlength', '128');
+  searchInput.setAttribute('aria-label', searchPlaceholderRow.textContent.trim());
+  searchInput.setAttribute('placeholder', searchPlaceholderRow.textContent.trim());
+  searchInputDiv.append(searchInput);
+
+  const searchButton = document.createElement('input');
+  searchButton.classList.add('top-search', 'button', 'js-form-submit', 'form-submit', 'disabled');
+  searchButton.setAttribute('type', 'submit');
+  searchButton.setAttribute('id', 'edit-submit-lions-solr-search');
+  searchButton.setAttribute('value', searchButtonLabelRow.textContent.trim());
+  searchButton.setAttribute('aria-label', searchButtonLabelRow.textContent.trim());
+  searchButton.setAttribute('disabled', '');
+
+  searchForm.append(searchInputDiv, searchButton);
+  searchBoxContainer.append(searchForm);
+  searchCol.append(searchBoxContainer);
+  searchRow.append(navTrigger, searchCol);
+  searchContainer.append(searchRow);
+  searchModule.append(searchContainer);
+  root.append(searchModule);
+
+  // Desktop header
+  const desktopHeader = document.createElement('div');
+  desktopHeader.classList.add('desktop');
   const relativeWrapper = document.createElement('div');
   relativeWrapper.classList.add('relative-wrapper');
+  const desktopContainer = document.createElement('div');
+  desktopContainer.classList.add('container');
+  relativeWrapper.append(desktopContainer);
+  desktopHeader.append(relativeWrapper);
+  root.append(desktopHeader);
 
-  const container = document.createElement('div');
-  container.classList.add('container');
+  // Filter item rows based on their structure (cell count and content)
+  const utilityLinks = itemRows.filter((row) => row.children.length === 3 && row.children[2].querySelector('ul')); // Utility links have 3 cells, 3rd is richtext hierarchy
+  const languageMenuLinks = itemRows.filter((row) => row.children.length === 2 && !row.querySelector('picture')); // Language links have 2 cells, no picture
+  const ctaButtons = itemRows.filter((row) => row.children.length === 2 && !row.querySelector('picture') && !row.children[1].querySelector('ul')); // CTA buttons have 2 cells, no picture, no hierarchy
+  const mainNavigationLinks = itemRows.filter((row) => row.children.length === 3 && row.children[2].querySelector('ul')); // Main nav links have 3 cells, 3rd is richtext hierarchy
 
-  const rowUtility = document.createElement('div');
-  rowUtility.classList.add('row', 'row-utility');
-
+  // Utility Bar
+  const utilityRow = document.createElement('div');
+  utilityRow.classList.add('row', 'row-utility');
   const utilityBar = document.createElement('div');
   utilityBar.classList.add('utility-bar');
+  moveInstrumentation(utilityLinksContainer, utilityBar);
 
-  utilityLinkItems.forEach((row) => {
-    const [labelCell, linkCell] = [...row.children]; // Destructuring for fixed schema
-    const link = document.createElement('a');
-    moveInstrumentation(row, link);
-    if (linkCell) {
-      const foundLink = linkCell.querySelector('a');
-      if (foundLink) {
-        link.href = foundLink.href;
-        link.textContent = labelCell ? labelCell.textContent.trim() : '';
+  utilityLinks.forEach((row) => {
+    const [labelCell, linkCell] = [...row.children];
+    const anchor = document.createElement('a');
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) {
+      anchor.href = foundLink.href;
+      if (foundLink.getAttribute('target') === '_blank') {
+        anchor.setAttribute('target', '_blank');
+        anchor.setAttribute('aria-label', `${labelCell.textContent.trim()} - open in a new tab`);
       }
     }
-    utilityBar.append(link);
+    anchor.textContent = labelCell.textContent.trim();
+    moveInstrumentation(row, anchor);
+    utilityBar.append(anchor);
   });
 
-  const dropdownLang = document.createElement('div');
-  dropdownLang.classList.add('dropdown-lang');
+  // Language Dropdown
+  const langDropdown = document.createElement('div');
+  langDropdown.classList.add('dropdown-lang');
+  moveInstrumentation(languageMenuContainer, langDropdown);
+
   const langButton = document.createElement('button');
-  langButton.type = 'button';
-  langButton.textContent = languageSelectedRow ? languageSelectedRow.children[0]?.textContent.trim() : 'EN'; // Access cell content
-  dropdownLang.append(langButton);
+  langButton.setAttribute('type', 'button');
+  langButton.textContent = 'EN'; // Default language, should be dynamic if possible
+  langDropdown.append(langButton);
 
-  const dropdownLangMenu = document.createElement('ul');
-  dropdownLangMenu.classList.add('dropdown-lang-menu');
-  // moveInstrumentation(languageOptionsContainer, dropdownLangMenu); // languageOptionsContainer is not a row, it's a conceptual container
-
-  languageOptionItems.forEach((row) => {
-    const [labelCell, linkCell] = [...row.children]; // Destructuring for fixed schema
+  const langMenu = document.createElement('ul');
+  langMenu.classList.add('dropdown-lang-menu');
+  languageMenuLinks.forEach((row) => {
+    const [labelCell, linkCell] = [...row.children];
     const li = document.createElement('li');
-    const link = document.createElement('a');
-    moveInstrumentation(row, link);
-    if (linkCell) {
-      const foundLink = linkCell.querySelector('a');
-      if (foundLink) {
-        link.href = foundLink.href;
-        link.textContent = labelCell ? labelCell.textContent.trim() : '';
-      }
-    }
-    li.append(link);
-    dropdownLangMenu.append(li);
+    const anchor = document.createElement('a');
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) anchor.href = foundLink.href;
+    anchor.textContent = labelCell.textContent.trim();
+    moveInstrumentation(row, li); // Move instrumentation to the li element
+    li.append(anchor);
+    langMenu.append(li);
   });
-  dropdownLang.append(dropdownLangMenu);
-  utilityBar.append(dropdownLang);
-  rowUtility.append(utilityBar);
-  container.append(rowUtility);
+  langDropdown.append(langMenu);
+  utilityBar.append(langDropdown);
+  utilityRow.append(utilityBar);
+  desktopContainer.append(utilityRow);
 
-  // Language dropdown toggle
-  langButton.addEventListener('click', () => {
-    dropdownLangMenu.classList.toggle('active');
-  });
-
-  const rowTop = document.createElement('div');
-  rowTop.classList.add('row', 'row-top');
-
+  // Top Row (Logo, Mobile CTA, Mobile Search, Mobile Nav Trigger, Desktop CTA)
+  const topRow = document.createElement('div');
+  topRow.classList.add('row', 'row-top');
   const col = document.createElement('div');
   col.classList.add('col');
-
-  const rowInner = document.createElement('div');
-  rowInner.classList.add('row');
+  const innerRow = document.createElement('div');
+  innerRow.classList.add('row');
+  col.append(innerRow);
+  topRow.append(col);
 
   const logoTagCol = document.createElement('div');
   logoTagCol.classList.add('col', 'logo-tag-col');
-
   const logoLink = document.createElement('a');
   logoLink.classList.add('logo', 'logo-full');
+  const foundLogoLink = logoLinkRow.querySelector('a');
+  if (foundLogoLink) logoLink.href = foundLogoLink.href;
+  logoLink.setAttribute('aria-label', 'Open this option');
   moveInstrumentation(logoLinkRow, logoLink);
-  const foundLogoLink = logoLinkRow.children[0]?.querySelector('a'); // Access cell content
-  if (foundLogoLink) {
-    logoLink.href = foundLogoLink.href;
-    logoLink.setAttribute('aria-label', 'Open this option');
+
+  const picture = logoRow.querySelector('picture');
+  if (picture) {
+    const optimizedPic = createOptimizedPicture(picture.querySelector('img').src, picture.querySelector('img').alt, false, [{ width: '750' }]);
+    moveInstrumentation(logoRow, optimizedPic.querySelector('img'));
+    logoLink.append(optimizedPic);
   }
   logoTagCol.append(logoLink);
+  innerRow.append(logoTagCol);
 
+  // Mobile elements (btns-scrolled, search-mobile, mobile-nav-trigger)
   const visibleMobile = document.createElement('div');
   visibleMobile.classList.add('visible-mobile');
-
   const btnsScrolled = document.createElement('div');
   btnsScrolled.classList.add('btns-scrolled');
-
-  ctaButtonItems.forEach((row) => {
-    const [labelCell, linkCell] = [...row.children]; // Destructuring for fixed schema
-    const link = document.createElement('a');
-    moveInstrumentation(row, link);
-    if (linkCell) {
-      const foundLink = linkCell.querySelector('a');
-      if (foundLink) {
-        link.href = foundLink.href;
-        link.textContent = labelCell ? labelCell.textContent.trim() : '';
-      }
-    }
-    btnsScrolled.append(link);
+  ctaButtons.forEach((row) => {
+    const [labelCell, linkCell] = [...row.children];
+    const anchor = document.createElement('a');
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) anchor.href = foundLink.href;
+    anchor.textContent = labelCell.textContent.trim();
+    anchor.setAttribute('tabindex', '-1');
+    moveInstrumentation(row, anchor); // Move instrumentation for each CTA button
+    btnsScrolled.append(anchor);
   });
-
   visibleMobile.append(btnsScrolled);
 
   const searchMobile = document.createElement('a');
-  searchMobile.href = '#';
   searchMobile.classList.add('search', 'search-mobile', 'visible-mobile');
+  searchMobile.href = '#';
   searchMobile.setAttribute('aria-label', 'Search');
+  searchMobile.setAttribute('tabindex', '-1');
   visibleMobile.append(searchMobile);
 
   const mobileNavTrigger = document.createElement('a');
-  mobileNavTrigger.href = '#';
   mobileNavTrigger.classList.add('mobile-nav-trigger', 'visible-mobile');
+  mobileNavTrigger.href = '#';
   mobileNavTrigger.setAttribute('aria-label', 'Mobile menu');
+  mobileNavTrigger.setAttribute('tabindex', '-1');
   mobileNavTrigger.innerHTML = '<span></span><span></span><span></span><span></span>';
   visibleMobile.append(mobileNavTrigger);
-
   logoTagCol.append(visibleMobile);
-  rowInner.append(logoTagCol);
-  col.append(rowInner);
-  rowTop.append(col);
 
-  const utilityCol = document.createElement('div');
-  utilityCol.classList.add('col', 'utility-col', 'visible-desktop');
-
+  // Desktop Utility Column (CTA buttons and Search)
+  const utilityColDesktop = document.createElement('div');
+  utilityColDesktop.classList.add('col', 'utility-col', 'visible-desktop');
   const menuParent = document.createElement('div');
   menuParent.classList.add('menu-parent');
-
   const ctaCol = document.createElement('div');
   ctaCol.classList.add('cta-col');
-  // moveInstrumentation(ctaButtonsContainer, ctaCol); // ctaButtonsContainer is not a row
+  moveInstrumentation(ctaButtonsContainer, ctaCol);
 
-  ctaButtonItems.forEach((row) => {
-    const [labelCell, linkCell] = [...row.children]; // Destructuring for fixed schema
-    const link = document.createElement('a');
-    moveInstrumentation(row, link);
-    if (linkCell) {
-      const foundLink = linkCell.querySelector('a');
-      if (foundLink) {
-        link.href = foundLink.href;
-        link.textContent = labelCell ? labelCell.textContent.trim() : '';
-        if (link.textContent.toLowerCase() === 'join') {
-          link.classList.add('joinBtn', 'btn', 'bg-primary-e2-blue');
-        } else if (link.textContent.toLowerCase() === 'donate') {
-          link.classList.add('donateBtn', 'btn');
-        }
-      }
+  ctaButtons.forEach((row, index) => {
+    const [labelCell, linkCell] = [...row.children];
+    const anchor = document.createElement('a');
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) anchor.href = foundLink.href;
+    anchor.textContent = labelCell.textContent.trim();
+    if (index === 0) {
+      anchor.classList.add('joinBtn', 'btn', 'bg-primary-e2-blue');
+    } else {
+      anchor.classList.add('donateBtn', 'btn');
     }
-    ctaCol.append(link);
+    // Instrumentation already moved for mobile CTA, no need to move again if it's the same row
+    ctaCol.append(anchor);
   });
 
   const searchDesktop = document.createElement('a');
-  searchDesktop.href = '#';
   searchDesktop.classList.add('search');
+  searchDesktop.href = '#';
   searchDesktop.setAttribute('aria-label', 'Search');
   ctaCol.append(searchDesktop);
-
   menuParent.append(ctaCol);
-  utilityCol.append(menuParent);
-  rowTop.append(utilityCol);
-  container.append(rowTop);
+  utilityColDesktop.append(menuParent);
+  topRow.append(utilityColDesktop);
+  desktopContainer.append(topRow);
 
-  const rowBottom = document.createElement('div');
-  rowBottom.classList.add('row', 'row-bottom');
+  // Bottom Row (Mobile CTA, Main Navigation)
+  const bottomRow = document.createElement('div');
+  bottomRow.classList.add('row', 'row-bottom');
 
   const mobileButtonCol = document.createElement('div');
   mobileButtonCol.classList.add('col-12', 'visible-mobile');
-
-  const mobileBtns = document.createElement('div');
-  mobileBtns.classList.add('mobile-button-col');
-
-  ctaButtonItems.forEach((row) => {
-    const [labelCell, linkCell] = [...row.children]; // Destructuring for fixed schema
-    const link = document.createElement('a');
-    moveInstrumentation(row, link);
-    if (linkCell) {
-      const foundLink = linkCell.querySelector('a');
-      if (foundLink) {
-        link.href = foundLink.href;
-        link.textContent = labelCell ? labelCell.textContent.trim() : '';
-        if (link.textContent.toLowerCase() === 'join') {
-          link.classList.add('joinBtn', 'btn', 'bg-primary-e2-blue');
-        } else if (link.textContent.toLowerCase() === 'donate') {
-          link.classList.add('donateBtn', 'btn');
-        }
-      }
+  const mobileButtonInner = document.createElement('div');
+  mobileButtonInner.classList.add('mobile-button-col');
+  // Re-add CTA buttons for mobile bottom section
+  ctaButtons.forEach((row, index) => {
+    const [labelCell, linkCell] = [...row.children];
+    const anchor = document.createElement('a');
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) anchor.href = foundLink.href;
+    anchor.textContent = labelCell.textContent.trim();
+    if (index === 0) {
+      anchor.classList.add('joinBtn', 'btn', 'bg-primary-e2-blue');
+    } else {
+      anchor.classList.add('donateBtn', 'btn');
     }
-    mobileBtns.append(link);
+    // Instrumentation already moved for desktop CTA, no need to move again if it's the same row
+    mobileButtonInner.append(anchor);
   });
-
-  mobileButtonCol.append(mobileBtns);
-  rowBottom.append(mobileButtonCol);
+  mobileButtonCol.append(mobileButtonInner);
+  bottomRow.append(mobileButtonCol);
 
   const menuCol = document.createElement('div');
   menuCol.classList.add('col-12', 'menu-col');
-
   const menuColInner = document.createElement('div');
   menuColInner.classList.add('menu-col-inner');
+  moveInstrumentation(mainNavigationContainer, menuColInner);
 
-  const tbm = document.createElement('div');
-  tbm.classList.add('tbm', 'tbm-tb-mega-main', 'tbm-no-arrows', 'tb-megamenu', 'tb-megamenu-tb-mega-main');
-  tbm.id = 'a29d7821-4d99-46e5-b825-b7ed66c0d181';
-  tbm.setAttribute('data-breakpoint', '1200');
-  tbm.setAttribute('aria-label', 'tb-mega-main navigation');
-  tbm.setAttribute('data-initialized', 'true');
+  const navWrapper = document.createElement('div');
+  navWrapper.classList.add('tbm', 'tbm-tb-mega-main', 'tbm-no-arrows', 'tb-megamenu', 'tb-megamenu-tb-mega-main');
+  navWrapper.setAttribute('data-breakpoint', '1200');
+  navWrapper.setAttribute('aria-label', 'tb-mega-main navigation');
 
-  const btnNavbar = document.createElement('button');
-  btnNavbar.classList.add('btn', 'btn-navbar', 'tb-megamenu-button');
-  btnNavbar.type = 'button';
-  btnNavbar.setAttribute('aria-label', 'reorder');
-  btnNavbar.innerHTML = '<i class="fa fa-reorder"></i>';
-  tbm.append(btnNavbar);
+  const navButton = document.createElement('button');
+  navButton.classList.add('btn', 'btn-navbar', 'tb-megamenu-button');
+  navButton.setAttribute('type', 'button');
+  navButton.setAttribute('aria-label', 'reorder');
+  navButton.innerHTML = '<i class="fa fa-reorder"></i>';
+  navWrapper.append(navButton);
 
   const navCollapse = document.createElement('div');
   navCollapse.classList.add('nav-collapse');
+  const navList = document.createElement('ul');
+  navList.classList.add('tbm-nav', 'level-0', 'tb-megamenu-nav', 'nav');
 
-  const tbmNav = document.createElement('ul');
-  tbmNav.classList.add('tbm-nav', 'level-0', 'items-4', 'tb-megamenu-nav', 'nav');
-  // moveInstrumentation(navigationMenuContainer, tbmNav); // navigationMenuContainer is not a row
-
-  navigationMenuItems.forEach((row) => {
-    const [labelCell, linkCell, hierarchyTreeCell] = [...row.children]; // Destructuring for fixed schema
-
+  mainNavigationLinks.forEach((row) => {
+    const [labelCell, linkCell, hierarchyTreeCell] = [...row.children];
     const li = document.createElement('li');
     li.classList.add('tbm-item', 'level-1', 'tb-megamenu-item', 'mega');
-    li.setAttribute('aria-level', '1');
-    li.setAttribute('data-title', labelCell ? labelCell.textContent.trim() : '');
     moveInstrumentation(row, li);
 
-    const subListContent = hierarchyTreeCell?.innerHTML || '';
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = subListContent;
-    const subList = tempDiv.querySelector('ul');
+    const subList = hierarchyTreeCell?.querySelector('ul');
+    const directLink = linkCell?.querySelector('a')?.href;
 
     if (subList) {
       li.classList.add('tbm-item--has-dropdown');
-      const span = document.createElement('span');
-      span.classList.add('tbm-link', 'level-1', 'no-link', 'tbm-toggle', 'tb-megamenu-no-link');
-      span.setAttribute('tabindex', '0');
-      span.setAttribute('aria-expanded', 'false');
-      span.textContent = labelCell ? labelCell.textContent.trim() : '';
-      li.append(span);
+      const trigger = document.createElement('span');
+      trigger.classList.add('tbm-link', 'level-1', 'no-link', 'tbm-toggle', 'tb-megamenu-no-link');
+      trigger.textContent = labelCell.textContent.trim();
+      trigger.setAttribute('tabindex', '0');
+      trigger.setAttribute('aria-expanded', 'false');
+      li.append(trigger);
 
-      const subMenu = document.createElement('div');
-      subMenu.classList.add('tbm-submenu', 'tbm-item-child', 'tbm-has-width');
-      subMenu.style.width = '800px'; // Example width, adjust as needed
+      const submenu = document.createElement('div');
+      submenu.classList.add('tbm-submenu', 'tbm-item-child', 'tbm-has-width');
+      submenu.style.width = '800px';
 
-      const tbmRow = document.createElement('div');
-      tbmRow.classList.add('tbm-row');
+      const subRow = document.createElement('div');
+      subRow.classList.add('tbm-row');
+      submenu.append(subRow);
 
-      const tbmColumn = document.createElement('div');
-      tbmColumn.classList.add('tbm-column', 'span12'); // Adjusted to span12 for full width
-      const tbmColumnInner = document.createElement('div');
-      tbmColumnInner.classList.add('tbm-column-inner');
+      const column = document.createElement('div');
+      column.classList.add('tbm-column', 'span3');
+      const columnInner = document.createElement('div');
+      columnInner.classList.add('tbm-column-inner');
+      const subNavUl = document.createElement('ul');
+      subNavUl.classList.add('tbm-subnav', 'level-1', 'items-1');
 
-      const tbmSubnav = document.createElement('ul');
-      tbmSubnav.classList.add('tbm-subnav', 'level-1', 'items-1');
+      const subLi = document.createElement('li');
+      subLi.classList.add('tbm-item', 'level-2', 'tbm-group', 'tb-megamenu-item', 'mega');
+      const subTrigger = document.createElement('span');
+      subTrigger.classList.add('tbm-link', 'level-2', 'no-link', 'tbm-group-title', 'tb-megamenu-no-link');
+      subTrigger.textContent = labelCell.textContent.trim();
+      subTrigger.setAttribute('tabindex', '0');
+      subTrigger.setAttribute('aria-expanded', 'false');
+      subLi.append(subTrigger);
 
-      // Apply classes to nested elements from ORIGINAL HTML
-      subList.querySelectorAll('li').forEach(item => item.classList.add('tbm-item', 'level-2', 'tbm-group', 'tb-megamenu-item', 'mega'));
-      subList.querySelectorAll('a').forEach(item => item.classList.add('tbm-link', 'level-3'));
-      subList.querySelectorAll('span').forEach(item => item.classList.add('tbm-link', 'level-2', 'no-link', 'tbm-group-title', 'tb-megamenu-no-link'));
-      subList.querySelectorAll('ul').forEach(item => item.classList.add('tbm-subnav', 'level-2', 'items-5')); // Assuming depth 2 has 5 items based on original HTML
+      const subGroupContainer = document.createElement('div');
+      subGroupContainer.classList.add('tbm-group-container', 'tbm-item-child');
+      const subGroupRow = document.createElement('div');
+      subGroupRow.classList.add('tbm-row');
+      const subGroupColumn = document.createElement('div');
+      subGroupColumn.classList.add('tbm-column', 'span12');
+      const subGroupColumnInner = document.createElement('div');
+      subGroupColumnInner.classList.add('tbm-column-inner');
+      const nestedUl = document.createElement('ul');
+      nestedUl.classList.add('tbm-subnav', 'level-2'); // Initial class for the nested UL
+      nestedUl.innerHTML = hierarchyTreeCell.innerHTML;
+      transformNestedLists(nestedUl); // Apply recursive transformation
 
-      transformNestedLists(subList);
-      // Move instrumentation from the original hierarchyTreeCell to the new subList
-      moveInstrumentation(hierarchyTreeCell, subList);
-      tbmSubnav.append(subList);
+      subGroupColumnInner.append(nestedUl);
+      subGroupColumn.append(subGroupColumnInner);
+      subGroupRow.append(subGroupColumn);
+      subGroupContainer.append(subGroupRow);
+      subLi.append(subGroupContainer);
+      subNavUl.append(subLi);
+      columnInner.append(subNavUl);
+      column.append(columnInner);
+      subRow.append(column);
+      li.append(submenu);
 
-      tbmColumnInner.append(tbmSubnav);
-      tbmColumn.append(tbmColumnInner);
-      tbmRow.append(tbmColumn);
-      subMenu.append(tbmRow);
-      li.append(subMenu);
-
-      span.addEventListener('click', () => {
-        span.setAttribute('aria-expanded', span.getAttribute('aria-expanded') === 'false' ? 'true' : 'false');
-        subMenu.classList.toggle('active');
+      trigger.addEventListener('click', () => {
+        li.classList.toggle('active');
+        submenu.classList.toggle('active');
+        trigger.setAttribute('aria-expanded', li.classList.contains('active'));
       });
     } else {
-      const link = document.createElement('a');
-      link.classList.add('tbm-link', 'level-1');
-      const foundLink = linkCell ? linkCell.querySelector('a') : null;
-      if (foundLink) {
-        link.href = foundLink.href;
-        link.textContent = labelCell ? labelCell.textContent.trim() : '';
-      }
-      li.append(link);
+      const anchor = document.createElement('a');
+      anchor.classList.add('tbm-link', 'level-1');
+      if (directLink) anchor.href = directLink;
+      anchor.textContent = labelCell.textContent.trim();
+      li.append(anchor);
     }
-    tbmNav.append(li);
+    navList.append(li);
   });
 
-  navCollapse.append(tbmNav);
-  tbm.append(navCollapse);
-  menuColInner.append(tbm);
+  navCollapse.append(navList);
+  navWrapper.append(navCollapse);
+  menuColInner.append(navWrapper);
 
+  // Mobile utility bar (duplicate from desktop for mobile view)
   const mobileUtilityBar = document.createElement('div');
-  mobileUtilityBar.classList.add('visible-mobile');
-  // Re-create utility bar content for mobile to ensure instrumentation is moved correctly
-  const mobileUtilityBarInner = document.createElement('div');
-  mobileUtilityBarInner.classList.add('utility-bar');
-  utilityLinkItems.forEach((row) => {
+  mobileUtilityBar.classList.add('visible-mobile', 'utility-bar');
+  // Re-add utility links for mobile
+  utilityLinks.forEach((row) => {
     const [labelCell, linkCell] = [...row.children];
-    const link = document.createElement('a');
-    moveInstrumentation(row, link); // Move instrumentation again for mobile version
-    if (linkCell) {
-      const foundLink = linkCell.querySelector('a');
-      if (foundLink) {
-        link.href = foundLink.href;
-        link.textContent = labelCell ? labelCell.textContent.trim() : '';
+    const anchor = document.createElement('a');
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) {
+      anchor.href = foundLink.href;
+      if (foundLink.getAttribute('target') === '_blank') {
+        anchor.setAttribute('target', '_blank');
+        anchor.setAttribute('aria-label', `${labelCell.textContent.trim()} - open in a new tab`);
       }
     }
-    mobileUtilityBarInner.append(link);
+    anchor.textContent = labelCell.textContent.trim();
+    moveInstrumentation(row, anchor); // Move instrumentation for each utility link
+    mobileUtilityBar.append(anchor);
   });
-  const mobileDropdownLang = document.createElement('div');
-  mobileDropdownLang.classList.add('dropdown-lang');
+  // Re-add language dropdown for mobile
+  const mobileLangDropdown = document.createElement('div');
+  mobileLangDropdown.classList.add('dropdown-lang');
   const mobileLangButton = document.createElement('button');
-  mobileLangButton.type = 'button';
-  mobileLangButton.textContent = languageSelectedRow ? languageSelectedRow.children[0]?.textContent.trim() : 'EN';
-  mobileDropdownLang.append(mobileLangButton);
-  const mobileDropdownLangMenu = dropdownLangMenu.cloneNode(true); // Clone the desktop menu for mobile
-  mobileDropdownLang.append(mobileDropdownLangMenu);
-  mobileUtilityBarInner.append(mobileDropdownLang);
-  mobileUtilityBar.append(mobileUtilityBarInner);
+  mobileLangButton.setAttribute('type', 'button');
+  mobileLangButton.textContent = 'EN';
+  mobileLangDropdown.append(mobileLangButton);
+  const mobileLangMenu = document.createElement('ul');
+  mobileLangMenu.classList.add('dropdown-lang-menu');
+  languageMenuLinks.forEach((row) => {
+    const [labelCell, linkCell] = [...row.children];
+    const li = document.createElement('li');
+    const anchor = document.createElement('a');
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) anchor.href = foundLink.href;
+    anchor.textContent = labelCell.textContent.trim();
+    moveInstrumentation(row, li); // Move instrumentation to the li element
+    li.append(anchor);
+    mobileLangMenu.append(li);
+  });
+  mobileLangDropdown.append(mobileLangMenu);
+  mobileUtilityBar.append(mobileLangDropdown);
   menuColInner.append(mobileUtilityBar);
 
-  // Language dropdown toggle for mobile
-  mobileLangButton.addEventListener('click', () => {
-    mobileDropdownLangMenu.classList.toggle('active');
-  });
-
   menuCol.append(menuColInner);
-  rowBottom.append(menuCol);
-  container.append(rowBottom);
+  bottomRow.append(menuCol);
+  desktopContainer.append(bottomRow);
 
-  relativeWrapper.append(container);
-  desktopDiv.append(relativeWrapper);
-  header.append(desktopDiv);
+  block.replaceChildren(root);
 
-  block.replaceChildren(header);
-
-  // Search trigger toggle
-  const searchTrigger = header.querySelector('.nav-trigger');
-  const searchContainer = header.querySelector('.search-module .container');
-  if (searchTrigger && searchContainer) {
-    searchTrigger.addEventListener('click', () => {
-      searchTrigger.classList.toggle('active');
-      searchContainer.classList.toggle('active');
-    });
-  }
-
-  // Mobile nav trigger toggle
-  const mobileNavTriggerBtn = header.querySelector('.mobile-nav-trigger');
-  const mobileMenu = header.querySelector('.menu-col-inner');
-  if (mobileNavTriggerBtn && mobileMenu) {
-    mobileNavTriggerBtn.addEventListener('click', () => {
-      mobileNavTriggerBtn.classList.toggle('active');
-      mobileMenu.classList.toggle('active');
-    });
-  }
-
-  // Scroll behavior
-  let lastScrollY = window.scrollY;
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > lastScrollY && window.scrollY > 0) {
-      header.classList.add('nav-up');
-    } else {
-      header.classList.remove('nav-up');
-    }
-    if (window.scrollY > 0) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-    lastScrollY = window.scrollY;
-  });
-
-  header.querySelectorAll('picture > img').forEach((img) => {
+  // Optimize images
+  root.querySelectorAll('picture > img').forEach((img) => {
     const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
     moveInstrumentation(img, optimizedPic.querySelector('img'));
     img.closest('picture').replaceWith(optimizedPic);
+  });
+
+  // Toggle search module
+  const searchTrigger = root.querySelector('.nav-trigger');
+  const searchModuleEl = root.querySelector('.search-module');
+  searchTrigger.addEventListener('click', () => {
+    searchModuleEl.classList.toggle('active');
+    searchTrigger.classList.toggle('active');
+  });
+
+  // Toggle language dropdown
+  root.querySelectorAll('.dropdown-lang').forEach((dropdown) => {
+    const button = dropdown.querySelector('button');
+    const menu = dropdown.querySelector('.dropdown-lang-menu');
+    button.addEventListener('click', (e) => {
+      e.stopPropagation();
+      menu.classList.toggle('active');
+    });
+    document.addEventListener('click', (e) => {
+      if (!dropdown.contains(e.target)) {
+        menu.classList.remove('active');
+      }
+    });
+  });
+
+  // Mobile nav toggle
+  const mobileNavTriggerEl = root.querySelector('.mobile-nav-trigger');
+  const mobileMenuCol = root.querySelector('.menu-col');
+  mobileNavTriggerEl.addEventListener('click', (e) => {
+    e.preventDefault();
+    mobileMenuCol.classList.toggle('active');
+    mobileNavTriggerEl.classList.toggle('active');
+    root.classList.toggle('mobile-menu-open');
+  });
+
+  // Scroll behavior for header
+  let lastScrollY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > lastScrollY && window.scrollY > 0) {
+      root.classList.add('nav-up');
+      root.classList.remove('nav-down');
+    } else if (window.scrollY < lastScrollY && window.scrollY > 0) {
+      root.classList.add('nav-down');
+      root.classList.remove('nav-up');
+    } else {
+      root.classList.remove('nav-up', 'nav-down');
+    }
+
+    if (window.scrollY > 50) { // Example threshold for 'scrolled' class
+      root.classList.add('scrolled');
+    } else {
+      root.classList.remove('scrolled');
+    }
+    lastScrollY = window.scrollY;
   });
 }

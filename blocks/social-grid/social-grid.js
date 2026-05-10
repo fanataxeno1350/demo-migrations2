@@ -5,37 +5,39 @@ export default async function decorate(block) {
   const children = [...block.children];
 
   const [
-    titleRow,
+    headlineRow,
     descriptionRow,
-    ...itemRows // socialLinksContainerRow and wallsEmbedContainerRow are container fields, not actual rows
+    ...itemRows
   ] = children;
 
-  const socialGridWrapper = document.createElement('div');
-  // socialGridWrapper.classList.add('block-wrapper'); // Removed: block-wrapper is the block's own class, already on the outer div
-  moveInstrumentation(titleRow, socialGridWrapper);
+  const root = document.createElement('div');
+  root.classList.add('block-wrapper');
 
-  const title = document.createElement('h3');
-  title.textContent = titleRow.textContent.trim();
-  socialGridWrapper.append(title);
+  // Headline
+  const headline = document.createElement('h3');
+  moveInstrumentation(headlineRow, headline);
+  headline.textContent = headlineRow.textContent.trim();
+  root.append(headline);
 
+  // Separator
   const separator = document.createElement('div');
   separator.classList.add('separator');
-  socialGridWrapper.append(separator);
+  separator.innerHTML = '&nbsp;';
+  root.append(separator);
 
-  const description = document.createElement('div'); // Changed to div to avoid <p> inside <p>
-  description.innerHTML = descriptionRow.children[0]?.innerHTML || ''; // Access content from the cell, not the row
-  socialGridWrapper.append(description);
+  // Description
+  const description = document.createElement('div'); // Use div for richtext to avoid <p> inside <p>
+  moveInstrumentation(descriptionRow, description);
+  description.innerHTML = descriptionRow.innerHTML; // Read innerHTML directly from the row for richtext
+  root.append(description);
 
+  // Social Links Wrapper
   const socialLinksWrapper = document.createElement('div');
   socialLinksWrapper.classList.add('row', 'd-flex', 'justify-content-left');
-  // moveInstrumentation(socialLinksContainerRow, socialLinksWrapper); // socialLinksContainerRow is not a real row
+  // No moveInstrumentation for socialLinksWrapper as it's not an authored row container
 
-  const wallsEmbedWrapper = document.createElement('div');
-  // moveInstrumentation(wallsEmbedContainerRow, wallsEmbedWrapper); // wallsEmbedContainerRow is not a real row
-
-  // Filter items based on content presence, assuming social links have pictures/images
-  const socialLinkItems = itemRows.filter((row) => row.children.length === 3 && (row.querySelector('picture') || row.querySelector('img')));
-  const wallsEmbedItems = itemRows.filter((row) => row.children.length === 3 && !row.querySelector('picture') && !row.querySelector('img'));
+  const socialLinkItems = itemRows.filter((row) => row.children.length === 3 && row.querySelector('picture'));
+  const embedItems = itemRows.filter((row) => row.children.length === 3 && !row.querySelector('picture'));
 
   socialLinkItems.forEach((row) => {
     const [iconCell, linkCell, labelCell] = [...row.children];
@@ -44,14 +46,15 @@ export default async function decorate(block) {
     col.classList.add('col-sm-4', 'col-md-2', 'col-lg-1', 'text-align-center');
     col.style.paddingTop = '25px';
 
-    const link = document.createElement('a');
+    const anchor = document.createElement('a');
     const foundLink = linkCell.querySelector('a');
     if (foundLink) {
-      link.href = foundLink.href;
-      link.rel = 'noopener';
-      link.target = '_blank';
-      link.setAttribute('aria-label', `${labelCell.textContent.trim()} - open in a new tab`);
+      anchor.href = foundLink.href;
+      anchor.setAttribute('rel', 'noopener');
+      anchor.setAttribute('target', '_blank');
+      anchor.setAttribute('aria-label', `${labelCell.textContent.trim()} - open in a new tab`);
     }
+    moveInstrumentation(linkCell, anchor);
 
     const picture = iconCell.querySelector('picture');
     if (picture) {
@@ -59,42 +62,62 @@ export default async function decorate(block) {
       if (img) {
         const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '60%' }]);
         moveInstrumentation(img, optimizedPic.querySelector('img'));
-        link.append(optimizedPic);
+        anchor.append(optimizedPic);
       }
     }
+    moveInstrumentation(iconCell, anchor);
 
     const label = document.createElement('h6');
     label.style.lineHeight = '18px';
     label.style.marginTop = '10px';
     label.textContent = labelCell.textContent.trim();
+    moveInstrumentation(labelCell, label);
 
-    moveInstrumentation(row, col);
-    col.append(link, label);
+    col.append(anchor);
+    col.append(label);
     socialLinksWrapper.append(col);
+    moveInstrumentation(row, col);
   });
 
-  wallsEmbedItems.forEach((row) => {
+  root.append(socialLinksWrapper);
+
+  // Embeds Wrapper
+  const embedsWrapper = document.createElement('div');
+  // No moveInstrumentation for embedsWrapper as it's not an authored row container
+
+  embedItems.forEach((row) => {
     const [embedUrlCell, embedKindCell, embedConfigCell] = [...row.children];
 
-    const kind = embedKindCell.textContent.trim();
-    const el = document.createElement('div');
-    el.dataset.embedKind = kind;
+    const embedUrl = embedUrlCell.textContent.trim();
+    const embedKind = embedKindCell.textContent.trim();
+    const embedConfig = embedConfigCell.textContent.trim();
 
-    switch (kind) {
-      case 'elfsight-widget': {
-        const config = JSON.parse(embedConfigCell.textContent.trim());
-        el.classList.add(`elfsight-app-${config.app_id}`);
-        loadScript('https://static.elfsight.com/platform/platform.js');
-        break;
-      }
+    const embedDiv = document.createElement('div');
+    embedDiv.dataset.embedKind = embedKind;
+    embedDiv.dataset.embedUrl = embedUrl;
+    embedDiv.dataset.embedConfig = embedConfig;
+    moveInstrumentation(row, embedDiv);
+
+    switch (embedKind) {
       case 'walls-io': {
         const wallScript = document.createElement('script');
         wallScript.src = 'https://walls.io/js/wallsio-widget-1.2.js';
-        wallScript.dataset.wallurl = embedUrlCell.textContent.trim();
+        wallScript.dataset.wallurl = embedUrl;
         wallScript.dataset.width = '100%';
         wallScript.dataset.autoheight = '1';
         wallScript.async = true;
-        el.append(wallScript);
+        embedDiv.append(wallScript);
+        break;
+      }
+      case 'elfsight-widget': {
+        try {
+          const config = JSON.parse(embedConfig);
+          embedDiv.classList.add(`elfsight-app-${config.app_id}`);
+          loadScript('https://static.elfsight.com/platform/platform.js');
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.error('Failed to parse Elfsight config:', e);
+        }
         break;
       }
       case 'twitter-embed':
@@ -105,20 +128,21 @@ export default async function decorate(block) {
           'instagram-embed': 'https://www.instagram.com/embed.js',
           'tiktok-embed': 'https://www.tiktok.com/embed.js',
         };
-        loadScript(platforms[kind]);
+        loadScript(platforms[embedKind]);
         const link = document.createElement('a');
-        link.href = embedUrlCell.textContent.trim();
-        link.textContent = `View post on ${kind.split('-')[0].charAt(0).toUpperCase()}${kind.split('-')[0].slice(1)}`;
-        el.append(link);
+        link.href = embedUrl;
+        link.textContent = `View post on ${embedKind.split('-')[0].charAt(0).toUpperCase()}${embedKind.split('-')[0].slice(1)}`;
+        embedDiv.append(link);
         break;
       }
       default:
-        // Handle other embed kinds or log a warning
+        // eslint-disable-next-line no-console
+        console.warn(`Unknown embed kind: ${embedKind}`);
         break;
     }
-    moveInstrumentation(row, el);
-    wallsEmbedWrapper.append(el);
+    embedsWrapper.append(embedDiv);
   });
+  root.append(embedsWrapper);
 
-  block.replaceChildren(socialGridWrapper, socialLinksWrapper, wallsEmbedWrapper);
+  block.replaceChildren(root);
 }

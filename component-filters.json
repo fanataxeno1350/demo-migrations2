@@ -37,16 +37,18 @@
     "components": [
       "footer-social-item",
       "footer-section-item",
-      "footer-related-link-item"
+      "footer-link-item",
+      "footer-address-item",
+      "be-related-link-item"
     ]
   },
   {
     "id": "header-global-navigation",
     "components": [
       "utility-link-item",
-      "language-option-item",
-      "cta-button-item",
-      "navigation-item"
+      "language-menu-item",
+      "main-navigation-item",
+      "cta-button-item"
     ]
   },
   {
@@ -62,8 +64,8 @@
   {
     "id": "social-grid",
     "components": [
-      "social-grid-item",
-      "walls-embed-item"
+      "social-link-item",
+      "walls-io-embed"
     ]
   },
   {

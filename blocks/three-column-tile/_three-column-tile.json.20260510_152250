@@ -38,8 +38,8 @@
       "fields": [
         {
           "component": "text",
-          "label": "Headline",
-          "name": "headline",
+          "label": "Section Heading",
+          "name": "heading",
           "valueType": "string"
         },
         {
@@ -49,15 +49,15 @@
           "name": "tiles"
         },
         {
-          "component": "aem-content",
-          "label": "CTA Link",
-          "name": "ctaLink",
+          "component": "text",
+          "label": "CTA Button Label",
+          "name": "ctaLabel",
           "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "CTA Label",
-          "name": "ctaLabel",
+          "component": "aem-content",
+          "label": "CTA Button Link",
+          "name": "ctaLink",
           "valueType": "string"
         }
       ]
@@ -65,6 +65,12 @@
     {
       "id": "tile-item",
       "fields": [
+        {
+          "component": "aem-content",
+          "label": "Tile Link",
+          "name": "link",
+          "valueType": "string"
+        },
         {
           "component": "reference",
           "label": "Tile Background Image",
@@ -81,12 +87,6 @@
           "component": "text",
           "label": "Tile Title",
           "name": "title",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Tile Link",
-          "name": "tileLink",
           "valueType": "string"
         },
         {

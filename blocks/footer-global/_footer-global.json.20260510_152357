@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Footer-Global",
+      "title": "Footer Global",
       "id": "footer-global",
       "plugins": {
         "xwalk": {
@@ -10,14 +10,14 @@
             "template": {
               "filter": "footer-global",
               "model": "footer-global",
-              "name": "Footer-Global"
+              "name": "Footer Global"
             }
           }
         }
       }
     },
     {
-      "title": "Footer-Social-Item",
+      "title": "Footer Social Item",
       "id": "footer-social-item",
       "plugins": {
         "xwalk": {
@@ -25,14 +25,14 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "footer-social-item",
-              "name": "Footer-Social-Item"
+              "name": "Footer Social Item"
             }
           }
         }
       }
     },
     {
-      "title": "Footer-Section-Item",
+      "title": "Footer Section Item",
       "id": "footer-section-item",
       "plugins": {
         "xwalk": {
@@ -40,52 +40,22 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "footer-section-item",
-              "name": "Footer-Section-Item"
+              "name": "Footer Section Item"
             }
           }
         }
       }
     },
     {
-      "title": "Footer-Link-Item",
-      "id": "footer-link-item",
+      "title": "Footer Related Link Item",
+      "id": "footer-related-link-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "footer-link-item",
-              "name": "Footer-Link-Item"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Footer-Address-Item",
-      "id": "footer-address-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "footer-address-item",
-              "name": "Footer-Address-Item"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Be-Related-Link-Item",
-      "id": "be-related-link-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "be-related-link-item",
-              "name": "Be-Related-Link-Item"
+              "model": "footer-related-link-item",
+              "name": "Footer Related Link Item"
             }
           }
         }
@@ -117,44 +87,92 @@
         {
           "component": "reference",
           "label": "Footer Logo",
-          "name": "footerLogo"
+          "name": "footerLogo",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Address Link",
+          "name": "addressLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Address Line 1",
+          "name": "addressLine1",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Address Line 2",
+          "name": "addressLine2",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Phone Link",
+          "name": "phoneLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Phone Number",
+          "name": "phoneNumber",
+          "valueType": "string"
         },
         {
           "component": "container",
-          "item": "footer-address-item",
-          "label": "Footer Address Items",
-          "name": "footerAddresses"
-        },
-        {
-          "component": "container",
-          "item": "be-related-link-item",
-          "label": "Also Of Interest Links",
-          "name": "beRelatedLinks"
+          "item": "footer-related-link-item",
+          "label": "Footer Related Links",
+          "name": "footerRelatedLinks"
         },
         {
           "component": "richtext",
-          "label": "Legal Text",
-          "name": "legal"
+          "label": "Footer Legal Copy",
+          "name": "footerLegalCopy",
+          "valueType": "string"
         },
         {
           "component": "text",
           "label": "Welcome Headline",
-          "name": "welcomeHeadline"
+          "name": "welcomeHeadline",
+          "valueType": "string"
         },
         {
-          "component": "richtext",
-          "label": "Promo Body",
-          "name": "promoBody"
-        },
-        {
-          "component": "richtext",
-          "label": "Cookie Message",
-          "name": "cookieBody"
+          "component": "aem-content",
+          "label": "Welcome CTA Link",
+          "name": "welcomeCtaLink",
+          "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Accept Cookie Button Label",
-          "name": "acceptCookieLabel"
+          "label": "Welcome CTA Label",
+          "name": "welcomeCtaLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Welcome CTA Body",
+          "name": "welcomeCtaBody",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "GDPR Message Body",
+          "name": "gdprBody",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "GDPR Privacy Policy Link",
+          "name": "gdprPrivacyLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "GDPR CTA Label",
+          "name": "gdprCtaLabel",
+          "valueType": "string"
         }
       ]
     },
@@ -163,13 +181,15 @@
       "fields": [
         {
           "component": "aem-content",
-          "label": "Social Link",
-          "name": "link"
+          "label": "Social Link URL",
+          "name": "socialLink",
+          "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Platform",
-          "name": "platform"
+          "label": "Social Network Type",
+          "name": "socialType",
+          "valueType": "string"
         },
         {
           "component": "richtext",
@@ -185,77 +205,37 @@
         {
           "component": "text",
           "label": "Section Title",
-          "name": "title"
+          "name": "title",
+          "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Direct Link URL",
-          "name": "link"
+          "name": "link",
+          "valueType": "string"
         },
         {
           "component": "richtext",
           "label": "Section Links",
-          "name": "sectionLinks"
+          "name": "sectionLinks",
+          "valueType": "string"
         }
       ]
     },
     {
-      "id": "footer-link-item",
+      "id": "footer-related-link-item",
       "fields": [
-        {
-          "component": "text",
-          "label": "Link Label",
-          "name": "label"
-        },
-        {
-          "component": "aem-content",
-          "label": "Link",
-          "name": "link"
-        }
-      ]
-    },
-    {
-      "id": "footer-address-item",
-      "fields": [
-        {
-          "component": "aem-content",
-          "label": "Address Link",
-          "name": "addressLink"
-        },
-        {
-          "component": "text",
-          "label": "Address Line 1",
-          "name": "addressLine1"
-        },
-        {
-          "component": "text",
-          "label": "Address Line 2",
-          "name": "addressLine2"
-        },
-        {
-          "component": "aem-content",
-          "label": "Phone Link",
-          "name": "phoneLink"
-        },
-        {
-          "component": "text",
-          "label": "Phone Number",
-          "name": "phoneNumber"
-        }
-      ]
-    },
-    {
-      "id": "be-related-link-item",
-      "fields": [
-        {
-          "component": "text",
-          "label": "Related Link Label",
-          "name": "label"
-        },
         {
           "component": "aem-content",
           "label": "Related Link URL",
-          "name": "link"
+          "name": "relatedLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Related Link Label",
+          "name": "relatedLabel",
+          "valueType": "string"
         }
       ]
     }
@@ -266,9 +246,7 @@
       "components": [
         "footer-social-item",
         "footer-section-item",
-        "footer-link-item",
-        "footer-address-item",
-        "be-related-link-item"
+        "footer-related-link-item"
       ]
     }
   ]

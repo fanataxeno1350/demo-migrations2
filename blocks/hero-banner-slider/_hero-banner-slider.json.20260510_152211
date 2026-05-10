@@ -49,7 +49,7 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Video Source",
+          "label": "Background Video",
           "name": "video",
           "valueType": "string"
         },
@@ -67,14 +67,14 @@
         },
         {
           "component": "text",
-          "label": "Headline",
-          "name": "headline",
+          "label": "Banner Title",
+          "name": "title",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Subheadline",
-          "name": "subheadline",
+          "label": "Banner Subtitle",
+          "name": "subtitle",
           "valueType": "string"
         }
       ]
