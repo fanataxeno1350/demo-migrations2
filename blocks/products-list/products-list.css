@@ -49,3 +49,9 @@ border-color: #a11414;
 padding-right: 30px;
 padding-left: 30px;
  } }
+
+.product-list-block .wp-block-group {
+    display: grid;                                                                                                                                                                
+    grid-template-columns: repeat(3, 1fr);                                                                                                                                        
+    gap: 1.5rem; 
+}
