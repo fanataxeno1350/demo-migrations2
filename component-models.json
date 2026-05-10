@@ -142,6 +142,103 @@
     ]
   },
   {
+    "id": "brand-breadcrumbs",
+    "fields": [
+      {
+        "component": "container",
+        "item": "breadcrumb-item",
+        "label": "Breadcrumb Items",
+        "name": "breadcrumbs"
+      },
+      {
+        "component": "container",
+        "item": "social-link-item",
+        "label": "Social Links",
+        "name": "socialLinks"
+      }
+    ]
+  },
+  {
+    "id": "breadcrumb-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Breadcrumb Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Breadcrumb Link",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "social-link-item",
+    "fields": [
+      {
+        "component": "aem-content",
+        "label": "Social Link",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "brand-campaign-slider",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Section Title",
+        "name": "title",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "campaign-slide-item",
+        "label": "Slides",
+        "name": "slides"
+      }
+    ]
+  },
+  {
+    "id": "campaign-slide-item",
+    "fields": [
+      {
+        "component": "aem-content",
+        "label": "YouTube Video Link",
+        "name": "videoLink",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Thumbnail Image",
+        "name": "image",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Slide Title",
+        "name": "title",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "brand-description",
     "fields": [
       {
@@ -154,6 +251,223 @@
         "component": "richtext",
         "label": "Description",
         "name": "description",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "brand-hero-banner",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Mobile Banner Image",
+        "name": "mobileImage",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Desktop Banner Image",
+        "name": "desktopImage",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "brand-history-carousel",
+    "fields": [
+      {
+        "component": "container",
+        "item": "carousel-item",
+        "label": "Carousel Items",
+        "name": "carouselItems"
+      }
+    ]
+  },
+  {
+    "id": "carousel-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Image 1",
+        "name": "image1",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Image 2",
+        "name": "image2",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Image 3",
+        "name": "image3",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "brand-product-family",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Product Family Title",
+        "name": "familyTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "brand-product-item",
+        "label": "Products",
+        "name": "products"
+      }
+    ]
+  },
+  {
+    "id": "brand-product-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Product Image",
+        "name": "image",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Product Label",
+        "name": "label",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "brand-social-feeds",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Section Title",
+        "name": "sectionTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "social-platform-item",
+        "label": "Social Platforms",
+        "name": "socialPlatforms"
+      },
+      {
+        "component": "container",
+        "item": "facebook-embed-item",
+        "label": "Facebook Embeds",
+        "name": "facebookEmbeds"
+      },
+      {
+        "component": "container",
+        "item": "instagram-post-item",
+        "label": "Instagram Posts",
+        "name": "instagramPosts"
+      }
+    ]
+  },
+  {
+    "id": "social-platform-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Platform Icon",
+        "name": "platformIcon",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Platform Label",
+        "name": "platformLabel",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "facebook-embed-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Embed URL",
+        "name": "data-embed-url",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Embed Kind",
+        "name": "data-embed-kind",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Embed Config",
+        "name": "data-embed-config",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "instagram-post-item",
+    "fields": [
+      {
+        "component": "aem-content",
+        "label": "Instagram Post Link",
+        "name": "postLink",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Instagram Post Image",
+        "name": "postImage",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "brand-video-commercial",
+    "fields": [
+      {
+        "component": "richtext",
+        "label": "Headline",
+        "name": "headline",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "external-embed-item",
+        "label": "External Embeds",
+        "name": "embeds"
+      }
+    ]
+  },
+  {
+    "id": "external-embed-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Embed URL",
+        "name": "data-embed-url",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Embed Kind",
+        "name": "data-embed-kind",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Embed Config",
+        "name": "data-embed-config",
         "valueType": "string"
       }
     ]
@@ -343,27 +657,63 @@
         "name": "footerSections"
       },
       {
+        "component": "container",
+        "item": "footer-link-item",
+        "label": "Footer Legal/Bottom Links",
+        "name": "footerLinks"
+      },
+      {
         "component": "richtext",
-        "label": "Contact Details",
-        "name": "contactDetails",
+        "label": "Contact Info",
+        "name": "contactInfo",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Telephone Label",
+        "name": "telLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Telephone Link",
+        "name": "telLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Fax Label",
+        "name": "faxLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Fax Number",
+        "name": "faxNumber",
         "valueType": "string"
       },
       {
         "component": "richtext",
-        "label": "Contact Numbers",
-        "name": "contactNumbers",
+        "label": "Newsletter Placeholder",
+        "name": "newsletterPlaceholder",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Newsletter Button Label",
+        "name": "newsletterButtonLabel",
         "valueType": "string"
       },
       {
         "component": "container",
         "item": "footer-social-item",
-        "label": "Social Links",
-        "name": "socialLinks"
+        "label": "Footer Social Links",
+        "name": "footerSocialLinks"
       },
       {
         "component": "richtext",
-        "label": "Developer Credit",
-        "name": "developerCredit",
+        "label": "Designed By (Credit)",
+        "name": "designedBy",
         "valueType": "string"
       }
     ]
@@ -386,8 +736,7 @@
       {
         "component": "richtext",
         "label": "Section Links",
-        "name": "sectionLinks",
-        "valueType": "string"
+        "name": "sectionLinks"
       },
       {
         "component": "richtext",
@@ -408,7 +757,7 @@
       },
       {
         "component": "aem-content",
-        "label": "Link URL",
+        "label": "Link",
         "name": "link",
         "valueType": "string"
       }
@@ -419,7 +768,7 @@
     "fields": [
       {
         "component": "aem-content",
-        "label": "Social Link URL",
+        "label": "Social Link",
         "name": "socialLink",
         "valueType": "string"
       }
@@ -481,61 +830,61 @@
       {
         "component": "reference",
         "label": "Mobile Logo",
-        "name": "mobileLogo"
+        "name": "mobileLogo",
+        "valueType": "string"
       },
       {
         "component": "aem-content",
         "label": "Mobile Logo Link",
-        "name": "mobileLogoLink"
-      },
-      {
-        "component": "container",
-        "item": "top-menu-icon-item",
-        "label": "Top Menu Icons",
-        "name": "topMenuIcons"
+        "name": "mobileLogoLink",
+        "valueType": "string"
       },
       {
         "component": "reference",
         "label": "Desktop Logo",
-        "name": "desktopLogo"
+        "name": "desktopLogo",
+        "valueType": "string"
       },
       {
         "component": "aem-content",
         "label": "Desktop Logo Link",
-        "name": "desktopLogoLink"
+        "name": "desktopLogoLink",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "header-icon-link-item",
+        "label": "Header Icon Links",
+        "name": "headerIconLinks"
       },
       {
         "component": "container",
         "item": "main-navigation-item",
-        "label": "Main Navigation Menu",
+        "label": "Main Navigation",
         "name": "mainNavigation"
       },
       {
         "component": "container",
-        "item": "sidebar-nav-item",
-        "label": "Sidebar Navigation",
-        "name": "sidebarNavigation"
-      },
-      {
-        "component": "container",
-        "item": "mobile-nav-item",
+        "item": "mobile-navigation-item",
         "label": "Mobile Navigation",
         "name": "mobileNavigation"
       }
     ]
   },
   {
-    "id": "top-menu-icon-item",
+    "id": "main-navigation-item",
     "fields": [
       {
-        "component": "reference",
-        "label": "Icon",
-        "name": "icon"
+        "component": "text",
+        "label": "Menu Label",
+        "name": "label",
+        "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Icon Link",
-        "name": "link"
+        "label": "Menu Link",
+        "name": "link",
+        "valueType": "string"
       },
       {
         "component": "richtext",
@@ -546,72 +895,70 @@
     ]
   },
   {
-    "id": "main-navigation-item",
+    "id": "mobile-navigation-item",
     "fields": [
       {
         "component": "text",
         "label": "Menu Label",
-        "name": "label"
+        "name": "label",
+        "valueType": "string"
       },
       {
         "component": "aem-content",
         "label": "Menu Link",
-        "name": "link"
+        "name": "link",
+        "valueType": "string"
       },
       {
         "component": "richtext",
         "label": "Navigation Hierarchy",
-        "name": "hierarchy-tree"
-      },
+        "name": "hierarchy-tree",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "header-icon-link-item",
+    "fields": [
       {
         "component": "reference",
-        "label": "Megamenu Image",
-        "name": "megamenuImage"
+        "label": "Icon Image",
+        "name": "icon",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Icon Link",
+        "name": "link",
+        "valueType": "string"
       },
       {
         "component": "richtext",
-        "label": "Megamenu Content",
-        "name": "megamenuContent"
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
+        "valueType": "string"
       }
     ]
   },
   {
-    "id": "sidebar-nav-item",
+    "id": "header-search",
     "fields": [
       {
-        "component": "text",
-        "label": "Sidebar Label",
-        "name": "label"
+        "component": "reference",
+        "label": "Close Icon",
+        "name": "closeIcon"
       },
-      {
-        "component": "aem-content",
-        "label": "Sidebar Link",
-        "name": "link"
-      },
-      {
-        "component": "richtext",
-        "label": "Sidebar Navigation Hierarchy",
-        "name": "hierarchy-tree"
-      }
-    ]
-  },
-  {
-    "id": "mobile-nav-item",
-    "fields": [
       {
         "component": "text",
-        "label": "Mobile Nav Label",
-        "name": "label"
+        "label": "Search Input Placeholder",
+        "name": "searchPlaceholder",
+        "valueType": "string"
       },
       {
-        "component": "aem-content",
-        "label": "Mobile Nav Link",
-        "name": "link"
-      },
-      {
-        "component": "richtext",
-        "label": "Mobile Navigation Hierarchy",
-        "name": "hierarchy-tree"
+        "component": "text",
+        "label": "Submit Button Label",
+        "name": "submitLabel",
+        "valueType": "string"
       }
     ]
   },
@@ -645,6 +992,46 @@
         "component": "richtext",
         "label": "Navigation Hierarchy",
         "name": "hierarchy-tree",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "header-top-bar",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Logo",
+        "name": "logo",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Logo Link",
+        "name": "logoLink",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "menu-icon-item",
+        "label": "Menu Icons",
+        "name": "menuIcons"
+      }
+    ]
+  },
+  {
+    "id": "menu-icon-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Menu Icon Image",
+        "name": "icon",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Menu Icon Link",
+        "name": "link",
         "valueType": "string"
       }
     ]

@@ -30,11 +30,62 @@
       "commercial-carousel",
       "campaign-video-slider",
       "social-feeds",
-      "footer"
+      "footer",
+      "header-search",
+      "header-top-bar",
+      "brand-hero-banner",
+      "brand-breadcrumbs",
+      "brand-product-family",
+      "brand-history-carousel",
+      "brand-video-commercial",
+      "brand-campaign-slider",
+      "brand-social-feeds"
+    ]
+  },
+  {
+    "id": "brand-breadcrumbs",
+    "components": [
+      "breadcrumb-item",
+      "social-link-item"
+    ]
+  },
+  {
+    "id": "brand-campaign-slider",
+    "components": [
+      "campaign-slide-item"
     ]
   },
   {
     "id": "brand-description"
+  },
+  {
+    "id": "brand-hero-banner"
+  },
+  {
+    "id": "brand-history-carousel",
+    "components": [
+      "carousel-item"
+    ]
+  },
+  {
+    "id": "brand-product-family",
+    "components": [
+      "brand-product-item"
+    ]
+  },
+  {
+    "id": "brand-social-feeds",
+    "components": [
+      "social-platform-item",
+      "facebook-embed-item",
+      "instagram-post-item"
+    ]
+  },
+  {
+    "id": "brand-video-commercial",
+    "components": [
+      "external-embed-item"
+    ]
   },
   {
     "id": "breadcrumbs",
@@ -93,16 +144,24 @@
   {
     "id": "header-nav",
     "components": [
-      "top-menu-icon-item",
       "main-navigation-item",
-      "sidebar-nav-item",
-      "mobile-nav-item"
+      "mobile-navigation-item",
+      "header-icon-link-item"
     ]
+  },
+  {
+    "id": "header-search"
   },
   {
     "id": "header-sidebar",
     "components": [
       "sidebar-navigation-item"
+    ]
+  },
+  {
+    "id": "header-top-bar",
+    "components": [
+      "menu-icon-item"
     ]
   },
   {

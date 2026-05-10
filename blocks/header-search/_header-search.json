@@ -1,0 +1,49 @@
+{
+  "definitions": [
+    {
+      "title": "Header-Search",
+      "id": "header-search",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "header-search",
+              "model": "header-search",
+              "name": "Header-Search"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "header-search",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Close Icon",
+          "name": "closeIcon"
+        },
+        {
+          "component": "text",
+          "label": "Search Input Placeholder",
+          "name": "searchPlaceholder",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Submit Button Label",
+          "name": "submitLabel",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "header-search"
+    }
+  ]
+}

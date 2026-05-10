@@ -65,7 +65,16 @@
         "commercial-carousel",
         "campaign-video-slider",
         "social-feeds",
-        "footer"
+        "footer",
+        "header-search",
+        "header-top-bar",
+        "brand-hero-banner",
+        "brand-breadcrumbs",
+        "brand-product-family",
+        "brand-history-carousel",
+        "brand-video-commercial",
+        "brand-campaign-slider",
+        "brand-social-feeds"
       ]
     }
   ]

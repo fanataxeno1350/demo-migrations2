@@ -24,6 +24,8 @@
 
 @keyframes spinner-grow{0%{-webkit-transform:scale(0);transform:scale(0)}50%{opacity:1}}
 
+.d-none{ display:none!important }
+
 @media print { .container{ min-width:992px!important } }
 
 .input-ftr input{ 
