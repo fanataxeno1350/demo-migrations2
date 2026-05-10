@@ -38,8 +38,8 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Logo Image",
-          "name": "logoImage",
+          "label": "Logo",
+          "name": "logo",
           "valueType": "string"
         },
         {
@@ -61,14 +61,14 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Icon Image",
-          "name": "iconImage",
+          "label": "Icon",
+          "name": "icon",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Icon Link",
-          "name": "iconLink",
+          "label": "Link",
+          "name": "link",
           "valueType": "string"
         }
       ]

@@ -1,16 +1,16 @@
 {
   "definitions": [
     {
-      "title": "Header-Nav",
-      "id": "header-nav",
+      "title": "Header",
+      "id": "header",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "filter": "header-nav",
-              "model": "header-nav",
-              "name": "Header-Nav"
+              "filter": "header",
+              "model": "header",
+              "name": "Header"
             }
           }
         }
@@ -60,36 +60,35 @@
           }
         }
       }
-    },
-    {
-      "title": "Mobile-Nav-Item",
-      "id": "mobile-nav-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "mobile-nav-item",
-              "name": "Mobile-Nav-Item"
-            }
-          }
-        }
-      }
     }
   ],
   "models": [
     {
-      "id": "header-nav",
+      "id": "header",
       "fields": [
         {
           "component": "reference",
-          "label": "Mobile Logo",
-          "name": "mobileLogo"
+          "label": "Mobile Logo Image",
+          "name": "mobileLogo",
+          "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Mobile Logo Link",
-          "name": "mobileLogoLink"
+          "name": "mobileLogoLink",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Desktop Logo Image",
+          "name": "desktopLogo",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Desktop Logo Link",
+          "name": "desktopLogoLink",
+          "valueType": "string"
         },
         {
           "component": "container",
@@ -98,19 +97,9 @@
           "name": "topMenuIcons"
         },
         {
-          "component": "reference",
-          "label": "Desktop Logo",
-          "name": "desktopLogo"
-        },
-        {
-          "component": "aem-content",
-          "label": "Desktop Logo Link",
-          "name": "desktopLogoLink"
-        },
-        {
           "component": "container",
           "item": "main-navigation-item",
-          "label": "Main Navigation Menu",
+          "label": "Main Navigation",
           "name": "mainNavigation"
         },
         {
@@ -118,12 +107,6 @@
           "item": "sidebar-nav-item",
           "label": "Sidebar Navigation",
           "name": "sidebarNavigation"
-        },
-        {
-          "component": "container",
-          "item": "mobile-nav-item",
-          "label": "Mobile Navigation",
-          "name": "mobileNavigation"
         }
       ]
     },
@@ -132,13 +115,15 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Icon",
-          "name": "icon"
+          "label": "Icon Image",
+          "name": "iconImage",
+          "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Icon Link",
-          "name": "link"
+          "name": "iconLink",
+          "valueType": "string"
         },
         {
           "component": "richtext",
@@ -154,27 +139,20 @@
         {
           "component": "text",
           "label": "Menu Label",
-          "name": "label"
+          "name": "label",
+          "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Menu Link",
-          "name": "link"
+          "name": "link",
+          "valueType": "string"
         },
         {
           "component": "richtext",
           "label": "Navigation Hierarchy",
-          "name": "hierarchy-tree"
-        },
-        {
-          "component": "reference",
-          "label": "Megamenu Image",
-          "name": "megamenuImage"
-        },
-        {
-          "component": "richtext",
-          "label": "Megamenu Content",
-          "name": "megamenuContent"
+          "name": "hierarchy-tree",
+          "valueType": "string"
         }
       ]
     },
@@ -183,50 +161,32 @@
       "fields": [
         {
           "component": "text",
-          "label": "Sidebar Label",
-          "name": "label"
+          "label": "Sidebar Item Label",
+          "name": "label",
+          "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Sidebar Link",
-          "name": "link"
+          "label": "Sidebar Item Link",
+          "name": "link",
+          "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Sidebar Navigation Hierarchy",
-          "name": "hierarchy-tree"
-        }
-      ]
-    },
-    {
-      "id": "mobile-nav-item",
-      "fields": [
-        {
-          "component": "text",
-          "label": "Mobile Nav Label",
-          "name": "label"
-        },
-        {
-          "component": "aem-content",
-          "label": "Mobile Nav Link",
-          "name": "link"
-        },
-        {
-          "component": "richtext",
-          "label": "Mobile Navigation Hierarchy",
-          "name": "hierarchy-tree"
+          "label": "Sidebar Item Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
         }
       ]
     }
   ],
   "filters": [
     {
-      "id": "header-nav",
+      "id": "header",
       "components": [
         "top-menu-icon-item",
         "main-navigation-item",
-        "sidebar-nav-item",
-        "mobile-nav-item"
+        "sidebar-nav-item"
       ]
     }
   ]

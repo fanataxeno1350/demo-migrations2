@@ -17,6 +17,21 @@
       }
     },
     {
+      "title": "Social-Channel-Item",
+      "id": "social-channel-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "social-channel-item",
+              "name": "Social-Channel-Item"
+            }
+          }
+        }
+      }
+    },
+    {
       "title": "Facebook-Embed-Item",
       "id": "facebook-embed-item",
       "plugins": {
@@ -26,21 +41,6 @@
             "template": {
               "model": "facebook-embed-item",
               "name": "Facebook-Embed-Item"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Social-Logo-Item",
-      "id": "social-logo-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "social-logo-item",
-              "name": "Social-Logo-Item"
             }
           }
         }
@@ -68,43 +68,43 @@
       "fields": [
         {
           "component": "text",
-          "label": "Section Title",
-          "name": "sectionTitle",
+          "label": "Section Headline",
+          "name": "headline",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "social-logo-item",
-          "label": "Social Logo Items",
-          "name": "socialLogoItems"
+          "item": "social-channel-item",
+          "label": "Social Channels",
+          "name": "socialChannels"
         },
         {
           "component": "container",
           "item": "facebook-embed-item",
-          "label": "Facebook Embed Items",
-          "name": "facebookEmbedItems"
+          "label": "Facebook Embeds",
+          "name": "facebookEmbeds"
         },
         {
           "component": "container",
           "item": "instagram-post-item",
-          "label": "Instagram Post Items",
-          "name": "instagramPostItems"
+          "label": "Instagram Posts",
+          "name": "instagramPosts"
         }
       ]
     },
     {
-      "id": "social-logo-item",
+      "id": "social-channel-item",
       "fields": [
         {
           "component": "reference",
-          "label": "Social Platform Icon",
-          "name": "icon",
+          "label": "Channel Logo",
+          "name": "logo",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Platform Label",
-          "name": "platformLabel",
+          "label": "Channel Name",
+          "name": "label",
           "valueType": "string"
         }
       ]
@@ -114,14 +114,14 @@
       "fields": [
         {
           "component": "text",
-          "label": "Embed Kind",
-          "name": "data-embed-kind",
+          "label": "Embed URL",
+          "name": "data-embed-url",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Embed URL",
-          "name": "data-embed-url",
+          "label": "Embed Kind",
+          "name": "data-embed-kind",
           "valueType": "string"
         },
         {
@@ -144,7 +144,7 @@
         {
           "component": "reference",
           "label": "Instagram Post Image",
-          "name": "postImage",
+          "name": "image",
           "valueType": "string"
         }
       ]
@@ -154,7 +154,7 @@
     {
       "id": "social-feeds",
       "components": [
-        "social-logo-item",
+        "social-channel-item",
         "facebook-embed-item",
         "instagram-post-item"
       ]

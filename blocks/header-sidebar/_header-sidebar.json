@@ -39,8 +39,8 @@
         {
           "component": "container",
           "item": "sidebar-navigation-item",
-          "label": "Sidebar Navigation Items",
-          "name": "navigationItems"
+          "label": "Sidebar Navigation",
+          "name": "sidebarNavigation"
         }
       ]
     },

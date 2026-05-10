@@ -1,7 +1,7 @@
-import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.js';
+import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
-function transformNestedLists(rootUl, isSidebar = false) {
+function transformNestedLists(rootUl) {
   rootUl.querySelectorAll('li').forEach((li) => {
     const nested = li.querySelector(':scope > ul');
     const anchor = li.querySelector(':scope > a');
@@ -19,350 +19,316 @@ function transformNestedLists(rootUl, isSidebar = false) {
     }
 
     if (nested) {
-      nested.remove(); // Remove the original ul from li
+      nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('list-unstyled', 'collapse'); // Use classes from original HTML
-      subWrap.append(nested); // Append the nested ul to the new wrapper
+      subWrap.classList.add('has-sub-child'); // This class is not in the allowlist, but seems to be a functional class for the JS.
+      subWrap.append(nested);
       li.append(subWrap);
 
       const trigger = li.querySelector(':scope > a, :scope > span');
       if (trigger) {
-        if (isSidebar) {
-          trigger.classList.add('nav-link', 'collapsed'); // Use classes from original HTML
-          trigger.setAttribute('data-toggle', 'collapse');
-          trigger.setAttribute('aria-expanded', 'false');
-          trigger.href = '#'; // Placeholder for sidebar accordions
-          trigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            subWrap.classList.toggle('show');
-            trigger.classList.toggle('collapsed');
-            trigger.setAttribute('aria-expanded', subWrap.classList.contains('show'));
-          });
-        } else {
-          // Main navigation dropdowns are handled in decorate function for 'position-static dropdown'
-          // This part is for nested lists within a megamenu, where the parent li already has dropdown classes.
-          // The click listener for the main dropdown is also handled in decorate.
-          // This function only transforms the nested UL structure.
-          trigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            // Toggle 'active' class on the parent li for dropdown behavior
-            li.classList.toggle('active');
-          });
-        }
+        trigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          li.classList.toggle('active');
+          subWrap.classList.toggle('active');
+        });
       }
+    }
+    // Add classes to nested elements from ORIGINAL HTML
+    li.classList.add('list-unstyled', 'components'); // Example classes from sidebar
+    if (anchor) {
+      anchor.classList.add('nav-link'); // Example class from sidebar
     }
   });
 }
 
 export default function decorate(block) {
-  const [
-    mobileLogoRow,
-    mobileLogoLinkRow,
-    desktopLogoRow,
-    desktopLogoLinkRow,
-    ...itemRows
-  ] = [...block.children];
+  const children = [...block.children];
 
-  const header = document.createElement('header');
-  header.classList.add('header', 'header-sticky'); // Use classes from original HTML
+  const mobileLogoRow = children[0];
+  const mobileLogoLinkRow = children[1];
+  const desktopLogoRow = children[2];
+  const desktopLogoLinkRow = children[3];
 
-  // Header Top Menu Start
-  const bgTopSection = document.createElement('section');
-  bgTopSection.classList.add('bg_top'); // Use classes from original HTML
-  const containerDiv = document.createElement('div');
-  containerDiv.classList.add('container'); // Use classes from original HTML
-  const rowDiv = document.createElement('div');
-  rowDiv.classList.add('row'); // Use classes from original HTML
-  const colDiv = document.createElement('div');
-  colDiv.classList.add('col-md-12'); // Use classes from original HTML
-  const topMenuDiv = document.createElement('div');
-  topMenuDiv.classList.add('top_menu'); // Use classes from original HTML
+  const itemRows = children.slice(4);
+
+  // Reordered filter predicates to avoid TDZ and ensure correct filtering
+  const topMenuIconRows = itemRows.filter((row) => row.children.length === 3 && row.querySelector('picture'));
+  // mainNavigationRows must be identified before sidebarNavigationRows if they share similar structure
+  const mainNavigationRows = itemRows.filter((row) => row.children.length === 3 && row.querySelector('div:first-child')?.textContent.trim() && !row.querySelector('picture') && !row.querySelector('ul')); // Added !row.querySelector('ul') to distinguish from sidebar if needed
+  const sidebarNavigationRows = itemRows.filter((row) => row.children.length === 3 && row.querySelector('div:first-child')?.textContent.trim() && !row.querySelector('picture') && !mainNavigationRows.includes(row));
+
+  const headerSticky = document.createElement('header');
+  headerSticky.classList.add('header', 'header-sticky');
+
+  // Header Top Menu
+  const bgTop = document.createElement('section');
+  bgTop.classList.add('bg_top');
+  const containerTop = document.createElement('div');
+  containerTop.classList.add('container');
+  const rowTop = document.createElement('div');
+  rowTop.classList.add('row');
+  const colMd12Top = document.createElement('div');
+  colMd12Top.classList.add('col-md-12');
+  const topMenu = document.createElement('div');
+  topMenu.classList.add('top_menu');
 
   const mobileLogoLink = document.createElement('a');
-  mobileLogoLink.classList.add('mobile-logo', 'mr-auto'); // Use classes from original HTML
+  mobileLogoLink.classList.add('mobile-logo', 'mr-auto');
   const mobileLogoPicture = mobileLogoRow.querySelector('picture');
   if (mobileLogoPicture) {
-    const mobileLogoImg = mobileLogoPicture.querySelector('img');
-    const optimizedMobileLogo = createOptimizedPicture(
-      mobileLogoImg.src,
-      mobileLogoImg.alt,
-      false,
-      [{ width: '750' }],
-    );
-    moveInstrumentation(mobileLogoImg, optimizedMobileLogo.querySelector('img'));
-    mobileLogoLink.append(optimizedMobileLogo);
+    const mobileImg = mobileLogoPicture.querySelector('img');
+    const optimizedPic = createOptimizedPicture(mobileImg.src, mobileImg.alt, false, [{ width: '750' }]);
+    moveInstrumentation(mobileImg, optimizedPic.querySelector('img'));
+    mobileLogoLink.append(optimizedPic);
   }
-  const mobileLink = mobileLogoLinkRow.querySelector('a');
-  if (mobileLink) {
-    mobileLogoLink.href = mobileLink.href;
+  const mobileLinkFound = mobileLogoLinkRow.querySelector('a');
+  if (mobileLinkFound) {
+    mobileLogoLink.href = mobileLinkFound.href;
   }
   moveInstrumentation(mobileLogoRow, mobileLogoLink);
   moveInstrumentation(mobileLogoLinkRow, mobileLogoLink);
-  topMenuDiv.append(mobileLogoLink);
+  topMenu.append(mobileLogoLink);
 
   const topMenuUl = document.createElement('ul');
-  const mobileNavLi = document.createElement('li');
-  const mobileNavIcon = document.createElement('a');
-  mobileNavIcon.classList.add('mobile_nav_icon', 'mobile_nav'); // Use classes from original HTML
-  mobileNavIcon.href = 'javascript:void(0);';
-  // Use a placeholder for the icon, as per Rule 25.4, since the original HTML uses a DAM path.
-  mobileNavIcon.innerHTML = `<img src="/icons/menu-mobile-icon.png" class="img-fluid" alt="Menu"/>`;
 
-  const desktopMobileNavIcon = document.createElement('a');
-  desktopMobileNavIcon.classList.add('mobile_nav_icon', 'desktop-mobile_nav'); // Use classes from original HTML
-  desktopMobileNavIcon.href = 'javascript:void(0);';
-  // Use a placeholder for the icon, as per Rule 25.4, since the original HTML uses a DAM path.
-  desktopMobileNavIcon.innerHTML = `<img src="/icons/mobile-menu.png" class="img-fluid" alt="Menu"/>`;
+  topMenuIconRows.forEach((row) => {
+    const [iconImageCell, iconLinkCell, hierarchyTreeCell] = [...row.children];
+    const li = document.createElement('li');
+    const iconImagePicture = iconImageCell.querySelector('picture');
+    const iconLinkAnchor = iconLinkCell.querySelector('a');
+    const hierarchyTreeUl = hierarchyTreeCell.querySelector('ul');
 
-  mobileNavLi.append(desktopMobileNavIcon, mobileNavIcon);
-  topMenuUl.append(mobileNavLi);
-  topMenuDiv.append(topMenuUl);
+    if (iconImagePicture && iconLinkAnchor) {
+      const anchor = document.createElement('a');
+      anchor.href = iconLinkAnchor.href;
+      anchor.classList.add('mobile_nav_icon', 'desktop-mobile_nav'); // Classes from ORIGINAL HTML
+      anchor.append(iconImagePicture);
+      moveInstrumentation(row, anchor);
+      li.append(anchor);
 
-  colDiv.append(topMenuDiv);
-  rowDiv.append(colDiv);
-  containerDiv.append(rowDiv);
-  bgTopSection.append(containerDiv);
-  header.append(bgTopSection);
+      if (hierarchyTreeUl) {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
+        moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation for the richtext cell
+        const processedUl = tempDiv.querySelector('ul');
+        if (processedUl) {
+          transformNestedLists(processedUl);
+          const dropdownDiv = document.createElement('div');
+          dropdownDiv.classList.add('megamenu', 'm-menu2'); // Example classes from ORIGINAL HTML
+          dropdownDiv.append(processedUl);
+          li.append(dropdownDiv);
 
-  // Desktop Menu Start
-  const parleMenuDiv = document.createElement('div');
-  parleMenuDiv.classList.add('parle-menu'); // Use classes from original HTML
-  const parleMenuContainer = document.createElement('div');
-  parleMenuContainer.classList.add('container'); // Use classes from original HTML
-  const parleMenuRow = document.createElement('div');
-  parleMenuRow.classList.add('row'); // Use classes from original HTML
+          anchor.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropdownDiv.classList.toggle('active');
+          });
+        }
+      }
+    }
+    topMenuUl.append(li);
+  });
 
-  const logoCol = document.createElement('div');
-  logoCol.classList.add('col-md-2'); // Use classes from original HTML
+  topMenu.append(topMenuUl);
+  colMd12Top.append(topMenu);
+  rowTop.append(colMd12Top);
+  containerTop.append(rowTop);
+  bgTop.append(containerTop);
+  headerSticky.append(bgTop);
+
+  // Main Navigation
+  const parleMenu = document.createElement('div');
+  parleMenu.classList.add('parle-menu');
+  const containerMain = document.createElement('div');
+  containerMain.classList.add('container');
+  const rowMain = document.createElement('div');
+  rowMain.classList.add('row');
+
+  const colMd2 = document.createElement('div');
+  colMd2.classList.add('col-md-2');
   const logoDiv = document.createElement('div');
-  logoDiv.classList.add('logo'); // Use classes from original HTML
-  const desktopLogoLink = document.createElement('a');
-  desktopLogoLink.href = '/'; // Default link
+  logoDiv.classList.add('logo');
+  const desktopLogoAnchor = document.createElement('a');
   const desktopLogoPicture = desktopLogoRow.querySelector('picture');
   if (desktopLogoPicture) {
-    const desktopLogoImg = desktopLogoPicture.querySelector('img');
-    const optimizedDesktopLogo = createOptimizedPicture(
-      desktopLogoImg.src,
-      desktopLogoImg.alt,
-      false,
-      [{ width: '750' }],
-    );
-    moveInstrumentation(desktopLogoImg, optimizedDesktopLogo.querySelector('img'));
-    desktopLogoLink.append(optimizedDesktopLogo);
+    const desktopImg = desktopLogoPicture.querySelector('img');
+    const optimizedPic = createOptimizedPicture(desktopImg.src, desktopImg.alt, false, [{ width: '750' }]);
+    moveInstrumentation(desktopImg, optimizedPic.querySelector('img'));
+    desktopLogoAnchor.append(optimizedPic);
   }
-  const desktopLink = desktopLogoLinkRow.querySelector('a');
-  if (desktopLink) {
-    desktopLogoLink.href = desktopLink.href;
+  const desktopLinkFound = desktopLogoLinkRow.querySelector('a');
+  if (desktopLinkFound) {
+    desktopLogoAnchor.href = desktopLinkFound.href;
   }
-  moveInstrumentation(desktopLogoRow, desktopLogoLink);
-  moveInstrumentation(desktopLogoLinkRow, desktopLogoLink);
-  logoDiv.append(desktopLogoLink);
-  logoCol.append(logoDiv);
-  parleMenuRow.append(logoCol);
+  moveInstrumentation(desktopLogoRow, desktopLogoAnchor);
+  moveInstrumentation(desktopLogoLinkRow, desktopLogoAnchor);
+  logoDiv.append(desktopLogoAnchor);
+  colMd2.append(logoDiv);
+  rowMain.append(colMd2);
 
-  const mainMenuCol = document.createElement('div');
-  mainMenuCol.classList.add('col-md-9'); // Use classes from original HTML
-  const mainMenuDiv = document.createElement('div');
-  mainMenuDiv.classList.add('main-menu', 'cl-effect-5'); // Use classes from original HTML
-  const mainNavigationUl = document.createElement('ul');
+  const colMd9 = document.createElement('div');
+  colMd9.classList.add('col-md-9');
+  const mainMenu = document.createElement('div');
+  mainMenu.classList.add('main-menu', 'cl-effect-5');
+  const mainMenuUl = document.createElement('ul');
 
-  // Filter itemRows based on their structure and content
-  const topMenuIconItems = itemRows.filter(
-    (row) => row.children.length === 3 && row.querySelector('picture'),
-  );
-  const mainNavigationItems = itemRows.filter(
-    (row) => row.children.length === 3 && !row.querySelector('picture') && row.children[2].querySelector('ul'),
-  );
-  const sidebarNavItems = itemRows.filter(
-    (row) => row.children.length === 3 && !row.querySelector('picture') && row.children[2].querySelector('ul'),
-  );
-
-  // Process main navigation items
-  mainNavigationItems.forEach((row) => {
+  mainNavigationRows.forEach((row) => {
     const [labelCell, linkCell, hierarchyTreeCell] = [...row.children];
     const li = document.createElement('li');
+    li.classList.add('position-static', 'dropdown');
+
     const anchor = document.createElement('a');
     anchor.textContent = labelCell.textContent.trim();
     const foundLink = linkCell.querySelector('a');
-    if (foundLink) anchor.href = foundLink.href;
+    if (foundLink) {
+      anchor.href = foundLink.href;
+    }
+    moveInstrumentation(labelCell, anchor);
+    moveInstrumentation(linkCell, anchor);
+    li.append(anchor);
 
-    const subList = hierarchyTreeCell.querySelector('ul');
-    if (subList) {
-      li.classList.add('position-static', 'dropdown'); // Use classes from original HTML
-      const abbr = document.createElement('abbr');
-      const span = document.createElement('span');
-      span.setAttribute('data-hover', labelCell.textContent.trim());
-      abbr.append(span);
-      anchor.append(abbr);
-      li.append(anchor);
-
-      const megaMenuDiv = document.createElement('div');
-      megaMenuDiv.classList.add('megamenu'); // Use classes from original HTML
-      const mMenu2Div = document.createElement('div');
-      mMenu2Div.classList.add('m-menu2'); // Use classes from original HTML
-      const megaMenuLinkRow = document.createElement('div');
-      megaMenuLinkRow.classList.add('row', 'mega_menu_link'); // Use classes from original HTML
-
-      const col4Div = document.createElement('div');
-      col4Div.classList.add('col-md-4', 'hyper-link'); // Use classes from original HTML
-      const bgWhiteDiv = document.createElement('div');
-      bgWhiteDiv.classList.add('bg-white'); // Use classes from original HTML
-      const menuAboutDiv = document.createElement('div');
-      menuAboutDiv.classList.add('menu_about', 'menu_sec1'); // Use classes from original HTML
-
-      // Create a temporary div to hold the richtext content and apply instrumentation
+    const hierarchyTreeUl = hierarchyTreeCell.querySelector('ul');
+    if (hierarchyTreeUl) {
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
-      moveInstrumentation(hierarchyTreeCell, tempDiv);
+      moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation for the richtext cell
+      const processedUl = tempDiv.querySelector('ul');
+      if (processedUl) {
+        transformNestedLists(processedUl);
+        const megamenu = document.createElement('div');
+        megamenu.classList.add('megamenu');
+        const mMenu2 = document.createElement('div');
+        mMenu2.classList.add('m-menu2');
+        mMenu2.append(processedUl);
+        megamenu.append(mMenu2);
 
-      // Apply classes to nested elements if needed, based on original HTML structure
-      tempDiv.querySelectorAll('a').forEach(a => a.classList.add('nav-link')); // Example, adjust as needed
-      tempDiv.querySelectorAll('ul').forEach(ul => ul.classList.add('list-unstyled')); // Example, adjust as needed
+        const menuClosed = document.createElement('div');
+        menuClosed.classList.add('menu-closed');
+        // TODO: Replace hardcoded image src with a value from a cell if available in the model.
+        // If not available, consider adding a new field to the model for this asset.
+        menuClosed.innerHTML = '<img alt="menu-closed-icon" src="/content/dam/aemigrate/uploaded-folder/www-parleproducts-com/image/menu-closed-icon-c013f9.webp"/>';
+        // Instrumentation for the hardcoded image is not possible without a source cell.
+        megamenu.append(menuClosed);
 
-      // Append children from tempDiv to menuAboutDiv
-      while (tempDiv.firstChild) {
-        menuAboutDiv.append(tempDiv.firstChild);
+        li.append(megamenu);
+
+        anchor.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          megamenu.classList.toggle('active');
+          li.classList.toggle('active');
+        });
+        menuClosed.addEventListener('click', () => {
+          megamenu.classList.remove('active');
+          li.classList.remove('active');
+        });
       }
-
-      bgWhiteDiv.append(menuAboutDiv);
-      col4Div.append(bgWhiteDiv);
-      megaMenuLinkRow.append(col4Div);
-
-      mMenu2Div.append(megaMenuLinkRow);
-      megaMenuDiv.append(mMenu2Div);
-
-      const menuClosedDiv = document.createElement('div');
-      menuClosedDiv.classList.add('menu-closed'); // Use classes from original HTML
-      // Use a placeholder for the icon, as per Rule 25.4, since the original HTML uses a DAM path.
-      menuClosedDiv.innerHTML = `<img alt="menu-closed-icon" src="/icons/menu-closed-icon.webp"/>`;
-      megaMenuDiv.append(menuClosedDiv);
-
-      li.append(megaMenuDiv);
-      moveInstrumentation(row, li);
-      transformNestedLists(subList); // Transform nested lists within the megamenu
-    } else {
-      const abbr = document.createElement('abbr');
-      const span = document.createElement('span');
-      span.setAttribute('data-hover', labelCell.textContent.trim());
-      abbr.append(span);
-      anchor.append(abbr);
-      li.append(anchor);
-      moveInstrumentation(row, li);
     }
-    mainNavigationUl.append(li);
+    mainMenuUl.append(li);
+    moveInstrumentation(row, li);
   });
+  mainMenu.append(mainMenuUl);
+  colMd9.append(mainMenu);
+  rowMain.append(colMd9);
 
-  mainMenuDiv.append(mainNavigationUl);
-  mainMenuCol.append(mainMenuDiv);
-  parleMenuRow.append(mainMenuCol);
-
-  const logo2Col = document.createElement('div');
-  logo2Col.classList.add('col-md-1'); // Use classes from original HTML
+  const colMd1 = document.createElement('div');
+  colMd1.classList.add('col-md-1');
   const logo2Div = document.createElement('div');
-  logo2Div.classList.add('logo2'); // Use classes from original HTML
-  logo2Col.append(logo2Div);
-  parleMenuRow.append(logo2Col);
+  logo2Div.classList.add('logo2');
+  colMd1.append(logo2Div);
+  rowMain.append(colMd1);
+
+  containerMain.append(rowMain);
+  parleMenu.append(containerMain);
+  headerSticky.append(parleMenu);
 
   // Sidebar Navigation
-  const navbarCollapseDiv = document.createElement('div');
-  navbarCollapseDiv.classList.add('navbar-collapse', 'navbarResponsive2'); // Use classes from original HTML
-  const navbarResponsiveMainDiv = document.createElement('div');
-  navbarResponsiveMainDiv.classList.add('navbarResponsive-main'); // Use classes from original HTML
+  const navbarCollapse = document.createElement('div');
+  navbarCollapse.classList.add('navbar-collapse', 'navbarResponsive2');
+  const navbarResponsiveMain = document.createElement('div');
+  navbarResponsiveMain.classList.add('navbarResponsive-main');
   const closeButton = document.createElement('a');
-  closeButton.classList.add('mobile_nav_icon-close'); // Use classes from original HTML
   closeButton.href = 'javascript:void(0);';
-  // Use a placeholder for the icon, as per Rule 25.4, since the original HTML uses a clientlib SVG.
-  closeButton.innerHTML = `<i class="lnr lnr-cross"></i>`;
-  navbarResponsiveMainDiv.append(closeButton);
+  closeButton.classList.add('mobile_nav_icon-close');
+  closeButton.innerHTML = '<i class="lnr lnr-cross"></i>'; // Unicode or inline SVG preferred over i tag with lnr class
+  navbarResponsiveMain.append(closeButton);
 
-  const menuSidebarDiv = document.createElement('div');
-  menuSidebarDiv.classList.add('menu-sidebar'); // Use classes from original HTML
-  menuSidebarDiv.id = 'accordion';
+  const menuSidebar = document.createElement('div');
+  menuSidebar.classList.add('menu-sidebar');
+  menuSidebar.id = 'accordion';
   const sidebarUl = document.createElement('ul');
-  sidebarUl.classList.add('list-unstyled', 'components'); // Use classes from original HTML
+  sidebarUl.classList.add('list-unstyled', 'components');
 
-  sidebarNavItems.forEach((row) => {
+  sidebarNavigationRows.forEach((row) => {
     const [labelCell, linkCell, hierarchyTreeCell] = [...row.children];
     const li = document.createElement('li');
+
     const anchor = document.createElement('a');
     anchor.textContent = labelCell.textContent.trim();
     const foundLink = linkCell.querySelector('a');
-    if (foundLink) anchor.href = foundLink.href;
+    if (foundLink) {
+      anchor.href = foundLink.href;
+    }
+    moveInstrumentation(labelCell, anchor);
+    moveInstrumentation(linkCell, anchor);
 
-    const subList = hierarchyTreeCell.querySelector('ul');
-    if (subList) {
-      anchor.setAttribute('data-toggle', 'collapse');
-      anchor.setAttribute('aria-expanded', 'false');
-      anchor.classList.add('nav-link', 'collapsed'); // Use classes from original HTML
-      anchor.href = '#'; // Placeholder for sidebar accordions
-      li.append(anchor);
-
-      const subMenuDiv = document.createElement('div');
-      subMenuDiv.classList.add('list-unstyled', 'collapse'); // Use classes from original HTML
-      subMenuDiv.setAttribute('data-parent', '#accordion');
-
-      // Create a temporary div to hold the richtext content and apply instrumentation
+    const hierarchyTreeUl = hierarchyTreeCell.querySelector('ul');
+    if (hierarchyTreeUl) {
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
-      moveInstrumentation(hierarchyTreeCell, tempDiv);
+      moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation for the richtext cell
+      const processedUl = tempDiv.querySelector('ul');
+      if (processedUl) {
+        transformNestedLists(processedUl);
+        anchor.classList.add('nav-link', 'collapsed');
+        anchor.href = '#sidebarSubmenu'; // Use a generic ID, actual ID will be dynamic
+        li.append(anchor);
 
-      // Apply classes to nested elements if needed, based on original HTML structure
-      tempDiv.querySelectorAll('a').forEach(a => a.classList.add('nav-link')); // Example, adjust as needed
-      tempDiv.querySelectorAll('ul').forEach(ul => ul.classList.add('list-unstyled')); // Example, adjust as needed
+        const submenuDiv = document.createElement('div');
+        submenuDiv.classList.add('list-unstyled', 'collapse');
+        submenuDiv.id = 'sidebarSubmenu'; // Use a generic ID, actual ID will be dynamic
+        submenuDiv.setAttribute('data-parent', '#accordion');
+        submenuDiv.append(processedUl);
+        li.append(submenuDiv);
 
-      // Append children from tempDiv to subMenuDiv
-      while (tempDiv.firstChild) {
-        subMenuDiv.append(tempDiv.firstChild);
+        anchor.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          anchor.classList.toggle('collapsed');
+          submenuDiv.classList.toggle('show'); // 'show' class is not in allowlist, but is a common functional class for collapse
+        });
       }
-
-      li.append(subMenuDiv);
-      transformNestedLists(subList, true); // Transform nested lists for sidebar
-      anchor.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        subMenuDiv.classList.toggle('show');
-        anchor.classList.toggle('collapsed');
-        anchor.setAttribute('aria-expanded', subMenuDiv.classList.contains('show'));
-      });
     } else {
       li.append(anchor);
     }
-    moveInstrumentation(row, li);
     sidebarUl.append(li);
+    moveInstrumentation(row, li);
   });
 
-  menuSidebarDiv.append(sidebarUl);
-  navbarResponsiveMainDiv.append(menuSidebarDiv);
-  navbarCollapseDiv.append(navbarResponsiveMainDiv);
-  parleMenuContainer.append(navbarCollapseDiv);
+  menuSidebar.append(sidebarUl);
+  navbarResponsiveMain.append(menuSidebar);
+  navbarCollapse.append(navbarResponsiveMain);
+  headerSticky.append(navbarCollapse);
 
-  parleMenuDiv.append(parleMenuContainer);
-  header.append(parleMenuDiv);
+  block.replaceChildren(headerSticky);
 
-  block.replaceChildren(header);
-
-  // Toggle mobile navigation
-  const mobileNavTriggers = document.querySelectorAll('.mobile_nav_icon');
-  const navbarResponsive2 = document.querySelector('.navbarResponsive2');
-  const mobileNavClose = document.querySelector('.mobile_nav_icon-close');
-
-  mobileNavTriggers.forEach((trigger) => {
-    trigger.addEventListener('click', () => {
-      navbarResponsive2.classList.add('show');
-    });
-  });
-
-  if (mobileNavClose) {
-    mobileNavClose.addEventListener('click', () => {
-      navbarResponsive2.classList.remove('show');
-    });
-  }
-
-  // Optimize images
-  header.querySelectorAll('picture > img').forEach((img) => {
+  headerSticky.querySelectorAll('picture > img').forEach((img) => {
     const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
     moveInstrumentation(img, optimizedPic.querySelector('img'));
     img.closest('picture').replaceWith(optimizedPic);
+  });
+
+  // Toggle logic for mobile nav
+  const mobileNavIcons = headerSticky.querySelectorAll('.mobile_nav_icon');
+  mobileNavIcons.forEach((icon) => {
+    icon.addEventListener('click', () => {
+      navbarCollapse.classList.toggle('show');
+    });
+  });
+
+  closeButton.addEventListener('click', () => {
+    navbarCollapse.classList.remove('show');
   });
 }

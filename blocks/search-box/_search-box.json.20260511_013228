@@ -28,7 +28,7 @@
           "valueType": "string"
         },
         {
-          "component": "aem-content",
+          "component": "text",
           "label": "Close Link",
           "name": "closeLink",
           "valueType": "string"

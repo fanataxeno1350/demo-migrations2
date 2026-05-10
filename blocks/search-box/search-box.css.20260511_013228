@@ -1,0 +1,83 @@
+@keyframes progress-bar-stripes{from{background-position:1rem 0}to{background-position:0 0}}
+
+@keyframes spinner-border{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+
+@keyframes spinner-grow{0%{-webkit-transform:scale(0);transform:scale(0)}50%{opacity:1}}
+
+.search-box{ 
+	background: #333
+ }
+
+.search-box .search-close:before{ 
+	content: "";
+	background: rgba(44,43,41,.7);
+	height: 65%;
+	position: fixed;
+	width: 100%;
+	left: 0;
+	bottom: 0;
+	cursor: initial
+ }
+
+.search-box{ 
+	top: 0;
+	position: fixed;
+	width: 100%;
+	height: 35%;
+	z-index: 9999;
+	display: none
+ }
+
+.search-box-main{ 
+	display: flex;
+	background: #fff;
+	justify-content: center;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+	position: relative;
+	width: 100%;
+	max-width: 700px;
+	margin: 0 auto;
+	border-radius: 30px
+ }
+
+.search-box-main input{ 
+	width: 100%;
+	display: block;
+	padding: 13px 25px;
+	border: 0
+ }
+
+.search-box-main .search-btn{ 
+	position: absolute;
+	width: 50px;
+	right: 0;
+	font-size: 0;
+	border: 0;
+	background-color: initial;
+	background-image: url("/content/dam/aemigrate/uploaded-folder/www-parleproducts-com/image/search-icon2-e8a63f.png");
+	height: 100%;
+	background-repeat: no-repeat;
+	background-position: center
+ }
+
+.search-box .search-close{ 
+	position: absolute;
+	right: 25px;
+	top: 25px
+ }
+
+@keyframes blink-animation{
+to {
+visibility:hidden
+}
+}
+
+@media only screen and (max-width :767px) { .search-box-main{ width:90% }
+
+.search-box-main input{ padding:12px 15px } }
+
+@keyframes fb_transform{0%{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+
+@keyframes rotateSpinner{0%{transform:rotate(0)}to{transform:rotate(360deg)}}

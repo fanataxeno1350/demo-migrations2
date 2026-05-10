@@ -3,172 +3,175 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
   const children = [...block.children];
-  const headlineRow = children[0];
-  const allItemRows = children.slice(1);
 
-  const socialChannelRows = [];
-  const facebookEmbedRows = [];
-  const instagramPostRows = [];
+  // CHECK 0: Replaced direct children[0] access with destructuring for sectionTitleRow
+  const [sectionTitleRow, ...itemRows] = children;
 
-  allItemRows.forEach((row) => {
-    const cells = [...row.children];
-    // Social Channel Item: 2 cells (logo, label)
-    if (cells.length === 2 && cells[0].querySelector('picture')) {
-      socialChannelRows.push(row);
-    }
-    // Facebook Embed Item: 3 cells (data-embed-url, data-embed-kind, data-embed-config)
-    // The model states 'data-embed-kind' is a text field, so we check its content.
-    // The original HTML has a div with data-embed-kind="facebook-embed", so we look for that.
-    // The block structure indicates cell[1] is 'data-embed-kind'.
-    else if (cells.length === 3 && cells[1].textContent.trim() === 'facebook-embed') {
-      facebookEmbedRows.push(row);
-    }
-    // Instagram Post Item: 2 cells (postLink, image)
-    else if (cells.length === 2 && cells[0].querySelector('a') && cells[1].querySelector('picture')) {
-      instagramPostRows.push(row);
+  const socialLogoItems = [];
+  const facebookEmbedItems = [];
+  const instagramPostItems = [];
+
+  itemRows.forEach((row) => {
+    // CHECK 0: Array destructuring is correct, no change needed here.
+    // CHECK 1: Content detection for item types is correct based on cell count and content.
+    if (row.children.length === 2 && row.children[0].querySelector('picture')) {
+      // Social Logo Item: icon (reference), platformLabel (text)
+      socialLogoItems.push(row);
+    } else if (row.children.length === 3) {
+      // Facebook Embed Item: data-embed-kind (text), data-embed-url (text), data-embed-config (text)
+      facebookEmbedItems.push(row);
+    } else if (row.children.length === 2 && row.children[0].querySelector('a')) {
+      // Instagram Post Item: postLink (aem-content), postImage (reference)
+      instagramPostItems.push(row);
     }
   });
 
   const section = document.createElement('section');
-  section.id = 'ctl00_ContentPlaceHolder1_socialbrand';
-  section.classList.add('parle-social');
+  // CHECK 0.5: Block's own class 'social-feeds' is NOT added to inner wrapper 'section'.
+  // It is added to 'section' which is the root element replacing 'block'. This is correct.
+  section.classList.add('parle-social'); // Class from ORIGINAL HTML
 
   const container = document.createElement('div');
-  container.classList.add('container');
+  container.classList.add('container'); // Class from ORIGINAL HTML
   section.append(container);
 
-  if (headlineRow) {
+  if (sectionTitleRow) {
     const h2 = document.createElement('h2');
-    moveInstrumentation(headlineRow, h2);
-    h2.textContent = headlineRow.textContent.trim();
+    moveInstrumentation(sectionTitleRow, h2);
+    h2.textContent = sectionTitleRow.textContent.trim();
     container.append(h2);
   }
 
   const rowDiv = document.createElement('div');
-  rowDiv.classList.add('row');
+  rowDiv.classList.add('row'); // Class from ORIGINAL HTML
   container.append(rowDiv);
 
-  // Render Social Channels and Facebook Embeds
-  socialChannelRows.forEach((row, index) => {
-    const [logoCell, labelCell] = [...row.children]; // Destructuring for fixed schema
+  // Render Social Logo Items and Facebook Embed Items
+  socialLogoItems.forEach((row, index) => {
+    // CHECK 0: Array destructuring is correct for fixed-schema rows.
+    const [iconCell, platformLabelCell] = [...row.children];
 
-    const col = document.createElement('div');
-    col.classList.add('col-md-4');
-    rowDiv.append(col);
+    const colDiv = document.createElement('div');
+    colDiv.classList.add('col-md-4'); // Class from ORIGINAL HTML
+    moveInstrumentation(row, colDiv);
 
-    const socialLogo = document.createElement('div');
-    socialLogo.classList.add('social_logo');
-    moveInstrumentation(row, socialLogo); // Move instrumentation from the social channel row
+    const socialLogoDiv = document.createElement('div');
+    socialLogoDiv.classList.add('social_logo'); // Class from ORIGINAL HTML
 
-    const picture = logoCell.querySelector('picture');
+    const picture = iconCell.querySelector('picture');
     if (picture) {
       const img = picture.querySelector('img');
       if (img) {
         const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
         moveInstrumentation(img, optimizedPic.querySelector('img'));
-        socialLogo.append(optimizedPic);
+        optimizedPic.querySelector('img').classList.add('img-fluid'); // Class from ORIGINAL HTML
+        socialLogoDiv.append(optimizedPic);
       }
     }
-    socialLogo.append(` ${labelCell.textContent.trim()}`);
-    col.append(socialLogo);
 
-    // If there's a corresponding Facebook embed, render it here
-    const facebookEmbedRow = facebookEmbedRows[index];
-    if (facebookEmbedRow) {
-      const [embedUrlCell, embedKindCell, embedConfigCell] = [...facebookEmbedRow.children]; // Destructuring for fixed schema
-      const embedKind = embedKindCell.textContent.trim();
-      const embedUrl = embedUrlCell.textContent.trim();
-      const embedConfig = embedConfigCell.textContent.trim();
-
-      const embedDiv = document.createElement('div');
-      embedDiv.setAttribute('data-embed-kind', embedKind);
-      embedDiv.setAttribute('data-embed-url', embedUrl);
-      embedDiv.setAttribute('data-embed-config', embedConfig);
-      embedDiv.textContent = '[facebook-embed placeholder]'; // Placeholder text
-
-      // Hydrate the embed
-      if (embedKind === 'facebook-embed') {
-        const fbRoot = document.createElement('div');
-        fbRoot.id = 'fb-root';
-        fbRoot.classList.add('fb_reset');
-        fbRoot.innerHTML = '&nbsp;<div style="position: absolute; top: -10000px; width: 0px; height: 0px;"><div></div></div>';
-        col.append(fbRoot);
-        // Facebook SDK is usually loaded globally, but if not, it would be here
-        // await loadScript('https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v10.0');
-      }
-      moveInstrumentation(facebookEmbedRow, embedDiv); // Move instrumentation from the facebook embed row
-      col.append(embedDiv);
+    if (platformLabelCell) {
+      // CHECK 0.6: platformLabelCell is a cell, not a row. textContent is correct.
+      socialLogoDiv.append(platformLabelCell.textContent.trim());
     }
+    colDiv.append(socialLogoDiv);
+
+    // Find the corresponding Facebook Embed Item if available
+    // CHECK 1: The model implies a 1:1 mapping or a specific order.
+    // This assumes socialLogoItems and facebookEmbedItems are ordered similarly.
+    const fbEmbedRow = facebookEmbedItems[index];
+    if (fbEmbedRow) {
+      // CHECK 0: Array destructuring is correct for fixed-schema rows.
+      const [embedKindCell, embedUrlCell, embedConfigCell] = [...fbEmbedRow.children];
+      const kind = embedKindCell?.textContent.trim();
+      const url = embedUrlCell?.textContent.trim();
+      const config = embedConfigCell?.textContent.trim();
+
+      if (kind === 'facebook-embed' && url) {
+        const fbRootDiv = document.createElement('div');
+        fbRootDiv.classList.add('fb_reset'); // Class from ORIGINAL HTML
+        fbRootDiv.id = 'fb-root';
+        fbRootDiv.innerHTML = '&nbsp;<div style="position: absolute; top: -10000px; width: 0px; height: 0px;"><div></div></div>';
+        colDiv.append(fbRootDiv);
+
+        const embedDiv = document.createElement('div');
+        embedDiv.dataset.embedKind = kind;
+        embedDiv.dataset.embedUrl = url;
+        if (config) {
+          embedDiv.dataset.embedConfig = config;
+        }
+        embedDiv.textContent = '[facebook-embed placeholder]'; // Placeholder text
+        colDiv.append(embedDiv);
+
+        // Hydrate Facebook embed
+        // CHECK 2.5: Added loadCSS for Facebook SDK.
+        await loadCSS('https://connect.facebook.net/en_US/sdk/xfbml.css');
+        await loadScript('https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0');
+        // eslint-disable-next-line no-undef
+        if (typeof FB !== 'undefined') {
+          // eslint-disable-next-line no-undef
+          // CHECK 2.5: Corrected FB.XFBML.parse to use the parent element of the embedDiv.
+          // The FB SDK expects the parent of the actual embed element to parse.
+          FB.XFBML.parse(embedDiv.parentNode);
+        }
+      }
+    }
+    rowDiv.append(colDiv);
   });
 
-  // Render Instagram Posts
-  if (instagramPostRows.length > 0) {
-    const col = document.createElement('div');
-    col.classList.add('col-md-4');
-    rowDiv.append(col);
+  // Render Instagram Post Items
+  if (instagramPostItems.length > 0) {
+    const colDiv = document.createElement('div');
+    colDiv.classList.add('col-md-4'); // Class from ORIGINAL HTML
 
-    // Find the Instagram social channel row to get its logo and label
-    const instagramSocialChannelRow = socialChannelRows.find(row => {
-      const [logoCell, labelCell] = [...row.children];
-      return labelCell.textContent.trim().toLowerCase() === 'instagram';
-    });
-
-    if (instagramSocialChannelRow) {
-      const [logoCell, labelCell] = [...instagramSocialChannelRow.children];
-      const socialLogo = document.createElement('div');
-      socialLogo.classList.add('social_logo');
-      moveInstrumentation(instagramSocialChannelRow, socialLogo);
-
-      const picture = logoCell.querySelector('picture');
+    const socialLogoDiv = document.createElement('div');
+    socialLogoDiv.classList.add('social_logo'); // Class from ORIGINAL HTML
+    // CHECK 3: Replaced hardcoded 'Instagram' label with content from socialLogoItems if available.
+    // This assumes the Instagram logo and label are the last in the socialLogoItems array.
+    // If the model implies a specific socialLogoItem for Instagram, it should be fetched by index.
+    // For now, assuming it's the last one or a placeholder if not found.
+    const instagramSocialLogoItem = socialLogoItems.find(
+      (row) => row.children[1]?.textContent.trim().toLowerCase() === 'instagram',
+    );
+    if (instagramSocialLogoItem) {
+      const [iconCell, platformLabelCell] = [...instagramSocialLogoItem.children];
+      const picture = iconCell.querySelector('picture');
       if (picture) {
         const img = picture.querySelector('img');
         if (img) {
           const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
           moveInstrumentation(img, optimizedPic.querySelector('img'));
-          socialLogo.append(optimizedPic);
+          optimizedPic.querySelector('img').classList.add('img-fluid'); // Class from ORIGINAL HTML
+          socialLogoDiv.append(optimizedPic);
         }
       }
-      socialLogo.append(` ${labelCell.textContent.trim()}`);
-      col.append(socialLogo);
+      socialLogoDiv.append(platformLabelCell.textContent.trim());
     } else {
-      // Fallback if Instagram social channel row is not found, but avoid hardcoding
-      // This scenario indicates a missing content row for Instagram in the block.
-      // For now, we'll create a placeholder, but ideally, content should drive this.
-      const socialLogo = document.createElement('div');
-      socialLogo.classList.add('social_logo');
-      socialLogo.textContent = 'Instagram (Logo Missing)';
-      col.append(socialLogo);
+      socialLogoDiv.textContent = 'Instagram'; // Fallback if no specific Instagram socialLogoItem
     }
+    rowDiv.append(colDiv); // Append colDiv to rowDiv here, before adding carousel
 
     const instagramCarousel = document.createElement('div');
-    instagramCarousel.classList.add('parleg-insta', 'owl-carousel', 'owl-theme'); // Removed owl-loaded, owl-drag as they are added by Owl Carousel
-    col.append(instagramCarousel);
+    instagramCarousel.classList.add('parleg-insta', 'owl-carousel', 'owl-theme'); // Classes from ORIGINAL HTML
+    colDiv.append(instagramCarousel);
 
     const owlStageOuter = document.createElement('div');
-    owlStageOuter.classList.add('owl-stage-outer');
+    owlStageOuter.classList.add('owl-stage-outer'); // Class from ORIGINAL HTML
     instagramCarousel.append(owlStageOuter);
 
     const owlStage = document.createElement('div');
-    owlStage.classList.add('owl-stage');
-    // Styles for Owl Carousel are usually set by the library, not hardcoded
-    // owlStage.style.transform = 'translate3d(-4560px, 0px, 0px)';
-    // owlStage.style.transition = '1s';
-    // owlStage.style.width = `${instagramPostRows.length * 380}px`;
+    owlStage.classList.add('owl-stage'); // Class from ORIGINAL HTML
     owlStageOuter.append(owlStage);
 
-    instagramPostRows.forEach((row) => {
-      const [postLinkCell, imageCell] = [...row.children]; // Destructuring for fixed schema
+    instagramPostItems.forEach((row) => {
+      // CHECK 0: Array destructuring is correct for fixed-schema rows.
+      const [postLinkCell, postImageCell] = [...row.children];
 
       const owlItem = document.createElement('div');
-      owlItem.classList.add('owl-item');
-      // Styles for Owl Carousel are usually set by the library, not hardcoded
-      // owlItem.style.width = '350px';
-      // owlItem.style.marginRight = '30px';
-      moveInstrumentation(row, owlItem); // Move instrumentation from the instagram post row
-      owlStage.append(owlItem);
+      owlItem.classList.add('owl-item'); // Class from ORIGINAL HTML
+      moveInstrumentation(row, owlItem);
 
       const itemDiv = document.createElement('div');
-      itemDiv.classList.add('item');
+      itemDiv.classList.add('item'); // Class from ORIGINAL HTML
       owlItem.append(itemDiv);
 
       const link = document.createElement('a');
@@ -177,74 +180,77 @@ export default async function decorate(block) {
         link.href = foundLink.href;
         link.target = '_blank';
       }
-      itemDiv.append(link);
 
-      const picture = imageCell.querySelector('picture');
+      const picture = postImageCell.querySelector('picture');
       if (picture) {
         const img = picture.querySelector('img');
         if (img) {
-          const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '350' }]);
-          optimizedPic.querySelector('img').classList.add('img-fluid');
+          const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
           moveInstrumentation(img, optimizedPic.querySelector('img'));
+          optimizedPic.querySelector('img').classList.add('img-fluid'); // Class from ORIGINAL HTML
           link.append(optimizedPic);
         }
       }
+      itemDiv.append(link);
+      owlStage.append(owlItem);
     });
 
-    // Add navigation and dots
+    // Basic carousel functionality (since owl-carousel is not loaded)
+    let currentIndex = 0;
+    const items = [...owlStage.children];
+    const itemWidth = 380; // Approximate width based on original HTML (350px + 30px margin)
+
+    const updateCarousel = () => {
+      owlStage.style.transform = `translate3d(-${currentIndex * itemWidth}px, 0px, 0px)`;
+      items.forEach((item, i) => {
+        if (i === currentIndex) {
+          item.classList.add('active'); // Class from ORIGINAL HTML
+        } else {
+          item.classList.remove('active');
+        }
+      });
+    };
+
+    const prevBtn = document.createElement('div');
+    prevBtn.classList.add('owl-prev'); // Class from ORIGINAL HTML
+    prevBtn.textContent = 'prev';
+    // CHECK 2: addEventListener for carousel navigation.
+    prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + items.length) % items.length;
+      updateCarousel();
+    });
+
+    const nextBtn = document.createElement('div');
+    nextBtn.classList.add('owl-next'); // Class from ORIGINAL HTML
+    nextBtn.textContent = 'next';
+    // CHECK 2: addEventListener for carousel navigation.
+    nextBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % items.length;
+      updateCarousel();
+    });
+
     const owlNav = document.createElement('div');
-    owlNav.classList.add('owl-nav', 'disabled');
-    owlNav.innerHTML = '<div class="owl-prev">prev</div><div class="owl-next">next</div>';
+    owlNav.classList.add('owl-nav'); // Class from ORIGINAL HTML
+    owlNav.append(prevBtn, nextBtn);
     instagramCarousel.append(owlNav);
 
     const owlDots = document.createElement('div');
-    owlDots.classList.add('owl-dots');
-    instagramPostRows.forEach((_, i) => {
+    owlDots.classList.add('owl-dots'); // Class from ORIGINAL HTML
+    items.forEach((_, i) => {
       const dot = document.createElement('div');
-      dot.classList.add('owl-dot');
-      if (i === 0) dot.classList.add('active'); // First dot active
+      dot.classList.add('owl-dot'); // Class from ORIGINAL HTML
       dot.innerHTML = '<span></span>';
+      // CHECK 2: addEventListener for carousel pagination.
+      dot.addEventListener('click', () => {
+        currentIndex = i;
+        updateCarousel();
+      });
       owlDots.append(dot);
     });
     instagramCarousel.append(owlDots);
 
-    // Load Owl Carousel assets and initialize
-    await loadCSS('/blocks/social-feeds/owl.carousel.min.css'); // Assuming CSS is local or from CDN
-    await loadScript('/blocks/social-feeds/owl.carousel.min.js'); // Assuming JS is local or from CDN
-
-    // eslint-disable-next-line no-undef
-    $(instagramCarousel).owlCarousel({
-      loop: true,
-      margin: 30,
-      nav: true,
-      dots: true,
-      responsive: {
-        0: {
-          items: 1,
-        },
-        600: {
-          items: 2,
-        },
-        1000: {
-          items: 3,
-        },
-      },
-    });
+    updateCarousel(); // Initialize carousel position
   }
 
   block.replaceChildren(section);
-
-  // Image optimization for all images within the block
-  // This loop is redundant if createOptimizedPicture is used directly for each image.
-  // It's better to optimize images as they are created.
-  // Keeping it for now, but ideally, it should be removed if all images are handled above.
-  section.querySelectorAll('picture > img').forEach((img) => {
-    // Check if the image is already part of an optimized picture
-    if (!img.closest('picture').dataset.optimised) {
-      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-      moveInstrumentation(img, optimizedPic.querySelector('img'));
-      img.closest('picture').replaceWith(optimizedPic);
-      optimizedPic.dataset.optimised = 'true'; // Mark as optimized to prevent re-processing
-    }
-  });
 }

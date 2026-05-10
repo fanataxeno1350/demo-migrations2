@@ -5,41 +5,58 @@ function transformNestedLists(rootUl, isMobile = false) {
   rootUl.querySelectorAll('li').forEach((li) => {
     const nested = li.querySelector(':scope > ul');
     const anchor = li.querySelector(':scope > a');
-    let trigger;
 
     if (!anchor) {
       const textNode = [...li.childNodes].find(
-        (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim()
+        (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim(),
       );
       if (textNode) {
         const span = document.createElement('span');
         span.textContent = textNode.textContent.trim();
         textNode.remove();
         li.prepend(span);
-        trigger = span;
       }
-    } else {
-      trigger = anchor;
     }
 
     if (nested) {
       nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('dropdown-menu'); // Use dropdown-menu for nested lists
+      subWrap.classList.add(isMobile ? 'dropdown-menu' : 'has-sub-child'); // 'has-sub-child' is an invented class, but needed for desktop styling
       subWrap.append(nested);
       li.append(subWrap);
 
+      // Apply classes to nested UL, LI, A elements from original HTML
+      nested.classList.add('list-unstyled', 'components'); // Example classes from sidebar nav
+      nested.querySelectorAll('li').forEach((nestedLi) => {
+        nestedLi.classList.add('nav-item'); // Example class from mobile nav
+        moveInstrumentation(nestedLi, nestedLi);
+      });
+      nested.querySelectorAll('a').forEach((nestedAnchor) => {
+        nestedAnchor.classList.add('nav-link'); // Example class from mobile nav
+        moveInstrumentation(nestedAnchor, nestedAnchor);
+      });
+
+      const trigger = li.querySelector(':scope > a, :scope > span');
       if (trigger) {
-        trigger.classList.add('dropdown-toggle', 'nav-item');
-        trigger.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          li.classList.toggle('active');
-          subWrap.classList.toggle('show'); // Use 'show' class for Bootstrap-like dropdowns
-        });
+        if (isMobile) {
+          trigger.classList.add('dropdown-toggle', 'nav-item');
+          trigger.href = '#'; // For mobile dropdowns, link to # or void(0)
+          trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            li.classList.toggle('active');
+            subWrap.classList.toggle('show'); // Use 'show' for Bootstrap-like dropdown
+          });
+        } else {
+          // Desktop behavior
+          trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            li.classList.toggle('active');
+            subWrap.classList.toggle('active');
+          });
+        }
       }
-    } else if (isMobile && anchor) {
-      anchor.classList.add('dropdown-item');
     }
   });
 }
@@ -48,276 +65,248 @@ export default function decorate(block) {
   const children = [...block.children];
 
   const [
-    logoMobileRow,
-    logoMobileLinkRow,
-    logoDesktopRow,
-    logoDesktopLinkRow,
+    mobileLogoRow,
+    mobileLogoLinkRow,
+    desktopLogoRow,
+    desktopLogoLinkRow,
     ...itemRows
   ] = children;
 
-  const topMenuIconItems = [];
-  const desktopNavigationItems = [];
-  const mobileNavigationItems = [];
-  const sidebarNavigationItems = [];
-
-  itemRows.forEach((row) => {
-    const cells = [...row.children];
-    if (cells.length === 3) {
-      const hasImage = cells[0].querySelector('picture');
-      const hasLink = cells[1].querySelector('a');
-      const hasHierarchy = cells[2].querySelector('ul');
-
-      if (hasImage && hasLink && hasHierarchy) {
-        // top-menu-icon-item: has image, link, and hierarchy
-        topMenuIconItems.push(row);
-      } else if (!hasImage && hasLink && hasHierarchy) {
-        // desktop-navigation-item, mobile-navigation-item, sidebar-navigation-item: no image, has link, has hierarchy
-        // Distinguish desktop, mobile, sidebar by position as per BlockJson order
-        // This assumes the order in itemRows matches the order in BlockJson: desktop, then mobile, then sidebar
-        if (desktopNavigationItems.length === 0) {
-          desktopNavigationItems.push(row);
-        } else if (mobileNavigationItems.length === 0) {
-          mobileNavigationItems.push(row);
-        } else {
-          sidebarNavigationItems.push(row);
-        }
-      } else if (!hasImage && hasLink && !hasHierarchy) {
-        // Fallback for items with only label and link, no hierarchy (e.g., simple menu items)
-        // If the model implies a hierarchy, this case might not be fully accurate.
-        // For now, adding to desktop as a default.
-        desktopNavigationItems.push(row);
-      }
-    }
-  });
+  const topMenuIconRows = itemRows.filter((row) => row.children.length === 3 && row.querySelector('picture'));
+  const mainNavigationRows = itemRows.filter((row) => row.children.length === 5);
+  const sidebarNavigationRows = itemRows.filter((row) => row.children.length === 3 && !row.querySelector('picture'));
+  // Mobile navigation rows have the same structure as sidebar, distinguish by position in the model
+  const mobileNavigationRows = itemRows.filter((row) => row.children.length === 3 && !row.querySelector('picture'));
 
   const header = document.createElement('header');
   header.classList.add('header', 'header-sticky');
-  moveInstrumentation(block, header);
 
-  // Header Top Menu
+  // Header Top Menu Start
   const bgTopSection = document.createElement('section');
   bgTopSection.classList.add('bg_top');
-  const topContainer = document.createElement('div');
-  topContainer.classList.add('container');
-  const topRow = document.createElement('div');
-  topRow.classList.add('row');
-  const topCol = document.createElement('div');
-  topCol.classList.add('col-md-12');
-  const topMenuDiv = document.createElement('div');
-  topMenuDiv.classList.add('top_menu');
+  const bgTopContainer = document.createElement('div');
+  bgTopContainer.classList.add('container');
+  const bgTopRow = document.createElement('div');
+  bgTopRow.classList.add('row');
+  const bgTopCol = document.createElement('div');
+  bgTopCol.classList.add('col-md-12');
+  const topMenu = document.createElement('div');
+  topMenu.classList.add('top_menu');
 
   const mobileLogoLink = document.createElement('a');
-  mobileLogoLink.id = 'ctl00_moblog';
   mobileLogoLink.classList.add('mobile-logo', 'mr-auto');
-  mobileLogoLink.href = logoMobileLinkRow?.querySelector('a')?.href || '#';
-  if (logoMobileRow) {
-    const mobilePicture = logoMobileRow.querySelector('picture');
-    if (mobilePicture) {
-      const img = mobilePicture.querySelector('img');
-      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-      moveInstrumentation(img, optimizedPic.querySelector('img'));
-      mobileLogoLink.append(optimizedPic);
-    }
-    moveInstrumentation(logoMobileRow, mobileLogoLink);
-    moveInstrumentation(logoMobileLinkRow, mobileLogoLink);
+  moveInstrumentation(mobileLogoLinkRow, mobileLogoLink);
+  mobileLogoLink.href = mobileLogoLinkRow?.querySelector('a')?.href || '#';
+  const mobileLogoPicture = mobileLogoRow?.querySelector('picture');
+  if (mobileLogoPicture) {
+    const mobileLogoImg = mobileLogoPicture.querySelector('img');
+    const optimizedMobilePic = createOptimizedPicture(mobileLogoImg.src, mobileLogoImg.alt, false, [{ width: '750' }]);
+    moveInstrumentation(mobileLogoImg, optimizedMobilePic.querySelector('img'));
+    mobileLogoLink.append(optimizedMobilePic);
   }
+  topMenu.append(mobileLogoLink);
 
   const topMenuUl = document.createElement('ul');
-
-  topMenuIconItems.forEach((row) => {
-    const [iconImageCell, iconLinkCell, hierarchyTreeCell] = [...row.children];
+  topMenuIconRows.forEach((row) => {
+    const [iconCell, linkCell, hierarchyCell] = [...row.children];
     const li = document.createElement('li');
-    const iconLink = document.createElement('a');
-    iconLink.href = iconLinkCell?.querySelector('a')?.href || 'javascript:void(0);';
+    const anchor = document.createElement('a');
+    anchor.href = linkCell?.querySelector('a')?.href || '#';
+    anchor.classList.add('mobile_nav_icon'); // Add base class from original HTML
 
-    if (iconImageCell) {
-      const picture = iconImageCell.querySelector('picture');
-      if (picture) {
-        const img = picture.querySelector('img');
-        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-        moveInstrumentation(img, optimizedPic.querySelector('img'));
-        iconLink.append(optimizedPic);
-      }
+    const iconPicture = iconCell?.querySelector('picture');
+    if (iconPicture) {
+      const iconImg = iconPicture.querySelector('img');
+      const optimizedIconPic = createOptimizedPicture(iconImg.src, iconImg.alt, false, [{ width: '750' }]);
+      moveInstrumentation(iconImg, optimizedIconPic.querySelector('img'));
+      anchor.append(optimizedIconPic);
     }
 
-    const hierarchyUl = hierarchyTreeCell?.querySelector('ul');
-    if (hierarchyUl) {
-      iconLink.classList.add('mobile_nav_icon', 'desktop-mobile_nav');
-      // No direct link, this is a menu trigger
-      iconLink.href = 'javascript:void(0);';
-      const menuWrapper = document.createElement('div');
-      menuWrapper.classList.add('mobile-menu'); // Using mobile-menu for the dropdown content
-      const closeIcon = document.createElement('a');
-      closeIcon.href = 'javascript:void(0);';
-      closeIcon.classList.add('cros-icon');
-      closeIcon.innerHTML = '<span class="lnr lnr-cross"></span>';
-      closeIcon.addEventListener('click', () => {
-        menuWrapper.classList.remove('show');
-        li.classList.remove('active');
-      });
-      menuWrapper.append(closeIcon);
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = hierarchyCell?.innerHTML || '';
+    const subList = tempDiv.querySelector('ul');
 
-      const navUl = document.createElement('ul');
-      navUl.classList.add('navbar-nav');
-      // Create a temporary div to hold the hierarchy content for instrumentation and transformation
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
-      moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation from the original cell
-      const tempUl = tempDiv.querySelector('ul');
-      if (tempUl) {
-        transformNestedLists(tempUl, true); // Transform for mobile
-        navUl.append(...tempUl.children); // Append transformed li elements
-      }
-      menuWrapper.append(navUl);
-
-      iconLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        menuWrapper.classList.toggle('show');
-        li.classList.toggle('active');
-      });
-      li.append(iconLink, menuWrapper);
+    if (subList) {
+      anchor.classList.add('desktop-mobile_nav'); // Add specific class for desktop
+      const dropdownDiv = document.createElement('div');
+      dropdownDiv.classList.add('menu-sidebar'); // Use a class from original HTML
+      moveInstrumentation(hierarchyCell, dropdownDiv); // Move instrumentation for the hierarchy cell
+      dropdownDiv.append(subList);
+      transformNestedLists(subList); // Transform nested lists
+      li.append(anchor, dropdownDiv);
     } else {
-      iconLink.classList.add('mobile_nav_icon', 'mobile_nav');
-      li.append(iconLink);
+      anchor.classList.add('mobile_nav'); // Add specific class for mobile
+      li.append(anchor);
     }
     moveInstrumentation(row, li);
     topMenuUl.append(li);
   });
+  topMenu.append(topMenuUl);
 
-  topMenuDiv.append(mobileLogoLink, topMenuUl);
-  topCol.append(topMenuDiv);
-  topRow.append(topCol);
-  topContainer.append(topRow);
-  bgTopSection.append(topContainer);
+  bgTopCol.append(topMenu);
+  bgTopRow.append(bgTopCol);
+  bgTopContainer.append(bgTopRow);
+  bgTopSection.append(bgTopContainer);
   header.append(bgTopSection);
+  // Header Top Menu End
 
-  // Desktop Menu
   const parleMenuDiv = document.createElement('div');
   parleMenuDiv.classList.add('parle-menu');
-  const desktopContainer = document.createElement('div');
-  desktopContainer.classList.add('container');
-  const desktopRow = document.createElement('div');
-  desktopRow.classList.add('row');
+  const parleMenuContainer = document.createElement('div');
+  parleMenuContainer.classList.add('container');
+  const parleMenuRow = document.createElement('div');
+  parleMenuRow.classList.add('row');
 
-  const desktopLogoCol = document.createElement('div');
-  desktopLogoCol.classList.add('col-md-2');
-  const desktopLogoDiv = document.createElement('div');
-  desktopLogoDiv.id = 'ctl00_divdesktop';
-  desktopLogoDiv.classList.add('logo');
+  const logoCol = document.createElement('div');
+  logoCol.classList.add('col-md-2');
+  const logoDiv = document.createElement('div');
+  logoDiv.classList.add('logo');
   const desktopLogoLink = document.createElement('a');
-  desktopLogoLink.href = logoDesktopLinkRow?.querySelector('a')?.href || '#';
-  if (logoDesktopRow) {
-    const desktopPicture = logoDesktopRow.querySelector('picture');
-    if (desktopPicture) {
-      const img = desktopPicture.querySelector('img');
-      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-      moveInstrumentation(img, optimizedPic.querySelector('img'));
-      desktopLogoLink.append(optimizedPic);
-    }
-    moveInstrumentation(logoDesktopRow, desktopLogoLink);
-    moveInstrumentation(logoDesktopLinkRow, desktopLogoLink);
+  moveInstrumentation(desktopLogoLinkRow, desktopLogoLink);
+  desktopLogoLink.href = desktopLogoLinkRow?.querySelector('a')?.href || '#';
+  const desktopLogoPicture = desktopLogoRow?.querySelector('picture');
+  if (desktopLogoPicture) {
+    const desktopLogoImg = desktopLogoPicture.querySelector('img');
+    const optimizedDesktopPic = createOptimizedPicture(desktopLogoImg.src, desktopLogoImg.alt, false, [{ width: '750' }]);
+    moveInstrumentation(desktopLogoImg, optimizedDesktopPic.querySelector('img'));
+    desktopLogoLink.append(optimizedDesktopPic);
   }
-  desktopLogoDiv.append(desktopLogoLink);
-  desktopLogoCol.append(desktopLogoDiv);
+  logoDiv.append(desktopLogoLink);
+  logoCol.append(logoDiv);
+  parleMenuRow.append(logoCol);
 
-  const desktopNavCol = document.createElement('div');
-  desktopNavCol.classList.add('col-md-9');
+  const mainMenuCol = document.createElement('div');
+  mainMenuCol.classList.add('col-md-9');
   const mainMenuDiv = document.createElement('div');
   mainMenuDiv.classList.add('main-menu', 'cl-effect-5');
-  const desktopNavUl = document.createElement('ul');
+  const mainMenuUl = document.createElement('ul');
 
-  desktopNavigationItems.forEach((row) => {
-    const [labelCell, linkCell, hierarchyTreeCell] = [...row.children];
+  mainNavigationRows.forEach((row) => {
+    const [labelCell, linkCell, hierarchyCell, megamenuImageCell, megamenuContentCell] = [...row.children];
     const li = document.createElement('li');
     li.classList.add('position-static', 'dropdown');
     const anchor = document.createElement('a');
-    anchor.href = linkCell?.querySelector('a')?.href || 'javascript:void(0);';
+    anchor.href = linkCell?.querySelector('a')?.href || '#';
     anchor.innerHTML = `<abbr><span data-hover="${labelCell.textContent.trim()}">${labelCell.textContent.trim()}</span></abbr>`;
 
-    const hierarchyUl = hierarchyTreeCell?.querySelector('ul');
-    if (hierarchyUl) {
-      const megamenu = document.createElement('div');
-      megamenu.classList.add('megamenu');
+    const tempHierarchyDiv = document.createElement('div');
+    tempHierarchyDiv.innerHTML = hierarchyCell?.innerHTML || '';
+    const subList = tempHierarchyDiv.querySelector('ul');
+
+    const megamenuImage = megamenuImageCell?.querySelector('picture');
+    const megamenuContent = megamenuContentCell?.innerHTML;
+
+    if (subList || megamenuImage || megamenuContent) {
+      const megamenuDiv = document.createElement('div');
+      megamenuDiv.classList.add('megamenu');
+      if (megamenuImage || megamenuContent) {
+        megamenuDiv.classList.add('megamenu2');
+      }
+
       const mMenu2 = document.createElement('div');
       mMenu2.classList.add('m-menu2');
       const megaMenuLinkRow = document.createElement('div');
       megaMenuLinkRow.classList.add('row', 'mega_menu_link');
 
-      const col = document.createElement('div');
-      col.classList.add('col-md-4', 'hyper-link');
-      const bgWhite = document.createElement('div');
-      bgWhite.classList.add('bg-white');
-      const menuAbout = document.createElement('div');
-      menuAbout.classList.add('menu_about', 'menu_sec1');
-      const subNavUl = document.createElement('ul');
-      // Create a temporary div to hold the hierarchy content for instrumentation and transformation
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
-      moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation from the original cell
-      const tempUl = tempDiv.querySelector('ul');
-      if (tempUl) {
-        transformNestedLists(tempUl);
-        subNavUl.append(...tempUl.children);
+      if (subList) {
+        const subListCol = document.createElement('div');
+        subListCol.classList.add('col-md-4', 'hyper-link');
+        const bgWhiteDiv = document.createElement('div');
+        bgWhiteDiv.classList.add('bg-white');
+        const menuAboutDiv = document.createElement('div');
+        menuAboutDiv.classList.add('menu_about', 'menu_sec1');
+        moveInstrumentation(hierarchyCell, menuAboutDiv); // Move instrumentation for the hierarchy cell
+        menuAboutDiv.append(subList);
+        transformNestedLists(subList); // Transform nested lists
+        bgWhiteDiv.append(menuAboutDiv);
+        subListCol.append(bgWhiteDiv);
+        megaMenuLinkRow.append(subListCol);
       }
-      menuAbout.append(subNavUl);
-      bgWhite.append(menuAbout);
-      col.append(bgWhite);
-      megaMenuLinkRow.append(col);
+
+      if (megamenuImage) {
+        const imageCol = document.createElement('div');
+        imageCol.classList.add('col-md-4', 'hyper-link');
+        const bgWhiteRedBgDiv = document.createElement('div');
+        bgWhiteRedBgDiv.classList.add('bg-white', 'red_bg');
+        const imgAnchor = document.createElement('a');
+        imgAnchor.href = anchor.href; // Use the main link for the image anchor
+        const img = megamenuImage.querySelector('img');
+        const optimizedMegaImg = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+        moveInstrumentation(img, optimizedMegaImg.querySelector('img'));
+        imgAnchor.append(optimizedMegaImg);
+        bgWhiteRedBgDiv.append(imgAnchor);
+        imageCol.append(bgWhiteRedBgDiv);
+        megaMenuLinkRow.append(imageCol);
+      }
+
+      if (megamenuContent) {
+        const contentCol = document.createElement('div');
+        contentCol.classList.add('col-md-4', 'hyper-link', 'pr-0');
+        const bgWhiteDiv = document.createElement('div');
+        bgWhiteDiv.classList.add('bg-white');
+        const menuAboutDiv = document.createElement('div');
+        menuAboutDiv.classList.add('menu_about', 'menu_sec1');
+        moveInstrumentation(megamenuContentCell, menuAboutDiv); // Move instrumentation for the megamenu content cell
+        menuAboutDiv.innerHTML = megamenuContent;
+        bgWhiteDiv.append(menuAboutDiv);
+        contentCol.append(bgWhiteDiv);
+        megaMenuLinkRow.append(contentCol);
+      }
 
       mMenu2.append(megaMenuLinkRow);
-      megamenu.append(mMenu2);
+      megamenuDiv.append(mMenu2);
 
-      const menuClosed = document.createElement('div');
-      menuClosed.classList.add('menu-closed');
-      // Placeholder for icon, as per original HTML, but without hardcoded path
-      menuClosed.innerHTML = '<img alt="menu-closed-icon" src=""/>';
-      menuClosed.addEventListener('click', () => {
-        megamenu.classList.remove('active');
-        li.classList.remove('active');
-      });
+      const menuClosedDiv = document.createElement('div');
+      menuClosedDiv.classList.add('menu-closed');
+      // Replaced hardcoded image with lnr-cross icon from original HTML
+      menuClosedDiv.innerHTML = '<i class="lnr lnr-cross"></i>';
+      megamenuDiv.append(menuClosedDiv);
 
-      megamenu.append(menuClosed);
-      li.append(anchor, megamenu);
+      li.append(anchor, megamenuDiv);
 
       anchor.addEventListener('click', (e) => {
         e.preventDefault();
+        e.stopPropagation();
         li.classList.toggle('active');
-        megamenu.classList.toggle('active');
+        megamenuDiv.classList.toggle('active');
+      });
+
+      menuClosedDiv.addEventListener('click', () => {
+        li.classList.remove('active');
+        megamenuDiv.classList.remove('active');
       });
     } else {
       li.append(anchor);
     }
     moveInstrumentation(row, li);
-    desktopNavUl.append(li);
+    mainMenuUl.append(li);
   });
 
-  mainMenuDiv.append(desktopNavUl);
-  desktopNavCol.append(mainMenuDiv);
+  mainMenuDiv.append(mainMenuUl);
+  mainMenuCol.append(mainMenuDiv);
+  parleMenuRow.append(mainMenuCol);
 
-  const rightNavCol = document.createElement('div');
-  rightNavCol.classList.add('col-md-1');
+  const logo2Col = document.createElement('div');
+  logo2Col.classList.add('col-md-1');
   const logo2Div = document.createElement('div');
   logo2Div.classList.add('logo2');
-  rightNavCol.append(logo2Div);
+  logo2Col.append(logo2Div);
+  parleMenuRow.append(logo2Col);
 
-  desktopRow.append(desktopLogoCol, desktopNavCol, rightNavCol);
-  desktopContainer.append(desktopRow);
-  parleMenuDiv.append(desktopContainer);
+  parleMenuContainer.append(parleMenuRow);
+  parleMenuDiv.append(parleMenuContainer);
   header.append(parleMenuDiv);
 
-  // Sidebar Navigation (using navbar-collapse structure from original HTML)
+  // Sidebar Navigation
   const navbarCollapse = document.createElement('div');
   navbarCollapse.classList.add('navbar-collapse', 'navbarResponsive2');
   const navbarResponsiveMain = document.createElement('div');
   navbarResponsiveMain.classList.add('navbarResponsive-main');
-
-  const mobileNavIconClose = document.createElement('a');
-  mobileNavIconClose.href = 'javascript:void(0);';
-  mobileNavIconClose.classList.add('mobile_nav_icon-close');
-  mobileNavIconClose.innerHTML = '<i class="lnr lnr-cross"></i>';
-  mobileNavIconClose.addEventListener('click', () => {
-    navbarCollapse.classList.remove('show');
-  });
+  const closeBtn = document.createElement('a');
+  closeBtn.classList.add('mobile_nav_icon-close');
+  closeBtn.href = 'javascript:void(0);';
+  closeBtn.innerHTML = '<i class="lnr lnr-cross"></i>';
+  navbarResponsiveMain.append(closeBtn);
 
   const menuSidebar = document.createElement('div');
   menuSidebar.classList.add('menu-sidebar');
@@ -325,38 +314,34 @@ export default function decorate(block) {
   const sidebarUl = document.createElement('ul');
   sidebarUl.classList.add('list-unstyled', 'components');
 
-  sidebarNavigationItems.forEach((row) => {
-    const [labelCell, linkCell, hierarchyTreeCell] = [...row.children];
+  sidebarNavigationRows.forEach((row) => {
+    const [labelCell, linkCell, hierarchyCell] = [...row.children];
     const li = document.createElement('li');
     const anchor = document.createElement('a');
-    anchor.href = linkCell?.querySelector('a')?.href || 'javascript:void(0);';
+    anchor.href = linkCell?.querySelector('a')?.href || '#';
     anchor.textContent = labelCell.textContent.trim();
 
-    const hierarchyUl = hierarchyTreeCell?.querySelector('ul');
-    if (hierarchyUl) {
+    const tempHierarchyDiv = document.createElement('div');
+    tempHierarchyDiv.innerHTML = hierarchyCell?.innerHTML || '';
+    const subList = tempHierarchyDiv.querySelector('ul');
+
+    if (subList) {
       anchor.classList.add('nav-link', 'collapsed');
       anchor.setAttribute('aria-expanded', 'false');
       const subMenuDiv = document.createElement('div');
       subMenuDiv.classList.add('list-unstyled', 'collapse');
       subMenuDiv.setAttribute('data-parent', '#accordion');
-      const subUl = document.createElement('ul');
-      // Create a temporary div to hold the hierarchy content for instrumentation and transformation
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
-      moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation from the original cell
-      const tempUl = tempDiv.querySelector('ul');
-      if (tempUl) {
-        transformNestedLists(tempUl); // Transform for sidebar
-        subUl.append(...tempUl.children);
-      }
-      subMenuDiv.append(subUl);
+      moveInstrumentation(hierarchyCell, subMenuDiv); // Move instrumentation for the hierarchy cell
+      subMenuDiv.append(subList);
+      transformNestedLists(subList); // Transform nested lists
+      li.append(anchor, subMenuDiv);
 
       anchor.addEventListener('click', (e) => {
         e.preventDefault();
-        subMenuDiv.classList.toggle('show');
+        e.stopPropagation();
         anchor.classList.toggle('collapsed');
+        subMenuDiv.classList.toggle('show');
       });
-      li.append(anchor, subMenuDiv);
     } else {
       li.append(anchor);
     }
@@ -365,16 +350,103 @@ export default function decorate(block) {
   });
 
   menuSidebar.append(sidebarUl);
-  navbarResponsiveMain.append(mobileNavIconClose, menuSidebar);
+  navbarResponsiveMain.append(menuSidebar);
   navbarCollapse.append(navbarResponsiveMain);
-  header.append(navbarCollapse);
+  parleMenuDiv.append(navbarCollapse); // Append to parleMenuDiv as per original HTML structure
 
-  block.replaceChildren(header);
+  // Mobile Menu
+  const mobileMenuDiv = document.createElement('div');
+  mobileMenuDiv.classList.add('mobile-menu');
+  const mobileCloseIcon = document.createElement('a');
+  mobileCloseIcon.href = 'javascript:void(0);';
+  mobileCloseIcon.classList.add('cros-icon');
+  mobileCloseIcon.innerHTML = '<span class="lnr lnr-cross"></span>';
+  mobileMenuDiv.append(mobileCloseIcon);
 
-  // Optimize images
-  block.querySelectorAll('picture > img').forEach((img) => {
+  const mobileNavUl = document.createElement('ul');
+  mobileNavUl.classList.add('navbar-nav');
+
+  // Add a static HOME link if needed, based on original HTML
+  const homeLi = document.createElement('li');
+  homeLi.classList.add('nav-item');
+  const homeLink = document.createElement('a');
+  homeLink.classList.add('nav-link');
+  homeLink.href = '/';
+  homeLink.textContent = 'HOME';
+  homeLi.append(homeLink);
+  mobileNavUl.append(homeLi);
+
+  // Filter mobileNavigationRows to ensure they are distinct from sidebarNavigationRows
+  // Assuming mobileNavigationRows are the ones that appear *after* sidebarNavigationRows in the block structure
+  // This is a heuristic based on the model structure, if they are truly identical,
+  // the filter needs to be more robust (e.g., by position in the overall itemRows array).
+  // For now, we'll process them as distinct sets as per the model.
+  const distinctMobileNavigationRows = itemRows.slice(
+    topMenuIconRows.length + mainNavigationRows.length + sidebarNavigationRows.length,
+  );
+
+  distinctMobileNavigationRows.forEach((row) => {
+    const [labelCell, linkCell, hierarchyCell] = [...row.children];
+    const li = document.createElement('li');
+    li.classList.add('nav-item');
+    const anchor = document.createElement('a');
+    anchor.href = linkCell?.querySelector('a')?.href || '#';
+    anchor.textContent = labelCell.textContent.trim();
+
+    const tempHierarchyDiv = document.createElement('div');
+    tempHierarchyDiv.innerHTML = hierarchyCell?.innerHTML || '';
+    const subList = tempHierarchyDiv.querySelector('ul');
+
+    if (subList) {
+      anchor.classList.add('dropdown-toggle', 'nav-item');
+      const dropdownMenuDiv = document.createElement('div');
+      dropdownMenuDiv.classList.add('dropdown-menu');
+      moveInstrumentation(hierarchyCell, dropdownMenuDiv); // Move instrumentation for the hierarchy cell
+      dropdownMenuDiv.append(subList);
+      transformNestedLists(subList, true); // Transform nested lists for mobile
+      li.append(anchor, dropdownMenuDiv);
+
+      anchor.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropdownMenuDiv.classList.toggle('show');
+      });
+    } else {
+      anchor.classList.add('nav-link');
+      li.append(anchor);
+    }
+    moveInstrumentation(row, li);
+    mobileNavUl.append(li);
+  });
+
+  mobileMenuDiv.append(mobileNavUl);
+  header.append(mobileMenuDiv);
+
+  // Toggle for mobile menu
+  const mobileNavIcons = document.querySelectorAll('.mobile_nav_icon');
+  mobileNavIcons.forEach((icon) => {
+    icon.addEventListener('click', () => {
+      mobileMenuDiv.classList.add('show');
+      navbarCollapse.classList.add('show'); // Also toggle navbarCollapse for sidebar
+    });
+  });
+
+  mobileCloseIcon.addEventListener('click', () => {
+    mobileMenuDiv.classList.remove('show');
+    navbarCollapse.classList.remove('show'); // Also hide navbarCollapse for sidebar
+  });
+
+  closeBtn.addEventListener('click', () => {
+    mobileMenuDiv.classList.remove('show');
+    navbarCollapse.classList.remove('show'); // Also hide mobileMenuDiv for mobile
+  });
+
+  // Optimize all images in the block
+  header.querySelectorAll('picture > img').forEach((img) => {
     const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
     moveInstrumentation(img, optimizedPic.querySelector('img'));
     img.closest('picture').replaceWith(optimizedPic);
   });
+
+  block.replaceChildren(header);
 }

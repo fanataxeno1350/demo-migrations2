@@ -1,0 +1,231 @@
+@media (min-width:576px) { .container{ max-width:540px } }
+
+@media (min-width:768px) { .container{ max-width:720px } }
+
+@media (min-width:992px) { .container{ max-width:960px } }
+
+@media (min-width:1200px) { .container{ max-width:1140px } }
+
+.row{ display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-right:-15px;margin-left:-15px }
+
+@media (min-width:768px) { .row > .col-md-1{ -ms-flex:0 0 8.333333%;flex:0 0 8.333333%;max-width:8.333333% }
+
+.row > .col-md-2{ -ms-flex:0 0 16.666667%;flex:0 0 16.666667%;max-width:16.666667% }
+
+.row > .col-md-3{ -ms-flex:0 0 25%;flex:0 0 25%;max-width:25% }
+
+.row > .col-md-4{ -ms-flex:0 0 33.333333%;flex:0 0 33.333333%;max-width:33.333333% }
+
+.row > .col-md-5{ -ms-flex:0 0 41.666667%;flex:0 0 41.666667%;max-width:41.666667% }
+
+.row > .col-md-6{ -ms-flex:0 0 50%;flex:0 0 50%;max-width:50% }
+
+.row > .col-md-9{ -ms-flex:0 0 75%;flex:0 0 75%;max-width:75% }
+
+.row > .col-md-12{ -ms-flex:0 0 100%;flex:0 0 100%;max-width:100% } }
+
+@keyframes progress-bar-stripes{from{background-position:1rem 0}to{background-position:0 0}}
+
+@keyframes spinner-border{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+
+@keyframes spinner-grow{0%{-webkit-transform:scale(0);transform:scale(0)}50%{opacity:1}}
+
+@media print { .container{ min-width:992px!important } }
+
+.main-menu ul li .megamenu li a, .main-menu ul li ul li a, .megamenu .mega_menu_link h4 a{ 
+	font-family: Montserrat, sans-serif
+ }
+
+.main-menu ul li a, .navbarResponsive2 ul li a{ 
+	text-transform: uppercase
+ }
+
+.bg_top, .mobile-logo, .mobile_nav_icon.mobile_nav, header.header.header-sticky li.sticky{ 
+	display: none
+ }
+
+.row.mega_menu_link.no-gutters.parle_recipes_bg{ 
+	height: 590px
+ }
+
+@keyframes blink-animation{
+to {
+visibility:hidden
+}
+}
+
+@media only screen and (max-width:767px) { .img-fluid{ 
+	margin: auto auto 20px
+ } }
+
+@media (min-width:1600px) { .legacy_main .legacy_year_number2 .legacy_line{ font-size:85px }
+
+.main-menu ul>li>a{ padding-bottom:0 } }
+
+@media (max-width:1460px) { .m-menu2{ max-height:510px;overflow-y:auto;overflow-x:hidden }
+
+.megamenu2{ background-size:50% } }
+
+@media (min-width:1300px) { .header .container{ max-width:1600px;width:100%;padding:0 30px } }
+
+@media only screen and (max-width:1599px) { .about_menu_head{ font-size:26px;padding:20px 20px 0 }
+
+.menu_about.menu_sec1 p.menu_text a{ font-size:14px!important;padding:0 20px }
+
+.legacy_main.bg-white.number_text_menu p.legacy_link a{ padding:20px 20px 0;font-size:18px }
+
+.legacy_main.bg-white .legacy_p:after, .legacy_main.bg-white .legacy_p:before{ width:50px }
+
+.legacy_main .legacy_year_number2 .legacy_line{ font-size:70px }
+
+.legacy_main.bg-white .legacy_p2:after, .legacy_main.bg-white .legacy_p2:before{ width:85px }
+
+.legacy_main.bg-white.number_text_menu{ height:235px }
+
+.col-md-4.hyper-link a, .megamenu.parle_recipes .parle_recipes_menu a{ text-align:left }
+
+.menu_about.menu_sec1.world_wise{ height:385px }
+
+.main-menu ul li a{ font-size:20px;padding:0;text-align:center }
+
+.navbarResponsive2 ul li a{ font-size:16px }
+
+.megamenu.parle_recipes .parle_recipes_menu{ position:absolute;right:20px;top:15%;line-height:1.3;text-align:left!important }
+
+.parle_recipes_menu2{ position:absolute;bottom:18%;text-align:center;left:30px;right:45px }
+
+.megamenu.parle_recipes .parle_recipes_menu3{ top:15% }
+
+.row.mega_menu_link.no-gutters.parle_recipes_bg{ height:420px } }
+
+@media only screen and (max-width:1366px) { .row.mega_menu_link.no-gutters.parle_recipes_bg{ height:500px } }
+
+@media only screen and (min-width:1200px) and (max-width:1365px) { .megamenu.parle_recipes .parle_recipes_menu, .megamenu.parle_recipes .parle_recipes_menu3{ top:18% }
+
+.megamenu.parle_recipes .parle_recipes_menu2{ left:50px } }
+
+@media only screen and (min-width:1150px) and (max-width:1299px) { .about_menu_head{ font-size:18px;padding:0 20px 10px;bottom:0 }
+
+.legacy_main.bg-white.number_text_menu p.legacy_link a{ padding:0 20px;font-size:16px }
+
+.legacy_main.bg-white .legacy_p:before{ width:40px;left:0 }
+
+.legacy_main.bg-white .legacy_p:after{ width:40px;right:0 }
+
+.legacy_main.bg-white.number_text_menu{ height:200px }
+
+.menu_about.menu_sec1.world_wise{ height:350px }
+
+.legacy_main.bg-white .legacy_p, .legacy_main.bg-white .legacy_p2{ font-size:14px }
+
+.legacy_main.bg-white .legacy_p2:after, .legacy_main.bg-white .legacy_p2:before{ width:75px }
+
+.legacy_main.bg-white .legacy_p2:before{ left:0 }
+
+.legacy_main.bg-white .legacy_p2:after{ right:0 }
+
+.megamenu.parle_recipes .parle_recipes_menu a{ text-align:left;padding:30px 0;font-size:18px }
+
+.megamenu.parle_recipes .parle_recipes_menu2{ bottom:27% }
+
+.megamenu.parle_recipes .parle_recipes_menu3{ top:24% } }
+
+@media only screen and (min-width:992px) and (max-width:1149px) { .megamenu{ padding-top:100px } }
+
+@media only screen and (min-width:768px) and (max-width:991px) { .main-menu ul li a{ font-size:12px;padding:0 6px 15px;letter-spacing:inherit }
+
+.main-menu ul li .megamenu li a{ font-size:13px }
+
+.megamenu{ padding-top:100px }
+
+.main-menu.cl-effect-5 span{ font-size:14px } }
+
+@media only screen and (max-width :767px) { .mobile_nav img{ width:21px;height:16px;aspect-ratio:21/16 }
+
+.navbarResponsive2 ul{ width:100% }
+
+.desktop-mobile_nav, .main-menu ul li, .main-menu.cl-effect-5, .parle-menu{ display:none }
+
+.main-menu ul li:last-child, .main-menu ul li:nth-last-of-type(2), .mobile-logo, .mobile_nav_icon.mobile_nav{ display:block }
+
+.container{ max-width:1230px;width:100% }
+
+.img-fluid{ margin:auto }
+
+.logo{ width:100px;padding-top:15px;padding-bottom:15px }
+
+.main-menu{ margin-top:-48px }
+
+.navbar-collapse{ padding:15px }
+
+.navbarResponsive2 ul li a{ padding:10px;font-size:16px }
+
+.mobile-logo img{ margin-bottom:0;padding:30px 20px;background:#da0b14;margin-left:-15px;max-width:130px }
+
+.bg_top{ background:0 0;display:block }
+
+header.header{ position:absolute } }
+
+@media (min-width:576px) { @media only screen and (min-width:768px) and (max-width:1023px) { .container{ width:100% }
+
+.container{ max-width:1230px }
+
+.parle-menu{ display:none }
+
+.mobile-logo{ display:block }
+
+.top_menu ul img{ margin-top:-23px } }
+
+@media only screen and (min-width:1024px) and (max-width:1199px) { .container{ max-width:1000px }
+
+.legacy_p, .legacy_p2{ font-size:12px }
+
+.main-menu ul li a{ font-size:17px }
+
+.mega_menu_link p.menu_text a, .menu_sec1 p{ font-size:13px }
+
+.m-menu2{ max-height:420px }
+
+.megamenu .mega_menu_link h4 a{ font-size:15px;padding:15px 0 }
+
+.legacy_main .legacy_year_number2 .legacy_line{ font-size:40px }
+
+.legacy_main .legacy_year_number2{ font-size:30px;padding-bottom:48px }
+
+.legacy_p2:before{ left:-5px;width:15px }
+
+.legacy_p2:after{ right:-5px;width:15px }
+
+.header .megamenu2 .mega_menu_link h4 a{ font-size:18px!important;padding-right:0 }
+
+.header .megamenu2 .mega_menu_link ul li a{ font-size:13px!important;padding-right:0 }
+
+.logo img{ padding:25px 0 }
+
+.main-menu{ padding:35px 0 30px }
+
+.menu-closed{ top:75px } }
+
+@media only screen and (min-width:1200px) and (max-width:1365px) { .m-menu2{ max-height:auto }
+
+.megamenu .mega_menu_link h4 a{ font-size:16px }
+
+.legacy_main .legacy_year_number2 .legacy_line{ font-size:46px }
+
+.legacy_p2:before{ left:-5px;width:15px }
+
+.legacy_p2:after{ right:-5px;width:15px }
+
+.menu_sec1 p{ font-size:15px }
+
+.mega_menu_link p.menu_text{ max-width:100% }
+
+.header .megamenu2 .mega_menu_link h4 a{ font-size:14px!important;padding-right:0 }
+
+.header .megamenu2 .mega_menu_link ul li a{ font-size:13px!important;padding-right:0 }
+
+.megamenu2{ background-size:50% } } }
+
+@keyframes fb_transform{0%{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+
+@keyframes rotateSpinner{0%{transform:rotate(0)}to{transform:rotate(360deg)}}

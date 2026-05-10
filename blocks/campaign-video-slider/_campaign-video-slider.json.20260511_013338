@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Campaign-Video-Slider",
+      "title": "Campaign Video Slider",
       "id": "campaign-video-slider",
       "plugins": {
         "xwalk": {
@@ -10,14 +10,14 @@
             "template": {
               "filter": "campaign-video-slider",
               "model": "campaign-video-slider",
-              "name": "Campaign-Video-Slider"
+              "name": "Campaign Video Slider"
             }
           }
         }
       }
     },
     {
-      "title": "Campaign-Video-Item",
+      "title": "Campaign Video Item",
       "id": "campaign-video-item",
       "plugins": {
         "xwalk": {
@@ -25,7 +25,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "campaign-video-item",
-              "name": "Campaign-Video-Item"
+              "name": "Campaign Video Item"
             }
           }
         }
@@ -38,8 +38,8 @@
       "fields": [
         {
           "component": "text",
-          "label": "Section Heading",
-          "name": "heading",
+          "label": "Slider Title",
+          "name": "title",
           "valueType": "string"
         },
         {
@@ -55,8 +55,8 @@
       "fields": [
         {
           "component": "aem-content",
-          "label": "Video Link (YouTube Embed URL)",
-          "name": "videoLink",
+          "label": "Video URL",
+          "name": "videoUrl",
           "valueType": "string"
         },
         {

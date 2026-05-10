@@ -1,12 +1,15 @@
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 function transformNestedLists(rootUl) {
+  rootUl.classList.add('sub-menu'); // Add sub-menu class to nested ul as per ORIGINAL HTML
+
   rootUl.querySelectorAll('li').forEach((li) => {
-    moveInstrumentation(li, li); // Instrument the li itself
+    li.classList.add('nav-item'); // Add nav-item class to li as per ORIGINAL HTML
     const nested = li.querySelector(':scope > ul');
     const anchor = li.querySelector(':scope > a');
 
     if (!anchor) {
+      // Handle label-only nodes that might be plain text
       const textNode = [...li.childNodes].find(
         (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim(),
       );
@@ -19,19 +22,15 @@ function transformNestedLists(rootUl) {
     }
 
     if (nested) {
-      moveInstrumentation(nested, nested); // Instrument the nested ul
       nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('sub-menu');
+      subWrap.classList.add('dropdown-menu'); // Use class from ORIGINAL HTML
       subWrap.append(nested);
       li.append(subWrap);
 
       const trigger = li.querySelector(':scope > a, :scope > span');
       if (trigger) {
-        // Only add dropdown-toggle if it's not already there from the parent logic
-        if (!trigger.classList.contains('dropdown-toggle')) {
-          trigger.classList.add('dropdown-toggle', 'nav-item');
-        }
+        trigger.classList.add('dropdown-toggle', 'nav-item'); // Use classes from ORIGINAL HTML
         trigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -39,73 +38,91 @@ function transformNestedLists(rootUl) {
           subWrap.classList.toggle('active');
         });
       }
+
+      // Recursively transform sub-menus
+      transformNestedLists(nested);
     } else if (anchor) {
-      anchor.classList.add('dropdown-item');
+      anchor.classList.add('dropdown-item'); // Use class from ORIGINAL HTML for final links
     }
   });
 }
 
 export default function decorate(block) {
-  const menu = document.createElement('div');
-  menu.classList.add('mobile-menu');
+  const children = [...block.children];
+  const [closeIconLabelRow, ...navigationRows] = children;
 
-  const closeButton = document.createElement('a');
-  closeButton.href = 'javascript:void(0);';
-  closeButton.classList.add('cros-icon');
-  closeButton.innerHTML = '<span class="lnr lnr-cross"></span>';
-  closeButton.addEventListener('click', () => {
-    block.classList.remove('active');
-    document.body.classList.remove('no-scroll');
+  const mobileMenu = document.createElement('div');
+  mobileMenu.classList.add('mobile-menu');
+
+  const closeIconLink = document.createElement('a');
+  closeIconLink.href = 'javascript:void(0);';
+  closeIconLink.classList.add('cros-icon');
+  moveInstrumentation(closeIconLabelRow, closeIconLink);
+  closeIconLink.innerHTML = `<span class="lnr lnr-cross"></span>`;
+  mobileMenu.append(closeIconLink);
+
+  // Add event listener for the close icon
+  closeIconLink.addEventListener('click', () => {
+    // Example: Toggle a class on the mobileMenu to hide it
+    // This assumes there's CSS to handle the 'hidden' class
+    mobileMenu.classList.toggle('hidden');
+    // Or, if it's a direct parent of the block and needs to close the whole block:
+    block.classList.toggle('hidden');
   });
-  menu.append(closeButton);
 
   const navList = document.createElement('ul');
   navList.classList.add('navbar-nav');
 
-  [...block.children].forEach((row) => {
+  navigationRows.forEach((row) => {
     const [labelCell, linkCell, hierarchyTreeCell] = [...row.children];
 
     const li = document.createElement('li');
     li.classList.add('nav-item');
+    moveInstrumentation(row, li);
 
     const subList = hierarchyTreeCell?.querySelector('ul');
     const directLink = linkCell?.querySelector('a');
+    const labelText = labelCell?.textContent.trim();
 
     if (subList) {
-      const dropdownToggle = document.createElement('a');
-      dropdownToggle.classList.add('dropdown-toggle', 'nav-item');
-      dropdownToggle.href = directLink?.href || '#';
-      dropdownToggle.textContent = labelCell.textContent.trim();
-      moveInstrumentation(row, dropdownToggle); // Instrument the row to the dropdownToggle
-      li.append(dropdownToggle);
+      const parentLink = document.createElement('a');
+      parentLink.href = directLink?.href || '#'; // Use direct link if available, otherwise fallback
+      parentLink.textContent = labelText || '';
+      parentLink.classList.add('dropdown-toggle', 'nav-item'); // Use classes from ORIGINAL HTML
 
       const dropdownMenu = document.createElement('div');
-      dropdownMenu.classList.add('dropdown-menu');
-      // Move instrumentation for the hierarchyTreeCell to the dropdownMenu
-      moveInstrumentation(hierarchyTreeCell, dropdownMenu);
-      dropdownMenu.append(subList);
-      transformNestedLists(subList); // This function now instruments nested elements
-      li.append(dropdownMenu);
+      dropdownMenu.classList.add('dropdown-menu'); // Use class from ORIGINAL HTML
 
-      dropdownToggle.addEventListener('click', (e) => {
+      const tempDiv = document.createElement('div');
+      moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation for the richtext cell
+      tempDiv.innerHTML = hierarchyTreeCell.innerHTML; // Copy the inner HTML of the authored ul
+
+      const innerUl = tempDiv.querySelector('ul');
+      if (innerUl) {
+        transformNestedLists(innerUl); // Transform nested lists within this dropdown
+        dropdownMenu.append(innerUl);
+      }
+
+      parentLink.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
         li.classList.toggle('active');
         dropdownMenu.classList.toggle('active');
       });
+
+      li.append(parentLink, dropdownMenu);
     } else {
       const anchor = document.createElement('a');
-      anchor.classList.add('nav-link');
       if (directLink) {
         anchor.href = directLink.href;
       }
-      anchor.textContent = labelCell.textContent.trim();
-      moveInstrumentation(row, anchor); // Instrument the row to the anchor
+      anchor.textContent = labelText || '';
+      anchor.classList.add('nav-link'); // Use class from ORIGINAL HTML
       li.append(anchor);
     }
     navList.append(li);
   });
 
-  menu.append(navList);
-  block.replaceChildren(menu);
+  mobileMenu.append(navList);
+  block.replaceChildren(mobileMenu);
 }

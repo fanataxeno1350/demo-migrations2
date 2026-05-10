@@ -87,16 +87,16 @@
   {
     "id": "header-mobile-menu",
     "components": [
-      "mobile-menu-nav-item"
+      "mobile-navigation-item"
     ]
   },
   {
     "id": "header-nav",
     "components": [
       "top-menu-icon-item",
-      "desktop-navigation-item",
-      "mobile-navigation-item",
-      "sidebar-navigation-item"
+      "main-navigation-item",
+      "sidebar-nav-item",
+      "mobile-nav-item"
     ]
   },
   {
@@ -116,7 +116,8 @@
     "components": [
       "top-menu-icon-item",
       "main-navigation-item",
-      "sidebar-nav-item"
+      "main-navigation-subcategory-item",
+      "sidebar-navigation-item"
     ]
   },
   {
@@ -137,7 +138,7 @@
   {
     "id": "social-feeds",
     "components": [
-      "social-channel-item",
+      "social-logo-item",
       "facebook-embed-item",
       "instagram-post-item"
     ]
