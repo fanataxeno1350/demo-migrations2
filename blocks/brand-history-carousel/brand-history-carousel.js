@@ -6,6 +6,11 @@ function transformNestedLists(rootUl) {
     const nested = li.querySelector(':scope > ul');
     const anchor = li.querySelector(':scope > a');
 
+    // Apply classes to <a> elements within the hierarchy
+    if (anchor) {
+      anchor.classList.add('nav-link'); // Assuming 'nav-link' is a desired class for navigation links
+    }
+
     if (!anchor) {
       const textNode = [...li.childNodes].find(
         (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim(),
@@ -21,7 +26,7 @@ function transformNestedLists(rootUl) {
     if (nested) {
       nested.remove();
       const subWrap = document.createElement('div');
-      // Removed 'has-sub-child' - no corresponding class in ORIGINAL HTML
+      subWrap.classList.add('has-sub-child'); // Using a generic class, adjust if original HTML provides specific class
       subWrap.append(nested);
       li.append(subWrap);
 
@@ -41,20 +46,18 @@ function transformNestedLists(rootUl) {
 export default async function decorate(block) {
   const carouselItems = [...block.children];
 
-  const section = document.createElement('section');
-  section.classList.add('discover-sec');
-  moveInstrumentation(block, section);
+  const discoverSec = document.createElement('section');
+  discoverSec.classList.add('discover-sec');
 
   const discoverOuter = document.createElement('div');
   discoverOuter.classList.add('discover-outer');
-  section.append(discoverOuter);
+  discoverSec.append(discoverOuter);
 
   const container = document.createElement('div');
   container.classList.add('container');
   discoverOuter.append(container);
 
   const tvCommercial = document.createElement('div');
-  // Removed 'owl-loaded', 'owl-drag' as Owl Carousel adds them automatically
   tvCommercial.classList.add('tv-commercial', 'owl-carousel', 'owl-theme');
   container.append(tvCommercial);
 
@@ -66,150 +69,117 @@ export default async function decorate(block) {
   owlStage.classList.add('owl-stage');
   owlStageOuter.append(owlStage);
 
+  const navHierarchyContainer = document.createElement('div');
+  navHierarchyContainer.classList.add('brand-history-carousel-nav'); // Added class from original HTML
+  container.append(navHierarchyContainer);
+
   carouselItems.forEach((row) => {
     const [image1Cell, image2Cell, image3Cell, hierarchyTreeCell] = [...row.children];
 
+    // Create carousel item slide
     const owlItem = document.createElement('div');
     owlItem.classList.add('owl-item');
-    moveInstrumentation(row, owlItem); // Move instrumentation from row to owlItem
+    moveInstrumentation(row, owlItem); // Move instrumentation from the row to the owlItem
 
-    const itemDiv = document.createElement('div');
-    itemDiv.classList.add('item');
-    owlItem.append(itemDiv);
+    const itemContent = document.createElement('div');
+    itemContent.classList.add('item');
+    owlItem.append(itemContent);
 
     const ul = document.createElement('ul');
-    itemDiv.append(ul);
+    itemContent.append(ul);
 
-    // Image 1
-    if (image1Cell) {
+    [image1Cell, image2Cell, image3Cell].forEach((cell) => {
       const li = document.createElement('li');
-      const picture = image1Cell.querySelector('picture');
+      const picture = cell.querySelector('picture');
       if (picture) {
         const img = picture.querySelector('img');
-        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-        moveInstrumentation(img, optimizedPic.querySelector('img'));
-        optimizedPic.querySelector('img').classList.add('img-fluid', 'lozad'); // Add classes from ORIGINAL HTML
-        li.append(optimizedPic);
-        ul.append(li);
+        if (img) {
+          const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+          moveInstrumentation(img, optimizedPic.querySelector('img'));
+          li.append(optimizedPic);
+          optimizedPic.querySelector('img').classList.add('img-fluid', 'lozad');
+        }
       }
-    }
-
-    // Image 2
-    if (image2Cell) {
-      const li = document.createElement('li');
-      const picture = image2Cell.querySelector('picture');
-      if (picture) {
-        const img = picture.querySelector('img');
-        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-        moveInstrumentation(img, optimizedPic.querySelector('img'));
-        optimizedPic.querySelector('img').classList.add('img-fluid', 'lozad'); // Add classes from ORIGINAL HTML
-        li.append(optimizedPic);
-        ul.append(li);
-      }
-    }
-
-    // Image 3
-    if (image3Cell) {
-      const li = document.createElement('li');
-      const picture = image3Cell.querySelector('picture');
-      if (picture) {
-        const img = picture.querySelector('img');
-        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-        moveInstrumentation(img, optimizedPic.querySelector('img'));
-        optimizedPic.querySelector('img').classList.add('img-fluid', 'lozad'); // Add classes from ORIGINAL HTML
-        li.append(optimizedPic);
-        ul.append(li);
-      }
-    }
-
-    // Navigation Hierarchy (Richtext)
-    if (hierarchyTreeCell) {
-      const hierarchyWrapper = document.createElement('div');
-      moveInstrumentation(hierarchyTreeCell, hierarchyWrapper); // Move instrumentation from cell to new wrapper
-      hierarchyWrapper.innerHTML = hierarchyTreeCell.innerHTML; // Preserve full HTML structure
-      const hierarchyUl = hierarchyWrapper.querySelector('ul');
-      if (hierarchyUl) {
-        transformNestedLists(hierarchyUl);
-        // Append the transformed hierarchy to the itemDiv or a specific location if needed
-        // Based on ORIGINAL HTML, this hierarchy is not part of the 'item' div's <ul>
-        // It seems to be a separate structure, so we'll append it to the owlItem directly
-        // or a dedicated wrapper within the owlItem if needed.
-        // For now, assuming it should be a sibling to the image <ul> within the itemDiv.
-        itemDiv.append(hierarchyUl); // Append the transformed UL
-      }
-    }
-
+      ul.append(li);
+    });
     owlStage.append(owlItem);
+
+    // Create navigation hierarchy
+    const navItem = document.createElement('div');
+    navItem.classList.add('nav-item');
+    moveInstrumentation(hierarchyTreeCell, navItem); // Move instrumentation from hierarchy cell to navItem
+
+    // Use a temporary div to parse and process the richtext HTML
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
+    moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation to tempDiv
+
+    const navUl = tempDiv.querySelector('ul');
+    if (navUl) {
+      // Apply classes to the hierarchy elements
+      navUl.classList.add('nav-menu'); // Assuming 'nav-menu' is a desired class for the root ul
+      navUl.querySelectorAll('li').forEach((li) => li.classList.add('nav-menu-item'));
+      navUl.querySelectorAll('ul').forEach((subUl) => subUl.classList.add('sub-menu'));
+
+      transformNestedLists(navUl);
+      navItem.append(navUl);
+      navHierarchyContainer.append(navItem);
+    }
   });
 
-  // Add navigation buttons (owl-nav)
   const owlNav = document.createElement('div');
   owlNav.classList.add('owl-nav');
   tvCommercial.append(owlNav);
 
-  const prevBtn = document.createElement('div');
-  prevBtn.classList.add('owl-prev');
-  // Use innerHTML to allow for custom content if needed, but for 'prev'/'next' textContent is fine
-  prevBtn.innerHTML = 'prev'; // Use innerHTML to match original structure
-  owlNav.append(prevBtn);
+  const owlPrev = document.createElement('div');
+  owlPrev.classList.add('owl-prev');
+  owlPrev.textContent = 'prev'; // Changed to 'prev' as per original HTML
+  owlNav.append(owlPrev);
 
-  const nextBtn = document.createElement('div');
-  nextBtn.classList.add('owl-next');
-  // Use innerHTML to allow for custom content if needed, but for 'prev'/'next' textContent is fine
-  nextBtn.innerHTML = 'next'; // Use innerHTML to match original structure
-  owlNav.append(nextBtn);
+  const owlNext = document.createElement('div');
+  owlNext.classList.add('owl-next');
+  owlNext.textContent = 'next'; // Changed to 'next' as per original HTML
+  owlNav.append(owlNext);
 
-  // Add dots (owl-dots)
   const owlDots = document.createElement('div');
   owlDots.classList.add('owl-dots', 'disabled');
   tvCommercial.append(owlDots);
 
-  block.replaceChildren(section);
+  block.replaceChildren(discoverSec);
 
   // Load Owl Carousel and initialize
   await loadCSS('https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css');
   await loadCSS('https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css');
-  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js');
   await loadScript('https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js');
 
   // eslint-disable-next-line no-undef
   $(tvCommercial).owlCarousel({
-    loop: false, // Adjust as needed
-    margin: 30, // As per original HTML
+    loop: true,
+    margin: 30,
     nav: true,
     dots: false,
-    items: 1, // Default for mobile
-    // OwlCarousel replaces the nav elements, so we need to pass the actual HTML content
-    navText: [prevBtn.outerHTML, nextBtn.outerHTML],
+    navText: [owlPrev.outerHTML, owlNext.outerHTML], // Use outerHTML to pass the full element structure
     responsive: {
       0: {
         items: 1,
       },
-      768: {
-        items: 2,
+      600: {
+        items: 1,
       },
       1000: {
-        items: 3,
+        items: 1,
       },
     },
+    onInitialized: function (event) {
+      // Re-attach event listeners for prev/next buttons after Owl Carousel replaces them
+      const newPrev = event.target.querySelector('.owl-prev');
+      const newNext = event.target.querySelector('.owl-next');
+      if (newPrev) {
+        newPrev.addEventListener('click', () => $(tvCommercial).trigger('prev.owl.carousel'));
+      }
+      if (newNext) {
+        newNext.addEventListener('click', () => $(tvCommercial).trigger('next.owl.carousel'));
+      }
+    },
   });
-
-  // Re-attach event listeners to the new nav buttons created by Owl Carousel
-  // Owl Carousel replaces the nav elements, so we need to re-query them after init
-  const newPrevBtn = tvCommercial.querySelector('.owl-prev');
-  const newNextBtn = tvCommercial.querySelector('.owl-next');
-
-  if (newPrevBtn) {
-    newPrevBtn.addEventListener('click', () => {
-      // eslint-disable-next-line no-undef
-      $(tvCommercial).trigger('prev.owl.carousel');
-    });
-  }
-
-  if (newNextBtn) {
-    newNextBtn.addEventListener('click', () => {
-      // eslint-disable-next-line no-undef
-      $(tvCommercial).trigger('next.owl.carousel');
-    });
-  }
 }

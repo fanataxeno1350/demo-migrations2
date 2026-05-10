@@ -38,13 +38,13 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Mobile Logo",
+          "label": "Logo",
           "name": "logo",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Mobile Logo Link",
+          "label": "Logo Link",
           "name": "logoLink",
           "valueType": "string"
         },
@@ -61,7 +61,7 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Menu Icon",
+          "label": "Menu Icon Image",
           "name": "icon",
           "valueType": "string"
         },

@@ -77,15 +77,12 @@
     "id": "brand-social-feeds",
     "components": [
       "social-platform-item",
-      "facebook-embed-item",
+      "facebook-embed",
       "instagram-post-item"
     ]
   },
   {
-    "id": "brand-video-commercial",
-    "components": [
-      "external-embed-item"
-    ]
+    "id": "brand-video-commercial"
   },
   {
     "id": "breadcrumbs",
@@ -144,9 +141,9 @@
   {
     "id": "header-nav",
     "components": [
-      "main-navigation-item",
-      "mobile-navigation-item",
-      "header-icon-link-item"
+      "desktop-navigation-item",
+      "desktop-mega-menu-section",
+      "mobile-navigation-item"
     ]
   },
   {

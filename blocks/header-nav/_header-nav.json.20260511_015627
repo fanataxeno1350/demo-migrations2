@@ -17,30 +17,15 @@
       }
     },
     {
-      "title": "Desktop-Navigation-Item",
-      "id": "desktop-navigation-item",
+      "title": "Main-Navigation-Item",
+      "id": "main-navigation-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "desktop-navigation-item",
-              "name": "Desktop-Navigation-Item"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Desktop-Mega-Menu-Section",
-      "id": "desktop-mega-menu-section",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "desktop-mega-menu-section",
-              "name": "Desktop-Mega-Menu-Section"
+              "model": "main-navigation-item",
+              "name": "Main-Navigation-Item"
             }
           }
         }
@@ -56,6 +41,21 @@
             "template": {
               "model": "mobile-navigation-item",
               "name": "Mobile-Navigation-Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Header-Icon-Link-Item",
+      "id": "header-icon-link-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "header-icon-link-item",
+              "name": "Header-Icon-Link-Item"
             }
           }
         }
@@ -92,20 +92,26 @@
         },
         {
           "component": "container",
-          "item": "desktop-navigation-item",
-          "label": "Desktop Navigation Menu",
-          "name": "desktopNavigation"
+          "item": "header-icon-link-item",
+          "label": "Header Icon Links",
+          "name": "headerIconLinks"
+        },
+        {
+          "component": "container",
+          "item": "main-navigation-item",
+          "label": "Main Navigation",
+          "name": "mainNavigation"
         },
         {
           "component": "container",
           "item": "mobile-navigation-item",
-          "label": "Mobile Navigation Menu",
+          "label": "Mobile Navigation",
           "name": "mobileNavigation"
         }
       ]
     },
     {
-      "id": "desktop-navigation-item",
+      "id": "main-navigation-item",
       "fields": [
         {
           "component": "text",
@@ -121,19 +127,11 @@
         },
         {
           "component": "richtext",
-          "label": "Mega Menu Content",
-          "name": "megaMenuContent"
-        },
-        {
-          "component": "richtext",
           "label": "Navigation Hierarchy",
           "name": "hierarchy-tree",
           "valueType": "string"
         }
       ]
-    },
-    {
-      "id": "desktop-mega-menu-section"
     },
     {
       "id": "mobile-navigation-item",
@@ -157,15 +155,38 @@
           "valueType": "string"
         }
       ]
+    },
+    {
+      "id": "header-icon-link-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Icon Image",
+          "name": "icon",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Icon Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
     }
   ],
   "filters": [
     {
       "id": "header-nav",
       "components": [
-        "desktop-navigation-item",
-        "desktop-mega-menu-section",
-        "mobile-navigation-item"
+        "main-navigation-item",
+        "mobile-navigation-item",
+        "header-icon-link-item"
       ]
     }
   ]

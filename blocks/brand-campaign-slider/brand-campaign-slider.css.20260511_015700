@@ -1,0 +1,212 @@
+@media (min-width:576px) { .container{ max-width:540px } }
+
+@media (min-width:768px) { .container{ max-width:720px } }
+
+@media (min-width:992px) { .container{ max-width:960px } }
+
+@media (min-width:1200px) { .container{ max-width:1140px } }
+
+@keyframes progress-bar-stripes{from{background-position:1rem 0}to{background-position:0 0}}
+
+@keyframes spinner-border{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+
+@keyframes spinner-grow{0%{-webkit-transform:scale(0);transform:scale(0)}50%{opacity:1}}
+
+@media print { .container{ min-width:992px!important } }
+
+.campaign-gallery ul li a{ 
+	display: block
+ }
+
+.mob-campaign-slider{ 
+	display: none
+ }
+
+.campaign-slider{ 
+	position: relative
+ }
+
+.campaign-gallery h2{ 
+	font-size: 34px;
+	font-weight: 700;
+	color: #000;
+	text-align: center;
+	margin-bottom: 45px
+ }
+
+.campaign-gallery .campaign-img{ 
+	position: relative;
+	overflow: hidden
+ }
+
+.campaign-slider .owl-dot{ 
+	margin: 0 5px
+ }
+
+.campaign-gallery .campaign-img:hover img{ 
+	-webkit-transform: scale(1.1);
+	transform: scale(1.1)
+ }
+
+.campaign-gallery ul{ 
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	justify-content: center
+ }
+
+.campaign-gallery ul li{ 
+	width: 33.333%;
+	padding: 0
+ }
+
+.campaign-gallery .campaign-img img{ 
+	-webkit-transform: rotate(0) scale(1);
+	transform: rotate(0) scale(1);
+	-webkit-transition: .3s ease-in-out;
+	transition: .3s ease-in-out
+ }
+
+.camp-title p:after, .campaign-slider:before{ 
+	transform: translate(0, -50%);
+	top: 50%
+ }
+
+.campaign-gallery .camp-title{ 
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 35px
+ }
+
+.camp-title p{ 
+	color: #fff;
+	font-size: 30px;
+	font-weight: 700;
+	line-height: 1.1;
+	margin-bottom: 0;
+	padding-right: 30px;
+	position: relative
+ }
+
+.campaign-gallery .camp-title:before{ 
+	content: "";
+	background: url("/content/dam/aemigrate/uploaded-folder/www-parleproducts-com/image/campaign-shadow-c54fc1.png");
+	width: 100%;
+	height: 155px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 0
+ }
+
+.camp-title p:after{ 
+	content: "";
+	background: url("/content/dam/aemigrate/uploaded-folder/www-parleproducts-com/image/campaign-icon-91f87d.png") no-repeat;
+	width: 25px;
+	height: 25px;
+	position: absolute;
+	right: 0
+ }
+
+.campaign-slider .owl-dots .owl-dot.active span, .campaign-slider .owl-dots .owl-dot:hover span{ 
+	background: #5c5c5c
+ }
+
+.campaign-slider .owl-dots .owl-dot span{ 
+	background: #ccc
+ }
+
+.campaign-slider:before{ 
+	content: "";
+	background: #d80b13;
+	position: absolute;
+	width: 100%;
+	height: 5px
+ }
+
+section.parle-campaign{ 
+	padding-top: 40px;
+	padding-bottom: 80px
+ }
+
+@keyframes blink-animation{
+to {
+visibility:hidden
+}
+}
+
+@media only screen and (max-width:767px) { .img-fluid{ 
+	margin: auto auto 20px
+ } }
+
+@media (max-width:1460px) { .campaign-gallery .camp-title{ padding:30px 25px }
+
+.camp-title p{ font-size:26px } }
+
+@media (min-width:992px) and (max-width:1199px) { .owl-theme .owl-dots .owl-dot{ margin:1px }
+
+.owl-next:after{ right:-12px }
+
+.owl-prev:before{ left:-5px } }
+
+@media only screen and (min-width:768px) and (max-width:991px) { .owl-theme .owl-dots .owl-dot{ margin:1px } }
+
+@media only screen and (max-width :767px) { .campaign-gallery .campaign-img img{ margin-bottom:0 }
+
+.campaign-gallery .campaign-slider{ display:none }
+
+.mob-campaign-slider{ display:block }
+
+.container{ max-width:1230px;width:100% }
+
+.img-fluid{ margin:auto }
+
+.campaign-gallery h2{ font-size:24px }
+
+section.parle-campaign{ padding-bottom:50px }
+
+.campaign-gallery .camp-title:before{ height:120px background-size:contain }
+
+.camp-title p{ font-size:18px }
+
+.campaign-gallery ul li{ width:100%;margin-bottom:1px }
+
+.owl-theme .owl-dots .owl-dot{ margin:1px }
+
+.mob-campaign-slider .owl-nav.disabled+.owl-dots{ margin-top:40px }
+
+.campaign-gallery{ padding:0 15px;box-sizing:border-box }
+
+.mob-campaign-slider .owl-dots .owl-dot span{ width:10px;height:10px;border-radius:50%;margin:0 3px;background:#c9c9c9 } }
+
+@media (min-width:576px) { @media only screen and (min-width:0px) and (max-width:479px) { .camp-title p{ font-size:18px } }
+
+@media only screen and (min-width:768px) and (max-width:991px) { .campaign-gallery .camp-title{ padding:20px }
+
+.camp-title p{ font-size:16px;line-height:1.2 } }
+
+@media only screen and (min-width:992px) and (max-width:1023px) { .camp-title p{ font-size:20px;line-height:1.2 } }
+
+@media only screen and (min-width:768px) and (max-width:1023px) { .container{ width:100% }
+
+.container{ max-width:1230px }
+
+section.parle-campaign{ padding-bottom:50px }
+
+.campaign-gallery h2{ font-size:28px } }
+
+@media only screen and (min-width:1024px) and (max-width:1199px) { .campaign-gallery h2{ font-size:30px }
+
+.camp-title p{ font-size:20px }
+
+.container{ max-width:1000px } }
+
+@media only screen and (min-width:1200px) and (max-width:1365px) { .campaign-gallery h2{ font-size:32px } } }
+
+@keyframes fb_transform{0%{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+
+@keyframes rotateSpinner{0%{transform:rotate(0)}to{transform:rotate(360deg)}}

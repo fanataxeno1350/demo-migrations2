@@ -285,15 +285,15 @@
           }
         },
         {
-          "title": "Facebook-Embed-Item",
-          "id": "facebook-embed-item",
+          "title": "Facebook-Embed",
+          "id": "facebook-embed",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "facebook-embed-item",
-                  "name": "Facebook-Embed-Item"
+                  "model": "facebook-embed",
+                  "name": "Facebook-Embed"
                 }
               }
             }
@@ -325,21 +325,6 @@
                   "filter": "brand-video-commercial",
                   "model": "brand-video-commercial",
                   "name": "Brand-Video-Commercial"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "External-Embed-Item",
-          "id": "external-embed-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "external-embed-item",
-                  "name": "External-Embed-Item"
                 }
               }
             }
@@ -622,15 +607,30 @@
           }
         },
         {
-          "title": "Main-Navigation-Item",
-          "id": "main-navigation-item",
+          "title": "Desktop-Navigation-Item",
+          "id": "desktop-navigation-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "main-navigation-item",
-                  "name": "Main-Navigation-Item"
+                  "model": "desktop-navigation-item",
+                  "name": "Desktop-Navigation-Item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Desktop-Mega-Menu-Section",
+          "id": "desktop-mega-menu-section",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "desktop-mega-menu-section",
+                  "name": "Desktop-Mega-Menu-Section"
                 }
               }
             }
@@ -646,21 +646,6 @@
                 "template": {
                   "model": "mobile-navigation-item",
                   "name": "Mobile-Navigation-Item"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Header-Icon-Link-Item",
-          "id": "header-icon-link-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "header-icon-link-item",
-                  "name": "Header-Icon-Link-Item"
                 }
               }
             }

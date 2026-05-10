@@ -24,14 +24,7 @@
         {
           "component": "reference",
           "label": "Close Icon",
-          "name": "closeIcon",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Close Icon Link",
-          "name": "closeIconLink",
-          "valueType": "string"
+          "name": "closeIcon"
         },
         {
           "component": "text",

@@ -15,21 +15,6 @@
           }
         }
       }
-    },
-    {
-      "title": "External-Embed-Item",
-      "id": "external-embed-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "external-embed-item",
-              "name": "External-Embed-Item"
-            }
-          }
-        }
-      }
     }
   ],
   "models": [
@@ -43,32 +28,9 @@
           "valueType": "string"
         },
         {
-          "component": "container",
-          "item": "external-embed-item",
-          "label": "External Embeds",
-          "name": "embeds"
-        }
-      ]
-    },
-    {
-      "id": "external-embed-item",
-      "fields": [
-        {
           "component": "text",
           "label": "Embed URL",
-          "name": "data-embed-url",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Embed Kind",
-          "name": "data-embed-kind",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Embed Config",
-          "name": "data-embed-config",
+          "name": "embed-url",
           "valueType": "string"
         }
       ]
@@ -76,10 +38,7 @@
   ],
   "filters": [
     {
-      "id": "brand-video-commercial",
-      "components": [
-        "external-embed-item"
-      ]
+      "id": "brand-video-commercial"
     }
   ]
 }

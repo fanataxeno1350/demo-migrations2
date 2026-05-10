@@ -32,15 +32,15 @@
       }
     },
     {
-      "title": "Facebook-Embed",
-      "id": "facebook-embed",
+      "title": "Facebook-Embed-Item",
+      "id": "facebook-embed-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "facebook-embed",
-              "name": "Facebook-Embed"
+              "model": "facebook-embed-item",
+              "name": "Facebook-Embed-Item"
             }
           }
         }
@@ -76,13 +76,13 @@
           "component": "container",
           "item": "social-platform-item",
           "label": "Social Platforms",
-          "name": "platforms"
+          "name": "socialPlatforms"
         },
         {
           "component": "container",
-          "item": "facebook-embed",
-          "label": "Facebook Embed",
-          "name": "facebookEmbed"
+          "item": "facebook-embed-item",
+          "label": "Facebook Embeds",
+          "name": "facebookEmbeds"
         },
         {
           "component": "container",
@@ -98,19 +98,19 @@
         {
           "component": "reference",
           "label": "Platform Icon",
-          "name": "icon",
+          "name": "platformIcon",
           "valueType": "string"
         },
         {
           "component": "text",
           "label": "Platform Label",
-          "name": "label",
+          "name": "platformLabel",
           "valueType": "string"
         }
       ]
     },
     {
-      "id": "facebook-embed",
+      "id": "facebook-embed-item",
       "fields": [
         {
           "component": "text",
@@ -144,7 +144,7 @@
         {
           "component": "reference",
           "label": "Instagram Post Image",
-          "name": "image",
+          "name": "postImage",
           "valueType": "string"
         }
       ]
@@ -155,7 +155,7 @@
       "id": "brand-social-feeds",
       "components": [
         "social-platform-item",
-        "facebook-embed",
+        "facebook-embed-item",
         "instagram-post-item"
       ]
     }

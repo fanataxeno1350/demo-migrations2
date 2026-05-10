@@ -1,63 +1,73 @@
-import { createOptimizedPicture } from '../../scripts/aem.js';
+import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
-export default function decorate(block) {
-  // block.children[0]: field="closeIcon" label="Close Icon" type=reference
-  // block.children[1]: field="searchPlaceholder" label="Search Input Placeholder" type=text
-  // block.children[2]: field="submitLabel" label="Submit Button Label" type=text
-  const [closeIconRow, searchPlaceholderRow, submitLabelRow] = [...block.children];
+export default async function decorate(block) {
+  const [closeIconRow, closeIconLinkRow, searchPlaceholderRow, submitLabelRow] = [...block.children];
 
   const searchBox = document.createElement('div');
-  searchBox.classList.add('search-box'); // From ORIGINAL HTML
+  searchBox.classList.add('search-box');
 
-  // Close Icon
+  // Close Icon Link
   const closeLink = document.createElement('a');
-  closeLink.href = 'JavaScript:Void(0);';
-  closeLink.classList.add('search-close'); // From ORIGINAL HTML
+  closeLink.classList.add('search-close');
+  closeLink.href = closeIconLinkRow?.querySelector('a')?.href || 'javascript:void(0);';
+  moveInstrumentation(closeIconLinkRow, closeLink);
 
-  if (closeIconRow) {
-    const closeIconCell = closeIconRow.children[0]; // Access the cell within the row
-    const picture = closeIconCell?.querySelector('picture');
-    if (picture) {
-      const img = picture.querySelector('img');
-      if (img) {
-        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-        // moveInstrumentation for the picture element itself, not just the img inside it
-        moveInstrumentation(picture, optimizedPic);
-        closeLink.append(optimizedPic);
-      }
+  // Close Icon Picture
+  const closePicture = closeIconRow?.querySelector('picture');
+  if (closePicture) {
+    const img = closePicture.querySelector('img');
+    if (img) {
+      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+      moveInstrumentation(img, optimizedPic.querySelector('img'));
+      closeLink.append(optimizedPic);
     }
-    moveInstrumentation(closeIconRow, closeLink); // Move instrumentation from the row to the link
   }
+  moveInstrumentation(closeIconRow, closeLink);
   searchBox.append(closeLink);
 
   const searchBoxMain = document.createElement('div');
-  searchBoxMain.classList.add('search-box-main'); // From ORIGINAL HTML
+  searchBoxMain.classList.add('search-box-main');
 
   // Search Input
   const searchInput = document.createElement('input');
   searchInput.type = 'text';
-  searchInput.id = 'ctl00_search_txtsearch'; // Retain original ID for potential form submission
-  if (searchPlaceholderRow) {
-    const searchPlaceholderCell = searchPlaceholderRow.children[0]; // Access the cell
-    searchInput.placeholder = searchPlaceholderCell?.textContent.trim() || '';
-    moveInstrumentation(searchPlaceholderRow, searchInput); // Move instrumentation from the row to the input
-  }
+  searchInput.placeholder = searchPlaceholderRow?.textContent.trim() || '';
+  moveInstrumentation(searchPlaceholderRow, searchInput);
   searchBoxMain.append(searchInput);
 
   // Submit Button
   const submitButton = document.createElement('input');
   submitButton.type = 'submit';
-  submitButton.id = 'ctl00_search_btnsearch'; // Retain original ID
-  submitButton.classList.add('search-btn'); // From ORIGINAL HTML
-  if (submitLabelRow) {
-    const submitLabelCell = submitLabelRow.children[0]; // Access the cell
-    submitButton.value = submitLabelCell?.textContent.trim() || '';
-    moveInstrumentation(submitLabelRow, submitButton); // Move instrumentation from the row to the button
-  }
+  submitButton.classList.add('search-btn');
+  submitButton.value = submitLabelRow?.textContent.trim() || '';
+  moveInstrumentation(submitLabelRow, submitButton);
   searchBoxMain.append(submitButton);
 
   searchBox.append(searchBoxMain);
 
   block.replaceChildren(searchBox);
+
+  // Swiper.js initialization (if applicable, based on original HTML classes)
+  // The provided ORIGINAL HTML does not contain Swiper classes, so this part is commented out.
+  // If the original HTML *did* contain Swiper classes like 'swiper-container',
+  // the following would be needed:
+
+  // await loadCSS('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
+  // await loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
+
+  // const swiperEl = block.querySelector('.swiper-container'); // Or whatever the main swiper element is
+  // if (swiperEl) {
+  //   const prevBtn = block.querySelector('.swiper-button-prev');
+  //   const nextBtn = block.querySelector('.swiper-button-next');
+  //   const paginationEl = block.querySelector('.swiper-pagination');
+
+  //   // eslint-disable-next-line no-undef
+  //   new Swiper(swiperEl, {
+  //     slidesPerView: 'auto',
+  //     loop: false, // Or swiperEl.dataset.loop === 'true' if data-loop attribute is present
+  //     navigation: { prevEl: prevBtn, nextEl: nextBtn },
+  //     pagination: { el: paginationEl, clickable: true },
+  //   });
+  // }
 }

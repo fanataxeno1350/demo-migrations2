@@ -70,24 +70,30 @@
           "component": "container",
           "item": "footer-section-item",
           "label": "Footer Sections",
-          "name": "sections"
+          "name": "footerSections"
+        },
+        {
+          "component": "container",
+          "item": "footer-link-item",
+          "label": "Footer Legal/Bottom Links",
+          "name": "footerLinks"
         },
         {
           "component": "richtext",
-          "label": "Contact Information",
+          "label": "Contact Info",
           "name": "contactInfo",
           "valueType": "string"
         },
         {
           "component": "text",
           "label": "Telephone Label",
-          "name": "telephoneLabel",
+          "name": "telLabel",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Telephone Link",
-          "name": "telephoneLink",
+          "name": "telLink",
           "valueType": "string"
         },
         {
@@ -103,15 +109,27 @@
           "valueType": "string"
         },
         {
+          "component": "richtext",
+          "label": "Newsletter Placeholder",
+          "name": "newsletterPlaceholder",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Newsletter Button Label",
+          "name": "newsletterButtonLabel",
+          "valueType": "string"
+        },
+        {
           "component": "container",
           "item": "footer-social-item",
-          "label": "Social Links",
-          "name": "socialLinks"
+          "label": "Footer Social Links",
+          "name": "footerSocialLinks"
         },
         {
           "component": "richtext",
-          "label": "Footer Credits",
-          "name": "footerCredits",
+          "label": "Designed By (Credit)",
+          "name": "designedBy",
           "valueType": "string"
         }
       ]
