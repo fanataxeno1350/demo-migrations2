@@ -1,0 +1,189 @@
+@media (min-width:576px) { .container{ max-width:540px; } }
+
+@media (min-width:768px) { .container{ max-width:720px; } }
+
+@media (min-width:992px) { .container{ max-width:960px; } }
+
+@media (min-width:1200px) { .container{ max-width:1140px; } }
+
+.row{ display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-right:-15px;margin-left:-15px; }
+
+.row > .col-md-12, .row > .col-lg-5, .row > .col-lg-6{ position:relative;width:100%;min-height:1px;padding-right:15px;padding-left:15px; }
+
+@media (min-width:768px) { .row > .col-md-12{ -webkit-box-flex:0;-webkit-flex:0 0 100%;-moz-box-flex:0;-ms-flex:0 0 100%;flex:0 0 100%;max-width:100%; } }
+
+@media (min-width:992px) { .row > .col-lg-5{ -webkit-box-flex:0;-webkit-flex:0 0 41.66667%;-moz-box-flex:0;-ms-flex:0 0 41.66667%;flex:0 0 41.66667%;max-width:41.66667%; }
+
+.row > .col-lg-6{ -webkit-box-flex:0;-webkit-flex:0 0 50%;-moz-box-flex:0;-ms-flex:0 0 50%;flex:0 0 50%;max-width:50%; }
+
+.offset-lg-5{ margin-left:41.66667%; }
+
+.offset-lg-6{ margin-left:50%; } }
+
+@media (max-width:991.98px) { .container{ padding-left:25px;padding-right:25px; } }
+
+@media (min-width:992px) { .container{ max-width:1280px; } }
+
+.row{ margin-right:-8px;margin-left:-8px; }
+
+@font-face{font-family:'HelveticaNeue-Thin';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Thin.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Thin.woff2") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Thin.woff") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Thin.eot#iefix") format("embedded-opentype");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'HelveticaNeue-Light';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Light.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Light.woff2") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Light.woff") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Light.eot#iefix") format("embedded-opentype");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'HelveticaNeue-Regular';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue.woff2") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue.woff") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue.eot#iefix") format("embedded-opentype");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'HelveticaNeue-Medium';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Medium.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Medium.woff2") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Medium.woff") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Medium.eot#iefix") format("embedded-opentype");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'HelveticaNeue-Bold';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Bold.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Bold.woff2") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Bold.woff") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Bold.eot#iefix") format("embedded-opentype");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'HelveticaNeue-CondensedBold';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-CondensedBold.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-CondensedBold.woff2") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-CondensedBold.woff") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-CondensedBold.eot#iefix") format("embedded-opentype");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'ACaslonPro-Italic';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/ACaslonPro-Italic.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/ACaslonPro-Italic.woff2") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/ACaslonPro-Italic.woff") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/ACaslonPro-Italic.eot#iefix") format("embedded-opentype");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'ACaslonPro-Regular';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/ACaslonPro-Regular.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/ACaslonPro-Regular.woff2") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/ACaslonPro-Regular.woff") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/ACaslonPro-Regular.eot#iefix") format("embedded-opentype");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'FontAwesome';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fontawesome-webfont.eot?v=4.7.0");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fontawesome-webfont.eot#iefix&v=4.7.0") format("embedded-opentype"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fontawesome-webfont.woff2?v=4.7.0") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fontawesome-webfont.woff?v=4.7.0") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fontawesome-webfont.ttf?v=4.7.0") format("truetype"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular") format("svg");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'FontAwesomeLight';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fa-light-300.eot?v=4.7.0");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fa-light-300.eot#iefix&v=4.7.0") format("embedded-opentype"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fa-light-300.woff2?v=4.7.0") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fa-light-300.woff?v=4.7.0") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fa-light-300.ttf?v=4.7.0") format("truetype"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fa-light-300.svg?v=4.7.0#fontawesomelight") format("svg");font-weight:normal;font-style:normal;}
+
+@keyframes fa-spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg);}100%{-webkit-transform:rotate(359deg);transform:rotate(359deg);}}
+
+.bg-light-gray{ background-color:#f6f6f6; }
+
+.btn.bg-primary-d2-blue{ background-color:#0a3dab;color:#ffffff;background-color:#0a3dab;color:#ffffff; }
+
+.btn.bg-primary-d2-blue:hover, .btn.bg-primary-d2-blue:active, .btn.bg-primary-d2-blue:focus{ background-color:#083088; }
+
+@keyframes fadeOut{0%{opacity:1;}100%{opacity:0;}}
+
+@keyframes glow-red{0%{text-shadow:0 0 5px rgba(255,91,53,0.8),0 0 10px rgba(255,91,53,0.2);}50%{text-shadow:0 0 15px #ff5b35,0 0 25px rgba(255,91,53,0.5);}100%{text-shadow:0 0 5px rgba(255,91,53,0.8),0 0 10px rgba(255,91,53,0.2);}}
+
+@keyframes glow-icon-red{0%{-webkit-filter:drop-shadow(0 0 3px rgba(255,91,53,0.8));filter:drop-shadow(0 0 3px rgba(255,91,53,0.8));}50%{-webkit-filter:drop-shadow(0 0 10px #ff5b35);filter:drop-shadow(0 0 10px #ff5b35);}100%{-webkit-filter:drop-shadow(0 0 3px rgba(255,91,53,0.8));filter:drop-shadow(0 0 3px rgba(255,91,53,0.8));}}
+
+@keyframes glow-gold{0%{text-shadow:0 0 8px gold,0 0 16px rgba(255,230,100,0.8),0 0 24px rgba(255,255,150,0.6);}50%{text-shadow:0 0 15px gold,0 0 30px rgba(255,230,100,0.9),0 0 45px rgba(255,255,150,0.7);}100%{text-shadow:0 0 8px gold,0 0 16px rgba(255,230,100,0.8),0 0 24px rgba(255,255,150,0.6);}}
+
+@keyframes glow-icon-gold{0%{-webkit-filter:drop-shadow(0 0 5px gold) drop-shadow(0 0 10px rgba(255,230,100,0.8));filter:drop-shadow(0 0 5px gold) drop-shadow(0 0 10px rgba(255,230,100,0.8));}50%{-webkit-filter:drop-shadow(0 0 15px gold) drop-shadow(0 0 30px rgba(255,230,100,0.9));filter:drop-shadow(0 0 15px gold) drop-shadow(0 0 30px rgba(255,230,100,0.9));}100%{-webkit-filter:drop-shadow(0 0 5px gold) drop-shadow(0 0 10px rgba(255,230,100,0.8));filter:drop-shadow(0 0 5px gold) drop-shadow(0 0 10px rgba(255,230,100,0.8));}}
+
+@keyframes inM{50%{-webkit-transform:rotate(0deg);transform:rotate(0deg);}100%{-webkit-transform:rotate(45deg);transform:rotate(45deg);}}
+
+@keyframes outM{50%{-webkit-transform:rotate(0deg);transform:rotate(0deg);}100%{-webkit-transform:rotate(45deg);transform:rotate(45deg);}}
+
+@keyframes inT{0%{-webkit-transform:translateY(0px) rotate(0deg);transform:translateY(0px) rotate(0deg);}50%{-webkit-transform:translateY(9px) rotate(0deg);transform:translateY(9px) rotate(0deg);}100%{-webkit-transform:translateY(9px) rotate(135deg);transform:translateY(9px) rotate(135deg);}}
+
+@keyframes outT{0%{-webkit-transform:translateY(0px) rotate(0deg);transform:translateY(0px) rotate(0deg);}50%{-webkit-transform:translateY(9px) rotate(0deg);transform:translateY(9px) rotate(0deg);}100%{-webkit-transform:translateY(9px) rotate(135deg);transform:translateY(9px) rotate(135deg);}}
+
+@keyframes inBtm{0%{-webkit-transform:translateY(0px) rotate(0deg);transform:translateY(0px) rotate(0deg);}50%{-webkit-transform:translateY(-9px) rotate(0deg);transform:translateY(-9px) rotate(0deg);}100%{-webkit-transform:translateY(-9px) rotate(135deg);transform:translateY(-9px) rotate(135deg);}}
+
+@keyframes outBtm{0%{-webkit-transform:translateY(0px) rotate(0deg);transform:translateY(0px) rotate(0deg);}50%{-webkit-transform:translateY(-9px) rotate(0deg);transform:translateY(-9px) rotate(0deg);}100%{-webkit-transform:translateY(-9px) rotate(135deg);transform:translateY(-9px) rotate(135deg);}}
+
+.component-photo-lockup .wrapper{ padding:0;height:auto;position:relative;background-color:#ffffff; }
+
+.component-photo-lockup .wrapper .container{ padding:0 8px; }
+
+.component-photo-lockup .wrapper .wrapper-mobile{ width:100%;height:200px;background-size:cover;background-repeat:no-repeat; }
+
+.component-photo-lockup .wrapper .accent{ display:block;width:250px;height:auto;position:absolute;top:0;left:0;overflow:hidden; }
+
+.component-photo-lockup .wrapper .accent .layer{ display:block;height:20px;width:100%;-ms-transform:translate(-12px,-30px) rotate(-15deg);-webkit-transform:translate(-12px,-30px) rotate(-15deg);transform:translate(-12px,-30px) rotate(-15deg); }
+
+.component-photo-lockup .wrapper .accent .layer.layer1{ opacity:1; }
+
+.component-photo-lockup .wrapper .accent .layer.layer2{ opacity:0.7; }
+
+.component-photo-lockup .wrapper .accent .layer.layer3{ opacity:0.4; }
+
+.component-photo-lockup .wrapper:before, .component-photo-lockup .wrapper:after{ content:" ";clear:both;display:block;height:0px;width:100%; }
+
+.component-photo-lockup .block-text{ width:100%;height:100%;background-color:#ffffff;padding:70px 20px 20px 20px;background-position:center top;background-size:contain;-webkit-clip-path:polygon(0 10%,101% 0%,101% 101%,-1% 101%);-ms-clip-path:polygon(0 10%,101% 0%,101% 101%,-1% 101%);clip-path:polygon(0 10%,101% 0%,101% 101%,-1% 101%); }
+
+.component-photo-lockup h3{ font-family:"HelveticaNeue-Bold",Arial,san-serif;font-synthesis:none;margin-top:5px; }
+
+.component-photo-lockup h5{ font-family:"HelveticaNeue-Regular",Arial,san-serif;letter-spacing:4px;text-transform:uppercase;margin:0;color:#292929; }
+
+.component-photo-lockup .separator{ height:4px;width:68px;background-color:#f9c910;margin:0; }
+
+.component-photo-lockup .tile-body{ margin:20px 0;font-family:"HelveticaNeue-Light",Arial,san-serif;font-size:16px;line-height:24px;letter-spacing:0.5px; }
+
+.component-photo-lockup .tile-body p{ font-family:"HelveticaNeue-Light",Arial,san-serif;font-size:16px;line-height:24px;letter-spacing:0.5px; }
+
+.component-photo-lockup .cta .btn{ width:100%;margin-top:20px; }
+
+@media (min-width:576px) { .component-photo-lockup .wrapper .wrapper-mobile{ height:300px; }
+
+.component-photo-lockup .cta .btn{ width:auto; }
+
+.component-photo-lockup .cta .btn:first-child{ margin:20px 20px 0 0; } }
+
+@media (max-width:991.98px) { .component-photo-lockup .wrapper{ background-image:none !important; }
+
+.component-photo-lockup .wrapper .cta .btn{ width:100%; }
+
+.component-photo-lockup .wrapper .block-wrapper{ padding:0 30px 30px;margin-top:-50px; }
+
+.component-photo-lockup .wrapper .block-text{ margin-top:-40px; } }
+
+@media (min-width:992px) { .component-photo-lockup .wrapper{ height:450px;padding:0;background-repeat:no-repeat;background-size:contain;position:relative; }
+
+.component-photo-lockup .wrapper .block-wrapper{ padding-top:0px; }
+
+.component-photo-lockup .wrapper .wrapper-mobile{ display:none; }
+
+.component-photo-lockup .wrapper:before, .component-photo-lockup .wrapper:after{ content:" ";clear:both;display:block;height:0px;width:100%; }
+
+.component-photo-lockup .wrapper .container{ padding:0;height:100%; }
+
+.component-photo-lockup .wrapper .container .row{ height:100%; }
+
+.component-photo-lockup .wrapper .container .row .block-text{ margin-bottom:0;margin-top:0;padding:0 8px; }
+
+.component-photo-lockup .wrapper .container .row .block-wrapper{ z-index:1;position:absolute;top:50%;left:0;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%); }
+
+.component-photo-lockup .container{ padding:0; }
+
+.component-photo-lockup .block-right{ background-position:center left; }
+
+.component-photo-lockup .block-right .accent{ display:block;width:600px;height:300px; }
+
+.component-photo-lockup .block-right .accent .layer{ display:block;height:50px;width:100%; }
+
+.component-photo-lockup .block-right .accent .layer.layer1{ -ms-transform:translate(-52px,14px) rotate(-60deg);-webkit-transform:translate(-52px,14px) rotate(-60deg);transform:translate(-52px,14px) rotate(-60deg);width:120px; }
+
+.component-photo-lockup .block-right .accent .layer.layer2{ -ms-transform:translate(-81px,11px) rotate(-60deg);-webkit-transform:translate(-81px,11px) rotate(-60deg);transform:translate(-81px,11px) rotate(-60deg);width:240px; }
+
+.component-photo-lockup .block-right .accent .layer.layer3{ -ms-transform:translate(-113px,13px) rotate(-60deg);-webkit-transform:translate(-113px,13px) rotate(-60deg);transform:translate(-113px,13px) rotate(-60deg);width:360px; }
+
+.component-photo-lockup .block-right .block-text{ -webkit-clip-path:polygon(0 101%,100% 100%,100% 0,20% 0);-ms-clip-path:polygon(0 101%,100% 100%,100% 0,20% 0);clip-path:polygon(0 101%,100% 100%,100% 0,20% 0); }
+
+.component-photo-lockup .block-right .block-wrapper{ position:absolute;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);-webkit-box-flex:0;-webkit-flex:0 0 50%;-moz-box-flex:0;-ms-flex:0 0 50%;flex:0 0 50%;max-width:50%;padding-left:3.5%;padding-right:3.5%; }
+
+.component-photo-lockup h5{ font-family:"HelveticaNeue-Regular",Arial,san-serif;letter-spacing:4px;text-transform:uppercase;margin:0; }
+
+.component-photo-lockup .separator{ height:4px;width:68px;background-color:#f9c910;margin:0; }
+
+.component-photo-lockup .tile-body{ margin:20px 0; }
+
+.component-photo-lockup .cta .btn{ float:left;min-width:150px; }
+
+.component-photo-lockup .cta:before, .component-photo-lockup .cta:after{ content:" ";clear:both;display:block;height:0px;width:100%; } }
+
+@media (min-width:992px) and (max-width:1199.98px) { .component-photo-lockup .block-wrapper h5{ letter-spacing:3px; }
+
+.component-photo-lockup .block-wrapper h3{ font-size:30px;line-height:34px; }
+
+.component-photo-lockup .block-wrapper .tile-body p{ font-size:14px;line-height:23px; }
+
+.component-photo-lockup .block-wrapper .cta .btn{ font-size:14px; } }
+
+@keyframes lds-ripple{0%{top:28px;left:28px;width:0;height:0;opacity:1;}100%{top:-1px;left:-1px;width:58px;height:58px;opacity:0;}}
+
+@keyframes spin{100%{-webkit-transform:rotate(360deg);transform:rotate(360deg);}}
+
+@keyframes animatetop{from{top:-300px;opacity:0;}to{top:0;opacity:1;}}
+
+@font-face{font-family:'slick';font-weight:normal;font-style:normal;src:url("https://www.lionsclubs.org/themes/lionsclubs/css/fonts/slick.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/css/fonts/slick.eot#iefix") format('embedded-opentype'),url("https://www.lionsclubs.org/themes/lionsclubs/css/fonts/slick.woff") format('woff'),url("https://www.lionsclubs.org/themes/lionsclubs/css/fonts/slick.ttf") format('truetype'),url("https://www.lionsclubs.org/themes/lionsclubs/css/fonts/slick.svg#slick") format('svg');}
+
+@keyframes gin-throbber{0%{transform:rotateZ(0);}100%{transform:rotateZ(360deg);}}
+
+@keyframes chatbase-spin{ 100% { transform: rotate(360deg); } }
+
+@keyframes chatbase-dash{ 0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; } 50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; } 100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; } }

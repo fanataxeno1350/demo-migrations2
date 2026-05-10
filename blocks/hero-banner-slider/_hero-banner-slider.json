@@ -1,0 +1,91 @@
+{
+  "definitions": [
+    {
+      "title": "Hero-Banner-Slider",
+      "id": "hero-banner-slider",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "hero-banner-slider",
+              "model": "hero-banner-slider",
+              "name": "Hero-Banner-Slider"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Hero-Banner-Slide-Item",
+      "id": "hero-banner-slide-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "hero-banner-slide-item",
+              "name": "Hero-Banner-Slide-Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "hero-banner-slider",
+      "fields": [
+        {
+          "component": "container",
+          "item": "hero-banner-slide-item",
+          "label": "Slides",
+          "name": "slides"
+        }
+      ]
+    },
+    {
+      "id": "hero-banner-slide-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Background Video",
+          "name": "video",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Desktop Background Image",
+          "name": "desktopImage",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Mobile Background Image",
+          "name": "mobileImage",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Banner Title",
+          "name": "title",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Banner Subtitle",
+          "name": "subtitle",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "hero-banner-slider",
+      "components": [
+        "hero-banner-slide-item"
+      ]
+    }
+  ]
+}

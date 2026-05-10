@@ -1,0 +1,136 @@
+{
+  "definitions": [
+    {
+      "title": "Social-Grid",
+      "id": "social-grid",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "social-grid",
+              "model": "social-grid",
+              "name": "Social-Grid"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Social-Grid-Item",
+      "id": "social-grid-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "social-grid-item",
+              "name": "Social-Grid-Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Walls-Embed-Item",
+      "id": "walls-embed-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "walls-embed-item",
+              "name": "Walls-Embed-Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "social-grid",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Section Title",
+          "name": "title",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Section Description",
+          "name": "description",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "social-grid-item",
+          "label": "Social Links",
+          "name": "socialLinks"
+        },
+        {
+          "component": "container",
+          "item": "walls-embed-item",
+          "label": "Walls.io Embed",
+          "name": "wallsEmbed"
+        }
+      ]
+    },
+    {
+      "id": "social-grid-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Social Icon Image",
+          "name": "icon",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Social Link URL",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Social Platform Name",
+          "name": "label",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "walls-embed-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Embed URL",
+          "name": "data-embed-url",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Embed Kind",
+          "name": "data-embed-kind",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Embed Config",
+          "name": "data-embed-config",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "social-grid",
+      "components": [
+        "social-grid-item",
+        "walls-embed-item"
+      ]
+    }
+  ]
+}

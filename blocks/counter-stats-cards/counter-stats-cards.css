@@ -1,0 +1,147 @@
+@media (min-width:576px) { .container{ max-width:540px; } }
+
+@media (min-width:768px) { .container{ max-width:720px; } }
+
+@media (min-width:992px) { .container{ max-width:960px; } }
+
+@media (min-width:1200px) { .container{ max-width:1140px; } }
+
+.row{ display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-right:-15px;margin-left:-15px; }
+
+.row > .col-md-10, .row > .col-lg-6, .row > .col-xl{ position:relative;width:100%;min-height:1px;padding-right:15px;padding-left:15px; }
+
+@media (min-width:768px) { .row > .col-md-10{ -webkit-box-flex:0;-webkit-flex:0 0 83.33333%;-moz-box-flex:0;-ms-flex:0 0 83.33333%;flex:0 0 83.33333%;max-width:83.33333%; } }
+
+@media (min-width:992px) { .row > .col-lg-6{ -webkit-box-flex:0;-webkit-flex:0 0 50%;-moz-box-flex:0;-ms-flex:0 0 50%;flex:0 0 50%;max-width:50%; } }
+
+@media (min-width:1200px) { .row > .col-xl{ -webkit-flex-basis:0;-ms-flex-preferred-size:0;flex-basis:0;-webkit-box-flex:1;-webkit-flex-grow:1;-moz-box-flex:1;-ms-flex-positive:1;flex-grow:1;max-width:100%; } }
+
+.justify-content-center{ -webkit-box-pack:center !important;-webkit-justify-content:center !important;-moz-box-pack:center !important;-ms-flex-pack:center !important;justify-content:center !important; }
+
+.m-0{ margin:0 !important; }
+
+@media (max-width:991.98px) { .container{ padding-left:25px;padding-right:25px; } }
+
+@media (min-width:992px) { .container{ max-width:1280px; } }
+
+.row{ margin-right:-8px;margin-left:-8px; }
+
+h2.border-yellow{ position:relative; }
+
+h2.border-yellow::after{ content:"";height:4px;width:68px;background:#f9c910;display:block;position:absolute;bottom:-6px;left:0; }
+
+h2.border-yellow{ margin:0 0 45px 0; }
+
+h2.border-yellow::after{ bottom:-18px; }
+
+@font-face{font-family:'HelveticaNeue-Thin';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Thin.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Thin.woff2") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Thin.woff") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Thin.eot#iefix") format("embedded-opentype");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'HelveticaNeue-Light';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Light.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Light.woff2") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Light.woff") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Light.eot#iefix") format("embedded-opentype");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'HelveticaNeue-Regular';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue.woff2") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue.woff") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue.eot#iefix") format("embedded-opentype");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'HelveticaNeue-Medium';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Medium.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Medium.woff2") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Medium.woff") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Medium.eot#iefix") format("embedded-opentype");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'HelveticaNeue-Bold';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Bold.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Bold.woff2") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Bold.woff") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-Bold.eot#iefix") format("embedded-opentype");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'HelveticaNeue-CondensedBold';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-CondensedBold.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-CondensedBold.woff2") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-CondensedBold.woff") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/HelveticaNeue-CondensedBold.eot#iefix") format("embedded-opentype");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'ACaslonPro-Italic';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/ACaslonPro-Italic.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/ACaslonPro-Italic.woff2") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/ACaslonPro-Italic.woff") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/ACaslonPro-Italic.eot#iefix") format("embedded-opentype");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'ACaslonPro-Regular';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/ACaslonPro-Regular.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/ACaslonPro-Regular.woff2") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/ACaslonPro-Regular.woff") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/ACaslonPro-Regular.eot#iefix") format("embedded-opentype");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'FontAwesome';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fontawesome-webfont.eot?v=4.7.0");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fontawesome-webfont.eot#iefix&v=4.7.0") format("embedded-opentype"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fontawesome-webfont.woff2?v=4.7.0") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fontawesome-webfont.woff?v=4.7.0") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fontawesome-webfont.ttf?v=4.7.0") format("truetype"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular") format("svg");font-weight:normal;font-style:normal;}
+
+@font-face{font-family:'FontAwesomeLight';src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fa-light-300.eot?v=4.7.0");src:url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fa-light-300.eot#iefix&v=4.7.0") format("embedded-opentype"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fa-light-300.woff2?v=4.7.0") format("woff2"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fa-light-300.woff?v=4.7.0") format("woff"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fa-light-300.ttf?v=4.7.0") format("truetype"),url("https://www.lionsclubs.org/themes/lionsclubs/fonts/fa-light-300.svg?v=4.7.0#fontawesomelight") format("svg");font-weight:normal;font-style:normal;}
+
+@keyframes fa-spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg);}100%{-webkit-transform:rotate(359deg);transform:rotate(359deg);}}
+
+.text-white{ color:#ffffff; }
+
+.text-primary-d1-yellow{ color:#f9c910; }
+
+.bg-secondary-d5-navy{ background-color:#112e57; }
+
+.bg-secondary-d7-violet{ background-color:#8b2994; }
+
+@keyframes fadeOut{0%{opacity:1;}100%{opacity:0;}}
+
+@keyframes glow-red{0%{text-shadow:0 0 5px rgba(255,91,53,0.8),0 0 10px rgba(255,91,53,0.2);}50%{text-shadow:0 0 15px #ff5b35,0 0 25px rgba(255,91,53,0.5);}100%{text-shadow:0 0 5px rgba(255,91,53,0.8),0 0 10px rgba(255,91,53,0.2);}}
+
+@keyframes glow-icon-red{0%{-webkit-filter:drop-shadow(0 0 3px rgba(255,91,53,0.8));filter:drop-shadow(0 0 3px rgba(255,91,53,0.8));}50%{-webkit-filter:drop-shadow(0 0 10px #ff5b35);filter:drop-shadow(0 0 10px #ff5b35);}100%{-webkit-filter:drop-shadow(0 0 3px rgba(255,91,53,0.8));filter:drop-shadow(0 0 3px rgba(255,91,53,0.8));}}
+
+@keyframes glow-gold{0%{text-shadow:0 0 8px gold,0 0 16px rgba(255,230,100,0.8),0 0 24px rgba(255,255,150,0.6);}50%{text-shadow:0 0 15px gold,0 0 30px rgba(255,230,100,0.9),0 0 45px rgba(255,255,150,0.7);}100%{text-shadow:0 0 8px gold,0 0 16px rgba(255,230,100,0.8),0 0 24px rgba(255,255,150,0.6);}}
+
+@keyframes glow-icon-gold{0%{-webkit-filter:drop-shadow(0 0 5px gold) drop-shadow(0 0 10px rgba(255,230,100,0.8));filter:drop-shadow(0 0 5px gold) drop-shadow(0 0 10px rgba(255,230,100,0.8));}50%{-webkit-filter:drop-shadow(0 0 15px gold) drop-shadow(0 0 30px rgba(255,230,100,0.9));filter:drop-shadow(0 0 15px gold) drop-shadow(0 0 30px rgba(255,230,100,0.9));}100%{-webkit-filter:drop-shadow(0 0 5px gold) drop-shadow(0 0 10px rgba(255,230,100,0.8));filter:drop-shadow(0 0 5px gold) drop-shadow(0 0 10px rgba(255,230,100,0.8));}}
+
+@keyframes inM{50%{-webkit-transform:rotate(0deg);transform:rotate(0deg);}100%{-webkit-transform:rotate(45deg);transform:rotate(45deg);}}
+
+@keyframes outM{50%{-webkit-transform:rotate(0deg);transform:rotate(0deg);}100%{-webkit-transform:rotate(45deg);transform:rotate(45deg);}}
+
+@keyframes inT{0%{-webkit-transform:translateY(0px) rotate(0deg);transform:translateY(0px) rotate(0deg);}50%{-webkit-transform:translateY(9px) rotate(0deg);transform:translateY(9px) rotate(0deg);}100%{-webkit-transform:translateY(9px) rotate(135deg);transform:translateY(9px) rotate(135deg);}}
+
+@keyframes outT{0%{-webkit-transform:translateY(0px) rotate(0deg);transform:translateY(0px) rotate(0deg);}50%{-webkit-transform:translateY(9px) rotate(0deg);transform:translateY(9px) rotate(0deg);}100%{-webkit-transform:translateY(9px) rotate(135deg);transform:translateY(9px) rotate(135deg);}}
+
+@keyframes inBtm{0%{-webkit-transform:translateY(0px) rotate(0deg);transform:translateY(0px) rotate(0deg);}50%{-webkit-transform:translateY(-9px) rotate(0deg);transform:translateY(-9px) rotate(0deg);}100%{-webkit-transform:translateY(-9px) rotate(135deg);transform:translateY(-9px) rotate(135deg);}}
+
+@keyframes outBtm{0%{-webkit-transform:translateY(0px) rotate(0deg);transform:translateY(0px) rotate(0deg);}50%{-webkit-transform:translateY(-9px) rotate(0deg);transform:translateY(-9px) rotate(0deg);}100%{-webkit-transform:translateY(-9px) rotate(135deg);transform:translateY(-9px) rotate(135deg);}}
+
+.paragraph--type--counter-stats-cards .container{ padding-top:50px;padding-bottom:70px;background:white; }
+
+.paragraph--type--counter-stats-cards .stats-card-column{ aspect-ratio:1/1;height:100%;max-height:275px;width:100%; }
+
+@media (max-width:767px) { .paragraph--type--counter-stats-cards .stats-card-column{ max-height:225px; } }
+
+.paragraph--type--counter-stats-cards .stats-card-column.bg-gradient{ background:-webkit-linear-gradient(45deg,#002e82 0%,#69277a 100%);background:-o-linear-gradient(45deg,#002e82 0%,#69277a 100%);background:linear-gradient(45deg,#002e82 0%,#69277a 100%); }
+
+.paragraph--type--counter-stats-cards .stats-card-column .card-number-stats{ height:100%;width:100%;text-align:center;display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-moz-box-orient:vertical;-moz-box-direction:normal;-ms-flex-direction:column;flex-direction:column;-webkit-box-pack:center;-webkit-justify-content:center;-moz-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;-moz-box-align:center;-ms-flex-align:center;align-items:center;max-height:275px; }
+
+@media (max-width:767px) { .paragraph--type--counter-stats-cards .stats-card-column .card-number-stats{ max-height:225px; } }
+
+.paragraph--type--counter-stats-cards .stats-card-column .card-number-stats p:last-of-type{ margin:0; }
+
+.paragraph--type--counter-stats-cards .stats-card-column .card-number-stats .number-stats-group .number-stats{ width:100%;display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;-moz-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;-moz-box-align:center;-ms-flex-align:center;align-items:center; }
+
+.paragraph--type--counter-stats-cards .stats-card-column .card-number-stats .number-stats-group .number-stats span, .paragraph--type--counter-stats-cards .stats-card-column .card-number-stats .number-stats-group .number-stats + p{ font-family:'HelveticaNeue-Bold',Arial,san-serif;line-height:normal; }
+
+.paragraph--type--counter-stats-cards .stats-card-column .card-number-stats .number-stats-group .number-stats span{ font-size:clamp(2.4rem,4vw,3.4rem); }
+
+.paragraph--type--counter-stats-cards .stats-card-column .card-number-stats .number-stats-group .number-stats + p{ margin:-12px 0 0 0;font-size:clamp(1.6rem,4vw,2.4rem); }
+
+.paragraph--type--counter-stats-cards .stats-card-column .card-number-stats .number-stats-group .odometer-inside{ position:relative;top:2px; }
+
+.paragraph--type--counter-stats-cards .stats-card-column .card-number-stats .number-stats-group .odometer-formatting-mark.odometer-radix-mark{ position:relative;top:3px;left:-2px; }
+
+.paragraph--type--counter-stats-cards .stats-card-column .card-number-stats .card-text p{ margin:0;font-family:'HelveticaNeue-Medium',Arial,san-serif;font-size:1.5rem;line-height:1.25; }
+
+@keyframes lds-ripple{0%{top:28px;left:28px;width:0;height:0;opacity:1;}100%{top:-1px;left:-1px;width:58px;height:58px;opacity:0;}}
+
+@keyframes spin{100%{-webkit-transform:rotate(360deg);transform:rotate(360deg);}}
+
+@keyframes animatetop{from{top:-300px;opacity:0;}to{top:0;opacity:1;}}
+
+.odometer.odometer-theme-default{ display:inline-block;vertical-align:middle;*vertical-align:auto;*zoom:1;*display:inline;position:relative; }
+
+.odometer.odometer-theme-default .odometer-digit{ display:inline-block;vertical-align:middle;*vertical-align:auto;*zoom:1;*display:inline;position:relative; }
+
+.odometer.odometer-theme-default .odometer-digit .odometer-digit-spacer{ display:inline-block;vertical-align:middle;*vertical-align:auto;*zoom:1;*display:inline;visibility:hidden; }
+
+.odometer.odometer-theme-default .odometer-digit .odometer-digit-inner{ text-align:left;display:block;position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden; }
+
+.odometer.odometer-theme-default .odometer-digit .odometer-ribbon{ display:block; }
+
+.odometer.odometer-theme-default .odometer-digit .odometer-ribbon-inner{ display:block;-webkit-backface-visibility:hidden; }
+
+.odometer.odometer-theme-default .odometer-digit .odometer-value{ display:block;-webkit-transform:translateZ(0); }
+
+.odometer.odometer-theme-default{ font-family:"Helvetica Neue",sans-serif;line-height:1.1em; }
+
+.odometer.odometer-theme-default .odometer-value{ text-align:center; }
+
+@font-face{font-family:'slick';font-weight:normal;font-style:normal;src:url("https://www.lionsclubs.org/themes/lionsclubs/css/fonts/slick.eot");src:url("https://www.lionsclubs.org/themes/lionsclubs/css/fonts/slick.eot#iefix") format('embedded-opentype'),url("https://www.lionsclubs.org/themes/lionsclubs/css/fonts/slick.woff") format('woff'),url("https://www.lionsclubs.org/themes/lionsclubs/css/fonts/slick.ttf") format('truetype'),url("https://www.lionsclubs.org/themes/lionsclubs/css/fonts/slick.svg#slick") format('svg');}
+
+@keyframes gin-throbber{0%{transform:rotateZ(0);}100%{transform:rotateZ(360deg);}}
+
+@keyframes chatbase-spin{ 100% { transform: rotate(360deg); } }
+
+@keyframes chatbase-dash{ 0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; } 50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; } 100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; } }

@@ -51,7 +51,14 @@
         "cards",
         "columns",
         "fragment",
-        "---- New Blocks ----"
+        "---- New Blocks ----",
+        "header-global-navigation",
+        "hero-banner-slider",
+        "counter-stats-cards",
+        "photo-lockup",
+        "three-column-tile",
+        "social-grid",
+        "footer-global"
       ]
     }
   ]

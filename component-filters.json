@@ -15,28 +15,61 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "---- New Blocks ----",
+      "header-global-navigation",
+      "hero-banner-slider",
+      "counter-stats-cards",
+      "photo-lockup",
+      "three-column-tile",
+      "social-grid",
+      "footer-global"
     ]
   },
   {
-    "id": "cards",
+    "id": "counter-stats-cards",
     "components": [
-      "card"
+      "stats-card-item"
     ]
   },
   {
-    "id": "columns",
+    "id": "footer-global",
     "components": [
-      "column"
+      "footer-social-item",
+      "footer-section-item",
+      "footer-related-link-item"
     ]
   },
   {
-    "id": "column",
+    "id": "header-global-navigation",
     "components": [
-      "text",
-      "image",
-      "button",
-      "title"
+      "utility-link-item",
+      "language-option-item",
+      "cta-button-item",
+      "navigation-item"
+    ]
+  },
+  {
+    "id": "hero-banner-slider",
+    "components": [
+      "hero-banner-slide-item"
+    ]
+  },
+  {
+    "id": "photo-lockup",
+    "components": []
+  },
+  {
+    "id": "social-grid",
+    "components": [
+      "social-grid-item",
+      "walls-embed-item"
+    ]
+  },
+  {
+    "id": "three-column-tile",
+    "components": [
+      "tile-item"
     ]
   }
 ]
