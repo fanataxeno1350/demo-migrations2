@@ -1,0 +1,44 @@
+@keyframes progress-bar-stripes{from{background-position:1rem 0}to{background-position:0 0}}
+
+@keyframes spinner-border{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+
+@keyframes spinner-grow{0%{-webkit-transform:scale(0);transform:scale(0)}50%{opacity:1}}
+
+.navbarResponsive2 ul li a{ 
+	position: relative;
+	letter-spacing: 1px;
+	color: #fff;
+	text-transform: uppercase
+ }
+
+.menu-sidebar{ 
+	text-align: center
+ }
+
+.navbarResponsive2 ul li a{ 
+	text-transform: uppercase
+ }
+
+.navbarResponsive2 ul li a.nav-link:after{ 
+	-webkit-transition: .32s ease-out;
+	-moz-transition: .32s ease-out;
+	-o-transition: .32s ease-out
+ }
+
+@keyframes blink-animation{
+to {
+visibility:hidden
+}
+}
+
+@media only screen and (max-width:1599px) { .navbarResponsive2 ul li a{ font-size:16px } }
+
+@media only screen and (max-width :767px) { .navbarResponsive2 ul{ width:100% }
+
+.navbar-collapse{ padding:15px }
+
+.navbarResponsive2 ul li a{ padding:10px;font-size:16px } }
+
+@keyframes fb_transform{0%{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+
+@keyframes rotateSpinner{0%{transform:rotate(0)}to{transform:rotate(360deg)}}

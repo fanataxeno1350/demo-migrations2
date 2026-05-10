@@ -15,7 +15,38 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "search-box",
+      "header",
+      "header-top-menu",
+      "header-nav",
+      "header-sidebar",
+      "header-mobile-menu",
+      "hero-banner",
+      "page-title",
+      "breadcrumbs",
+      "brand-description",
+      "product-family-grid",
+      "commercial-carousel",
+      "campaign-video-slider",
+      "social-feeds",
+      "footer"
+    ]
+  },
+  {
+    "id": "brand-description"
+  },
+  {
+    "id": "breadcrumbs",
+    "components": [
+      "breadcrumb-item",
+      "social-link-item"
+    ]
+  },
+  {
+    "id": "campaign-video-slider",
+    "components": [
+      "campaign-video-item"
     ]
   },
   {
@@ -37,6 +68,78 @@
       "image",
       "button",
       "title"
+    ]
+  },
+  {
+    "id": "commercial-carousel",
+    "components": [
+      "commercial-carousel-item"
+    ]
+  },
+  {
+    "id": "footer",
+    "components": [
+      "footer-section-item",
+      "footer-link-item",
+      "footer-social-item"
+    ]
+  },
+  {
+    "id": "header-mobile-menu",
+    "components": [
+      "mobile-menu-nav-item"
+    ]
+  },
+  {
+    "id": "header-nav",
+    "components": [
+      "top-menu-icon-item",
+      "desktop-navigation-item",
+      "mobile-navigation-item",
+      "sidebar-navigation-item"
+    ]
+  },
+  {
+    "id": "header-sidebar",
+    "components": [
+      "sidebar-navigation-item"
+    ]
+  },
+  {
+    "id": "header-top-menu",
+    "components": [
+      "menu-icon-item"
+    ]
+  },
+  {
+    "id": "header",
+    "components": [
+      "top-menu-icon-item",
+      "main-navigation-item",
+      "sidebar-nav-item"
+    ]
+  },
+  {
+    "id": "hero-banner"
+  },
+  {
+    "id": "page-title"
+  },
+  {
+    "id": "product-family-grid",
+    "components": [
+      "product-family-grid-item"
+    ]
+  },
+  {
+    "id": "search-box"
+  },
+  {
+    "id": "social-feeds",
+    "components": [
+      "social-channel-item",
+      "facebook-embed-item",
+      "instagram-post-item"
     ]
   }
 ]

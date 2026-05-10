@@ -50,7 +50,22 @@
         "hero",
         "cards",
         "columns",
-        "fragment"
+        "fragment",
+        "search-box",
+        "header",
+        "header-top-menu",
+        "header-nav",
+        "header-sidebar",
+        "header-mobile-menu",
+        "hero-banner",
+        "page-title",
+        "breadcrumbs",
+        "brand-description",
+        "product-family-grid",
+        "commercial-carousel",
+        "campaign-video-slider",
+        "social-feeds",
+        "footer"
       ]
     }
   ]

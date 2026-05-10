@@ -1,0 +1,193 @@
+{
+  "definitions": [
+    {
+      "title": "Header",
+      "id": "header",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "header",
+              "model": "header",
+              "name": "Header"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Top-Menu-Icon-Item",
+      "id": "top-menu-icon-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "top-menu-icon-item",
+              "name": "Top-Menu-Icon-Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Main-Navigation-Item",
+      "id": "main-navigation-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "main-navigation-item",
+              "name": "Main-Navigation-Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Sidebar-Nav-Item",
+      "id": "sidebar-nav-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "sidebar-nav-item",
+              "name": "Sidebar-Nav-Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "header",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Mobile Logo Image",
+          "name": "mobileLogo",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Mobile Logo Link",
+          "name": "mobileLogoLink",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Desktop Logo Image",
+          "name": "desktopLogo",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Desktop Logo Link",
+          "name": "desktopLogoLink",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "top-menu-icon-item",
+          "label": "Top Menu Icons",
+          "name": "topMenuIcons"
+        },
+        {
+          "component": "container",
+          "item": "main-navigation-item",
+          "label": "Main Navigation",
+          "name": "mainNavigation"
+        },
+        {
+          "component": "container",
+          "item": "sidebar-nav-item",
+          "label": "Sidebar Navigation",
+          "name": "sidebarNavigation"
+        }
+      ]
+    },
+    {
+      "id": "top-menu-icon-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Icon Image",
+          "name": "iconImage",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Icon Link",
+          "name": "iconLink",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "main-navigation-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Menu Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Menu Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "sidebar-nav-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Sidebar Item Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Sidebar Item Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Sidebar Item Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "header",
+      "components": [
+        "top-menu-icon-item",
+        "main-navigation-item",
+        "sidebar-nav-item"
+      ]
+    }
+  ]
+}

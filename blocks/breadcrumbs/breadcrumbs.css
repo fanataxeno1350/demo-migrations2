@@ -1,0 +1,112 @@
+@media (min-width:576px) { .container{ max-width:540px } }
+
+@media (min-width:768px) { .container{ max-width:720px } }
+
+@media (min-width:992px) { .container{ max-width:960px } }
+
+@media (min-width:1200px) { .container{ max-width:1140px } }
+
+@keyframes progress-bar-stripes{from{background-position:1rem 0}to{background-position:0 0}}
+
+@keyframes spinner-border{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+
+@keyframes spinner-grow{0%{-webkit-transform:scale(0);transform:scale(0)}50%{opacity:1}}
+
+@media print { .container{ min-width:992px!important } }
+
+.brands-breadcrumbs>ul li a:hover, .social-info ul li a:hover{ 
+	color: #d80b13
+ }
+
+.brands-breadcrumbs>ul li:last-child:after, .social-info ul:after{ 
+	display: none
+ }
+
+section.brands-bcrumbs-sec1{ 
+	padding-top: 35px
+ }
+
+.brands-breadcrumbs, .brands-breadcrumbs ul, .social-info ul{ 
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap
+ }
+
+.social-info.bg_icon ul li a{ 
+	margin-right: 0
+ }
+
+.brands-breadcrumbs>ul li a{ 
+	font-size: 12px;
+	font-weight: 300;
+	color: #4c4c4c
+ }
+
+.brands-breadcrumbs>ul li.active a{ 
+	color: #999
+ }
+
+.brands-breadcrumbs>ul li:after{ 
+	content: "\e876";
+	font-family: Linearicons-Free;
+	font-size: 8px;
+	color: #999;
+	margin: 0 5px;
+	display: inline-block;
+	font-weight: 900
+ }
+
+.brands-breadcrumbs .social-info{ 
+	margin-bottom: 0
+ }
+
+.brands-breadcrumbs .social-info a{ 
+	font-size: 20px
+ }
+
+.brands-breadcrumbs ul:after{ 
+	content: "";
+	width: 64%;
+	height: 1px;
+	background: #e2474d;
+	display: block;
+	margin-top: 20px
+ }
+
+.social-info.bg_icon ul li{ 
+	border: 1px solid #ddd;
+	margin: 2px;
+	display: block;
+	padding: 0 15px
+ }
+
+@keyframes blink-animation{
+to {
+visibility:hidden
+}
+}
+
+@media only screen and (max-width :767px) { section.brands-bcrumbs-sec1{ display:none }
+
+.container{ max-width:1230px;width:100% }
+
+.social-info{ margin-bottom:10px }
+
+.social-info ul{ justify-content:center }
+
+.social-info ul li a{ margin:0 10px } }
+
+@media (min-width:576px) { @media only screen and (min-width:768px) and (max-width:1023px) { .container{ width:100% }
+
+.container{ max-width:1230px }
+
+.social-info{ margin-bottom:10px }
+
+section.brands-bcrumbs-sec1{ padding-top:0 } }
+
+@media only screen and (min-width:1024px) and (max-width:1199px) { .container{ max-width:1000px } } }
+
+@keyframes fb_transform{0%{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+
+@keyframes rotateSpinner{0%{transform:rotate(0)}to{transform:rotate(360deg)}}

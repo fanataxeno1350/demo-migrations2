@@ -1,0 +1,238 @@
+{
+  "definitions": [
+    {
+      "title": "Header-Nav",
+      "id": "header-nav",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "header-nav",
+              "model": "header-nav",
+              "name": "Header-Nav"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Top-Menu-Icon-Item",
+      "id": "top-menu-icon-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "top-menu-icon-item",
+              "name": "Top-Menu-Icon-Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Desktop-Navigation-Item",
+      "id": "desktop-navigation-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "desktop-navigation-item",
+              "name": "Desktop-Navigation-Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Mobile-Navigation-Item",
+      "id": "mobile-navigation-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "mobile-navigation-item",
+              "name": "Mobile-Navigation-Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Sidebar-Navigation-Item",
+      "id": "sidebar-navigation-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "sidebar-navigation-item",
+              "name": "Sidebar-Navigation-Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "header-nav",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Mobile Logo",
+          "name": "logoMobile",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Mobile Logo Link",
+          "name": "logoMobileLink",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Desktop Logo",
+          "name": "logoDesktop",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Desktop Logo Link",
+          "name": "logoDesktopLink",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "top-menu-icon-item",
+          "label": "Top Menu Icons",
+          "name": "topMenuIcons"
+        },
+        {
+          "component": "container",
+          "item": "desktop-navigation-item",
+          "label": "Desktop Navigation",
+          "name": "desktopNavigation"
+        },
+        {
+          "component": "container",
+          "item": "mobile-navigation-item",
+          "label": "Mobile Navigation",
+          "name": "mobileNavigation"
+        },
+        {
+          "component": "container",
+          "item": "sidebar-navigation-item",
+          "label": "Sidebar Navigation",
+          "name": "sidebarNavigation"
+        }
+      ]
+    },
+    {
+      "id": "top-menu-icon-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Menu Icon Image",
+          "name": "iconImage",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Menu Icon Link",
+          "name": "iconLink",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "desktop-navigation-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Menu Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Menu Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "mobile-navigation-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Menu Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Menu Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "sidebar-navigation-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Sidebar Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Sidebar Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Sidebar Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "header-nav",
+      "components": [
+        "top-menu-icon-item",
+        "desktop-navigation-item",
+        "mobile-navigation-item",
+        "sidebar-navigation-item"
+      ]
+    }
+  ]
+}
