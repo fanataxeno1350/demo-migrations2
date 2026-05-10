@@ -128,8 +128,9 @@
     "id": "footer",
     "components": [
       "footer-section-item",
-      "footer-link-item",
-      "footer-social-item"
+      "footer-contact",
+      "footer-social-item",
+      "footer-website-credit"
     ]
   },
   {

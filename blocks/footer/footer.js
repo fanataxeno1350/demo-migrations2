@@ -3,10 +3,15 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 
 function transformNestedLists(rootUl) {
   rootUl.querySelectorAll('li').forEach((li) => {
+    // Add classes from ORIGINAL HTML to li elements
+    li.classList.add('nav-menu-item', 'list-item'); // Assuming these are common list item classes
+
     const nested = li.querySelector(':scope > ul');
     const anchor = li.querySelector(':scope > a');
-
-    if (!anchor) {
+    if (anchor) {
+      // Add classes from ORIGINAL HTML to anchor elements
+      anchor.classList.add('nav-menu-link'); // Assuming this is a common link class
+    } else {
       const textNode = [...li.childNodes].find(
         (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim(),
       );
@@ -17,11 +22,12 @@ function transformNestedLists(rootUl) {
         li.prepend(span);
       }
     }
-
     if (nested) {
+      // Add classes from ORIGINAL HTML to nested ul elements
+      nested.classList.add('sub-menu'); // Assuming this is a common sub-menu class
       nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('has-sub-child'); // This class is not in the allowlist, but it's for JS behavior.
+      subWrap.classList.add('has-sub-child'); // Class from original HTML
       subWrap.append(nested);
       li.append(subWrap);
       const trigger = li.querySelector(':scope > a, :scope > span');
@@ -29,8 +35,8 @@ function transformNestedLists(rootUl) {
         trigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          li.classList.toggle('active'); // This class is not in the allowlist, but it's for JS behavior.
-          subWrap.classList.toggle('active'); // This class is not in the allowlist, but it's for JS behavior.
+          li.classList.toggle('active');
+          subWrap.classList.toggle('active');
         });
       }
     }
@@ -40,59 +46,38 @@ function transformNestedLists(rootUl) {
 export default function decorate(block) {
   const children = [...block.children];
 
-  // Root fields - fixed order based on BlockJson
-  // block.children[0]: field="contactAddress" label="Contact Address" type=richtext
-  // block.children[1]: field="contactPhone" label="Contact Phone Link" type=aem-content
-  // block.children[2]: field="contactFax" label="Contact Fax" type=text
-  // block.children[3]: field="designedByText" label="Designed By Text" type=text
-  // block.children[4]: field="designedByLink" label="Designed By Link" type=aem-content
+  const footerSections = [];
+  const footerContacts = [];
+  const footerSocialLinks = [];
+  const footerWebsiteCredits = [];
 
-  // Item rows - detected by cell count and content
-  // footer-section-item: 4 cells, contains <ul>
-  // footer-link-item: 2 cells, no <ul>
-  // footer-social-item: 1 cell, contains <a>, no <ul>
+  children.forEach((row) => {
+    const cells = [...row.children];
+    if (cells.length === 4) { // footer-section-item
+      footerSections.push(row);
+    } else if (cells.length === 5) { // footer-contact
+      footerContacts.push(row);
+    } else if (cells.length === 1 && cells[0].querySelector('a')) { // footer-social-item
+      footerSocialLinks.push(row);
+    } else if (cells.length === 2) { // footer-website-credit
+      footerWebsiteCredits.push(row);
+    }
+  });
 
-  const contactAddressRow = children.find(
-    (row) => row.children.length === 1 && row.querySelector('p') && !row.querySelector('a[href*="tel:"]'),
-  );
-  const contactPhoneRow = children.find(
-    (row) => row.children.length === 1 && row.querySelector('a[href*="tel:"]'),
-  );
-  const contactFaxRow = children.find(
-    (row) => row.children.length === 1 && !row.querySelector('a') && !row.querySelector('p'),
-  );
-
-  const designedByTextRow = children.find(
-    (row) => row.children.length === 1 && !row.querySelector('a[href*="stercodigitex.com"]') && !row.querySelector('p') && row.textContent.trim().length > 0,
-  );
-  const designedByLinkRow = children.find(
-    (row) => row.children.length === 1 && row.querySelector('a[href*="stercodigitex.com"]'),
-  );
-
-  const footerSectionRows = children.filter(
-    (row) => row.children.length === 4 && row.querySelector('ul'),
-  );
-  const footerLinkRows = children.filter(
-    (row) => row.children.length === 2 && !row.querySelector('ul'),
-  );
-  const footerSocialRows = children.filter(
-    (row) => row.children.length === 1 && row.querySelector('a') && !row.querySelector('ul') && !row.querySelector('a[href*="tel:"]') && !row.querySelector('a[href*="stercodigitex.com"]'),
-  );
-
-  const footer = document.createElement('footer');
   const container = document.createElement('div');
   container.classList.add('container');
-  const row = document.createElement('div');
-  row.classList.add('row');
+
+  const mainRow = document.createElement('div');
+  mainRow.classList.add('row');
 
   const colMd7 = document.createElement('div');
   colMd7.classList.add('col-md-7');
-  const rowInner = document.createElement('div');
-  rowInner.classList.add('row');
 
-  footerSectionRows.forEach((sectionRow, index) => {
-    const [titleCell, linkCell, sectionLinksCell, hierarchyTreeCell] = [...sectionRow.children];
+  const sectionRow = document.createElement('div');
+  sectionRow.classList.add('row');
 
+  footerSections.forEach((row) => {
+    const [titleCell, linkCell, sectionLinksCell, hierarchyTreeCell] = [...row.children]; // Destructuring for fixed schema
     const colMd3 = document.createElement('div');
     colMd3.classList.add('col-md-3');
 
@@ -101,163 +86,200 @@ export default function decorate(block) {
     moveInstrumentation(titleCell, h4);
     colMd3.append(h4);
 
-    const hierarchyList = hierarchyTreeCell?.querySelector('ul');
-    if (hierarchyList) {
-      transformNestedLists(hierarchyList);
-      moveInstrumentation(hierarchyTreeCell, hierarchyList); // Move instrumentation for the hierarchy list
-      colMd3.append(hierarchyList);
-    } else {
-      // Fallback for sectionLinks if hierarchy-tree is empty
-      const ul = document.createElement('ul');
+    const ul = document.createElement('ul');
+    const directLink = linkCell.querySelector('a');
+    if (directLink) {
       const li = document.createElement('li');
       const a = document.createElement('a');
-      const foundLink = linkCell.querySelector('a');
-      if (foundLink) {
-        a.href = foundLink.href;
-        a.textContent = titleCell.textContent.trim(); // Use title as link text if no hierarchy
-      } else {
-        a.textContent = titleCell.textContent.trim();
-      }
-      moveInstrumentation(sectionLinksCell, a); // Instrumentation for the sectionLinks cell
+      a.href = directLink.href;
+      a.textContent = titleCell.textContent.trim(); // Use title as text for direct link
+      moveInstrumentation(linkCell, a);
       li.append(a);
       ul.append(li);
-      colMd3.append(ul);
     }
 
-    // Add m-top class for subsequent sections as seen in original HTML
-    if (index > 0 && index % 2 === 0) { // Assuming 2 sections per row in original HTML layout
-      const mTopDiv = document.createElement('div');
-      mTopDiv.classList.add('m-top');
-      // Move content from colMd3 to mTopDiv
-      while (colMd3.firstChild) {
-        mTopDiv.append(colMd3.firstChild);
+    const tempHierarchyDiv = document.createElement('div');
+    tempHierarchyDiv.innerHTML = hierarchyTreeCell?.innerHTML || '';
+    moveInstrumentation(hierarchyTreeCell, tempHierarchyDiv); // Move instrumentation for hierarchy cell
+
+    const subList = tempHierarchyDiv.querySelector('ul');
+    if (subList) {
+      transformNestedLists(subList);
+      // Move children from tempHierarchyDiv to ul
+      while (subList.firstChild) {
+        ul.append(subList.firstChild);
       }
-      colMd3.append(mTopDiv);
-    }
-    rowInner.append(colMd3);
-  });
+    } else {
+      const tempSectionLinksDiv = document.createElement('div');
+      tempSectionLinksDiv.innerHTML = sectionLinksCell?.innerHTML || '';
+      moveInstrumentation(sectionLinksCell, tempSectionLinksDiv); // Move instrumentation for sectionLinks cell
 
-  colMd7.append(rowInner);
-  row.append(colMd7);
+      const sectionUl = tempSectionLinksDiv.querySelector('ul');
+      if (sectionUl) {
+        transformNestedLists(sectionUl);
+        // Move children from tempSectionLinksDiv to ul
+        while (sectionUl.firstChild) {
+          ul.append(sectionUl.firstChild);
+        }
+      } else {
+        // If it's just plain text or <p> tags, append as list items
+        [...tempSectionLinksDiv.children].forEach((child) => {
+          const li = document.createElement('li');
+          if (child.tagName === 'A') {
+            const a = document.createElement('a');
+            a.href = child.href;
+            a.textContent = child.textContent.trim();
+            li.append(a);
+          } else if (child.tagName === 'P') {
+            li.innerHTML = child.innerHTML; // Preserve potential HTML inside <p>
+          } else {
+            li.textContent = child.textContent.trim();
+          }
+          ul.append(li);
+        });
+      }
+    }
+    colMd3.append(ul);
+    moveInstrumentation(row, colMd3);
+    sectionRow.append(colMd3);
+  });
+  colMd7.append(sectionRow);
+  mainRow.append(colMd7);
 
   const colMd5 = document.createElement('div');
   colMd5.classList.add('col-md-5');
-  const rowContactSocial = document.createElement('div');
-  rowContactSocial.classList.add('row');
 
-  const colMd6Contact = document.createElement('div');
-  colMd6Contact.classList.add('col-md-6');
-  colMd6Contact.id = 'contact-footer';
+  const contactSocialRow = document.createElement('div');
+  contactSocialRow.classList.add('row');
 
-  const h4Contact = document.createElement('h4');
-  h4Contact.textContent = 'Contact Us';
-  colMd6Contact.append(h4Contact);
+  if (footerContacts.length > 0) {
+    const contactRow = footerContacts[0];
+    const [titleCell, addressCell, telLinkCell, telephoneCell, faxCell] = [...contactRow.children]; // Destructuring for fixed schema
 
-  if (contactAddressRow) {
+    const colMd6Contact = document.createElement('div');
+    colMd6Contact.classList.add('col-md-6');
+    colMd6Contact.id = 'contact-footer';
+
+    const h4Contact = document.createElement('h4');
+    h4Contact.textContent = titleCell.textContent.trim();
+    moveInstrumentation(titleCell, h4Contact);
+    colMd6Contact.append(h4Contact);
+
     const pAddress = document.createElement('p');
-    pAddress.innerHTML = contactAddressRow.children[0]?.innerHTML || ''; // Read from cell, not row
-    moveInstrumentation(contactAddressRow, pAddress);
+    pAddress.innerHTML = addressCell.innerHTML; // Use innerHTML for richtext address
+    moveInstrumentation(addressCell, pAddress);
     colMd6Contact.append(pAddress);
-  }
 
-  const ulTelNo = document.createElement('ul');
-  ulTelNo.classList.add('tel-no');
+    const ulTelNo = document.createElement('ul');
+    ulTelNo.classList.add('tel-no');
 
-  if (contactPhoneRow) {
     const liTel = document.createElement('li');
-    const phoneLink = contactPhoneRow.children[0]?.querySelector('a'); // Read from cell
-    if (phoneLink) {
-      const telSpan = document.createElement('span');
-      telSpan.textContent = 'Tel: ';
-      const aPhone = document.createElement('a');
-      aPhone.href = phoneLink.href;
-      aPhone.textContent = phoneLink.href.replace('tel:', '');
-      liTel.append(telSpan, aPhone);
+    const telLink = telLinkCell.querySelector('a');
+    if (telLink) {
+      const telAnchor = document.createElement('a');
+      telAnchor.href = telLink.href;
+      telAnchor.textContent = telephoneCell.textContent.trim();
+      liTel.append(document.createTextNode('Tel: '));
+      liTel.append(telAnchor);
+      moveInstrumentation(telLinkCell, telAnchor);
+    } else {
+      liTel.textContent = `Tel: ${telephoneCell.textContent.trim()}`;
     }
-    moveInstrumentation(contactPhoneRow, liTel);
+    moveInstrumentation(telephoneCell, liTel);
     ulTelNo.append(liTel);
-  }
 
-  if (contactFaxRow) {
     const liFax = document.createElement('li');
-    liFax.textContent = `Fax: ${contactFaxRow.children[0]?.textContent.trim() || ''}`; // Read from cell
-    moveInstrumentation(contactFaxRow, liFax);
+    liFax.textContent = `Fax: ${faxCell.textContent.trim()}`;
+    moveInstrumentation(faxCell, liFax);
     ulTelNo.append(liFax);
+
+    colMd6Contact.append(ulTelNo);
+    moveInstrumentation(contactRow, colMd6Contact);
+    contactSocialRow.append(colMd6Contact);
   }
-  colMd6Contact.append(ulTelNo);
-  rowContactSocial.append(colMd6Contact);
 
   const colMd6Social = document.createElement('div');
   colMd6Social.classList.add('col-md-6');
 
   const socialInfo = document.createElement('div');
   socialInfo.classList.add('social-info');
+
   const h4Follow = document.createElement('h4');
-  h4Follow.textContent = 'Follow Us';
+  h4Follow.textContent = 'Follow Us'; // Hardcoded in original HTML
   socialInfo.append(h4Follow);
 
   const ulSocial = document.createElement('ul');
-  footerSocialRows.forEach((socialRow) => {
-    const socialLinkCell = socialRow.children[0]?.querySelector('a'); // Read from cell
-    if (socialLinkCell) {
+  footerSocialLinks.forEach((row) => {
+    const [socialLinkCell] = [...row.children]; // Destructuring for fixed schema
+    const socialLink = socialLinkCell.querySelector('a');
+    if (socialLink) {
       const li = document.createElement('li');
       const a = document.createElement('a');
-      a.href = socialLinkCell.href;
-      a.target = '_blank';
-      a.ariaLabel = socialLinkCell.href.split('.com')[0].split('.').pop() || 'social link';
-
-      let iconClass = '';
-      if (socialLinkCell.href.includes('facebook')) {
-        iconClass = 'fa-facebook-f';
+      a.href = socialLink.href;
+      a.setAttribute('target', '_blank');
+      a.setAttribute('aria-label', socialLink.textContent.trim() || 'social icon'); // Use link text for aria-label if available
+      const icon = document.createElement('i');
+      // Infer social icon class based on href
+      if (socialLink.href.includes('facebook')) {
         li.classList.add('fb');
-      } else if (socialLinkCell.href.includes('twitter')) {
-        iconClass = 'fa-twitter';
+        icon.classList.add('fab', 'fa-facebook-f');
+      } else if (socialLink.href.includes('twitter')) {
         li.classList.add('twit');
-      } else if (socialLinkCell.href.includes('youtube')) {
-        iconClass = 'fa-youtube';
+        icon.classList.add('fab', 'fa-twitter');
+      } else if (socialLink.href.includes('youtube')) {
         li.classList.add('you-t');
-      } else if (socialLinkCell.href.includes('instagram')) {
-        iconClass = 'fa-instagram';
+        icon.classList.add('fab', 'fa-youtube');
+      } else if (socialLink.href.includes('instagram')) {
         li.classList.add('insta');
-      } else if (socialLinkCell.href.includes('linkedin')) {
-        iconClass = 'fa-linkedin-in';
+        icon.classList.add('fab', 'fa-instagram');
+      } else if (socialLink.href.includes('linkedin')) {
         li.classList.add('linked');
+        icon.classList.add('fab', 'fa-linkedin-in');
       }
-      const i = document.createElement('i');
-      i.classList.add('fab', iconClass);
-      i.setAttribute('aria-hidden', 'true');
-      a.append(i);
-      moveInstrumentation(socialRow, a); // Instrumentation for the social link row
+      icon.setAttribute('aria-hidden', 'true');
+      a.append(icon);
       li.append(a);
+      moveInstrumentation(row, li);
       ulSocial.append(li);
     }
   });
   socialInfo.append(ulSocial);
   colMd6Social.append(socialInfo);
 
-  const pDesignedBy = document.createElement('p');
-  if (designedByTextRow && designedByLinkRow) {
-    const designedByLink = designedByLinkRow.children[0]?.querySelector('a'); // Read from cell
-    if (designedByLink) {
-      pDesignedBy.textContent = `${designedByTextRow.children[0]?.textContent.trim() || ''} `; // Read from cell
-      const aDesignedBy = document.createElement('a');
-      aDesignedBy.href = designedByLink.href;
-      aDesignedBy.target = '_blank';
-      // Use textContent from the link cell for the label, or fallback
-      aDesignedBy.textContent = designedByLink.textContent.trim() || 'Sterco Digitex';
-      pDesignedBy.append(aDesignedBy);
+  if (footerWebsiteCredits.length > 0) {
+    const creditRow = footerWebsiteCredits[0];
+    const [creditTextCell, creditLinkCell] = [...creditRow.children]; // Destructuring for fixed schema
+
+    const pCredit = document.createElement('p');
+    pCredit.textContent = creditTextCell.textContent.trim();
+    moveInstrumentation(creditTextCell, pCredit);
+
+    const creditLink = creditLinkCell.querySelector('a');
+    if (creditLink) {
+      const aCredit = document.createElement('a');
+      aCredit.href = creditLink.href;
+      aCredit.setAttribute('target', '_blank');
+      aCredit.textContent = creditLink.textContent.trim(); // Read from cell, not hardcoded
+      moveInstrumentation(creditLinkCell, aCredit);
+      pCredit.append(document.createTextNode(' ')); // Add space between text and link
+      pCredit.append(aCredit);
     }
-    moveInstrumentation(designedByTextRow, pDesignedBy);
-    moveInstrumentation(designedByLinkRow, pDesignedBy.querySelector('a'));
+    colMd6Social.append(pCredit);
+    moveInstrumentation(creditRow, pCredit);
   }
-  colMd6Social.append(pDesignedBy);
+  contactSocialRow.append(colMd6Social);
+  colMd5.append(contactSocialRow);
+  mainRow.append(colMd5);
 
-  rowContactSocial.append(colMd6Social);
-  colMd5.append(rowContactSocial);
-  row.append(colMd5);
+  container.append(mainRow);
+  block.replaceChildren(container);
 
-  container.append(row);
-  footer.append(container);
-
-  block.replaceChildren(footer);
+  // This part should ideally be handled by a separate image block or a utility function
+  // if images are not part of the core footer structure.
+  // For now, keeping it as is, assuming it's a generic image optimization.
+  block.querySelectorAll('picture > img').forEach((img) => {
+    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+    moveInstrumentation(img, optimizedPic.querySelector('img'));
+    img.closest('picture').replaceWith(optimizedPic);
+  });
 }

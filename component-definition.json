@@ -530,6 +530,21 @@
           }
         },
         {
+          "title": "Footer Contact",
+          "id": "footer-contact",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "footer-contact",
+                  "name": "Footer Contact"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Footer Social Item",
           "id": "footer-social-item",
           "plugins": {
@@ -539,6 +554,21 @@
                 "template": {
                   "model": "footer-social-item",
                   "name": "Footer Social Item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Footer Website Credit",
+          "id": "footer-website-credit",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "footer-website-credit",
+                  "name": "Footer Website Credit"
                 }
               }
             }
