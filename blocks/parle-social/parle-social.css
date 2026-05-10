@@ -1,0 +1,114 @@
+@media (min-width:576px) { .container{ max-width:540px } }
+
+@media (min-width:768px) { .container{ max-width:720px } }
+
+@media (min-width:992px) { .container{ max-width:960px } }
+
+@media (min-width:1200px) { .container{ max-width:1140px } }
+
+.row{ display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-right:-15px;margin-left:-15px }
+
+.row > .col-md-4{ position:relative;width:100%;padding-right:15px;padding-left:15px }
+
+@media (min-width:768px) { .row > .col-md-4{ -ms-flex:0 0 33.333333%;flex:0 0 33.333333%;max-width:33.333333% } }
+
+@keyframes progress-bar-stripes{from{background-position:1rem 0}to{background-position:0 0}}
+
+@keyframes spinner-border{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+
+@keyframes spinner-grow{0%{-webkit-transform:scale(0);transform:scale(0)}50%{opacity:1}}
+
+@media print { .container{ min-width:992px!important } }
+
+.social_logo{ 
+	font-size: 16px
+ }
+
+section.parle-social{ 
+	padding-top: 40px;
+	padding-bottom: 60px
+ }
+
+.parle-social h2{ 
+	font-size: 34px;
+	font-weight: 700;
+	color: #000;
+	text-align: center;
+	margin-bottom: 45px
+ }
+
+.parleg-insta .owl-dot{ 
+	margin: 0 5px
+ }
+
+.parleg-insta .owl-dots .owl-dot.active span{ 
+	background: #5c5c5c
+ }
+
+.parleg-insta .owl-dots .owl-dot span{ 
+	background: #ccc
+ }
+
+.social_logo img{ 
+	float: left;
+	padding-right: 10px
+ }
+
+.social_logo{ 
+	font-weight: 600;
+	padding-bottom: 20px
+ }
+
+@keyframes blink-animation{
+to {
+visibility:hidden
+}
+}
+
+@media only screen and (max-width:767px) { .img-fluid{ 
+	margin: auto auto 20px
+ } }
+
+@media (min-width:992px) and (max-width:1199px) { .owl-theme .owl-dots .owl-dot{ margin:1px }
+
+.owl-next:after{ right:-12px }
+
+.owl-prev:before{ left:-5px } }
+
+@media only screen and (min-width:768px) and (max-width:991px) { .owl-theme .owl-dots .owl-dot{ margin:1px } }
+
+@media only screen and (max-width :767px) { .container{ max-width:1230px;width:100% }
+
+.img-fluid{ margin:auto }
+
+.parle-social h2{ font-size:24px }
+
+section.parle-social{ padding-top:50px;padding-bottom:30px }
+
+.owl-theme .owl-dots .owl-dot{ margin:1px } }
+
+@media (min-width:576px) { @media only screen and (min-width:768px) and (max-width:1023px) { .container{ width:100% }
+
+.container{ max-width:1230px }
+
+section.parle-social{ padding-bottom:40px }
+
+.parle-social h2{ font-size:28px } }
+
+@media only screen and (min-width:1024px) and (max-width:1199px) { .parle-social h2{ font-size:30px }
+
+section.parle-social{ padding-bottom:40px }
+
+.container{ max-width:1000px } }
+
+@media only screen and (min-width:1200px) and (max-width:1365px) { .parle-social h2{ font-size:32px }
+
+section.parle-social{ padding-bottom:50px } } }
+
+.fb_reset{ background:none;border:0px;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:lucida grande,tahoma,verdana,arial,sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal }
+
+.fb_reset>div{ overflow:hidden }
+
+@keyframes fb_transform{0%{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+
+@keyframes rotateSpinner{0%{transform:rotate(0)}to{transform:rotate(360deg)}}

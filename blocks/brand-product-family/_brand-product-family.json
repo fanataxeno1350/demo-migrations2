@@ -1,0 +1,79 @@
+{
+  "definitions": [
+    {
+      "title": "Brand-Product-Family",
+      "id": "brand-product-family",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "brand-product-family",
+              "model": "brand-product-family",
+              "name": "Brand-Product-Family"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Brand-Product-Item",
+      "id": "brand-product-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "brand-product-item",
+              "name": "Brand-Product-Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "brand-product-family",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Family Title",
+          "name": "familyTitle",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "brand-product-item",
+          "label": "Products",
+          "name": "products"
+        }
+      ]
+    },
+    {
+      "id": "brand-product-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Product Image",
+          "name": "image",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Product Title",
+          "name": "title",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "brand-product-family",
+      "components": [
+        "brand-product-item"
+      ]
+    }
+  ]
+}

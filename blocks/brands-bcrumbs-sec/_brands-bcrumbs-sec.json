@@ -1,0 +1,112 @@
+{
+  "definitions": [
+    {
+      "title": "Brands-Bcrumbs-Sec",
+      "id": "brands-bcrumbs-sec",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "brands-bcrumbs-sec",
+              "model": "brands-bcrumbs-sec",
+              "name": "Brands-Bcrumbs-Sec"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Breadcrumb-Item",
+      "id": "breadcrumb-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "breadcrumb-item",
+              "name": "Breadcrumb-Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Social-Link-Item",
+      "id": "social-link-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "social-link-item",
+              "name": "Social-Link-Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "brands-bcrumbs-sec",
+      "fields": [
+        {
+          "component": "container",
+          "item": "breadcrumb-item",
+          "label": "Breadcrumbs",
+          "name": "breadcrumbs"
+        },
+        {
+          "component": "container",
+          "item": "social-link-item",
+          "label": "Social Links",
+          "name": "socialLinks"
+        }
+      ]
+    },
+    {
+      "id": "breadcrumb-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Breadcrumb Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Breadcrumb Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "social-link-item",
+      "fields": [
+        {
+          "component": "aem-content",
+          "label": "Social Link URL",
+          "name": "link",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "brands-bcrumbs-sec",
+      "components": [
+        "breadcrumb-item",
+        "social-link-item"
+      ]
+    }
+  ]
+}

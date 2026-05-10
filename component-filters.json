@@ -26,14 +26,44 @@
       "tv-commercial-carousel",
       "campaign-video-carousel",
       "social-feeds-section",
-      "footer-main"
+      "footer-main",
+      "search-box",
+      "header",
+      "brands-inner-banner",
+      "inner-title",
+      "brands-bcrumbs-sec",
+      "brands-det-content",
+      "brand-product-family",
+      "discover-carousel",
+      "parle-campaign",
+      "parle-social",
+      "footer"
     ]
   },
   {
     "id": "brand-description"
   },
   {
+    "id": "brand-product-family",
+    "components": [
+      "brand-product-item"
+    ]
+  },
+  {
     "id": "brand-title-mobile"
+  },
+  {
+    "id": "brands-bcrumbs-sec",
+    "components": [
+      "breadcrumb-item",
+      "social-link-item"
+    ]
+  },
+  {
+    "id": "brands-det-content"
+  },
+  {
+    "id": "brands-inner-banner"
   },
   {
     "id": "breadcrumbs",
@@ -70,7 +100,21 @@
     ]
   },
   {
+    "id": "discover-carousel",
+    "components": [
+      "discover-carousel-item"
+    ]
+  },
+  {
     "id": "footer-main",
+    "components": [
+      "footer-section-item",
+      "footer-link-item",
+      "footer-social-item"
+    ]
+  },
+  {
+    "id": "footer",
     "components": [
       "footer-section-item",
       "footer-link-item",
@@ -95,13 +139,42 @@
     ]
   },
   {
+    "id": "header",
+    "components": [
+      "top-menu-icon-item",
+      "desktop-navigation-item",
+      "sidebar-navigation-item",
+      "mobile-navigation-item"
+    ]
+  },
+  {
     "id": "hero-banner"
+  },
+  {
+    "id": "inner-title"
+  },
+  {
+    "id": "parle-campaign",
+    "components": [
+      "campaign-item"
+    ]
+  },
+  {
+    "id": "parle-social",
+    "components": [
+      "social-platform-item",
+      "embed-widget-item",
+      "instagram-post-item"
+    ]
   },
   {
     "id": "product-family-grid",
     "components": [
       "product-family-grid-item"
     ]
+  },
+  {
+    "id": "search-box"
   },
   {
     "id": "social-feeds-section",

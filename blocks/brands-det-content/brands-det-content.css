@@ -1,0 +1,79 @@
+@media (min-width:576px) { .container{ max-width:540px } }
+
+@media (min-width:768px) { .container{ max-width:720px } }
+
+@media (min-width:992px) { .container{ max-width:960px } }
+
+@media (min-width:1200px) { .container{ max-width:1140px } }
+
+@keyframes progress-bar-stripes{from{background-position:1rem 0}to{background-position:0 0}}
+
+@keyframes spinner-border{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+
+@keyframes spinner-grow{0%{-webkit-transform:scale(0);transform:scale(0)}50%{opacity:1}}
+
+@media print { .container{ min-width:992px!important } }
+
+.brands-det-cont h3, .brands-det-cont p{ 
+	font-family: Montserrat, sans-serif
+ }
+
+section.brands-det-1{ 
+	padding-top: 60px
+ }
+
+.brands-det-cont h3{ 
+	font-size: 30px;
+	font-weight: 400;
+	color: #da0b13;
+	text-align: left;
+	margin-bottom: 0;
+	padding-bottom: 20px
+ }
+
+.brands-det-cont p{ 
+	font-size: 15px;
+	color: #333
+ }
+
+.brands-det-cont{ 
+	margin-bottom: 50px
+ }
+
+@keyframes blink-animation{
+to {
+visibility:hidden
+}
+}
+
+@media only screen and (max-width :767px) { .container{ max-width:1230px;width:100% }
+
+.brands-det-cont h3{ font-size:22px }
+
+.brands-det-cont{ margin-bottom:50px }
+
+section.brands-det-1{ padding-top:45px } }
+
+@media (min-width:576px) { @media only screen and (min-width:0px) and (max-width:479px) { .brands-det-cont h3{ font-size:20px } }
+
+@media only screen and (min-width:768px) and (max-width:1023px) { .container{ width:100% }
+
+.container{ max-width:1230px }
+
+.brands-det-cont{ margin-bottom:60px }
+
+.brands-det-cont h3{ font-size:21px!important } }
+
+@media only screen and (min-width:1024px) and (max-width:1199px) { .brands-det-cont h3{ font-size:26px }
+
+.brands-det-cont{ margin-bottom:70px }
+
+.container{ max-width:1000px } }
+
+@media only screen and (min-width:1200px) and (max-width:1365px) { .brands-det-cont h3{ font-size:28px }
+
+.brands-det-cont{ margin-bottom:90px } } }
+
+@keyframes fb_transform{0%{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+
+@keyframes rotateSpinner{0%{transform:rotate(0)}to{transform:rotate(360deg)}}

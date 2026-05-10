@@ -61,7 +61,18 @@
         "tv-commercial-carousel",
         "campaign-video-carousel",
         "social-feeds-section",
-        "footer-main"
+        "footer-main",
+        "search-box",
+        "header",
+        "brands-inner-banner",
+        "inner-title",
+        "brands-bcrumbs-sec",
+        "brands-det-content",
+        "brand-product-family",
+        "discover-carousel",
+        "parle-campaign",
+        "parle-social",
+        "footer"
       ]
     }
   ]
