@@ -1,0 +1,51 @@
+@keyframes spin{
+from {
+transform: rotate(0deg);
+}
+to {
+transform: rotate(360deg);
+}
+}
+
+@keyframes blink{
+from {
+opacity: 0;
+}
+50% {
+opacity: 1;
+}
+to {
+opacity: 0;
+}
+}
+
+.btn, span.btn{ 
+border: 0;
+border-radius: 20px;
+color: #fff;
+line-height: 1;
+text-decoration: none;
+font-family: "Nunito";
+font-size: 1rem;
+font-weight: 900;
+text-transform: uppercase;
+letter-spacing: 1px;
+cursor: pointer;
+transition: all ease-in-out 0.2s;
+background: none;
+background-color: #660707;
+padding: 1em 2em;
+ }
+
+.btn:hover, span.btn:hover{ 
+background-color: #960a0a;
+ }
+
+.btn:active, .btn:focus, span.btn:active, span.btn:focus{ 
+border-color: #a11414;
+ }
+
+@media (min-width: 480px) { .container{ 
+padding-right: 30px;
+padding-left: 30px;
+ } }

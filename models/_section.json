@@ -50,7 +50,11 @@
         "hero",
         "cards",
         "columns",
-        "fragment"
+        "fragment",
+        "header",
+        "page-intro",
+        "products-list",
+        "footer"
       ]
     }
   ]

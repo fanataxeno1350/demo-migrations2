@@ -15,7 +15,11 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "header",
+      "page-intro",
+      "products-list",
+      "footer"
     ]
   },
   {
@@ -37,6 +41,31 @@
       "image",
       "button",
       "title"
+    ]
+  },
+  {
+    "id": "footer",
+    "components": [
+      "footer-link-item",
+      "footer-social-item",
+      "footer-brand-item"
+    ]
+  },
+  {
+    "id": "header",
+    "components": [
+      "contact-item",
+      "social-icon-item",
+      "navigation-item"
+    ]
+  },
+  {
+    "id": "page-intro"
+  },
+  {
+    "id": "products-list",
+    "components": [
+      "product-item"
     ]
   }
 ]
