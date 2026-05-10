@@ -113,17 +113,63 @@ async function loadEager(doc) {
  * Loads everything that doesn't need to be delayed.
  * @param {Element} doc The container element
  */
+/**
+ * Moves header/footer blocks out of <main> into their semantic HTML tags.
+ * Identifies blocks by splitting the block name on "-" and matching segments
+ * exactly against "header" and "footer" — handles names like boing-header,
+ * boing-header-footer, footer-brand, site-footer, etc.
+ * Idempotent: safe to call multiple times.
+ * @param {Document} doc
+ */
+function moveHeaderFooterBlocks(doc) {
+  const headerEl = doc.querySelector('header');
+  const footerEl = doc.querySelector('footer');
+  if (!headerEl && !footerEl) return;
+
+  doc.querySelectorAll('main .block[data-block-name]').forEach((block) => {
+    const name = block.dataset.blockName;
+    if (!name) return;
+    const parts = name.split('-');
+    const hasHeader = parts.some((p) => p === 'header');
+    const hasFooter = parts.some((p) => p === 'footer');
+    if (!hasHeader && !hasFooter) return;
+
+    const wrapper = (block.parentElement && block.parentElement.classList.contains(name + '-wrapper'))
+      ? block.parentElement
+      : block;
+
+    if (headerEl && hasHeader) {
+      headerEl.append(wrapper);
+    } else if (footerEl && hasFooter) {
+      footerEl.append(wrapper);
+    }
+  });
+}
+
 async function loadLazy(doc) {
-  loadHeader(doc.querySelector('header'));
+  // aemigrate: skip boilerplate nav when a migrated header block is present
+  {
+    const mainEl = doc.querySelector('main');
+    const hasMigratedHeader = mainEl && [...mainEl.querySelectorAll('.block[data-block-name]')]
+      .some((b) => b.dataset.blockName && b.dataset.blockName.split('-').includes('header'));
+    if (!hasMigratedHeader) loadHeader(doc.querySelector('header'));
+  }
 
   const main = doc.querySelector('main');
   await loadSections(main);
+  moveHeaderFooterBlocks(doc);
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadFooter(doc.querySelector('footer'));
+  // aemigrate: skip boilerplate footer when a migrated footer block is present
+  {
+    const footerEl = doc.querySelector('footer');
+    const hasMigratedFooter = footerEl && [...footerEl.querySelectorAll('.block[data-block-name]')]
+      .some((b) => b.dataset.blockName && b.dataset.blockName.split('-').includes('footer'));
+    if (!hasMigratedFooter) loadFooter(footerEl);
+  }
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
