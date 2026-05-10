@@ -184,7 +184,7 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Logo",
+        "label": "Footer Logo",
         "name": "logo",
         "valueType": "string"
       },
@@ -196,42 +196,41 @@
       },
       {
         "component": "container",
-        "item": "footer-link-item",
-        "label": "Footer Links",
-        "name": "footerLinks"
+        "item": "footer-nav-item",
+        "label": "Footer Navigation Items",
+        "name": "footerNavItems"
       },
       {
         "component": "container",
         "item": "footer-social-item",
         "label": "Footer Social Links",
-        "name": "footerSocialLinks"
+        "name": "footerSocialItems"
       },
       {
         "component": "container",
         "item": "footer-brand-item",
         "label": "Footer Brand Links",
-        "name": "footerBrandLinks"
+        "name": "footerBrandItems"
       },
       {
         "component": "richtext",
         "label": "Copyright",
-        "name": "copyright",
-        "valueType": "string"
+        "name": "copyright"
       }
     ]
   },
   {
-    "id": "footer-link-item",
+    "id": "footer-nav-item",
     "fields": [
       {
         "component": "text",
-        "label": "Link Label",
+        "label": "Navigation Label",
         "name": "label",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Link URL",
+        "label": "Navigation Link",
         "name": "link",
         "valueType": "string"
       },
@@ -239,23 +238,6 @@
         "component": "richtext",
         "label": "Navigation Hierarchy",
         "name": "hierarchy-tree",
-        "valueType": "string"
-      }
-    ]
-  },
-  {
-    "id": "footer-social-item",
-    "fields": [
-      {
-        "component": "aem-content",
-        "label": "Social Link URL",
-        "name": "socialLink",
-        "valueType": "string"
-      },
-      {
-        "component": "reference",
-        "label": "Social Icon",
-        "name": "icon",
         "valueType": "string"
       }
     ]
@@ -271,7 +253,24 @@
       },
       {
         "component": "aem-content",
-        "label": "Brand Link URL",
+        "label": "Brand Link",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "footer-social-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Social Icon",
+        "name": "icon",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Social Link",
         "name": "link",
         "valueType": "string"
       }

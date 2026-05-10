@@ -46,9 +46,9 @@
   {
     "id": "footer",
     "components": [
-      "footer-link-item",
-      "footer-social-item",
-      "footer-brand-item"
+      "footer-nav-item",
+      "footer-brand-item",
+      "footer-social-item"
     ]
   },
   {
