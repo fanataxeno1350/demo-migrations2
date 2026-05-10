@@ -1,0 +1,85 @@
+{
+  "definitions": [
+    {
+      "title": "TV Commercial Carousel",
+      "id": "tv-commercial-carousel",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "tv-commercial-carousel",
+              "model": "tv-commercial-carousel",
+              "name": "TV Commercial Carousel"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "TV Commercial Carousel Item",
+      "id": "tv-commercial-carousel-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "tv-commercial-carousel-item",
+              "name": "TV Commercial Carousel Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "tv-commercial-carousel",
+      "fields": [
+        {
+          "component": "container",
+          "item": "tv-commercial-carousel-item",
+          "label": "Carousel Items",
+          "name": "carouselItems"
+        }
+      ]
+    },
+    {
+      "id": "tv-commercial-carousel-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "First Image",
+          "name": "image1",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Second Image",
+          "name": "image2",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Third Image",
+          "name": "image3",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "tv-commercial-carousel",
+      "components": [
+        "tv-commercial-carousel-item"
+      ]
+    }
+  ]
+}

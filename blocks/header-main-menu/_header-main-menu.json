@@ -1,0 +1,286 @@
+{
+  "definitions": [
+    {
+      "title": "Header-Main-Menu",
+      "id": "header-main-menu",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "header-main-menu",
+              "model": "header-main-menu",
+              "name": "Header-Main-Menu"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Main-Menu-Item",
+      "id": "main-menu-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "main-menu-item",
+              "name": "Main-Menu-Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Mega-Menu-About-Column",
+      "id": "mega-menu-about-column",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "mega-menu-about-column",
+              "name": "Mega-Menu-About-Column"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Mega-Menu-Brand-Category",
+      "id": "mega-menu-brand-category",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "mega-menu-brand-category",
+              "name": "Mega-Menu-Brand-Category"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Mega-Menu-Brand-Product",
+      "id": "mega-menu-brand-product",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "mega-menu-brand-product",
+              "name": "Mega-Menu-Brand-Product"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Mega-Menu-Recipe-Column",
+      "id": "mega-menu-recipe-column",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "mega-menu-recipe-column",
+              "name": "Mega-Menu-Recipe-Column"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Mobile-Menu-Icon-Item",
+      "id": "mobile-menu-icon-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "mobile-menu-icon-item",
+              "name": "Mobile-Menu-Icon-Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "header-main-menu",
+      "fields": [
+        {
+          "component": "container",
+          "item": "main-menu-item",
+          "label": "Menu Items",
+          "name": "menuItems"
+        },
+        {
+          "component": "container",
+          "item": "mobile-menu-icon-item",
+          "label": "Mobile Menu Icons",
+          "name": "mobileMenuIcons"
+        }
+      ]
+    },
+    {
+      "id": "main-menu-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Menu Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Menu Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "mega-menu-about-column",
+          "label": "About Us Mega Menu Columns",
+          "name": "aboutColumns"
+        },
+        {
+          "component": "container",
+          "item": "mega-menu-brand-category",
+          "label": "Brands Mega Menu Categories",
+          "name": "brandCategories"
+        },
+        {
+          "component": "container",
+          "item": "mega-menu-recipe-column",
+          "label": "Parle Recipes Mega Menu Columns",
+          "name": "recipeColumns"
+        }
+      ]
+    },
+    {
+      "id": "mega-menu-about-column",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Column Title",
+          "name": "columnTitle",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Column Content",
+          "name": "columnContent",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Image",
+          "name": "image",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Image Link",
+          "name": "imageLink",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "mega-menu-brand-category",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Brand Category Title",
+          "name": "categoryTitle",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Brand Category Link",
+          "name": "categoryLink",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "mega-menu-brand-product",
+          "label": "Brand Products",
+          "name": "products"
+        }
+      ]
+    },
+    {
+      "id": "mega-menu-brand-product",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Product Label",
+          "name": "productLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Product Link",
+          "name": "productLink",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "mega-menu-recipe-column",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Recipe Label",
+          "name": "recipeLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Recipe Link",
+          "name": "recipeLink",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "mobile-menu-icon-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Mobile Menu Icon",
+          "name": "icon",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Mobile Menu Icon Link",
+          "name": "iconLink",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "header-main-menu",
+      "components": [
+        "main-menu-item",
+        "mega-menu-about-column",
+        "mega-menu-brand-category",
+        "mega-menu-brand-product",
+        "mega-menu-recipe-column",
+        "mobile-menu-icon-item"
+      ]
+    }
+  ]
+}

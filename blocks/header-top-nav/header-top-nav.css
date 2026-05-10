@@ -1,0 +1,93 @@
+@media (min-width:576px) { .container{ max-width:540px } }
+
+@media (min-width:768px) { .container{ max-width:720px } }
+
+@media (min-width:992px) { .container{ max-width:960px } }
+
+@media (min-width:1200px) { .container{ max-width:1140px } }
+
+.row{ display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-right:-15px;margin-left:-15px }
+
+.row > .col-md-12{ position:relative;width:100%;padding-right:15px;padding-left:15px }
+
+@media (min-width:768px) { .row > .col-md-12{ -ms-flex:0 0 100%;flex:0 0 100%;max-width:100% } }
+
+@keyframes progress-bar-stripes{from{background-position:1rem 0}to{background-position:0 0}}
+
+@keyframes spinner-border{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+
+@keyframes spinner-grow{0%{-webkit-transform:scale(0);transform:scale(0)}50%{opacity:1}}
+
+@media print { .container{ min-width:992px!important } }
+
+.bg_top{ 
+	background: #333
+ }
+
+.bg_top, .mobile-logo, .mobile_nav_icon.mobile_nav{ 
+	display: none
+ }
+
+.top_menu ul{ 
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	align-items: center
+ }
+
+.top_menu ul li{ 
+	display: inline-flex;
+	padding: 5px 10px
+ }
+
+.top_menu{ 
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	align-items: center
+ }
+
+.top_menu ul img{ 
+	margin: 0
+ }
+
+@keyframes blink-animation{
+to {
+visibility:hidden
+}
+}
+
+@media only screen and (max-width:767px) { .img-fluid{ 
+	margin: auto auto 20px
+ } }
+
+@media only screen and (max-width :767px) { .mobile_nav img{ width:21px;height:16px;aspect-ratio:21/16 }
+
+.desktop-mobile_nav{ display:none }
+
+.mobile-logo, .mobile_nav_icon.mobile_nav{ display:block }
+
+.container{ max-width:1230px;width:100% }
+
+.img-fluid{ margin:auto }
+
+.mobile-logo img{ margin-bottom:0;padding:30px 20px;background:#da0b14;margin-left:-15px;max-width:130px }
+
+.bg_top{ background:0 0;display:block } }
+
+@media (min-width:576px) { @media only screen and (min-width:768px) and (max-width:1023px) { .container{ width:100% }
+
+.container{ max-width:1230px }
+
+.mobile-logo{ display:block }
+
+.top_menu ul img{ margin-top:-23px } }
+
+@media only screen and (min-width:1024px) and (max-width:1199px) { .container{ max-width:1000px } } }
+
+@keyframes fb_transform{0%{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+
+@keyframes rotateSpinner{0%{transform:rotate(0)}to{transform:rotate(360deg)}}

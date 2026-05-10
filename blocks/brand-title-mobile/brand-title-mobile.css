@@ -1,0 +1,73 @@
+@keyframes progress-bar-stripes{from{background-position:1rem 0}to{background-position:0 0}}
+
+@keyframes spinner-border{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+
+@keyframes spinner-grow{0%{-webkit-transform:scale(0);transform:scale(0)}50%{opacity:1}}
+
+.page-title h1{ 
+	text-align: center
+ }
+
+.mobile-inner-title{ 
+	display: none
+ }
+
+.page-title h1{ 
+	color: #d80b13;
+	font-weight: 700
+ }
+
+section.inner-title{ 
+	padding-top: 205px;
+	padding-bottom: 40px
+ }
+
+.page-title{ 
+	position: relative;
+	padding-bottom: 45px
+ }
+
+.page-title h1{ 
+	font-size: 44px
+ }
+
+.page-title:before{ 
+	content: "";
+	width: 80px;
+	height: 2px;
+	background: #d80c13;
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translate(-50%, -50%)
+ }
+
+@keyframes blink-animation{
+to {
+visibility:hidden
+}
+}
+
+@media only screen and (max-width :767px) { .mobile-inner-title{ display:block }
+
+.page-title h1{ font-size:40px }
+
+section.inner-title{ padding-top:150px;padding-bottom:0 }
+
+.page-title{ padding-bottom:20px }
+
+.page-title h1:after{ margin:20px auto 0 } }
+
+@media (min-width:576px) { @media only screen and (min-width:0px) and (max-width:479px) { .page-title h1{ font-size:28px } }
+
+@media only screen and (min-width:768px) and (max-width:1023px) { section.inner-title{ padding-top:60px }
+
+.page-title h1{ font-size:36px } }
+
+@media only screen and (min-width:1024px) and (max-width:1199px) { .page-title h1{ font-size:38px } }
+
+@media only screen and (min-width:1200px) and (max-width:1365px) { .page-title h1{ font-size:40px } } }
+
+@keyframes fb_transform{0%{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+
+@keyframes rotateSpinner{0%{transform:rotate(0)}to{transform:rotate(360deg)}}

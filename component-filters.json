@@ -15,7 +15,37 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "header-top-nav",
+      "header-main-menu",
+      "hero-banner",
+      "brand-title-mobile",
+      "breadcrumbs",
+      "brand-description",
+      "product-family-grid",
+      "tv-commercial-carousel",
+      "campaign-video-carousel",
+      "social-feeds-section",
+      "footer-main"
+    ]
+  },
+  {
+    "id": "brand-description"
+  },
+  {
+    "id": "brand-title-mobile"
+  },
+  {
+    "id": "breadcrumbs",
+    "components": [
+      "breadcrumb-item",
+      "social-link-item"
+    ]
+  },
+  {
+    "id": "campaign-video-carousel",
+    "components": [
+      "campaign-video-item"
     ]
   },
   {
@@ -37,6 +67,54 @@
       "image",
       "button",
       "title"
+    ]
+  },
+  {
+    "id": "footer-main",
+    "components": [
+      "footer-section-item",
+      "footer-link-item",
+      "footer-social-item"
+    ]
+  },
+  {
+    "id": "header-main-menu",
+    "components": [
+      "main-menu-item",
+      "mega-menu-about-column",
+      "mega-menu-brand-category",
+      "mega-menu-brand-product",
+      "mega-menu-recipe-column",
+      "mobile-menu-icon-item"
+    ]
+  },
+  {
+    "id": "header-top-nav",
+    "components": [
+      "menu-icon-item"
+    ]
+  },
+  {
+    "id": "hero-banner"
+  },
+  {
+    "id": "product-family-grid",
+    "components": [
+      "product-family-grid-item"
+    ]
+  },
+  {
+    "id": "social-feeds-section",
+    "components": [
+      "social-logo-item",
+      "facebook-embed-item",
+      "instagram-feed-item"
+    ]
+  },
+  {
+    "id": "tv-commercial-carousel",
+    "components": [
+      "tv-commercial-carousel-item"
     ]
   }
 ]
