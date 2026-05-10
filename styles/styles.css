@@ -1,257 +1,2548 @@
-/*
- * Copyright 2020 Adobe. All rights reserved.
- * This file is licensed to you under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License. You may obtain a copy
- * of the License at http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
- * OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
- */
-
-:root {
-  /* colors */
-  --background-color: white;
-  --light-color: #f8f8f8;
-  --dark-color: #505050;
-  --text-color: #131313;
-  --link-color: #3b63fb;
-  --link-hover-color: #1d3ecf;
-
-  /* fonts */
-  --body-font-family: roboto, roboto-fallback, sans-serif;
-  --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif;
-
-  /* body sizes */
-  --body-font-size-m: 22px;
-  --body-font-size-s: 19px;
-  --body-font-size-xs: 17px;
-
-  /* heading sizes */
-  --heading-font-size-xxl: 55px;
-  --heading-font-size-xl: 44px;
-  --heading-font-size-l: 34px;
-  --heading-font-size-m: 27px;
-  --heading-font-size-s: 24px;
-  --heading-font-size-xs: 22px;
-
-  /* nav height */
-  --nav-height: 64px;
+.wpcf7 .screen-reader-response {
+position: absolute;
+overflow: hidden;
+clip: rect(1px, 1px, 1px, 1px);
+clip-path: inset(50%);
+height: 1px;
+width: 1px;
+margin: -1px;
+padding: 0;
+border: 0;
+word-wrap: normal !important;
 }
-
-/* fallback fonts */
-@font-face {
-  font-family: roboto-condensed-fallback;
-  size-adjust: 88.82%;
-  src: local('Arial');
+.wpcf7 .hidden-fields-container {
+display: none;
 }
-
-@font-face {
-  font-family: roboto-fallback;
-  size-adjust: 99.529%;
-  src: local('Arial');
+.wpcf7 form .wpcf7-response-output {
+margin: 2em 0.5em 1em;
+padding: 0.2em 1em;
+border: 2px solid #00a0d2; }
+.wpcf7 form.init .wpcf7-response-output,
+.wpcf7 form.resetting .wpcf7-response-output,
+.wpcf7 form.submitting .wpcf7-response-output {
+display: none;
 }
-
-@media (width >= 900px) {
-  :root {
-    /* body sizes */
-    --body-font-size-m: 18px;
-    --body-font-size-s: 16px;
-    --body-font-size-xs: 14px;
-
-    /* heading sizes */
-    --heading-font-size-xxl: 45px;
-    --heading-font-size-xl: 36px;
-    --heading-font-size-l: 28px;
-    --heading-font-size-m: 22px;
-    --heading-font-size-s: 20px;
-    --heading-font-size-xs: 18px;
-  }
+.wpcf7 form.sent .wpcf7-response-output {
+border-color: #46b450; }
+.wpcf7 form.failed .wpcf7-response-output,
+.wpcf7 form.aborted .wpcf7-response-output {
+border-color: #dc3232; }
+.wpcf7 form.spam .wpcf7-response-output {
+border-color: #f56e28; }
+.wpcf7 form.invalid .wpcf7-response-output,
+.wpcf7 form.unaccepted .wpcf7-response-output,
+.wpcf7 form.payment-required .wpcf7-response-output {
+border-color: #ffb900; }
+.wpcf7-form-control-wrap {
+position: relative;
 }
-
+.wpcf7-not-valid-tip {
+color: #dc3232; font-size: 1em;
+font-weight: normal;
+display: block;
+}
+.use-floating-validation-tip .wpcf7-not-valid-tip {
+position: relative;
+top: -2ex;
+left: 1em;
+z-index: 100;
+border: 1px solid #dc3232;
+background: #fff;
+padding: .2em .8em;
+width: 24em;
+}
+.wpcf7-list-item {
+display: inline-block;
+margin: 0 0 0 1em;
+}
+.wpcf7-list-item-label::before,
+.wpcf7-list-item-label::after {
+content: " ";
+}
+.wpcf7-spinner {
+visibility: hidden;
+display: inline-block;
+background-color: #23282d; opacity: 0.75;
+width: 24px;
+height: 24px;
+border: none;
+border-radius: 100%;
+padding: 0;
+margin: 0 24px;
+position: relative;
+}
+form.submitting .wpcf7-spinner {
+visibility: visible;
+}
+.wpcf7-spinner::before {
+content: '';
+position: absolute;
+background-color: #fbfbfc; top: 4px;
+left: 4px;
+width: 6px;
+height: 6px;
+border: none;
+border-radius: 100%;
+transform-origin: 8px 8px;
+animation-name: spin;
+animation-duration: 1000ms;
+animation-timing-function: linear;
+animation-iteration-count: infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+.wpcf7-spinner::before {
+animation-name: blink;
+animation-duration: 2000ms;
+}
+}
+@keyframes spin {
+from {
+transform: rotate(0deg);
+}
+to {
+transform: rotate(360deg);
+}
+}
+@keyframes blink {
+from {
+opacity: 0;
+}
+50% {
+opacity: 1;
+}
+to {
+opacity: 0;
+}
+}
+.wpcf7 [inert] {
+opacity: 0.5;
+}
+.wpcf7 input[type="file"] {
+cursor: pointer;
+}
+.wpcf7 input[type="file"]:disabled {
+cursor: default;
+}
+.wpcf7 .wpcf7-submit:disabled {
+cursor: not-allowed;
+}
+.wpcf7 input[type="url"],
+.wpcf7 input[type="email"],
+.wpcf7 input[type="tel"] {
+direction: ltr;
+}
+.wpcf7-reflection > output {
+display: list-item;
+list-style: none;
+}
+.wpcf7-reflection > output[hidden] {
+display: none;
+}html {
+line-height: 1.15;
+-webkit-text-size-adjust: 100%;
+}
 body {
-  display: none;
-  margin: 0;
-  background-color: var(--background-color);
-  color: var(--text-color);
-  font-family: var(--body-font-family);
-  font-size: var(--body-font-size-m);
-  line-height: 1.6;
+margin: 0;
 }
-
-body.appear {
-  display: block;
+main {
+display: block;
 }
-
-header {
-  height: var(--nav-height);
+h1 {
+margin: 0.67em 0;
 }
-
-header .header,
-footer .footer {
-  visibility: hidden;
+hr {
+box-sizing: content-box;
+height: 0;
+overflow: visible;
 }
-
-header .header[data-block-status="loaded"],
-footer .footer[data-block-status="loaded"] {
-  visibility: visible;
+pre {
+font-family: monospace, monospace;
+font-size: 1em;
 }
-
+a {
+background-color: rgba(0, 0, 0, 0);
+}
+abbr[title] {
+border-bottom: none;
+text-decoration: underline;
+text-decoration: underline dotted;
+}
+b,
+strong {
+font-weight: bolder;
+}
+code,
+kbd,
+samp {
+font-family: monospace, monospace;
+font-size: 1em;
+}
+small {
+font-size: 80%;
+}
+sub,
+sup {
+font-size: 75%;
+line-height: 0;
+position: relative;
+vertical-align: baseline;
+}
+sub {
+bottom: -0.25em;
+}
+sup {
+top: -0.5em;
+}
+img {
+border-style: none;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+font-family: inherit;
+font-size: 100%;
+line-height: 1.15;
+margin: 0;
+}
+button,
+input {
+overflow: visible;
+}
+button,
+select {
+text-transform: none;
+}
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+-webkit-appearance: button;
+}
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+border-style: none;
+padding: 0;
+}
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+outline: 1px dotted ButtonText;
+}
+fieldset {
+padding: 0.35em 0.75em 0.625em;
+}
+legend {
+box-sizing: border-box;
+color: inherit;
+display: table;
+max-width: 100%;
+padding: 0;
+white-space: normal;
+}
+progress {
+vertical-align: baseline;
+}
+textarea {
+overflow: auto;
+}
+[type="checkbox"],
+[type="radio"] {
+box-sizing: border-box;
+padding: 0;
+}
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+height: auto;
+}
+[type="search"] {
+-webkit-appearance: textfield;
+outline-offset: -2px;
+}
+[type="search"]::-webkit-search-decoration {
+-webkit-appearance: none;
+}
+::-webkit-file-upload-button {
+-webkit-appearance: button;
+font: inherit;
+}
+details {
+display: block;
+}
+summary {
+display: list-item;
+}
+template {
+display: none;
+}
+[hidden] {
+display: none;
+}
+.hidden {
+display: none !important;
+}
+*,
+*::before,
+*::after {
+box-sizing: inherit;
+}
+html {
+box-sizing: border-box;
+}
+body,
+button,
+input,
+select,
+optgroup,
+textarea {
+color: #424242;
+font-family: Montserrat, sans-serif;
+font-size: 1rem;
+line-height: 1.5;
+font-weight: 500;
+}
+@media (min-width: 768px) {
+button,
+input,
+select,
+optgroup,
+textarea {
+font-size: 1.0625rem;
+}
+}
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
-  margin-top: 0.8em;
-  margin-bottom: 0.25em;
-  font-family: var(--heading-font-family);
-  font-weight: 600;
-  line-height: 1.25;
-  scroll-margin: 40px;
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+clear: both;
+font-family: BioRhyme, sans-serif;
+margin: 0 0 15px 0;
+font-weight: bold;
+transition: all ease-in-out 0.1s;
+line-height: 1.25;
+margin-top: -0.2em;
+} h1, .h1 {
+font-size: 1.5rem;
 }
-
-h1 { font-size: var(--heading-font-size-xxl); }
-h2 { font-size: var(--heading-font-size-xl); }
-h3 { font-size: var(--heading-font-size-l); }
-h4 { font-size: var(--heading-font-size-m); }
-h5 { font-size: var(--heading-font-size-s); }
-h6 { font-size: var(--heading-font-size-xs); }
-
-p,
-dl,
-ol,
-ul,
-pre,
+h2, .h2 {
+font-size: 1.375rem;
+}
+h3, .h3 {
+font-size: 1.25rem;
+}
+h4, .h4 {
+font-size: 1.125rem;
+}
+h5, .h5 {
+font-size: 1rem;
+}
+h6, .h6 {
+font-size: 0.875rem;
+} @media (min-width: 768px) {
+body {
+font-size: clamp(1rem, 1.2vw, 1.1rem);
+}
+h1, .h1 {
+font-size: clamp(1.8rem, 2.5vw, 2.8rem);
+}
+h2, .h2 {
+font-size: clamp(1.5rem, 2vw, 2.25rem);
+}
+h3, .h3 {
+font-size: clamp(1.3rem, 1.75vw, 2rem);
+}
+h4, .h4 {
+font-size: clamp(1.125rem, 1.5vw, 1.75rem);
+}
+h5, .h5 {
+font-size: clamp(1rem, 1.25vw, 1.5rem);
+}
+h6, .h6 {
+font-size: clamp(0.875rem, 1vw, 1.25rem);
+}
+} @media (min-width: 1880px) {
+body {
+font-size: clamp(1.2rem, 1.2vw, 2rem);
+}
+h1, .h1 {
+font-size: clamp(2.8rem, 2.8vw, 3.8rem);
+}
+h2, .h2 {
+font-size: clamp(2rem, 2vw, 3rem);
+}
+h3, .h3 {
+font-size: clamp(1.75rem, 1.75vw, 2.5rem);
+}
+h4, .h4 {
+font-size: clamp(1.5rem, 1.5vw, 2rem);
+}
+h5, .h5 {
+font-size: clamp(1.33rem, 1.25vw, 1.75rem);
+}
+h6, .h6 {
+font-size: clamp(1.125rem, 1vw, 1.5rem);
+}
+}
+p:last-of-type + h1,
+p:last-of-type + h2,
+p:last-of-type + h3,
+p:last-of-type + h4,
+p:last-of-type + h5,
+p:last-of-type + h6,
+p + h1,
+p + h2,
+p + h3,
+p + h4,
+p + h5,
+p + h6,
+div + h1,
+div + h2,
+div + h3,
+div + h4,
+div + h5,
+div + h6,
+ul + h1,
+ul + h2,
+ul + h3,
+ul + h4,
+ul + h5,
+ul + h6,
+ol + h1,
+ol + h2,
+ol + h3,
+ol + h4,
+ol + h5,
+ol + h6 {
+margin-top: 2rem;
+}
+p {
+margin: 0 0 1em;
+}
+p:last-of-type,
+p:last-child {
+margin-bottom: 0;
+}
+em,
+i {
+font-style: italic;
+}
 blockquote {
-  margin-top: 0.8em;
-  margin-bottom: 0.25em;
+margin: 0 1.5em;
 }
-
-code,
-pre {
-  font-size: var(--body-font-size-s);
+body {
+background: #fff;
 }
-
-pre {
-  padding: 16px;
-  border-radius: 8px;
-  background-color: var(--light-color);
-  overflow-x: auto;
-  white-space: pre;
+hr {
+background-color: rgba(66, 66, 66, 0.15);
+border: 0;
+height: 1px;
+margin-bottom: 1.5em;
 }
-
-main > div {
-  margin: 40px 16px;
+ul,
+ol {
+margin: 0 0 1.5em 0.5em;
 }
-
-input,
-textarea,
-select,
-button {
-  font: inherit;
+ul:last-child,
+ol:last-child {
+margin-bottom: 0;
 }
-
-/* links */
-a:any-link {
-  color: var(--link-color);
-  text-decoration: none;
-  overflow-wrap: break-word;
+ul {
+list-style: disc;
 }
-
-a:hover {
-  color: var(--link-hover-color);
-  text-decoration: underline;
+ol {
+list-style: decimal;
 }
-
-/* buttons */
-a.button:any-link,
-button {
-  box-sizing: border-box;
-  display: inline-block;
-  max-width: 100%;
-  margin: 12px 0;
-  border: 2px solid transparent;
-  border-radius: 2.4em;
-  padding: 0.5em 1.2em;
-  font-family: var(--body-font-family);
-  font-style: normal;
-  font-weight: 500;
-  line-height: 1.25;
-  text-align: center;
-  text-decoration: none;
-  background-color: var(--link-color);
-  color: var(--background-color);
-  cursor: pointer;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+li > ul,
+li > ol {
+margin-bottom: 0;
+margin-left: 0.5em;
 }
-
-a.button:hover,
-a.button:focus,
+embed,
+iframe,
+object {
+max-width: 100%;
+}
+img {
+height: auto;
+max-width: 100%;
+}
+figure {
+margin: 1em 0;
+}
+table {
+margin: 0 0 1.5em;
+width: 100%;
+}
+table:last-child {
+margin-bottom: 0;
+}
+a {
+color: #ed1c24;
+text-decoration: none;
+position: relative;
+}
+a:visited {
+color: #ed1c24;
+}
+a:hover,
+a:active {
+color: #cf1919;
+text-decoration: underline;
+}
+a:focus {
+outline: 2px dotted;
+}
+a:hover,
+a:active {
+outline: 0;
+}
+.btn,
+a.btn,
+span.btn,
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+border: 0;
+border-radius: 20px;
+color: #fff;
+line-height: 1;
+text-decoration: none;
+font-family: "Nunito";
+font-size: 1rem;
+font-weight: 900;
+text-transform: uppercase;
+letter-spacing: 1px;
+cursor: pointer;
+transition: all ease-in-out 0.2s;
+background: none;
+background-color: #660707;
+padding: 1em 2em;
+}
+.btn:hover,
+a.btn:hover,
+span.btn:hover,
 button:hover,
-button:focus {
-  background-color: var(--link-hover-color);
-  cursor: pointer;
+input[type="button"]:hover,
+input[type="reset"]:hover,
+input[type="submit"]:hover {
+background-color: #960a0a;
 }
-
-button:disabled,
-button:disabled:hover {
-  background-color: var(--light-color);
-  cursor: unset;
+.btn:active,
+.btn:focus,
+a.btn:active,
+a.btn:focus,
+span.btn:active,
+span.btn:focus,
+button:active,
+button:focus,
+input[type="button"]:active,
+input[type="button"]:focus,
+input[type="reset"]:active,
+input[type="reset"]:focus,
+input[type="submit"]:active,
+input[type="submit"]:focus {
+border-color: #a11414;
 }
-
-a.button.secondary,
-button.secondary {
-  background-color: unset;
-  border: 2px solid currentcolor;
-  color: var(--text-color);
+.btn.btn-small,
+a.btn.btn-small,
+span.btn.btn-small,
+button.btn-small,
+input[type="button"].btn-small,
+input[type="reset"].btn-small,
+input[type="submit"].btn-small {
+border-radius: 15px;
+font-size: 1.25rem;
+padding: 0.5em 1em;
 }
-
-main img {
-  max-width: 100%;
-  width: auto;
-  height: auto;
+.btn.btn-large,
+a.btn.btn-large,
+span.btn.btn-large,
+button.btn-large,
+input[type="button"].btn-large,
+input[type="reset"].btn-large,
+input[type="submit"].btn-large {
+border-radius: 25px;
+font-size: 1.75rem;
+padding: 1.5em 3em;
 }
-
-.icon {
-  display: inline-block;
-  height: 24px;
-  width: 24px;
+.btn.btn-dark,
+a.btn.btn-dark,
+span.btn.btn-dark,
+button.btn-dark,
+input[type="button"].btn-dark,
+input[type="reset"].btn-dark,
+input[type="submit"].btn-dark {
+background: #424242;
 }
-
-.icon img {
-  height: 100%;
-  width: 100%;
+.btn.btn-dark:hover,
+a.btn.btn-dark:hover,
+span.btn.btn-dark:hover,
+button.btn-dark:hover,
+input[type="button"].btn-dark:hover,
+input[type="reset"].btn-dark:hover,
+input[type="submit"].btn-dark:hover {
+background-color: #5c5c5c;
 }
-
-/* sections */
-main > .section {
-  margin: 40px 0;
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="tel"],
+input[type="range"],
+input[type="date"],
+input[type="month"],
+input[type="week"],
+input[type="time"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="color"],
+textarea {
+color: #424242;
+border: 1px solid #c1c9d0;
+border-radius: 3px;
+padding: 3px;
 }
-
-main > .section > div {
-  max-width: 1200px;
-  margin: auto;
-  padding: 0 24px;
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus,
+input[type="range"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="week"]:focus,
+input[type="time"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="color"]:focus,
+textarea:focus {
+color: #000;
 }
-
-main > .section:first-of-type {
-  margin-top: 0;
+select {
+border: 1px solid #c1c9d0;
 }
-
-@media (width >= 900px) {
-  main > .section > div {
-    padding: 0 32px;
-  }
+textarea {
+width: 100%;
 }
-
-/* section metadata */
-main .section.light,
-main .section.highlight {
-  background-color: var(--light-color);
-  margin: 0;
-  padding: 40px 0;
+.chkbx-container {
+display: flex;
+align-items: center;
+position: relative;
+padding-left: 45px;
+margin-bottom: 15px;
+cursor: pointer;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+line-height: 1;
+min-height: 30px;
+}
+.chkbx-container .label {
+display: inline-block;
+vertical-align: middle;
+text-transform: uppercase;
+font-weight: bold;
+letter-spacing: 0.05em;
+font-size: 1rem;
+line-height: 1;
+min-height: 100%;
+}
+.chkbx-container input {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+height: 0;
+width: 0;
+}
+.chkbx-container .checkmark {
+position: absolute;
+top: 0;
+left: 0;
+height: 30px;
+width: 30px;
+background-color: #fafafa;
+border-radius: 3px;
+transition: background-color ease-in-out 0.2s;
+}
+.chkbx-container:hover input ~ .checkmark {
+background-color: #ccc;
+}
+.chkbx-container input:checked ~ .checkmark {
+background-color: #fff;
+}
+.chkbx-container .checkmark:after {
+content: "";
+position: absolute;
+display: none;
+}
+.chkbx-container input:checked ~ .checkmark:after {
+display: block;
+}
+.chkbx-container .checkmark:after {
+left: 10px;
+top: 3px;
+width: 10px;
+height: 20px;
+border: solid #000;
+border-width: 0 2px 2px 0;
+-webkit-transform: rotate(45deg);
+-ms-transform: rotate(45deg);
+transform: rotate(45deg);
+}
+@media (min-width: 1440px) {
+.chkbx-container {
+padding-left: 60px;
+margin-bottom: 20px;
+min-height: 40px;
+}
+.chkbx-container .label {
+font-size: 1.25rem;
+}
+.chkbx-container .checkmark {
+height: 40px;
+width: 40px;
+border-radius: 5px;
+}
+.chkbx-container .checkmark:after {
+left: 12px;
+top: 3px;
+width: 15px;
+height: 30px;
+border-width: 0 5px 5px 0;
+}
+}
+.container {
+width: 100%;
+max-width: 1200px;
+padding-right: 15px;
+padding-left: 15px;
+margin-right: auto;
+margin-left: auto;
+box-sizing: border-box;
+}
+@media (min-width: 480px) {
+.container {
+padding-right: 30px;
+padding-left: 30px;
+}
+}
+.row {
+flex-wrap: wrap;
+margin-right: -15px;
+margin-left: -15px;
+}
+@media (min-width: 480px) {
+.row {
+margin-right: -30px;
+margin-left: -30px;
+}
+}
+.col {
+-ms-flex-preferred-size: 0;
+flex-basis: 0;
+-ms-flex-positive: 1;
+flex-grow: 1;
+min-width: 0;
+max-width: 100%;
+position: relative;
+width: 100%;
+padding-right: 15px;
+padding-left: 15px;
+}
+@media (min-width: 480px) {
+.col {
+padding-right: 30px;
+padding-left: 30px;
+}
+}
+@media (min-width: 992px) {
+body.fixed-header .site-header .main-nav {
+background-color: rgba(5, 60, 74, 0.95);
+width: 100%;
+height: 80px;
+position: fixed;
+z-index: 99;
+}
+body.fixed-header .site-header .main-nav .container {
+padding-top: 10px;
+padding-bottom: 10px;
+}
+body.fixed-header .site-header .site-branding {
+font-size: 0;
+line-height: 1;
+}
+body.fixed-header .site-header .site-branding img {
+height: 60px;
+width: auto;
+position: static !important;
+}
+body.fixed-header .site-header .search-form,
+body.fixed-header .site-header .top-nav {
+display: none;
+}
+}
+.site-header {
+position: relative;
+z-index: 100;
+}
+.site-header .top-nav {
+background-color: #fff;
+font-size: 0.875rem;
+}
+.site-header .top-nav .container {
+padding-top: 10px;
+padding-bottom: 10px;
+display: flex;
+justify-content: flex-end;
+gap: 10px 30px;
+}
+.site-header .top-nav .container > div:first-child a {
+margin-left: 0;
+}
+.site-header .top-nav a {
+color: #231f20;
+font-weight: bold;
+display: inline-block;
+text-decoration: none;
+}
+.site-header .top-nav a:before {
+content: "";
+display: inline-block;
+vertical-align: middle;
+background-size: cover;
+background-position: center center;
+background-repeat: no-repeat;
+margin-right: 5px;
+position: relative;
+top: -1px;
+}
+.site-header .top-nav a:hover {
+color: #cf1919;
+}
+.site-header .top-nav .phone a:before {
+width: 19px;
+height: 17px;
+background-image: url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/icon-phone.svg);
+}
+.site-header .top-nav .care a:before {
+width: 22px;
+height: 17px;
+background-image: url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/icon-envelope.svg);
+}
+.site-header .top-nav .phone,
+.site-header .top-nav .care {
+display: flex;
+align-items: center;
+}
+@media (min-width: 560px) {
+.site-header .top-nav {
+font-size: 1rem;
+letter-spacing: 0.03em;
+}
+.site-header .top-nav a:before {
+margin-right: 10px;
+}
+}
+.site-header .social-icons {
+list-style: none;
+display: flex;
+padding-left: 0;
+gap: 20px;
+}
+.site-header .social-icons li {
+display: inline-block;
+}
+.site-header .social-icons li:last-child {
+margin-left: 10px;
+}
+.site-header .social-icons img {
+filter: brightness(0) saturate(100%) invert(12%) sepia(10%) saturate(500%)
+hue-rotate(360deg) brightness(95%) contrast(90%);
+display: block;
+width: 30px;
+height: auto;
+}
+.site-header .social-icons a {
+margin-left: 0;
+display: flex;
+text-decoration: none;
+}
+.site-header .social-icons a:hover img {
+opacity: 0.8;
+transition: opacity ease-in-out 0.1s;
+}
+.site-header .social-icons a::before {
+margin-right: 0;
+}
+.site-header .main-nav {
+position: relative;
+background-color: #053c4a;
+padding: 0;
+color: #fff;
+display: flex;
+}
+@media (min-width: 1280px) {
+.site-header .main-nav {
+height: 117px;
+}
+}
+.site-header .main-nav .site-branding {
+width: 100%;
+margin-right: 30px;
+max-width: 200px;
+}
+@media (min-width: 1280px) {
+.site-header .main-nav .site-branding {
+max-width: none;
+max-width: 224px;
+flex-shrink: 0;
+margin-right: 0;
+}
+}
+.site-header .main-nav .site-branding img {
+width: 100%;
+height: auto;
+}
+.site-header .main-nav .container {
+padding-top: 10px;
+padding-bottom: 10px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.site-header .search-form {
+margin-right: 0;
+}
+@media all and (max-width: 768px) {
+.site-header .search-form {
+width: 45px;
+min-width: 0;
+padding: 0;
+display: none;
+}
+.site-header .search-form .search-field {
+display: block;
+padding: 0;
+}
+.site-header .top-nav .container {
+flex-wrap: wrap;
+justify-content: start;
+gap: 10px 20px;
+}
+.site-header .social-icons {
+margin-left: 0px;
+}
+}
+@media all and (max-width: 992px) {
+.site-header .search-form {
+margin-right: 50px;
+}
+.site-header .top-nav {
+font-size: 0.71rem;
+}
+}
+@media all and (max-width: 480px) {
+.site-header .social-icons img {
+width: 20px;
+}
+}
+@media all and (max-width: 430px) {
+.site-header .site-header .top-nav {
+font-size: 0.71rem;
+}
+}
+.search-form {
+width: 180px;
+flex-shrink: 0;
+position: relative;
+font-size: 0;
+line-height: 0;
+}
+.search-form .search-field {
+width: 100%;
+border-radius: 7.5px;
+height: 33px;
+font-size: 14px;
+line-height: 1.25;
+padding: 7px;
+padding-left: 33px;
+border: 0;
+outline: none;
+font-weight: normal;
+}
+.search-form .search-field::-webkit-input-placeholder {
+line-height: 1.4;
+}
+.search-form .search-field:-moz-placeholder {
+line-height: 1.4;
+}
+.search-form .search-field::-moz-placeholder {
+line-height: 1.4;
+}
+.search-form .search-field:-ms-input-placeholder {
+line-height: 1.4;
+}
+.search-form .search-submit {
+position: absolute;
+z-index: 2;
+left: 0;
+top: 0;
+cursor: pointer;
+background: url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/icon-search.svg) no-repeat center center;
+background-size: 17px 17px;
+border: 0;
+padding: 0;
+width: 33px;
+height: 33px;
+}
+.search-form .search-submit:hover {
+background-color: rgba(0, 0, 0, 0);
+}
+@media all and (min-width: 980px) and (max-width: 1280px) {
+header .search-form {
+width: 35px;
+padding: 0;
+}
+header .search-form .search-field {
+display: block;
+padding: 0;
+}
+header .search-form .search-field::-webkit-input-placeholder {
+color: rgba(0, 0, 0, 0);
+}
+header .search-form .search-field:-moz-placeholder {
+color: rgba(0, 0, 0, 0);
+}
+header .search-form .search-field::-moz-placeholder {
+color: rgba(0, 0, 0, 0);
+}
+header .search-form .search-field:-ms-input-placeholder {
+color: rgba(0, 0, 0, 0);
+}
+}
+.old-dutch-foods-brand .search-form {
+width: 160px;
+}
+@media screen and (min-width: 992px) {
+.mobile-nav-bottom,
+.menu-toggle {
+display: none;
+}
+.main-navigation {
+display: block;
+width: 100%;
+}
+.main-navigation li.menu-item-object-product-brand > a {
+display: flex !important;
+align-items: center;
+justify-content: space-between;
+font-size: 1.125rem;
+line-height: 1.3;
+color: #231f20;
+text-transform: uppercase;
+letter-spacing: 0.02em;
+font-weight: bold;
+}
+.main-navigation li.menu-item-object-product-brand > a .menu-item-logo {
+width: 80px;
+height: 80px;
+vertical-align: middle;
+float: right;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.main-navigation li.menu-item-object-product-brand > a .menu-item-logo img {
+width: 100%;
+height: auto;
+}
+}
+@media screen and (min-width: 992px) and (min-width: 1440px) {
+.main-navigation li.menu-item-object-product-brand > a {
+font-size: 1.25rem;
+line-height: 1.5;
+}
+}
+@media screen and (min-width: 992px) {
+.main-navigation .menu-nav-brand-container,
+.main-navigation .menu-nav-old-dutch-container,
+.main-navigation .menu-nav-corporate-container {
+display: block;
+vertical-align: middle;
+width: 100%;
+}
+.main-navigation .menu-nav-brand-container ul,
+.main-navigation .menu-nav-old-dutch-container ul,
+.main-navigation .menu-nav-corporate-container ul {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+.main-navigation .menu-nav-brand-container > ul,
+.main-navigation .menu-nav-old-dutch-container > ul,
+.main-navigation .menu-nav-corporate-container > ul {
+width: 98%;
+display: flex;
+justify-content: space-evenly;
+flex-wrap: wrap;
+margin: 0 auto;
+}
+}
+@media screen and (min-width: 992px) and (min-width: 1680px) {
+.main-navigation .menu-nav-brand-container > ul,
+.main-navigation .menu-nav-old-dutch-container > ul,
+.main-navigation .menu-nav-corporate-container > ul {
+width: 90%;
+}
+}
+@media screen and (min-width: 992px) {
+.main-navigation .menu-nav-brand-container > ul li,
+.main-navigation .menu-nav-old-dutch-container > ul li,
+.main-navigation .menu-nav-corporate-container > ul li {
+position: relative;
+margin-bottom: 0;
+}
+.main-navigation .menu-nav-brand-container > ul li a,
+.main-navigation .menu-nav-old-dutch-container > ul li a,
+.main-navigation .menu-nav-corporate-container > ul li a {
+display: inline-block;
+text-decoration: none;
+color: #fff;
+}
+.main-navigation .menu-nav-brand-container > ul li:hover > a,
+.main-navigation .menu-nav-brand-container > ul li.focus > a,
+.main-navigation .menu-nav-old-dutch-container > ul li:hover > a,
+.main-navigation .menu-nav-old-dutch-container > ul li.focus > a,
+.main-navigation .menu-nav-corporate-container > ul li:hover > a,
+.main-navigation .menu-nav-corporate-container > ul li.focus > a {
+color: #fff;
+opacity: 0.75;
+}
+.main-navigation .menu-nav-brand-container > ul > li,
+.main-navigation .menu-nav-old-dutch-container > ul > li,
+.main-navigation .menu-nav-corporate-container > ul > li {
+margin-right: 30px;
+}
+.main-navigation .menu-nav-brand-container > ul > li > a,
+.main-navigation .menu-nav-old-dutch-container > ul > li > a,
+.main-navigation .menu-nav-corporate-container > ul > li > a {
+padding: 5px 0;
+color: #fff;
+font-weight: bold;
+text-transform: uppercase;
+font-size: 1.0625rem;
+letter-spacing: 0.01em;
+}
+}
+@media screen and (min-width: 992px) and (min-width: 1280px) {
+.main-navigation .menu-nav-brand-container > ul > li,
+.main-navigation .menu-nav-old-dutch-container > ul > li,
+.main-navigation .menu-nav-corporate-container > ul > li {
+margin-right: 10px;
+}
+.main-navigation .menu-nav-brand-container > ul > li > a,
+.main-navigation .menu-nav-old-dutch-container > ul > li > a,
+.main-navigation .menu-nav-corporate-container > ul > li > a {
+font-size: 1.125rem;
+}
+}
+@media screen and (min-width: 992px) and (min-width: 1440px) {
+.main-navigation .menu-nav-brand-container > ul > li,
+.main-navigation .menu-nav-old-dutch-container > ul > li,
+.main-navigation .menu-nav-corporate-container > ul > li {
+margin-right: 30px;
+}
+.main-navigation .menu-nav-brand-container > ul > li > a,
+.main-navigation .menu-nav-old-dutch-container > ul > li > a,
+.main-navigation .menu-nav-corporate-container > ul > li > a {
+font-size: 1.25rem;
+}
+}
+@media screen and (min-width: 992px) and (min-width: 1680px) {
+.main-navigation .menu-nav-brand-container > ul > li,
+.main-navigation .menu-nav-old-dutch-container > ul > li,
+.main-navigation .menu-nav-corporate-container > ul > li {
+margin-right: 30px;
+}
+.main-navigation .menu-nav-brand-container > ul > li > a,
+.main-navigation .menu-nav-old-dutch-container > ul > li > a,
+.main-navigation .menu-nav-corporate-container > ul > li > a {
+font-size: 1.3rem;
+letter-spacing: 0.02em;
+}
+}
+@media screen and (min-width: 992px) {
+.main-navigation .menu-nav-brand-container > ul > li.menu-item-has-children,
+.main-navigation
+.menu-nav-old-dutch-container
+> ul
+> li.menu-item-has-children,
+.main-navigation
+.menu-nav-corporate-container
+> ul
+> li.menu-item-has-children {
+padding-right: 22px;
+position: relative;
+}
+.main-navigation
+.menu-nav-brand-container
+> ul
+> li.menu-item-has-children:after,
+.main-navigation
+.menu-nav-old-dutch-container
+> ul
+> li.menu-item-has-children:after,
+.main-navigation
+.menu-nav-corporate-container
+> ul
+> li.menu-item-has-children:after {
+content: "";
+display: inline-block;
+width: 15px;
+height: 10px;
+background: url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/icon-arrow.svg) no-repeat center center;
+background-size: cover;
+position: absolute;
+top: 50%;
+right: 0;
+transform: translateY(-50%);
+}
+}
+@media screen and (min-width: 992px) and (min-width: 1440px) {
+.main-navigation .menu-nav-brand-container > ul > li.menu-item-has-children,
+.main-navigation
+.menu-nav-old-dutch-container
+> ul
+> li.menu-item-has-children,
+.main-navigation
+.menu-nav-corporate-container
+> ul
+> li.menu-item-has-children {
+padding-right: 22px;
+}
+.main-navigation
+.menu-nav-brand-container
+> ul
+> li.menu-item-has-children:after,
+.main-navigation
+.menu-nav-old-dutch-container
+> ul
+> li.menu-item-has-children:after,
+.main-navigation
+.menu-nav-corporate-container
+> ul
+> li.menu-item-has-children:after {
+width: 15px;
+height: 10px;
+}
+}
+@media screen and (min-width: 992px) {
+.main-navigation .menu-nav-brand-container > ul > li:last-child,
+.main-navigation .menu-nav-old-dutch-container > ul > li:last-child,
+.main-navigation .menu-nav-corporate-container > ul > li:last-child {
+margin-right: 0;
+}
+.main-navigation .menu-nav-brand-container > ul ul.sub-menu,
+.main-navigation .menu-nav-old-dutch-container > ul ul.sub-menu,
+.main-navigation .menu-nav-corporate-container > ul ul.sub-menu {
+display: none;
+box-shadow: 0 3px 10px rgba(0, 0, 0, 0.33);
+float: left;
+position: absolute;
+top: 100%;
+left: -999em;
+z-index: 99999;
+background-color: #053c4a;
+padding: 10px;
+text-align: left;
+margin-left: -10px;
+}
+.main-navigation .menu-nav-brand-container > ul ul.sub-menu li,
+.main-navigation .menu-nav-old-dutch-container > ul ul.sub-menu li,
+.main-navigation .menu-nav-corporate-container > ul ul.sub-menu li {
+margin-bottom: 10px;
+}
+.main-navigation .menu-nav-brand-container > ul ul.sub-menu li:last-child,
+.main-navigation .menu-nav-old-dutch-container > ul ul.sub-menu li:last-child,
+.main-navigation
+.menu-nav-corporate-container
+> ul
+ul.sub-menu
+li:last-child {
+margin-bottom: 0;
+}
+.main-navigation .menu-nav-brand-container > ul ul.sub-menu li:hover > ul,
+.main-navigation .menu-nav-brand-container > ul ul.sub-menu li.focus > ul,
+.main-navigation .menu-nav-old-dutch-container > ul ul.sub-menu li:hover > ul,
+.main-navigation .menu-nav-old-dutch-container > ul ul.sub-menu li.focus > ul,
+.main-navigation .menu-nav-corporate-container > ul ul.sub-menu li:hover > ul,
+.main-navigation
+.menu-nav-corporate-container
+> ul
+ul.sub-menu
+li.focus
+> ul {
+display: block;
+left: auto;
+}
+.main-navigation .menu-nav-brand-container > ul ul.sub-menu li:hover > a,
+.main-navigation .menu-nav-brand-container > ul ul.sub-menu li .focus > a,
+.main-navigation .menu-nav-old-dutch-container > ul ul.sub-menu li:hover > a,
+.main-navigation .menu-nav-old-dutch-container > ul ul.sub-menu li .focus > a,
+.main-navigation .menu-nav-corporate-container > ul ul.sub-menu li:hover > a,
+.main-navigation
+.menu-nav-corporate-container
+> ul
+ul.sub-menu
+li
+.focus
+> a {
+background-color: #dbdbdb;
+color: #053c4a;
+}
+.main-navigation .menu-nav-brand-container > ul ul.sub-menu a,
+.main-navigation .menu-nav-old-dutch-container > ul ul.sub-menu a,
+.main-navigation .menu-nav-corporate-container > ul ul.sub-menu a {
+display: block;
+background-color: #fff;
+padding: 10px;
+width: 300px;
+color: #053c4a;
+transition: all ease-in-out 0.2s;
+}
+}
+@media screen and (min-width: 992px) and (min-width: 1440px) {
+.main-navigation .menu-nav-brand-container > ul ul.sub-menu,
+.main-navigation .menu-nav-old-dutch-container > ul ul.sub-menu,
+.main-navigation .menu-nav-corporate-container > ul ul.sub-menu {
+padding: 10px;
+margin-left: -10px;
+}
+.main-navigation .menu-nav-brand-container > ul ul.sub-menu a,
+.main-navigation .menu-nav-old-dutch-container > ul ul.sub-menu a,
+.main-navigation .menu-nav-corporate-container > ul ul.sub-menu a {
+padding: 10px;
+width: 350px;
+}
+}
+@media screen and (min-width: 992px) {
+.main-navigation .menu-nav-brand-container > ul li:hover > ul,
+.main-navigation .menu-nav-brand-container > ul li.focus > ul,
+.main-navigation .menu-nav-old-dutch-container > ul li:hover > ul,
+.main-navigation .menu-nav-old-dutch-container > ul li.focus > ul,
+.main-navigation .menu-nav-corporate-container > ul li:hover > ul,
+.main-navigation .menu-nav-corporate-container > ul li.focus > ul {
+display: block;
+left: auto;
+}
+.main-navigation .menu-nav-brand-container .current_page_item > a,
+.main-navigation .menu-nav-brand-container .current-menu-item > a,
+.main-navigation .menu-nav-brand-container .current_page_ancestor > a,
+.main-navigation .menu-nav-brand-container .current-menu-ancestor > a,
+.main-navigation .menu-nav-old-dutch-container .current_page_item > a,
+.main-navigation .menu-nav-old-dutch-container .current-menu-item > a,
+.main-navigation .menu-nav-old-dutch-container .current_page_ancestor > a,
+.main-navigation .menu-nav-old-dutch-container .current-menu-ancestor > a,
+.main-navigation .menu-nav-corporate-container .current_page_item > a,
+.main-navigation .menu-nav-corporate-container .current-menu-item > a,
+.main-navigation .menu-nav-corporate-container .current_page_ancestor > a,
+.main-navigation .menu-nav-corporate-container .current-menu-ancestor > a {
+color: #fff;
+opacity: 0.75;
+}
+.main-navigation .menu-nav-old-dutch-container > ul > li {
+margin-right: 9px;
+}
+.main-navigation .menu-nav-old-dutch-container > ul > li > a {
+font-size: 0.9rem;
+}
+}
+@media screen and (min-width: 992px) and (min-width: 1280px) {
+.main-navigation .menu-nav-old-dutch-container > ul > li {
+margin-right: 16px;
+}
+.main-navigation .menu-nav-old-dutch-container > ul > li > a {
+font-size: 1rem;
+}
+}
+@media all and (max-width: 992px) {
+.mobile-nav-bottom,
+.menu-nav-brand-container,
+.menu-nav-old-dutch-container,
+.menu-nav-corporate-container {
+display: none;
+}
+.main-navigation.toggled {
+position: fixed;
+z-index: 101;
+top: 0;
+left: 0;
+background-color: #053c4a;
+color: #fff;
+text-align: center;
+padding: 20px;
+width: 100%;
+height: calc(100% + 100px);
+padding-bottom: 100px;
+display: flex;
+flex-direction: column;
+}
+.main-navigation.toggled .menu-toggle {
+top: 30px;
+transform: translateY(0);
+}
+.main-navigation.toggled .mobile-nav-bottom {
+display: block;
+margin-top: auto;
+}
+.main-navigation.toggled .mobile-nav-bottom div {
+margin-bottom: 10px;
+}
+.main-navigation.toggled .mobile-nav-bottom .search-form {
+width: 100%;
+max-width: 320px;
+margin: 0 auto;
+display: block;
+}
+.main-navigation.toggled .mobile-nav-bottom .search-form .search-field {
+padding: 7px;
+padding-right: 45px;
+border-radius: 3px;
+}
+.main-navigation.toggled .mobile-nav-bottom .search-form .search-submit {
+left: auto;
+right: 0;
+}
+.main-navigation.toggled .menu-nav-brand-container,
+.main-navigation.toggled .menu-nav-old-dutch-container,
+.main-navigation.toggled .menu-nav-corporate-container {
+display: flex;
+width: 100%;
+height: 100%;
+align-items: center;
+justify-content: center;
+overflow-y: auto;
+padding: 20px;
+}
+.main-navigation.toggled .menu-nav-brand-container ul,
+.main-navigation.toggled .menu-nav-old-dutch-container ul,
+.main-navigation.toggled .menu-nav-corporate-container ul {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+.main-navigation.toggled .menu-nav-brand-container ul li,
+.main-navigation.toggled .menu-nav-old-dutch-container ul li,
+.main-navigation.toggled .menu-nav-corporate-container ul li {
+margin-bottom: 5px;
+line-height: 1;
+}
+.main-navigation.toggled .menu-nav-brand-container ul li a,
+.main-navigation.toggled .menu-nav-old-dutch-container ul li a,
+.main-navigation.toggled .menu-nav-corporate-container ul li a {
+display: block;
+color: #fff;
+padding: 0.25em 1em;
+text-decoration: none;
+}
+.main-navigation.toggled .menu-nav-brand-container > ul > li,
+.main-navigation.toggled .menu-nav-old-dutch-container > ul > li,
+.main-navigation.toggled .menu-nav-corporate-container > ul > li {
+margin-bottom: 10px;
+}
+.main-navigation.toggled .menu-nav-brand-container > ul > li > a,
+.main-navigation.toggled .menu-nav-old-dutch-container > ul > li > a,
+.main-navigation.toggled .menu-nav-corporate-container > ul > li > a {
+display: block;
+font-size: 1.5rem;
+border-bottom: 1px dotted #fff;
+margin-bottom: 10px;
+text-transform: uppercase;
+}
+.main-navigation.toggled .menu-nav-brand-container > ul ul.sub-menu,
+.main-navigation.toggled .menu-nav-old-dutch-container > ul ul.sub-menu,
+.main-navigation.toggled .menu-nav-corporate-container > ul ul.sub-menu {
+margin-bottom: 20px;
+}
+.main-navigation.toggled .menu-nav-brand-container > ul ul.sub-menu > li > a,
+.main-navigation.toggled
+.menu-nav-old-dutch-container
+> ul
+ul.sub-menu
+> li
+> a,
+.main-navigation.toggled
+.menu-nav-corporate-container
+> ul
+ul.sub-menu
+> li
+> a {
+font-size: 1rem;
+}
+.main-navigation.toggled
+.menu-nav-brand-container
+> ul
+ul.sub-menu
+> li.menu-item-object-product-brand
+> a,
+.main-navigation.toggled
+.menu-nav-old-dutch-container
+> ul
+ul.sub-menu
+> li.menu-item-object-product-brand
+> a,
+.main-navigation.toggled
+.menu-nav-corporate-container
+> ul
+ul.sub-menu
+> li.menu-item-object-product-brand
+> a {
+text-transform: uppercase;
+letter-spacing: 0.05em;
+font-weight: bold;
+font-size: 1.1rem;
+padding: 0.5em 1em;
+margin-bottom: 1px;
+}
+.main-navigation.toggled
+.menu-nav-brand-container
+> ul
+ul.sub-menu
+> li.menu-item-object-product-brand
+> a
+.menu-item-logo,
+.main-navigation.toggled
+.menu-nav-old-dutch-container
+> ul
+ul.sub-menu
+> li.menu-item-object-product-brand
+> a
+.menu-item-logo,
+.main-navigation.toggled
+.menu-nav-corporate-container
+> ul
+ul.sub-menu
+> li.menu-item-object-product-brand
+> a
+.menu-item-logo {
+display: none;
+}
+.main-navigation.toggled .menu-toggle .icon-bar:nth-child(1) {
+transform: rotate(45deg);
+transform-origin: center center;
+top: 9px;
+}
+.main-navigation.toggled .menu-toggle .icon-bar:nth-child(2) {
+opacity: 0;
+}
+.main-navigation.toggled .menu-toggle .icon-bar:nth-child(3) {
+transform: rotate(-45deg);
+transform-origin: center center;
+bottom: 9px;
+}
+.menu-toggle {
+display: block;
+padding: 0;
+width: 30px;
+height: 20px;
+transition: transform 0.5s ease-out;
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+right: 20px;
+z-index: 1;
+background: none;
+border: 0;
+cursor: pointer;
+outline: 0;
+}
+.menu-toggle:hover {
+background: none;
+}
+.menu-toggle:focus {
+outline: 0;
+}
+.menu-toggle .text {
+text-indent: -9999em !important;
+font-size: 0;
+}
+.menu-toggle .icon-bar {
+position: absolute;
+z-index: 1;
+left: 0;
+display: block;
+width: 100%;
+height: 2px;
+background: #fff;
+-webkit-transition: all 0.5s ease-out;
+-o-transition: all 0.5s ease-out;
+transition: all 0.5s ease-out;
+}
+.menu-toggle .icon-bar:nth-child(1) {
+top: 0;
+}
+.menu-toggle .icon-bar:nth-child(2) {
+top: 50%;
+opacity: 1;
+margin-top: -1px;
+}
+.menu-toggle .icon-bar:nth-child(3) {
+bottom: 0;
+}
+}
+.navigation.pagination {
+font-size: 0;
+margin-bottom: 30px;
+}
+.navigation.pagination span,
+.navigation.pagination a {
+display: inline-block;
+margin-right: 10px;
+font-size: 1.25rem;
+padding: 0.15em 0.5em;
+min-width: 35px;
+text-align: center;
+text-decoration: none;
+border-radius: 3px;
+}
+.navigation.pagination a:hover {
+background-color: #eef0f2;
+}
+.navigation.pagination span.current {
+background-color: #cf1919;
+color: #fff;
+}
+@media all and (max-height: 414px) {
+.menu.nav-menu {
+min-width: 310px;
+}
+.main-navigation.toggled .menu-nav-brand-container > ul > li,
+.main-navigation.toggled .menu-nav-old-dutch-container > ul > li,
+.main-navigation.toggled .menu-nav-corporate-container > ul > li {
+margin-bottom: 5px;
+}
+.main-navigation.toggled .menu-nav-brand-container > ul > li > a,
+.main-navigation.toggled .menu-nav-old-dutch-container > ul > li > a,
+.main-navigation.toggled .menu-nav-corporate-container > ul > li > a {
+font-size: 1.125rem;
+margin-bottom: 5px;
+font-weight: bold;
+}
+.main-navigation.toggled .menu-nav-brand-container > ul ul.sub-menu,
+.main-navigation.toggled .menu-nav-old-dutch-container > ul ul.sub-menu,
+.main-navigation.toggled .menu-nav-corporate-container > ul ul.sub-menu {
+margin-bottom: 15px;
+}
+.main-navigation.toggled
+.menu-nav-brand-container
+> ul
+ul.sub-menu
+> li.menu-item-object-product-brand
+> a,
+.main-navigation.toggled
+.menu-nav-old-dutch-container
+> ul
+ul.sub-menu
+> li.menu-item-object-product-brand
+> a,
+.main-navigation.toggled
+.menu-nav-corporate-container
+> ul
+ul.sub-menu
+> li.menu-item-object-product-brand
+> a {
+font-size: 1rem;
+padding: 0 1em;
+margin-top: 15px;
+font-weight: normal;
+}
+}
+article.type-page .entry-content {
+padding: 30px 0;
+}
+.no-results.not-found {
+padding: 30px 0;
+text-align: center;
+}
+.no-results.not-found .search-form-wrapper {
+margin-top: 30px;
+padding: 30px;
+background-color: #053c4a;
+border-radius: 10px;
+}
+.navigation.posts-navigation {
+padding: 0 0 30px 0;
+font-size: 1.25rem;
+}
+.navigation.posts-navigation a {
+color: #053c4a;
+}
+html[lang="en-US"] {
+margin-top: 0 !important;
+}
+@media (min-width: 992px) {
+html[lang="en-US"] body.admin-bar {
+margin-top: 32px !important;
+}
+}
+#wpadminbar {
+display: none;
+}
+@media (min-width: 992px) {
+#wpadminbar {
+display: block;
+}
+}
+.video-container {
+position: relative;
+padding-bottom: 56.25%;
+padding-top: 30px;
+height: 0;
+overflow: hidden;
+}
+.video-container iframe,
+.video-container object,
+.video-container embed {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+}
+.wp-caption {
+margin-bottom: 1.5em;
+max-width: 100%;
+}
+.wp-caption img[class*="wp-image-"] {
+display: block;
+margin-left: auto;
+margin-right: auto;
+}
+.wp-caption .wp-caption-text {
+margin: 0.8075em 0;
+}
+.wp-caption-text {
+text-align: center;
+}
+.site-footer {
+background-color: #363636;
+color: #fff;
+font-family: Montserrat, sans-serif;
+font-size: 0.875rem;
+font-weight: 500;
+text-align: center;
+}
+.site-footer .container {
+padding-top: 30px;
+padding-bottom: 30px;
+}
+@media (min-width: 1280px) {
+.site-footer .container {
+padding-top: 70px;
+padding-bottom: 70px;
+}
+}
+.site-footer a {
+color: #fefefe;
+}
+.site-footer a:hover {
+color: #fff;
+}
+.site-footer .menu {
+list-style: none;
+padding: 0;
+margin: 1rem 0;
+}
+.site-footer .menu li {
+margin: 0;
+display: inline;
+letter-spacing: 0.05em;
+font-weight: bold;
+}
+.site-footer .menu li:after {
+content: "|";
+display: inline-block;
+margin: 0 0.5em;
+}
+.site-footer .menu li:last-child:after {
+display: none;
+}
+.site-footer .menu a {
+text-transform: uppercase;
+}
+.site-footer .copyright {
+margin-top: 1.5em;
+}
+.site-footer .social-icons {
+list-style: none;
+padding: 0;
+margin: 0 auto;
+display: inline-block;
+}
+.site-footer .social-icons li {
+margin: 0 10px;
+display: inline-block;
+float: left;
+}
+.site-footer .social-icons img {
+width: 30px;
+height: auto;
+}
+.site-footer .social-icons a {
+text-decoration: none;
+}
+.site-footer .social-icons a:hover img {
+opacity: 0.8;
+transition: opacity ease-in-out 0.1s;
+}
+.site-footer .site-branding {
+max-width: 250px;
+margin: 0 auto;
+}
+@media (min-width: 992px) {
+.site-footer .site-branding {
+max-width: none;
+margin: 0;
+}
+}
+@media (min-width: 560px) {
+.site-footer {
+font-size: 0.875rem;
+}
+.site-footer .social-icons li {
+margin: 0 10px;
+font-size: 0;
+line-height: 1;
+}
+.site-footer .social-icons img {
+width: 40px;
+height: auto;
+}
+}
+@media (min-width: 1280px) {
+.site-footer {
+font-size: 1rem;
+text-align: left;
+}
+.site-footer .menu-nav-footer-container {
+float: left;
+}
+.site-footer .social-icons {
+margin: 0 0 0 1em;
+}
+.site-footer .social-icons img {
+position: relative;
+bottom: -5px;
+}
+.site-footer .row {
+display: flex;
+}
+.site-footer .col-left {
+max-width: 330px;
+}
+}
+@media (min-width: 1680px) {
+.site-footer {
+font-size: 1.0625rem;
+}
+.site-footer .site-branding img {
+width: 100%;
+height: auto;
+}
+.site-footer .social-icons {
+margin: 0.5em 0 0.5em 2em;
+}
+.site-footer .social-icons img {
+position: relative;
+bottom: 0;
+}
+.site-footer .menu {
+margin: 1rem 0;
+}
+.site-footer .copyright {
+margin-top: 2em;
+}
+}
+.site-footer .menu-nav-footer-brands-container {
+clear: both;
+}
+.page-intro {
+background-color: #cf1919;
+}
+.page-intro .image img {
+-o-object-fit: cover;
+object-fit: cover;
+-o-object-position: center;
+object-position: center;
+display: block;
+width: 100%;
+height: 100%;
+}
+.page-intro .content {
+position: relative;
+color: #fff;
+width: 100%;
+max-width: 1800px;
+padding: 30px;
+margin: 0 auto;
+}
+.page-intro .content.with-image {
+max-width: none;
+margin: auto;
+width: auto;
+}
+.page-intro .content .inner {
+position: relative;
+z-index: 1;
+}
+.page-intro .content h1 {
+text-transform: uppercase;
+margin-bottom: 15px;
+font-weight: 800;
+text-transform: uppercase;
+color: inherit;
+}
+.page-intro .content p {
+margin-bottom: 0.5em;
+}
+.page-intro .content p:last-of-type {
+margin-bottom: 0;
+}
+.page-intro .slider-container {
+width: 100%;
+}
+.page-intro .slider-container .swiper-container-autoheight .swiper-wrapper,
+.page-intro .slider-container .swiper-slide {
+height: 100% !important;
+}
+.page-intro .slider-container .swiper-slide img {
+display: block;
+height: 100%;
+width: 100%;
+object-fit: cover;
+object-position: center;
+}
+@media (min-width: 992px) {
+.page-intro .slider-container {
+width: 50%;
+}
+}
+@media (min-width: 992px) {
+.page-intro {
+display: flex;
+}
+.page-intro .image,
+.page-intro .content.with-image {
+width: 50%;
+}
+}
+@media (min-width: 1440px) {
+.page-intro .image {
+width: 40%;
+}
+.page-intro .content.with-image {
+width: 60%;
+padding: 70px 6vw 70px 6vw;
+}
+.page-intro .content h1 {
+margin-bottom: 20px;
+font-weight: 800;
+}
+}
+.wpcf7 form .form-contact-wraper {
+margin: 30px 0 0;
+padding: 20px;
+background-color: #ececec;
+}
+.wpcf7 form .form-contact-wraper h2 {
+margin-top: 0;
+}
+.wpcf7 form .form-contact-wraper h2 span {
+display: inline-block;
+background-color: #ececec;
+padding-right: 3vw;
+}
+.wpcf7 form .form-contact-wraper h2:after {
+content: "";
+display: inline-block;
+vertical-align: middle;
+background: url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/cf7-arrow.svg) no-repeat right center;
+background-size: contain;
+width: 100%;
+height: 38px;
+position: relative;
+top: -8px;
+}
+@media (min-width: 480px) {
+.wpcf7 form .form-contact-wraper h2:after {
+width: auto;
+min-width: 380px;
+}
+}
+@media (min-width: 768px) {
+.wpcf7 form .form-contact-wraper {
+padding: 30px;
+}
+}
+@media (min-width: 992px) {
+.wpcf7 form .form-contact-wraper {
+padding: 40px;
+}
+}
+.wpcf7 form .form-contact-wraper .form-row .item {
+width: 100%;
+margin-top: 1em;
+}
+@media (min-width: 1280px) {
+.wpcf7 form .form-contact-wraper .form-row {
+display: flex;
+justify-content: space-between;
+}
+.wpcf7 form .form-contact-wraper .form-row.one-item .item {
+width: 100%;
+}
+.wpcf7 form .form-contact-wraper .form-row.two-items .item {
+width: calc(50% - 1vw);
+}
+.wpcf7 form .form-contact-wraper .form-row.three-items .item {
+width: calc(40% - 2vw);
+}
+.wpcf7 form .form-contact-wraper .form-row.three-items .item:nth-child(3n) {
+width: calc(20% - 2vw);
+}
+}
+.wpcf7 form .form-contact-wraper input,
+.wpcf7 form .form-contact-wraper select,
+.wpcf7 form .form-contact-wraper textarea {
+width: 100%;
+border: 0;
+padding: 10px;
+}
+.wpcf7 form .form-contact-wraper label {
+font-weight: bold;
+}
+.wpcf7 form .form-contact-wraper .btn,
+.wpcf7 form .form-contact-wraper input[type="submit"],
+.wpcf7 form .form-contact-wraper input[type="button"],
+.wpcf7 form .form-contact-wraper button {
+display: block;
+border-radius: 7.5px;
+padding: 0.75em;
+}
+@media (min-width: 768px) {
+.wpcf7 form .form-contact-wraper .btn,
+.wpcf7 form .form-contact-wraper input[type="submit"],
+.wpcf7 form .form-contact-wraper input[type="button"],
+.wpcf7 form .form-contact-wraper button {
+border-radius: 10px;
+padding: 15px;
+}
+}
+@media (min-width: 992px) {
+.wpcf7 form .form-contact-wraper .btn,
+.wpcf7 form .form-contact-wraper input[type="submit"],
+.wpcf7 form .form-contact-wraper input[type="button"],
+.wpcf7 form .form-contact-wraper button {
+border-radius: 15px;
+padding: 20px;
+}
+}
+@media (min-width: 1280px) {
+.wpcf7 form .form-contact-wraper .btn,
+.wpcf7 form .form-contact-wraper input[type="submit"],
+.wpcf7 form .form-contact-wraper input[type="button"],
+.wpcf7 form .form-contact-wraper button {
+position: relative;
+bottom: -18px;
+}
+}
+.wpcf7 form .ajax-loader {
+display: none;
+}
+.wpcf7 form .ajax-loader.is-active {
+display: inline-block;
+}
+.wpcf7 form .wpcf7-response-output {
+margin: 1em 0 0 0;
+text-align: center;
+}
+body .mfp-bg {
+opacity: 0.25;
+background-color: #000;
+}
+body .mfp-wrap {
+position: fixed !important;
+height: 90% !important;
+max-height: 90%;
+width: calc(100% - 30px);
+max-width: calc(100% - 30px);
+overflow: hidden;
+top: 0 !important;
+left: 15px;
+margin-top: 10%;
+}
+@media (min-width: 992px) {
+body .mfp-wrap {
+height: 80% !important;
+max-height: 80%;
+width: 80%;
+max-width: 800px;
+top: 50% !important;
+left: 50%;
+transform: translate(-50%, -50%);
+margin-top: 0;
+margin-left: -8px;
+}
+}
+body .mfp-container {
+height: 100%;
+overflow-y: auto;
+overflow: hidden;
+padding-left: 0;
+padding-right: 0;
+}
+body .mfp-content {
+height: 100%;
+}
+@media (min-width: 768px) {
+body.admin-bar .mfp-wrap {
+margin-top: 16px;
+max-height: calc(100% - 30px);
+}
+}
+@media (min-width: 992px) {
+body.admin-bar .mfp-wrap {
+max-height: calc(80% - 30px);
+}
+}
+.screen-reader-text {
+border: 0;
+clip: rect(1px, 1px, 1px, 1px);
+clip-path: inset(50%);
+height: 1px;
+margin: -1px;
+overflow: hidden;
+padding: 0;
+position: absolute !important;
+width: 1px;
+word-wrap: normal !important;
+}
+.screen-reader-text:focus {
+background-color: #f1f1f1;
+border-radius: 3px;
+box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+clip: auto !important;
+clip-path: none;
+color: #424242;
+display: block;
+font-size: 0.875rem;
+font-weight: 700;
+height: auto;
+left: 5px;
+line-height: normal;
+padding: 15px 23px 14px;
+text-decoration: none;
+top: 5px;
+width: auto;
+z-index: 100000;
+}
+.alignleft {
+float: left;
+margin-right: 1.5em;
+margin-bottom: 1.5em;
+}
+.alignright {
+float: right;
+margin-left: 1.5em;
+margin-bottom: 1.5em;
+}
+.aligncenter {
+clear: both;
+display: block;
+margin-left: auto;
+margin-right: auto;
+margin-bottom: 1.5em;
+}.page-intro-video video {
+width: 100vw;
+max-height: 50vh;
+object-fit: cover;
+}
+.quality-grows-here-h1 {
+text-align: center;
+margin: 0 auto;
+margin-bottom: 25px;
+max-width: 500px;
+}
+body.page-quality-grows-here
+.site-main
+.container:not(.growshere-img-container) {
+max-width: 100%;
+padding-right: 0;
+padding-left: 0;
+}
+body.page-quality-grows-here .entry-content {
+padding: 50px 0;
+}
+body.page-quality-grows-here .growshere-text-container {
+margin: 0 auto;
+max-width: 705px;
+padding-left: 15px;
+padding-right: 15px;
+text-align: center;
+}
+body.page-quality-grows-here .content-block {
+display: flex;
+flex-wrap: wrap;
+margin-bottom: 20px;
+}
+body.page-quality-grows-here .content-block img {
+width: 100%;
+order: 2;
+-o-object-fit: cover;
+object-fit: cover;
+-o-object-position: center;
+object-position: center;
+display: block;
+width: 100%;
+height: auto;
+}
+body.page-quality-grows-here .content-block .content {
+width: 100%;
+order: 1;
+background-color: #fec003;
+padding: 30px;
+}
+body.page-quality-grows-here .content-block .content h1 {
+text-transform: uppercase;
+margin-bottom: 30px;
+font-weight: 700;
+}
+body.page-quality-grows-here .content-block .content p {
+margin-bottom: 0.5em;
+}
+body.page-quality-grows-here .content-block .content p:last-of-type {
+margin-bottom: 0;
+}
+body.page-quality-grows-here .content-block.background-red .content {
+color: #fff;
+background-color: #cf1919;
+}
+body.page-quality-grows-here .content-block.background-green .content {
+color: #fff;
+background-color: #053c4a;
+}
+@media (min-width: 992px) {
+body.page-quality-grows-here .content-block img,
+body.page-quality-grows-here .content-block .content {
+width: 50%;
+}
+body.page-quality-grows-here .content-block img {
+width: 30%;
+order: 2;
+}
+body.page-quality-grows-here .content-block .content {
+order: 1;
+width: 70%;
+padding: 100px 4vw 80px 6vw;
+align-items: center;
+}
+body.page-quality-grows-here .content-block.image-left img {
+order: 1;
+}
+body.page-quality-grows-here .content-block.image-left .content {
+order: 2;
+}
+}
+@media (min-width: 1440px) {
+.quality-grows-here-h1 {
+max-width: 65vw;
+}
+}
+@media (max-width: 560px) {
+body.page-quality-grows-here .entry-content {
+padding: 30px 0;
+}
+body.page-quality-grows-here .content-block {
+margin-bottom: 10px;
+}
+}body.project-nice-approved{background-color:#fec003}body.project-nice-approved .page-intro .image{background-color:#fff;display:flex;justify-content:center;align-items:center}body.project-nice-approved .page-intro .image img{max-height:400px;width:auto}.nutritionWrapper{font-size:80%;margin:0 auto;color:#333;line-height:normal;max-width:430px !important;width:100% !important}.nutritionWrapper *{color:#000;font-family:Montserrat,sans-serif;line-height:1.5}.nutritionWrapper .fct_facts{border:2px solid #000;padding:5px}.nutritionWrapper .fct_facts p{font-size:13px;margin:0}.nutritionWrapper .fct_facts h3{font-size:18px;font-weight:bold;margin:0;font-family:Montserrat,sans-serif}.nutritionWrapper .fct_calories{border-top:2px solid #000}.nutritionWrapper .fct_calories td{border-top:1px solid #000;font-size:12px}.nutritionWrapper .fct_calories td.sub_category{padding-left:5px}.nutritionWrapper .fct_minerals td{border-top:1px solid #000;font-size:12px;padding:2px 0}.nutritionWrapper .fct_minerals td span{font-size:12px}.nutritionWrapper .fct_norm{margin:0 0 3px}.nutritionWrapper .fct_norm td{font-size:12px;padding:1px 0}.nutritionWrapper .fct_norm tr.border_b td{border-bottom:1px solid #000}.nutritionWrapper .fct_gram td{font-size:12px}.nutritionWrapper .fct_gram td.fct_bull{width:20px}.nutritionWrapper .fct_ingredients{font-size:12px;background:#fff;border:1px solid #000;padding:3px;text-transform:none !important;letter-spacing:0 !important}.nutritionLabel{font-size:80%;margin:0 auto;padding:5px;color:#333;border:2px solid #000;line-height:normal;max-width:430px !important;width:100% !important}.nutritionLabel input.unitQuantityBox.ui-input-text{margin-top:0;border-radius:0;height:auto;box-sizing:content-box;-webkit-box-sizing:content-box;-moz-box-sizing:content-box}.nutritionLabel input.unitQuantityBox.ui-shadow-inset{box-shadow:none}.nutritionLabel .title{line-height:.83em;font-size:2em;padding-bottom:4px;font-family:"Archivo Black";white-space:nowrap;letter-spacing:-2px}.nutritionLabel .m{font-size:.9em}.nutritionLabel .serving{font-size:1.1em;line-height:1.28em;padding-bottom:2px}.nutritionLabel .name{font-size:1.1em;line-height:1.3em}.nutritionLabel .name.inline{padding-top:.2em;padding-top:.25em \9 }.nutritionLabel .dvCalorieDiet,.nutritionLabel #calcDisclaimer{font-size:.9em}.nutritionLabel .line{border-top:1px solid #333;padding:1px 0}.nutritionLabel .line.last{border-bottom:1px solid #333}.nutritionLabel .line.indent{margin-left:15px}.nutritionLabel .dv{float:right}.nutritionLabel .dv:before{content:" "}.nutritionLabel .bar1{height:10px;line-height:0;font-size:1px;background:#333}.nutritionLabel .bar2{height:5px;line-height:0;font-size:1px;background:#333}.nutritionLabel .dvCalorieDiet{color:#777}.nutritionLabel .calorieNote{padding:.6em 0 0 .7em}.nutritionLabel .star{margin-left:-7px}.nutritionLabel .tblCalorieDiet th{font-size:.7em;border-bottom:1px solid #333;text-align:left;color:#777}.nutritionLabel .tblCalorieDiet{width:100%}.nutritionLabel .tblCalorieDiet td{padding:0;line-height:normal;font-size:.7em;color:#777}.nutritionLabel .ar{text-align:right}.nutritionLabel .fr{float:right}.nutritionLabel .fl{float:left}.nutritionLabel #calcDisclaimer{color:#777}.nutritionLabel .notApplicable{color:gray;font-weight:700;font-size:1.2em;cursor:default;margin-top:.2em}.nutritionLabel .naTooltip{position:absolute;display:none;border:1px solid #000;padding:2px;text-align:center;height:18px;width:120px;background-color:#ffc;z-index:10000}.nutritionLabel .spaceAbove{height:10px}.nutritionLabel .setter{width:12px;padding:3px 0 0 0;position:absolute;left:0;top:0;z-index:100}.nutritionLabel .setter a{display:block;width:9px;height:7px;font-size:1px;line-height:0}.nutritionLabel a.unitQuantityUp{padding-bottom:1px;background:rgba(0,0,0,0) url(//olddutchfoods.com/wp-content/themes/olddutchfoods/css/thirdpart/images/up.png) left top no-repeat;z-index:9999}.nutritionLabel a.unitQuantityDown{padding-top:1px;background:rgba(0,0,0,0) url(//olddutchfoods.com/wp-content/themes/olddutchfoods/css/thirdpart/images/down.png) left bottom no-repeat;z-index:9999}.nutritionLabel input.unitQuantityBox{width:25px;height:15px;padding:2px;font-size:.9em !important;margin-left:15px;margin-bottom:0;line-height:15px \9 }.nutritionLabel input.unitQuantityBox.arrowsAreHidden{margin-left:0}.nutritionLabel .rel{position:relative}.nutritionLabel .servingSizeField{float:left;margin-top:.2em;margin-bottom:.2em;margin-right:.4em}.nutritionLabel .servingUnit{float:left;padding:0;margin-top:.3em;margin-bottom:.2em;clear:both}.nutritionLabel .servingWeightGrams{padding:0 0 0 .3em;margin-top:.3em;margin-bottom:.2em}.nutritionLabel .servingSizeText{padding-right:.3em;margin-top:.3em}.nutritionLabel .servingUnitQuantity{margin-top:.3em;padding-right:.3em;display:none}.nutritionLabel .cf:before,.nutritionLabel .cf:after{content:" ";display:table}.nutritionLabel .cf:after{clear:both}.nutritionLabel .cf{*zoom:1}.nutritionLabel .servingSizeText{display:inline-block}.nutritionLabel .ingredientListDiv.scroll{overflow-y:scroll !important}.nutritionLabel #calcDisclaimer.scroll{overflow-y:scroll !important}.nutritionLabel #calcDisclaimer{line-height:normal}.nutritionLabel .ingredientListDiv{padding-top:10px}.naTooltip{position:absolute;display:none;border:1px solid #000;padding:2px;text-align:center;height:18px;width:120px;background-color:#ffc;z-index:10000}.visible-print{display:none !important}@media print{.visible-print{display:block !important}}html{overflow-x:hidden}.category-wrapper .products .products-list-wrapper{padding:30px 0 0 0}.category-wrapper .products .products-list{display:flex;flex-wrap:wrap}@media(min-width: 560px){.category-wrapper .products .products-list.product-info-popup-open .product-info-popup~.product{width:calc(50% - 30px);margin:0 30px 30px 0}}@media(min-width: 992px){.category-wrapper .products .products-list.product-info-popup-open .product-info-popup~.product{width:calc(33.33% - 30px)}}.category-wrapper .products .products-list .product{margin:0 auto 30px auto;text-align:center;max-width:400px;width:100%}.category-wrapper .products .products-list .product a{position:relative;background-color:#eef0f2;width:100%;height:100%;text-decoration:none;display:block}@media(min-width: 560px){.category-wrapper .products .products-list .product a{display:flex;flex-direction:column;justify-content:space-between}}.category-wrapper .products .products-list .product a.hover .product-title,.category-wrapper .products .products-list .product a:hover .product-title{opacity:1}@media(min-width: 560px){.category-wrapper .products .products-list .product{width:calc(50% - 15px);margin:0 30px 30px 0;margin-right:30px}.category-wrapper .products .products-list .product:nth-child(2n){margin-right:0}}@media(min-width: 992px){.category-wrapper .products .products-list .product{width:calc(33.33% - 20px);margin-right:30px}.category-wrapper .products .products-list .product:nth-child(2n){margin-right:30px}.category-wrapper .products .products-list .product:nth-child(3n){margin-right:0}}.category-wrapper .products .products-list .product.active{position:relative}.category-wrapper .products .products-list .product.active:after{content:"";display:inline-block;width:0;height:0;border-left:25px solid rgba(0,0,0,0);border-right:25px solid rgba(0,0,0,0);border-bottom:20px solid #fec003;position:absolute;bottom:-30px;left:10px}@media(min-width: 1440px){.category-wrapper .products .products-list .product.active:after{border-left:35px solid rgba(0,0,0,0);border-right:35px solid rgba(0,0,0,0);border-bottom:30px solid #fec003;bottom:-30px}}.category-wrapper .products .product-title{position:static;bottom:0;left:0;width:100%;height:auto;z-index:2;background-color:rgba(207,25,25,.9);color:#fff;padding:30px 15px;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:1;transition:all ease-in-out .1s}@media(min-width: 560px){.category-wrapper .products .product-title{position:absolute;top:0;opacity:0;height:100%}}.category-wrapper .products .product-title .btn{margin-bottom:10px;padding:1em;font-size:1rem;border-radius:10px;min-width:140px}.category-wrapper .products .product-title .btn:last-child{margin-bottom:0}.category-wrapper .products .title{color:#424242;font-size:1.33rem;text-transform:uppercase;font-weight:bold}@media(min-width: 480px){.category-wrapper .products .title{font-size:1.125rem}}@media(min-width: 768px){.category-wrapper .products .title{font-size:1.5rem}}.category-wrapper .products .title.mb-off{display:none}@media(min-width: 560px){.category-wrapper .products .title.mb-off{background:#cf1919;color:#fff;padding:10px;min-height:82px;align-items:center;justify-content:center}}.category-wrapper .products .title.mb-on{color:#fff;margin-top:0;margin-bottom:1em;display:block}.category-wrapper .product-info-popup{position:relative;width:100%;background-color:#fec003;margin-top:0;margin-bottom:30px;padding:60px 0}@media(min-width: 992px){.category-wrapper .product-info-popup{margin-bottom:30px;padding:60px 0}}.category-wrapper .product-info-popup:before{content:"";display:block;width:calc(100% + 30px);margin-left:-15px;margin-right:-15px;height:100%;position:absolute;z-index:-1;top:0;left:0;background-color:#fec003}@media(min-width: 480px){.category-wrapper .product-info-popup:before{width:calc(100% + 60px);margin-left:-30px;margin-right:-30px}}@media(min-width: 1200px){.category-wrapper .product-info-popup:before{width:300%;margin-left:-150%}}.category-wrapper .product-info-popup .close-popup{position:absolute;top:17px;right:0;width:30px;height:30px;transform:rotate(45deg);transition:all ease-in-out .2s;text-indent:-9999em}.category-wrapper .product-info-popup .close-popup:before,.category-wrapper .product-info-popup .close-popup:after{content:"";display:block;width:30px;height:5px;background-color:#fff;position:absolute;top:50%;left:50%;transform:translate(-50%, -50%)}.category-wrapper .product-info-popup .close-popup:after{transform:translate(-50%, -50%) rotate(90deg)}.category-wrapper .product-info-popup .close-popup:hover{transform:rotate(45deg) scale(1.1)}@media(min-width: 1260px){.category-wrapper .product-info-popup .close-popup{width:40px;height:40px;top:12px;right:0}.category-wrapper .product-info-popup .close-popup:before,.category-wrapper .product-info-popup .close-popup:after{width:40px;height:6px}}.category-wrapper .product-info-popup .main-image,.category-wrapper .product-info-popup .product-content{max-width:1200px;margin:0 auto}.category-wrapper .product-info-popup .main-image{font-size:0;line-height:1;background-color:#fff;background-size:cover;background-repeat:no-repeat;text-align:center}.category-wrapper .product-info-popup .product-content{margin-top:30px;display:flex;flex-direction:column}@media(min-width: 992px){.category-wrapper .product-info-popup .product-content{margin-top:60px}}.category-wrapper .product-info-popup .product-nutrition-label{background-color:#fff;padding:10px;margin-top:30px;order:2}@media(min-width: 992px){.category-wrapper .product-info-popup .product-nutrition-label{order:1}}.category-wrapper .product-info-popup .product-nutrition-label:after{content:"";display:table;width:100%;height:0;clear:both}.category-wrapper .product-info-popup .product-description{order:1}.category-wrapper .product-info-popup .product-description h2,.category-wrapper .product-info-popup .product-description h3{text-transform:uppercase;color:#000;font-weight:800}.category-wrapper .product-info-popup .product-description h2.h3,.category-wrapper .product-info-popup .product-description h3{margin:1em 0 .25em 0}.category-wrapper .product-info-popup .product-description .btn{margin:5px 0 30px 0;display:block;background:#053c4a;border-radius:5px;padding:.75em 1.25em;font-size:1.25rem}@media(min-width: 992px){.category-wrapper .product-info-popup .product-description .btn{padding:.75em 1.5em;font-size:1.5rem}}.category-wrapper .product-info-popup .product-description .btn:hover{background-color:#08637a}@media(min-width: 992px){.category-wrapper .product-info-popup .product-content{display:flex;flex-direction:row}.category-wrapper .product-info-popup .product-nutrition-label{width:360px;margin-right:40px;margin-top:0}.category-wrapper .product-info-popup .product-description.with-nutrition-label{width:calc(100% - 400px)}}.category-wrapper .product-info-popup .nutrition-highlights{margin:0;padding:0;list-style:none;font-size:0;display:flex;flex-wrap:wrap;align-items:flex-start}.category-wrapper .product-info-popup .nutrition-highlights li{display:inline-block;margin-right:10px;margin-bottom:10px;text-align:center}.category-wrapper .product-info-popup .nutrition-highlights li span{display:block}.category-wrapper .product-info-popup .nutrition-highlights li span.icon img{width:100%;height:auto;max-width:75px;max-height:84px;filter:brightness(0) saturate(100%)}.category-wrapper .product-info-popup .nutrition-highlights li span.title{font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:#000;font-weight:bold;font-size:0;visibility:hidden}.category-wrapper .product-info-popup .nutrition-highlights li:nth-last-child(2){margin-right:30px}.category-wrapper.nutrition-wrapper .nutritional-considerations-logos .nutritional-facts .nutritional-fact img{filter:brightness(0) saturate(100%)}body.old-dutch-foods-brand.tax-product-category .page-intro-video{height:430px !important;overflow:hidden}body.old-dutch-foods-brand .category-wrapper .btn,body.old-dutch-foods-brand .category-wrapper a.btn,body.old-dutch-foods-brand .category-wrapper span.btn,body.old-dutch-foods-brand .category-wrapper button,body.old-dutch-foods-brand .category-wrapper input[type=button],body.old-dutch-foods-brand .category-wrapper input[type=reset],body.old-dutch-foods-brand .category-wrapper input[type=submit]{background-color:#660707}body.old-dutch-foods-brand .category-wrapper .btn:hover,body.old-dutch-foods-brand .category-wrapper a.btn:hover,body.old-dutch-foods-brand .category-wrapper span.btn:hover,body.old-dutch-foods-brand .category-wrapper button:hover,body.old-dutch-foods-brand .category-wrapper input[type=button]:hover,body.old-dutch-foods-brand .category-wrapper input[type=reset]:hover,body.old-dutch-foods-brand .category-wrapper input[type=submit]:hover{background-color:#960a0a}body.old-dutch-foods-brand .category-wrapper .page-intro{background-color:#cf1919}body.old-dutch-foods-brand .category-wrapper .products .product-title{background-color:rgba(207,25,25,.9)}body.old-dutch-foods-brand .category-wrapper .products .products-list .product.active::after{border-bottom-color:#fec003}body.old-dutch-foods-brand .category-wrapper .product-info-popup{background-color:#fec003}body.old-dutch-foods-brand .category-wrapper .product-info-popup:before{background-color:#fec003}body.old-dutch-foods-brand .category-wrapper .product-description .btn{background:#053c4a}body.old-dutch-foods-brand .category-wrapper .product-description .btn:hover{background:#08637a}body.old-dutch-foods-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-logos .nutritional-facts .nutritional-fact{background-color:#fec003}body.old-dutch-foods-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper{background-color:#053c4a}body.old-dutch-foods-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper .h2 span{background-color:#053c4a}body.humpty-dumpty-brand .category-wrapper .btn,body.humpty-dumpty-brand .category-wrapper a.btn,body.humpty-dumpty-brand .category-wrapper span.btn,body.humpty-dumpty-brand .category-wrapper button,body.humpty-dumpty-brand .category-wrapper input[type=button],body.humpty-dumpty-brand .category-wrapper input[type=reset],body.humpty-dumpty-brand .category-wrapper input[type=submit]{background-color:#2348c2}body.humpty-dumpty-brand .category-wrapper .btn:hover,body.humpty-dumpty-brand .category-wrapper a.btn:hover,body.humpty-dumpty-brand .category-wrapper span.btn:hover,body.humpty-dumpty-brand .category-wrapper button:hover,body.humpty-dumpty-brand .category-wrapper input[type=button]:hover,body.humpty-dumpty-brand .category-wrapper input[type=reset]:hover,body.humpty-dumpty-brand .category-wrapper input[type=submit]:hover{background-color:#3c61dc}body.humpty-dumpty-brand .category-wrapper .page-intro{background-color:#09153d}body.humpty-dumpty-brand .category-wrapper .page-intro .content h1{text-transform:none}body.humpty-dumpty-brand .category-wrapper .products .product-title{background-color:rgba(9,21,61,.9)}body.humpty-dumpty-brand .category-wrapper .products .product-title .title{text-transform:none;font-family:Vollkorn,sans-serif}body.humpty-dumpty-brand .category-wrapper .products .products-list .product.active::after{border-bottom-color:#09153d}body.humpty-dumpty-brand .category-wrapper .product-info-popup{background-color:#09153d}body.humpty-dumpty-brand .category-wrapper .product-info-popup:before{background-color:#09153d}body.humpty-dumpty-brand .category-wrapper .product-info-popup .nutrition-highlights li span img{filter:brightness(0) saturate(100%) invert(98%) sepia(0%) saturate(7500%) hue-rotate(220deg) brightness(104%) contrast(103%)}body.humpty-dumpty-brand .category-wrapper .product-description{color:#fff}body.humpty-dumpty-brand .category-wrapper .product-description h2,body.humpty-dumpty-brand .category-wrapper .product-description h3{color:#fff}body.humpty-dumpty-brand .category-wrapper .product-description .btn{background:#2348c2}body.humpty-dumpty-brand .category-wrapper .product-description .btn:hover{background:#3c61dc}body.humpty-dumpty-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-logos .nutritional-facts .nutritional-fact{background-color:#09153d}body.humpty-dumpty-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-logos .nutritional-facts .nutritional-fact img{filter:brightness(0) saturate(100%) invert(98%) sepia(0%) saturate(7500%) hue-rotate(220deg) brightness(104%) contrast(103%)}body.humpty-dumpty-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-logos .nutritional-facts .nutritional-fact span{color:#fff}body.humpty-dumpty-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper{background-color:#2348c2}body.humpty-dumpty-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper .h2{background:url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/dots.svg) repeat-x 0 45%;position:relative;text-transform:none}body.humpty-dumpty-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper .h2:before,body.humpty-dumpty-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper .h2:after{content:"";width:30px;height:30px;position:absolute;z-index:2;top:50%;transform:translate(0, -50%)}body.humpty-dumpty-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper .h2:before{left:0;background:-moz-linear-gradient(left, rgb(35, 72, 194) 0%, rgba(35, 72, 194, 0) 100%);background:-webkit-linear-gradient(left, rgb(35, 72, 194) 0%, rgba(35, 72, 194, 0) 100%);background:linear-gradient(to right, rgb(35, 72, 194) 0%, rgba(35, 72, 194, 0) 100%);filter:progid:DXImageTransform.Microsoft.gradient( startColorstr="#2348c2", endColorstr="#002348c2",GradientType=1 )}body.humpty-dumpty-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper .h2:after{right:0;background:-moz-linear-gradient(left, rgba(35, 72, 194, 0) 0%, rgb(35, 72, 194) 100%);background:-webkit-linear-gradient(left, rgba(35, 72, 194, 0) 0%, rgb(35, 72, 194) 100%);background:linear-gradient(to right, rgba(35, 72, 194, 0) 0%, rgb(35, 72, 194) 100%);filter:progid:DXImageTransform.Microsoft.gradient( startColorstr="#002348c2", endColorstr="#2348c2",GradientType=1 )}body.humpty-dumpty-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper .h2 span{background-color:#2348c2}body.humpty-dumpty-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper .h2 span.title{padding:0 50px;background:-moz-linear-gradient(left, rgba(35, 72, 194, 0) 0%, rgb(35, 72, 194) 10%, rgb(35, 72, 194) 90%, rgba(35, 72, 194, 0) 100%);background:-webkit-linear-gradient(left, rgba(35, 72, 194, 0) 0%, rgb(35, 72, 194) 10%, rgb(35, 72, 194) 90%, rgba(35, 72, 194, 0) 100%);background:linear-gradient(to right, rgba(35, 72, 194, 0) 0%, rgb(35, 72, 194) 10%, rgb(35, 72, 194) 90%, rgba(35, 72, 194, 0) 100%);filter:progid:DXImageTransform.Microsoft.gradient( startColorstr="#002348c2", endColorstr="#002348c2",GradientType=1 )}body.humpty-dumpty-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper .h2 img{display:none}body.barrel-o-fun-brand .category-wrapper .btn,body.barrel-o-fun-brand .category-wrapper a.btn,body.barrel-o-fun-brand .category-wrapper span.btn,body.barrel-o-fun-brand .category-wrapper button,body.barrel-o-fun-brand .category-wrapper input[type=button],body.barrel-o-fun-brand .category-wrapper input[type=reset],body.barrel-o-fun-brand .category-wrapper input[type=submit]{background-color:#0f1d4a}body.barrel-o-fun-brand .category-wrapper .btn:hover,body.barrel-o-fun-brand .category-wrapper a.btn:hover,body.barrel-o-fun-brand .category-wrapper span.btn:hover,body.barrel-o-fun-brand .category-wrapper button:hover,body.barrel-o-fun-brand .category-wrapper input[type=button]:hover,body.barrel-o-fun-brand .category-wrapper input[type=reset]:hover,body.barrel-o-fun-brand .category-wrapper input[type=submit]:hover{background-color:#182e74}body.barrel-o-fun-brand .category-wrapper .page-intro{background-color:#294ab3}body.barrel-o-fun-brand .category-wrapper .page-intro .content:before{content:"";display:block;width:100%;height:100%;position:absolute;z-index:0;left:0;top:0;background-image:url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/intro-background-bof.png);background-size:auto 100%;background-repeat:no-repeat;background-position:100% center;opacity:1}body.barrel-o-fun-brand .category-wrapper .products .product-title{background-color:rgba(249,74,34,.9)}body.barrel-o-fun-brand .category-wrapper .products .products-list .product.active::after{border-bottom-color:#294ab3}body.barrel-o-fun-brand .category-wrapper .products .btn{background-color:#87210d}body.barrel-o-fun-brand .category-wrapper .products .btn:hover{background-color:#b62c11}body.barrel-o-fun-brand .category-wrapper .product-info-popup{background-color:#294ab3}body.barrel-o-fun-brand .category-wrapper .product-info-popup:before{background-color:#294ab3}body.barrel-o-fun-brand .category-wrapper .product-info-popup .nutrition-highlights li span img{filter:brightness(0) saturate(100%) invert(98%) sepia(0%) saturate(7500%) hue-rotate(220deg) brightness(104%) contrast(103%)}body.barrel-o-fun-brand .category-wrapper .product-description{color:#fff}body.barrel-o-fun-brand .category-wrapper .product-description h2,body.barrel-o-fun-brand .category-wrapper .product-description h3{color:#fff}body.barrel-o-fun-brand .category-wrapper .product-description .btn{background:#0f1d4a}body.barrel-o-fun-brand .category-wrapper .product-description .btn:hover{background:#182e74}body.barrel-o-fun-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-logos .nutritional-facts .nutritional-fact{background-color:#87210d}body.barrel-o-fun-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-logos .nutritional-facts .nutritional-fact img{filter:brightness(0) saturate(100%) invert(98%) sepia(0%) saturate(7500%) hue-rotate(220deg) brightness(104%) contrast(103%)}body.barrel-o-fun-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-logos .nutritional-facts .nutritional-fact span{color:#fff}body.barrel-o-fun-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper{background-color:#1f6706}body.barrel-o-fun-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper .h2 span{background-color:#1f6706}body.barrel-o-fun-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper .h2 img{display:none}body.project-nice-brand.page-template-nutritional-considerations .category-wrapper .page-intro div.content{background-image:url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/pn-background-pattern-1600-1600.jpg);background-size:cover}body.project-nice-brand .category-wrapper .btn,body.project-nice-brand .category-wrapper a.btn,body.project-nice-brand .category-wrapper span.btn,body.project-nice-brand .category-wrapper button,body.project-nice-brand .category-wrapper input[type=button],body.project-nice-brand .category-wrapper input[type=reset],body.project-nice-brand .category-wrapper input[type=submit]{background-color:#cc6}body.project-nice-brand .category-wrapper .btn:hover,body.project-nice-brand .category-wrapper a.btn:hover,body.project-nice-brand .category-wrapper span.btn:hover,body.project-nice-brand .category-wrapper button:hover,body.project-nice-brand .category-wrapper input[type=button]:hover,body.project-nice-brand .category-wrapper input[type=reset]:hover,body.project-nice-brand .category-wrapper input[type=submit]:hover{background-color:#d9d98c}body.project-nice-brand .category-wrapper .page-intro{background-color:#faf3e3}@media all and (min-width: 992px){body.project-nice-brand .category-wrapper .page-intro .inner{top:-22px}}@media all and (min-width: 1440px){body.project-nice-brand .category-wrapper .page-intro .inner{top:-36px}}@media all and (min-width: 1680px){body.project-nice-brand .category-wrapper .page-intro .inner{top:-48px}}body.project-nice-brand .category-wrapper .page-intro .image{position:relative;z-index:2}body.project-nice-brand .category-wrapper .page-intro .content{position:relative;z-index:1;display:flex;align-items:center;margin:0;background-image:url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/pn-background-pattern-1600-1600.jpg);background-size:cover}body.project-nice-brand .category-wrapper .page-intro .content:before{content:"";position:absolute;bottom:5px;left:-1px;display:block;width:519px;height:99px;max-height:5vw;background:url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/project-nice-arrow-right.png);background-repeat:no-repeat;background-size:contain}@media all and (max-width: 980px){body.project-nice-brand .category-wrapper .page-intro .content:before{content:none}}@media all and (min-height: 1500px){body.project-nice-brand .category-wrapper .page-intro .content:before{width:660px;height:120px;min-height:6vw}}body.project-nice-brand .category-wrapper .page-intro .inner{display:flex;justify-content:center;flex-direction:column;color:#464543;font-family:Montserrat,sans-serif}body.project-nice-brand .category-wrapper .page-intro .inner h1,body.project-nice-brand .category-wrapper .page-intro .inner h2,body.project-nice-brand .category-wrapper .page-intro .inner h3,body.project-nice-brand .category-wrapper .page-intro .inner h4,body.project-nice-brand .category-wrapper .page-intro .inner h5,body.project-nice-brand .category-wrapper .page-intro .inner h6,body.project-nice-brand .category-wrapper .page-intro .inner .h1,body.project-nice-brand .category-wrapper .page-intro .inner .h2,body.project-nice-brand .category-wrapper .page-intro .inner .h3,body.project-nice-brand .category-wrapper .page-intro .inner .h4,body.project-nice-brand .category-wrapper .page-intro .inner .h5,body.project-nice-brand .category-wrapper .page-intro .inner .h6{font-weight:400;font-family:"Lexend Deca",sans-serif}body.project-nice-brand .category-wrapper .products{background:#ffde9b}body.project-nice-brand .category-wrapper .products .products-list-wrapper{background:#fff}body.project-nice-brand .category-wrapper .products .products-list-wrapper .container{max-width:1370px}body.project-nice-brand .category-wrapper .products .products-list-wrapper .product a:focus{outline-color:#cc6}body.project-nice-brand .category-wrapper .products .products-list-wrapper .category-image{max-width:400px;margin:0 auto 30px auto;text-align:center}@media(min-width: 560px){body.project-nice-brand .category-wrapper .products .products-list-wrapper .category-image{width:calc(50% - 15px);margin:0 30px 30px 0}}@media(min-width: 992px){body.project-nice-brand .category-wrapper .products .products-list-wrapper .category-image{width:calc(33% - 30px)}}body.project-nice-brand .category-wrapper .products .products-header{position:relative;margin:auto;padding:30px 15px;font-weight:400;text-align:center;color:#464543}@media(min-width: 560px){body.project-nice-brand .category-wrapper .products .products-header{padding:30px 100px}body.project-nice-brand .category-wrapper .products .products-header::before,body.project-nice-brand .category-wrapper .products .products-header::after{content:"";position:absolute;top:50%;transform:translateY(-50%);width:100px;height:50%;background-size:contain;background-repeat:no-repeat;background-position:center}body.project-nice-brand .category-wrapper .products .products-header::before{left:0}body.project-nice-brand .category-wrapper .products .products-header::after{right:0}}@media(min-width: 768px){body.project-nice-brand .category-wrapper .products .products-header{padding:40px 130px}body.project-nice-brand .category-wrapper .products .products-header::before,body.project-nice-brand .category-wrapper .products .products-header::after{width:130px;height:70%}}body.project-nice-brand .category-wrapper .products:nth-of-type(2) .products-header{max-width:610px}@media(min-width: 560px){body.project-nice-brand .category-wrapper .products:nth-of-type(2) .products-header::before{background-image:url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/project-nice-character-1.png)}body.project-nice-brand .category-wrapper .products:nth-of-type(2) .products-header::after{background-image:url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/project-nice-character-2.png)}}body.project-nice-brand .category-wrapper .products:nth-of-type(3){background:#81cec2}body.project-nice-brand .category-wrapper .products:nth-of-type(3) .products-header{max-width:790px}@media(min-width: 560px){body.project-nice-brand .category-wrapper .products:nth-of-type(3) .products-header::before{background-image:url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/project-nice-character-3.png)}body.project-nice-brand .category-wrapper .products:nth-of-type(3) .products-header::after{background-image:url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/project-nice-character-4.png)}}body.project-nice-brand .category-wrapper .products:nth-of-type(4){background:#f36c42}body.project-nice-brand .category-wrapper .products:nth-of-type(4) .products-header{max-width:800px;color:#fff}@media(min-width: 560px){body.project-nice-brand .category-wrapper .products:nth-of-type(4) .products-header::before{background-image:url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/project-nice-character-5.png)}body.project-nice-brand .category-wrapper .products:nth-of-type(4) .products-header::after{background-image:url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/project-nice-character-6.png)}}body.project-nice-brand .category-wrapper .products .product-title{background-color:rgba(71,68,68,.85)}body.project-nice-brand .category-wrapper .products .products-list .product.active::after{border-bottom-color:#cc6}body.project-nice-brand .category-wrapper .product-info-popup{background-color:#cc6;z-index:1}body.project-nice-brand .category-wrapper .product-info-popup:before{background-color:#cc6}body.project-nice-brand .category-wrapper .product-info-popup .nutrition-highlights li span img{filter:brightness(0) saturate(100%) invert(98%) sepia(0%) saturate(7500%) hue-rotate(220deg) brightness(104%) contrast(103%)}body.project-nice-brand .category-wrapper .product-info-popup .product-description h1,body.project-nice-brand .category-wrapper .product-info-popup .product-description h2,body.project-nice-brand .category-wrapper .product-info-popup .product-description h3,body.project-nice-brand .category-wrapper .product-info-popup .product-description h4,body.project-nice-brand .category-wrapper .product-info-popup .product-description h5,body.project-nice-brand .category-wrapper .product-info-popup .product-description h6,body.project-nice-brand .category-wrapper .product-info-popup .product-description .h1,body.project-nice-brand .category-wrapper .product-info-popup .product-description .h2,body.project-nice-brand .category-wrapper .product-info-popup .product-description .h3,body.project-nice-brand .category-wrapper .product-info-popup .product-description .h4,body.project-nice-brand .category-wrapper .product-info-popup .product-description .h5,body.project-nice-brand .category-wrapper .product-info-popup .product-description .h6{font-weight:400;font-family:"Lexend Deca",sans-serif;color:#fff}body.project-nice-brand .category-wrapper .product-description{color:#fff}body.project-nice-brand .category-wrapper .product-description .btn{background:#6093bb}body.project-nice-brand .category-wrapper .product-description .btn:hover{background:#84abca}body.project-nice-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-logos .nutritional-facts .nutritional-fact{color:#fff;background-color:#cc6}body.project-nice-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-logos .nutritional-facts .nutritional-fact img{filter:brightness(0) saturate(100%) invert(98%) sepia(0%) saturate(7500%) hue-rotate(220deg) brightness(104%) contrast(103%)}body.project-nice-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-logos .nutritional-facts .nutritional-fact span{font-family:"Lexend Deca",sans-serif;font-weight:400}body.project-nice-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper{background-color:#6093bb}body.project-nice-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper .image{width:100%;height:45px;background:url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/project-nice-line-left.svg) repeat-x 0 45%;position:relative;text-transform:none}body.project-nice-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper .image img{display:none}body.project-nice-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper .image:last-child{background:url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/project-nice-line-right.svg) repeat-x 0 45%}body.project-nice-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper .title{font-family:"Lexend Deca",sans-serif}body.project-nice-brand .category-wrapper.nutrition-wrapper .nutritional-considerations-filter .nutritional-facts-filter-wrapper .h2 span{background-color:#6093bb}@media all and (min-width: 1680px){body.project-nice-brand.page-template-nutritional-considerations .category-wrapper .page-intro .inner{top:-67px}}body.old-dutch-foods-brand.fixed-header .site-header .main-nav {
+background-color: rgba(254, 192, 3, 0.95);
+}
+body.old-dutch-foods-brand .site-header .main-nav .site-branding {
+max-width: 115px;
+}
+@media (min-width: 1280px) {
+body.old-dutch-foods-brand .site-header .main-nav .site-branding {
+max-width: 230px;
+flex-shrink: 0;
+}
+body.old-dutch-foods-brand .site-header .main-nav .site-branding img {
+position: relative;
+top: 55px;
+}
+}
+body.old-dutch-foods-brand .menu-toggle .icon-bar {
+background: #231f20;
+}
+body.old-dutch-foods-brand .main-navigation.toggled {
+background-color: #fec003;
+}
+body.old-dutch-foods-brand
+.main-navigation.toggled
+.menu-nav-brand-container
+ul
+li
+a,
+body.old-dutch-foods-brand
+.main-navigation.toggled
+.menu-nav-old-dutch-container
+ul
+li
+a,
+body.old-dutch-foods-brand
+.main-navigation.toggled
+.menu-nav-corporate-container
+ul
+li
+a {
+color: #231f20;
+border-bottom-color: #231f20;
+}
+body.old-dutch-foods-brand h1,
+body.old-dutch-foods-brand h2,
+body.old-dutch-foods-brand h3,
+body.old-dutch-foods-brand h4,
+body.old-dutch-foods-brand h5,
+body.old-dutch-foods-brand h6,
+body.old-dutch-foods-brand .h1,
+body.old-dutch-foods-brand .h2,
+body.old-dutch-foods-brand .h3,
+body.old-dutch-foods-brand .h4,
+body.old-dutch-foods-brand .h5,
+body.old-dutch-foods-brand .h6 {
+font-family: BioRhyme, sans-serif;
+}
+body.old-dutch-foods-brand .main-nav {
+background-color: #fec003;
+}
+body.old-dutch-foods-brand
+.main-navigation
+.menu-nav-brand-container
+> ul
+li:hover
+> a,
+body.old-dutch-foods-brand
+.main-navigation
+.menu-nav-brand-container
+> ul
+li.focus
+> a,
+body.old-dutch-foods-brand
+.main-navigation
+.menu-nav-old-dutch-container
+> ul
+li:hover
+> a,
+body.old-dutch-foods-brand
+.main-navigation
+.menu-nav-old-dutch-container
+> ul
+li.focus
+> a {
+color: #231f20;
+opacity: 0.75;
+}
+@media (min-width: 992px) {
+body.old-dutch-foods-brand
+.main-navigation
+.menu-nav-brand-container
+> ul
+li
+a,
+body.old-dutch-foods-brand
+.main-navigation
+.menu-nav-old-dutch-container
+> ul
+li
+a {
+color: #231f20;
+}
+}
+@media (min-width: 992px) {
+body.old-dutch-foods-brand
+.main-navigation
+.menu-nav-brand-container
+> ul
+> li.menu-item-has-children::after,
+body.old-dutch-foods-brand
+.main-navigation
+.menu-nav-old-dutch-container
+> ul
+> li.menu-item-has-children::after {
+background: url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/icon-arrow-black.svg) no-repeat center center;
+}
+}
+@media (min-width: 992px) {
+body.old-dutch-foods-brand
+.main-navigation
+.menu-nav-brand-container
+> ul
+ul.sub-menu,
+body.old-dutch-foods-brand
+.main-navigation
+.menu-nav-old-dutch-container
+> ul
+ul.sub-menu {
+background-color: #fec003;
+}
+}
+body.old-dutch-foods-brand .testimonials {
+padding: 50px 0;
+background-color: #fec003;
+background-size: cover;
+background-repeat: no-repeat;
+background-image: url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/background-potatoes.jpg);
+}
+body.old-dutch-foods-brand .testimonials h2 {
+color: #fff;
+}
+body.old-dutch-foods-brand .testimonials-slider {
+position: relative;
+width: 100%;
+max-width: 1200px;
+margin: 0 auto;
+padding: 0;
+box-sizing: border-box;
+overflow: hidden;
+}
+body.old-dutch-foods-brand .testimonials-slider .swiper-slide {
+position: relative;
+display: flex;
+flex-direction: column;
+background: #cf1919;
+color: #fff;
+border-radius: 15px;
+padding: 110px 25px 30px 25px;
+max-width: 100%;
+box-sizing: border-box;
+overflow: visible;
+}
+body.old-dutch-foods-brand .testimonials-slider .swiper-slide::before {
+content: "";
+position: absolute;
+width: 46px;
+height: 41px;
+left: 25px;
+top: 43px;
+background-size: cover;
+background-image: url(//olddutchfoods.com/wp-content/themes/olddutchfoods/images/quotation-mark.png);
+}
+body.old-dutch-foods-brand
+.testimonials-slider
+.swiper-slide
+.testimonial-text {
+margin-bottom: 20px;
+flex: 1;
+font-weight: 500;
+}
+body.old-dutch-foods-brand .testimonials-slider .swiper-slide .client-name {
+font-size: 16px;
+font-weight: 600;
+line-height: 26px;
+}
+body.old-dutch-foods-brand .testimonials-slider .swiper-slide h3 {
+font-size: 1.5rem;
+margin-bottom: 10px;
+color: #333;
+}
+body.old-dutch-foods-brand .testimonials-slider .swiper-slide p {
+font-size: 1rem;
+line-height: 1.6;
+color: #666;
+}
+body.old-dutch-foods-brand .testimonials-slider .swiper-button-prev,
+body.old-dutch-foods-brand .testimonials-slider .swiper-button-next {
+color: #333;
+background: rgba(255, 255, 255, 0.8);
+border-radius: 50%;
+width: 40px;
+height: 40px;
+display: flex;
+justify-content: center;
+align-items: center;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease;
+}
+body.old-dutch-foods-brand .testimonials-slider .swiper-button-prev:hover,
+body.old-dutch-foods-brand .testimonials-slider .swiper-button-next:hover {
+background: #333;
+color: #fff;
+}
+body.old-dutch-foods-brand .testimonials-pagination {
+position: static;
+line-height: 1;
+margin-top: 30px;
+}
+body.old-dutch-foods-brand .testimonials-pagination .swiper-pagination-bullet {
+width: 10px;
+height: 10px;
+background-color: rgba(0, 0, 0, 0);
+border: 2px solid #fff;
+opacity: 1;
+margin: 0 5px;
+cursor: pointer;
+}
+body.old-dutch-foods-brand
+.testimonials-pagination
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+background-color: #fff;
+}
+@media (min-width: 768px) {
+body.old-dutch-foods-brand
+.testimonials-pagination
+.swiper-pagination-bullet {
+width: 15px;
+height: 15px;
+border: 3px solid #fff;
+}
+}
+@media (max-width: 768px) {
+body.old-dutch-foods-brand .testimonials-slider .swiper-slide {
+padding: 90px 25px 20px 25px;
+}
+body.old-dutch-foods-brand .testimonials-slider .swiper-slide::before {
+width: 36px;
+height: 31px;
+left: 25px;
+top: 33px;
+}
+body.old-dutch-foods-brand
+.testimonials-slider
+.swiper-slide
+.testimonial-text {
+margin-bottom: 15px;
+}
+body.old-dutch-foods-brand .testimonials-slider .swiper-button-prev,
+body.old-dutch-foods-brand .testimonials-slider .swiper-button-next {
+width: 35px;
+height: 35px;
+}
 }
