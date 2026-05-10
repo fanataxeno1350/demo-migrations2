@@ -70,48 +70,48 @@
           "component": "container",
           "item": "footer-section-item",
           "label": "Footer Sections",
-          "name": "footerSections"
-        },
-        {
-          "component": "container",
-          "item": "footer-link-item",
-          "label": "Footer Links",
-          "name": "footerLinks"
+          "name": "sections"
         },
         {
           "component": "richtext",
-          "label": "Contact Address",
-          "name": "contactAddress",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Contact Phone Link",
-          "name": "contactPhone",
+          "label": "Contact Information",
+          "name": "contactInfo",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Contact Fax",
-          "name": "contactFax",
+          "label": "Telephone Label",
+          "name": "telephoneLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Telephone Link",
+          "name": "telephoneLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Fax Label",
+          "name": "faxLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Fax Number",
+          "name": "faxNumber",
           "valueType": "string"
         },
         {
           "component": "container",
           "item": "footer-social-item",
-          "label": "Footer Social Links",
-          "name": "footerSocialItems"
+          "label": "Social Links",
+          "name": "socialLinks"
         },
         {
-          "component": "text",
-          "label": "Designed By Text",
-          "name": "designedByText",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Designed By Link",
-          "name": "designedByLink",
+          "component": "richtext",
+          "label": "Footer Credits",
+          "name": "footerCredits",
           "valueType": "string"
         }
       ]
@@ -149,13 +149,13 @@
       "fields": [
         {
           "component": "text",
-          "label": "Footer Link Label",
+          "label": "Link Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Footer Link URL",
+          "label": "Link",
           "name": "link",
           "valueType": "string"
         }
@@ -166,7 +166,7 @@
       "fields": [
         {
           "component": "aem-content",
-          "label": "Social Link URL",
+          "label": "Social Link",
           "name": "socialLink",
           "valueType": "string"
         }
