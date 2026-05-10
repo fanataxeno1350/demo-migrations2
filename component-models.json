@@ -184,7 +184,7 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Footer Logo",
+        "label": "Logo",
         "name": "logo",
         "valueType": "string"
       },
@@ -203,14 +203,14 @@
       {
         "component": "container",
         "item": "footer-social-item",
-        "label": "Social Links",
-        "name": "socialLinks"
+        "label": "Footer Social Links",
+        "name": "footerSocialLinks"
       },
       {
         "component": "container",
         "item": "footer-brand-item",
-        "label": "Brand Links",
-        "name": "brandLinks"
+        "label": "Footer Brand Links",
+        "name": "footerBrandLinks"
       },
       {
         "component": "richtext",
@@ -266,13 +266,13 @@
       {
         "component": "text",
         "label": "Brand Label",
-        "name": "brandLabel",
+        "name": "label",
         "valueType": "string"
       },
       {
         "component": "aem-content",
         "label": "Brand Link URL",
-        "name": "brandLink",
+        "name": "link",
         "valueType": "string"
       }
     ]
@@ -310,15 +310,21 @@
       },
       {
         "component": "container",
-        "item": "contact-item",
-        "label": "Contact Items",
-        "name": "contactItems"
+        "item": "phone-item",
+        "label": "Phone Items",
+        "name": "phoneItems"
       },
       {
         "component": "container",
-        "item": "social-icon-item",
-        "label": "Social Icons",
-        "name": "socialIcons"
+        "item": "care-item",
+        "label": "Care Items",
+        "name": "careItems"
+      },
+      {
+        "component": "container",
+        "item": "social-item",
+        "label": "Social Items",
+        "name": "socialItems"
       },
       {
         "component": "container",
@@ -329,24 +335,41 @@
     ]
   },
   {
-    "id": "contact-item",
+    "id": "phone-item",
     "fields": [
       {
         "component": "text",
-        "label": "Contact Label",
+        "label": "Phone Label",
         "name": "label",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Contact Link",
+        "label": "Phone Link",
         "name": "link",
         "valueType": "string"
       }
     ]
   },
   {
-    "id": "social-icon-item",
+    "id": "care-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Care Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Care Link",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "social-item",
     "fields": [
       {
         "component": "reference",
@@ -410,7 +433,7 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Intro Image",
+        "label": "Image",
         "name": "image",
         "valueType": "string"
       },
@@ -422,8 +445,8 @@
       },
       {
         "component": "richtext",
-        "label": "Body Copy",
-        "name": "body",
+        "label": "Description",
+        "name": "description",
         "valueType": "string"
       }
     ]
@@ -444,8 +467,8 @@
     "fields": [
       {
         "component": "text",
-        "label": "Product Title (mb-off)",
-        "name": "titleOff",
+        "label": "Product Title (Desktop)",
+        "name": "desktopTitle",
         "valueType": "string"
       },
       {
@@ -456,14 +479,14 @@
       },
       {
         "component": "text",
-        "label": "Product Title (mb-on)",
-        "name": "titleOn",
+        "label": "Product Title (Mobile)",
+        "name": "mobileTitle",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "More Info Button Label",
-        "name": "moreInfoLabel",
+        "label": "CTA Label",
+        "name": "ctaLabel",
         "valueType": "string"
       }
     ]

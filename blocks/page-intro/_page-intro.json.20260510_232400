@@ -23,7 +23,7 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Image",
+          "label": "Intro Image",
           "name": "image",
           "valueType": "string"
         },
@@ -35,8 +35,8 @@
         },
         {
           "component": "richtext",
-          "label": "Description",
-          "name": "description",
+          "label": "Body Copy",
+          "name": "body",
           "valueType": "string"
         }
       ]

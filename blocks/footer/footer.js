@@ -2,9 +2,7 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 function transformNestedLists(rootUl) {
-  rootUl.classList.add('sub-menu'); // Add class to the nested ul as per original HTML structure
   rootUl.querySelectorAll('li').forEach((li) => {
-    li.classList.add('menu-item'); // Add class to nested li as per original HTML structure
     const nested = li.querySelector(':scope > ul');
     const anchor = li.querySelector(':scope > a');
 
@@ -23,10 +21,9 @@ function transformNestedLists(rootUl) {
     if (nested) {
       nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('has-sub-child'); // This class is not in original HTML, but seems to be for JS behavior
+      subWrap.classList.add('has-sub-child'); // This class is not in original HTML, but seems to be for JS functionality
       subWrap.append(nested);
       li.append(subWrap);
-
       const trigger = li.querySelector(':scope > a, :scope > span');
       if (trigger) {
         trigger.addEventListener('click', (e) => {
@@ -41,198 +38,233 @@ function transformNestedLists(rootUl) {
 }
 
 export default function decorate(block) {
-  const allRows = [...block.children];
+  const children = [...block.children];
 
-  // Destructure root rows based on BlockJson model
-  // block.children[0]: field="logo"
-  // block.children[1]: field="logoLink"
-  // block.children[2]: field="copyright"
-  // The remaining rows are item rows for footerLinks, socialLinks, brandLinks
-  const logoRow = allRows[0];
-  const logoLinkRow = allRows[1];
-  const copyrightRow = allRows[2];
-  const itemRows = allRows.slice(3);
+  const logoRow = children.find((row) => row.querySelector('picture'));
+  const logoLinkRow = children.find(
+    (row) => !row.querySelector('picture') && row.querySelector('a'),
+  );
+  const copyrightRow = children.find(
+    (row) =>
+      !row.querySelector('picture') &&
+      !row.querySelector('a') &&
+      row.children.length === 1,
+  );
 
-  // Filter item rows based on cell count and content detection
+  const itemRows = children.filter(
+    (row) =>
+      row !== logoRow && row !== logoLinkRow && row !== copyrightRow,
+  );
+
   const footerLinkRows = itemRows.filter((row) => row.children.length === 3);
-  const socialLinkRows = itemRows.filter((row) => row.children.length === 2 && row.querySelector('picture'));
-  const brandLinkRows = itemRows.filter((row) => row.children.length === 2 && !row.querySelector('picture'));
+  const footerSocialRows = itemRows.filter(
+    (row) => row.children.length === 2 && row.querySelector('picture'),
+  );
+  const footerBrandRows = itemRows.filter(
+    (row) => row.children.length === 2 && !row.querySelector('picture'),
+  );
 
   const footer = document.createElement('footer');
-  footer.classList.add('site-footer'); // From ORIGINAL HTML
+  footer.id = 'colophon';
+  footer.classList.add('site-footer');
 
   const container = document.createElement('div');
-  container.classList.add('container'); // From ORIGINAL HTML
+  container.classList.add('container');
   footer.append(container);
 
   const row = document.createElement('div');
-  row.classList.add('row'); // From ORIGINAL HTML
+  row.classList.add('row');
   container.append(row);
 
+  // Left Column (Logo)
   const colLeft = document.createElement('div');
-  colLeft.classList.add('col', 'col-left'); // From ORIGINAL HTML
+  colLeft.classList.add('col', 'col-left');
   row.append(colLeft);
 
   const siteBranding = document.createElement('div');
-  siteBranding.classList.add('site-branding'); // From ORIGINAL HTML
+  siteBranding.classList.add('site-branding');
   colLeft.append(siteBranding);
 
-  const logoLink = document.createElement('a');
-  const logoLinkCell = logoLinkRow.children[0]; // Fixed schema: logoLink is the first cell
-  const foundLogoLink = logoLinkCell.querySelector('a');
-  if (foundLogoLink) {
-    logoLink.href = foundLogoLink.href;
-  }
-  moveInstrumentation(logoLinkRow, logoLink);
-  siteBranding.append(logoLink);
+  if (logoRow && logoLinkRow) {
+    const logoLink = document.createElement('a');
+    const foundLogoLink = logoLinkRow.querySelector('a');
+    if (foundLogoLink) logoLink.href = foundLogoLink.href;
 
-  const logoPictureCell = logoRow.children[0]; // Fixed schema: logo is the first cell
-  const logoPicture = logoPictureCell.querySelector('picture');
-  if (logoPicture) {
-    const img = logoPicture.querySelector('img');
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    moveInstrumentation(logoRow, optimizedPic.querySelector('img'));
-    logoLink.append(optimizedPic);
+    const logoPicture = logoRow.querySelector('picture');
+    if (logoPicture) {
+      const img = logoPicture.querySelector('img');
+      if (img) {
+        const optimizedPic = createOptimizedPicture(
+          img.src,
+          img.alt,
+          false,
+          [{ width: '750' }],
+        );
+        moveInstrumentation(img, optimizedPic.querySelector('img'));
+        logoLink.append(optimizedPic);
+      }
+    }
+    moveInstrumentation(logoRow, logoLink);
+    moveInstrumentation(logoLinkRow, logoLink);
+    siteBranding.append(logoLink);
   }
 
+  // Right Column (Navigation, Social, Brands, Copyright)
   const colRight = document.createElement('div');
-  colRight.classList.add('col', 'col-right'); // From ORIGINAL HTML
+  colRight.classList.add('col', 'col-right');
   row.append(colRight);
 
-  // Footer Links (Navigation Hierarchy)
+  // Footer Links (Navigation)
   if (footerLinkRows.length > 0) {
     const menuNavFooterContainer = document.createElement('div');
-    menuNavFooterContainer.classList.add('menu-nav-footer-container'); // From ORIGINAL HTML
+    menuNavFooterContainer.classList.add('menu-nav-footer-container');
     colRight.append(menuNavFooterContainer);
 
     const footerMenu = document.createElement('ul');
-    footerMenu.classList.add('menu'); // From ORIGINAL HTML
-    footerMenu.id = 'footer-menu'; // From ORIGINAL HTML
+    footerMenu.id = 'footer-menu';
+    footerMenu.classList.add('menu');
     menuNavFooterContainer.append(footerMenu);
 
-    footerLinkRows.forEach((rowEl, i) => {
-      // Fixed schema for footer-link-item: [label, link, hierarchy-tree]
-      const [labelCell, linkCell, hierarchyTreeCell] = [...rowEl.children];
-      const li = document.createElement('li');
-      // Use classes from ORIGINAL HTML, incrementing the ID
-      li.classList.add('menu-item', `menu-item-${828 + i}`);
+    footerLinkRows.forEach((linkRow, i) => {
+      const [labelCell, linkCell, hierarchyTreeCell] = [...linkRow.children];
+      const listItem = document.createElement('li');
+      // Original HTML has menu-item-type-post_type_archive, menu-item-object-recipe, etc.
+      // These are specific to WordPress and not directly replicable or needed in EDS.
+      // Keeping 'menu-item' and a unique ID.
+      listItem.classList.add('menu-item', `menu-item-${828 + i}`);
 
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = hierarchyTreeCell?.innerHTML || '';
-      const subList = tempDiv.querySelector('ul'); // Check for nested ul within the richtext cell
+      const subListContainer = document.createElement('div'); // Temporary container for innerHTML
+      moveInstrumentation(hierarchyTreeCell, subListContainer); // Move instrumentation from original cell
+      subListContainer.innerHTML = hierarchyTreeCell?.innerHTML || '';
+      const subList = subListContainer.querySelector('ul'); // Get the actual UL from the richtext
+
       const directHref = linkCell?.querySelector('a')?.href;
+      const labelText = labelCell?.textContent.trim();
 
       if (subList) {
-        // Dropdown accordion
+        // Apply classes to nested elements from original HTML if applicable
+        subList.querySelectorAll('li').forEach(li => li.classList.add('menu-item'));
+        subList.querySelectorAll('a').forEach(a => {
+          // No specific classes for anchors in original HTML, but good to keep in mind
+        });
+
         const titleLink = document.createElement('a');
-        titleLink.href = directHref || 'javascript:void(0)';
-        titleLink.textContent = labelCell.textContent.trim();
-        li.append(titleLink);
+        titleLink.href = directHref || 'javascript:void(0)'; // If no direct link, make it a toggle
+        titleLink.textContent = labelText;
+        listItem.append(titleLink);
 
-        const subLinksContainer = document.createElement('div');
-        subLinksContainer.classList.add('footer-sub-links'); // This class is not in original HTML, but seems to be for JS behavior
-        // Move instrumentation from the original cell to the temporary div, then to the subList
-        moveInstrumentation(hierarchyTreeCell, tempDiv);
-        while (tempDiv.firstChild) subLinksContainer.append(tempDiv.firstChild);
-        li.append(subLinksContainer);
+        const subLinksCvr = document.createElement('div');
+        subLinksCvr.classList.add('has-sub-child'); // This class is not in original HTML, but seems to be for JS functionality
+        // Move children from the temporary container to the actual subLinksCvr
+        while (subListContainer.firstChild) {
+          subLinksCvr.append(subListContainer.firstChild);
+        }
+        listItem.append(subLinksCvr);
 
-        // Apply recursive transformation for nested lists
-        transformNestedLists(subList); // subList is now part of subLinksContainer
-
-        // Add event listener for accordion behavior
         titleLink.addEventListener('click', (e) => {
-          if (titleLink.href === 'javascript:void(0)' || titleLink.href === window.location.href) {
+          if (titleLink.href === 'javascript:void(0)') {
             e.preventDefault();
-            e.stopPropagation();
-            li.classList.toggle('active');
-            subLinksContainer.classList.toggle('active');
+            listItem.classList.toggle('active');
+            subLinksCvr.classList.toggle('active');
           }
         });
+        // transformNestedLists expects a UL directly, so pass the extracted subList
+        if (subList) {
+          transformNestedLists(subList);
+        }
       } else {
-        // Simple top-level link
         const anchor = document.createElement('a');
         if (directHref) anchor.href = directHref;
-        anchor.textContent = labelCell.textContent.trim();
-        li.append(anchor);
+        anchor.textContent = labelText;
+        listItem.append(anchor);
       }
-      moveInstrumentation(rowEl, li);
-      footerMenu.append(li);
+      moveInstrumentation(linkRow, listItem);
+      footerMenu.append(listItem);
     });
   }
 
-  // Social Links
-  if (socialLinkRows.length > 0) {
+  // Social Icons
+  if (footerSocialRows.length > 0) {
     const socialIcons = document.createElement('ul');
-    socialIcons.classList.add('social-icons'); // From ORIGINAL HTML
+    socialIcons.classList.add('social-icons');
     colRight.append(socialIcons);
 
-    socialLinkRows.forEach((rowEl) => {
-      // Fixed schema for footer-social-item: [socialLink, icon]
-      const [socialLinkCell, iconCell] = [...rowEl.children];
-      const li = document.createElement('li');
-      socialIcons.append(li);
-
+    footerSocialRows.forEach((socialRow) => {
+      const [socialLinkCell, iconCell] = [...socialRow.children];
+      const listItem = document.createElement('li');
       const socialLink = document.createElement('a');
       const foundSocialLink = socialLinkCell.querySelector('a');
       if (foundSocialLink) {
         socialLink.href = foundSocialLink.href;
-        socialLink.target = '_blank';
+        socialLink.target = '_blank'; // From original HTML
       }
-      moveInstrumentation(socialLinkCell, socialLink);
-      li.append(socialLink);
 
       const iconPicture = iconCell.querySelector('picture');
       if (iconPicture) {
         const img = iconPicture.querySelector('img');
-        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '40' }]);
-        // Add 'svg' class to the img element inside the optimized picture as per original HTML
-        optimizedPic.querySelector('img').classList.add('svg');
-        moveInstrumentation(iconCell, optimizedPic.querySelector('img'));
-        socialLink.append(optimizedPic);
+        if (img) {
+          const optimizedPic = createOptimizedPicture(
+            img.src,
+            img.alt,
+            false,
+            [{ width: '750' }],
+          );
+          moveInstrumentation(img, optimizedPic.querySelector('img'));
+          socialLink.append(optimizedPic);
+        }
       }
+      moveInstrumentation(socialRow, listItem);
+      listItem.append(socialLink);
+      socialIcons.append(listItem);
     });
   }
 
-  // Brand Links
-  if (brandLinkRows.length > 0) {
+  // Footer Brand Links
+  if (footerBrandRows.length > 0) {
     const menuNavFooterBrandsContainer = document.createElement('div');
-    menuNavFooterBrandsContainer.classList.add('menu-nav-footer-brands-container'); // From ORIGINAL HTML
+    menuNavFooterBrandsContainer.classList.add('menu-nav-footer-brands-container');
     colRight.append(menuNavFooterBrandsContainer);
 
     const footerBrandsMenu = document.createElement('ul');
-    footerBrandsMenu.classList.add('menu'); // From ORIGINAL HTML
-    footerBrandsMenu.id = 'footer-brands-menu'; // From ORIGINAL HTML
+    footerBrandsMenu.id = 'footer-brands-menu';
+    footerBrandsMenu.classList.add('menu');
     menuNavFooterBrandsContainer.append(footerBrandsMenu);
 
-    brandLinkRows.forEach((rowEl, i) => {
-      // Fixed schema for footer-brand-item: [brandLabel, brandLink]
-      const [brandLabelCell, brandLinkCell] = [...rowEl.children];
-      const li = document.createElement('li');
-      // Use classes from ORIGINAL HTML, incrementing the ID
-      li.classList.add('menu-item', 'menu-item-type-taxonomy', 'menu-item-object-product-brand', `menu-item-${174 + i}`);
-      footerBrandsMenu.append(li);
+    footerBrandRows.forEach((brandRow, i) => {
+      const [labelCell, linkCell] = [...brandRow.children];
+      const listItem = document.createElement('li');
+      // Original HTML has menu-item-type-taxonomy, menu-item-object-product-brand, etc.
+      // These are specific to WordPress and not directly replicable or needed in EDS.
+      // Keeping 'menu-item' and a unique ID.
+      listItem.classList.add('menu-item', `menu-item-${174 + i}`);
 
       const brandLink = document.createElement('a');
-      const foundBrandLink = brandLinkCell.querySelector('a');
-      if (foundBrandLink) {
-        brandLink.href = foundBrandLink.href;
-      }
-      brandLink.textContent = brandLabelCell.textContent.trim();
-      moveInstrumentation(rowEl, brandLink);
-      li.append(brandLink);
+      const foundBrandLink = linkCell.querySelector('a');
+      if (foundBrandLink) brandLink.href = foundBrandLink.href;
+      brandLink.textContent = labelCell?.textContent.trim();
+
+      moveInstrumentation(brandRow, listItem);
+      listItem.append(brandLink);
+      footerBrandsMenu.append(listItem);
     });
   }
 
   // Copyright
   if (copyrightRow) {
     const copyrightDiv = document.createElement('div');
-    copyrightDiv.classList.add('copyright'); // From ORIGINAL HTML
-    // Read innerHTML from the cell, not the row, to avoid invalid nesting
-    const copyrightCell = copyrightRow.children[0];
-    copyrightDiv.innerHTML = copyrightCell?.innerHTML || '';
+    copyrightDiv.classList.add('copyright');
     moveInstrumentation(copyrightRow, copyrightDiv);
+    const [copyrightCell] = [...copyrightRow.children]; // Fixed: Use destructuring for cell access
+    copyrightDiv.innerHTML = copyrightCell?.innerHTML || ''; // Fixed: Ensure innerHTML is read from the cell
     colRight.append(copyrightDiv);
   }
 
   block.replaceChildren(footer);
+
+  // Image optimization
+  footer.querySelectorAll('picture > img').forEach((img) => {
+    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+    moveInstrumentation(img, optimizedPic.querySelector('img'));
+    img.closest('picture').replaceWith(optimizedPic);
+  });
 }

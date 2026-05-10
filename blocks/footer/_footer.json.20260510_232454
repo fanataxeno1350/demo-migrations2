@@ -68,7 +68,7 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Logo",
+          "label": "Footer Logo",
           "name": "logo",
           "valueType": "string"
         },
@@ -87,14 +87,14 @@
         {
           "component": "container",
           "item": "footer-social-item",
-          "label": "Footer Social Links",
-          "name": "footerSocialLinks"
+          "label": "Social Links",
+          "name": "socialLinks"
         },
         {
           "component": "container",
           "item": "footer-brand-item",
-          "label": "Footer Brand Links",
-          "name": "footerBrandLinks"
+          "label": "Brand Links",
+          "name": "brandLinks"
         },
         {
           "component": "richtext",
@@ -150,13 +150,13 @@
         {
           "component": "text",
           "label": "Brand Label",
-          "name": "label",
+          "name": "brandLabel",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Brand Link URL",
-          "name": "link",
+          "name": "brandLink",
           "valueType": "string"
         }
       ]

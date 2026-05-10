@@ -17,30 +17,45 @@
       }
     },
     {
-      "title": "Contact-Item",
-      "id": "contact-item",
+      "title": "Phone-Item",
+      "id": "phone-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "contact-item",
-              "name": "Contact-Item"
+              "model": "phone-item",
+              "name": "Phone-Item"
             }
           }
         }
       }
     },
     {
-      "title": "Social-Icon-Item",
-      "id": "social-icon-item",
+      "title": "Care-Item",
+      "id": "care-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "social-icon-item",
-              "name": "Social-Icon-Item"
+              "model": "care-item",
+              "name": "Care-Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Social-Item",
+      "id": "social-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "social-item",
+              "name": "Social-Item"
             }
           }
         }
@@ -86,15 +101,21 @@
         },
         {
           "component": "container",
-          "item": "contact-item",
-          "label": "Contact Items",
-          "name": "contactItems"
+          "item": "phone-item",
+          "label": "Phone Items",
+          "name": "phoneItems"
         },
         {
           "component": "container",
-          "item": "social-icon-item",
-          "label": "Social Icons",
-          "name": "socialIcons"
+          "item": "care-item",
+          "label": "Care Items",
+          "name": "careItems"
+        },
+        {
+          "component": "container",
+          "item": "social-item",
+          "label": "Social Items",
+          "name": "socialItems"
         },
         {
           "component": "container",
@@ -105,24 +126,41 @@
       ]
     },
     {
-      "id": "contact-item",
+      "id": "phone-item",
       "fields": [
         {
           "component": "text",
-          "label": "Contact Label",
+          "label": "Phone Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Contact Link",
+          "label": "Phone Link",
           "name": "link",
           "valueType": "string"
         }
       ]
     },
     {
-      "id": "social-icon-item",
+      "id": "care-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Care Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Care Link",
+          "name": "link",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "social-item",
       "fields": [
         {
           "component": "reference",
@@ -160,8 +198,9 @@
     {
       "id": "header",
       "components": [
-        "contact-item",
-        "social-icon-item",
+        "phone-item",
+        "care-item",
+        "social-item",
         "navigation-item"
       ]
     }

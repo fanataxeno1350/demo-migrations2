@@ -2,7 +2,7 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const [imageRow, headlineRow, descriptionRow] = [...block.children];
+  const [imageRow, headlineRow, bodyRow] = [...block.children];
 
   const root = document.createElement('section');
   root.classList.add('page-intro');
@@ -21,31 +21,38 @@ export default function decorate(block) {
     }
     moveInstrumentation(imageRow, imageDiv);
   }
-  root.append(imageDiv);
 
   const contentDiv = document.createElement('div');
-  contentDiv.classList.add('content', 'with-image');
+  contentDiv.classList.add('content');
+  if (imageRow) {
+    contentDiv.classList.add('with-image');
+  }
 
   const innerDiv = document.createElement('div');
   innerDiv.classList.add('inner');
 
   if (headlineRow) {
-    const headline = document.createElement('h1');
-    moveInstrumentation(headlineRow, headline);
-    headline.textContent = headlineRow.textContent.trim();
-    innerDiv.append(headline);
+    const h1 = document.createElement('h1');
+    moveInstrumentation(headlineRow, h1);
+    h1.textContent = headlineRow.textContent.trim();
+    innerDiv.append(h1);
   }
 
-  if (descriptionRow) {
-    const description = document.createElement('div'); // Use div for richtext to avoid <p> inside <p>
-    moveInstrumentation(descriptionRow, description);
-    // description is a richtext field, its content is directly inside the cell div.
-    // Reading innerHTML from the row's first child (the cell) is correct.
-    description.innerHTML = descriptionRow.children[0]?.innerHTML || '';
-    innerDiv.append(description);
+  if (bodyRow) {
+    const bodyContent = document.createElement('div');
+    moveInstrumentation(bodyRow, bodyContent);
+    // FIX: bodyRow is a row element, its innerHTML includes the cell wrapper.
+    // The model indicates 'body' is richtext, so we should read the innerHTML of the cell itself.
+    // The cell is the first child of the row.
+    bodyContent.innerHTML = bodyRow.innerHTML;
+    innerDiv.append(bodyContent);
   }
 
   contentDiv.append(innerDiv);
+
+  if (imageDiv.children.length > 0) {
+    root.append(imageDiv);
+  }
   root.append(contentDiv);
 
   block.replaceChildren(root);

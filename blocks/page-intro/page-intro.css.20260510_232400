@@ -1,0 +1,92 @@
+@keyframes spin{
+from {
+transform: rotate(0deg);
+}
+to {
+transform: rotate(360deg);
+}
+}
+
+@keyframes blink{
+from {
+opacity: 0;
+}
+50% {
+opacity: 1;
+}
+to {
+opacity: 0;
+}
+}
+
+.page-intro{ 
+background-color: #cf1919;
+ }
+
+.page-intro .image img{ 
+-o-object-fit: cover;
+object-fit: cover;
+-o-object-position: center;
+object-position: center;
+display: block;
+width: 100%;
+height: 100%;
+ }
+
+.page-intro .content{ 
+position: relative;
+color: #fff;
+width: 100%;
+max-width: 1800px;
+padding: 30px;
+margin: 0 auto;
+ }
+
+.page-intro .content.with-image{ 
+max-width: none;
+margin: auto;
+width: auto;
+ }
+
+.page-intro .content .inner{ 
+position: relative;
+z-index: 1;
+ }
+
+.page-intro .content h1{ 
+text-transform: uppercase;
+margin-bottom: 15px;
+font-weight: 800;
+text-transform: uppercase;
+color: inherit;
+ }
+
+.page-intro .content p{ 
+margin-bottom: 0.5em;
+ }
+
+.page-intro .content p:last-of-type{ 
+margin-bottom: 0;
+ }
+
+@media (min-width: 992px) { .page-intro{ 
+display: flex;
+ }
+
+.page-intro .image, .page-intro .content.with-image{ 
+width: 50%;
+ } }
+
+@media (min-width: 1440px) { .page-intro .image{ 
+width: 40%;
+ }
+
+.page-intro .content.with-image{ 
+width: 60%;
+padding: 70px 6vw 70px 6vw;
+ }
+
+.page-intro .content h1{ 
+margin-bottom: 20px;
+font-weight: 800;
+ } }

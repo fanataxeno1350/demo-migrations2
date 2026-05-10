@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Products-List",
+      "title": "Products List",
       "id": "products-list",
       "plugins": {
         "xwalk": {
@@ -10,14 +10,14 @@
             "template": {
               "filter": "products-list",
               "model": "products-list",
-              "name": "Products-List"
+              "name": "Products List"
             }
           }
         }
       }
     },
     {
-      "title": "Product-Item",
+      "title": "Product Item",
       "id": "product-item",
       "plugins": {
         "xwalk": {
@@ -25,7 +25,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "product-item",
-              "name": "Product-Item"
+              "name": "Product Item"
             }
           }
         }
@@ -49,8 +49,8 @@
       "fields": [
         {
           "component": "text",
-          "label": "Product Title (Desktop)",
-          "name": "desktopTitle",
+          "label": "Product Title (mb-off)",
+          "name": "titleOff",
           "valueType": "string"
         },
         {
@@ -61,14 +61,14 @@
         },
         {
           "component": "text",
-          "label": "Product Title (Mobile)",
-          "name": "mobileTitle",
+          "label": "Product Title (mb-on)",
+          "name": "titleOn",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "CTA Label",
-          "name": "ctaLabel",
+          "label": "More Info Button Label",
+          "name": "moreInfoLabel",
           "valueType": "string"
         }
       ]

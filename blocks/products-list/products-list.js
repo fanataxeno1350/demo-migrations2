@@ -2,14 +2,14 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const productRows = [...block.children];
+  const productItems = [...block.children];
 
-  const section = document.createElement('section');
-  // section.classList.add('products'); // REMOVED: The outer block div already has this class.
+  const productsSection = document.createElement('section');
+  productsSection.classList.add('products');
 
   const productsListWrapper = document.createElement('div');
   productsListWrapper.classList.add('products-list-wrapper');
-  section.append(productsListWrapper);
+  productsSection.append(productsListWrapper);
 
   const container = document.createElement('div');
   container.classList.add('container');
@@ -19,58 +19,58 @@ export default function decorate(block) {
   productsList.classList.add('products-list');
   container.append(productsList);
 
-  productRows.forEach((row, index) => {
-    const [titleOffCell, imageCell, titleOnCell, moreInfoLabelCell] = [...row.children];
+  productItems.forEach((row, index) => {
+    const [desktopTitleCell, imageCell, mobileTitleCell, ctaLabelCell] = [...row.children];
 
     const productDiv = document.createElement('div');
     productDiv.classList.add('product');
     productDiv.dataset.position = index + 1;
 
     const anchor = document.createElement('a');
-    anchor.href = '#'; // Original HTML uses href="#"
+    anchor.href = '#'; // Original HTML has href="#"
     anchor.classList.add('inner');
-    anchor.addEventListener('click', (e) => e.preventDefault()); // Original HTML uses onclick="return false;"
+    anchor.addEventListener('click', (e) => e.preventDefault()); // Prevent default navigation
 
-    const titleMbOff = document.createElement('div');
-    titleMbOff.classList.add('title', 'mb-off');
-    titleMbOff.textContent = titleOffCell?.textContent.trim() || '';
+    const desktopTitle = document.createElement('div');
+    desktopTitle.classList.add('title', 'mb-off');
+    desktopTitle.textContent = desktopTitleCell?.textContent.trim() || '';
 
     const picture = imageCell?.querySelector('picture');
-    const img = picture ? picture.querySelector('img') : null;
-    let optimizedPicture = null;
-    if (img) {
-      optimizedPicture = createOptimizedPicture(img.src, img.alt, false, [{ width: '400' }]);
-      moveInstrumentation(img, optimizedPicture.querySelector('img'));
+    if (picture) {
+      const img = picture.querySelector('img');
+      if (img) {
+        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '400' }]);
+        moveInstrumentation(img, optimizedPic.querySelector('img'));
+        anchor.append(optimizedPic);
+      }
     }
 
     const productTitleSpan = document.createElement('span');
     productTitleSpan.classList.add('product-title');
 
-    const titleMbOn = document.createElement('div');
-    titleMbOn.classList.add('title', 'mb-on');
-    titleMbOn.textContent = titleOnCell?.textContent.trim() || '';
+    const mobileTitle = document.createElement('div');
+    mobileTitle.classList.add('title', 'mb-on');
+    mobileTitle.textContent = mobileTitleCell?.textContent.trim() || '';
 
     const moreInfoBtn = document.createElement('span');
     moreInfoBtn.classList.add('btn', 'more-info-btn');
-    // The original HTML has data-product-id. Since the block model doesn't provide it,
-    // we cannot set it dynamically. We will omit it as per Rule 16.
-    moreInfoBtn.textContent = moreInfoLabelCell?.textContent.trim() || '';
-    moreInfoBtn.addEventListener('click', (e) => e.preventDefault()); // Original HTML uses onclick="return false;"
+    moreInfoBtn.textContent = ctaLabelCell?.textContent.trim() || '';
+    moreInfoBtn.addEventListener('click', (e) => e.preventDefault()); // Prevent default navigation
 
-    productTitleSpan.append(titleMbOn, moreInfoBtn);
-
-    anchor.append(titleMbOff);
-    if (optimizedPicture) {
-      anchor.append(optimizedPicture);
-    } else if (picture) {
-      anchor.append(picture); // Fallback if optimization fails
-    }
-    anchor.append(productTitleSpan);
-
-    moveInstrumentation(row, productDiv); // Move instrumentation from original row to new productDiv
+    productTitleSpan.append(mobileTitle, moreInfoBtn);
+    anchor.append(desktopTitle, productTitleSpan);
     productDiv.append(anchor);
     productsList.append(productDiv);
+
+    moveInstrumentation(row, productDiv);
   });
 
-  block.replaceChildren(section);
+  block.replaceChildren(productsSection);
+
+  // Optimize images within the block
+  productsList.querySelectorAll('picture > img').forEach((img) => {
+    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '400' }]);
+    moveInstrumentation(img, optimizedPic.querySelector('img'));
+    img.closest('picture').replaceWith(optimizedPic);
+  });
 }

@@ -54,8 +54,9 @@
   {
     "id": "header",
     "components": [
-      "contact-item",
-      "social-icon-item",
+      "phone-item",
+      "care-item",
+      "social-item",
       "navigation-item"
     ]
   },
