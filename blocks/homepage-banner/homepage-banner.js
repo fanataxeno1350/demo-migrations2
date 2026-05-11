@@ -3,31 +3,25 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
   const [
-    videoLargePosterRow,
-    videoLargeSourceRow,
-    videoSmallPosterRow,
-    videoSmallSourceRow,
-    primaryTitleRow,
-    primaryCtaLinkRow,
-    primaryCtaLabelRow,
-    secondaryTitleRow,
-    secondaryHeadlineRow,
-    secondaryCtaLinkRow,
-    secondaryCtaLabelRow,
-    greetingMorningRow,
-    greetingAfternoonRow,
-    greetingEveningRow,
-    greetingNightRow,
+    videoLargePosterCell,
+    videoLargeSrcCell,
+    videoSmallPosterCell,
+    videoSmallSrcCell,
+    primaryTitleCell,
+    primaryCtaLinkCell,
+    primaryCtaLabelCell,
+    secondaryTitleCell,
+    secondaryCtaLinkCell,
+    secondaryCtaLabelCell,
+    greetingMorningCell,
+    greetingAfternoonCell,
+    greetingEveningCell,
+    greetingNightCell,
   ] = [...block.children];
 
-  const section = document.createElement('section');
-  section.classList.add(
-    'grid-container',
-    'homepage-banner-wrapper',
-    'variation--banner',
-    'bg--paper-white',
-  );
-  section.setAttribute('data-is-banner', 'true');
+  const sectionWrapper = document.createElement('section');
+  sectionWrapper.classList.add('grid-container', 'homepage-banner-wrapper', 'variation--banner', 'bg--paper-white');
+  sectionWrapper.setAttribute('data-is-banner', 'true');
 
   const homepageBanner = document.createElement('div');
   homepageBanner.classList.add('homepage-banner', 'reveal-effect-container');
@@ -36,63 +30,63 @@ export default function decorate(block) {
   const mediaContainer = document.createElement('div');
   mediaContainer.classList.add('media-container');
 
-  // Large Video
+  // Large video
   const videoLarge = document.createElement('video');
   videoLarge.muted = true;
   videoLarge.classList.add('video--large', 'show-for-large');
   videoLarge.playsInline = true;
   videoLarge.preload = 'none';
 
-  const largePosterImg = videoLargePosterRow.querySelector('picture img');
+  const largePosterPic = videoLargePosterCell.querySelector('picture');
+  const largePosterImg = largePosterPic ? largePosterPic.querySelector('img') : null;
   if (largePosterImg) {
-    const optimizedPoster = createOptimizedPicture(
-      largePosterImg.src,
-      largePosterImg.alt,
-      false,
-      [{ width: '2000' }],
-    );
-    videoLarge.poster = optimizedPoster.querySelector('img').src;
-    videoLarge.setAttribute('data-poster', optimizedPoster.querySelector('img').src);
+    videoLarge.poster = largePosterImg.src;
+    videoLarge.setAttribute('data-poster', largePosterImg.src);
+    // Optimize the poster image
+    const optimizedPosterPic = createOptimizedPicture(largePosterImg.src, largePosterImg.alt, false, [{ width: '1200' }]);
+    moveInstrumentation(videoLargePosterCell, optimizedPosterPic.querySelector('img'));
+    // We don't append the optimized picture directly, just use its src for the video poster
   }
 
-  const largeSourceLink = videoLargeSourceRow.children[0]?.querySelector('a'); // Corrected access
-  if (largeSourceLink) {
-    const sourceLarge = document.createElement('source');
-    sourceLarge.src = largeSourceLink.href;
-    sourceLarge.type = 'video/mp4';
-    sourceLarge.setAttribute('data-src', largeSourceLink.href);
-    videoLarge.append(sourceLarge);
+  const largeVideoSource = document.createElement('source');
+  const largeVideoLink = videoLargeSrcCell.querySelector('a');
+  if (largeVideoLink) {
+    largeVideoSource.src = largeVideoLink.href;
+    largeVideoSource.setAttribute('data-src', largeVideoLink.href);
+    largeVideoSource.type = 'video/mp4';
+    moveInstrumentation(videoLargeSrcCell, largeVideoSource);
   }
+  videoLarge.append(largeVideoSource);
   mediaContainer.append(videoLarge);
 
-  // Small Video
+  // Small video
   const videoSmall = document.createElement('video');
   videoSmall.muted = true;
   videoSmall.classList.add('video--small', 'hide-for-large');
   videoSmall.playsInline = true;
   videoSmall.preload = 'none';
 
-  const smallPosterImg = videoSmallPosterRow.querySelector('picture img');
+  const smallPosterPic = videoSmallPosterCell.querySelector('picture');
+  const smallPosterImg = smallPosterPic ? smallPosterPic.querySelector('img') : null;
   if (smallPosterImg) {
-    const optimizedPoster = createOptimizedPicture(
-      smallPosterImg.src,
-      smallPosterImg.alt,
-      false,
-      [{ width: '750' }],
-    );
-    videoSmall.poster = optimizedPoster.querySelector('img').src;
-    videoSmall.setAttribute('data-poster', optimizedPoster.querySelector('img').src);
+    videoSmall.poster = smallPosterImg.src;
+    videoSmall.setAttribute('data-poster', smallPosterImg.src);
+    // Optimize the poster image
+    const optimizedSmallPosterPic = createOptimizedPicture(smallPosterImg.src, smallPosterImg.alt, false, [{ width: '750' }]);
+    moveInstrumentation(videoSmallPosterCell, optimizedSmallPosterPic.querySelector('img'));
   }
 
-  const smallSourceLink = videoSmallSourceRow.children[0]?.querySelector('a'); // Corrected access
-  if (smallSourceLink) {
-    const sourceSmall = document.createElement('source');
-    sourceSmall.src = smallSourceLink.href;
-    sourceSmall.type = 'video/mp4';
-    sourceSmall.setAttribute('data-src', smallSourceLink.href);
-    videoSmall.append(sourceSmall);
+  const smallVideoSource = document.createElement('source');
+  const smallVideoLink = smallVideoSrcCell.querySelector('a');
+  if (smallVideoLink) {
+    smallVideoSource.src = smallVideoLink.href;
+    smallVideoSource.setAttribute('data-src', smallVideoLink.href);
+    smallVideoSource.type = 'video/mp4';
+    moveInstrumentation(smallVideoSrcCell, smallVideoSource);
   }
+  videoSmall.append(smallVideoSource);
   mediaContainer.append(videoSmall);
+
   homepageBanner.append(mediaContainer);
 
   const contentContainer = document.createElement('div');
@@ -107,60 +101,65 @@ export default function decorate(block) {
   // Primary Title
   const primaryTitle = document.createElement('h1');
   primaryTitle.classList.add('primary-title');
-  moveInstrumentation(primaryTitleRow, primaryTitle);
-  primaryTitle.textContent = primaryTitleRow.textContent.trim();
+  primaryTitle.textContent = primaryTitleCell.textContent.trim();
+  moveInstrumentation(primaryTitleCell, primaryTitle);
   contentWrapper.append(primaryTitle);
 
   // Primary CTA
   const primaryCtaContainer = document.createElement('div');
   primaryCtaContainer.classList.add('cta-container', 'primary-title-cta-container');
+
   const primaryCtaLink = document.createElement('a');
   primaryCtaLink.classList.add('button', 'red');
-  const primaryLinkEl = primaryCtaLinkRow.querySelector('a');
-  if (primaryLinkEl) {
-    primaryCtaLink.href = primaryLinkEl.href;
-    primaryCtaLink.rel = 'follow';
+  primaryCtaLink.rel = 'follow';
+  const foundPrimaryLink = primaryCtaLinkCell.querySelector('a');
+  if (foundPrimaryLink) {
+    primaryCtaLink.href = foundPrimaryLink.href;
   }
-  const primaryCtaLabel = document.createElement('span');
-  primaryCtaLabel.classList.add('button-text');
-  primaryCtaLabel.textContent = primaryCtaLabelRow.textContent.trim();
-  primaryCtaLink.append(primaryCtaLabel);
-  moveInstrumentation(primaryCtaLinkRow, primaryCtaLink);
+  const primaryCtaSpan = document.createElement('span');
+  primaryCtaSpan.classList.add('button-text');
+  primaryCtaSpan.textContent = primaryCtaLabelCell.textContent.trim();
+  primaryCtaLink.append(primaryCtaSpan);
+  moveInstrumentation(primaryCtaLinkCell, primaryCtaLink);
+  moveInstrumentation(primaryCtaLabelCell, primaryCtaLink);
   primaryCtaContainer.append(primaryCtaLink);
   contentWrapper.append(primaryCtaContainer);
 
-  // Secondary Title and CTA
+  // Secondary Title
   const secondaryTitleDiv = document.createElement('div');
   secondaryTitleDiv.classList.add('secondary-title');
+  moveInstrumentation(secondaryTitleCell, secondaryTitleDiv);
 
   const secondaryHeadline = document.createElement('div');
   secondaryHeadline.classList.add('headline-h1', 'font-weight-bold');
-  moveInstrumentation(secondaryHeadlineRow, secondaryHeadline);
-  secondaryHeadline.textContent = secondaryHeadlineRow.textContent.trim();
+  secondaryHeadline.textContent = secondaryTitleCell.textContent.trim();
   secondaryTitleDiv.append(secondaryHeadline);
 
+  // Secondary CTA
   const secondaryCtaContainer = document.createElement('div');
   secondaryCtaContainer.classList.add('cta-container');
+
   const secondaryCtaLink = document.createElement('a');
   secondaryCtaLink.classList.add('button', 'red');
-  const secondaryLinkEl = secondaryCtaLinkRow.querySelector('a');
-  if (secondaryLinkEl) {
-    secondaryCtaLink.href = secondaryLinkEl.href;
-    secondaryCtaLink.rel = 'follow';
+  secondaryCtaLink.rel = 'follow';
+  const foundSecondaryLink = secondaryCtaLinkCell.querySelector('a');
+  if (foundSecondaryLink) {
+    secondaryCtaLink.href = foundSecondaryLink.href;
   }
-  const secondaryCtaLabel = document.createElement('span');
-  secondaryCtaLabel.classList.add('button-text');
-  secondaryCtaLabel.textContent = secondaryCtaLabelRow.textContent.trim();
-  secondaryCtaLink.append(secondaryCtaLabel);
-  moveInstrumentation(secondaryCtaLinkRow, secondaryCtaLink);
+  const secondaryCtaSpan = document.createElement('span');
+  secondaryCtaSpan.classList.add('button-text');
+  secondaryCtaSpan.textContent = secondaryCtaLabelCell.textContent.trim();
+  secondaryCtaLink.append(secondaryCtaSpan);
+  moveInstrumentation(secondaryCtaLinkCell, secondaryCtaLink);
+  moveInstrumentation(secondaryCtaLabelCell, secondaryCtaLink);
   secondaryCtaContainer.append(secondaryCtaLink);
   secondaryTitleDiv.append(secondaryCtaContainer);
 
   contentWrapper.append(secondaryTitleDiv);
+
   maxWidthContainer.append(contentWrapper);
   contentContainer.append(maxWidthContainer);
   homepageBanner.append(contentContainer);
-  section.append(homepageBanner);
 
   // Greeting Container
   const greetingContainer = document.createElement('div');
@@ -169,30 +168,80 @@ export default function decorate(block) {
   const greetingWrapper = document.createElement('div');
   greetingWrapper.classList.add('greeting-wrapper', 'animate');
 
-  const greetings = [
-    { row: greetingMorningRow, className: 'greeting--morning', defaultText: 'Good morning!' },
-    { row: greetingAfternoonRow, className: 'greeting--afternoon', defaultText: 'Good afternoon!' },
-    { row: greetingEveningRow, className: 'greeting--evening', defaultText: 'Good evening!' },
-    { row: greetingNightRow, className: 'greeting--night', defaultText: 'Good night!' },
-  ];
+  const greetingMorning = document.createElement('span');
+  greetingMorning.classList.add('greeting', 'greeting--morning');
+  greetingMorning.textContent = greetingMorningCell.textContent.trim();
+  moveInstrumentation(greetingMorningCell, greetingMorning);
+  greetingWrapper.append(greetingMorning);
 
-  greetings.forEach((greetingData) => {
-    const span = document.createElement('span');
-    span.classList.add('greeting', greetingData.className);
-    moveInstrumentation(greetingData.row, span);
-    span.textContent = greetingData.row.textContent.trim() || greetingData.defaultText;
-    greetingWrapper.append(span);
-  });
+  const greetingAfternoon = document.createElement('span');
+  greetingAfternoon.classList.add('greeting', 'greeting--afternoon');
+  greetingAfternoon.textContent = greetingAfternoonCell.textContent.trim();
+  moveInstrumentation(greetingAfternoonCell, greetingAfternoon);
+  greetingWrapper.append(greetingAfternoon);
+
+  const greetingEvening = document.createElement('span');
+  greetingEvening.classList.add('greeting', 'greeting--evening');
+  greetingEvening.textContent = greetingEveningCell.textContent.trim();
+  moveInstrumentation(greetingEveningCell, greetingEvening);
+  greetingWrapper.append(greetingEvening);
+
+  const greetingNight = document.createElement('span');
+  greetingNight.classList.add('greeting', 'greeting--night');
+  greetingNight.textContent = greetingNightCell.textContent.trim();
+  moveInstrumentation(greetingNightCell, greetingNight);
+  greetingWrapper.append(greetingNight);
 
   greetingContainer.append(greetingWrapper);
-  section.append(greetingContainer);
+  sectionWrapper.append(homepageBanner, greetingContainer);
 
-  block.replaceChildren(section);
+  block.replaceChildren(sectionWrapper);
 
-  // Optimize images within pictures
-  block.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    moveInstrumentation(img, optimizedPic.querySelector('img'));
-    img.closest('picture').replaceWith(optimizedPic);
-  });
+  // Video autoplay logic
+  const playVideos = () => {
+    const largeVideo = block.querySelector('.video--large');
+    const smallVideo = block.querySelector('.video--small');
+
+    if (largeVideo) {
+      largeVideo.play().catch((e) => console.error('Large video autoplay failed:', e));
+    }
+    if (smallVideo) {
+      smallVideo.play().catch((e) => console.error('Small video autoplay failed:', e));
+    }
+  };
+
+  // Check if videos are in view to start playing
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        playVideos();
+        observer.disconnect(); // Stop observing once videos start
+      }
+    });
+  }, { threshold: 0.5 }); // Trigger when 50% of the video is in view
+
+  observer.observe(block);
+
+  // Greeting logic
+  const updateGreeting = () => {
+    const now = new Date();
+    const hour = now.getHours();
+    const greetings = block.querySelectorAll('.greeting');
+    greetings.forEach((greeting) => {
+      greeting.style.display = 'none';
+    });
+
+    if (hour >= 5 && hour < 12) {
+      block.querySelector('.greeting--morning').style.display = 'block';
+    } else if (hour >= 12 && hour < 17) {
+      block.querySelector('.greeting--afternoon').style.display = 'block';
+    } else if (hour >= 17 && hour < 21) {
+      block.querySelector('.greeting--evening').style.display = 'block';
+    } else {
+      block.querySelector('.greeting--night').style.display = 'block';
+    }
+  };
+
+  updateGreeting();
+  setInterval(updateGreeting, 60 * 60 * 1000); // Update every hour
 }

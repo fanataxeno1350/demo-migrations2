@@ -2,38 +2,49 @@ import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.j
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
-  const children = [...block.children];
-
   const [
-    backgroundImageRow,
+    bgImageRow,
     headingRow,
     greetingMorningRow,
     greetingAfternoonRow,
     greetingEveningRow,
     greetingNightRow,
-    introTextRow,
+    guideTextRow,
     errorMessageRow,
-    questionsContainerPlaceholder, // This is actually the first question row, not a placeholder
-    ...remainingRows // This will contain all subsequent question and option rows
-  ] = children;
+    ...restRows
+  ] = [...block.children];
+
+  const slideRows = [];
+
+  // Separate slide and option rows based on their structure
+  let currentSlideOptions = [];
+  restRows.forEach((row) => {
+    const cells = [...row.children];
+    if (cells.length === 1) { // This is a slide row (questionLabel)
+      slideRows.push({ row, options: [] });
+      currentSlideOptions = slideRows[slideRows.length - 1].options;
+    } else if (cells.length === 2) { // This is an option row (optionIcon, optionLabel)
+      currentSlideOptions.push(row);
+    }
+  });
 
   const root = document.createElement('section');
-  // Removed 'coffee-profiler' from root.classList.add() as the outer block div already has it.
-  root.classList.add('grid-container', 'animate-enter', 'in-view');
-  root.setAttribute('data-api-url', 'https://www.nescafe.com/in/nc/cprofiler-status'); // Assuming this URL is static or from a metadata field
+  root.classList.add('grid-container', 'coffee-profiler', 'animate-enter', 'in-view');
+  if (block.dataset.apiUrl) {
+    root.setAttribute('data-api-url', block.dataset.apiUrl);
+  }
 
   // Background Image
   const parallaxBgImgContainer = document.createElement('div');
   parallaxBgImgContainer.classList.add('parallax-bg-img-container');
   const parallaxImg = document.createElement('div');
   parallaxImg.classList.add('parallax-img', 'lazyLoadedImage');
-
-  const bgPicture = backgroundImageRow?.querySelector('picture');
+  const bgPicture = bgImageRow.querySelector('picture');
   if (bgPicture) {
     const img = bgPicture.querySelector('img');
     if (img) {
-      parallaxImg.style.backgroundImage = `url(${img.src})`;
-      moveInstrumentation(backgroundImageRow, parallaxImg);
+      parallaxImg.style.backgroundImage = `url('${img.src}')`;
+      moveInstrumentation(bgImageRow, parallaxImg);
     }
   }
   parallaxBgImgContainer.append(parallaxImg);
@@ -42,19 +53,16 @@ export default async function decorate(block) {
   const maxWidthContainer = document.createElement('div');
   maxWidthContainer.classList.add('max-width-container', 'grid-x');
 
-  const headerCellWrapper = document.createElement('div');
-  headerCellWrapper.classList.add('cell', 'small-12', 'medium-offset-1', 'medium-10', 'xlarge-offset-2', 'xlarge-8', 'padding-x');
+  const contentCell = document.createElement('div');
+  contentCell.classList.add('cell', 'small-12', 'medium-offset-1', 'medium-10', 'xlarge-offset-2', 'xlarge-8', 'padding-x');
 
   // Heading
   const heading = document.createElement('h2');
   heading.classList.add('heading', 'animate-enter-fade-up-short', 'animate-delay-3');
-  if (headingRow) {
-    heading.textContent = headingRow.textContent.trim();
-    moveInstrumentation(headingRow, heading);
-  }
-  headerCellWrapper.append(heading);
+  heading.textContent = headingRow.textContent.trim();
+  moveInstrumentation(headingRow, heading);
+  contentCell.append(heading);
 
-  // Intro Info
   const introInfo = document.createElement('div');
   introInfo.classList.add('intro-info', 'animate-enter-fade', 'animate-delay-1', 'no-avatar-image');
 
@@ -64,37 +72,26 @@ export default async function decorate(block) {
 
   const greetingMorning = document.createElement('span');
   greetingMorning.classList.add('greeting--morning');
-  if (greetingMorningRow) {
-    greetingMorning.textContent = greetingMorningRow.textContent.trim();
-    moveInstrumentation(greetingMorningRow, greetingMorning);
-  }
+  greetingMorning.textContent = greetingMorningRow.textContent.trim();
+  moveInstrumentation(greetingMorningRow, greetingMorning);
   greetingsContainer.append(greetingMorning);
 
   const greetingAfternoon = document.createElement('span');
-    // Original HTML has 'hide' class, so add it here.
   greetingAfternoon.classList.add('hide', 'greeting--afternoon');
-  if (greetingAfternoonRow) {
-    greetingAfternoon.textContent = greetingAfternoonRow.textContent.trim();
-    moveInstrumentation(greetingAfternoonRow, greetingAfternoon);
-  }
+  greetingAfternoon.textContent = greetingAfternoonRow.textContent.trim();
+  moveInstrumentation(greetingAfternoonRow, greetingAfternoon);
   greetingsContainer.append(greetingAfternoon);
 
   const greetingEvening = document.createElement('span');
-    // Original HTML has 'hide' class, so add it here.
   greetingEvening.classList.add('hide', 'greeting--evening');
-  if (greetingEveningRow) {
-    greetingEvening.textContent = greetingEveningRow.textContent.trim();
-    moveInstrumentation(greetingEveningRow, greetingEvening);
-  }
+  greetingEvening.textContent = greetingEveningRow.textContent.trim();
+  moveInstrumentation(greetingEveningRow, greetingEvening);
   greetingsContainer.append(greetingEvening);
 
   const greetingNight = document.createElement('span');
-    // Original HTML has 'hide' class, so add it here.
   greetingNight.classList.add('hide', 'greeting--night');
-  if (greetingNightRow) {
-    greetingNight.textContent = greetingNightRow.textContent.trim();
-    moveInstrumentation(greetingNightRow, greetingNight);
-  }
+  greetingNight.textContent = greetingNightRow.textContent.trim();
+  moveInstrumentation(greetingNightRow, greetingNight);
   greetingsContainer.append(greetingNight);
 
   introInfo.append(greetingsContainer);
@@ -102,110 +99,100 @@ export default async function decorate(block) {
   // Guide Text
   const guideText = document.createElement('div');
   guideText.classList.add('guide-text', 'labelMediumRegular', 'animate-enter-fade-up-short', 'animate-delay-6');
-  if (introTextRow) {
-    guideText.textContent = introTextRow.textContent.trim();
-    moveInstrumentation(introTextRow, guideText);
-  }
+  guideText.textContent = guideTextRow.textContent.trim();
+  moveInstrumentation(guideTextRow, guideText);
   introInfo.append(guideText);
-  headerCellWrapper.append(introInfo);
-  maxWidthContainer.append(headerCellWrapper);
+
+  contentCell.append(introInfo);
+  maxWidthContainer.append(contentCell);
 
   // Swiper Pagination Container
   const swiperPaginationContainer = document.createElement('div');
   swiperPaginationContainer.classList.add('cell', 'small-12', 'medium-offset-1', 'medium-10', 'xlarge-offset-2', 'xlarge-8', 'swiper-pagination-container', 'padding-x', 'animate-enter-fade-up-short', 'animate-delay-15');
   const swiperPagination = document.createElement('div');
   swiperPagination.classList.add('swiper-pagination', 'swiper-pagination-progressbar', 'swiper-pagination-horizontal');
+  const swiperPaginationFill = document.createElement('span');
+  swiperPaginationFill.classList.add('swiper-pagination-progressbar-fill');
+  swiperPagination.append(swiperPaginationFill);
   swiperPaginationContainer.append(swiperPagination);
   maxWidthContainer.append(swiperPaginationContainer);
 
-  // Swiper
+  // Swiper Container
   const swiperCell = document.createElement('div');
   swiperCell.classList.add('cell', 'small-12');
   const swiperEl = document.createElement('div');
   swiperEl.classList.add('swiper', 'coffee-profiler-swiper');
-  swiperEl.style.minHeight = '407px'; // From original HTML
   const swiperWrapper = document.createElement('div');
   swiperWrapper.classList.add('swiper-wrapper');
-  swiperEl.append(swiperWrapper);
-  swiperCell.append(swiperEl);
-  maxWidthContainer.append(swiperCell);
 
-  // Parse question and option rows
-  const allItemRows = [questionsContainerPlaceholder, ...remainingRows]; // Re-include the first question row
-  const questionsWithOptions = [];
-  let currentQuestion = null;
+  // Move instrumentation for the slides container (the first slideRow's original row)
+  // The original JS had `slidesContainer` which was undefined.
+  // We apply instrumentation to the swiperEl itself, as it's the main container for the slides.
+  // If there was a specific "slides container" row in the block, it would be handled here.
+  // Given the structure, `restRows` are the actual slide/option rows, not a single container.
+  // So, instrumentation is moved from individual slide rows.
 
-  allItemRows.forEach((row) => {
-    const cells = [...row.children];
-    // A question row has 1 cell (questionLabel)
-    if (cells.length === 1) {
-      currentQuestion = {
-        questionLabel: cells[0]?.textContent.trim(),
-        options: [],
-        instrumentation: row,
-      };
-      questionsWithOptions.push(currentQuestion);
-    }
-    // An option row has 2 cells (icon, optionLabel)
-    else if (cells.length === 2 && currentQuestion) {
-      const [iconCell, optionLabelCell] = cells; // Destructuring for fixed schema
-      currentQuestion.options.push({
-        icon: iconCell.querySelector('picture'),
-        optionLabel: optionLabelCell?.textContent.trim(),
-        instrumentation: row,
-      });
-    }
-  });
+  slideRows.forEach((slideItem, index) => {
+    const slideRow = slideItem.row;
+    const options = slideItem.options;
+    const [questionLabelCell] = [...slideRow.children];
 
-  questionsWithOptions.forEach((questionData, index) => {
-    const slide = document.createElement('div');
-    slide.classList.add('swiper-slide', 'coffee-profiler-slide', 'animate-enter-fade-up-short', 'animate-delay-7');
+    const swiperSlide = document.createElement('div');
+    swiperSlide.classList.add('swiper-slide');
     if (index === 0) {
-      slide.classList.add('initial-slide', 'swiper-slide-active');
+      swiperSlide.classList.add('initial-slide', 'swiper-slide-active');
     }
-    slide.setAttribute('data-slide-index', index);
-    slide.setAttribute('aria-label', `${index + 1} / ${questionsWithOptions.length}`);
+    if (index === slideRows.length - 1) {
+      swiperSlide.classList.add('last-slide');
+    }
+    swiperSlide.setAttribute('data-slide-index', index);
+    swiperSlide.setAttribute('aria-label', `${index + 1} / ${slideRows.length}`);
 
-    // Move instrumentation from the question row to the slide
-    moveInstrumentation(questionData.instrumentation, slide);
+    const coffeeProfilerSlide = document.createElement('div');
+    coffeeProfilerSlide.classList.add('coffee-profiler-slide', 'animate-enter-fade-up-short', 'animate-delay-7');
+    moveInstrumentation(slideRow, coffeeProfilerSlide);
 
     const questionLabel = document.createElement('h3');
     questionLabel.classList.add('question-label');
-    questionLabel.textContent = questionData.questionLabel;
-    slide.append(questionLabel);
+    questionLabel.textContent = questionLabelCell.textContent.trim();
+    coffeeProfilerSlide.append(questionLabel);
 
     const optionsContainer = document.createElement('div');
-    optionsContainer.classList.add('options-container', `options-count--${questionData.options.length}`);
+    optionsContainer.classList.add('options-container', `options-count--${options.length}`);
 
-    questionData.options.forEach((optionData) => {
-      const button = document.createElement('button');
-      button.classList.add('option', 'elevation-2', 'has-hover', 'bg--paper-white');
-      button.setAttribute('role', 'radio');
-      button.setAttribute('aria-checked', 'false');
-      button.style.minHeight = '159px'; // From original HTML
+    options.forEach((optionRow) => {
+      const [optionIconCell, optionLabelCell] = [...optionRow.children];
 
-      // Move instrumentation from the option row to the button
-      moveInstrumentation(optionData.instrumentation, button);
+      const optionButton = document.createElement('button');
+      optionButton.classList.add('option', 'elevation-2', 'has-hover', 'bg--paper-white');
+      optionButton.setAttribute('role', 'radio');
+      optionButton.setAttribute('aria-checked', 'false');
+      moveInstrumentation(optionRow, optionButton);
 
-      if (optionData.icon) {
-        const img = optionData.icon.querySelector('img');
-        if (img) {
-          // createOptimizedPicture handles lazyloading and alt text
-          const optionIcon = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-          optionIcon.classList.add('option-icon', 'lazyloaded');
-          button.append(optionIcon);
+      const optionIconPicture = optionIconCell.querySelector('picture');
+      if (optionIconPicture) {
+        const optionIconImg = optionIconPicture.querySelector('img');
+        if (optionIconImg) {
+          const optimizedPic = createOptimizedPicture(optionIconImg.src, optionIconImg.alt, false, [{ width: '750' }]);
+          const newImg = optimizedPic.querySelector('img');
+          newImg.classList.add('option-icon', 'lazyloaded');
+          optionButton.append(optimizedPic);
         }
       }
 
       const optionLabel = document.createElement('span');
       optionLabel.classList.add('option-label', 'labelMediumRegular');
-      optionLabel.textContent = optionData.optionLabel;
-      button.append(optionLabel);
-      optionsContainer.append(button);
+      optionLabel.textContent = optionLabelCell.textContent.trim();
+      optionButton.append(optionLabel);
+      optionsContainer.append(optionButton);
     });
-    slide.append(optionsContainer);
-    swiperWrapper.append(slide);
+
+    coffeeProfilerSlide.append(optionsContainer);
+    swiperSlide.append(coffeeProfilerSlide);
+    swiperWrapper.append(swiperSlide);
   });
+
+  swiperEl.append(swiperWrapper);
 
   // Swiper Controls
   const swiperControls = document.createElement('div');
@@ -213,6 +200,8 @@ export default async function decorate(block) {
 
   const prevBtn = document.createElement('button');
   prevBtn.classList.add('swiper-control', 'swiper-button', 'swiper-control--prev', 'elevation-1', 'animate-enter-fade-right-short', 'animate-delay-15', 'swiper-button-disabled');
+  prevBtn.setAttribute('disabled', '');
+  prevBtn.setAttribute('tabindex', '-1');
   prevBtn.setAttribute('aria-label', 'Previous slide');
   prevBtn.setAttribute('aria-disabled', 'true');
   prevBtn.innerHTML = `
@@ -224,15 +213,20 @@ export default async function decorate(block) {
 
   const nextBtn = document.createElement('button');
   nextBtn.classList.add('swiper-control', 'swiper-button', 'swiper-control--next', 'elevation-1', 'animate-enter-fade-left-short', 'animate-delay-15');
+  nextBtn.setAttribute('tabindex', '0');
   nextBtn.setAttribute('aria-label', 'Next slide');
-  nextBtn.setAttribute('aria-disabled', 'false');
+  nextBtn.setAttribute('disabled', '');
   nextBtn.innerHTML = `
     <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M17 7L1 7M17 7L11.6667 2M17 7L11.6667 12" stroke="#222222" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path>
     </svg>
   `;
   swiperControls.append(nextBtn);
+
   swiperEl.append(swiperControls);
+  swiperCell.append(swiperEl);
+  maxWidthContainer.append(swiperCell);
+  root.append(maxWidthContainer);
 
   // Error Message
   const errorMessageDiv = document.createElement('div');
@@ -240,45 +234,35 @@ export default async function decorate(block) {
   errorMessageDiv.setAttribute('data-default-message', 'Error! Please try again.');
   const errorMessageText = document.createElement('span');
   errorMessageText.classList.add('error-message-text', 'bodyLargeRegular');
-  if (errorMessageRow) {
-    errorMessageText.textContent = errorMessageRow.textContent.trim();
-    moveInstrumentation(errorMessageRow, errorMessageText);
-  }
+  errorMessageText.textContent = errorMessageRow.textContent.trim();
+  moveInstrumentation(errorMessageRow, errorMessageText);
   errorMessageDiv.append(errorMessageText);
   root.append(errorMessageDiv);
 
   // Form (hidden)
   const form = document.createElement('form');
   form.classList.add('hide', 'coffee-profiler-form');
-  form.method = 'POST';
-  form.action = 'https://www.nescafe.com/in/coffee-profiler/result';
-  form.innerHTML = `
-    <input name="type" value="" type="hidden"/>
-    <input name="intensity" value="" type="hidden"/>
-    <input name="format" value="" type="hidden"/>
-    <input name="features" value="" type="hidden"/>
-    <input name="exc-type" value="" type="hidden"/>
-    <input name="exc-intensity" value="" type="hidden"/>
-    <input name="exc-format" value="" type="hidden"/>
-    <input name="exc-features" value="" type="hidden"/>
-  `;
+  form.setAttribute('method', 'POST');
+  form.setAttribute('action', 'https://www.nescafe.com/in/coffee-profiler/result');
+  ['type', 'intensity', 'format', 'features', 'exc-type', 'exc-intensity', 'exc-format', 'exc-features'].forEach((name) => {
+    const input = document.createElement('input');
+    input.setAttribute('name', name);
+    input.setAttribute('value', '');
+    input.setAttribute('type', 'hidden');
+    form.append(input);
+  });
   root.append(form);
 
-  // The questionsContainerPlaceholder was actually the first question row.
-  // Instrumentation for all item rows (questions and options) is moved to their respective
-  // slide/button elements within the loop.
-  // No need to move instrumentation from questionsContainerPlaceholder to swiperWrapper here,
-  // as each question row's instrumentation is moved to its corresponding slide.
   block.replaceChildren(root);
 
-  // Swiper Initialization
+  // Initialize Swiper
   await loadCSS('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
   await loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
   // eslint-disable-next-line no-undef
   new Swiper(swiperEl, {
     slidesPerView: 1,
     spaceBetween: 0,
-    loop: false, // Original HTML does not indicate looping, default to false
+    loop: false,
     navigation: {
       prevEl: prevBtn,
       nextEl: nextBtn,
@@ -287,6 +271,11 @@ export default async function decorate(block) {
       el: swiperPagination,
       type: 'progressbar',
       clickable: true,
+    },
+    breakpoints: {
+      768: {
+        slidesPerView: 1,
+      },
     },
   });
 }

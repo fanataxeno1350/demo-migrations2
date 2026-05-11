@@ -23,7 +23,7 @@
       "fields": [
         {
           "component": "text",
-          "label": "Timer (ms)",
+          "label": "Auto-close Timer (ms)",
           "name": "timer",
           "valueType": "string"
         },

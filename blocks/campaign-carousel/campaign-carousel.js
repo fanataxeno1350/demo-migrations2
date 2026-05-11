@@ -3,35 +3,33 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
   const [
-    bgImageRow,
+    backgroundImageRow,
     titleRow,
     descriptionRow,
-    quotationSlidesContainer, // This is a container row, not an item row.
-    recipeCardSlidesContainer, // This is a container row, not an item row.
-    factCardSlidesContainer, // This is a container row, not an item row.
+    quotationSlidesContainer, // This is a placeholder row for the container, not actual slides
+    recipeCardSlidesContainer, // This is a placeholder row for the container, not actual slides
+    factCardSlidesContainer, // This is a placeholder row for the container, not actual slides
     ...itemRows
   ] = [...block.children];
 
-  const section = document.createElement('section');
-  section.classList.add('campaign-carousel', 'grid-container', 'bg--paper-white');
-  moveInstrumentation(block, section);
+  const root = document.createElement('section');
+  root.classList.add('campaign-carousel', 'grid-container', 'bg--paper-white');
 
   // Background Image
+  const backgroundImageCell = backgroundImageRow.children[0];
   const parallaxBg = document.createElement('div');
   parallaxBg.classList.add('parallax-bg', 'js-parallax-bg', 'lazyLoadedImage');
-  const bgPicture = bgImageRow.querySelector('picture');
-  if (bgPicture) {
-    const img = bgPicture.querySelector('img');
-    if (img) {
-      parallaxBg.style.backgroundImage = `url(${img.src})`;
-      // Optimized picture for parallax background
-      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '2000' }]);
-      moveInstrumentation(bgImageRow, optimizedPic.querySelector('img'));
-      // The original HTML sets background-image directly, so we just need the src.
-      // We don't append the picture itself to the parallaxBg div.
+  if (backgroundImageCell) {
+    const picture = backgroundImageCell.querySelector('picture');
+    if (picture) {
+      const img = picture.querySelector('img');
+      if (img) {
+        parallaxBg.style.backgroundImage = `url(${img.src})`;
+      }
+      moveInstrumentation(backgroundImageCell, parallaxBg);
     }
   }
-  section.append(parallaxBg);
+  root.append(parallaxBg);
 
   const contentWrapper = document.createElement('div');
   const headerGrid = document.createElement('div');
@@ -46,26 +44,32 @@ export default async function decorate(block) {
   headerWrapper.classList.add('cell', 'small-12', 'large-8', 'xlarge-6', 'campaign-carousel__header-wrapper');
   headerGrid.append(headerWrapper);
 
-  const title = document.createElement('h2');
-  title.classList.add('campaign-carousel__title');
-  moveInstrumentation(titleRow, title);
-  title.textContent = titleRow.textContent.trim();
-  headerWrapper.append(title);
-
-  const description = document.createElement('div'); // Use div for richtext
-  description.classList.add('campaign-carousel__description', 'bodyMediumRegular');
-  moveInstrumentation(descriptionRow, description);
-  // Fix: descriptionRow is a row, not a cell. Read from its first child (the cell).
-  description.innerHTML = descriptionRow.children[0]?.innerHTML || '';
-  headerWrapper.append(description);
-
   const emptyCell2 = document.createElement('div');
   emptyCell2.classList.add('cell', 'large-2', 'xlarge-3');
   headerGrid.append(emptyCell2);
 
+  // Title
+  const titleCell = titleRow.children[0];
+  if (titleCell) {
+    const title = document.createElement('h2');
+    title.classList.add('campaign-carousel__title');
+    title.textContent = titleCell.textContent.trim();
+    moveInstrumentation(titleCell, title);
+    headerWrapper.append(title);
+  }
+
+  // Description
+  const descriptionCell = descriptionRow.children[0];
+  if (descriptionCell) {
+    const description = document.createElement('div');
+    description.classList.add('campaign-carousel__description', 'bodyMediumRegular');
+    description.innerHTML = descriptionCell.innerHTML;
+    moveInstrumentation(descriptionCell, description);
+    headerWrapper.append(description);
+  }
+
   // Swiper setup
   const swiperEl = document.createElement('div');
-  // Removed swiper-initialized, swiper-horizontal, swiper-backface-hidden as Swiper adds them
   swiperEl.classList.add('swiper', 'campaign-carousel__swiper');
   contentWrapper.append(swiperEl);
 
@@ -73,116 +77,152 @@ export default async function decorate(block) {
   swiperWrapper.classList.add('swiper-wrapper', 'campaign-carousel__swiper-wrapper');
   swiperEl.append(swiperWrapper);
 
-  // Consume container rows for instrumentation
+  // Move instrumentation for container placeholders
   // These are not rendered directly, but their instrumentation needs to be moved
-  // to ensure the block is fully instrumented.
-  moveInstrumentation(quotationSlidesContainer, swiperWrapper); // Move to a parent that will contain its items
-  moveInstrumentation(recipeCardSlidesContainer, swiperWrapper); // Move to a parent that will contain its items
-  moveInstrumentation(factCardSlidesContainer, swiperWrapper); // Move to a parent that will contain its items
+  // to ensure Universal Editor works correctly. We can move it to a dummy element
+  // or the root if they don't have a direct rendered counterpart.
+  // For now, moving to a dummy div to ensure they are tracked.
+  const quotationSlidesWrapper = document.createElement('div');
+  moveInstrumentation(quotationSlidesContainer, quotationSlidesWrapper);
+  const recipeCardSlidesWrapper = document.createElement('div');
+  moveInstrumentation(recipeCardSlidesContainer, recipeCardSlidesWrapper);
+  const factCardSlidesWrapper = document.createElement('div');
+  moveInstrumentation(factCardSlidesContainer, factCardSlidesWrapper);
 
-  itemRows
-    .filter(row => row.children.length > 0 && [...row.children].some(c => c.children.length > 0 || c.textContent.trim() !== ''))
-    .forEach((row) => {
-      const slide = document.createElement('div');
-      slide.classList.add('swiper-slide');
-      moveInstrumentation(row, slide); // Move instrumentation for each item row
 
-      if (row.children.length === 3) { // quotation-slide
-        slide.classList.add('campaign-carousel__swiper__quotation-slide');
-        const [quoteTextCell, authorCell, bgImageCell] = [...row.children];
+  itemRows.forEach((row) => {
+    const cells = [...row.children];
+    let slideContent;
+    let slideClass;
 
-        const campaignQuotation = document.createElement('div');
-        campaignQuotation.classList.add('campaign-quotation');
+    if (cells.length === 3) {
+      // Quotation Slide Item
+      const [quotationCell, authorCell, backgroundImageCellItem] = cells;
+      slideClass = 'campaign-carousel__swiper__quotation-slide';
+      slideContent = document.createElement('div');
+      slideContent.classList.add('campaign-quotation');
 
-        const blockquote = document.createElement('blockquote');
-        blockquote.classList.add('campaign-quotation__text', 'headline-h4');
-        blockquote.innerHTML = quoteTextCell?.innerHTML || '';
+      const blockquote = document.createElement('blockquote');
+      blockquote.classList.add('campaign-quotation__text', 'headline-h4');
+      if (quotationCell) {
+        blockquote.innerHTML = quotationCell.innerHTML;
+        moveInstrumentation(quotationCell, blockquote);
+      }
 
-        const quoteIconWrapper = document.createElement('span');
-        quoteIconWrapper.classList.add('campaign-quotation__quote-icon-wrapper');
-        quoteIconWrapper.innerHTML = '<i class="icon quote-start-brown"></i>';
-        blockquote.append(quoteIconWrapper);
-        campaignQuotation.append(blockquote);
+      const quoteIconWrapper = document.createElement('span');
+      quoteIconWrapper.classList.add('campaign-quotation__quote-icon-wrapper');
+      const icon = document.createElement('i');
+      icon.classList.add('icon', 'quote-start-brown');
+      quoteIconWrapper.append(icon);
+      blockquote.append(quoteIconWrapper);
+      slideContent.append(blockquote);
 
-        const authorWrapper = document.createElement('div');
-        authorWrapper.classList.add('campaign-quotation__author-and-location-wrapper');
+      const authorLocationWrapper = document.createElement('div');
+      authorLocationWrapper.classList.add('campaign-quotation__author-and-location-wrapper');
+      if (authorCell) {
         const author = document.createElement('div');
         author.classList.add('labelSmallBold', 'campaign-quotation__author');
-        author.textContent = authorCell?.textContent.trim() || '';
-        authorWrapper.append(author);
-        campaignQuotation.append(authorWrapper);
+        author.textContent = authorCell.textContent.trim();
+        moveInstrumentation(authorCell, author);
+        authorLocationWrapper.append(author);
+      }
+      slideContent.append(authorLocationWrapper);
 
-        const bgImgWrapper = document.createElement('div');
-        bgImgWrapper.classList.add('campaign-quotation__background-image-wrapper');
-        const picture = bgImageCell?.querySelector('picture');
+      const backgroundImageWrapper = document.createElement('div');
+      backgroundImageWrapper.classList.add('campaign-quotation__background-image-wrapper');
+      if (backgroundImageCellItem) {
+        const picture = backgroundImageCellItem.querySelector('picture');
         if (picture) {
-          const img = picture.querySelector('img');
-          const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-          moveInstrumentation(bgImageCell, optimizedPic.querySelector('img'));
-          bgImgWrapper.append(optimizedPic);
+          // moveInstrumentation should be on the picture element, not the img inside.
+          // createOptimizedPicture replaces the picture, so instrumentation needs to be moved to the new picture.
+          const optimizedPic = createOptimizedPicture(
+            picture.querySelector('img').src,
+            picture.querySelector('img').alt,
+            false,
+            [{ width: '750' }],
+          );
+          moveInstrumentation(backgroundImageCellItem, optimizedPic); // Move to the new picture element
+          backgroundImageWrapper.append(optimizedPic);
         }
-        campaignQuotation.append(bgImgWrapper);
-        slide.append(campaignQuotation);
-      } else if (row.children.length === 9) { // recipe-card-slide
-        slide.classList.add('campaign-carousel__swiper__recipe-card-slide');
-        const [
-          imageCell,
-          tagCell,
-          nameCell,
-          descriptionCell,
-          stepsCountCell,
-          stepsLabelCell,
-          ingredientsCountCell,
-          ingredientsLabelCell,
-          linkCell,
-        ] = [...row.children];
+      }
+      slideContent.append(backgroundImageWrapper);
+    } else if (cells.length === 9) {
+      // Recipe Card Slide Item
+      const [
+        linkCell,
+        imageCell,
+        tagCell,
+        nameCell,
+        descriptionCellItem,
+        stepsCountCell,
+        stepsLabelCell,
+        ingredientsCountCell,
+        ingredientsLabelCell,
+      ] = cells;
+      slideClass = 'campaign-carousel__swiper__recipe-card-slide';
+      slideContent = document.createElement('a');
+      slideContent.classList.add('campaign-recipe-card', 'elevation-4');
+      const link = linkCell?.querySelector('a');
+      if (link) {
+        slideContent.href = link.href;
+        slideContent.setAttribute('aria-label', `${nameCell?.textContent.trim() || ''} - Read More`);
+        moveInstrumentation(linkCell, slideContent);
+      }
 
-        const recipeCardLink = document.createElement('a');
-        recipeCardLink.classList.add('campaign-recipe-card', 'elevation-4');
-        const foundLink = linkCell?.querySelector('a');
-        if (foundLink) {
-          recipeCardLink.href = foundLink.href;
-          recipeCardLink.setAttribute('aria-label', `${nameCell?.textContent.trim() || 'Recipe'} - Read More`);
-        }
-
-        const imgContainer = document.createElement('div');
-        imgContainer.classList.add('campaign-recipe-card__img-container');
-        const picture = imageCell?.querySelector('picture');
+      const imgContainer = document.createElement('div');
+      imgContainer.classList.add('campaign-recipe-card__img-container');
+      if (imageCell) {
+        const picture = imageCell.querySelector('picture');
         if (picture) {
-          const img = picture.querySelector('img');
-          const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '566' }]);
-          moveInstrumentation(imageCell, optimizedPic.querySelector('img'));
+          const optimizedPic = createOptimizedPicture(
+            picture.querySelector('img').src,
+            picture.querySelector('img').alt,
+            false,
+            [{ width: '750' }],
+          );
+          moveInstrumentation(imageCell, optimizedPic); // Move to the new picture element
           imgContainer.append(optimizedPic);
         }
-        recipeCardLink.append(imgContainer);
+      }
+      slideContent.append(imgContainer);
 
-        const details = document.createElement('div');
-        details.classList.add('campaign-recipe-card__details');
+      const details = document.createElement('div');
+      details.classList.add('campaign-recipe-card__details');
 
+      if (tagCell) {
         const tagWrapper = document.createElement('div');
         tagWrapper.classList.add('campaign-recipe-card__tag');
-        const tagDiv = document.createElement('div');
-        tagDiv.classList.add('tag', 'bg--brand-green');
-        const tagSpan = document.createElement('span');
-        tagSpan.classList.add('tag__label');
-        tagSpan.textContent = tagCell?.textContent.trim() || '';
-        tagDiv.append(tagSpan);
-        tagWrapper.append(tagDiv);
+        const tag = document.createElement('div');
+        tag.classList.add('tag', 'bg--brand-green');
+        const tagLabel = document.createElement('span');
+        tagLabel.classList.add('tag__label');
+        tagLabel.textContent = tagCell.textContent.trim();
+        tag.append(tagLabel);
+        tagWrapper.append(tag);
+        moveInstrumentation(tagCell, tagWrapper);
         details.append(tagWrapper);
+      }
 
+      if (nameCell) {
         const name = document.createElement('div');
         name.classList.add('labelLargeBold', 'campaign-recipe-card__name');
-        name.textContent = nameCell?.textContent.trim() || '';
+        name.textContent = nameCell.textContent.trim();
+        moveInstrumentation(nameCell, name);
         details.append(name);
+      }
 
-        const description = document.createElement('div'); // Use div for richtext
+      if (descriptionCellItem) {
+        const description = document.createElement('div');
         description.classList.add('bodySmallRegular', 'campaign-recipe-card__description');
-        description.innerHTML = descriptionCell?.innerHTML || '';
+        description.textContent = descriptionCellItem.textContent.trim();
+        moveInstrumentation(descriptionCellItem, description);
         details.append(description);
+      }
 
-        const stepsAndIngredients = document.createElement('div');
-        stepsAndIngredients.classList.add('campaign-recipe-card__steps-and-ingredients');
+      const stepsAndIngredients = document.createElement('div');
+      stepsAndIngredients.classList.add('campaign-recipe-card__steps-and-ingredients');
 
+      if (stepsCountCell || stepsLabelCell) {
         const stepsContainer = document.createElement('div');
         stepsContainer.classList.add('campaign-recipe-card__steps-container');
         const stepsCount = document.createElement('span');
@@ -192,12 +232,15 @@ export default async function decorate(block) {
         stepsLabel.classList.add('utilityTagHighCaps', 'campaign-recipe-card__steps-label');
         stepsLabel.textContent = stepsLabelCell?.textContent.trim() || '';
         stepsContainer.append(stepsCount, stepsLabel);
+        moveInstrumentation(stepsCountCell || stepsLabelCell, stepsContainer);
         stepsAndIngredients.append(stepsContainer);
+      }
 
-        const separator = document.createElement('div');
-        separator.classList.add('campaign-recipe-card__steps-separator');
-        stepsAndIngredients.append(separator);
+      const separator = document.createElement('div');
+      separator.classList.add('campaign-recipe-card__steps-separator');
+      stepsAndIngredients.append(separator);
 
+      if (ingredientsCountCell || ingredientsLabelCell) {
         const ingredientsContainer = document.createElement('div');
         ingredientsContainer.classList.add('campaign-recipe-card__ingredients-container');
         const ingredientsCount = document.createElement('span');
@@ -207,77 +250,84 @@ export default async function decorate(block) {
         ingredientsLabel.classList.add('utilityTagHighCaps', 'campaign-recipe-card__ingredients-label');
         ingredientsLabel.textContent = ingredientsLabelCell?.textContent.trim() || '';
         ingredientsContainer.append(ingredientsCount, ingredientsLabel);
+        moveInstrumentation(ingredientsCountCell || ingredientsLabelCell, ingredientsContainer);
         stepsAndIngredients.append(ingredientsContainer);
+      }
+      details.append(stepsAndIngredients);
+      slideContent.append(details);
+    } else if (cells.length === 5) {
+      // Fact Card Slide Item
+      const [imageCell, nameCell, descriptionCellItem, ctaLinkCell, ctaLabelCell] = cells;
+      slideClass = 'campaign-carousel__swiper__fact-card-slide';
+      slideContent = document.createElement('div');
+      slideContent.classList.add('campaign-fact-card', 'campaign-fact', 'elevation-4', 'bg--paper-green');
 
-        details.append(stepsAndIngredients);
-        recipeCardLink.append(details);
-        slide.append(recipeCardLink);
-      } else if (row.children.length === 5) { // fact-card-slide
-        slide.classList.add('campaign-carousel__swiper__fact-card-slide');
-        const [imageCell, nameCell, descriptionCell, ctaLinkCell, ctaLabelCell] = [...row.children];
-
-        const factCard = document.createElement('div');
-        factCard.classList.add('campaign-fact-card', 'campaign-fact', 'elevation-4');
-        if (row.classList.contains('campaign-make-difference')) { // Check for specific class from original HTML
-          factCard.classList.add('campaign-make-difference', 'bg--paper-brown');
-        } else {
-          factCard.classList.add('bg--paper-green');
-        }
-
-        const imgContainer = document.createElement('div');
-        imgContainer.classList.add('campaign-fact-card__img-container');
-        const picture = imageCell?.querySelector('picture');
+      const imgContainer = document.createElement('div');
+      imgContainer.classList.add('campaign-fact-card__img-container');
+      if (imageCell) {
+        const picture = imageCell.querySelector('picture');
         if (picture) {
-          const img = picture.querySelector('img');
-          const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '630' }]);
-          moveInstrumentation(imageCell, optimizedPic.querySelector('img'));
+          const optimizedPic = createOptimizedPicture(
+            picture.querySelector('img').src,
+            picture.querySelector('img').alt,
+            false,
+            [{ width: '750' }],
+          );
+          moveInstrumentation(imageCell, optimizedPic); // Move to the new picture element
           imgContainer.append(optimizedPic);
         }
-        factCard.append(imgContainer);
+      }
+      slideContent.append(imgContainer);
 
-        const details = document.createElement('div');
-        details.classList.add('campaign-fact-card__details');
+      const details = document.createElement('div');
+      details.classList.add('campaign-fact-card__details');
 
+      if (nameCell) {
         const name = document.createElement('div');
         name.classList.add('campaign-fact-card__name', 'utilityScriptLarge');
-        name.textContent = nameCell?.textContent.trim() || '';
+        name.textContent = nameCell.textContent.trim();
+        moveInstrumentation(nameCell, name);
         details.append(name);
+      }
 
-        const description = document.createElement('div'); // Use div for richtext
+      if (descriptionCellItem) {
+        const description = document.createElement('div');
         description.classList.add('bodyMediumRegular', 'campaign-fact-card__description');
-        description.innerHTML = descriptionCell?.innerHTML || '';
+        description.innerHTML = descriptionCellItem.innerHTML;
+        moveInstrumentation(descriptionCellItem, description);
         details.append(description);
+      }
 
+      if (ctaLinkCell || ctaLabelCell) {
         const ctaWrapper = document.createElement('div');
         ctaWrapper.classList.add('campaign-fact-card__cta');
         const ctaLink = document.createElement('a');
         ctaLink.classList.add('link', 'link-auto', 'labelSmallBold');
-        const foundLink = ctaLinkCell?.querySelector('a');
-        if (foundLink) {
-          ctaLink.href = foundLink.href;
-          ctaLink.setAttribute('title', ctaLabelCell?.textContent.trim() || '');
-          ctaLink.setAttribute('aria-label', ctaLabelCell?.textContent.trim() || '');
-          ctaLink.setAttribute('rel', 'follow');
+        const link = ctaLinkCell?.querySelector('a');
+        if (link) {
+          ctaLink.href = link.href;
+          moveInstrumentation(ctaLinkCell, ctaLink);
         }
-        const ctaSpan = document.createElement('span');
-        ctaSpan.classList.add('button-text');
-        ctaSpan.textContent = ctaLabelCell?.textContent.trim() || '';
-        ctaLink.append(ctaSpan);
+        ctaLink.textContent = ctaLabelCell?.textContent.trim() || '';
         ctaWrapper.append(ctaLink);
         details.append(ctaWrapper);
-
-        factCard.append(details);
-        slide.append(factCard);
       }
-      swiperWrapper.append(slide);
-    });
+      slideContent.append(details);
+    }
+
+    if (slideContent) {
+      const swiperSlide = document.createElement('div');
+      swiperSlide.classList.add('swiper-slide', slideClass);
+      moveInstrumentation(row, swiperSlide);
+      swiperSlide.append(slideContent);
+      swiperWrapper.append(swiperSlide);
+    }
+  });
 
   const prevBtnControl = document.createElement('div');
   prevBtnControl.classList.add('campaign-carousel__btn-control', 'campaign-carousel--prev', 'show-for-large');
   const prevBtn = document.createElement('button');
-  // Removed swiper-button-disabled, swiper-button-lock as Swiper adds them
   prevBtn.classList.add('swiper-control', 'swiper-button', 'swiper--prev', 'elevation-1');
-  prevBtn.setAttribute('aria-label', 'Previous slide');
   prevBtn.innerHTML = `
     <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M1 7L17 7M1 7L6.33333 2M1 7L6.33333 12" stroke="#222222" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path>
@@ -289,9 +339,7 @@ export default async function decorate(block) {
   const nextBtnControl = document.createElement('div');
   nextBtnControl.classList.add('campaign-carousel__btn-control', 'campaign-carousel--next', 'show-for-large');
   const nextBtn = document.createElement('button');
-  // Removed swiper-button-disabled, swiper-button-lock as Swiper adds them
   nextBtn.classList.add('swiper-control', 'swiper-button', 'swiper--next', 'elevation-1');
-  nextBtn.setAttribute('aria-label', 'Next slide');
   nextBtn.innerHTML = `
     <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M17 7L1 7M17 7L11.6667 2M17 7L11.6667 12" stroke="#222222" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path>
@@ -301,17 +349,15 @@ export default async function decorate(block) {
   swiperEl.append(nextBtnControl);
 
   const paginationEl = document.createElement('div');
-  // Removed swiper-pagination-clickable, swiper-pagination-bullets, swiper-pagination-horizontal, swiper-pagination-lock as Swiper adds them
   paginationEl.classList.add('swiper-pagination', 'campaign-carousel__swiper-pagination');
   swiperEl.append(paginationEl);
 
-  section.append(contentWrapper);
-  block.replaceChildren(section);
+  root.append(contentWrapper);
+  block.replaceChildren(root);
 
-  // Load Swiper and initialize
+  // Swiper initialization
   await loadCSS('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
   await loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
-
   // eslint-disable-next-line no-undef
   new Swiper(swiperEl, {
     slidesPerView: 'auto',
@@ -326,18 +372,26 @@ export default async function decorate(block) {
       clickable: true,
     },
     breakpoints: {
-      576: {
-        slidesPerView: 1,
-        spaceBetween: 16,
-      },
-      768: {
-        slidesPerView: 2,
-        spaceBetween: 24,
-      },
-      1024: {
-        slidesPerView: 3,
-        spaceBetween: 32,
-      },
+      576: { slidesPerView: 1 }, // Default for small screens
+      768: { slidesPerView: 2 },
+      992: { slidesPerView: 3 },
+      1200: { slidesPerView: 3 },
     },
+  });
+
+  // This part is for optimizing pictures that might be directly in the block,
+  // but the current code already handles pictures within the slide items.
+  // If there are other pictures outside the slides that need optimization,
+  // this loop should be adjusted to target them specifically.
+  // For now, it's fine as a general post-processing step if needed.
+  root.querySelectorAll('picture > img').forEach((img) => {
+    // Ensure moveInstrumentation is called on the original picture element
+    // before it's replaced, and then on the new optimized picture.
+    const originalPicture = img.closest('picture');
+    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+    if (originalPicture) {
+      moveInstrumentation(originalPicture, optimizedPic); // Move instrumentation from old picture to new
+      originalPicture.replaceWith(optimizedPic);
+    }
   });
 }

@@ -29,8 +29,8 @@
         },
         {
           "component": "reference",
-          "label": "Large Video Source",
-          "name": "videoLargeSource",
+          "label": "Large Video Source (MP4)",
+          "name": "videoLargeSrc",
           "valueType": "string"
         },
         {
@@ -41,8 +41,8 @@
         },
         {
           "component": "reference",
-          "label": "Small Video Source",
-          "name": "videoSmallSource",
+          "label": "Small Video Source (MP4)",
+          "name": "videoSmallSrc",
           "valueType": "string"
         },
         {
@@ -67,12 +67,6 @@
           "component": "text",
           "label": "Secondary Title",
           "name": "secondaryTitle",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Secondary Headline",
-          "name": "secondaryHeadline",
           "valueType": "string"
         },
         {

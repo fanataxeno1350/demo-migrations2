@@ -17,30 +17,30 @@
       }
     },
     {
-      "title": "Profiler Question Slide",
-      "id": "profiler-question-slide",
+      "title": "Coffee Profiler Slide",
+      "id": "coffee-profiler-slide",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "profiler-question-slide",
-              "name": "Profiler Question Slide"
+              "model": "coffee-profiler-slide",
+              "name": "Coffee Profiler Slide"
             }
           }
         }
       }
     },
     {
-      "title": "Profiler Option",
-      "id": "profiler-option",
+      "title": "Coffee Profiler Option",
+      "id": "coffee-profiler-option",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "profiler-option",
-              "name": "Profiler Option"
+              "model": "coffee-profiler-option",
+              "name": "Coffee Profiler Option"
             }
           }
         }
@@ -59,38 +59,38 @@
         },
         {
           "component": "text",
-          "label": "Main Heading",
+          "label": "Heading",
           "name": "heading",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Greeting - Morning",
+          "label": "Greeting Morning",
           "name": "greetingMorning",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Greeting - Afternoon",
+          "label": "Greeting Afternoon",
           "name": "greetingAfternoon",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Greeting - Evening",
+          "label": "Greeting Evening",
           "name": "greetingEvening",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Greeting - Night",
+          "label": "Greeting Night",
           "name": "greetingNight",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Intro Text",
-          "name": "introText",
+          "label": "Guide Text",
+          "name": "guideText",
           "valueType": "string"
         },
         {
@@ -101,14 +101,14 @@
         },
         {
           "component": "container",
-          "item": "profiler-question-slide",
-          "label": "Questions",
-          "name": "questions"
+          "item": "coffee-profiler-slide",
+          "label": "Slides",
+          "name": "slides"
         }
       ]
     },
     {
-      "id": "profiler-question-slide",
+      "id": "coffee-profiler-slide",
       "fields": [
         {
           "component": "text",
@@ -118,19 +118,19 @@
         },
         {
           "component": "container",
-          "item": "profiler-option",
+          "item": "coffee-profiler-option",
           "label": "Options",
           "name": "options"
         }
       ]
     },
     {
-      "id": "profiler-option",
+      "id": "coffee-profiler-option",
       "fields": [
         {
           "component": "reference",
           "label": "Option Icon",
-          "name": "icon",
+          "name": "optionIcon",
           "valueType": "string"
         },
         {
@@ -146,8 +146,8 @@
     {
       "id": "coffee-profiler",
       "components": [
-        "profiler-question-slide",
-        "profiler-option"
+        "coffee-profiler-slide",
+        "coffee-profiler-option"
       ]
     }
   ]

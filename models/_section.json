@@ -53,7 +53,7 @@
         "fragment",
         "---- New Blocks ----",
         "search-autocomplete",
-        "header-main-navigation",
+        "header-navigation",
         "burger-navigation",
         "toaster-signin",
         "tooltip-signin-register",
@@ -65,7 +65,8 @@
         "campaign-carousel",
         "coffee-profiler",
         "back-to-top",
-        "footer-global"
+        "cookie-button",
+        "global-footer"
       ]
     }
   ]

@@ -18,7 +18,7 @@
       "fragment",
       "---- New Blocks ----",
       "search-autocomplete",
-      "header-main-navigation",
+      "header-navigation",
       "burger-navigation",
       "toaster-signin",
       "tooltip-signin-register",
@@ -30,7 +30,8 @@
       "campaign-carousel",
       "coffee-profiler",
       "back-to-top",
-      "footer-global"
+      "cookie-button",
+      "global-footer"
     ]
   },
   {
@@ -41,39 +42,43 @@
     "id": "burger-navigation",
     "components": [
       "burger-navigation-menu-item",
-      "burger-navigation-multiple-links-item",
-      "burger-navigation-level3-link-item"
+      "burger-navigation-level3-link"
     ]
   },
   {
     "id": "campaign-carousel",
     "components": [
-      "quotation-slide",
-      "recipe-card-slide",
-      "fact-card-slide"
+      "quotation-slide-item",
+      "recipe-card-slide-item",
+      "fact-card-slide-item"
     ]
   },
   {
     "id": "coffee-profiler",
     "components": [
-      "profiler-question-slide",
-      "profiler-option"
+      "coffee-profiler-slide",
+      "coffee-profiler-option"
     ]
   },
   {
-    "id": "footer-global",
+    "id": "cookie-button",
+    "components": []
+  },
+  {
+    "id": "global-footer",
     "components": [
       "footer-social-item",
       "footer-link-item"
     ]
   },
   {
-    "id": "header-main-navigation",
+    "id": "header-navigation",
     "components": [
       "nav-primary-item",
       "nav-secondary-item",
       "nav-tertiary-item",
-      "level2-banner"
+      "nav-tertiary-banner",
+      "nav-secondary-banner"
     ]
   },
   {
@@ -87,19 +92,19 @@
   {
     "id": "recipe-home",
     "components": [
-      "recipe-card-item"
+      "recipe-home-list-item"
     ]
   },
   {
     "id": "search-autocomplete",
     "components": [
-      "search-suggestion-item"
+      "suggestion-item"
     ]
   },
   {
     "id": "sustainability-article-carousel",
     "components": [
-      "sustainability-article-card"
+      "sustainability-article-carousel-item"
     ]
   },
   {
@@ -113,7 +118,7 @@
   {
     "id": "tooltip-signin-register",
     "components": [
-      "tooltip-cta-item"
+      "tooltip-signin-register-cta-item"
     ]
   }
 ]

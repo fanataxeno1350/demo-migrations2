@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Search Autocomplete",
+      "title": "Search-Autocomplete",
       "id": "search-autocomplete",
       "plugins": {
         "xwalk": {
@@ -10,22 +10,22 @@
             "template": {
               "filter": "search-autocomplete",
               "model": "search-autocomplete",
-              "name": "Search Autocomplete"
+              "name": "Search-Autocomplete"
             }
           }
         }
       }
     },
     {
-      "title": "Search Suggestion Item",
-      "id": "search-suggestion-item",
+      "title": "Suggestion-Item",
+      "id": "suggestion-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "search-suggestion-item",
-              "name": "Search Suggestion Item"
+              "model": "suggestion-item",
+              "name": "Suggestion-Item"
             }
           }
         }
@@ -38,20 +38,38 @@
       "fields": [
         {
           "component": "text",
+          "label": "Close Button Aria Label",
+          "name": "closeButtonAriaLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
           "label": "Search Form Action URL",
-          "name": "formActionUrl",
+          "name": "searchFormAction",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Search Input Name Attribute",
-          "name": "formInputName",
+          "label": "Search Input Name",
+          "name": "searchInputName",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Search Input Autocomplete Path",
-          "name": "formInputAutocompletePath",
+          "label": "Search Input Placeholder",
+          "name": "searchInputPlaceholder",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Search Autocomplete Path",
+          "name": "searchInputAutocompletePath",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Clear Button Aria Label",
+          "name": "clearButtonAriaLabel",
           "valueType": "string"
         },
         {
@@ -62,43 +80,31 @@
         },
         {
           "component": "text",
-          "label": "Close Button ARIA Label",
-          "name": "closeButtonAriaLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Clear Button ARIA Label",
-          "name": "clearButtonAriaLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Trending Title",
-          "name": "trendingTitle",
+          "label": "Suggestion Title",
+          "name": "suggestionTitle",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "search-suggestion-item",
-          "label": "Trending Suggestions",
+          "item": "suggestion-item",
+          "label": "Suggestions",
           "name": "suggestions"
         }
       ]
     },
     {
-      "id": "search-suggestion-item",
+      "id": "suggestion-item",
       "fields": [
-        {
-          "component": "text",
-          "label": "Suggestion Label",
-          "name": "label",
-          "valueType": "string"
-        },
         {
           "component": "aem-content",
           "label": "Suggestion Link",
           "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Suggestion Label",
+          "name": "label",
           "valueType": "string"
         }
       ]
@@ -108,7 +114,7 @@
     {
       "id": "search-autocomplete",
       "components": [
-        "search-suggestion-item"
+        "suggestion-item"
       ]
     }
   ]

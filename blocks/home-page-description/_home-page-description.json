@@ -41,14 +41,8 @@
         },
         {
           "component": "text",
-          "label": "Sign In Button Label",
+          "label": "Sign In Label",
           "name": "signInLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Separator",
-          "name": "separator",
           "valueType": "string"
         },
         {
@@ -59,8 +53,14 @@
         },
         {
           "component": "text",
-          "label": "Register Button Label",
+          "label": "Register Label",
           "name": "registerLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "CTA Separator",
+          "name": "ctaSeparator",
           "valueType": "string"
         }
       ]
