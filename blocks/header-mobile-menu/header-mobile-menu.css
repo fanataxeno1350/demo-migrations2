@@ -1,0 +1,180 @@
+.dropdown-toggle{ white-space:nowrap }
+
+.dropdown-toggle::after{ display:inline-block;margin-left:.255em;vertical-align:.255em;content:"";border-top:.3em solid;border-right:.3em solid transparent;border-bottom:0;border-left:.3em solid transparent }
+
+.dropdown-toggle:empty::after{ margin-left:0 }
+
+.dropdown-menu{ position:absolute;top:100%;left:0;z-index:1000;display:none;float:left;min-width:10rem;padding:.5rem 0;margin:.125rem 0 0;font-size:1rem;color:#212529;text-align:left;list-style:none;background-color:#fff;background-clip:padding-box;border:1px solid rgba(0,0,0,.15);border-radius:.25rem }
+
+.dropdown-item{ display:block;width:100%;padding:.25rem 1.5rem;clear:both;font-weight:400;color:#212529;text-align:inherit;white-space:nowrap;background-color:transparent;border:0 }
+
+.dropdown-item:focus, .dropdown-item:hover{ color:#16181b;text-decoration:none;background-color:#f8f9fa }
+
+.dropdown-item:active{ color:#fff;text-decoration:none;background-color:#007bff }
+
+.dropdown-item:disabled{ color:#6c757d;pointer-events:none;background-color:transparent }
+
+.navbar-nav{ display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;padding-left:0;margin-bottom:0;list-style:none }
+
+.navbar-nav .nav-link{ padding-right:0;padding-left:0 }
+
+.navbar-nav .dropdown-menu{ position:static;float:none }
+
+@keyframes progress-bar-stripes{from{background-position:1rem 0}to{background-position:0 0}}
+
+@keyframes spinner-border{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+
+@keyframes spinner-grow{0%{-webkit-transform:scale(0);transform:scale(0)}50%{opacity:1}}
+
+.mobile-menu ul li a{ 
+	font-family: Montserrat, sans-serif
+ }
+
+.mobile-menu ul li a{ 
+	text-transform: uppercase
+ }
+
+.mobile-menu, .sub-menu{ 
+	display: none
+ }
+
+.mobile-menu .navbar-nav .dropdown-menu .dropdown-item:active, .mobile-menu .navbar-nav .dropdown-menu .dropdown-item:focus, .mobile-menu .navbar-nav .dropdown-menu .dropdown-item:hover{ 
+	background: 0 0
+ }
+
+.mobile-menu{ 
+	height: 100vh
+ }
+
+.mobile-menu{ 
+	max-width: 300px;
+	background: #da0b14;
+	position: fixed;
+	width: 0%;
+	padding: 60px 20px 30px 40px;
+	top: 0;
+	bottom: 0;
+	z-index: 9;
+	right: 0;
+	visibility: hidden;
+	opacity: 0;
+	-webkit-transition: .3s;
+	-moz-transition: .3s;
+	transition: .3s
+ }
+
+.mobile-menu ul{ 
+	overflow-y: auto;
+	max-height: 97%;
+	width: 100%
+ }
+
+.mobile-menu ul li a{ 
+	color: #fff;
+	font-weight: 400;
+	font-size: 14px;
+	padding: 10px 0;
+	display: block;
+	position: relative
+ }
+
+.mobile-menu .cros-icon{ 
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	font-size: 30px;
+	color: #fff;
+	font-weight: 700
+ }
+
+.mobile-menu .navbar-nav .dropdown-menu{ 
+	transform: unset!important;
+	background: 0 0;
+	border: none;
+	padding: 0;
+	border-radius: 0
+ }
+
+.mobile-menu .navbar-nav .dropdown-menu .dropdown-item{ 
+	font-size: 13px;
+	color: #fff;
+	padding: 10px 0;
+	text-transform: capitalize
+ }
+
+.dropdown-menu>ul{ 
+	border-top: 1px solid #bf020a
+ }
+
+.mobile-menu ul li{ 
+	border-bottom: 1px solid #bf020a
+ }
+
+.mobile-menu ul li .dropdown-toggle::after{ 
+	position: absolute;
+	top: 12px;
+	right: 0;
+	border: unset;
+	content: "\e876";
+	font-size: 14px;
+	font-family: Linearicons-Free
+ }
+
+.mobile-menu .navbar-nav .dropdown-menu .dropdown-item:before{ 
+	content: "\e876";
+	font-family: Linearicons-Free;
+	font-size: 10px;
+	margin-right: 10px;
+	color: #fff
+ }
+
+.dropdown-menu ul li .dropdown-toggle{ 
+	color: #e2d4d4;
+	padding-left: 5px;
+	font-size: 14px
+ }
+
+.dropdown-menu ul li ul{ 
+	border-top: 1px solid #c5151d
+ }
+
+.dropdown-menu ul li ul li{ 
+	padding-left: 15px;
+	border-bottom: none
+ }
+
+.mobile-menu ul li:last-child{ 
+	border-bottom: unset
+ }
+
+.dropdown-menu ul li a:not([href]):not([tabindex]):focus{ 
+	color: #ffb3b6
+ }
+
+.dropdown-item:active{ 
+	color: #fff;
+	text-decoration: none;
+	background-color: #da0b14!important
+ }
+
+.blink-new-mob{ 
+	color: #edfc03;
+	animation: 1s steps(5, start) infinite blink-animation;
+	-webkit-animation: 1s steps(5, start) infinite blink-animation
+ }
+
+@keyframes blink-animation{
+to {
+visibility:hidden
+}
+}
+
+@media only screen and (max-width :767px) { .mobile-menu{ display:block } }
+
+@media (min-width:576px) { @media only screen and (min-width:768px) and (max-width:1023px) { .mobile-menu{ display:block }
+
+.dropdown-menu ul li ul li{ border-bottom:none;padding:5px 10px } } }
+
+@keyframes fb_transform{0%{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+
+@keyframes rotateSpinner{0%{transform:rotate(0)}to{transform:rotate(360deg)}}

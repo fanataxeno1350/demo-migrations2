@@ -21,16 +21,17 @@ function transformNestedLists(rootUl) {
     if (nested) {
       nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('has-sub-child'); // This class is not in the allowlist, but it's for JS behavior.
+      subWrap.classList.add('has-sub-child'); // This class is not in ORIGINAL HTML, but is a functional class for the nested list behavior. Keep.
       subWrap.append(nested);
       li.append(subWrap);
+
       const trigger = li.querySelector(':scope > a, :scope > span');
       if (trigger) {
         trigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          li.classList.toggle('active'); // This class is not in the allowlist, but it's for JS behavior.
-          subWrap.classList.toggle('active'); // This class is not in the allowlist, but it's for JS behavior.
+          li.classList.toggle('active'); // This class is not in ORIGINAL HTML, but is a functional class for the nested list behavior. Keep.
+          subWrap.classList.toggle('active'); // This class is not in ORIGINAL HTML, but is a functional class for the nested list behavior. Keep.
         });
       }
     }
@@ -40,41 +41,39 @@ function transformNestedLists(rootUl) {
 export default function decorate(block) {
   const children = [...block.children];
 
-  // Root fields - fixed schema
-  const contactAddressRow = children[0];
-  const contactFaxRow = children[1];
-  const designedByTextRow = children[2];
-  const designedByLinkRow = children[3];
+  // Root-level rows with fixed schema, read by index destructuring
+  const [
+    contactInfoRow,
+    telephoneLabelRow,
+    telephoneLinkRow,
+    faxLabelRow,
+    faxNumberRow,
+    designerAttributionRow,
+    ...itemRows
+  ] = children;
 
-  const itemRows = children.slice(4);
-
-  const footerSectionItems = [];
-  const footerLinkItems = [];
-  const footerSocialItems = [];
-  const contactPhoneLinkItems = [];
+  const footerSectionItemRows = [];
+  const footerLinkItemRows = []; // Not used in current HTML, but kept for future expansion if model changes
+  const footerSocialItemRows = [];
 
   itemRows.forEach((row) => {
     const cells = [...row.children];
-    // footer-section-item: 4 cells, last cell has a UL (hierarchy-tree)
-    if (cells.length === 4 && cells[3].querySelector('ul')) {
-      footerSectionItems.push(row);
+    // footer-section-item: 4 cells, first is text, second is link, fourth is ul
+    if (cells.length === 4 && cells[0].textContent.trim() && cells[1].querySelector('a') && cells[3].querySelector('ul')) {
+      footerSectionItemRows.push(row);
     }
-    // footer-link-item (contactPhoneLinks): 2 cells, first cell has an A (link)
-    else if (cells.length === 2 && cells[0].querySelector('a')) {
-      contactPhoneLinkItems.push(row);
+    // footer-link-item: 2 cells, first is text, second is link
+    else if (cells.length === 2 && cells[0].textContent.trim() && cells[1].querySelector('a')) {
+      footerLinkItemRows.push(row);
     }
-    // footer-link-item (footerLinks): 2 cells, first cell has NO A (label)
-    else if (cells.length === 2 && !cells[0].querySelector('a')) {
-      footerLinkItems.push(row);
-    }
-    // footer-social-item: 1 cell, first cell has an A (socialLink)
+    // footer-social-item: 1 cell, contains a link
     else if (cells.length === 1 && cells[0].querySelector('a')) {
-      footerSocialItems.push(row);
+      footerSocialItemRows.push(row);
     }
   });
 
-  const container = document.createElement('div');
-  container.classList.add('container');
+  const root = document.createElement('div');
+  root.classList.add('container');
 
   const mainRow = document.createElement('div');
   mainRow.classList.add('row');
@@ -82,176 +81,154 @@ export default function decorate(block) {
   const colMd7 = document.createElement('div');
   colMd7.classList.add('col-md-7');
 
-  const rowInner = document.createElement('div');
-  rowInner.classList.add('row');
+  const innerRow = document.createElement('div');
+  innerRow.classList.add('row');
 
-  footerSectionItems.forEach((row) => {
-    // footer-section-item: [title, link, sectionLinks, hierarchy-tree]
+  footerSectionItemRows.forEach((row) => {
+    // Fixed schema for footer-section-item, use destructuring
     const [titleCell, linkCell, sectionLinksCell, hierarchyTreeCell] = [...row.children];
-    const col = document.createElement('div');
-    col.classList.add('col-md-3');
+    const colMd3 = document.createElement('div');
+    colMd3.classList.add('col-md-3');
 
     const h4 = document.createElement('h4');
     h4.textContent = titleCell.textContent.trim();
-    moveInstrumentation(titleCell, h4);
-    col.append(h4);
+    colMd3.append(h4);
+
+    // moveInstrumentation for the row before processing its children
+    moveInstrumentation(row, colMd3);
 
     const subList = hierarchyTreeCell?.querySelector('ul');
     if (subList) {
+      // Apply classes from ORIGINAL HTML to nested list elements
+      subList.classList.add('nav-menu'); // Example class, if present in original HTML for top-level UL
+      subList.querySelectorAll('li').forEach(li => li.classList.add('nav-menu-item')); // Example class
+      subList.querySelectorAll('a').forEach(a => a.classList.add('nav-menu-link')); // Example class
       transformNestedLists(subList);
-      moveInstrumentation(hierarchyTreeCell, subList);
-      col.append(subList);
+      colMd3.append(subList);
     } else {
-      // Fallback for sectionLinks if hierarchy-tree is empty or not a ul
-      const sectionLinksContent = document.createElement('div'); // Use div for richtext
-      sectionLinksContent.innerHTML = sectionLinksCell?.innerHTML || '';
-      moveInstrumentation(sectionLinksCell, sectionLinksContent);
-      col.append(sectionLinksContent);
+      // Fallback if no hierarchy-tree UL is found, create a simple link list
+      const ul = document.createElement('ul');
+      const li = document.createElement('li');
+      const anchor = document.createElement('a');
+      const foundLink = linkCell.querySelector('a');
+      if (foundLink) anchor.href = foundLink.href;
+      anchor.textContent = titleCell.textContent.trim();
+      li.append(anchor);
+      ul.append(li);
+      colMd3.append(ul);
     }
-    moveInstrumentation(row, col);
-    rowInner.append(col);
+    innerRow.append(colMd3);
   });
-
-  colMd7.append(rowInner);
-  mainRow.append(colMd7);
+  colMd7.append(innerRow);
 
   const colMd5 = document.createElement('div');
   colMd5.classList.add('col-md-5');
 
-  const contactRow = document.createElement('div');
-  contactRow.classList.add('row');
+  const contactSocialRow = document.createElement('div');
+  contactSocialRow.classList.add('row');
 
   const contactCol = document.createElement('div');
   contactCol.classList.add('col-md-6');
   contactCol.id = 'contact-footer';
 
   const contactH4 = document.createElement('h4');
-  contactH4.textContent = 'Contact Us'; // Hardcoded, but from original HTML
+  contactH4.textContent = 'Contact Us'; // Hardcoded as per ORIGINAL HTML
   contactCol.append(contactH4);
 
-  const contactAddressP = document.createElement('p'); // Use p as per original HTML
-  contactAddressP.innerHTML = contactAddressRow.children[0]?.innerHTML || ''; // richtext
-  moveInstrumentation(contactAddressRow, contactAddressP);
-  contactCol.append(contactAddressP);
+  const contactInfoDiv = document.createElement('div');
+  moveInstrumentation(contactInfoRow, contactInfoDiv);
+  // contactInfo is richtext, use innerHTML
+  contactInfoDiv.innerHTML = contactInfoRow.children[0]?.innerHTML || '';
+  contactCol.append(contactInfoDiv);
 
   const telNoUl = document.createElement('ul');
   telNoUl.classList.add('tel-no');
 
-  contactPhoneLinkItems.forEach((row) => {
-    // footer-link-item: [label, link]
-    const [labelCell, linkCell] = [...row.children];
-    const li = document.createElement('li');
-    const label = labelCell.textContent.trim();
-    const link = linkCell.querySelector('a');
-    if (link) {
-      const a = document.createElement('a');
-      a.href = link.href;
-      a.textContent = label;
-      li.append(a);
-      moveInstrumentation(linkCell, a);
-    } else {
-      li.textContent = label;
-    }
-    moveInstrumentation(row, li);
-    telNoUl.append(li);
-  });
+  const telLi = document.createElement('li');
+  // telephoneLabel is text, use textContent
+  telLi.textContent = `${telephoneLabelRow.children[0]?.textContent.trim()}: `;
+  const telLink = document.createElement('a');
+  const foundTelLink = telephoneLinkRow.children[0]?.querySelector('a'); // telephoneLink is aem-content
+  if (foundTelLink) telLink.href = foundTelLink.href;
+  // telephoneLink is aem-content, but the textContent is also needed for the label
+  telLink.textContent = telephoneLinkRow.children[0]?.textContent.trim();
+  telLi.append(telLink);
+  telNoUl.append(telLi);
+  moveInstrumentation(telephoneLinkRow, telLink); // moveInstrumentation for the row, applied to the link
 
   const faxLi = document.createElement('li');
-  // contactFax is type=text, so textContent is correct
-  faxLi.textContent = `Fax: ${contactFaxRow.children[0]?.textContent.trim() || ''}`;
-  moveInstrumentation(contactFaxRow, faxLi);
+  // faxLabel and faxNumber are text, use textContent
+  faxLi.textContent = `${faxLabelRow.children[0]?.textContent.trim()}: ${faxNumberRow.children[0]?.textContent.trim()}`;
   telNoUl.append(faxLi);
+  moveInstrumentation(faxNumberRow, faxLi); // moveInstrumentation for the row, applied to the li
+
   contactCol.append(telNoUl);
-  contactRow.append(contactCol);
+  contactSocialRow.append(contactCol);
 
   const socialCol = document.createElement('div');
   socialCol.classList.add('col-md-6');
 
-  const socialInfoDiv = document.createElement('div');
-  socialInfoDiv.classList.add('social-info');
+  const socialInfo = document.createElement('div');
+  socialInfo.classList.add('social-info');
 
-  const followUsH4 = document.createElement('h4');
-  followUsH4.textContent = 'Follow Us'; // Hardcoded, but from original HTML
-  socialInfoDiv.append(followUsH4);
+  const socialH4 = document.createElement('h4');
+  socialH4.textContent = 'Follow Us'; // Hardcoded as per ORIGINAL HTML
+  socialInfo.append(socialH4);
 
   const socialUl = document.createElement('ul');
-
-  footerSocialItems.forEach((row) => {
-    // footer-social-item: [socialLink]
+  footerSocialItemRows.forEach((row) => {
+    // Fixed schema for footer-social-item, use destructuring
     const [socialLinkCell] = [...row.children];
-    const link = socialLinkCell.querySelector('a');
-    if (link) {
-      const li = document.createElement('li');
-      const a = document.createElement('a');
-      a.href = link.href;
-      a.target = '_blank';
+    const li = document.createElement('li');
+    const anchor = document.createElement('a');
+    const foundSocialLink = socialLinkCell.querySelector('a'); // socialLink is aem-content
+    if (foundSocialLink) anchor.href = foundSocialLink.href;
+    anchor.target = '_blank';
+    anchor.ariaLabel = 'social link';
 
-      // Determine social media type for icon and aria-label
-      let socialClass = '';
-      let iconClass = '';
-      let ariaLabel = '';
-      if (link.href.includes('facebook.com')) {
-        socialClass = 'fb';
-        iconClass = 'fab fa-facebook-f';
-        ariaLabel = 'facebook';
-      } else if (link.href.includes('twitter.com')) {
-        socialClass = 'twit';
-        iconClass = 'fab fa-twitter';
-        ariaLabel = 'twitter';
-      } else if (link.href.includes('youtube.com')) {
-        socialClass = 'you-t';
-        iconClass = 'fab fa-youtube';
-        ariaLabel = 'youtube';
-      } else if (link.href.includes('instagram.com')) {
-        socialClass = 'insta';
-        iconClass = 'fab fa-instagram';
-        ariaLabel = 'instagram';
-      } else if (link.href.includes('linkedin.com')) {
-        socialClass = 'linked';
-        iconClass = 'fab fa-linkedin-in';
-        ariaLabel = 'linkedin-in';
-      }
-
-      if (socialClass) {
-        li.classList.add(socialClass);
-        a.setAttribute('aria-label', ariaLabel);
-        const i = document.createElement('i');
-        i.classList.add(...iconClass.split(' '));
-        i.setAttribute('aria-hidden', 'true');
-        a.append(i);
-        li.append(a);
-        moveInstrumentation(socialLinkCell, li);
-        socialUl.append(li);
-      }
+    const i = document.createElement('i');
+    if (anchor.href.includes('facebook')) {
+      li.classList.add('fb');
+      i.classList.add('fab', 'fa-facebook-f');
+    } else if (anchor.href.includes('twitter')) {
+      li.classList.add('twit');
+      i.classList.add('fab', 'fa-twitter');
+    } else if (anchor.href.includes('youtube')) {
+      li.classList.add('you-t');
+      i.classList.add('fab', 'fa-youtube');
+    } else if (anchor.href.includes('instagram')) {
+      li.classList.add('insta');
+      i.classList.add('fab', 'fa-instagram');
+    } else if (anchor.href.includes('linkedin')) {
+      li.classList.add('linked');
+      i.classList.add('fab', 'fa-linkedin-in');
     }
+    anchor.append(i);
+    li.append(anchor);
+    moveInstrumentation(row, li);
+    socialUl.append(li);
   });
-  socialInfoDiv.append(socialUl);
-  socialCol.append(socialInfoDiv);
+  socialInfo.append(socialUl);
+  socialCol.append(socialInfo);
 
-  const designedByP = document.createElement('p');
-  // designedByText is type=text, so textContent is correct
-  const designedByText = designedByTextRow.children[0]?.textContent.trim() || '';
-  // designedByLink is type=aem-content, so querySelector('a') is correct
-  const designedByLink = designedByLinkRow.children[0]?.querySelector('a');
+  const designerP = document.createElement('p');
+  moveInstrumentation(designerAttributionRow, designerP);
+  // designerAttribution is richtext, use innerHTML
+  designerP.innerHTML = designerAttributionRow.children[0]?.innerHTML || '';
+  socialCol.append(designerP);
 
-  if (designedByLink) {
-    const a = document.createElement('a');
-    a.href = designedByLink.href;
-    a.target = '_blank';
-    a.textContent = designedByLink.textContent.trim(); // textContent for the link label is correct here
-    designedByP.innerHTML = `${designedByText} &amp; Developed by `;
-    designedByP.append(a);
-    moveInstrumentation(designedByLinkRow, a); // Instrument the link itself
-  } else {
-    designedByP.textContent = designedByText;
-  }
-  moveInstrumentation(designedByTextRow, designedByP); // Instrument the text row
-  socialCol.append(designedByP);
+  contactSocialRow.append(socialCol);
+  colMd5.append(contactSocialRow);
 
-  contactRow.append(socialCol);
-  colMd5.append(contactRow);
-  mainRow.append(colMd5);
-  container.append(mainRow);
+  mainRow.append(colMd7, colMd5);
+  root.append(mainRow);
 
-  block.replaceChildren(container);
+  // Move instrumentation for the root-level rows that were not processed in loops
+  moveInstrumentation(contactInfoRow, contactCol);
+  moveInstrumentation(telephoneLabelRow, telNoUl);
+  moveInstrumentation(faxLabelRow, telNoUl);
+  moveInstrumentation(designerAttributionRow, socialCol);
+
+
+  block.replaceChildren(root);
 }

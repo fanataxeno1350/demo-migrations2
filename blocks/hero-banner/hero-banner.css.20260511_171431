@@ -1,0 +1,67 @@
+@keyframes progress-bar-stripes{from{background-position:1rem 0}to{background-position:0 0}}
+
+@keyframes spinner-border{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+
+@keyframes spinner-grow{0%{-webkit-transform:scale(0);transform:scale(0)}50%{opacity:1}}
+
+.inner-banner.brand_mobile{ 
+	display: none
+ }
+
+.inner-banner img{ 
+	width: 100%
+ }
+
+.inner-banner{ 
+	position: relative;
+	height: 700px
+ }
+
+.inner-banner:before{ 
+	content: "";
+	background: url("/content/dam/aemigrate/uploaded-folder/www-parleproducts-com/image/banner-shadow-6b54fc.png") 0 0/contain;
+	height: 200px;
+	position: absolute;
+	left: 0;
+	right: 0
+ }
+
+@keyframes blink-animation{
+to {
+visibility:hidden
+}
+}
+
+@media only screen and (max-width:767px) { .img-fluid{ 
+	margin: auto auto 20px
+ } }
+
+@media (min-width:1300px) { .inner-banner{ position:relative;height:780px } }
+
+@media (min-width:2100px) { .inner-banner{ height:1190px } }
+
+@media only screen and (max-width:1599px) { .inner-banner{ position:relative;height:560px } }
+
+@media only screen and (max-width :767px) { .inner-banner{ height:auto }
+
+.inner-banner.brand_desktop, .inner-banner:before, section.brands-inner-banner{ display:none }
+
+.inner-banner.brand_mobile{ display:block }
+
+.img-fluid{ margin:auto } }
+
+@media (min-width:576px) { @media only screen and (min-width:768px) and (max-width:991px) { .inner-banner{ min-height:370px;height:auto } }
+
+@media only screen and (min-width:992px) and (max-width:1023px) { .inner-banner{ min-height:400px;height:auto } }
+
+@media only screen and (min-width:768px) and (max-width:1023px) { .inner-banner:before{ height:160px;background-size:contain;display:none } }
+
+@media only screen and (min-width:1024px) and (max-width:1199px) { .inner-banner:before{ height:150px;background-size:contain }
+
+.inner-banner{ min-height:460px;height:auto } }
+
+@media only screen and (min-width:1200px) and (max-width:1365px) { .inner-banner{ min-height:530px;height:auto } } }
+
+@keyframes fb_transform{0%{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+
+@keyframes rotateSpinner{0%{transform:rotate(0)}to{transform:rotate(360deg)}}

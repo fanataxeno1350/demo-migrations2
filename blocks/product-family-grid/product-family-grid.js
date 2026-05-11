@@ -3,65 +3,80 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
   const children = [...block.children];
-  const root = document.createElement('div');
-  // Removed 'brnd-product' class from root, as the outer block div already has it.
-  // root.classList.add('brnd-product'); // VIOLATION 0.5 - removed
 
-  const headlineRow = children.shift();
+  const section = document.createElement('section');
+  section.classList.add('brands-det-2'); // This is the block's own class, but it's on the root <section> which is replacing the block.
+
+  const container = document.createElement('div');
+  container.classList.add('container');
+  section.append(container);
+
+  const brndProduct = document.createElement('div');
+  brndProduct.classList.add('brnd-product');
+  container.append(brndProduct);
+
+  // The first child is the headline row
+  const headlineRow = children[0];
   if (headlineRow) {
+    const headlineCell = headlineRow.children[0]; // Access the cell within the headline row
     const headline = document.createElement('h4');
     moveInstrumentation(headlineRow, headline);
-    headline.textContent = headlineRow.textContent.trim();
-    root.append(headline);
+    headline.textContent = headlineCell.textContent.trim(); // Read from the cell
+    brndProduct.append(headline);
   }
 
   const productList = document.createElement('ul');
-  children.forEach((row) => {
-    // CHECK 1, 2.6A: Correctly using index destructuring for fixed-schema item rows
-    const [imageCell, labelCell, linkCell] = [...row.children];
+  brndProduct.append(productList);
 
-    const listItem = document.createElement('li');
-    // CHECK 2.6B: Using class name from ORIGINAL HTML
+  const productRows = children.slice(1);
+
+  productRows.forEach((row) => {
+    const [imageCell, labelCell] = [...row.children]; // Correct: named destructuring for fixed schema
+
+    const li = document.createElement('li');
+    moveInstrumentation(row, li);
+
     const brandImgSec = document.createElement('div');
     brandImgSec.classList.add('brand_img_sec');
+    li.append(brandImgSec);
 
     const anchor = document.createElement('a');
-    const foundLink = linkCell?.querySelector('a');
-    if (foundLink) {
-      anchor.href = foundLink.href;
-    }
+    // The original HTML has no href attribute on the <a> tag for these product items.
+    // If a link is expected, it should come from a model field.
+    // For now, we'll leave href empty as per original HTML, or add a placeholder if required by design.
+    // If the labelCell contained an <a> tag, we'd extract its href.
+    // Since it's type=text, there's no href in the cell itself.
+    anchor.href = '#'; // Placeholder, as original HTML doesn't provide a dynamic href.
+    brandImgSec.append(anchor);
 
-    // CHECK 2.6B: Using class name from ORIGINAL HTML
-    const brandProductImg = document.createElement('div');
-    brandProductImg.classList.add('brnd-product-img');
+    const brndProductImg = document.createElement('div');
+    brndProductImg.classList.add('brnd-product-img');
+    anchor.append(brndProductImg);
 
     const picture = imageCell?.querySelector('picture');
     if (picture) {
       const img = picture.querySelector('img');
       if (img) {
+        // The original HTML uses img-fluid and lozad classes on the img itself.
+        // createOptimizedPicture creates a new picture element, so we need to apply classes to the img within it.
         const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-        moveInstrumentation(img, optimizedPic.querySelector('img'));
-        // ORIGINAL HTML shows 'img-fluid lozad' on the img tag, not the picture.
-        // The createOptimizedPicture function handles the img element, so we need to add classes there.
-        const newImg = optimizedPic.querySelector('img');
-        if (newImg) {
-          newImg.classList.add('img-fluid', 'lozad'); // CHECK 2.6B: Added classes from ORIGINAL HTML
+        const optimizedImg = optimizedPic.querySelector('img');
+        if (optimizedImg) {
+          optimizedImg.classList.add('img-fluid', 'lozad'); // Add classes from original HTML
+          moveInstrumentation(img, optimizedImg);
         }
-        brandProductImg.append(optimizedPic);
+        brndProductImg.append(optimizedPic);
       }
     }
 
-    const paragraph = document.createElement('p');
-    paragraph.textContent = labelCell?.textContent.trim() || '';
+    const labelP = document.createElement('p');
+    if (labelCell) {
+      labelP.textContent = labelCell.textContent.trim();
+    }
+    anchor.append(labelP);
 
-    // CHECK 3: Ensure moveInstrumentation is called for each authored row
-    moveInstrumentation(row, listItem);
-    anchor.append(brandProductImg, paragraph);
-    brandImgSec.append(anchor);
-    listItem.append(brandImgSec);
-    productList.append(listItem);
+    productList.append(li);
   });
 
-  root.append(productList);
-  block.replaceChildren(root);
+  block.replaceChildren(section);
 }

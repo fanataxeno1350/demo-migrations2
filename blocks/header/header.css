@@ -32,49 +32,8 @@
 
 @media print { .container{ min-width:992px!important } }
 
-.mega_menu_link p.menu_text a:hover{ 
-	color: #fff
- }
-
-.mega_menu_link p.menu_text a{ 
-	line-height: 1.4;
-	text-transform: capitalize;
-	text-transform: capitalize
- }
-
-.mega_menu_link p.menu_text a{ 
-	font-size: 16px
- }
-
-.mega_menu_link p.menu_text a:hover{ 
-	color: #000!important
- }
-
 .row.mega_menu_link.no-gutters.parle_recipes_bg{ 
 	height: 590px
- }
-
-.mega_menu_link p.menu_text a{ 
-	position: relative;
-	top: 0;
-	left: 0;
-	padding: 0 30px;
-	text-align: left;
-	max-width: 100%;
-	color: #333;
-	font-weight: 500
- }
-
-.menu_about.menu_sec1.world_wise p.menu_text.world_text a{ 
-	padding: 0;
-	color: #333
- }
-
-.legacy_main.bg-white.number_text_menu p.legacy_link a{ 
-	font-weight: 700!important;
-	text-transform: capitalize;
-	padding: 40px 30px 0;
-	text-align: left
  }
 
 @keyframes blink-animation{
@@ -175,7 +134,7 @@ visibility:hidden
 
 .desktop-mobile_nav, .main-menu ul li, .main-menu.cl-effect-5, .parle-menu{ display:none }
 
-.main-menu ul li:last-child, .main-menu ul li:nth-last-of-type(2), .mobile-logo, .mobile-menu, .mobile_nav_icon.mobile_nav{ display:block }
+.main-menu ul li:last-child, .main-menu ul li:nth-last-of-type(2), .mobile-logo, .mobile_nav_icon.mobile_nav{ display:block }
 
 .container{ max-width:1230px;width:100% }
 
@@ -201,11 +160,9 @@ header.header{ position:absolute } }
 
 .parle-menu{ display:none }
 
-.mobile-logo, .mobile-menu{ display:block }
+.mobile-logo{ display:block }
 
-.top_menu ul img{ margin-top:-23px }
-
-.dropdown-menu ul li ul li{ border-bottom:none;padding:5px 10px } }
+.top_menu ul img{ margin-top:-23px } }
 
 @media only screen and (min-width:1024px) and (max-width:1199px) { .container{ max-width:1000px }
 

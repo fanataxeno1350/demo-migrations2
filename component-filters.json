@@ -41,7 +41,15 @@
       "header-nav",
       "breadcrumb",
       "brand-intro",
-      "social-feed-section"
+      "social-feed-section",
+      "header-top-menu",
+      "header-sidebar",
+      "header-mobile-menu",
+      "brand-title",
+      "commercial-carousel",
+      "video-embed",
+      "campaign-slider",
+      "social-feed"
     ]
   },
   {
@@ -58,6 +66,9 @@
   },
   {
     "id": "brand-title-mobile"
+  },
+  {
+    "id": "brand-title"
   },
   {
     "id": "brands-bcrumbs-sec",
@@ -87,6 +98,12 @@
     ]
   },
   {
+    "id": "campaign-slider",
+    "components": [
+      "campaign-slide-item"
+    ]
+  },
+  {
     "id": "campaign-video-carousel",
     "components": [
       "campaign-video-item"
@@ -111,6 +128,12 @@
       "image",
       "button",
       "title"
+    ]
+  },
+  {
+    "id": "commercial-carousel",
+    "components": [
+      "commercial-carousel-item"
     ]
   },
   {
@@ -147,12 +170,29 @@
     ]
   },
   {
+    "id": "header-mobile-menu",
+    "components": [
+      "navigation-item"
+    ]
+  },
+  {
     "id": "header-nav",
     "components": [
+      "top-menu-icon-item",
       "main-navigation-item",
-      "sidebar-navigation-item",
-      "mobile-navigation-item",
-      "mobile-sub-link-item"
+      "sidebar-navigation-item"
+    ]
+  },
+  {
+    "id": "header-sidebar",
+    "components": [
+      "sidebar-navigation-item"
+    ]
+  },
+  {
+    "id": "header-top-menu",
+    "components": [
+      "menu-icon-item"
     ]
   },
   {
@@ -165,9 +205,8 @@
     "id": "header",
     "components": [
       "top-menu-icon-item",
-      "desktop-navigation-item",
-      "mobile-navigation-item",
-      "sidebar-link-item"
+      "main-menu-item",
+      "sidebar-menu-item"
     ]
   },
   {
@@ -207,6 +246,14 @@
     ]
   },
   {
+    "id": "social-feed",
+    "components": [
+      "social-platform-item",
+      "embed-widget-item",
+      "instagram-feed-item"
+    ]
+  },
+  {
     "id": "social-feeds-section",
     "components": [
       "social-logo-item",
@@ -219,5 +266,8 @@
     "components": [
       "tv-commercial-carousel-item"
     ]
+  },
+  {
+    "id": "video-embed"
   }
 ]

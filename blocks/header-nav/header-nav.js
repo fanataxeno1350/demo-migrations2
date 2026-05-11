@@ -1,13 +1,10 @@
-import { createOptimizedPicture } from '../../scripts/aem.js';
+import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
-function transformNestedLists(rootUl, isMobile = false) {
+function transformNestedLists(rootUl) {
   rootUl.querySelectorAll('li').forEach((li) => {
     const nested = li.querySelector(':scope > ul');
     const anchor = li.querySelector(':scope > a');
-
-    // Add classes from ORIGINAL HTML to list items
-    li.classList.add('nav-menu-item', 'list-item');
 
     if (!anchor) {
       const textNode = [...li.childNodes].find(
@@ -24,378 +21,339 @@ function transformNestedLists(rootUl, isMobile = false) {
     if (nested) {
       nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('dropdown-menu'); // Class from ORIGINAL HTML
+      subWrap.classList.add('has-sub-child');
       subWrap.append(nested);
       li.append(subWrap);
-
       const trigger = li.querySelector(':scope > a, :scope > span');
       if (trigger) {
-        if (isMobile) {
-          trigger.classList.add('dropdown-toggle', 'nav-item'); // Classes from ORIGINAL HTML
-          trigger.href = '#';
-        }
-
         trigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          li.classList.toggle('active'); // Class from ORIGINAL HTML
-          subWrap.classList.toggle('show'); // Class from ORIGINAL HTML
-          if (isMobile) {
-            subWrap.classList.toggle('show'); // Class from ORIGINAL HTML
-          }
+          li.classList.toggle('active');
+          subWrap.classList.toggle('active');
         });
       }
-    } else if (anchor && isMobile) {
-      anchor.classList.add('dropdown-item'); // Class from ORIGINAL HTML
     }
   });
 }
 
-export default function decorate(block) {
+export default async function decorate(block) {
   const children = [...block.children];
 
-  const [
-    mobileLogoRow,
-    mobileLogoLinkRow,
-    desktopLogoRow,
-    desktopLogoLinkRow,
-    ...itemRows
-  ] = children;
+  const mobileLogoRow = children[0];
+  const mobileLogoLinkRow = children[1];
+  const desktopLogoRow = children[2];
+  const desktopLogoLinkRow = children[3];
 
-  // Filter item rows based on cell count and content to match BlockJson models
-  // main-navigation-item, sidebar-navigation-item, mobile-navigation-item all have 3 cells
-  // mobile-sub-link-item has 2 cells
-  const mainNavigationItems = itemRows.filter(
-    (row) => row.children.length === 3 && row.querySelector('div:nth-child(3) ul') && !row.dataset.mobileSubLink,
+  const itemRows = children.slice(4);
+
+  // Filter for top-menu-icon-item (3 cells, first cell has picture)
+  const topMenuIconRows = itemRows.filter(
+    (row) => row.children.length === 3 && row.children[0]?.querySelector('picture'),
   );
-  const sidebarNavigationItems = itemRows.filter(
-    (row) => row.children.length === 3 && !row.querySelector('div:nth-child(3) ul') && !row.dataset.mobileSubLink,
+  // Filter for main-navigation-item (3 cells, first cell is text, no picture)
+  const mainNavigationRows = itemRows.filter(
+    (row) => row.children.length === 3 && !row.children[0]?.querySelector('picture') && !row.children[0]?.querySelector('a'),
   );
-  const mobileNavigationItems = itemRows.filter(
-    (row) => row.children.length === 3 && row.querySelector('div:nth-child(3) ul') && !row.dataset.mobileSubLink,
-  );
-  const mobileSubLinkItems = itemRows.filter(
-    (row) => row.children.length === 2,
+  // Filter for sidebar-navigation-item (3 cells, first cell is text, no picture)
+  // Note: This filter is identical to mainNavigationRows based on the current logic.
+  // If there's a specific distinction, it needs to be added. For now, it's a separate filter.
+  const sidebarNavigationRows = itemRows.filter(
+    (row) => row.children.length === 3 && !row.children[0]?.querySelector('picture') && !row.children[0]?.querySelector('a'),
   );
 
-  // --- Header Top Menu Start ---
-  const headerTopSection = document.createElement('section');
-  headerTopSection.classList.add('bg_top'); // Class from ORIGINAL HTML
-  const headerTopContainer = document.createElement('div');
-  headerTopContainer.classList.add('container'); // Class from ORIGINAL HTML
-  const headerTopRow = document.createElement('div');
-  headerTopRow.classList.add('row'); // Class from ORIGINAL HTML
-  const headerTopCol = document.createElement('div');
-  headerTopCol.classList.add('col-md-12'); // Class from ORIGINAL HTML
-  const topMenu = document.createElement('div');
-  topMenu.classList.add('top_menu'); // Class from ORIGINAL HTML
+  const header = document.createElement('header');
+  header.classList.add('header', 'header-sticky');
+
+  // Header Top Menu
+  const bgTopSection = document.createElement('section');
+  bgTopSection.classList.add('bg_top');
+  const containerDiv = document.createElement('div');
+  containerDiv.classList.add('container');
+  const rowDiv = document.createElement('div');
+  rowDiv.classList.add('row');
+  const colDiv = document.createElement('div');
+  colDiv.classList.add('col-md-12');
+  const topMenuDiv = document.createElement('div');
+  topMenuDiv.classList.add('top_menu');
 
   const mobileLogoLink = document.createElement('a');
-  mobileLogoLink.id = 'ctl00_moblog';
-  mobileLogoLink.classList.add('mobile-logo', 'mr-auto'); // Classes from ORIGINAL HTML
-  const mobileLogoImg = mobileLogoRow.querySelector('picture');
-  if (mobileLogoImg) {
-    const img = mobileLogoImg.querySelector('img');
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    moveInstrumentation(mobileLogoRow, optimizedPic.querySelector('img'));
-    mobileLogoLink.append(optimizedPic);
+  mobileLogoLink.classList.add('mobile-logo', 'mr-auto');
+  if (mobileLogoLinkRow) {
+    const foundLink = mobileLogoLinkRow.querySelector('a');
+    if (foundLink) mobileLogoLink.href = foundLink.href;
+    moveInstrumentation(mobileLogoLinkRow, mobileLogoLink);
+  } else {
+    mobileLogoLink.href = '#';
   }
-  const mobileLogoHref = mobileLogoLinkRow.querySelector('a');
-  if (mobileLogoHref) {
-    mobileLogoLink.href = mobileLogoHref.href;
+
+  if (mobileLogoRow) {
+    const picture = mobileLogoRow.querySelector('picture');
+    if (picture) {
+      const img = picture.querySelector('img');
+      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+      moveInstrumentation(mobileLogoRow, optimizedPic.querySelector('img'));
+      mobileLogoLink.append(optimizedPic);
+    }
   }
-  moveInstrumentation(mobileLogoLinkRow, mobileLogoLink);
+
+  topMenuDiv.append(mobileLogoLink);
 
   const topMenuUl = document.createElement('ul');
-  const mobileNavLi = document.createElement('li');
-  const mobileNavIconDesktop = document.createElement('a');
-  mobileNavIconDesktop.href = 'javascript:void(0);';
-  mobileNavIconDesktop.classList.add('mobile_nav_icon', 'desktop-mobile_nav'); // Classes from ORIGINAL HTML
-  mobileNavIconDesktop.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>'; // Replaced hardcoded image with inline SVG
-  const mobileNavIconMobile = document.createElement('a');
-  mobileNavIconMobile.href = 'javascript:void(0);';
-  mobileNavIconMobile.classList.add('mobile_nav_icon', 'mobile_nav'); // Classes from ORIGINAL HTML
-  mobileNavIconMobile.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>'; // Replaced hardcoded image with inline SVG
-  mobileNavLi.append(mobileNavIconDesktop, mobileNavIconMobile);
-  topMenuUl.append(mobileNavLi);
 
-  topMenu.append(mobileLogoLink, topMenuUl);
-  headerTopCol.append(topMenu);
-  headerTopRow.append(headerTopCol);
-  headerTopContainer.append(headerTopRow);
-  headerTopSection.append(headerTopContainer);
-
-  // --- Main Navigation Menu Start ---
-  const parleMenu = document.createElement('div');
-  parleMenu.classList.add('parle-menu'); // Class from ORIGINAL HTML
-  const parleMenuContainer = document.createElement('div');
-  parleMenuContainer.classList.add('container'); // Class from ORIGINAL HTML
-  const parleMenuRow = document.createElement('div');
-  parleMenuRow.classList.add('row'); // Class from ORIGINAL HTML
-
-  const desktopLogoCol = document.createElement('div');
-  desktopLogoCol.classList.add('col-md-2'); // Class from ORIGINAL HTML
-  const desktopLogoDiv = document.createElement('div');
-  desktopLogoDiv.id = 'ctl00_divdesktop';
-  desktopLogoDiv.classList.add('logo'); // Class from ORIGINAL HTML
-  const desktopLogoAnchor = document.createElement('a');
-  desktopLogoAnchor.setAttribute('visible', 'false');
-  const desktopLogoImg = desktopLogoRow.querySelector('picture');
-  if (desktopLogoImg) {
-    const img = desktopLogoImg.querySelector('img');
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    moveInstrumentation(desktopLogoRow, optimizedPic.querySelector('img'));
-    desktopLogoAnchor.append(optimizedPic);
-  }
-  const desktopLogoHref = desktopLogoLinkRow.querySelector('a');
-  if (desktopLogoHref) {
-    desktopLogoAnchor.href = desktopLogoHref.href;
-  }
-  moveInstrumentation(desktopLogoLinkRow, desktopLogoAnchor);
-  desktopLogoDiv.append(desktopLogoAnchor);
-  desktopLogoCol.append(desktopLogoDiv);
-
-  const mainMenuCol = document.createElement('div');
-  mainMenuCol.classList.add('col-md-9'); // Class from ORIGINAL HTML
-  const mainMenu = document.createElement('div');
-  mainMenu.classList.add('main-menu', 'cl-effect-5'); // Classes from ORIGINAL HTML
-  const mainMenuUl = document.createElement('ul');
-
-  mainNavigationItems.forEach((row) => {
-    const [labelCell, linkCell, hierarchyTreeCell] = [...row.children]; // Fixed schema, use destructuring
+  topMenuIconRows.forEach((row) => {
+    const [iconCell, iconLinkCell, hierarchyTreeCell] = [...row.children]; // Fixed: named destructuring
     const li = document.createElement('li');
-    li.classList.add('position-static', 'dropdown'); // Classes from ORIGINAL HTML
-
     const anchor = document.createElement('a');
-    anchor.textContent = labelCell.textContent.trim();
-    const linkHref = linkCell.querySelector('a');
-    if (linkHref) {
-      anchor.href = linkHref.href;
+    anchor.classList.add('mobile_nav_icon', 'desktop-mobile_nav');
+    const foundLink = iconLinkCell?.querySelector('a');
+    if (foundLink) anchor.href = foundLink.href;
+    else anchor.href = 'javascript:void(0);';
+
+    const picture = iconCell?.querySelector('picture');
+    if (picture) {
+      const img = picture.querySelector('img');
+      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+      moveInstrumentation(iconCell, optimizedPic.querySelector('img'));
+      anchor.append(optimizedPic);
     }
-    anchor.innerHTML = `<abbr><span data-hover="${anchor.textContent}">${anchor.textContent}</span></abbr>`;
-    moveInstrumentation(labelCell, anchor);
-    moveInstrumentation(linkCell, anchor);
+    moveInstrumentation(row, li);
     li.append(anchor);
 
-    const hierarchyUl = hierarchyTreeCell.querySelector('ul');
+    const hierarchyUl = hierarchyTreeCell?.querySelector('ul');
     if (hierarchyUl) {
       const megamenu = document.createElement('div');
-      megamenu.classList.add('megamenu'); // Class from ORIGINAL HTML
+      megamenu.classList.add('megamenu');
       const mMenu2 = document.createElement('div');
-      mMenu2.classList.add('m-menu2'); // Class from ORIGINAL HTML
+      mMenu2.classList.add('m-menu2');
       const megaMenuLinkRow = document.createElement('div');
-      megaMenuLinkRow.classList.add('row', 'mega_menu_link'); // Classes from ORIGINAL HTML
+      megaMenuLinkRow.classList.add('row', 'mega_menu_link');
 
-      // Transform nested lists for desktop megamenu
-      transformNestedLists(hierarchyUl);
+      // Create a temporary div to hold the hierarchy content for instrumentation and transformation
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
+      moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation from original cell
 
-      const col = document.createElement('div');
-      col.classList.add('col-md-12'); // Adjust column size as needed, class from ORIGINAL HTML
-      col.append(hierarchyUl);
-      megaMenuLinkRow.append(col);
+      const transformedUl = tempDiv.querySelector('ul');
+      if (transformedUl) {
+        transformNestedLists(transformedUl);
+        megaMenuLinkRow.append(transformedUl);
+      }
       mMenu2.append(megaMenuLinkRow);
-
-      const menuClosed = document.createElement('div');
-      menuClosed.classList.add('menu-closed'); // Class from ORIGINAL HTML
-      menuClosed.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>'; // Replaced hardcoded image with inline SVG
-
-      megamenu.append(mMenu2, menuClosed);
+      megamenu.append(mMenu2);
+      li.classList.add('position-static', 'dropdown');
       li.append(megamenu);
 
       anchor.addEventListener('click', (e) => {
         e.preventDefault();
-        e.stopPropagation();
-        li.classList.toggle('active'); // Class from ORIGINAL HTML
+        li.classList.toggle('active');
+        megamenu.classList.toggle('active');
       });
-      menuClosed.addEventListener('click', () => {
-        li.classList.remove('active'); // Class from ORIGINAL HTML
+    }
+
+    topMenuUl.append(li);
+  });
+
+  topMenuDiv.append(topMenuUl);
+  colDiv.append(topMenuDiv);
+  rowDiv.append(colDiv);
+  containerDiv.append(rowDiv);
+  bgTopSection.append(containerDiv);
+  header.append(bgTopSection);
+
+  // Parle Menu
+  const parleMenuDiv = document.createElement('div');
+  parleMenuDiv.classList.add('parle-menu');
+  const parleMenuContainer = document.createElement('div');
+  parleMenuContainer.classList.add('container');
+  const parleMenuRow = document.createElement('div');
+  parleMenuRow.classList.add('row');
+
+  const logoCol = document.createElement('div');
+  logoCol.classList.add('col-md-2');
+  const logoDiv = document.createElement('div');
+  logoDiv.classList.add('logo');
+
+  const desktopLogoAnchor = document.createElement('a');
+  if (desktopLogoLinkRow) {
+    const foundLink = desktopLogoLinkRow.querySelector('a');
+    if (foundLink) desktopLogoAnchor.href = foundLink.href;
+    moveInstrumentation(desktopLogoLinkRow, desktopLogoAnchor);
+  } else {
+    desktopLogoAnchor.href = '#';
+  }
+
+  if (desktopLogoRow) {
+    const picture = desktopLogoRow.querySelector('picture');
+    if (picture) {
+      const img = picture.querySelector('img');
+      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+      moveInstrumentation(desktopLogoRow, optimizedPic.querySelector('img'));
+      desktopLogoAnchor.append(optimizedPic);
+    }
+  }
+
+  logoDiv.append(desktopLogoAnchor);
+  logoCol.append(logoDiv);
+  parleMenuRow.append(logoCol);
+
+  const mainMenuCol = document.createElement('div');
+  mainMenuCol.classList.add('col-md-9');
+  const mainMenuDiv = document.createElement('div');
+  mainMenuDiv.classList.add('main-menu', 'cl-effect-5');
+  const mainMenuUl = document.createElement('ul');
+
+  mainNavigationRows.forEach((row) => {
+    const [labelCell, linkCell, hierarchyTreeCell] = [...row.children]; // Fixed: named destructuring
+    const li = document.createElement('li');
+    li.classList.add('position-static', 'dropdown');
+
+    const anchor = document.createElement('a');
+    const foundLink = linkCell?.querySelector('a');
+    if (foundLink) anchor.href = foundLink.href;
+    else anchor.href = '#';
+
+    const abbr = document.createElement('abbr');
+    const span = document.createElement('span');
+    span.setAttribute('data-hover', labelCell?.textContent.trim() || '');
+    span.textContent = labelCell?.textContent.trim() || '';
+    abbr.append(span);
+    anchor.append(abbr);
+    moveInstrumentation(row, li);
+    li.append(anchor);
+
+    const hierarchyUl = hierarchyTreeCell?.querySelector('ul');
+    if (hierarchyUl) {
+      const megamenu = document.createElement('div');
+      megamenu.classList.add('megamenu');
+      const mMenu2 = document.createElement('div');
+      mMenu2.classList.add('m-menu2');
+      const megaMenuLinkRow = document.createElement('div');
+      megaMenuLinkRow.classList.add('row', 'mega_menu_link');
+
+      // Create a temporary div to hold the hierarchy content for instrumentation and transformation
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
+      moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation from original cell
+
+      const transformedUl = tempDiv.querySelector('ul');
+      if (transformedUl) {
+        transformNestedLists(transformedUl);
+        megaMenuLinkRow.append(transformedUl);
+      }
+      mMenu2.append(megaMenuLinkRow);
+      megamenu.append(mMenu2);
+      li.append(megamenu);
+
+      anchor.addEventListener('click', (e) => {
+        e.preventDefault();
+        li.classList.toggle('active');
+        megamenu.classList.toggle('active');
       });
     }
     mainMenuUl.append(li);
-    moveInstrumentation(row, li);
   });
 
-  const desktopMobileNavLi = document.createElement('li');
-  desktopMobileNavLi.classList.add('no_sticky'); // Class from ORIGINAL HTML
-  const desktopMobileNavAnchor = document.createElement('a');
-  desktopMobileNavAnchor.href = 'javascript:void(0);';
-  desktopMobileNavAnchor.classList.add('mobile_nav_icon', 'desktop-mobile_nav'); // Classes from ORIGINAL HTML
-  desktopMobileNavAnchor.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>'; // Replaced hardcoded image with inline SVG
-  desktopMobileNavLi.append(desktopMobileNavAnchor);
-  mainMenuUl.append(desktopMobileNavLi);
-
-  const stickyDesktopMobileNavLi = document.createElement('li');
-  stickyDesktopMobileNavLi.classList.add('sticky'); // Class from ORIGINAL HTML
-  const stickyDesktopMobileNavAnchor = document.createElement('a');
-  stickyDesktopMobileNavAnchor.href = 'javascript:void(0);';
-  stickyDesktopMobileNavAnchor.classList.add('mobile_nav_icon', 'desktop-mobile_nav'); // Classes from ORIGINAL HTML
-  stickyDesktopMobileNavAnchor.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>'; // Replaced hardcoded image with inline SVG
-  stickyDesktopMobileNavLi.append(stickyDesktopMobileNavAnchor);
-  mainMenuUl.append(stickyDesktopMobileNavLi);
-
-  mainMenu.append(mainMenuUl);
-  mainMenuCol.append(mainMenu);
+  mainMenuDiv.append(mainMenuUl);
+  mainMenuCol.append(mainMenuDiv);
+  parleMenuRow.append(mainMenuCol);
 
   const rightNavCol = document.createElement('div');
-  rightNavCol.classList.add('col-md-1'); // Class from ORIGINAL HTML
+  rightNavCol.classList.add('col-md-1');
   const logo2Div = document.createElement('div');
-  logo2Div.classList.add('logo2'); // Class from ORIGINAL HTML
+  logo2Div.classList.add('logo2');
   rightNavCol.append(logo2Div);
+  parleMenuRow.append(rightNavCol);
 
-  parleMenuRow.append(desktopLogoCol, mainMenuCol, rightNavCol);
   parleMenuContainer.append(parleMenuRow);
 
   const navbarCollapse = document.createElement('div');
-  navbarCollapse.classList.add('navbar-collapse', 'navbarResponsive2'); // Classes from ORIGINAL HTML
+  navbarCollapse.classList.add('navbar-collapse', 'navbarResponsive2');
   const navbarResponsiveMain = document.createElement('div');
-  navbarResponsiveMain.classList.add('navbarResponsive-main'); // Class from ORIGINAL HTML
-  const closeIcon = document.createElement('a');
-  closeIcon.href = 'javascript:void(0);';
-  closeIcon.classList.add('mobile_nav_icon-close'); // Class from ORIGINAL HTML
-  closeIcon.innerHTML = '<i class="lnr lnr-cross"></i>'; // Unicode cross icon
+  navbarResponsiveMain.classList.add('navbarResponsive-main');
+
+  const closeButton = document.createElement('a');
+  closeButton.href = 'javascript:void(0);';
+  closeButton.classList.add('mobile_nav_icon-close');
+  closeButton.innerHTML = '<i class="lnr lnr-cross"></i>';
+  navbarResponsiveMain.append(closeButton);
+
   const menuSidebar = document.createElement('div');
-  menuSidebar.classList.add('menu-sidebar'); // Class from ORIGINAL HTML
+  menuSidebar.classList.add('menu-sidebar');
   menuSidebar.id = 'accordion';
   const sidebarUl = document.createElement('ul');
-  sidebarUl.classList.add('list-unstyled', 'components'); // Classes from ORIGINAL HTML
+  sidebarUl.classList.add('list-unstyled', 'components');
 
-  sidebarNavigationItems.forEach((row) => {
-    const [labelCell, linkCell, hierarchyTreeCell] = [...row.children]; // Fixed schema, use destructuring
+  sidebarNavigationRows.forEach((row) => {
+    const [labelCell, linkCell, hierarchyTreeCell] = [...row.children]; // Fixed: named destructuring
     const li = document.createElement('li');
-    const anchor = document.createElement('a');
-    anchor.textContent = labelCell.textContent.trim();
-    const linkHref = linkCell.querySelector('a');
-    if (linkHref) {
-      anchor.href = linkHref.href;
-    }
-    moveInstrumentation(labelCell, anchor);
-    moveInstrumentation(linkCell, anchor);
+    moveInstrumentation(row, li); // Added instrumentation for sidebar list item
 
-    const hierarchyUl = hierarchyTreeCell.querySelector('ul');
+    const hierarchyUl = hierarchyTreeCell?.querySelector('ul');
     if (hierarchyUl) {
+      const anchor = document.createElement('a');
       anchor.href = '#';
-      anchor.classList.add('nav-link', 'collapsed'); // Classes from ORIGINAL HTML
       anchor.setAttribute('data-toggle', 'collapse');
       anchor.setAttribute('aria-expanded', 'false');
-      const subMenuDiv = document.createElement('div');
-      subMenuDiv.classList.add('list-unstyled', 'collapse'); // Classes from ORIGINAL HTML
-      subMenuDiv.setAttribute('data-parent', '#accordion');
-      const subMenuUl = document.createElement('ul');
+      anchor.classList.add('nav-link', 'collapsed');
+      anchor.textContent = labelCell?.textContent.trim() || '';
 
-      // Transform nested lists for sidebar
-      transformNestedLists(hierarchyUl, true);
+      const collapseDiv = document.createElement('div');
+      collapseDiv.classList.add('list-unstyled', 'collapse');
+      collapseDiv.setAttribute('data-parent', '#accordion');
 
-      // Append children from the transformed hierarchyUl
-      while (hierarchyUl.firstChild) {
-        subMenuUl.append(hierarchyUl.firstChild);
+      // Create a temporary div to hold the hierarchy content for instrumentation and transformation
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
+      moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation from original cell
+
+      const transformedUl = tempDiv.querySelector('ul');
+      if (transformedUl) {
+        transformNestedLists(transformedUl);
+        collapseDiv.append(transformedUl);
       }
-      subMenuDiv.append(subMenuUl);
-      li.append(anchor, subMenuDiv);
 
       anchor.addEventListener('click', (e) => {
         e.preventDefault();
-        e.stopPropagation();
-        subMenuDiv.classList.toggle('show'); // Class from ORIGINAL HTML
-        anchor.classList.toggle('collapsed'); // Class from ORIGINAL HTML
+        collapseDiv.classList.toggle('show');
+        anchor.classList.toggle('collapsed');
       });
+
+      li.append(anchor, collapseDiv);
     } else {
+      const anchor = document.createElement('a');
+      const foundLink = linkCell?.querySelector('a');
+      if (foundLink) anchor.href = foundLink.href;
+      else anchor.href = '#';
+      anchor.textContent = labelCell?.textContent.trim() || '';
       li.append(anchor);
     }
     sidebarUl.append(li);
-    moveInstrumentation(row, li);
-  });
-
-  // Handle mobileSubLinkItems and append them to the sidebarUl
-  mobileSubLinkItems.forEach((row) => {
-    const [labelCell, linkCell] = [...row.children]; // Fixed schema, use destructuring
-    const li = document.createElement('li');
-    const anchor = document.createElement('a');
-    anchor.textContent = labelCell.textContent.trim();
-    const linkHref = linkCell.querySelector('a');
-    if (linkHref) {
-      anchor.href = linkHref.href;
-    }
-    li.append(anchor);
-    sidebarUl.append(li);
-    moveInstrumentation(row, li);
   });
 
   menuSidebar.append(sidebarUl);
-  navbarResponsiveMain.append(closeIcon, menuSidebar);
+  navbarResponsiveMain.append(menuSidebar);
   navbarCollapse.append(navbarResponsiveMain);
   parleMenuContainer.append(navbarCollapse);
-  parleMenu.append(parleMenuContainer);
+  parleMenuDiv.append(parleMenuContainer);
+  header.append(parleMenuDiv);
 
-  // --- Mobile Menu Start ---
-  const mobileMenu = document.createElement('div');
-  mobileMenu.classList.add('mobile-menu'); // Class from ORIGINAL HTML
-  const mobileCloseIcon = document.createElement('a');
-  mobileCloseIcon.href = 'javascript:void(0);';
-  mobileCloseIcon.classList.add('cros-icon'); // Class from ORIGINAL HTML
-  mobileCloseIcon.innerHTML = '<span class="lnr lnr-cross"></span>'; // Unicode cross icon
-  const mobileNavUl = document.createElement('ul');
-  mobileNavUl.classList.add('navbar-nav'); // Class from ORIGINAL HTML
+  block.replaceChildren(header);
 
-  mobileNavigationItems.forEach((row) => {
-    const [labelCell, linkCell, hierarchyTreeCell] = [...row.children]; // Fixed schema, use destructuring
-    const li = document.createElement('li');
-    li.classList.add('nav-item'); // Class from ORIGINAL HTML
-    const anchor = document.createElement('a');
-    anchor.classList.add('nav-link'); // Class from ORIGINAL HTML
-    anchor.textContent = labelCell.textContent.trim();
-    const linkHref = linkCell.querySelector('a');
-    if (linkHref) {
-      anchor.href = linkHref.href;
-    }
-    moveInstrumentation(labelCell, anchor);
-    moveInstrumentation(linkCell, anchor);
-
-    const hierarchyUl = hierarchyTreeCell.querySelector('ul');
-    if (hierarchyUl) {
-      anchor.href = '#';
-      anchor.classList.add('dropdown-toggle', 'nav-item'); // Classes from ORIGINAL HTML
-      const dropdownMenu = document.createElement('div');
-      dropdownMenu.classList.add('dropdown-menu'); // Class from ORIGINAL HTML
-      const subUl = document.createElement('ul');
-
-      // Transform nested lists for mobile menu
-      transformNestedLists(hierarchyUl, true);
-
-      // Append children from the transformed hierarchyUl
-      while (hierarchyUl.firstChild) {
-        subUl.append(hierarchyUl.firstChild);
-      }
-      dropdownMenu.append(subUl);
-      li.append(anchor, dropdownMenu);
-
-      anchor.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        li.classList.toggle('active'); // Class from ORIGINAL HTML
-        dropdownMenu.classList.toggle('show'); // Class from ORIGINAL HTML
-      });
-    } else {
-      li.append(anchor);
-    }
-    mobileNavUl.append(li);
-    moveInstrumentation(row, li);
+  block.querySelectorAll('picture > img').forEach((img) => {
+    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+    moveInstrumentation(img, optimizedPic.querySelector('img'));
+    img.closest('picture').replaceWith(optimizedPic);
   });
 
-  mobileMenu.append(mobileCloseIcon, mobileNavUl);
-
-  // Toggle mobile menu and sidebar
-  mobileNavIconDesktop.addEventListener('click', () => {
-    navbarCollapse.classList.add('show'); // Class from ORIGINAL HTML
-  });
-  mobileNavIconMobile.addEventListener('click', () => {
-    mobileMenu.classList.add('show'); // Class from ORIGINAL HTML
-  });
-  closeIcon.addEventListener('click', () => {
-    navbarCollapse.classList.remove('show'); // Class from ORIGINAL HTML
-  });
-  mobileCloseIcon.addEventListener('click', () => {
-    mobileMenu.classList.remove('show'); // Class from ORIGINAL HTML
+  const mobileNavIcons = block.querySelectorAll('.mobile_nav_icon');
+  mobileNavIcons.forEach((icon) => {
+    icon.addEventListener('click', () => {
+      navbarCollapse.classList.add('show');
+    });
   });
 
-  block.replaceChildren(headerTopSection, parleMenu, mobileMenu);
+  closeButton.addEventListener('click', () => {
+    navbarCollapse.classList.remove('show');
+  });
 }

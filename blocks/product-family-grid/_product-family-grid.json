@@ -38,14 +38,14 @@
       "fields": [
         {
           "component": "text",
-          "label": "Grid Headline",
+          "label": "Headline",
           "name": "headline",
           "valueType": "string"
         },
         {
           "component": "container",
           "item": "product-family-grid-item",
-          "label": "Products",
+          "label": "Product Items",
           "name": "products"
         }
       ]
@@ -63,12 +63,6 @@
           "component": "text",
           "label": "Product Label",
           "name": "label",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Product Link",
-          "name": "link",
           "valueType": "string"
         }
       ]

@@ -32,45 +32,30 @@
       }
     },
     {
-      "title": "Desktop-Navigation-Item",
-      "id": "desktop-navigation-item",
+      "title": "Main-Menu-Item",
+      "id": "main-menu-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "desktop-navigation-item",
-              "name": "Desktop-Navigation-Item"
+              "model": "main-menu-item",
+              "name": "Main-Menu-Item"
             }
           }
         }
       }
     },
     {
-      "title": "Mobile-Navigation-Item",
-      "id": "mobile-navigation-item",
+      "title": "Sidebar-Menu-Item",
+      "id": "sidebar-menu-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "mobile-navigation-item",
-              "name": "Mobile-Navigation-Item"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Sidebar-Link-Item",
-      "id": "sidebar-link-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "sidebar-link-item",
-              "name": "Sidebar-Link-Item"
+              "model": "sidebar-menu-item",
+              "name": "Sidebar-Menu-Item"
             }
           }
         }
@@ -83,7 +68,7 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Mobile Logo",
+          "label": "Mobile Logo Image",
           "name": "mobileLogo",
           "valueType": "string"
         },
@@ -95,7 +80,7 @@
         },
         {
           "component": "reference",
-          "label": "Desktop Logo",
+          "label": "Desktop Logo Image",
           "name": "desktopLogo",
           "valueType": "string"
         },
@@ -113,21 +98,15 @@
         },
         {
           "component": "container",
-          "item": "desktop-navigation-item",
-          "label": "Desktop Navigation Menu",
-          "name": "desktopNavigation"
+          "item": "main-menu-item",
+          "label": "Main Menu Items",
+          "name": "mainMenuItems"
         },
         {
           "component": "container",
-          "item": "mobile-navigation-item",
-          "label": "Mobile Navigation Menu",
-          "name": "mobileNavigation"
-        },
-        {
-          "component": "container",
-          "item": "sidebar-link-item",
-          "label": "Sidebar Links",
-          "name": "sidebarLinks"
+          "item": "sidebar-menu-item",
+          "label": "Sidebar Menu Items",
+          "name": "sidebarMenuItems"
         }
       ]
     },
@@ -136,8 +115,8 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Icon",
-          "name": "icon",
+          "label": "Icon Image",
+          "name": "iconImage",
           "valueType": "string"
         },
         {
@@ -155,17 +134,17 @@
       ]
     },
     {
-      "id": "desktop-navigation-item",
+      "id": "main-menu-item",
       "fields": [
         {
           "component": "text",
-          "label": "Menu Label",
+          "label": "Menu Item Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Menu Link",
+          "label": "Menu Item Link",
           "name": "link",
           "valueType": "string"
         },
@@ -178,46 +157,23 @@
       ]
     },
     {
-      "id": "mobile-navigation-item",
+      "id": "sidebar-menu-item",
       "fields": [
         {
           "component": "text",
-          "label": "Mobile Menu Label",
+          "label": "Sidebar Menu Item Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Mobile Menu Link",
+          "label": "Sidebar Menu Item Link",
           "name": "link",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Mobile Navigation Hierarchy",
-          "name": "hierarchy-tree",
-          "valueType": "string"
-        }
-      ]
-    },
-    {
-      "id": "sidebar-link-item",
-      "fields": [
-        {
-          "component": "text",
-          "label": "Sidebar Link Label",
-          "name": "label",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Sidebar Link URL",
-          "name": "link",
-          "valueType": "string"
-        },
-        {
-          "component": "richtext",
-          "label": "Sidebar Dropdown Hierarchy",
+          "label": "Sidebar Navigation Hierarchy",
           "name": "hierarchy-tree",
           "valueType": "string"
         }
@@ -229,9 +185,8 @@
       "id": "header",
       "components": [
         "top-menu-icon-item",
-        "desktop-navigation-item",
-        "mobile-navigation-item",
-        "sidebar-link-item"
+        "main-menu-item",
+        "sidebar-menu-item"
       ]
     }
   ]

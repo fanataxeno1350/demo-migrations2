@@ -76,7 +76,15 @@
         "header-nav",
         "breadcrumb",
         "brand-intro",
-        "social-feed-section"
+        "social-feed-section",
+        "header-top-menu",
+        "header-sidebar",
+        "header-mobile-menu",
+        "brand-title",
+        "commercial-carousel",
+        "video-embed",
+        "campaign-slider",
+        "social-feed"
       ]
     }
   ]

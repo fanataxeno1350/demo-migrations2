@@ -1,0 +1,91 @@
+@keyframes progress-bar-stripes{from{background-position:1rem 0}to{background-position:0 0}}
+
+@keyframes spinner-border{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+
+@keyframes spinner-grow{0%{-webkit-transform:scale(0);transform:scale(0)}50%{opacity:1}}
+
+.campaign-slider{ 
+	position: relative
+ }
+
+.campaign-slider .owl-dot{ 
+	margin: 0 5px
+ }
+
+.camp-title p:after, .campaign-slider:before{ 
+	transform: translate(0, -50%);
+	top: 50%
+ }
+
+.camp-title p{ 
+	color: #fff;
+	font-size: 30px;
+	font-weight: 700;
+	line-height: 1.1;
+	margin-bottom: 0;
+	padding-right: 30px;
+	position: relative
+ }
+
+.camp-title p:after{ 
+	content: "";
+	background: url("/content/dam/aemigrate/uploaded-folder/www-parleproducts-com/image/campaign-icon-91f87d.png") no-repeat;
+	width: 25px;
+	height: 25px;
+	position: absolute;
+	right: 0
+ }
+
+.campaign-slider .owl-dots .owl-dot.active span, .campaign-slider .owl-dots .owl-dot:hover span{ 
+	background: #5c5c5c
+ }
+
+.campaign-slider .owl-dots .owl-dot span{ 
+	background: #ccc
+ }
+
+.campaign-slider:before{ 
+	content: "";
+	background: #d80b13;
+	position: absolute;
+	width: 100%;
+	height: 5px
+ }
+
+@keyframes blink-animation{
+to {
+visibility:hidden
+}
+}
+
+@media only screen and (max-width:767px) { .img-fluid{ 
+	margin: auto auto 20px
+ } }
+
+@media (max-width:1460px) { .camp-title p{ font-size:26px } }
+
+@media (min-width:992px) and (max-width:1199px) { .owl-theme .owl-dots .owl-dot{ margin:1px }
+
+.owl-next:after{ right:-12px }
+
+.owl-prev:before{ left:-5px } }
+
+@media only screen and (min-width:768px) and (max-width:991px) { .owl-theme .owl-dots .owl-dot{ margin:1px } }
+
+@media only screen and (max-width :767px) { .img-fluid{ margin:auto }
+
+.camp-title p{ font-size:18px }
+
+.owl-theme .owl-dots .owl-dot{ margin:1px } }
+
+@media (min-width:576px) { @media only screen and (min-width:0px) and (max-width:479px) { .camp-title p{ font-size:18px } }
+
+@media only screen and (min-width:768px) and (max-width:991px) { .camp-title p{ font-size:16px;line-height:1.2 } }
+
+@media only screen and (min-width:992px) and (max-width:1023px) { .camp-title p{ font-size:20px;line-height:1.2 } }
+
+@media only screen and (min-width:1024px) and (max-width:1199px) { .camp-title p{ font-size:20px } } }
+
+@keyframes fb_transform{0%{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+
+@keyframes rotateSpinner{0%{transform:rotate(0)}to{transform:rotate(360deg)}}

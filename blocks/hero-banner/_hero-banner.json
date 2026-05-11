@@ -24,13 +24,13 @@
         {
           "component": "reference",
           "label": "Mobile Banner Image",
-          "name": "bannerMobileImage",
+          "name": "mobileImage",
           "valueType": "string"
         },
         {
           "component": "reference",
           "label": "Desktop Banner Image",
-          "name": "bannerDesktopImage",
+          "name": "desktopImage",
           "valueType": "string"
         }
       ]

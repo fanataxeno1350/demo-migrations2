@@ -5,40 +5,46 @@ export default function decorate(block) {
   const [mobileImageRow, desktopImageRow] = [...block.children];
 
   const section = document.createElement('section');
-  section.classList.add('brands-inner-banner');
-  // moveInstrumentation(block, section); // Block instrumentation is handled by block.replaceChildren()
+  section.classList.add('brands-inner-banner'); // Class from ORIGINAL HTML
+  // moveInstrumentation(block, section); // Removed: block is replaced, not moved
 
-  // Mobile Banner
-  const mobileBannerDiv = document.createElement('div');
-  mobileBannerDiv.classList.add('inner-banner', 'brand_mobile');
-  if (mobileImageRow) {
-    const mobilePicture = mobileImageRow.querySelector('picture');
-    if (mobilePicture) {
-      const img = mobilePicture.querySelector('img');
-      const optimizedMobilePicture = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-      // moveInstrumentation needs to be called on the element that is actually moved, which is the img inside the picture
-      moveInstrumentation(mobileImageRow, optimizedMobilePicture.querySelector('img'));
-      optimizedMobilePicture.querySelector('img').classList.add('img-fluid', 'lozad');
-      mobileBannerDiv.append(optimizedMobilePicture);
-    }
-  }
-  section.append(mobileBannerDiv);
+  // Mobile Banner Image
+  const mobileImageCell = mobileImageRow?.firstElementChild;
+  if (mobileImageCell) {
+    const mobileDiv = document.createElement('div');
+    mobileDiv.classList.add('inner-banner', 'brand_mobile'); // Classes from ORIGINAL HTML
+    moveInstrumentation(mobileImageRow, mobileDiv); // Move instrumentation from row to new div
 
-  // Desktop Banner
-  const desktopBannerDiv = document.createElement('div');
-  desktopBannerDiv.classList.add('inner-banner', 'brand_desktop');
-  if (desktopImageRow) {
-    const desktopPicture = desktopImageRow.querySelector('picture');
-    if (desktopPicture) {
-      const img = desktopPicture.querySelector('img');
-      const optimizedDesktopPicture = createOptimizedPicture(img.src, img.alt, false, [{ width: '2000' }]); // Desktop image larger width
-      // moveInstrumentation needs to be called on the element that is actually moved, which is the img inside the picture
-      moveInstrumentation(desktopImageRow, optimizedDesktopPicture.querySelector('img'));
-      optimizedDesktopPicture.querySelector('img').classList.add('img-fluid', 'lozad'); // Added missing classes from original HTML
-      desktopBannerDiv.append(optimizedDesktopPicture);
+    const picture = mobileImageCell.querySelector('picture');
+    if (picture) {
+      const img = picture.querySelector('img');
+      if (img) {
+        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+        // moveInstrumentation(img, optimizedPic.querySelector('img')); // Redundant: img is replaced by optimizedPic
+        mobileDiv.append(optimizedPic);
+      }
     }
+    section.append(mobileDiv);
   }
-  section.append(desktopBannerDiv);
+
+  // Desktop Banner Image
+  const desktopImageCell = desktopImageRow?.firstElementChild;
+  if (desktopImageCell) {
+    const desktopDiv = document.createElement('div');
+    desktopDiv.classList.add('inner-banner', 'brand_desktop'); // Classes from ORIGINAL HTML
+    moveInstrumentation(desktopImageRow, desktopDiv); // Move instrumentation from row to new div
+
+    const picture = desktopImageCell.querySelector('picture');
+    if (picture) {
+      const img = picture.querySelector('img');
+      if (img) {
+        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '1920' }]); // Assuming desktop width
+        // moveInstrumentation(img, optimizedPic.querySelector('img')); // Redundant: img is replaced by optimizedPic
+        desktopDiv.append(optimizedPic);
+      }
+    }
+    section.append(desktopDiv);
+  }
 
   block.replaceChildren(section);
 }

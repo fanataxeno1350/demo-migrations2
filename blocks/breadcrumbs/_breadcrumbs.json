@@ -93,7 +93,7 @@
       "fields": [
         {
           "component": "aem-content",
-          "label": "Social Link URL",
+          "label": "Social Link",
           "name": "link",
           "valueType": "string"
         }
