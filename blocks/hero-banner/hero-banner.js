@@ -1,27 +1,25 @@
-import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.js';
+import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
-export default async function decorate(block) {
+export default function decorate(block) {
   const [mobileImageRow, desktopImageRow] = [...block.children];
 
   const section = document.createElement('section');
   section.classList.add('brands-inner-banner');
-  moveInstrumentation(block, section);
+  // moveInstrumentation(block, section); // Block instrumentation is handled by block.replaceChildren()
 
   // Mobile Banner
   const mobileBannerDiv = document.createElement('div');
   mobileBannerDiv.classList.add('inner-banner', 'brand_mobile');
   if (mobileImageRow) {
-    const mobileImageCell = mobileImageRow.children[0]; // Access the cell containing the picture
-    const mobilePicture = mobileImageCell?.querySelector('picture');
+    const mobilePicture = mobileImageRow.querySelector('picture');
     if (mobilePicture) {
       const img = mobilePicture.querySelector('img');
-      // createOptimizedPicture handles responsive images, no need for manual width attribute
-      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-      const optimizedImg = optimizedPic.querySelector('img');
-      optimizedImg.classList.add('img-fluid', 'lozad');
-      moveInstrumentation(mobileImageRow, optimizedImg); // Instrument the row to the image
-      mobileBannerDiv.append(optimizedPic);
+      const optimizedMobilePicture = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+      // moveInstrumentation needs to be called on the element that is actually moved, which is the img inside the picture
+      moveInstrumentation(mobileImageRow, optimizedMobilePicture.querySelector('img'));
+      optimizedMobilePicture.querySelector('img').classList.add('img-fluid', 'lozad');
+      mobileBannerDiv.append(optimizedMobilePicture);
     }
   }
   section.append(mobileBannerDiv);
@@ -30,21 +28,14 @@ export default async function decorate(block) {
   const desktopBannerDiv = document.createElement('div');
   desktopBannerDiv.classList.add('inner-banner', 'brand_desktop');
   if (desktopImageRow) {
-    const desktopImageCell = desktopImageRow.children[0]; // Access the cell containing the picture
-    const desktopPicture = desktopImageCell?.querySelector('picture');
+    const desktopPicture = desktopImageRow.querySelector('picture');
     if (desktopPicture) {
       const img = desktopPicture.querySelector('img');
-      const imgSrc = img ? img.src : '';
-      if (imgSrc) {
-        // Original HTML uses background-image style, so we apply it directly.
-        // The 'fixed' keyword in original HTML's background style is likely for background-attachment.
-        // We'll replicate the style as closely as possible.
-        desktopBannerDiv.style.background = `url("${imgSrc}") no-repeat`;
-        desktopBannerDiv.style.backgroundSize = '100%';
-        desktopBannerDiv.style.backgroundAttachment = 'fixed'; // Added based on 'fixed' keyword in original HTML
-      }
-      // Move instrumentation from the original row to the desktopBannerDiv
-      moveInstrumentation(desktopImageRow, desktopBannerDiv);
+      const optimizedDesktopPicture = createOptimizedPicture(img.src, img.alt, false, [{ width: '2000' }]); // Desktop image larger width
+      // moveInstrumentation needs to be called on the element that is actually moved, which is the img inside the picture
+      moveInstrumentation(desktopImageRow, optimizedDesktopPicture.querySelector('img'));
+      optimizedDesktopPicture.querySelector('img').classList.add('img-fluid', 'lozad'); // Added missing classes from original HTML
+      desktopBannerDiv.append(optimizedDesktopPicture);
     }
   }
   section.append(desktopBannerDiv);

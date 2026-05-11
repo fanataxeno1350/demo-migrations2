@@ -72,7 +72,11 @@
         "discover-carousel",
         "parle-campaign",
         "parle-social",
-        "footer"
+        "footer",
+        "header-nav",
+        "breadcrumb",
+        "brand-intro",
+        "social-feed-section"
       ]
     }
   ]

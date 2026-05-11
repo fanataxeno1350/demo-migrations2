@@ -23,14 +23,14 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Mobile Banner Image",
-          "name": "bannerMobileImage",
+          "label": "Banner Image Mobile",
+          "name": "bannerImageMobile",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Desktop Banner Image",
-          "name": "bannerDesktopImage",
+          "label": "Banner Image Desktop",
+          "name": "bannerImageDesktop",
           "valueType": "string"
         }
       ]

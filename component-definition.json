@@ -99,6 +99,22 @@
           }
         },
         {
+          "title": "Brand-Intro",
+          "id": "brand-intro",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "filter": "brand-intro",
+                  "model": "brand-intro",
+                  "name": "Brand-Intro"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Brand-Product-Family",
           "id": "brand-product-family",
           "plugins": {
@@ -224,6 +240,52 @@
           }
         },
         {
+          "title": "Breadcrumb",
+          "id": "breadcrumb",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "filter": "breadcrumb",
+                  "model": "breadcrumb",
+                  "name": "Breadcrumb"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Breadcrumb-Item",
+          "id": "breadcrumb-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "breadcrumb-item",
+                  "name": "Breadcrumb-Item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Social-Link-Item",
+          "id": "social-link-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "social-link-item",
+                  "name": "Social-Link-Item"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Breadcrumbs",
           "id": "breadcrumbs",
           "plugins": {
@@ -270,7 +332,7 @@
           }
         },
         {
-          "title": "Campaign-Video-Carousel",
+          "title": "Campaign Video Carousel",
           "id": "campaign-video-carousel",
           "plugins": {
             "xwalk": {
@@ -279,14 +341,14 @@
                 "template": {
                   "filter": "campaign-video-carousel",
                   "model": "campaign-video-carousel",
-                  "name": "Campaign-Video-Carousel"
+                  "name": "Campaign Video Carousel"
                 }
               }
             }
           }
         },
         {
-          "title": "Campaign-Video-Item",
+          "title": "Campaign Video Item",
           "id": "campaign-video-item",
           "plugins": {
             "xwalk": {
@@ -294,7 +356,7 @@
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
                   "model": "campaign-video-item",
-                  "name": "Campaign-Video-Item"
+                  "name": "Campaign Video Item"
                 }
               }
             }
@@ -620,6 +682,82 @@
           }
         },
         {
+          "title": "Header-Nav",
+          "id": "header-nav",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "filter": "header-nav",
+                  "model": "header-nav",
+                  "name": "Header-Nav"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Main-Navigation-Item",
+          "id": "main-navigation-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "main-navigation-item",
+                  "name": "Main-Navigation-Item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Sidebar-Navigation-Item",
+          "id": "sidebar-navigation-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "sidebar-navigation-item",
+                  "name": "Sidebar-Navigation-Item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Mobile-Navigation-Item",
+          "id": "mobile-navigation-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "mobile-navigation-item",
+                  "name": "Mobile-Navigation-Item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Mobile-Sub-Link-Item",
+          "id": "mobile-sub-link-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "mobile-sub-link-item",
+                  "name": "Mobile-Sub-Link-Item"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Header-Top-Nav",
           "id": "header-top-nav",
           "plugins": {
@@ -697,21 +835,6 @@
           }
         },
         {
-          "title": "Sidebar-Navigation-Item",
-          "id": "sidebar-navigation-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "sidebar-navigation-item",
-                  "name": "Sidebar-Navigation-Item"
-                }
-              }
-            }
-          }
-        },
-        {
           "title": "Mobile-Navigation-Item",
           "id": "mobile-navigation-item",
           "plugins": {
@@ -721,6 +844,21 @@
                 "template": {
                   "model": "mobile-navigation-item",
                   "name": "Mobile-Navigation-Item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Sidebar-Link-Item",
+          "id": "sidebar-link-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "sidebar-link-item",
+                  "name": "Sidebar-Link-Item"
                 }
               }
             }
@@ -907,6 +1045,52 @@
                   "filter": "search-box",
                   "model": "search-box",
                   "name": "Search-Box"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Social-Feed-Section",
+          "id": "social-feed-section",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "filter": "social-feed-section",
+                  "model": "social-feed-section",
+                  "name": "Social-Feed-Section"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Facebook-Embed",
+          "id": "facebook-embed",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "facebook-embed",
+                  "name": "Facebook-Embed"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Instagram-Feed-Item",
+          "id": "instagram-feed-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "instagram-feed-item",
+                  "name": "Instagram-Feed-Item"
                 }
               }
             }

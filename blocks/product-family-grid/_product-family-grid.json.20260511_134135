@@ -38,8 +38,8 @@
       "fields": [
         {
           "component": "text",
-          "label": "Grid Headline",
-          "name": "headline",
+          "label": "Section Title",
+          "name": "title",
           "valueType": "string"
         },
         {
@@ -63,12 +63,6 @@
           "component": "text",
           "label": "Product Label",
           "name": "label",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Product Link",
-          "name": "link",
           "valueType": "string"
         }
       ]

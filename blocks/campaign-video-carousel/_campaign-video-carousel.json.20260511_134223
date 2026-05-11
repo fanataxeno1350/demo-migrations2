@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Campaign Video Carousel",
+      "title": "Campaign-Video-Carousel",
       "id": "campaign-video-carousel",
       "plugins": {
         "xwalk": {
@@ -10,14 +10,14 @@
             "template": {
               "filter": "campaign-video-carousel",
               "model": "campaign-video-carousel",
-              "name": "Campaign Video Carousel"
+              "name": "Campaign-Video-Carousel"
             }
           }
         }
       }
     },
     {
-      "title": "Campaign Video Item",
+      "title": "Campaign-Video-Item",
       "id": "campaign-video-item",
       "plugins": {
         "xwalk": {
@@ -25,7 +25,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "campaign-video-item",
-              "name": "Campaign Video Item"
+              "name": "Campaign-Video-Item"
             }
           }
         }
@@ -55,7 +55,7 @@
       "fields": [
         {
           "component": "aem-content",
-          "label": "YouTube Video URL",
+          "label": "Video URL",
           "name": "videoUrl",
           "valueType": "string"
         },

@@ -49,19 +49,19 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Image 1",
+          "label": "First Image",
           "name": "image1",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Image 2",
+          "label": "Second Image",
           "name": "image2",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Image 3",
+          "label": "Third Image",
           "name": "image3",
           "valueType": "string"
         },

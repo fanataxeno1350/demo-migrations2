@@ -3,79 +3,65 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
   const children = [...block.children];
+  const root = document.createElement('div');
+  // Removed 'brnd-product' class from root, as the outer block div already has it.
+  // root.classList.add('brnd-product'); // VIOLATION 0.5 - removed
 
-  const section = document.createElement('section');
-  section.classList.add('brands-det-2');
-
-  const container = document.createElement('div');
-  container.classList.add('container');
-  section.append(container);
-
-  const brndProduct = document.createElement('div');
-  brndProduct.classList.add('brnd-product');
-  container.append(brndProduct);
-
-  // First row is the section title
-  const [titleRow, ...productRows] = children; // Destructure first row as titleRow, rest as productRows
-  if (titleRow) {
-    const h4 = document.createElement('h4');
-    moveInstrumentation(titleRow, h4);
-    // The title row has only one cell according to the model, so access its content directly
-    h4.textContent = titleRow.children[0]?.textContent.trim() || '';
-    brndProduct.append(h4);
+  const headlineRow = children.shift();
+  if (headlineRow) {
+    const headline = document.createElement('h4');
+    moveInstrumentation(headlineRow, headline);
+    headline.textContent = headlineRow.textContent.trim();
+    root.append(headline);
   }
 
-  const ul = document.createElement('ul');
-  brndProduct.append(ul);
+  const productList = document.createElement('ul');
+  children.forEach((row) => {
+    // CHECK 1, 2.6A: Correctly using index destructuring for fixed-schema item rows
+    const [imageCell, labelCell, linkCell] = [...row.children];
 
-  // Remaining rows are product items
-  productRows.forEach((row) => {
-    const [imageCell, labelCell] = [...row.children]; // Destructure cells for fixed schema
-
-    const li = document.createElement('li');
-    moveInstrumentation(row, li);
-
+    const listItem = document.createElement('li');
+    // CHECK 2.6B: Using class name from ORIGINAL HTML
     const brandImgSec = document.createElement('div');
     brandImgSec.classList.add('brand_img_sec');
-    li.append(brandImgSec);
 
     const anchor = document.createElement('a');
-    // Original HTML has empty href for these anchors, but they are links.
-    // For EDS, we should provide a meaningful href if available, or a placeholder.
-    // Since the model doesn't specify a link, we'll use a placeholder.
-    anchor.href = '#'; // Placeholder, ideally this would come from a model field if it were a real link
-    brandImgSec.append(anchor);
+    const foundLink = linkCell?.querySelector('a');
+    if (foundLink) {
+      anchor.href = foundLink.href;
+    }
 
-    const brndProductImg = document.createElement('div');
-    brndProductImg.classList.add('brnd-product-img');
-    anchor.append(brndProductImg);
+    // CHECK 2.6B: Using class name from ORIGINAL HTML
+    const brandProductImg = document.createElement('div');
+    brandProductImg.classList.add('brnd-product-img');
 
-    if (imageCell) {
-      const picture = imageCell.querySelector('picture');
-      if (picture) {
-        const img = picture.querySelector('img');
-        if (img) {
-          const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-          moveInstrumentation(img, optimizedPic.querySelector('img'));
-          brndProductImg.append(optimizedPic);
-          // Add classes from original img to the new img within optimizedPic
-          const newImg = optimizedPic.querySelector('img');
-          if (newImg) {
-            newImg.classList.add('img-fluid', 'lozad');
-            // Data-src and data-loaded are for lazy loading, handled by AEM by default or specific lazy load script
-            // newImg.dataset.src = img.src;
-            // newImg.dataset.loaded = 'true';
-          }
+    const picture = imageCell?.querySelector('picture');
+    if (picture) {
+      const img = picture.querySelector('img');
+      if (img) {
+        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+        moveInstrumentation(img, optimizedPic.querySelector('img'));
+        // ORIGINAL HTML shows 'img-fluid lozad' on the img tag, not the picture.
+        // The createOptimizedPicture function handles the img element, so we need to add classes there.
+        const newImg = optimizedPic.querySelector('img');
+        if (newImg) {
+          newImg.classList.add('img-fluid', 'lozad'); // CHECK 2.6B: Added classes from ORIGINAL HTML
         }
+        brandProductImg.append(optimizedPic);
       }
     }
 
-    const p = document.createElement('p');
-    p.textContent = labelCell?.textContent.trim() || '';
-    anchor.append(p);
+    const paragraph = document.createElement('p');
+    paragraph.textContent = labelCell?.textContent.trim() || '';
 
-    ul.append(li);
+    // CHECK 3: Ensure moveInstrumentation is called for each authored row
+    moveInstrumentation(row, listItem);
+    anchor.append(brandProductImg, paragraph);
+    brandImgSec.append(anchor);
+    listItem.append(brandImgSec);
+    productList.append(listItem);
   });
 
-  block.replaceChildren(section);
+  root.append(productList);
+  block.replaceChildren(root);
 }

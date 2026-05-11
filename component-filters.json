@@ -37,11 +37,18 @@
       "discover-carousel",
       "parle-campaign",
       "parle-social",
-      "footer"
+      "footer",
+      "header-nav",
+      "breadcrumb",
+      "brand-intro",
+      "social-feed-section"
     ]
   },
   {
     "id": "brand-description"
+  },
+  {
+    "id": "brand-intro"
   },
   {
     "id": "brand-product-family",
@@ -64,6 +71,13 @@
   },
   {
     "id": "brands-inner-banner"
+  },
+  {
+    "id": "breadcrumb",
+    "components": [
+      "breadcrumb-item",
+      "social-link-item"
+    ]
   },
   {
     "id": "breadcrumbs",
@@ -133,6 +147,15 @@
     ]
   },
   {
+    "id": "header-nav",
+    "components": [
+      "main-navigation-item",
+      "sidebar-navigation-item",
+      "mobile-navigation-item",
+      "mobile-sub-link-item"
+    ]
+  },
+  {
     "id": "header-top-nav",
     "components": [
       "menu-icon-item"
@@ -143,8 +166,8 @@
     "components": [
       "top-menu-icon-item",
       "desktop-navigation-item",
-      "sidebar-navigation-item",
-      "mobile-navigation-item"
+      "mobile-navigation-item",
+      "sidebar-link-item"
     ]
   },
   {
@@ -175,6 +198,13 @@
   },
   {
     "id": "search-box"
+  },
+  {
+    "id": "social-feed-section",
+    "components": [
+      "facebook-embed",
+      "instagram-feed-item"
+    ]
   },
   {
     "id": "social-feeds-section",

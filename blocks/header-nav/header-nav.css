@@ -32,49 +32,8 @@
 
 @media print { .container{ min-width:992px!important } }
 
-.mega_menu_link p.menu_text a:hover{ 
-	color: #fff
- }
-
-.mega_menu_link p.menu_text a{ 
-	line-height: 1.4;
-	text-transform: capitalize;
-	text-transform: capitalize
- }
-
-.mega_menu_link p.menu_text a{ 
-	font-size: 16px
- }
-
-.mega_menu_link p.menu_text a:hover{ 
-	color: #000!important
- }
-
 .row.mega_menu_link.no-gutters.parle_recipes_bg{ 
 	height: 590px
- }
-
-.mega_menu_link p.menu_text a{ 
-	position: relative;
-	top: 0;
-	left: 0;
-	padding: 0 30px;
-	text-align: left;
-	max-width: 100%;
-	color: #333;
-	font-weight: 500
- }
-
-.menu_about.menu_sec1.world_wise p.menu_text.world_text a{ 
-	padding: 0;
-	color: #333
- }
-
-.legacy_main.bg-white.number_text_menu p.legacy_link a{ 
-	font-weight: 700!important;
-	text-transform: capitalize;
-	padding: 40px 30px 0;
-	text-align: left
  }
 
 @keyframes blink-animation{
@@ -98,10 +57,6 @@ visibility:hidden
 @media (min-width:1300px) { .header .container{ max-width:1600px;width:100%;padding:0 30px } }
 
 @media only screen and (max-width:1599px) { .about_menu_head{ font-size:26px;padding:20px 20px 0 }
-
-.menu_about.menu_sec1 p.menu_text a{ font-size:14px!important;padding:0 20px }
-
-.legacy_main.bg-white.number_text_menu p.legacy_link a{ padding:20px 20px 0;font-size:18px }
 
 .legacy_main.bg-white .legacy_p:after, .legacy_main.bg-white .legacy_p:before{ width:50px }
 
@@ -134,8 +89,6 @@ visibility:hidden
 .megamenu.parle_recipes .parle_recipes_menu2{ left:50px } }
 
 @media only screen and (min-width:1150px) and (max-width:1299px) { .about_menu_head{ font-size:18px;padding:0 20px 10px;bottom:0 }
-
-.legacy_main.bg-white.number_text_menu p.legacy_link a{ padding:0 20px;font-size:16px }
 
 .legacy_main.bg-white .legacy_p:before{ width:40px;left:0 }
 
@@ -213,7 +166,7 @@ header.header{ position:absolute } }
 
 .main-menu ul li a{ font-size:17px }
 
-.mega_menu_link p.menu_text a, .menu_sec1 p{ font-size:13px }
+.menu_sec1 p{ font-size:13px }
 
 .m-menu2{ max-height:420px }
 
@@ -248,8 +201,6 @@ header.header{ position:absolute } }
 .legacy_p2:after{ right:-5px;width:15px }
 
 .menu_sec1 p{ font-size:15px }
-
-.mega_menu_link p.menu_text{ max-width:100% }
 
 .header .megamenu2 .mega_menu_link h4 a{ font-size:14px!important;padding-right:0 }
 

@@ -73,16 +73,9 @@
           "name": "footerSections"
         },
         {
-          "component": "text",
-          "label": "Contact Headline",
-          "name": "contactHeadline",
-          "valueType": "string"
-        },
-        {
           "component": "richtext",
-          "label": "Contact Address",
-          "name": "contactAddress",
-          "valueType": "string"
+          "label": "Contact Information",
+          "name": "contactText"
         },
         {
           "component": "text",
@@ -104,21 +97,20 @@
         },
         {
           "component": "text",
-          "label": "Fax Value",
-          "name": "faxValue",
+          "label": "Fax Number",
+          "name": "faxNumber",
           "valueType": "string"
         },
         {
           "component": "container",
           "item": "footer-social-item",
-          "label": "Social Links",
-          "name": "socialLinks"
+          "label": "Footer Social Links",
+          "name": "footerSocialLinks"
         },
         {
           "component": "richtext",
-          "label": "Developer Credit",
-          "name": "developerCredit",
-          "valueType": "string"
+          "label": "Footer Credits",
+          "name": "footerCredits"
         }
       ]
     },
