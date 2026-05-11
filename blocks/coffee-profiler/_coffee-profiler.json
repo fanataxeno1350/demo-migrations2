@@ -53,13 +53,13 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Background Image",
+          "label": "Parallax Background Image",
           "name": "backgroundImage",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Heading",
+          "label": "Main Heading",
           "name": "heading",
           "valueType": "string"
         },
@@ -130,13 +130,13 @@
         {
           "component": "reference",
           "label": "Option Icon",
-          "name": "optionIcon",
+          "name": "icon",
           "valueType": "string"
         },
         {
           "component": "text",
           "label": "Option Label",
-          "name": "optionLabel",
+          "name": "label",
           "valueType": "string"
         }
       ]

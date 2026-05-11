@@ -56,12 +56,6 @@
           "label": "Register Label",
           "name": "registerLabel",
           "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "CTA Separator",
-          "name": "ctaSeparator",
-          "valueType": "string"
         }
       ]
     }

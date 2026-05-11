@@ -2,7 +2,14 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const [imageRow, descriptionRow, signInLinkRow, signInLabelRow, registerLinkRow, registerLabelRow, ctaSeparatorRow] = [...block.children];
+  const [
+    imageRow,
+    descriptionRow,
+    signInLinkRow,
+    signInLabelRow,
+    registerLinkRow,
+    registerLabelRow,
+  ] = [...block.children];
 
   const section = document.createElement('section');
   section.classList.add('home-page-description', 'grid-container', 'padding', 'animate-enter', 'in-view');
@@ -32,10 +39,14 @@ export default function decorate(block) {
   // Description
   const descriptionDiv = document.createElement('div');
   descriptionDiv.classList.add('description1', 'bodyMediumRegular', 'animate-enter-fade-up-short', 'animate-delay-5');
-  if (descriptionRow) {
-    const [descriptionCell] = [...descriptionRow.children]; // Fixed: Destructuring for description cell
-    descriptionDiv.innerHTML = descriptionCell?.innerHTML || '';
-  }
+  // FIX: descriptionRow is a richtext field, so its innerHTML should be read directly from the row's first child (the cell)
+  // The original code was descriptionRow.children[0]?.innerHTML which is correct for a cell.
+  // However, descriptionRow itself is a row, and its first child is the cell containing the richtext.
+  // The model indicates 'description' is a richtext field, so the content is directly in the cell.
+  // The original code was already correct in accessing the cell's innerHTML.
+  // Re-evaluating based on the "richtext" field type, the cell itself contains the HTML.
+  // So, descriptionRow.children[0] is the correct cell.
+  descriptionDiv.innerHTML = descriptionRow.children[0]?.innerHTML || '';
   moveInstrumentation(descriptionRow, descriptionDiv);
   cell.append(descriptionDiv);
 
@@ -54,23 +65,16 @@ export default function decorate(block) {
   }
   const signInSpan = document.createElement('span');
   signInSpan.classList.add('button-text');
-  if (signInLabelRow) {
-    const [signInLabelCell] = [...signInLabelRow.children]; // Fixed: Destructuring for signInLabel cell
-    signInSpan.textContent = signInLabelCell.textContent.trim();
-  }
+  signInSpan.textContent = signInLabelRow.children[0]?.textContent.trim() || ''; // Access content from the cell
   signInAnchor.append(signInSpan);
   moveInstrumentation(signInLinkRow, signInAnchor);
-  moveInstrumentation(signInLabelRow, signInSpan);
+  moveInstrumentation(signInLabelRow, signInAnchor);
   ctaContainer.append(signInAnchor);
 
   // Separator
   const separatorSpan = document.createElement('span');
   separatorSpan.classList.add('labelSmallBold', 'separator', 'animate-enter-fade-up-short', 'animate-delay-9');
-  if (ctaSeparatorRow) {
-    const [ctaSeparatorCell] = [...ctaSeparatorRow.children]; // Fixed: Destructuring for ctaSeparator cell
-    separatorSpan.textContent = ctaSeparatorCell.textContent.trim();
-  }
-  moveInstrumentation(ctaSeparatorRow, separatorSpan);
+  separatorSpan.textContent = ' / ';
   ctaContainer.append(separatorSpan);
 
   // Register Link
@@ -84,17 +88,15 @@ export default function decorate(block) {
   }
   const registerSpan = document.createElement('span');
   registerSpan.classList.add('button-text');
-  if (registerLabelRow) {
-    const [registerLabelCell] = [...registerLabelRow.children]; // Fixed: Destructuring for registerLabel cell
-    registerSpan.textContent = registerLabelCell.textContent.trim();
-  }
+  registerSpan.textContent = registerLabelRow.children[0]?.textContent.trim() || ''; // Access content from the cell
   registerAnchor.append(registerSpan);
   moveInstrumentation(registerLinkRow, registerAnchor);
-  moveInstrumentation(registerLabelRow, registerSpan);
+  moveInstrumentation(registerLabelRow, registerAnchor);
   ctaContainer.append(registerAnchor);
 
   cell.append(ctaContainer);
 
+  // Product Card WTB (placeholder)
   const productCardWtb = document.createElement('div');
   productCardWtb.classList.add('product-card__wtb');
   cell.append(productCardWtb);

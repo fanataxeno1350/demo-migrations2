@@ -1,7 +1,7 @@
 {
   "definitions": [
     {
-      "title": "Global-Footer",
+      "title": "Global Footer",
       "id": "global-footer",
       "plugins": {
         "xwalk": {
@@ -10,14 +10,14 @@
             "template": {
               "filter": "global-footer",
               "model": "global-footer",
-              "name": "Global-Footer"
+              "name": "Global Footer"
             }
           }
         }
       }
     },
     {
-      "title": "Footer-Social-Item",
+      "title": "Footer Social Item",
       "id": "footer-social-item",
       "plugins": {
         "xwalk": {
@@ -25,14 +25,14 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "footer-social-item",
-              "name": "Footer-Social-Item"
+              "name": "Footer Social Item"
             }
           }
         }
       }
     },
     {
-      "title": "Footer-Link-Item",
+      "title": "Footer Link Item",
       "id": "footer-link-item",
       "plugins": {
         "xwalk": {
@@ -40,7 +40,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "footer-link-item",
-              "name": "Footer-Link-Item"
+              "name": "Footer Link Item"
             }
           }
         }
@@ -83,26 +83,26 @@
         },
         {
           "component": "text",
-          "label": "Social Section Title",
-          "name": "socialTitle",
+          "label": "Footer Social Title",
+          "name": "footerSocialTitle",
           "valueType": "string"
         },
         {
           "component": "container",
           "item": "footer-social-item",
-          "label": "Social Links",
-          "name": "socialLinks"
+          "label": "Footer Social Links",
+          "name": "footerSocialLinks"
         },
         {
           "component": "container",
           "item": "footer-link-item",
           "label": "Footer Site Links",
-          "name": "siteLinks"
+          "name": "footerLinks"
         },
         {
           "component": "aem-content",
-          "label": "Copyright Link",
-          "name": "copyrightLink",
+          "label": "Legal Link",
+          "name": "legalLink",
           "valueType": "string"
         }
       ]
@@ -141,7 +141,7 @@
         },
         {
           "component": "aem-content",
-          "label": "Link URL",
+          "label": "Link",
           "name": "link",
           "valueType": "string"
         }

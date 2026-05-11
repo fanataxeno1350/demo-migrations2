@@ -4,17 +4,15 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 export default async function decorate(block) {
   const [
     iconImageRow,
-    headlineRow,
+    titleRow,
     descriptionRow,
     ctaLinkRow,
     ctaLabelRow,
-    recipesContainerRow, // This row is a placeholder for the container, not an actual row with content
-    ...recipeItemRows
+    ...recipeCardRows
   ] = [...block.children];
 
   const root = document.createElement('section');
   root.classList.add(
-    'recipe-home',
     'grid-container',
     'overflow-x-hidden',
     'recipe-home--has-icon',
@@ -23,17 +21,17 @@ export default async function decorate(block) {
     'in-view',
   );
 
-  const gridX = document.createElement('div');
-  gridX.classList.add('grid-x');
-  root.append(gridX);
+  const gridXWrapper = document.createElement('div');
+  gridXWrapper.classList.add('grid-x');
+  root.append(gridXWrapper);
 
   const imageTextWrapper = document.createElement('div');
   imageTextWrapper.classList.add('grid-x', 'recipe-home--image-text');
-  gridX.append(imageTextWrapper);
+  gridXWrapper.append(imageTextWrapper);
 
-  const cellLarge10 = document.createElement('div');
-  cellLarge10.classList.add('cell', 'small-12', 'large-10', 'large-offset-1');
-  imageTextWrapper.append(cellLarge10);
+  const cellWrapper = document.createElement('div');
+  cellWrapper.classList.add('cell', 'small-12', 'large-10', 'large-offset-1');
+  imageTextWrapper.append(cellWrapper);
 
   // Icon Section
   const iconSection = document.createElement('div');
@@ -44,20 +42,16 @@ export default async function decorate(block) {
     'text-center',
   );
   if (iconImageRow) {
-    const iconPicture = iconImageRow.querySelector('picture');
-    if (iconPicture) {
-      const iconImg = iconPicture.querySelector('img');
-      // The original HTML uses a specific width, let's try to match that or use a more flexible approach
-      // createOptimizedPicture handles srcset, so a single width might not be ideal if multiple sizes are needed.
-      // For now, keeping the original generated width.
-      const optimizedPic = createOptimizedPicture(iconImg.src, iconImg.alt, false, [{ width: '750' }]);
-      const optimizedImg = optimizedPic.querySelector('img');
-      optimizedImg.classList.add('recipe-home--icon-section-img');
-      moveInstrumentation(iconImageRow, optimizedImg);
+    const picture = iconImageRow.querySelector('picture');
+    if (picture) {
+      // createOptimizedPicture already handles img and source creation/optimization
+      const optimizedPic = createOptimizedPicture(picture.querySelector('img').src, picture.querySelector('img').alt, false, [{ width: '750' }]);
+      optimizedPic.querySelector('img').classList.add('recipe-home--icon-section-img');
+      moveInstrumentation(iconImageRow, optimizedPic.querySelector('img'));
       iconSection.append(optimizedPic);
     }
   }
-  cellLarge10.append(iconSection);
+  cellWrapper.append(iconSection);
 
   // Text Section
   const textSection = document.createElement('div');
@@ -66,42 +60,52 @@ export default async function decorate(block) {
     'animate-enter-fade-up-short',
     'animate-delay-3',
   );
+  cellWrapper.append(textSection);
 
-  const headline = document.createElement('h2');
-  headline.classList.add('recipe-home--title');
-  if (headlineRow) {
-    moveInstrumentation(headlineRow, headline);
-    headline.textContent = headlineRow.textContent.trim();
+  const title = document.createElement('h2');
+  title.classList.add('recipe-home--title');
+  if (titleRow) {
+    moveInstrumentation(titleRow, title);
+    title.textContent = titleRow.textContent.trim();
   }
-  textSection.append(headline);
+  textSection.append(title);
 
   const description = document.createElement('div'); // Use div for richtext
   description.classList.add('recipe-home--desc', 'bodyMediumRegular');
   if (descriptionRow) {
     moveInstrumentation(descriptionRow, description);
-    // Description is richtext, use innerHTML directly from the cell
-    description.innerHTML = descriptionRow.children[0]?.innerHTML || '';
+    description.innerHTML = descriptionRow.innerHTML; // Read innerHTML for richtext
   }
   textSection.append(description);
-  cellLarge10.append(textSection);
 
-  // Recipes Wrapper
-  const recipeWrapper = document.createElement('div');
-  recipeWrapper.classList.add('cell', 'small-12', 'recipe-home--wrapper');
-  gridX.append(recipeWrapper);
+  // Recipe Cards Wrapper
+  const recipeWrapperCell = document.createElement('div');
+  recipeWrapperCell.classList.add('cell', 'small-12', 'recipe-home--wrapper');
+  gridXWrapper.append(recipeWrapperCell);
 
   const swiperEl = document.createElement('div');
-  // Removed swiper-initialized, swiper-horizontal, swiper-backface-hidden as Swiper adds them
-  swiperEl.classList.add('swiper', 'swipper--full-view-padding', 'recipe-home--wrapper--in');
-  // moveInstrumentation for recipesContainerRow is correct as it's a placeholder
-  moveInstrumentation(recipesContainerRow, swiperEl);
-  recipeWrapper.append(swiperEl);
+  swiperEl.classList.add(
+    'swiper',
+    'swipper--full-view-padding',
+    'recipe-home--wrapper--in',
+  );
+  recipeWrapperCell.append(swiperEl);
 
-  // Swiper Navigation Buttons
+  // Navigation buttons
   const prevBtnControl = document.createElement('div');
-  prevBtnControl.classList.add('recipe-home--btn-control', 'recipe-home--prev', 'show-for-large');
+  prevBtnControl.classList.add(
+    'recipe-home--btn-control',
+    'recipe-home--prev',
+    'show-for-large',
+  );
   const prevBtn = document.createElement('button');
-  prevBtn.classList.add('swiper-control', 'swiper--prev', 'elevation-1', 'animate-enter-fade-right-short', 'animate-delay-9');
+  prevBtn.classList.add(
+    'swiper-control',
+    'swiper--prev',
+    'elevation-1',
+    'animate-enter-fade-right-short',
+    'animate-delay-9',
+  );
   prevBtn.innerHTML = `
     <svg role="presentation" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M1 7L17 7M1 7L6.33333 2M1 7L6.33333 12" stroke="#222222" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path>
@@ -111,9 +115,19 @@ export default async function decorate(block) {
   swiperEl.append(prevBtnControl);
 
   const nextBtnControl = document.createElement('div');
-  nextBtnControl.classList.add('recipe-home--btn-control', 'recipe-home--next', 'show-for-large');
+  nextBtnControl.classList.add(
+    'recipe-home--btn-control',
+    'recipe-home--next',
+    'show-for-large',
+  );
   const nextBtn = document.createElement('button');
-  nextBtn.classList.add('swiper-control', 'swiper--next', 'elevation-1', 'animate-enter-fade-left-short', 'animate-delay-9');
+  nextBtn.classList.add(
+    'swiper-control',
+    'swiper--next',
+    'elevation-1',
+    'animate-enter-fade-left-short',
+    'animate-delay-9',
+  );
   nextBtn.innerHTML = `
     <svg role="presentation" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M17 7L1 7M17 7L11.6667 2M17 7L11.6667 12" stroke="#222222" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path>
@@ -126,32 +140,33 @@ export default async function decorate(block) {
   swiperWrapper.classList.add('swiper-wrapper', 'recipe-home--list');
   swiperEl.append(swiperWrapper);
 
-  recipeItemRows.forEach((row) => {
+  recipeCardRows.forEach((row) => {
     const [
-      recipeLinkCell,
+      tagLabelCell,
       imageDesktopCell,
       imageMobileCell,
-      tagLabelCell,
       recipeNameCell,
       recipeDescriptionCell,
       stepsCountCell,
       stepsLabelCell,
       ingredientsCountCell,
       ingredientsLabelCell,
+      recipeLinkCell,
     ] = [...row.children];
 
     const listItem = document.createElement('li');
     listItem.classList.add('swiper-slide', 'recipe-home--list-item');
+    moveInstrumentation(row, listItem);
+    swiperWrapper.append(listItem);
 
     const recipeLink = document.createElement('a');
     recipeLink.classList.add('recipe-card-grid-view--link');
     const foundRecipeLink = recipeLinkCell?.querySelector('a');
     if (foundRecipeLink) {
       recipeLink.href = foundRecipeLink.href;
-      recipeLink.title = recipeNameCell?.textContent.trim() || '';
-      recipeLink.setAttribute('aria-label', recipeNameCell?.textContent.trim() || '');
+      recipeLink.title = recipeNameCell?.textContent.trim();
+      recipeLink.setAttribute('aria-label', recipeNameCell?.textContent.trim());
     }
-    moveInstrumentation(row, recipeLink);
     listItem.append(recipeLink);
 
     const recipeCard = document.createElement('div');
@@ -165,8 +180,8 @@ export default async function decorate(block) {
     );
     recipeLink.append(recipeCard);
 
-    const imageContainer = document.createElement('div');
-    imageContainer.classList.add(
+    const imgContainer = document.createElement('div');
+    imgContainer.classList.add(
       'cell',
       'small-12',
       'medium-12',
@@ -175,7 +190,7 @@ export default async function decorate(block) {
       'animate-enter-fade',
       'animate-delay-5',
     );
-    recipeCard.append(imageContainer);
+    recipeCard.append(imgContainer);
 
     // Tag Mobile
     const tagMobile = document.createElement('div');
@@ -184,38 +199,39 @@ export default async function decorate(block) {
     tagDivMobile.classList.add('tag', 'bg--brand-green');
     const tagLabelMobile = document.createElement('span');
     tagLabelMobile.classList.add('tag__label');
-    tagLabelMobile.textContent = tagLabelCell?.textContent.trim() || '';
+    tagLabelMobile.textContent = tagLabelCell?.textContent.trim();
     tagDivMobile.append(tagLabelMobile);
     tagMobile.append(tagDivMobile);
-    imageContainer.append(tagMobile);
+    imgContainer.append(tagMobile);
 
-    // Recipe Image
-    const pictureDesktop = imageDesktopCell?.querySelector('picture');
-    const pictureMobile = imageMobileCell?.querySelector('picture');
+    // Picture element for recipe image
+    const picture = document.createElement('picture');
+    const desktopImg = imageDesktopCell?.querySelector('img');
+    const mobileImg = imageMobileCell?.querySelector('img');
 
-    if (pictureDesktop && pictureMobile) {
-      const imgDesktop = pictureDesktop.querySelector('img');
-      const imgMobile = pictureMobile.querySelector('img');
-
+    if (desktopImg) {
       const sourceDesktop = document.createElement('source');
       sourceDesktop.media = '(min-width: 768px)';
-      sourceDesktop.srcset = imgDesktop.src;
-
+      sourceDesktop.srcset = desktopImg.src;
+      picture.append(sourceDesktop);
+    }
+    if (mobileImg) {
       const sourceMobile = document.createElement('source');
       sourceMobile.media = '(min-width: 0px)';
-      sourceMobile.srcset = imgMobile.src;
-
-      const img = document.createElement('img');
-      img.src = imgDesktop.src;
-      img.loading = 'lazy';
-      img.alt = imgDesktop.alt || '';
-      img.classList.add('lazyloaded');
-
-      const pictureElement = document.createElement('picture');
-      pictureElement.append(sourceDesktop, sourceMobile, img);
-      imageContainer.append(pictureElement);
+      sourceMobile.srcset = mobileImg.src;
+      picture.append(sourceMobile);
     }
+    if (desktopImg) {
+      const img = document.createElement('img');
+      img.src = desktopImg.src;
+      img.alt = desktopImg.alt;
+      img.loading = 'lazy';
+      img.classList.add('lazyloaded');
+      picture.append(img);
+    }
+    imgContainer.append(picture);
 
+    // Recipe Details
     const recipeDetails = document.createElement('div');
     recipeDetails.classList.add('cell', 'small-12', 'medium-12', 'large-6', 'recipe-details');
     recipeCard.append(recipeDetails);
@@ -226,49 +242,51 @@ export default async function decorate(block) {
 
     const recipeName = document.createElement('div');
     recipeName.classList.add('recipe-name', 'labelLargeBold', 'animate-enter-fade-up-short', 'animate-delay-9');
-    recipeName.textContent = recipeNameCell?.textContent.trim() || '';
+    recipeName.textContent = recipeNameCell?.textContent.trim();
     recipeInfo.append(recipeName);
 
     const gridXDesc = document.createElement('div');
     gridXDesc.classList.add('grid-x');
-    const cellDesc = document.createElement('div');
-    cellDesc.classList.add('cell', 'recipe-description', 'bodySmallRegular', 'animate-enter-fade-up-short', 'animate-delay-11');
-    cellDesc.textContent = recipeDescriptionCell?.textContent.trim() || '';
-    gridXDesc.append(cellDesc);
+    const descCell = document.createElement('div');
+    descCell.classList.add('cell', 'recipe-description', 'bodySmallRegular', 'animate-enter-fade-up-short', 'animate-delay-11');
+    descCell.textContent = recipeDescriptionCell?.textContent.trim();
+    gridXDesc.append(descCell);
     recipeInfo.append(gridXDesc);
 
-    const gridXSteps = document.createElement('div');
-    gridXSteps.classList.add('grid-x');
-    const cellSteps = document.createElement('div');
-    cellSteps.classList.add('cell', 'recipe-steps-and-ingredients', 'animate-enter-fade-up-short', 'animate-delay-11');
-    gridXSteps.append(cellSteps);
-    recipeInfo.append(gridXSteps);
+    const gridXStepsIngredients = document.createElement('div');
+    gridXStepsIngredients.classList.add('grid-x');
+    const stepsIngredientsCell = document.createElement('div');
+    stepsIngredientsCell.classList.add('cell', 'recipe-steps-and-ingredients', 'animate-enter-fade-up-short', 'animate-delay-11');
+    gridXStepsIngredients.append(stepsIngredientsCell);
+    recipeInfo.append(gridXStepsIngredients);
 
+    // Steps Container
     const stepsContainer = document.createElement('div');
     stepsContainer.classList.add('recipe-steps-container');
     const stepsCount = document.createElement('span');
     stepsCount.classList.add('recipe-steps-count', 'labelSmallBold');
-    stepsCount.textContent = stepsCountCell?.textContent.trim() || '';
+    stepsCount.textContent = stepsCountCell?.textContent.trim();
     const stepsLabel = document.createElement('span');
     stepsLabel.classList.add('recipe-steps-label', 'utilityTagHighCaps');
-    stepsLabel.textContent = stepsLabelCell?.textContent.trim() || '';
+    stepsLabel.textContent = stepsLabelCell?.textContent.trim();
     stepsContainer.append(stepsCount, stepsLabel);
-    cellSteps.append(stepsContainer);
+    stepsIngredientsCell.append(stepsContainer);
 
-    const separator = document.createElement('div');
-    separator.classList.add('recipe-steps-separator');
-    cellSteps.append(separator);
+    const stepsSeparator = document.createElement('div');
+    stepsSeparator.classList.add('recipe-steps-separator');
+    stepsIngredientsCell.append(stepsSeparator);
 
+    // Ingredients Container
     const ingredientsContainer = document.createElement('div');
     ingredientsContainer.classList.add('recipe-ingredients-container');
     const ingredientsCount = document.createElement('span');
     ingredientsCount.classList.add('recipe-ingredients-count', 'labelSmallBold');
-    ingredientsCount.textContent = ingredientsCountCell?.textContent.trim() || '';
+    ingredientsCount.textContent = ingredientsCountCell?.textContent.trim();
     const ingredientsLabel = document.createElement('span');
     ingredientsLabel.classList.add('recipe-ingredients-label', 'utilityTagHighCaps');
-    ingredientsLabel.textContent = ingredientsLabelCell?.textContent.trim() || '';
+    ingredientsLabel.textContent = ingredientsLabelCell?.textContent.trim();
     ingredientsContainer.append(ingredientsCount, ingredientsLabel);
-    cellSteps.append(ingredientsContainer);
+    stepsIngredientsCell.append(ingredientsContainer);
 
     // Tag Desktop
     const tagDesktop = document.createElement('div');
@@ -277,19 +295,17 @@ export default async function decorate(block) {
     tagDivDesktop.classList.add('tag', 'bg--brand-green');
     const tagLabelDesktop = document.createElement('span');
     tagLabelDesktop.classList.add('tag__label');
-    tagLabelDesktop.textContent = tagLabelCell?.textContent.trim() || '';
+    tagLabelDesktop.textContent = tagLabelCell?.textContent.trim();
     tagDivDesktop.append(tagLabelDesktop);
     tagDesktop.append(tagDivDesktop);
     recipeInfo.append(tagDesktop);
-
-    swiperWrapper.append(listItem);
   });
 
-  // Swiper Pagination
+  // Pagination
   const paginationWrapper = document.createElement('div');
   paginationWrapper.classList.add('recipe-home--pagination', 'animate-enter-fade-left-long', 'animate-delay-8');
   const paginationEl = document.createElement('div');
-  // Removed swiper-pagination-clickable, swiper-pagination-bullets, swiper-pagination-horizontal as Swiper adds them
+  // Remove Swiper-specific classes that Swiper.js adds automatically
   paginationEl.classList.add('swiper-pagination');
   paginationWrapper.append(paginationEl);
   swiperEl.append(paginationWrapper);
@@ -303,37 +319,38 @@ export default async function decorate(block) {
     'animate-enter-fade-up-short',
     'animate-delay-10',
   );
+  root.append(ctaContainer);
+
   const ctaCell = document.createElement('div');
   ctaCell.classList.add('cell', 'large-10', 'large-offset-1', 'see-all-recipies-cta');
+  ctaContainer.append(ctaCell);
+
   const ctaLink = document.createElement('a');
   ctaLink.classList.add('button', 'transparent-auto');
   const foundCtaLink = ctaLinkRow?.querySelector('a');
   if (foundCtaLink) {
     ctaLink.href = foundCtaLink.href;
-    ctaLink.title = ctaLabelRow?.textContent.trim() || '';
-    ctaLink.setAttribute('aria-label', ctaLabelRow?.textContent.trim() || '');
+    ctaLink.title = ctaLabelRow?.textContent.trim();
+    ctaLink.setAttribute('aria-label', ctaLabelRow?.textContent.trim());
     ctaLink.rel = 'follow';
   }
-  const ctaSpan = document.createElement('span');
-  ctaSpan.classList.add('button-text');
-  ctaSpan.textContent = ctaLabelRow?.textContent.trim() || '';
-  ctaLink.append(ctaSpan);
-  moveInstrumentation(ctaLinkRow, ctaLink);
-  moveInstrumentation(ctaLabelRow, ctaSpan);
+  const ctaButtonText = document.createElement('span');
+  ctaButtonText.classList.add('button-text');
+  ctaButtonText.textContent = ctaLabelRow?.textContent.trim();
+  ctaLink.append(ctaButtonText);
   ctaCell.append(ctaLink);
-  ctaContainer.append(ctaCell);
-  root.append(ctaContainer);
 
   block.replaceChildren(root);
 
-  // Initialize Swiper
+  // Load Swiper and initialize
   await loadCSS('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
   await loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
+
   // eslint-disable-next-line no-undef
   new Swiper(swiperEl, {
     slidesPerView: 'auto',
     spaceBetween: 32,
-    loop: false, // Original HTML doesn't specify loop, default to false
+    loop: false,
     navigation: {
       prevEl: prevBtn,
       nextEl: nextBtn,
@@ -348,15 +365,15 @@ export default async function decorate(block) {
         spaceBetween: 16,
       },
       768: {
-        slidesPerView: 2.1,
-        spaceBetween: 24,
+        slidesPerView: 2,
+        spaceBetween: 32,
       },
       1024: {
-        slidesPerView: 3.1,
+        slidesPerView: 3,
         spaceBetween: 32,
       },
       1280: {
-        slidesPerView: 3.1,
+        slidesPerView: 4,
         spaceBetween: 32,
       },
     },

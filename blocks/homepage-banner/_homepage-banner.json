@@ -29,8 +29,8 @@
         },
         {
           "component": "reference",
-          "label": "Large Video Source (MP4)",
-          "name": "videoLargeSrc",
+          "label": "Large Video MP4 Source",
+          "name": "videoLargeSource",
           "valueType": "string"
         },
         {
@@ -41,8 +41,8 @@
         },
         {
           "component": "reference",
-          "label": "Small Video Source (MP4)",
-          "name": "videoSmallSrc",
+          "label": "Small Video MP4 Source",
+          "name": "videoSmallSource",
           "valueType": "string"
         },
         {

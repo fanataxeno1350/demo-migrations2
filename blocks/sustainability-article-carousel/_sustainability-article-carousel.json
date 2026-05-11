@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Sustainability Article Carousel Item",
-      "id": "sustainability-article-carousel-item",
+      "title": "Sustainability Article Card",
+      "id": "sustainability-article-card",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "sustainability-article-carousel-item",
-              "name": "Sustainability Article Carousel Item"
+              "model": "sustainability-article-card",
+              "name": "Sustainability Article Card"
             }
           }
         }
@@ -44,14 +44,14 @@
         },
         {
           "component": "container",
-          "item": "sustainability-article-carousel-item",
-          "label": "Articles",
+          "item": "sustainability-article-card",
+          "label": "Sustainability Articles",
           "name": "articles"
         }
       ]
     },
     {
-      "id": "sustainability-article-carousel-item",
+      "id": "sustainability-article-card",
       "fields": [
         {
           "component": "text",
@@ -61,8 +61,14 @@
         },
         {
           "component": "reference",
-          "label": "Article Image",
-          "name": "image",
+          "label": "Desktop Image",
+          "name": "imageDesktop",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Mobile Image",
+          "name": "imageMobile",
           "valueType": "string"
         },
         {
@@ -85,7 +91,7 @@
         },
         {
           "component": "text",
-          "label": "Reading Duration (minutes)",
+          "label": "Reading Duration (mins)",
           "name": "readingDuration",
           "valueType": "string"
         }
@@ -96,7 +102,7 @@
     {
       "id": "sustainability-article-carousel",
       "components": [
-        "sustainability-article-carousel-item"
+        "sustainability-article-card"
       ]
     }
   ]

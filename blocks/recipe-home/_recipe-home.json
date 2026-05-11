@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Recipe-Home-List-Item",
-      "id": "recipe-home-list-item",
+      "title": "Recipe-Card-Item",
+      "id": "recipe-card-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "recipe-home-list-item",
-              "name": "Recipe-Home-List-Item"
+              "model": "recipe-card-item",
+              "name": "Recipe-Card-Item"
             }
           }
         }
@@ -44,61 +44,55 @@
         },
         {
           "component": "text",
-          "label": "Headline",
-          "name": "headline",
+          "label": "Section Title",
+          "name": "title",
           "valueType": "string"
         },
         {
           "component": "richtext",
-          "label": "Description",
+          "label": "Section Description",
           "name": "description",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "CTA Link",
+          "label": "See All Recipes Link",
           "name": "ctaLink",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "CTA Label",
+          "label": "See All Recipes Label",
           "name": "ctaLabel",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "recipe-home-list-item",
-          "label": "Recipes List",
+          "item": "recipe-card-item",
+          "label": "Recipes",
           "name": "recipes"
         }
       ]
     },
     {
-      "id": "recipe-home-list-item",
+      "id": "recipe-card-item",
       "fields": [
         {
-          "component": "aem-content",
-          "label": "Recipe Link",
-          "name": "recipeLink",
+          "component": "text",
+          "label": "Tag Label",
+          "name": "tagLabel",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Recipe Image (Desktop)",
+          "label": "Recipe Image Desktop",
           "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Recipe Image (Mobile)",
+          "label": "Recipe Image Mobile",
           "name": "imageMobile",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Tag Label",
-          "name": "tagLabel",
           "valueType": "string"
         },
         {
@@ -110,14 +104,14 @@
         {
           "component": "text",
           "label": "Recipe Description",
-          "name": "recipeDescription",
+          "name": "description",
           "valueType": "string"
         },
         {
-          "component": "number",
+          "component": "text",
           "label": "Steps Count",
           "name": "stepsCount",
-          "valueType": "number"
+          "valueType": "string"
         },
         {
           "component": "text",
@@ -126,15 +120,21 @@
           "valueType": "string"
         },
         {
-          "component": "number",
+          "component": "text",
           "label": "Ingredients Count",
           "name": "ingredientsCount",
-          "valueType": "number"
+          "valueType": "string"
         },
         {
           "component": "text",
           "label": "Ingredients Label",
           "name": "ingredientsLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Recipe Card Link",
+          "name": "recipeLink",
           "valueType": "string"
         }
       ]
@@ -144,7 +144,7 @@
     {
       "id": "recipe-home",
       "components": [
-        "recipe-home-list-item"
+        "recipe-card-item"
       ]
     }
   ]
