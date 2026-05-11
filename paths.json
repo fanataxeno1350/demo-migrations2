@@ -1,8 +1,8 @@
 {
   "mappings": [
-    "/content/demo-migrations-sites2/:/"
+    "/content/demo-migration-sites2/:/"
   ],
   "includes": [
-    "/content/demo-migrations-sites2/"
+    "/content/demo-migration-sites2/"
   ]
 }
