@@ -1,0 +1,162 @@
+import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.js';
+import { moveInstrumentation } from '../../scripts/scripts.js';
+
+export default async function decorate(block) {
+  // Reorder root rows to match the BlockJson model: heading, description, then item rows
+  // The socialLinksContainerRow and wallsEmbedsContainerRow are conceptual containers,
+  // not actual rows in block.children. The itemRows are directly after heading and description.
+  const children = [...block.children];
+  const [headingRow, descriptionRow, ...itemRows] = children;
+
+  const root = document.createElement('div');
+  root.classList.add('container'); // Class from ORIGINAL HTML
+
+  const rowDiv = document.createElement('div');
+  rowDiv.classList.add('row'); // Class from ORIGINAL HTML
+  root.append(rowDiv);
+
+  const colDiv = document.createElement('div');
+  colDiv.classList.add('col-sm-12', 'col-md-10', 'offset-md-1'); // Classes from ORIGINAL HTML
+  rowDiv.append(colDiv);
+
+  const blockWrapper = document.createElement('div');
+  blockWrapper.classList.add('block-wrapper'); // Class from ORIGINAL HTML
+  colDiv.append(blockWrapper);
+
+  // Heading
+  if (headingRow) {
+    const heading = document.createElement('h3');
+    moveInstrumentation(headingRow, heading);
+    // Heading is type=text, read from cell.textContent.trim()
+    heading.textContent = headingRow.children[0]?.textContent.trim() || '';
+    blockWrapper.append(heading);
+  }
+
+  // Separator
+  const separator = document.createElement('div');
+  separator.classList.add('separator'); // Class from ORIGINAL HTML
+  separator.innerHTML = '&nbsp;';
+  blockWrapper.append(separator);
+
+  // Description
+  if (descriptionRow) {
+    const description = document.createElement('div');
+    moveInstrumentation(descriptionRow, description);
+    // Description is type=richtext, read from cell.innerHTML
+    description.innerHTML = descriptionRow.children[0]?.innerHTML || '';
+    blockWrapper.append(description);
+  }
+
+  // Social Links
+  // Social link items have 3 cells and contain a picture
+  const socialLinkItems = itemRows.filter((row) => row.children.length === 3 && row.querySelector('picture'));
+  if (socialLinkItems.length > 0) {
+    const socialGrid = document.createElement('div');
+    socialGrid.classList.add('social-grid'); // Class from ORIGINAL HTML
+    // moveInstrumentation for the conceptual container row (socialLinksContainerRow) is not applicable here
+    // as it's not a physical row in block.children. We apply instrumentation to individual item rows.
+
+    const socialRow = document.createElement('div');
+    socialRow.classList.add('row', 'd-flex', 'justify-content-left'); // Classes from ORIGINAL HTML
+    socialGrid.append(socialRow);
+
+    socialLinkItems.forEach((row) => {
+      // Fixed schema for social-link-item: icon, link, label
+      const [iconCell, linkCell, labelCell] = [...row.children];
+
+      const col = document.createElement('div');
+      col.classList.add('col-sm-4', 'col-md-2', 'col-lg-1', 'text-align-center'); // Classes from ORIGINAL HTML
+      col.style.paddingTop = '25px'; // Inline style from original HTML
+
+      const link = document.createElement('a');
+      const foundLink = linkCell.querySelector('a'); // link is type=aem-content, read href from <a>
+      if (foundLink) {
+        link.href = foundLink.href;
+        link.rel = 'noopener';
+        link.target = '_blank';
+        link.setAttribute('aria-label', `${labelCell.textContent.trim()} - open in a new tab`);
+      }
+
+      const picture = iconCell.querySelector('picture'); // icon is type=reference
+      if (picture) {
+        const img = picture.querySelector('img');
+        if (img) {
+          const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '60%' }]);
+          moveInstrumentation(img, optimizedPic.querySelector('img'));
+          link.append(optimizedPic);
+        }
+      }
+
+      const h6 = document.createElement('h6');
+      h6.style.lineHeight = '18px'; // Inline style from original HTML
+      h6.style.marginTop = '10px'; // Inline style from original HTML
+      h6.textContent = labelCell.textContent.trim(); // label is type=text
+
+      moveInstrumentation(row, col);
+      col.append(link, h6);
+      socialRow.append(col);
+    });
+    colDiv.append(socialGrid);
+  }
+
+  // Walls.io Embeds
+  // Walls embed items have 3 cells and do NOT contain a picture
+  const wallsEmbedItems = itemRows.filter((row) => row.children.length === 3 && !row.querySelector('picture'));
+  if (wallsEmbedItems.length > 0) {
+    const embedContainer = document.createElement('div');
+    // moveInstrumentation for the conceptual container row (wallsEmbedsContainerRow) is not applicable here
+    // as it's not a physical row in block.children. We apply instrumentation to individual item rows.
+
+    wallsEmbedItems.forEach(async (row) => { // Made async to await loadScript
+      // Fixed schema for walls-embed-item: data-embed-url, data-embed-kind, data-embed-config
+      const [embedUrlCell, embedKindCell, embedConfigCell] = [...row.children];
+
+      const kind = embedKindCell.textContent.trim();
+      const embedEl = document.createElement('div');
+      embedEl.setAttribute('data-embed-kind', kind);
+      embedEl.setAttribute('data-embed-url', embedUrlCell.textContent.trim());
+      embedEl.setAttribute('data-embed-config', embedConfigCell.textContent.trim());
+
+      switch (kind) {
+        case 'walls-io': {
+          const wallScript = document.createElement('script');
+          wallScript.src = 'https://walls.io/js/wallsio-widget-1.2.js';
+          wallScript.dataset.wallurl = embedUrlCell.textContent.trim();
+          wallScript.dataset.width = '100%';
+          wallScript.dataset.autoheight = '1';
+          wallScript.async = true;
+          embedEl.append(wallScript);
+          break;
+        }
+        case 'elfsight-widget': {
+          const config = JSON.parse(embedConfigCell.textContent.trim());
+          embedEl.classList.add(`elfsight-app-${config.app_id}`);
+          await loadScript('https://static.elfsight.com/platform/platform.js'); // Await loadScript
+          break;
+        }
+        case 'twitter-embed':
+        case 'instagram-embed':
+        case 'tiktok-embed': {
+          const platforms = {
+            'twitter-embed': 'https://platform.twitter.com/widgets.js',
+            'instagram-embed': 'https://www.instagram.com/embed.js',
+            'tiktok-embed': 'https://www.tiktok.com/embed.js',
+          };
+          await loadScript(platforms[kind]); // Await loadScript
+          const link = document.createElement('a');
+          link.href = embedUrlCell.textContent.trim();
+          link.textContent = `View post on ${kind.split('-')[0].charAt(0).toUpperCase()}${kind.split('-')[0].slice(1)}`;
+          embedEl.append(link);
+          break;
+        }
+        default:
+          break;
+      }
+      moveInstrumentation(row, embedEl);
+      embedContainer.append(embedEl);
+    });
+    colDiv.append(embedContainer);
+  }
+
+  block.replaceChildren(root);
+}

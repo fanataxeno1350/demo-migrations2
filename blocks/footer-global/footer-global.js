@@ -3,6 +3,9 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 
 function transformNestedLists(rootUl) {
   rootUl.querySelectorAll('li').forEach((li) => {
+    // Add class from ORIGINAL HTML
+    li.classList.add('footer-menu-track');
+
     const nested = li.querySelector(':scope > ul');
     const anchor = li.querySelector(':scope > a');
 
@@ -21,7 +24,7 @@ function transformNestedLists(rootUl) {
     if (nested) {
       nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('has-sub-child');
+      subWrap.classList.add('has-sub-child'); // This class is not in ORIGINAL HTML, but seems to be for JS functionality
       subWrap.append(nested);
       li.append(subWrap);
 
@@ -41,24 +44,49 @@ function transformNestedLists(rootUl) {
 export default function decorate(block) {
   const children = [...block.children];
 
-  // Fixed fields and container placeholders - reordered to match BlockJson and EDS Block Structure
   const [
-    footerSocialMobileContainer, // container field "footerSocialMobile"
-    footerSectionsContainer,     // container field "footerSections"
-    footerSocialDesktopContainer,// container field "footerSocialDesktop"
-    footerLogo,                  // field="footerLogo"
-    footerAddressItemsContainer, // container field "footerAddressItems"
-    footerRelatedLinksContainer, // container field "footerRelatedLinks"
-    footerLegalRow,              // field="footerLegal"
-    firstTimeBannerHeadlineRow,  // field="firstTimeBannerHeadline"
-    firstTimeBannerBodyRow,      // field="firstTimeBannerBody"
-    firstTimeBannerCtaLinkRow,   // field="firstTimeBannerCtaLink"
-    firstTimeBannerCtaLabelRow,  // field="firstTimeBannerCtaLabel"
-    gdprMessageRow,              // field="gdprMessage"
-    acceptCookieLabelRow,        // field="acceptCookieLabel"
-    privacyPolicyLinkRow,        // field="privacyPolicyLink"
+    footerLogoRow,
+    footerLogoLinkRow,
+    footerAddressRow,
+    footerMapLinkRow,
+    footerPhoneLinkRow,
+    footerLegalRow,
+    footerSectionsPlaceholder, // This is actually firstTimeBannerHeadlineRow
+    footerSocialMobilePlaceholder, // This is actually firstTimeBannerBodyRow
+    footerSocialDesktopPlaceholder, // This is actually firstTimeBannerCtaLinkRow
+    footerRelatedLinksPlaceholder, // This is actually firstTimeBannerCtaLabelRow
+    firstTimeBannerHeadlineRow, // This is actually gdprMessageBodyRow
+    firstTimeBannerBodyRow, // This is actually gdprPrivacyPolicyLinkRow
+    firstTimeBannerCtaLinkRow, // This is actually gdprAcceptLabelRow
+    firstTimeBannerCtaLabelRow, // This is actually the start of itemRows
+    gdprMessageBodyRow, // This is actually the start of itemRows
+    gdprPrivacyPolicyLinkRow, // This is actually the start of itemRows
+    gdprAcceptLabelRow, // This is actually the start of itemRows
     ...itemRows
   ] = children;
+
+  // Correcting the destructuring based on the EDS BLOCK STRUCTURE and BlockJson model
+  // The original destructuring was off by 7 rows.
+  const [
+    actualFooterLogoRow,
+    actualFooterLogoLinkRow,
+    actualFooterAddressRow,
+    actualFooterMapLinkRow,
+    actualFooterPhoneLinkRow,
+    actualFooterLegalRow,
+    actualFirstTimeBannerHeadlineRow,
+    actualFirstTimeBannerBodyRow,
+    actualFirstTimeBannerCtaLinkRow,
+    actualFirstTimeBannerCtaLabelRow,
+    actualGdprMessageBodyRow,
+    actualGdprPrivacyPolicyLinkRow,
+    actualGdprAcceptLabelRow,
+    ...allItemRows
+  ] = children;
+
+  const footerSectionItems = allItemRows.filter((row) => row.children.length === 4);
+  const footerSocialItems = allItemRows.filter((row) => row.children.length === 1);
+  const footerRelatedLinkItems = allItemRows.filter((row) => row.children.length === 2);
 
   const root = document.createElement('section');
   root.classList.add('component-global-footer', 'notranslate');
@@ -71,200 +99,293 @@ export default function decorate(block) {
   mainRow.classList.add('row');
   container.append(mainRow);
 
-  // --- Mobile Social Links ---
-  const mobileSocialCol = document.createElement('div');
-  mobileSocialCol.classList.add('col-12');
-  mainRow.append(mobileSocialCol);
+  // Footer Social Mobile
+  const col12SocialMobile = document.createElement('div');
+  col12SocialMobile.classList.add('col-12');
+  mainRow.append(col12SocialMobile);
 
   const footerSocialMobile = document.createElement('div');
   footerSocialMobile.classList.add('footer-social', 'mobile');
-  moveInstrumentation(footerSocialMobileContainer, footerSocialMobile);
-  mobileSocialCol.append(footerSocialMobile);
+  // There is no explicit placeholder row for footerSocialMobile in the EDS structure,
+  // so moveInstrumentation should be called on the individual social item rows.
+  // moveInstrumentation(footerSocialMobilePlaceholder, footerSocialMobile); // Removed as it's not a direct row
 
-  // Filter for footer-social-item: 2 cells, first has <a>, second has <ul> (hierarchy-tree)
-  const socialMobileItems = itemRows.filter((row) => row.children.length === 2 && row.children[0].querySelector('a') && row.children[1].querySelector('ul'));
-  socialMobileItems.forEach((row) => {
-    const [socialLinkCell, hierarchyTreeCell] = [...row.children]; // Destructuring for fixed schema
-    const link = socialLinkCell.querySelector('a');
-    if (link) {
-      const socialAnchor = document.createElement('a');
-      socialAnchor.href = link.href;
-      socialAnchor.target = '_blank';
-      socialAnchor.setAttribute('aria-label', `${link.href.split('/').pop()} - open in a new tab`);
+  col12SocialMobile.append(footerSocialMobile);
+
+  footerSocialItems.forEach((row) => {
+    const [socialLinkCell] = [...row.children];
+    const socialLink = socialLinkCell?.querySelector('a');
+    if (socialLink) {
+      const anchor = document.createElement('a');
+      anchor.href = socialLink.href;
+      anchor.target = '_blank';
+      anchor.setAttribute('aria-label', `${socialLink.href.split('.com/')[1] || 'social link'} - open in a new tab`);
+
       const icon = document.createElement('i');
-      // Original HTML uses class="facebook", "instagram" etc. directly on <a>, not on <i>
-      // The `fa` prefix is for FontAwesome icons, which is correct.
-      socialAnchor.classList.add(link.href.split('/').pop()); // Add specific social class to anchor
-      icon.classList.add('fa', `fa-${link.href.split('/').pop()}`);
-      socialAnchor.append(icon);
-      moveInstrumentation(row, socialAnchor);
-      footerSocialMobile.append(socialAnchor);
+      if (socialLink.href.includes('facebook')) {
+        anchor.classList.add('facebook');
+        icon.classList.add('fa', 'fa-facebook');
+      } else if (socialLink.href.includes('instagram')) {
+        anchor.classList.add('instagram');
+        icon.classList.add('fa', 'fa-instagram');
+      } else if (socialLink.href.includes('linkedin')) {
+        anchor.classList.add('linkedin');
+        icon.classList.add('fa', 'fa-linkedin');
+      } else if (socialLink.href.includes('twitter')) {
+        anchor.classList.add('twitter');
+        icon.classList.add('fa', 'fa-twitter');
+      } else if (socialLink.href.includes('youtube')) {
+        anchor.classList.add('youtube');
+        icon.classList.add('fa', 'fa-youtube');
+      } else if (socialLink.href.includes('whatsapp')) {
+        anchor.classList.add('whatsapp');
+        icon.classList.add('fa', 'fa-whatsapp');
+      }
+      icon.setAttribute('aria-hidden', 'true');
+      anchor.append(icon);
+      moveInstrumentation(row, anchor);
+      footerSocialMobile.append(anchor);
     }
   });
 
-  // --- Footer Sections (Accordion) ---
+  // Footer Sections
   const footerSectionsWrapper = document.createElement('div');
-  moveInstrumentation(footerSectionsContainer, footerSectionsWrapper);
-  mainRow.append(footerSectionsWrapper);
+  // No explicit placeholder row for footerSections, moveInstrumentation on individual items
+  // moveInstrumentation(footerSectionsPlaceholder, footerSectionsWrapper); // Removed
 
-  // Filter for footer-section-item: 3 cells, first is text, second is aem-content, third is richtext (ul)
-  const footerSectionItems = itemRows.filter((row) => row.children.length === 3 && !row.children[0].querySelector('picture') && row.children[2].querySelector('ul'));
-  footerSectionItems.forEach((row, index) => {
-    const [titleCell, linkCell, sectionLinksCell] = [...row.children]; // Destructuring for fixed schema
-    const sectionCol = document.createElement('div');
-    sectionCol.classList.add('col-lg-2');
-    if (index === 0) sectionCol.classList.add('offset-lg-1'); // Only first section has offset
-    moveInstrumentation(row, sectionCol);
+  footerSectionItems.forEach((row) => {
+    const [titleCell, linkCell, sectionLinksCell, hierarchyTreeCell] = [...row.children];
+    const colLg2 = document.createElement('div');
+    colLg2.classList.add('col-lg-2');
+    footerSectionsWrapper.append(colLg2);
 
     const headSpan = document.createElement('span');
     headSpan.classList.add('head');
-    headSpan.textContent = titleCell.textContent.trim();
+    headSpan.textContent = titleCell?.textContent.trim() || '';
     const openIcon = document.createElement('div');
     openIcon.classList.add('open-icon');
     headSpan.append(openIcon);
-    sectionCol.append(headSpan);
+    colLg2.append(headSpan);
 
     const ul = document.createElement('ul');
-    const subList = sectionLinksCell?.querySelector('ul');
-    const directLink = linkCell?.querySelector('a'); // Get the anchor element
+    // For hierarchy-tree, read innerHTML directly
+    const hierarchyTreeContent = hierarchyTreeCell?.innerHTML;
+    const subList = hierarchyTreeCell?.querySelector('ul'); // Check for direct UL in hierarchy-tree
 
-    if (subList) {
-      transformNestedLists(subList);
-      ul.append(subList);
-    } else if (directLink) { // If there's a direct link, create a single li
+    const directLink = linkCell?.querySelector('a');
+
+    if (subList) { // If hierarchy-tree has a direct UL
+      // moveInstrumentation for the hierarchyTreeCell content
+      const tempDiv = document.createElement('div');
+      moveInstrumentation(hierarchyTreeCell, tempDiv);
+      tempDiv.innerHTML = hierarchyTreeContent;
+      const transformedList = tempDiv.querySelector('ul');
+      if (transformedList) {
+        transformNestedLists(transformedList);
+        ul.append(transformedList);
+      }
+    } else if (directLink) { // If there's a direct link
       const li = document.createElement('li');
-      li.classList.add('footer-menu-track');
+      li.classList.add('footer-menu-track'); // Add class from ORIGINAL HTML
       const anchor = document.createElement('a');
       anchor.href = directLink.href;
-      anchor.textContent = titleCell.textContent.trim(); // Use titleCell for text content
+      anchor.textContent = titleCell?.textContent.trim() || '';
+      moveInstrumentation(row, anchor); // Instrumentation for the whole row
       li.append(anchor);
       ul.append(li);
+    } else { // Fallback for sectionLinks richtext
+      const sectionLinksContent = sectionLinksCell?.innerHTML.trim();
+      if (sectionLinksContent) {
+        const tempDiv = document.createElement('div');
+        moveInstrumentation(sectionLinksCell, tempDiv); // Instrumentation for the sectionLinksCell
+        tempDiv.innerHTML = sectionLinksContent;
+        const sectionUl = tempDiv.querySelector('ul');
+        if (sectionUl) {
+          transformNestedLists(sectionUl);
+          ul.append(sectionUl);
+        } else {
+          // Fallback for plain text or <p> tags in sectionLinks
+          // Use a div to avoid <p> inside <p>
+          const li = document.createElement('li');
+          li.classList.add('footer-menu-track'); // Add class from ORIGINAL HTML
+          const contentDiv = document.createElement('div'); // Use div to hold richtext
+          contentDiv.innerHTML = sectionLinksContent;
+          li.append(contentDiv);
+          ul.append(li);
+        }
+      }
     }
-    sectionCol.append(ul);
-    footerSectionsWrapper.append(sectionCol);
+    colLg2.append(ul);
 
     headSpan.addEventListener('click', () => {
-      sectionCol.classList.toggle('active');
+      headSpan.classList.toggle('active');
+      ul.classList.toggle('active');
     });
+    moveInstrumentation(row, colLg2); // Instrumentation for the whole row
   });
 
-  // --- Desktop Social Links ---
-  const desktopSocialCol = document.createElement('div');
-  desktopSocialCol.classList.add('col-lg-3', 'offset-lg-1');
-  mainRow.append(desktopSocialCol);
+  // Append footer sections to mainRow, handling offset for the first one
+  const firstSectionCol = footerSectionsWrapper.querySelector('.col-lg-2');
+  if (firstSectionCol) {
+    firstSectionCol.classList.add('offset-lg-1');
+  }
+  mainRow.append(...footerSectionsWrapper.children);
+
+  // Footer Social Desktop & Footer Info
+  const colLg3OffsetLg1 = document.createElement('div');
+  colLg3OffsetLg1.classList.add('col-lg-3', 'offset-lg-1');
+  mainRow.append(colLg3OffsetLg1);
 
   const footerSocialDesktop = document.createElement('div');
   footerSocialDesktop.classList.add('footer-social', 'desktop');
-  moveInstrumentation(footerSocialDesktopContainer, footerSocialDesktop); // Instrumentation for container
-  desktopSocialCol.append(footerSocialDesktop);
+  // No explicit placeholder row for footerSocialDesktop, moveInstrumentation on individual items
+  // moveInstrumentation(footerSocialDesktopPlaceholder, footerSocialDesktop); // Removed
+  colLg3OffsetLg1.append(footerSocialDesktop);
 
-  socialMobileItems.forEach((row) => { // Reuse social items
-    const [socialLinkCell] = [...row.children]; // Destructuring for fixed schema
-    const link = socialLinkCell.querySelector('a');
-    if (link) {
-      const socialAnchor = document.createElement('a');
-      socialAnchor.href = link.href;
-      socialAnchor.target = '_blank';
-      socialAnchor.setAttribute('aria-label', `${link.href.split('/').pop()} - open in a new tab`);
-      socialAnchor.classList.add(link.href.split('/').pop()); // Add specific social class to anchor
+  footerSocialItems.forEach((row) => {
+    const [socialLinkCell] = [...row.children];
+    const socialLink = socialLinkCell?.querySelector('a');
+    if (socialLink) {
+      const anchor = document.createElement('a');
+      anchor.href = socialLink.href;
+      anchor.target = '_blank';
+      anchor.setAttribute('aria-label', `${socialLink.href.split('.com/')[1] || 'social link'} - open in a new tab`);
+
       const icon = document.createElement('i');
-      icon.classList.add('fa', `fa-${link.href.split('/').pop()}`);
-      socialAnchor.append(icon);
-      moveInstrumentation(row, socialAnchor); // Instrumentation for each item row
-      footerSocialDesktop.append(socialAnchor);
+      if (socialLink.href.includes('facebook')) {
+        anchor.classList.add('facebook');
+        icon.classList.add('fa', 'fa-facebook');
+      } else if (socialLink.href.includes('instagram')) {
+        anchor.classList.add('instagram');
+        icon.classList.add('fa', 'fa-instagram');
+      } else if (socialLink.href.includes('linkedin')) {
+        anchor.classList.add('linkedin');
+        icon.classList.add('fa', 'fa-linkedin');
+      } else if (socialLink.href.includes('twitter')) {
+        anchor.classList.add('twitter');
+        icon.classList.add('fa', 'fa-twitter');
+      } else if (socialLink.href.includes('youtube')) {
+        anchor.classList.add('youtube');
+        icon.classList.add('fa', 'fa-youtube');
+      } else if (socialLink.href.includes('whatsapp')) {
+        anchor.classList.add('whatsapp');
+        icon.classList.add('fa', 'fa-whatsapp');
+      }
+      icon.setAttribute('aria-hidden', 'true');
+      anchor.append(icon);
+      moveInstrumentation(row, anchor); // Instrumentation for the whole row
+      footerSocialDesktop.append(anchor);
     }
   });
 
-  // --- Footer Info (Logo & Address) ---
   const footerInfo = document.createElement('div');
   footerInfo.classList.add('footer-info');
-  desktopSocialCol.append(footerInfo);
+  colLg3OffsetLg1.append(footerInfo);
 
   const headlineDiv = document.createElement('div');
   headlineDiv.classList.add('headline');
-  const footerLogoPicture = footerLogo?.querySelector('picture'); // Use footerLogo variable
+  const footerLogoPicture = actualFooterLogoRow?.querySelector('picture');
   if (footerLogoPicture) {
-    const optimizedPic = createOptimizedPicture(footerLogoPicture.querySelector('img').src, footerLogoPicture.querySelector('img').alt, false, [{ width: '750' }]);
-    moveInstrumentation(footerLogo, optimizedPic.querySelector('img')); // Use footerLogo variable
+    const optimizedPic = createOptimizedPicture(
+      footerLogoPicture.querySelector('img').src,
+      footerLogoPicture.querySelector('img').alt,
+      false,
+      [{ width: '750' }],
+    );
+    moveInstrumentation(actualFooterLogoRow, optimizedPic.querySelector('img'));
     headlineDiv.append(optimizedPic);
   }
   footerInfo.append(headlineDiv);
 
   const addressDiv = document.createElement('div');
   addressDiv.classList.add('address');
-  moveInstrumentation(footerAddressItemsContainer, addressDiv);
+  const footerMapLink = actualFooterMapLinkRow?.querySelector('a');
+  // Corrected: Use actualFooterAddressRow.children[0]?.innerHTML for richtext
+  const footerAddressContent = actualFooterAddressRow?.children[0]?.innerHTML.trim();
+  if (footerMapLink && footerAddressContent) {
+    const mapAnchor = document.createElement('a');
+    mapAnchor.href = footerMapLink.href;
+    mapAnchor.target = '_blank';
+    mapAnchor.innerHTML = footerAddressContent; // This is fine as it's richtext inside an anchor
+    moveInstrumentation(actualFooterMapLinkRow, mapAnchor);
+    moveInstrumentation(actualFooterAddressRow, mapAnchor);
+    addressDiv.append(mapAnchor);
+  } else if (footerAddressContent) {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = footerAddressContent;
+    moveInstrumentation(actualFooterAddressRow, tempDiv);
+    addressDiv.append(tempDiv);
+  }
+
+  const footerPhoneLink = actualFooterPhoneLinkRow?.querySelector('a');
+  if (footerPhoneLink) {
+    const phoneAnchor = document.createElement('a');
+    phoneAnchor.href = footerPhoneLink.href;
+    // Original HTML shows <p>+1 (630) 571-5466</p> inside the anchor, so we need to replicate that
+    const phoneP = document.createElement('p');
+    phoneP.textContent = footerPhoneLink.textContent.trim();
+    phoneAnchor.append(phoneP);
+    moveInstrumentation(actualFooterPhoneLinkRow, phoneAnchor);
+    addressDiv.append(phoneAnchor);
+  }
   footerInfo.append(addressDiv);
 
-  // Filter for footer-address-item: 2 cells, first has <a>, second is richtext (p)
-  const footerAddressItems = itemRows.filter((row) => row.children.length === 2 && row.children[0].querySelector('a') && row.children[1].querySelector('p'));
-  footerAddressItems.forEach((row) => {
-    const [addressLinkCell, addressTextCell] = [...row.children]; // Destructuring for fixed schema
-    const addressLink = addressLinkCell.querySelector('a');
-    if (addressLink) {
-      const anchor = document.createElement('a');
-      anchor.href = addressLink.href;
-      anchor.target = '_blank';
-      anchor.setAttribute('aria-label', `${addressTextCell.textContent.trim()} - open in a new tab`);
-      anchor.innerHTML = addressTextCell.innerHTML; // richtext content
-      moveInstrumentation(row, anchor);
-      addressDiv.append(anchor);
-    }
-  });
-
-  // --- Related Links ---
-  const relatedLinksWrapper = document.createElement('div');
-  moveInstrumentation(footerRelatedLinksContainer, relatedLinksWrapper);
-  // Assuming related links are part of a general "Also of Interest" section
+  // Related Links
   const beIxLinkBlock = document.createElement('div');
   beIxLinkBlock.classList.add('be-ix-link-block');
+  container.append(beIxLinkBlock);
+
   const beRelatedLinkContainer = document.createElement('div');
   beRelatedLinkContainer.classList.add('be-related-link-container');
+  beIxLinkBlock.append(beRelatedLinkContainer);
+
   const beLabel = document.createElement('div');
   beLabel.classList.add('be-label');
-  beLabel.textContent = 'Also of Interest'; // Hardcoded text from ORIGINAL HTML
+  beLabel.textContent = 'Also of Interest'; // Hardcoded, but matches ORIGINAL HTML
+  beRelatedLinkContainer.append(beLabel);
+
   const beList = document.createElement('ul');
   beList.classList.add('be-list');
+  beRelatedLinkContainer.append(beList);
 
-  // Filter for footer-link-item: 2 cells, first is text, second has <a>
-  const footerRelatedLinks = itemRows.filter((row) => row.children.length === 2 && !row.children[0].querySelector('picture') && row.children[0].textContent.trim() && row.children[1].querySelector('a'));
-  footerRelatedLinks.forEach((row) => {
-    const [labelCell, linkCell] = [...row.children]; // Destructuring for fixed schema
-    const link = linkCell.querySelector('a');
-    if (link) {
+  footerRelatedLinkItems.forEach((row) => {
+    const [labelCell, linkCell] = [...row.children];
+    const link = linkCell?.querySelector('a');
+    const label = labelCell?.textContent.trim();
+
+    if (link && label) {
       const li = document.createElement('li');
       li.classList.add('be-list-item');
       const anchor = document.createElement('a');
       anchor.classList.add('be-related-link');
       anchor.href = link.href;
-      anchor.textContent = labelCell.textContent.trim();
+      anchor.textContent = label;
       moveInstrumentation(row, anchor);
       li.append(anchor);
       beList.append(li);
     }
   });
-  beRelatedLinkContainer.append(beLabel, beList);
-  beIxLinkBlock.append(beRelatedLinkContainer);
-  container.append(beIxLinkBlock);
 
-  // --- Footer Legal Section ---
+  // Footer Legal Section
   const footerLegalSectionRow = document.createElement('div');
   footerLegalSectionRow.classList.add('row', 'footer-legal-section');
   container.append(footerLegalSectionRow);
 
-  const legalCol = document.createElement('div');
-  legalCol.classList.add('col-xs-11', 'offset-lg-1');
-  footerLegalSectionRow.append(legalCol);
+  const colXs11OffsetLg1 = document.createElement('div');
+  colXs11OffsetLg1.classList.add('col-xs-11', 'offset-lg-1');
+  footerLegalSectionRow.append(colXs11OffsetLg1);
 
   const legalP = document.createElement('p');
   legalP.classList.add('legal');
-  legalP.innerHTML = footerLegalRow?.children[0]?.innerHTML || '';
-  moveInstrumentation(footerLegalRow, legalP);
-  legalCol.append(legalP);
+  // Corrected: Use actualFooterLegalRow.children[0]?.innerHTML for richtext
+  legalP.innerHTML = actualFooterLegalRow?.children[0]?.innerHTML.trim() || '';
+  moveInstrumentation(actualFooterLegalRow, legalP);
+  colXs11OffsetLg1.append(legalP);
 
-  // --- First-Time Banner ---
+  // First Time Banner
   const firstTimeBanner = document.createElement('div');
   firstTimeBanner.classList.add('first-time-banner');
-  firstTimeBanner.style.display = 'block'; // Ensure it's visible by default
+  firstTimeBanner.style.display = 'block'; // Default to block as per original HTML
   root.append(firstTimeBanner);
 
   const bannerContainer = document.createElement('div');
@@ -275,75 +396,100 @@ export default function decorate(block) {
   welcomeDiv.classList.add('welcome');
   bannerContainer.append(welcomeDiv);
 
-  const welcomeHeadline = document.createElement('h4');
-  welcomeHeadline.textContent = firstTimeBannerHeadlineRow?.children[0]?.textContent.trim() || ''; // Access cell content
-  moveInstrumentation(firstTimeBannerHeadlineRow, welcomeHeadline);
-  welcomeDiv.append(welcomeHeadline);
+  const welcomeH4 = document.createElement('h4');
+  // Corrected: Use actualFirstTimeBannerHeadlineRow.children[0]?.textContent
+  welcomeH4.textContent = actualFirstTimeBannerHeadlineRow?.children[0]?.textContent.trim() || '';
+  moveInstrumentation(actualFirstTimeBannerHeadlineRow, welcomeH4);
+  welcomeDiv.append(welcomeH4);
 
   const promoBody = document.createElement('div');
   promoBody.classList.add('promo-body');
-  const ctaLink = firstTimeBannerCtaLinkRow?.querySelector('a');
-  const ctaLabel = firstTimeBannerCtaLabelRow?.children[0]?.textContent.trim(); // Access cell content
+  const ctaLink = actualFirstTimeBannerCtaLinkRow?.querySelector('a');
+  // Corrected: Use actualFirstTimeBannerCtaLabelRow.children[0]?.textContent
+  const ctaLabel = actualFirstTimeBannerCtaLabelRow?.children[0]?.textContent.trim();
+  // Corrected: Use actualFirstTimeBannerBodyRow.children[0]?.innerHTML for richtext
+  const bannerBodyContent = actualFirstTimeBannerBodyRow?.children[0]?.innerHTML.trim();
+
   if (ctaLink && ctaLabel) {
     const anchor = document.createElement('a');
     anchor.href = ctaLink.href;
     anchor.textContent = ctaLabel;
+    moveInstrumentation(actualFirstTimeBannerCtaLinkRow, anchor);
+    moveInstrumentation(actualFirstTimeBannerCtaLabelRow, anchor);
     promoBody.append(anchor);
-    moveInstrumentation(firstTimeBannerCtaLinkRow, anchor);
-    moveInstrumentation(firstTimeBannerCtaLabelRow, anchor);
+    if (bannerBodyContent) {
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = bannerBodyContent;
+      // Append children directly to promoBody to avoid <p> inside <p>
+      while (tempDiv.firstChild) {
+        promoBody.append(tempDiv.firstChild);
+      }
+    }
+  } else if (bannerBodyContent) {
+    // Corrected: Append children directly to promoBody to avoid <p> inside <p>
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = bannerBodyContent;
+    while (tempDiv.firstChild) {
+      promoBody.append(tempDiv.firstChild);
+    }
   }
-  // Append richtext content from firstTimeBannerBodyRow
-  const bannerBodyContent = document.createElement('div');
-  bannerBodyContent.innerHTML = firstTimeBannerBodyRow?.children[0]?.innerHTML || '';
-  moveInstrumentation(firstTimeBannerBodyRow, bannerBodyContent);
-  while (bannerBodyContent.firstChild) {
-    promoBody.append(bannerBodyContent.firstChild);
-  }
+  moveInstrumentation(actualFirstTimeBannerBodyRow, promoBody);
   welcomeDiv.append(promoBody);
 
-  // --- GDPR Message ---
-  const gdprMessageDiv = document.createElement('div');
-  gdprMessageDiv.classList.add('gdpr-message');
-  bannerContainer.append(gdprMessageDiv);
+  // GDPR Message
+  const gdprMessage = document.createElement('div');
+  gdprMessage.classList.add('gdpr-message');
+  bannerContainer.append(gdprMessage);
 
   const gdprRow = document.createElement('div');
   gdprRow.classList.add('row');
-  gdprMessageDiv.append(gdprRow);
+  gdprMessage.append(gdprRow);
 
-  const cookieBodyCol = document.createElement('div');
-  cookieBodyCol.classList.add('col-md-6');
-  gdprRow.append(cookieBodyCol);
+  const gdprColMd6Body = document.createElement('div');
+  gdprColMd6Body.classList.add('col-md-6');
+  gdprRow.append(gdprColMd6Body);
 
   const cookieBody = document.createElement('div');
   cookieBody.classList.add('cookie-body');
-  cookieBody.innerHTML = gdprMessageRow?.children[0]?.innerHTML || '';
-  moveInstrumentation(gdprMessageRow, cookieBody);
+  const gdprPrivacyPolicyLink = actualGdprPrivacyPolicyLinkRow?.querySelector('a');
+  // Corrected: Use actualGdprMessageBodyRow.children[0]?.innerHTML for richtext
+  const gdprMessageBodyContent = actualGdprMessageBodyRow?.children[0]?.innerHTML.trim();
 
-  const privacyLink = privacyPolicyLinkRow?.querySelector('a');
-  if (privacyLink) {
-    const privacyAnchor = document.createElement('a');
-    privacyAnchor.href = privacyLink.href;
-    privacyAnchor.textContent = 'View our Privacy Policy'; // Hardcoded text from ORIGINAL HTML
-    cookieBody.append(privacyAnchor);
-    moveInstrumentation(privacyPolicyLinkRow, privacyAnchor);
+  if (gdprMessageBodyContent) {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = gdprMessageBodyContent;
+    // Corrected: Append children directly to cookieBody to avoid <p> inside <p>
+    while (tempDiv.firstChild) {
+      cookieBody.append(tempDiv.firstChild);
+    }
   }
-  cookieBodyCol.append(cookieBody);
+  if (gdprPrivacyPolicyLink) {
+    const privacyAnchor = document.createElement('a');
+    privacyAnchor.href = gdprPrivacyPolicyLink.href;
+    privacyAnchor.textContent = 'View our Privacy Policy'; // Hardcoded, but matches ORIGINAL HTML
+    moveInstrumentation(actualGdprPrivacyPolicyLinkRow, privacyAnchor);
+    cookieBody.append(privacyAnchor);
+  }
+  moveInstrumentation(actualGdprMessageBodyRow, cookieBody);
+  gdprColMd6Body.append(cookieBody);
 
-  const ctaCol = document.createElement('div');
-  ctaCol.classList.add('col-md-6');
-  gdprRow.append(ctaCol);
+  const gdprColMd6Cta = document.createElement('div');
+  gdprColMd6Cta.classList.add('col-md-6');
+  gdprRow.append(gdprColMd6Cta);
 
   const ctaDiv = document.createElement('div');
   ctaDiv.classList.add('cta');
-  ctaCol.append(ctaDiv);
+  gdprColMd6Cta.append(ctaDiv);
 
-  const acceptCookieBtn = document.createElement('a');
-  acceptCookieBtn.classList.add('btn', 'bg-white', 'accept-cookie');
-  acceptCookieBtn.textContent = acceptCookieLabelRow?.children[0]?.textContent.trim() || ''; // Access cell content
-  moveInstrumentation(acceptCookieLabelRow, acceptCookieBtn);
-  ctaDiv.append(acceptCookieBtn);
+  const acceptButton = document.createElement('a');
+  acceptButton.classList.add('btn', 'bg-white', 'accept-cookie');
+  acceptButton.setAttribute('tabindex', '0');
+  // Corrected: Use actualGdprAcceptLabelRow.children[0]?.textContent
+  acceptButton.textContent = actualGdprAcceptLabelRow?.children[0]?.textContent.trim() || '';
+  moveInstrumentation(actualGdprAcceptLabelRow, acceptButton);
+  ctaDiv.append(acceptButton);
 
-  acceptCookieBtn.addEventListener('click', () => {
+  acceptButton.addEventListener('click', () => {
     firstTimeBanner.style.display = 'none';
   });
 

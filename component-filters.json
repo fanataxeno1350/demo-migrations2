@@ -23,7 +23,8 @@
       "photo-lockup",
       "three-column-tile",
       "social-grid",
-      "footer-global"
+      "footer-global",
+      "title-body"
     ]
   },
   {
@@ -35,10 +36,9 @@
   {
     "id": "footer-global",
     "components": [
-      "footer-social-item",
       "footer-section-item",
-      "footer-link-item",
-      "footer-address-item"
+      "footer-social-item",
+      "footer-related-link-item"
     ]
   },
   {
@@ -71,6 +71,13 @@
     "id": "three-column-tile",
     "components": [
       "tile-item"
+    ]
+  },
+  {
+    "id": "title-body",
+    "components": [
+      "social-icon-item",
+      "walls-io-embed"
     ]
   }
 ]

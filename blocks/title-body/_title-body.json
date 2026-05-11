@@ -1,0 +1,136 @@
+{
+  "definitions": [
+    {
+      "title": "Title-Body",
+      "id": "title-body",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "title-body",
+              "model": "title-body",
+              "name": "Title-Body"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Social-Icon-Item",
+      "id": "social-icon-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "social-icon-item",
+              "name": "Social-Icon-Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Walls-IO-Embed",
+      "id": "walls-io-embed",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "walls-io-embed",
+              "name": "Walls-IO-Embed"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "title-body",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Section Heading",
+          "name": "heading",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Body Text",
+          "name": "body",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "social-icon-item",
+          "label": "Social Icon Items",
+          "name": "socialIcons"
+        },
+        {
+          "component": "container",
+          "item": "walls-io-embed",
+          "label": "Walls IO Embeds",
+          "name": "wallsIoEmbeds"
+        }
+      ]
+    },
+    {
+      "id": "social-icon-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Social Icon Image",
+          "name": "icon",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Social Link URL",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Social Platform Label",
+          "name": "label",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "walls-io-embed",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Embed URL",
+          "name": "data-embed-url",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Embed Kind",
+          "name": "data-embed-kind",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Embed Config",
+          "name": "data-embed-config",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "title-body",
+      "components": [
+        "social-icon-item",
+        "walls-io-embed"
+      ]
+    }
+  ]
+}

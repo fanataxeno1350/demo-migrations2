@@ -191,10 +191,40 @@
     "id": "footer-global",
     "fields": [
       {
-        "component": "container",
-        "item": "footer-social-item",
-        "label": "Footer Social Links (Mobile)",
-        "name": "footerSocialMobile"
+        "component": "reference",
+        "label": "Footer Logo",
+        "name": "footerLogo",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Footer Logo Link",
+        "name": "footerLogoLink",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Footer Address",
+        "name": "footerAddress",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Footer Map Link",
+        "name": "footerMapLink",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Footer Phone Link",
+        "name": "footerPhoneLink",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Footer Legal Text",
+        "name": "footerLegal",
+        "valueType": "string"
       },
       {
         "component": "container",
@@ -205,90 +235,61 @@
       {
         "component": "container",
         "item": "footer-social-item",
+        "label": "Footer Social Links (Mobile)",
+        "name": "footerSocialMobile"
+      },
+      {
+        "component": "container",
+        "item": "footer-social-item",
         "label": "Footer Social Links (Desktop)",
         "name": "footerSocialDesktop"
       },
       {
-        "component": "reference",
-        "label": "Footer Logo",
-        "name": "footerLogo",
-        "valueType": "string"
-      },
-      {
         "component": "container",
-        "item": "footer-address-item",
-        "label": "Footer Address Items",
-        "name": "footerAddressItems"
-      },
-      {
-        "component": "container",
-        "item": "footer-link-item",
+        "item": "footer-related-link-item",
         "label": "Footer Related Links",
         "name": "footerRelatedLinks"
       },
       {
-        "component": "richtext",
-        "label": "Footer Legal Text",
-        "name": "footerLegal",
-        "valueType": "string"
-      },
-      {
         "component": "text",
-        "label": "First-Time Banner Headline",
+        "label": "First Time Banner Headline",
         "name": "firstTimeBannerHeadline",
         "valueType": "string"
       },
       {
         "component": "richtext",
-        "label": "First-Time Banner Body",
+        "label": "First Time Banner Body",
         "name": "firstTimeBannerBody",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "First-Time Banner CTA Link",
+        "label": "First Time Banner CTA Link",
         "name": "firstTimeBannerCtaLink",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "First-Time Banner CTA Label",
+        "label": "First Time Banner CTA Label",
         "name": "firstTimeBannerCtaLabel",
         "valueType": "string"
       },
       {
         "component": "richtext",
         "label": "GDPR Message Body",
-        "name": "gdprMessage",
+        "name": "gdprMessageBody",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "GDPR Privacy Policy Link",
+        "name": "gdprPrivacyPolicyLink",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Accept Cookie Button Label",
-        "name": "acceptCookieLabel",
-        "valueType": "string"
-      },
-      {
-        "component": "aem-content",
-        "label": "Privacy Policy Link",
-        "name": "privacyPolicyLink",
-        "valueType": "string"
-      }
-    ]
-  },
-  {
-    "id": "footer-social-item",
-    "fields": [
-      {
-        "component": "aem-content",
-        "label": "Social Link URL",
-        "name": "socialLink",
-        "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "label": "Navigation Hierarchy",
-        "name": "hierarchy-tree",
+        "label": "GDPR Accept Button Label",
+        "name": "gdprAcceptLabel",
         "valueType": "string"
       }
     ]
@@ -312,39 +313,40 @@
         "component": "richtext",
         "label": "Section Links",
         "name": "sectionLinks"
+      },
+      {
+        "component": "richtext",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
+        "valueType": "string"
       }
     ]
   },
   {
-    "id": "footer-link-item",
+    "id": "footer-social-item",
+    "fields": [
+      {
+        "component": "aem-content",
+        "label": "Social Link URL",
+        "name": "socialLink",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "footer-related-link-item",
     "fields": [
       {
         "component": "text",
-        "label": "Link Label",
+        "label": "Related Link Label",
         "name": "label",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Link URL",
+        "label": "Related Link URL",
         "name": "link",
         "valueType": "string"
-      }
-    ]
-  },
-  {
-    "id": "footer-address-item",
-    "fields": [
-      {
-        "component": "aem-content",
-        "label": "Address Link URL",
-        "name": "addressLink",
-        "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "label": "Address Text",
-        "name": "addressText"
       }
     ]
   },
@@ -695,6 +697,81 @@
         "component": "text",
         "label": "Read More Label",
         "name": "readMoreLabel",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "title-body",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Section Heading",
+        "name": "heading",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Body Text",
+        "name": "body",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "social-icon-item",
+        "label": "Social Icon Items",
+        "name": "socialIcons"
+      },
+      {
+        "component": "container",
+        "item": "walls-io-embed",
+        "label": "Walls IO Embeds",
+        "name": "wallsIoEmbeds"
+      }
+    ]
+  },
+  {
+    "id": "social-icon-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Social Icon Image",
+        "name": "icon",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Social Link URL",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Social Platform Label",
+        "name": "label",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "walls-io-embed",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Embed URL",
+        "name": "data-embed-url",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Embed Kind",
+        "name": "data-embed-kind",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Embed Config",
+        "name": "data-embed-config",
         "valueType": "string"
       }
     ]
