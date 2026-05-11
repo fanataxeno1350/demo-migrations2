@@ -1,0 +1,289 @@
+.element-hidden{ display:none; }
+
+.clearfix:after{ content:".";display:block;height:0;clear:both;visibility:hidden; }
+
+.u-container p, .u-container ul{ max-width:none }
+
+.layout-container{ background-color:#fff;padding:4.2rem 1.8rem;position:relative;z-index:2 }
+
+.layout-container:after{ clear:both;content:"";display:table }
+
+.layout-container>:first-child{ margin-top:0!important }
+
+.layout-container>:last-child{ margin-bottom:0!important }
+
+.layout-container+:not(.-lightgray):not(.-gray):not(.-dark){ padding-top:0 }
+
+.layout-container+:not(.-lightgray):not(.-gray):not(.-dark):before{ display:table;content:"" }
+
+.layout-container.-dark{ background-position:50% 0;background-repeat:repeat;background-size:71px 85px;background-color:#263b4c;background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/geo-darkblue-8764fc.png");-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:#fff }
+
+.layout-container.-dark+.layout-container:not(.-dark){ padding-top:4.2rem }
+
+.layout-container.-dark+.-dark{ padding-top:0 }
+
+.layout-container.-dark+.-dark:before{ display:table;content:"" }
+
+.home-causes-image{ display:none }
+
+.causes-text{ font-weight:300;font-size:36px;line-height:49px;letter-spacing:-.03em }
+
+.causes-description, .causes-text{ font-style:normal;display:block;text-align:center;color:#fff }
+
+.causes-description{ font-weight:400;font-size:1.8rem;line-height:30px }
+
+.desktop-view{ display:none }
+
+.desktop-view .home-causes-lists{ width:100%;margin:0 auto;display:flex }
+
+.desktop-view .aof{ flex:33.33% }
+
+.desktop-view .aof-list{ padding:0 2%;margin:12% 0 }
+
+.desktop-view .aof-middle{ padding:0 2% }
+
+.desktop-view .home-causes-image{ height:28rem!important;min-height:0!important }
+
+.desktop-view .home-causes-image:hover{ transform:scale(1.1) }
+
+.mobile-view{ display:none }
+
+.mobile-view .AOF-mobile-heading{ padding:1.8rem 1.8rem 5rem;position:relative;transform:translateZ(0);transition:all .9s ease;z-index:4 }
+
+a.causes-link{ position:relative;z-index:1 }
+
+.desktop-view .hero-text{ padding-bottom:8.2rem }
+
+.hero-text{ padding:1.8rem;position:relative;transform:translateZ(0);transition:all .9s ease;z-index:4 }
+
+.hero-text>:first-child{ margin-top:0!important }
+
+.hero-text>:last-child{ margin-bottom:0!important }
+
+.hero-text>:first-child{ transition:opacity .6s ease .9s,transform .6s ease .9s }
+
+.hero-text>:nth-child(2){ transition:opacity .6s ease 1.2s,transform .6s ease 1.2s }
+
+.hero-text>:nth-child(3){ transition:opacity .6s ease 1.5s,transform .6s ease 1.5s }
+
+.hero-text>:nth-child(4){ transition:opacity .6s ease 1.8s,transform .6s ease 1.8s }
+
+.hero-text>:nth-child(5){ transition:opacity .6s ease 2.1s,transform .6s ease 2.1s }
+
+.hero-text>:nth-child(6){ transition:opacity .6s ease 2.4s,transform .6s ease 2.4s }
+
+.hero-text>:nth-child(7){ transition:opacity .6s ease 2.7s,transform .6s ease 2.7s }
+
+.hero-text>:nth-child(8){ transition:opacity .6s ease 3s,transform .6s ease 3s }
+
+.hero-text>:nth-child(9){ transition:opacity .6s ease 3.3s,transform .6s ease 3.3s }
+
+.hero-text>:nth-child(10){ transition:opacity .6s ease 3.6s,transform .6s ease 3.6s }
+
+[data-is=loaded] .hero-text>*{ opacity:1;transform:translateY(0) }
+
+@keyframes bouncing-arrow{0%,20%,50%,80%,to{transform:translateZ(0)}40%{transform:translate3d(0,-10px,0)}60%{transform:translate3d(0,-5px,0)}}
+
+@keyframes scale-slide-1{0%{opacity:0;transform:scale(1)}60%{opacity:1}to{transform:scale(1.125)}}
+
+@keyframes scale-slide-2{0%{transform:scale(1.125)}to{transform:scale(1.2)}}
+
+@keyframes mosaicTransition{0%{opacity:0;transform:translateY(2.4rem)}to{opacity:1;transform:translateY(0)}}
+
+@media only screen and (min-width:320px) and (max-width:568px) and (orientation:landscape) { span.home-causes-image{ height:100%;min-height:230px;width:84%;margin:0 8%;-webkit-appearance:none;-moz-appearance:none;appearance:none;background-position:50%;background-repeat:no-repeat;background-size:cover;border:none;display:block;transition:all .3s ease;border-radius:50% }
+
+.mobile-view{ display:block!important }
+
+.desktop-view{ display:none!important }
+
+.layout-container{ padding:6rem 1.8rem!important } }
+
+@media only screen and (min-width:320px) and (max-width:359px) and (orientation:portrait) { ul.home-causes-list{ float:left;width:100%;margin:0 auto }
+
+.home-causes-item-list{ width:50%;float:left;margin:0;padding:0 }
+
+.home-causes-item-list:before{ content:"";display:block;height:0;width:100% }
+
+span.home-causes-image{ height:100%;min-height:130px;width:90%;margin:0 8%;-webkit-appearance:none;-moz-appearance:none;appearance:none;background-position:50%;background-repeat:no-repeat;background-size:cover;border:none;display:block;transition:all .3s ease;border-radius:50% } }
+
+@media (min-width:20em) { .causes-link div{ height:75px;width:92%;margin:0 4%;top:0;font-style:normal;font-weight:700;font-size:16px;line-height:22px;letter-spacing:.02em;color:#fff;text-align:center }
+
+.mobile-view{ display:block }
+
+.mobile-view li#cause--7{ text-align:center;width:75%;padding-left:24% } }
+
+@media (min-width:340px) and (max-width:398px) { .mobile-view{ display:block }
+
+.mobile-view li.home-causes-item-list{ width:50%;margin:0 auto;padding:0;float:left }
+
+.mobile-view li.home-causes-item-list:before{ content:"";display:block;height:0;width:100% }
+
+.mobile-view ul.home-causes-list{ float:left;width:100%;margin:0 auto }
+
+.mobile-view .home-causes-image{ -webkit-appearance:none;-moz-appearance:none;appearance:none;background-position:50%;background-repeat:no-repeat;background-size:cover;border:none;display:block;font-size:22px;height:100%;margin:0 6%;top:0;transition:all .3s ease;width:90%;padding-top:90%;z-index:10;border-radius:50% }
+
+.mobile-view li#cause--7{ text-align:center;width:75%;padding-left:24% }
+
+.desktop-view{ display:none!important }
+
+.layout-container{ padding:6rem 1.8rem!important } }
+
+@media (min-width:400px) and (max-width:479px) { .mobile-view{ display:block }
+
+.mobile-view li.home-causes-item-list{ width:50%;margin:0 auto;padding:0;float:left }
+
+.mobile-view li.home-causes-item-list:before{ content:"";display:block;height:0;width:100% }
+
+.mobile-view ul.home-causes-list{ float:left;width:100%;margin:0 auto }
+
+.mobile-view .home-causes-image{ -webkit-appearance:none;-moz-appearance:none;appearance:none;background-position:50%;background-repeat:no-repeat;background-size:cover;border:none;display:block;font-size:22px;height:100%;min-height:14.5rem;margin:0 6%;top:0;transition:all .3s ease;width:90%;padding-top:90%;z-index:10;border-radius:50% }
+
+.mobile-view li#cause--7{ text-align:center;width:75%;padding-left:24% }
+
+.desktop-view{ display:none!important }
+
+.layout-container{ padding:6rem 1.8rem!important } }
+
+@media (min-width:30em) { .home-causes-image{ -webkit-appearance:none;-moz-appearance:none;appearance:none;background-position:50%;background-repeat:no-repeat;background-size:cover;border:none;display:block;font-size:22px;height:100%;min-height:24.8rem;margin:0 9%;top:0;transition:all .3s ease;width:82%;padding-top:82%;z-index:10;border-radius:50% }
+
+.mobile-view li#cause--7{ text-align:center;width:75%;padding-left:24% } }
+
+@media (min-width:480px) and (max-width:767px) { .home-causes-item-list{ width:50%;float:left;margin:0;padding:0 }
+
+.home-causes-item-list:before{ content:"";display:block;height:0;width:100% }
+
+.mobile-view{ display:block!important }
+
+.desktop-view{ display:none!important }
+
+.layout-container{ padding:6rem 1.8rem!important } }
+
+@media only screen and (min-width:732px) and (orientation:landscape) { .mobile-view .home-causes-image{ width:80%;padding-top:80%;margin:0 8% } }
+
+@media (min-width:47.5em) { .layout-container{ padding:6rem 1.8rem }
+
+.layout-container.-dark+.layout-container:not(.-dark){ padding:6rem 1.8rem }
+
+.home-causes-image{ -webkit-appearance:none;-moz-appearance:none;appearance:none;background-position:50%;background-repeat:no-repeat;background-size:cover;border:none;display:block;font-size:22px;height:100%;min-height:290px;margin:0 8%;top:0;transition:all .3s ease;width:83%;z-index:10;border-radius:50% }
+
+.home-causes-item-list{ padding:0 13px 6px;position:relative;width:50%;float:left;list-style-type:none;margin:0;overflow:hidden }
+
+.home-causes-item-list:before{ content:"";display:block;padding-bottom:85%;height:0;width:100% }
+
+.mobile-view{ display:block }
+
+.mobile-view li#cause--7{ text-align:center;width:78%;padding-left:29% }
+
+.hero-text{ padding-top:3rem;padding-bottom:3rem } }
+
+@media (min-width:62.5em) { .home-causes-image{ background-position:50% 50%;background-repeat:no-repeat;background-size:cover;display:block;top:0 }
+
+.home-causes-image{ -webkit-appearance:none;-moz-appearance:none;appearance:none;border:none;font-size:22px;height:calc(100% - 10px);left:5px;margin:0;transition:all .3s ease;width:calc(100% - 10px);z-index:10;border-radius:50% }
+
+.home-causes-list{ display:flex;flex:0 1 auto;flex-direction:row;flex-wrap:wrap;margin-left:-5px;margin-right:-5px;width:calc(100% + 10px) }
+
+.home-causes-list:after{ clear:both;content:"";display:table }
+
+.home-causes-item-list{ padding:0 25px 65px;position:relative;width:33.33333% }
+
+.home-causes-item-list:before{ content:"";display:block;padding-bottom:85%;height:0;width:100% }
+
+.causes-link div{ padding:11px 0 10px 12px;width:87.333333%;top:0;font-style:normal;font-weight:700;font-size:16px;line-height:22px;letter-spacing:.02em;color:#fff;text-align:center }
+
+.desktop-view{ display:block }
+
+.mobile-view{ display:none } }
+
+@media (min-width:75em) { .layout-container, .layout-container.-dark+.layout-container:not(.-dark){ padding:9rem 1.8rem }
+
+.home-causes-image{ -webkit-appearance:none;-moz-appearance:none;appearance:none;background-position:50% 50%;background-repeat:no-repeat;background-size:cover;border:none;display:block;font-size:22px;height:calc(100% - 10px);left:5px;margin:0;top:0;transition:all .3s ease;width:calc(100% - 10px);z-index:10;border-radius:50% }
+
+.desktop-view{ display:block }
+
+.hero-text{ padding-top:4.2rem;padding-bottom:4.2rem } }
+
+@media only screen and (min-width:62.5em) { #cause .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-promoting-peace-20250226-tr-003-3923f0.jpeg"); }
+
+#cause--2 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-fighting-disease-20240613-in-050-98c744.jpeg"); }
+
+#cause--3 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-providing-clean-water-20211026-pk-030-834de3.jpeg"); }
+
+#cause--4 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-improving-maternal-and-child-health-20250408-pg-186-f89590.jpeg"); }
+
+#cause--5 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-supporting-education-20240620-pa-032-751c92.jpeg"); }
+
+#cause--6 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-growing-local-economies-20221008-tr-008-7c2db2.jpeg"); }
+
+#cause--7 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-protecting-the-environment-2024-04-012-3c3f74.jpeg"); } }
+
+@media only screen and (min-width:62.5em),only screen and (-webkit-min-device-pixel-ratio:1.3),only screen and (-o-min-device-pixel-ratio:13/10),only screen and (min-resolution:120dpi) { #cause .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-promoting-peace-20250226-tr-003-9884a0.jpeg"); }
+
+#cause--2 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-fighting-disease-20240613-in-050-fd117b.jpeg"); }
+
+#cause--3 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-providing-clean-water-20211026-pk-030-8dff68.jpeg"); }
+
+#cause--4 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-improving-maternal-and-child-health-20250408-pg-186-55de02.jpeg"); }
+
+#cause--5 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-supporting-education-20240620-pa-032-7ce5fe.jpeg"); }
+
+#cause--6 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-growing-local-economies-20221008-tr-008-a01970.jpeg"); }
+
+#cause--7 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-protecting-the-environment-2024-04-012-1779ee.jpeg"); } }
+
+@media only screen and (min-width:30em) and (max-width:62.4375em) { #cause .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-promoting-peace-20250226-tr-003-3923f0.jpeg"); }
+
+#cause--2 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-fighting-disease-20240613-in-050-98c744.jpeg"); }
+
+#cause--3 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-providing-clean-water-20211026-pk-030-834de3.jpeg"); }
+
+#cause--4 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-improving-maternal-and-child-health-20250408-pg-186-f89590.jpeg"); }
+
+#cause--5 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-supporting-education-20240620-pa-032-751c92.jpeg"); }
+
+#cause--6 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-growing-local-economies-20221008-tr-008-7c2db2.jpeg"); }
+
+#cause--7 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-protecting-the-environment-2024-04-012-3c3f74.jpeg"); } }
+
+@media only screen and (min-width:30.2em) and (max-width:62.4375em),only screen and (-webkit-min-device-pixel-ratio:1.3),only screen and (-o-min-device-pixel-ratio:13/10),only screen and (min-resolution:120dpi) { #cause .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-promoting-peace-20250226-tr-003-9884a0.jpeg"); }
+
+#cause--2 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-fighting-disease-20240613-in-050-fd117b.jpeg"); }
+
+#cause--3 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-providing-clean-water-20211026-pk-030-8dff68.jpeg"); }
+
+#cause--4 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-improving-maternal-and-child-health-20250408-pg-186-55de02.jpeg"); }
+
+#cause--5 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-supporting-education-20240620-pa-032-7ce5fe.jpeg"); }
+
+#cause--6 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-growing-local-economies-20221008-tr-008-a01970.jpeg"); }
+
+#cause--7 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-protecting-the-environment-2024-04-012-1779ee.jpeg"); } }
+
+@media only screen and (min-width:20em) and (max-width:30.5em) { #cause .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-promoting-peace-20250226-tr-003-3923f0.jpeg"); }
+
+#cause--2 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-fighting-disease-20240613-in-050-98c744.jpeg"); }
+
+#cause--3 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-providing-clean-water-20211026-pk-030-834de3.jpeg"); }
+
+#cause--4 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-improving-maternal-and-child-health-20250408-pg-186-f89590.jpeg"); }
+
+#cause--5 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-supporting-education-20240620-pa-032-751c92.jpeg"); }
+
+#cause--6 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-growing-local-economies-20221008-tr-008-7c2db2.jpeg"); }
+
+#cause--7 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-protecting-the-environment-2024-04-012-3c3f74.jpeg"); } }
+
+@media only screen and (min-width:20em) and (max-width:30.5em),only screen and (-webkit-min-device-pixel-ratio:1.3),only screen and (-o-min-device-pixel-ratio:13/10),only screen and (min-resolution:120dpi) { #cause .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-promoting-peace-20250226-tr-003-9884a0.jpeg"); }
+
+#cause--2 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-fighting-disease-20240613-in-050-fd117b.jpeg"); }
+
+#cause--3 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-providing-clean-water-20211026-pk-030-8dff68.jpeg"); }
+
+#cause--4 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-improving-maternal-and-child-health-20250408-pg-186-55de02.jpeg"); }
+
+#cause--5 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-supporting-education-20240620-pa-032-7ce5fe.jpeg"); }
+
+#cause--6 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-growing-local-economies-20221008-tr-008-a01970.jpeg"); }
+
+#cause--7 .home-causes-image{ background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/home-areas-of-focus-2025-protecting-the-environment-2024-04-012-1779ee.jpeg"); } }
+
+@keyframes element-queries{ 0% { visibility: inherit; } }

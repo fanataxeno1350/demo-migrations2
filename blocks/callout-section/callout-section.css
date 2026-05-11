@@ -1,0 +1,69 @@
+.u-background-green{ background-color:#018d8d!important }
+
+.u-container p{ max-width:none }
+
+.u-background-green .u-button{ -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale }
+
+.u-background-green .u-button:hover{ -webkit-font-smoothing:subpixel-antialiased;-moz-osx-font-smoothing:auto;background-color:#fff;color:#018d8d }
+
+.callout-section{ position:relative;padding:8.5rem 0 4rem;z-index:3;width:100%;background-color:#fff;display:block;display:-ms-flexbox;overflow:hidden }
+
+.callout-section .callout-section-left{ flex:1 }
+
+.callout-section .callout-section-left-content{ height:100%;color:#fff;padding:20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center }
+
+.callout-section .callout-section-left-content-holder{ width:100% }
+
+.callout-section .callout-section-left .callout-section-left-content-holder{ margin:6rem }
+
+.callout-section .callout-section-left .callout-section-left-content-holder a.u-button{ border-radius:50px }
+
+.callout-section .callout-section-left .callout-section-left-content-holder .callout-section-title{ font-style:normal;font-weight:300;text-align:center }
+
+.callout-section .callout-section-left .callout-section-left-content-holder .callout-section-description{ font-style:normal;font-weight:400;font-size:18px;line-height:150%;text-align:left;margin:40px 0 }
+
+.callout-section .callout-section-right{ position:relative }
+
+.callout-section .callout-section-right .homecontent-stripe{ line-height:0;height:26rem;background-position:50%;background-repeat:no-repeat;background-size:cover }
+
+@keyframes bouncing-arrow{0%,20%,50%,80%,to{transform:translateZ(0)}40%{transform:translate3d(0,-10px,0)}60%{transform:translate3d(0,-5px,0)}}
+
+@keyframes scale-slide-1{0%{opacity:0;transform:scale(1)}60%{opacity:1}to{transform:scale(1.125)}}
+
+@keyframes scale-slide-2{0%{transform:scale(1.125)}to{transform:scale(1.2)}}
+
+@keyframes mosaicTransition{0%{opacity:0;transform:translateY(2.4rem)}to{opacity:1;transform:translateY(0)}}
+
+.homecontent-stripe{ border:0 solid #fff }
+
+.homecontent-stripe-bottom{ border-bottom-width:6px }
+
+@media (min-width:20em) { .callout-section .callout-section-left .callout-section-left-content-holder{ margin-left:1rem;margin-right:1rem }
+
+.callout-section .callout-section-left .callout-section-left-content-holder .callout-section-title{ font-size:30px;line-height:40px }
+
+.callout-section .callout-section-left .callout-section-left-content-holder .callout-section-description{ font-weight:300;font-size:17px;text-align:left } }
+
+@media (min-width:47.5em) { .callout-section .callout-section-right .homecontent-stripe{ height:34rem } }
+
+@media (min-width:62.5em) { .callout-section{ padding:8.5rem 0 2rem;display:flex }
+
+.callout-section .callout-section-left, .callout-section .callout-section-left-content{ height:62.94rem }
+
+.callout-section .callout-section-left[data-module=in-view]{ opacity:0;transform:translateY(0) }
+
+.callout-section .callout-section-left[data-is=visible]{ opacity:1;transform:translateY(1.8rem);transition:all .9s ease }
+
+.callout-section .callout-section-left .callout-section-left-content-holder .callout-section-title{ font-size:36px;line-height:49px }
+
+.callout-section .callout-section-left .callout-section-left-content-holder .callout-section-description{ text-align:center;margin:37px 15px }
+
+.callout-section .callout-section-right{ flex:1;height:63.5rem;margin-top:18px;overflow:hidden }
+
+.callout-section .callout-section-right[data-module=in-view]{ opacity:0;transform:translateY(1.8rem);transition:all .9s ease }
+
+.callout-section .callout-section-right[data-is=visible]{ opacity:1;transform:translateY(0) }
+
+.callout-section .callout-section-right .homecontent-stripe{ height:100% } }
+
+@keyframes element-queries{ 0% { visibility: inherit; } }

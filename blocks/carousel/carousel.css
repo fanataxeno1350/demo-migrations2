@@ -1,0 +1,141 @@
+.heading-h3{ display:block;margin-bottom:.9rem;font-weight:700;margin-top:2.4rem;font-size:2rem;line-height:3rem }
+
+.heading-h3+p{ margin-top:0 }
+
+.heading-h3.-alternate{ font-size:1.7rem;line-height:2.4rem;text-transform:uppercase }
+
+.heading-h3{ max-width:80rem;margin-left:auto;margin-right:auto }
+
+.carousel{ margin-left:-1.8rem;margin-right:-1.8rem;-webkit-overflow-scrolling:touch;overflow-x:auto;overflow-y:hidden;padding:1rem 0;-ms-scroll-snap-type:mandatory;scroll-snap-type:mandatory;-ms-scroll-snap-destination:50% 0;scroll-snap-destination:50% 0;width:calc(100% + 3.6rem) }
+
+.carousel-title-parent{ display:flex;justify-content:center }
+
+h2.carousel-title{ font-weight:300!important;padding:2rem 0 6rem;text-align:center;font-size:3.6rem;line-height:49px;letter-spacing:-.03em;width:90% }
+
+.carousel-list{ display:flex;margin:0;max-width:none;padding:0 10vw }
+
+.carousel-list li{ margin:0;padding-left:0 }
+
+.carousel-list li:before{ display:none }
+
+.carousel-item{ line-height:0;padding:0;-ms-scroll-snap-coordinate:50% 0;scroll-snap-coordinate:50% 0;width:80vw }
+
+.carousel-item-inner{ background-color:#fff;margin:0 1px }
+
+.carousel-item-image{ height:0;line-height:0;padding-bottom:100%;position:relative;width:100% }
+
+.carousel-item-image img{ height:100%;left:0;position:absolute;top:0;width:100% }
+
+.carousel-item-heading{ font-size:1.4rem;line-height:2.4rem;background-position:50% 0;background-repeat:repeat;background-size:71px 85px;color:#fff;margin:0;padding:1.2rem 0;text-align:center;text-transform:uppercase }
+
+.carousel-item:nth-child(4n+1) .carousel-item-heading{ background-color:#019fcb;background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/geo-blue-e3c9eb.png") }
+
+.carousel-item:nth-child(4n+2) .carousel-item-heading{ background-color:#018d8d;background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/geo-green-c50fe2.png") }
+
+.carousel-item:nth-child(4n+3) .carousel-item-heading{ background-color:#9b1238;background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/geo-red-094116.png") }
+
+.carousel-item:nth-child(4n+4) .carousel-item-heading{ background-color:#872175;background-image:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/geo-purple-d06bd9.png") }
+
+.carousel-item-text{ font-size:1.4rem;line-height:2.4rem;background-color:#fff;padding:2.4rem 3rem }
+
+.carousel-item-text a{ font-size:1.4rem;line-height:2.4rem;text-transform:uppercase }
+
+.carousel-item-text a:focus, .carousel-item-text a:hover{ background-color:transparent;text-decoration:underline }
+
+.carousel-item-text p{ margin:0 }
+
+.carousel-item-text p+p{ margin-top:2.4rem }
+
+.carousel-button-next, .carousel-button-prev{ display:none }
+
+.carousel-button-next:hover, .carousel-button-prev:hover{ background-color:rgba(0,0,0,.05);background-position:50% 40% }
+
+.carousel-button-next{ transform:rotate(90deg);margin-right:-400px;right:50% }
+
+.carousel-button-prev{ transform:rotate(-90deg);left:50%;margin-left:-400px }
+
+@keyframes bouncing-arrow{0%,20%,50%,80%,to{transform:translateZ(0)}40%{transform:translate3d(0,-10px,0)}60%{transform:translate3d(0,-5px,0)}}
+
+@keyframes scale-slide-1{0%{opacity:0;transform:scale(1)}60%{opacity:1}to{transform:scale(1.125)}}
+
+@keyframes scale-slide-2{0%{transform:scale(1.125)}to{transform:scale(1.2)}}
+
+@keyframes mosaicTransition{0%{opacity:0;transform:translateY(2.4rem)}to{opacity:1;transform:translateY(0)}}
+
+@media (min-width:30em) { .heading-h3.-alternate{ line-height:3rem }
+
+.carousel-list{ padding:0 20vw }
+
+.carousel-item{ width:60vw }
+
+.carousel-item-inner{ box-shadow:0 0 10px rgba(0,0,0,.2);margin:0 10px } }
+
+@media (min-width:47.5em) { .carousel{ margin:3rem 0;-ms-scroll-snap-type:none;scroll-snap-type:none;-ms-scroll-snap-destination:0 0;scroll-snap-destination:0 0;width:100% }
+
+.carousel, .carousel-list{ padding:0;position:relative }
+
+.carousel-list{ display:block }
+
+.carousel-item{ transform:scale(.85714) translate3d(-50%,0,0);box-shadow:0 0 32px rgba(0,0,0,.2);left:50%;position:absolute;-ms-scroll-snap-coordinate:none;scroll-snap-coordinate:none;top:0;transform-origin:left center;transition:transform .6s ease 0s,z-index 0s linear 0s;width:35rem;z-index:1 }
+
+.carousel-item[data-item=first]{ transform:scale(1) translate3d(-50%,0,0);transition:transform .6s ease 0s,z-index 0s linear .3s;z-index:3 }
+
+.carousel-item[data-item=last], .carousel-item[data-item=second]{ transition:transform .6s ease 0s,z-index 0s linear .3s;z-index:2 }
+
+.carousel-item[data-item=last]:after, .carousel-item[data-item=last]:before, .carousel-item[data-item=second]:after, .carousel-item[data-item=second]:before{ opacity:1 }
+
+.carousel-item[data-item=second]{ transform:scale(.85714) translateZ(0) }
+
+.carousel-item[data-item=second]:before{ background:linear-gradient(90deg,rgba(0,0,0,.6) 0,transparent 50%) }
+
+.carousel-item[data-item=last]{ transform:scale(.85714) translate3d(-100%,0,0) }
+
+.carousel-item[data-item=last]:before{ background:linear-gradient(270deg,rgba(0,0,0,.6) 0,transparent 50%) }
+
+.carousel-item:after, .carousel-item:before{ content:"";display:block;height:100%;left:0;margin:0;opacity:0;pointer-events:none;position:absolute;top:0;transform:translateZ(0);transition:opacity .15s ease .15s;width:100%;z-index:10 }
+
+.carousel-item:before{ background:linear-gradient(270deg,transparent 20%,transparent 60%) }
+
+.carousel-item:after{ background-color:rgba(0,0,0,.2) }
+
+.carousel-item-inner{ box-shadow:none;margin:0;transform:translateZ(0) }
+
+.carousel-item-heading, .carousel-item-text{ font-size:1.6rem }
+
+.carousel-button-next, .carousel-button-prev{ overflow:hidden;text-align:left;text-indent:150%;white-space:nowrap;word-break:normal;word-wrap:normal;-webkit-appearance:none;-moz-appearance:none;appearance:none;background:transparent url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/carousel-arrow-51f0ef.svg") no-repeat 50% 50%;background-size:72px 31px;border:none;display:block;height:7.1rem;margin-top:-3.5rem;padding:0;position:absolute;top:50%;transition:all .3s ease;width:11.2rem;z-index:100 }
+
+.fade-in{ opacity:0;transition:opacity .25s ease-in }
+
+.fade-in.appear{ opacity:1 } }
+
+@media (min-width:56.25em) { .carousel-item[data-item=second]{ transform:scale(.85714) translate3d(15%,0,0) }
+
+.carousel-item[data-item=last]{ transform:scale(.85714) translate3d(-115%,0,0) }
+
+.carousel-button-next{ margin-right:-470px }
+
+.carousel-button-prev{ margin-left:-470px } }
+
+@media (min-width:62.5em) { h2.carousel-title{ padding:0 0 6rem }
+
+.carousel-item[data-item=second]{ transform:scale(.85714) translate3d(30%,0,0) }
+
+.carousel-item[data-item=last]{ transform:scale(.85714) translate3d(-130%,0,0) }
+
+.carousel-button-next{ margin-right:-515px }
+
+.carousel-button-prev{ margin-left:-515px }
+
+.fade-in{ opacity:0;transition:opacity .25s ease-in }
+
+.fade-in.appear{ opacity:1 } }
+
+@media (min-width:68.75em) { .carousel-item[data-item=second]{ transform:scale(.85714) translate3d(50%,0,0) }
+
+.carousel-item[data-item=last]{ transform:scale(.85714) translate3d(-150%,0,0) }
+
+.carousel-button-next{ margin-right:-575px }
+
+.carousel-button-prev{ margin-left:-575px } }
+
+@keyframes element-queries{ 0% { visibility: inherit; } }

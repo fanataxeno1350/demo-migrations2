@@ -1,0 +1,13 @@
+@keyframes bouncing-arrow{0%,20%,50%,80%,to{transform:translateZ(0)}40%{transform:translate3d(0,-10px,0)}60%{transform:translate3d(0,-5px,0)}}
+
+@keyframes scale-slide-1{0%{opacity:0;transform:scale(1)}60%{opacity:1}to{transform:scale(1.125)}}
+
+@keyframes scale-slide-2{0%{transform:scale(1.125)}to{transform:scale(1.2)}}
+
+@keyframes mosaicTransition{0%{opacity:0;transform:translateY(2.4rem)}to{opacity:1;transform:translateY(0)}}
+
+@media (min-width:30em) { .site-footer-nav-item{ display:inline-block }
+
+.site-footer-nav-item+.site-footer-nav-item{ margin-left:4rem } }
+
+@keyframes element-queries{ 0% { visibility: inherit; } }

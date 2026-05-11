@@ -51,7 +51,19 @@
         "cards",
         "columns",
         "fragment",
-        "---- New Blocks ----"
+        "---- New Blocks ----",
+        "header-message",
+        "header",
+        "hero-video",
+        "news-features",
+        "carousel",
+        "segmented-block",
+        "callout-section",
+        "footer-nav",
+        "footer-language-switcher",
+        "footer-social",
+        "footer-legal",
+        "footer-end-polio"
       ]
     }
   ]

@@ -1,0 +1,27 @@
+.site-footer-social{ display:flex;justify-content:center }
+
+.site-footer-social:after{ clear:both;content:"";display:table }
+
+.site-footer-social li{ padding-left:0 }
+
+.site-footer-social li:before{ display:none }
+
+.site-footer-social a{ display:block;line-height:0;padding:0 1rem .6rem }
+
+.site-footer-social a:focus img, .site-footer-social a:hover img{ filter:unset }
+
+.site-footer-social img{ height:24px;filter:grayscale(100%) contrast(0) brightness(1.2) sepia(20%) hue-rotate(150deg);transition:all .3s ease;width:auto }
+
+.site-footer-social li{ margin:0 }
+
+@keyframes bouncing-arrow{0%,20%,50%,80%,to{transform:translateZ(0)}40%{transform:translate3d(0,-10px,0)}60%{transform:translate3d(0,-5px,0)}}
+
+@keyframes scale-slide-1{0%{opacity:0;transform:scale(1)}60%{opacity:1}to{transform:scale(1.125)}}
+
+@keyframes scale-slide-2{0%{transform:scale(1.125)}to{transform:scale(1.2)}}
+
+@keyframes mosaicTransition{0%{opacity:0;transform:translateY(2.4rem)}to{opacity:1;transform:translateY(0)}}
+
+@media (min-width:30em) { .site-footer-social a{ padding-left:1.5rem;padding-right:1.5rem } }
+
+@keyframes element-queries{ 0% { visibility: inherit; } }

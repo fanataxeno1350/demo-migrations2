@@ -1,0 +1,133 @@
+.hero-background, .hero-background-placeholder{ background-position:50% 50%;background-repeat:no-repeat;background-size:cover;display:block;height:100%;left:0;position:absolute;top:0;width:100%;max-width:192rem;margin:0 auto;right:0 }
+
+.hero-background-placeholder{ background-color:#39424a;z-index:0 }
+
+.hero-background{ z-index:1 }
+
+@keyframes bouncing-arrow{0%,20%,50%,80%,to{transform:translateZ(0)}40%{transform:translate3d(0,-10px,0)}60%{transform:translate3d(0,-5px,0)}}
+
+@keyframes scale-slide-1{0%{opacity:0;transform:scale(1)}60%{opacity:1}to{transform:scale(1.125)}}
+
+@keyframes scale-slide-2{0%{transform:scale(1.125)}to{transform:scale(1.2)}}
+
+@keyframes mosaicTransition{0%{opacity:0;transform:translateY(2.4rem)}to{opacity:1;transform:translateY(0)}}
+
+.hero-mosaic:after{ clear:both;content:"";display:table }
+
+.hero-mosaic-item{ font-size:1.4rem;line-height:2.4rem;overflow:hidden;position:relative }
+
+.hero-mosaic-item.-feature a{ padding-top:12rem;text-shadow:0 0 4px rgba(0,0,0,.45) }
+
+.hero-mosaic-item .hero-background, .hero-mosaic-item .hero-background-placeholder{ transform:scale(1.01) translateZ(0);transition:transform 1.5s ease }
+
+.hero-mosaic-item:hover .hero-background, .hero-mosaic-item:hover .hero-background-placeholder{ transform:scale(1.1) }
+
+.hero-mosaic-item a{ -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:#fff;display:block;font-weight:400;padding:6rem 2.4rem 2.4rem;position:relative;text-decoration:none;z-index:5 }
+
+.hero-mosaic-item a:focus, .hero-mosaic-item a:hover{ background-color:transparent }
+
+.hero-mosaic-item a:before{ background:linear-gradient(0deg,#000 0,transparent);content:"";display:block;height:100%;left:0;opacity:.7;position:absolute;top:0;transition:all .3s ease;width:100%;z-index:1 }
+
+.hero-mosaic-item a>*{ animation:mosaicTransition .6s forwards;animation-timing-function:ease-out;opacity:0;position:relative;width:100%;z-index:2 }
+
+.hero-mosaic-item:first-of-type a > *{ animation-delay:1.2s }
+
+.hero-mosaic-item:nth-of-type(2) a>*{ animation-delay:1.5s }
+
+.hero-mosaic-item:nth-of-type(3) a>*{ animation-delay:1.8s }
+
+.news-features{ background-color:#fff;position:relative;z-index:2;padding:3rem 2.5rem 4rem!important }
+
+.news-features-container{ height:auto }
+
+.news-features-container h2, .news-features-container h4, .news-features-container h5{ padding:0;margin:0 }
+
+.news-features-container .hero-mosaic-item{ margin-bottom:20px;width:100%;height:auto }
+
+.news-features-container .-feature{ transition-delay:.6s!important }
+
+.news-features-container h2{ font-weight:100!important;margin:0 0 .99rem;line-height:1.1 }
+
+h2.news-features-title{ font-weight:300!important;padding:.3rem 0 6rem;text-align:center;font-size:3.6rem }
+
+.news-features-button{ padding-bottom:8px;padding-top:20px }
+
+@media (min-width:20em) { .news-features-container .hero-mosaic-item{ height:auto;float:left }
+
+.news-features-container .hero-mosaic-item a{ min-height:27rem;padding-top:16.38rem;height:inherit }
+
+.news-features-container .-feature{ width:100%;height:35.5rem;margin-left:0 }
+
+.news-features-container .-feature a{ padding-top:22rem }
+
+.news-features-container .special-feature{ margin-top:0 }
+
+.news-features-container .from-right{ width:100% } }
+
+@media (min-width:30em) { .hero-mosaic-item.-feature a{ padding-top:24rem }
+
+.hero-mosaic-item a{ padding:12rem 2.4rem 2.4rem } }
+
+@media (min-width:47.5em) { .hero-mosaic{ height:50vh;min-height:45rem }
+
+.hero-mosaic-item{ font-size:1.6rem;float:left;height:50%;width:50% }
+
+.hero-mosaic-item.-feature{ height:100% }
+
+.hero-mosaic-item.-feature a{ padding-top:4.2rem }
+
+.hero-mosaic-item a{ display:flex;flex-direction:column;height:100%;padding:4.2rem;text-align:left;justify-content:flex-end }
+
+.news-features-container{ width:100% }
+
+.news-features-container .hero-mosaic-item{ height:36rem }
+
+.news-features-container .hero-mosaic-item a{ padding-top:10rem }
+
+.news-features-container .-feature{ width:100% }
+
+.news-features-container .-feature a{ padding-top:16rem }
+
+.fade-in{ opacity:0;transition:opacity .25s ease-in }
+
+.fade-in.appear{ opacity:1 }
+
+.from-left{ grid-column:2/3;transform:translateX(-50%) }
+
+.from-right{ grid-column:3/4;transform:translateX(50%);width:50% }
+
+.from-left, .from-right{ transition:opacity .25s ease-in,transform .4s ease-in;opacity:0 }
+
+.from-left.appear, .from-right.appear{ transform:translateX(0);opacity:1 }
+
+.hero-mosaic{ height:36rem;min-height:auto } }
+
+@media (min-width:62.5em) { .fade-in{ opacity:0;transition:opacity .25s ease-in }
+
+.fade-in.appear{ opacity:1 }
+
+.from-left{ grid-column:2/3;transform:translateX(-50%);transition:opacity .25s ease-in,transform .4s ease-in;opacity:0 }
+
+.from-left.appear{ transform:translateX(0);opacity:1 }
+
+.news-features{ padding:3rem 6rem!important }
+
+.news-features-container .hero-mosaic.grid-3>:not(:last-child){ margin-right:20px }
+
+.news-features-container .hero-mosaic.grid-3{ display:flex;flex-direction:row;gap:0 }
+
+.news-features-container .hero-mosaic-item a{ padding:3rem 2.44rem }
+
+.news-features-container .hero-mosaic-item a:before{ background:linear-gradient(180deg,rgba(0,0,0,.1) 33.85%,rgba(0,0,0,.8) 82.29%);opacity:1 }
+
+.news-features-container .-feature a:before{ background:linear-gradient(0deg,#000,transparent 51.29%);opacity:1 }
+
+.news-features-container .hero-mosaic{ margin-left:auto;margin-right:auto }
+
+h2.news-features-title{ padding:3.5rem 0 6rem }
+
+.news-features-button{ padding-top:35px } }
+
+@media only screen and (min-width:1024px) and (orientation:portrait) { .hero-mosaic{ height:36rem;min-height:auto } }
+
+@keyframes element-queries{ 0% { visibility: inherit; } }

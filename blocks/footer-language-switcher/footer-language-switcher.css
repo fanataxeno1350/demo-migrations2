@@ -1,0 +1,39 @@
+.site-footer-nav.-language-switcher{ margin-top:-1.8rem;margin-bottom:-1.8rem }
+
+@keyframes bouncing-arrow{0%,20%,50%,80%,to{transform:translateZ(0)}40%{transform:translate3d(0,-10px,0)}60%{transform:translate3d(0,-5px,0)}}
+
+@keyframes scale-slide-1{0%{opacity:0;transform:scale(1)}60%{opacity:1}to{transform:scale(1.125)}}
+
+@keyframes scale-slide-2{0%{transform:scale(1.125)}to{transform:scale(1.2)}}
+
+@keyframes mosaicTransition{0%{opacity:0;transform:translateY(2.4rem)}to{opacity:1;transform:translateY(0)}}
+
+.link-dropdown{ background-color:#fff;position:relative }
+
+.link-dropdown-toggle{ font-size:1.8rem;line-height:2.6rem;-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:#fff;border:none;color:#019fcb;font-weight:700;height:6rem;padding:0 2rem;position:relative;text-align:left;transition:color .3s ease;width:100%;z-index:10001 }
+
+.link-dropdown-toggle:after{ background:url("/content/dam/aemigrate/uploaded-folder/www-rotary-org/image/arrow-down-blue-c811ed.svg") no-repeat 50% 50%;background-size:14px 8px;content:"";display:block;height:8px;margin-top:-4px;position:absolute;right:20px;top:50%;width:14px }
+
+.link-dropdown-list{ left:0;margin:0;position:absolute;padding-top:6rem;top:0;transform:translateY(-.6rem);transition:opacity .3s ease,transform .15s ease,visibility 0s linear .3s;width:100%;z-index:10000 }
+
+.link-dropdown-list li{ margin:0;padding-left:0 }
+
+.link-dropdown-list li:before{ display:none }
+
+[data-features=position-up] .link-dropdown-list{ bottom:0;padding-top:0;padding-bottom:6rem;top:auto;transform:translateY(.6rem) }
+
+.link-dropdown-item{ margin:0 }
+
+.link-dropdown-item a{ background-color:#fff;color:#39424a;display:block;font-weight:400;padding:.9rem 2rem }
+
+.link-dropdown-item a:focus, .link-dropdown-item a:hover{ background-color:#f8f9fa;color:#019fcb }
+
+@media (min-width:30em) { .site-footer-nav-item{ display:inline-block }
+
+.site-footer-nav-item+.site-footer-nav-item{ margin-left:4rem }
+
+.site-footer-nav-item+.site-footer-nav-item.-margin-reduced{ margin-left:2rem }
+
+.link-dropdown-toggle{ line-height:3rem } }
+
+@keyframes element-queries{ 0% { visibility: inherit; } }

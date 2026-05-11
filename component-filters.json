@@ -15,28 +15,87 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "---- New Blocks ----",
+      "header-message",
+      "header",
+      "hero-video",
+      "news-features",
+      "carousel",
+      "segmented-block",
+      "callout-section",
+      "footer-nav",
+      "footer-language-switcher",
+      "footer-social",
+      "footer-legal",
+      "footer-end-polio"
     ]
   },
   {
-    "id": "cards",
+    "id": "callout-section",
+    "components": []
+  },
+  {
+    "id": "carousel",
     "components": [
-      "card"
+      "carousel-item"
     ]
   },
   {
-    "id": "columns",
+    "id": "footer-end-polio",
+    "components": []
+  },
+  {
+    "id": "footer-language-switcher",
     "components": [
-      "column"
+      "footer-language-link-item",
+      "footer-language-dropdown-item"
     ]
   },
   {
-    "id": "column",
+    "id": "footer-legal",
     "components": [
-      "text",
-      "image",
-      "button",
-      "title"
+      "footer-link-item"
+    ]
+  },
+  {
+    "id": "footer-nav",
+    "components": [
+      "footer-nav-item"
+    ]
+  },
+  {
+    "id": "footer-social",
+    "components": [
+      "footer-social-item"
+    ]
+  },
+  {
+    "id": "header-message",
+    "components": []
+  },
+  {
+    "id": "header",
+    "components": [
+      "utility-link-item",
+      "utility-cta-item",
+      "navigation-item"
+    ]
+  },
+  {
+    "id": "hero-video",
+    "components": []
+  },
+  {
+    "id": "news-features",
+    "components": [
+      "feature-item"
+    ]
+  },
+  {
+    "id": "segmented-block",
+    "components": [
+      "cause-item"
     ]
   }
 ]

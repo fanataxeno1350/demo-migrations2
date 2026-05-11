@@ -1,0 +1,124 @@
+{
+  "definitions": [
+    {
+      "title": "Footer-Language-Switcher",
+      "id": "footer-language-switcher",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "footer-language-switcher",
+              "model": "footer-language-switcher",
+              "name": "Footer-Language-Switcher"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Footer-Language-Link-Item",
+      "id": "footer-language-link-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "footer-language-link-item",
+              "name": "Footer-Language-Link-Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Footer-Language-Dropdown-Item",
+      "id": "footer-language-dropdown-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "footer-language-dropdown-item",
+              "name": "Footer-Language-Dropdown-Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "footer-language-switcher",
+      "fields": [
+        {
+          "component": "container",
+          "item": "footer-language-link-item",
+          "label": "Links",
+          "name": "links"
+        },
+        {
+          "component": "text",
+          "label": "Dropdown Label",
+          "name": "dropdownLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "footer-language-dropdown-item",
+          "label": "Dropdown Items",
+          "name": "dropdownItems"
+        }
+      ]
+    },
+    {
+      "id": "footer-language-link-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Link Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Link URL",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "footer-language-dropdown-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Language Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Language Link URL",
+          "name": "link",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "footer-language-switcher",
+      "components": [
+        "footer-language-link-item",
+        "footer-language-dropdown-item"
+      ]
+    }
+  ]
+}

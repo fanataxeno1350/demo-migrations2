@@ -1,0 +1,79 @@
+.heading-h1{ font-weight:400;line-height:4.2rem;text-align:center;font-size:3.6rem;margin:0 auto 3rem;max-width:100rem }
+
+.hero-type{ -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;align-items:center;color:#fff;display:flex;justify-content:center;min-height:17rem;overflow:hidden;position:relative;text-align:left;text-shadow:0 0 4px rgba(0,0,0,.45);z-index:1 }
+
+.hero-type:after{ clear:both;content:"";display:table }
+
+.hero-type .home-hero-title{ font-size:4.3rem;font-weight:300;line-height:4.3rem;margin:1.8rem 0;text-shadow:0 0 25px #000;text-align:left }
+
+.hero-type .home-hero-title.-white{ color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.55) }
+
+.hero-type.-tall{ align-items:flex-end;height:calc(100vh - 6rem) }
+
+.hero-type.-tall:after{ background:rgba(0,0,0,.4);bottom:0;content:"";display:block;height:100%;left:0;position:absolute;width:100%;z-index:3 }
+
+.hero-type .hero-type-text{ padding:1.8rem;position:relative;transform:translateZ(0);transition:all .9s ease;z-index:4 }
+
+.hero-type .hero-type-text>:first-child{ margin-top:0!important }
+
+.hero-type .hero-type-text>:last-child{ margin-bottom:0!important }
+
+.hero-type .hero-type-text>:first-child{ transition:opacity .6s ease .9s,transform .6s ease .9s }
+
+.hero-type .hero-type-text>:nth-child(2){ transition:opacity .6s ease 1.2s,transform .6s ease 1.2s }
+
+.hero-type .hero-type-text>:nth-child(3){ transition:opacity .6s ease 1.5s,transform .6s ease 1.5s }
+
+.hero-type .hero-type-text>:nth-child(4){ transition:opacity .6s ease 1.8s,transform .6s ease 1.8s }
+
+.hero-type .hero-type-text>:nth-child(5){ transition:opacity .6s ease 2.1s,transform .6s ease 2.1s }
+
+.hero-type .hero-type-text>:nth-child(6){ transition:opacity .6s ease 2.4s,transform .6s ease 2.4s }
+
+.hero-type .hero-type-text>:nth-child(7){ transition:opacity .6s ease 2.7s,transform .6s ease 2.7s }
+
+.hero-type .hero-type-text>:nth-child(8){ transition:opacity .6s ease 3s,transform .6s ease 3s }
+
+.hero-type .hero-type-text>:nth-child(9){ transition:opacity .6s ease 3.3s,transform .6s ease 3.3s }
+
+.hero-type .hero-type-text>:nth-child(10){ transition:opacity .6s ease 3.6s,transform .6s ease 3.6s }
+
+.hero-type .hero-type-text a{ transition:visibility 0s linear 0s;border-radius:30px;line-height:1rem }
+
+.hero-type .hero-type-video{ left:50%;min-width:100%;min-height:100%;position:absolute;transform:translateX(-50%) translateY(0);top:0;z-index:2 }
+
+.hero-type .hero-type-pause{ -webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:rgba(0,0,0,.4);bottom:1.8rem;border:none;color:#fff;display:none;font-size:1.2rem;padding:0 1.2rem;line-height:3.6rem;position:absolute;right:1.8rem;text-transform:uppercase;transition:opacity .3s ease,visibility 0s linear 0s;z-index:4 }
+
+.hero-type .hero-type-background, .hero-type .hero-type-background-placeholder{ background-position-x:30%;background-position-y:30%;background-repeat:no-repeat;background-size:cover;display:block;height:100%;left:0;position:absolute;top:0;width:100%;max-width:192rem;margin:0 auto;right:0 }
+
+.hero-type .hero-type-background{ z-index:1 }
+
+@keyframes bouncing-arrow{0%,20%,50%,80%,to{transform:translateZ(0)}40%{transform:translate3d(0,-10px,0)}60%{transform:translate3d(0,-5px,0)}}
+
+@keyframes scale-slide-1{0%{opacity:0;transform:scale(1)}60%{opacity:1}to{transform:scale(1.125)}}
+
+@keyframes scale-slide-2{0%{transform:scale(1.125)}to{transform:scale(1.2)}}
+
+@keyframes mosaicTransition{0%{opacity:0;transform:translateY(2.4rem)}to{opacity:1;transform:translateY(0)}}
+
+@media (min-width:30em) { .heading-h1{ font-weight:300;font-size:6.6rem;line-height:7.2rem } }
+
+@media (min-width:47.5em) { .hero-type, .hero-type .home-hero-title{ text-align:center }
+
+.hero-type{ min-height:30rem }
+
+.hero-type.-tall:after{ height:60%;background:linear-gradient(0deg,rgba(0,0,0,.7) 0,transparent) }
+
+.hero-type .hero-type-text{ padding-top:3rem;padding-bottom:3rem } }
+
+@media (min-width:62.5em) { .hero-type .home-hero-title{ font-size:7.2rem;line-height:7.2rem }
+
+.hero-type.-tall{ height:calc(100vh - 13rem) } }
+
+@media (min-width:75em) { .hero-type .home-hero-title{ margin:1.8rem auto;max-width:80rem }
+
+.hero-type .hero-type-text{ padding-top:4.2rem;padding-bottom:4.2rem } }
+
+@media (-ms-high-contrast:active),(-ms-high-contrast:none) { .hero-type{ height:10rem } }
+
+@keyframes element-queries{ 0% { visibility: inherit; } }
