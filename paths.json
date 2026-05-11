@@ -1,10 +1,8 @@
 {
   "mappings": [
-    "/content/demo-migrations-sites2/:/",
-    "/content/demo-migrations-sites2/configuration:/.helix/config.json",
-    "/content/demo-migrations-sites2/metadata:/metadata.json"
+    "/content/demo-sites/:/"
   ],
   "includes": [
-    "/content/demo-migration-sites2/"
+    "/content/demo-sites/"
   ]
 }
