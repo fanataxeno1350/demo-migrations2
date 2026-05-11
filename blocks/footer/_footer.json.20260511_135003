@@ -73,10 +73,10 @@
           "name": "footerSections"
         },
         {
-          "component": "container",
-          "item": "footer-link-item",
-          "label": "Footer Bottom Links",
-          "name": "footerLinks"
+          "component": "text",
+          "label": "Contact Headline",
+          "name": "contactHeadline",
+          "valueType": "string"
         },
         {
           "component": "richtext",
@@ -86,32 +86,38 @@
         },
         {
           "component": "text",
-          "label": "Contact Fax",
-          "name": "contactFax",
-          "valueType": "string"
-        },
-        {
-          "component": "container",
-          "item": "footer-link-item",
-          "label": "Contact Phone Links",
-          "name": "contactPhoneLinks"
-        },
-        {
-          "component": "container",
-          "item": "footer-social-item",
-          "label": "Footer Social Links",
-          "name": "footerSocialLinks"
-        },
-        {
-          "component": "text",
-          "label": "Designed By Text",
-          "name": "designedByText",
+          "label": "Telephone Label",
+          "name": "telephoneLabel",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Designed By Link",
-          "name": "designedByLink",
+          "label": "Telephone Link",
+          "name": "telephoneLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Fax Label",
+          "name": "faxLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Fax Value",
+          "name": "faxValue",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "footer-social-item",
+          "label": "Social Links",
+          "name": "socialLinks"
+        },
+        {
+          "component": "richtext",
+          "label": "Developer Credit",
+          "name": "developerCredit",
           "valueType": "string"
         }
       ]
@@ -155,7 +161,7 @@
         },
         {
           "component": "aem-content",
-          "label": "Link URL",
+          "label": "Link",
           "name": "link",
           "valueType": "string"
         }
@@ -166,7 +172,7 @@
       "fields": [
         {
           "component": "aem-content",
-          "label": "Social Link URL",
+          "label": "Social Link",
           "name": "socialLink",
           "valueType": "string"
         }

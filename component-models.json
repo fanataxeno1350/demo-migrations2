@@ -639,10 +639,10 @@
         "name": "footerSections"
       },
       {
-        "component": "text",
-        "label": "Contact Headline",
-        "name": "contactHeadline",
-        "valueType": "string"
+        "component": "container",
+        "item": "footer-link-item",
+        "label": "Footer Bottom Links",
+        "name": "footerLinks"
       },
       {
         "component": "richtext",
@@ -652,38 +652,32 @@
       },
       {
         "component": "text",
-        "label": "Telephone Label",
-        "name": "telephoneLabel",
-        "valueType": "string"
-      },
-      {
-        "component": "aem-content",
-        "label": "Telephone Link",
-        "name": "telephoneLink",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Fax Label",
-        "name": "faxLabel",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Fax Value",
-        "name": "faxValue",
+        "label": "Contact Fax",
+        "name": "contactFax",
         "valueType": "string"
       },
       {
         "component": "container",
-        "item": "footer-social-item",
-        "label": "Social Links",
-        "name": "socialLinks"
+        "item": "footer-link-item",
+        "label": "Contact Phone Links",
+        "name": "contactPhoneLinks"
       },
       {
-        "component": "richtext",
-        "label": "Developer Credit",
-        "name": "developerCredit",
+        "component": "container",
+        "item": "footer-social-item",
+        "label": "Footer Social Links",
+        "name": "footerSocialLinks"
+      },
+      {
+        "component": "text",
+        "label": "Designed By Text",
+        "name": "designedByText",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Designed By Link",
+        "name": "designedByLink",
         "valueType": "string"
       }
     ]
@@ -727,7 +721,7 @@
       },
       {
         "component": "aem-content",
-        "label": "Link",
+        "label": "Link URL",
         "name": "link",
         "valueType": "string"
       }
@@ -738,7 +732,7 @@
     "fields": [
       {
         "component": "aem-content",
-        "label": "Social Link",
+        "label": "Social Link URL",
         "name": "socialLink",
         "valueType": "string"
       }
