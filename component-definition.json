@@ -221,21 +221,6 @@
           }
         },
         {
-          "title": "Menu Navigation Item",
-          "id": "menu-navigation-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "menu-navigation-item",
-                  "name": "Menu Navigation Item"
-                }
-              }
-            }
-          }
-        },
-        {
           "title": "CTA Button Item",
           "id": "cta-button-item",
           "plugins": {
@@ -245,6 +230,21 @@
                 "template": {
                   "model": "cta-button-item",
                   "name": "CTA Button Item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Global Navigation Item",
+          "id": "global-navigation-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "model": "global-navigation-item",
+                  "name": "Global Navigation Item"
                 }
               }
             }

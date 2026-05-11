@@ -46,8 +46,8 @@
     "components": [
       "utility-link-item",
       "language-option-item",
-      "menu-navigation-item",
-      "cta-button-item"
+      "cta-button-item",
+      "global-navigation-item"
     ]
   },
   {
