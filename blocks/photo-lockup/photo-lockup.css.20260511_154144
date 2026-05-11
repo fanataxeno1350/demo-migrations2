@@ -50,8 +50,6 @@
 
 .bg-light-gray{ background-color:#f6f6f6; }
 
-.bg-primary-d2-blue{ background-color:#0a3dab; }
-
 .btn.bg-primary-d2-blue{ background-color:#0a3dab;color:#ffffff;background-color:#0a3dab;color:#ffffff; }
 
 .btn.bg-primary-d2-blue:hover, .btn.bg-primary-d2-blue:active, .btn.bg-primary-d2-blue:focus{ background-color:#083088; }

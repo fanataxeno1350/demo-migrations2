@@ -45,9 +45,9 @@
     "id": "header-global-navigation",
     "components": [
       "utility-link-item",
-      "language-menu-item",
-      "cta-button-item",
-      "navigation-item"
+      "language-option-item",
+      "menu-navigation-item",
+      "cta-button-item"
     ]
   },
   {

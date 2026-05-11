@@ -49,15 +49,15 @@
           "name": "tiles"
         },
         {
-          "component": "text",
-          "label": "CTA Label",
-          "name": "ctaLabel",
-          "valueType": "string"
-        },
-        {
           "component": "aem-content",
           "label": "CTA Link",
           "name": "ctaLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "CTA Label",
+          "name": "ctaLabel",
           "valueType": "string"
         }
       ]
@@ -84,15 +84,15 @@
           "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "Read More Label",
-          "name": "readMoreLabel",
-          "valueType": "string"
-        },
-        {
           "component": "aem-content",
           "label": "Tile Link",
           "name": "tileLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Read More Label",
+          "name": "readMoreLabel",
           "valueType": "string"
         }
       ]

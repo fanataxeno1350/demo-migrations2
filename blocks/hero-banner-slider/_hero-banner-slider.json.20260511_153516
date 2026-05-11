@@ -49,19 +49,19 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Video",
+          "label": "Background Video",
           "name": "video",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Desktop Image",
+          "label": "Desktop Background Image",
           "name": "desktopImage",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Mobile Image",
+          "label": "Mobile Background Image",
           "name": "mobileImage",
           "valueType": "string"
         },
@@ -73,8 +73,8 @@
         },
         {
           "component": "text",
-          "label": "Description",
-          "name": "description",
+          "label": "Subheadline",
+          "name": "subheadline",
           "valueType": "string"
         }
       ]

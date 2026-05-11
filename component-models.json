@@ -146,7 +146,7 @@
     "fields": [
       {
         "component": "text",
-        "label": "Section Headline",
+        "label": "Headline",
         "name": "headline",
         "valueType": "string"
       },
@@ -163,26 +163,26 @@
     "fields": [
       {
         "component": "text",
-        "label": "Number Prefix (e.g. US$ or empty)",
-        "name": "prefix",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Number Value",
+        "label": "Stat Number (e.g. 1.4)",
         "name": "number",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Number Suffix (e.g. million, billion, or empty)",
-        "name": "numberSuffix",
+        "label": "Number Unit (e.g. million)",
+        "name": "numberUnit",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Card Description",
+        "label": "Stat Description (e.g. Lions serving)",
         "name": "description",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
         "valueType": "string"
       }
     ]
@@ -354,25 +354,28 @@
     "id": "header-global-navigation",
     "fields": [
       {
-        "component": "richtext",
-        "label": "Search Placeholder",
-        "name": "searchPlaceholder"
+        "component": "reference",
+        "label": "Logo",
+        "name": "logo",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Logo Link",
+        "name": "logoLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Search Input Placeholder",
+        "name": "searchPlaceholder",
+        "valueType": "string"
       },
       {
         "component": "text",
         "label": "Search Button Label",
         "name": "searchButtonLabel",
         "valueType": "string"
-      },
-      {
-        "component": "reference",
-        "label": "Logo",
-        "name": "logo"
-      },
-      {
-        "component": "aem-content",
-        "label": "Logo Link",
-        "name": "logoLink"
       },
       {
         "component": "container",
@@ -382,21 +385,21 @@
       },
       {
         "component": "container",
-        "item": "language-menu-item",
-        "label": "Language Menu",
-        "name": "languageMenu"
+        "item": "language-option-item",
+        "label": "Language Options",
+        "name": "languageOptions"
+      },
+      {
+        "component": "container",
+        "item": "menu-navigation-item",
+        "label": "Menu Navigation",
+        "name": "menuNavigation"
       },
       {
         "component": "container",
         "item": "cta-button-item",
         "label": "CTA Buttons",
         "name": "ctaButtons"
-      },
-      {
-        "component": "container",
-        "item": "navigation-item",
-        "label": "Navigation Menu",
-        "name": "navigationMenu"
       }
     ]
   },
@@ -405,14 +408,15 @@
     "fields": [
       {
         "component": "text",
-        "label": "Utility Link Label",
+        "label": "Link Label",
         "name": "label",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Utility Link URL",
-        "name": "link"
+        "label": "Link URL",
+        "name": "link",
+        "valueType": "string"
       },
       {
         "component": "richtext",
@@ -423,7 +427,7 @@
     ]
   },
   {
-    "id": "language-menu-item",
+    "id": "language-option-item",
     "fields": [
       {
         "component": "text",
@@ -433,8 +437,32 @@
       },
       {
         "component": "aem-content",
-        "label": "Language URL",
-        "name": "languageLink"
+        "label": "Language Link",
+        "name": "languageLink",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "menu-navigation-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Menu Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Menu Link",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
+        "valueType": "string"
       }
     ]
   },
@@ -443,35 +471,15 @@
     "fields": [
       {
         "component": "text",
-        "label": "Button Label",
-        "name": "label",
+        "label": "CTA Label",
+        "name": "ctaLabel",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Button URL",
-        "name": "link"
-      }
-    ]
-  },
-  {
-    "id": "navigation-item",
-    "fields": [
-      {
-        "component": "text",
-        "label": "Menu Item Label",
-        "name": "label",
+        "label": "CTA Link",
+        "name": "ctaLink",
         "valueType": "string"
-      },
-      {
-        "component": "aem-content",
-        "label": "Menu Item Link",
-        "name": "link"
-      },
-      {
-        "component": "richtext",
-        "label": "Navigation Hierarchy",
-        "name": "hierarchy-tree"
       }
     ]
   },
@@ -491,19 +499,19 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Background Video",
+        "label": "Video",
         "name": "video",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Desktop Background Image",
+        "label": "Desktop Image",
         "name": "desktopImage",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Mobile Background Image",
+        "label": "Mobile Image",
         "name": "mobileImage",
         "valueType": "string"
       },
@@ -515,8 +523,8 @@
       },
       {
         "component": "text",
-        "label": "Subheadline",
-        "name": "subheadline",
+        "label": "Description",
+        "name": "description",
         "valueType": "string"
       }
     ]
@@ -526,14 +534,14 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Desktop Background Image",
-        "name": "backgroundDesktop",
+        "label": "Background Image (Desktop)",
+        "name": "backgroundImageDesktop",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Mobile Background Image",
-        "name": "backgroundMobile",
+        "label": "Background Image (Mobile)",
+        "name": "backgroundImageMobile",
         "valueType": "string"
       },
       {
@@ -653,15 +661,15 @@
         "name": "tiles"
       },
       {
-        "component": "aem-content",
-        "label": "CTA Link",
-        "name": "ctaLink",
-        "valueType": "string"
-      },
-      {
         "component": "text",
         "label": "CTA Label",
         "name": "ctaLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "CTA Link",
+        "name": "ctaLink",
         "valueType": "string"
       }
     ]
@@ -688,15 +696,15 @@
         "valueType": "string"
       },
       {
-        "component": "aem-content",
-        "label": "Tile Link",
-        "name": "tileLink",
-        "valueType": "string"
-      },
-      {
         "component": "text",
         "label": "Read More Label",
         "name": "readMoreLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Tile Link",
+        "name": "tileLink",
         "valueType": "string"
       }
     ]

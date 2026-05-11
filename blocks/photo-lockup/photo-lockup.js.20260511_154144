@@ -3,8 +3,8 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
   const [
-    backgroundImageDesktopRow,
-    backgroundImageMobileRow,
+    backgroundDesktopRow,
+    backgroundMobileRow,
     headlineRow,
     bodyRow,
     ctaLinkRow,
@@ -13,6 +13,7 @@ export default function decorate(block) {
 
   const section = document.createElement('section');
   section.classList.add('component-photo-lockup', 'bg-light-gray', 'pad-top-lg');
+  moveInstrumentation(block, section);
 
   const container = document.createElement('div');
   container.classList.add('container');
@@ -22,16 +23,17 @@ export default function decorate(block) {
   wrapper.classList.add('wrapper', 'block-right');
   container.append(wrapper);
 
-  const desktopPicture = backgroundImageDesktopRow?.querySelector('picture');
+  // Desktop Background Image
+  const desktopPicture = backgroundDesktopRow?.querySelector('picture');
   if (desktopPicture) {
     const img = desktopPicture.querySelector('img');
     if (img) {
-      wrapper.style.backgroundImage = `url(${img.src})`;
-      moveInstrumentation(backgroundImageDesktopRow, wrapper);
-      // The original picture element will be replaced later by createOptimizedPicture
-      // No need to remove it here.
+      wrapper.style.backgroundImage = `url("${img.src}")`;
+      // No need to createOptimizedPicture if not appending it to the DOM
+      // moveInstrumentation(img, optimizedPic.querySelector('img')); // This was incorrect as optimizedPic wasn't used
     }
   }
+  moveInstrumentation(backgroundDesktopRow, wrapper); // Move instrumentation from the row
 
   const accent = document.createElement('div');
   accent.classList.add('accent');
@@ -53,16 +55,17 @@ export default function decorate(block) {
   wrapperMobile.classList.add('wrapper-mobile');
   wrapper.append(wrapperMobile);
 
-  const mobilePicture = backgroundImageMobileRow?.querySelector('picture');
+  // Mobile Background Image
+  const mobilePicture = backgroundMobileRow?.querySelector('picture');
   if (mobilePicture) {
     const img = mobilePicture.querySelector('img');
     if (img) {
-      wrapperMobile.style.backgroundImage = `url(${img.src})`;
-      moveInstrumentation(backgroundImageMobileRow, wrapperMobile);
-      // The original picture element will be replaced later by createOptimizedPicture
-      // No need to remove it here.
+      wrapperMobile.style.backgroundImage = `url("${img.src}")`;
+      // No need to createOptimizedPicture if not appending it to the DOM
+      // moveInstrumentation(img, optimizedPic.querySelector('img')); // This was incorrect as optimizedPic wasn't used
     }
   }
+  moveInstrumentation(backgroundMobileRow, wrapperMobile); // Move instrumentation from the row
 
   const innerContainer = document.createElement('div');
   innerContainer.classList.add('container');
@@ -75,53 +78,45 @@ export default function decorate(block) {
   const blockText = document.createElement('div');
   blockText.classList.add('block-text', 'col-md-12', 'col-lg-6', 'offset-lg-5');
   row.append(blockText);
+  moveInstrumentation(headlineRow, blockText); // Move instrumentation for headline to this div
 
   const blockWrapper = document.createElement('div');
   blockWrapper.classList.add('block-wrapper', 'col-md-12', 'col-lg-5', 'offset-lg-6');
   row.append(blockWrapper);
 
-  // Original HTML uses h3 for headline
   const headline = document.createElement('h3');
+  headline.setAttribute('data-uw-rm-heading', 'prs');
   headline.textContent = headlineRow?.textContent.trim() || '';
-  moveInstrumentation(headlineRow, headline);
   blockWrapper.append(headline);
 
   const separator = document.createElement('div');
   separator.classList.add('separator');
   blockWrapper.append(separator);
 
-  const tileBody = document.createElement('div');
+  const tileBody = document.createElement('div'); // Use div for richtext to avoid <p> inside <p>
   tileBody.classList.add('tile-body');
-  // Move all children from bodyRow to tileBody to preserve rich text and instrumentation
-  if (bodyRow) {
-    moveInstrumentation(bodyRow, tileBody);
-    while (bodyRow.firstChild) {
-      tileBody.append(bodyRow.firstChild);
-    }
-  }
+  tileBody.innerHTML = bodyRow?.children[0]?.innerHTML || ''; // Read from the cell's innerHTML
   blockWrapper.append(tileBody);
+  moveInstrumentation(bodyRow, tileBody);
 
   const cta = document.createElement('div');
   cta.classList.add('cta');
   blockWrapper.append(cta);
 
-  const ctaAnchor = document.createElement('a');
-  ctaAnchor.classList.add('btn', 'bg-primary-d2-blue');
+  const ctaLink = document.createElement('a');
+  ctaLink.classList.add('btn', 'bg-primary-d2-blue');
   const foundLink = ctaLinkRow?.querySelector('a');
   if (foundLink) {
-    ctaAnchor.href = foundLink.href;
-    moveInstrumentation(ctaLinkRow, ctaAnchor); // Move instrumentation from the link row
+    ctaLink.href = foundLink.href; // Correctly get the href from the <a> tag
   }
-  ctaAnchor.textContent = ctaLabelRow?.textContent.trim() || '';
-  moveInstrumentation(ctaLabelRow, ctaAnchor); // Move instrumentation from the label row
-  cta.append(ctaAnchor);
+  ctaLink.textContent = ctaLabelRow?.textContent.trim() || '';
+  cta.append(ctaLink);
+  moveInstrumentation(ctaLinkRow, ctaLink);
+  moveInstrumentation(ctaLabelRow, ctaLink);
 
   block.replaceChildren(section);
 
-  section.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    // moveInstrumentation from the original img to the new optimized picture's img
-    moveInstrumentation(img, optimizedPic.querySelector('img'));
-    img.closest('picture').replaceWith(optimizedPic);
-  });
+  // The original image optimization loop was redundant as images were used for background-image
+  // and not directly appended to the DOM. If images were to be appended, this would be needed.
+  // Since they are not, this loop is removed.
 }
