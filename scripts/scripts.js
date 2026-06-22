@@ -166,7 +166,14 @@ async function loadLazy(doc) {
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadFooter(doc.querySelector('footer'));
+  
+  // aemigrate: skip boilerplate footer when a migrated footer block is present
+  {
+    const footerEl = doc.querySelector('footer');
+    const hasMigratedFooter = footerEl && [...footerEl.querySelectorAll('.block[data-block-name]')]
+      .some((b) => b.dataset.blockName && b.dataset.blockName.split('-').includes('footer'));
+    if (!hasMigratedFooter) loadFooter(footerEl);
+  }
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
