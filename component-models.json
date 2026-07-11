@@ -536,7 +536,8 @@
     ]
   },
   {
-    "id": "scroll-arrow"
+    "id": "scroll-arrow",
+    "fields": []
   },
   {
     "id": "tabs-product-categories",
