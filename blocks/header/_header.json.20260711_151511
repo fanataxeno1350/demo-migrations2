@@ -38,13 +38,13 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Background Image (Desktop)",
+          "label": "Background Image Desktop",
           "name": "backgroundDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Background Image (Mobile)",
+          "label": "Background Image Mobile",
           "name": "backgroundMobile",
           "valueType": "string"
         },
@@ -62,7 +62,7 @@
         },
         {
           "component": "reference",
-          "label": "Menu Icon (Mobile)",
+          "label": "Hamburger Icon (Mobile)",
           "name": "menuIconMobile",
           "valueType": "string"
         },
@@ -70,12 +70,6 @@
           "component": "reference",
           "label": "Search Icon",
           "name": "searchIcon",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Search Input Placeholder",
-          "name": "searchPlaceholder",
           "valueType": "string"
         },
         {

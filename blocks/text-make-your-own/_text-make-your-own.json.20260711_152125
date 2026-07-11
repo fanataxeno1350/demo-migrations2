@@ -22,21 +22,9 @@
       "id": "text-make-your-own",
       "fields": [
         {
-          "component": "text",
-          "label": "Main Headline",
-          "name": "headline",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Subheadline",
-          "name": "subheadline",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Description",
-          "name": "description",
+          "component": "richtext",
+          "label": "Text Content",
+          "name": "content",
           "valueType": "string"
         }
       ]

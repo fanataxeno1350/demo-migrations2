@@ -204,43 +204,43 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Arrow Left Icon",
+        "label": "Left Arrow Icon",
         "name": "arrowLeftIcon",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Arrow Right Icon",
+        "label": "Right Arrow Icon",
         "name": "arrowRightIcon",
         "valueType": "string"
       },
       {
         "component": "container",
-        "item": "carousel-item",
-        "label": "Carousel Items",
-        "name": "items"
+        "item": "carousel-slide-item",
+        "label": "Carousel Slides",
+        "name": "slides"
       }
     ]
   },
   {
-    "id": "carousel-item",
+    "id": "carousel-slide-item",
     "fields": [
       {
         "component": "reference",
         "label": "Desktop Image",
-        "name": "imageDesktop",
+        "name": "desktopImage",
         "valueType": "string"
       },
       {
         "component": "reference",
         "label": "Mobile Image",
-        "name": "imageMobile",
+        "name": "mobileImage",
         "valueType": "string"
       },
       {
         "component": "aem-content",
         "label": "Slide Link",
-        "name": "link",
+        "name": "slideLink",
         "valueType": "string"
       }
     ]
@@ -425,13 +425,13 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Background Image Desktop",
+        "label": "Background Image (Desktop)",
         "name": "backgroundDesktop",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Background Image Mobile",
+        "label": "Background Image (Mobile)",
         "name": "backgroundMobile",
         "valueType": "string"
       },
@@ -449,7 +449,7 @@
       },
       {
         "component": "reference",
-        "label": "Hamburger Icon (Mobile)",
+        "label": "Menu Icon (Mobile)",
         "name": "menuIconMobile",
         "valueType": "string"
       },
@@ -457,6 +457,12 @@
         "component": "reference",
         "label": "Search Icon",
         "name": "searchIcon",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Search Input Placeholder",
+        "name": "searchPlaceholder",
         "valueType": "string"
       },
       {
@@ -687,9 +693,21 @@
     "id": "text-make-your-own",
     "fields": [
       {
-        "component": "richtext",
-        "label": "Text Content",
-        "name": "content",
+        "component": "text",
+        "label": "Main Headline",
+        "name": "headline",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Subheadline",
+        "name": "subheadline",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Description",
+        "name": "description",
         "valueType": "string"
       }
     ]

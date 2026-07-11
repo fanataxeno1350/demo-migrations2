@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Carousel-Slide-Item",
-      "id": "carousel-slide-item",
+      "title": "Carousel-Item",
+      "id": "carousel-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "carousel-slide-item",
-              "name": "Carousel-Slide-Item"
+              "model": "carousel-item",
+              "name": "Carousel-Item"
             }
           }
         }
@@ -38,43 +38,43 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Left Arrow Icon",
+          "label": "Arrow Left Icon",
           "name": "arrowLeftIcon",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Right Arrow Icon",
+          "label": "Arrow Right Icon",
           "name": "arrowRightIcon",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "carousel-slide-item",
-          "label": "Carousel Slides",
-          "name": "slides"
+          "item": "carousel-item",
+          "label": "Carousel Items",
+          "name": "items"
         }
       ]
     },
     {
-      "id": "carousel-slide-item",
+      "id": "carousel-item",
       "fields": [
         {
           "component": "reference",
           "label": "Desktop Image",
-          "name": "desktopImage",
+          "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
           "label": "Mobile Image",
-          "name": "mobileImage",
+          "name": "imageMobile",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Slide Link",
-          "name": "slideLink",
+          "name": "link",
           "valueType": "string"
         }
       ]
@@ -84,7 +84,7 @@
     {
       "id": "carousel",
       "components": [
-        "carousel-slide-item"
+        "carousel-item"
       ]
     }
   ]

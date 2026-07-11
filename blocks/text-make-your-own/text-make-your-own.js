@@ -2,33 +2,49 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const [contentRow] = [...block.children];
+  const children = [...block.children];
 
-  const textContainer = document.createElement('div');
-  textContainer.classList.add('text', 'desc-1'); // Classes from ORIGINAL HTML
+  const headlineRow = children[0];
+  const subheadlineRow = children[1];
+  const descriptionRow = children[2];
+
+  const root = document.createElement('div');
+  root.classList.add('text', 'desc-1'); // Use classes from ORIGINAL HTML
 
   const cmpText = document.createElement('div');
-  cmpText.classList.add('cmp-text'); // Class from ORIGINAL HTML
+  cmpText.classList.add('cmp-text');
+  root.append(cmpText);
 
-  if (contentRow) {
-    // The contentCell is the div directly inside the row, which contains the richtext HTML.
-    // The model specifies 'content' as richtext, so we need to read innerHTML.
-    const contentCell = contentRow.children[0]; // Access the first (and only) cell in the row
-    if (contentCell) {
-      // moveInstrumentation should be called on the original row, and its content moved to the new element.
-      moveInstrumentation(contentRow, cmpText);
-      // For richtext, assign innerHTML directly from the cell.
-      cmpText.innerHTML = contentCell.innerHTML;
-    }
+  // Main Headline
+  if (headlineRow) {
+    const headline = document.createElement('h2');
+    moveInstrumentation(headlineRow, headline);
+    // Fix: text cells contain content directly, not wrapped in an inner div
+    headline.textContent = headlineRow.textContent.trim();
+    headline.style.textAlign = 'center';
+    cmpText.append(headline);
   }
 
-  textContainer.append(cmpText);
-  block.replaceChildren(textContainer);
+  // Subheadline
+  if (subheadlineRow) {
+    const subheadline = document.createElement('h3');
+    moveInstrumentation(subheadlineRow, subheadline);
+    // Fix: text cells contain content directly, not wrapped in an inner div
+    subheadline.textContent = subheadlineRow.textContent.trim();
+    subheadline.style.textAlign = 'center';
+    cmpText.append(subheadline);
+  }
 
-  textContainer.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    // moveInstrumentation should be called on the original img element, and its instrumentation moved to the new img within the optimized picture.
-    moveInstrumentation(img, optimizedPic.querySelector('img'));
-    img.closest('picture').replaceWith(optimizedPic);
-  });
+  // Description
+  if (descriptionRow) {
+    const description = document.createElement('p');
+    moveInstrumentation(descriptionRow, description);
+    // Fix: text cells contain content directly, not wrapped in an inner div
+    description.textContent = descriptionRow.textContent.trim();
+    description.style.textAlign = 'center';
+    cmpText.append(description);
+  }
+
+  block.replaceChildren(root);
 }
+

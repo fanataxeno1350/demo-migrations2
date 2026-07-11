@@ -2,21 +2,11 @@ import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.j
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
-  const [arrowLeftIconRow, arrowRightIconRow, ...itemRows] = [...block.children];
+  const [arrowLeftIconRow, arrowRightIconRow, ...slideRows] = [...block.children];
 
   const carouselWrapper = document.createElement('div');
-  carouselWrapper.classList.add('cmp-carousel');
-  carouselWrapper.setAttribute('role', 'group');
-  carouselWrapper.setAttribute('aria-live', 'polite');
-  carouselWrapper.setAttribute('aria-roledescription', 'carousel');
-  carouselWrapper.setAttribute('data-cmp-is', 'carousel');
-  carouselWrapper.setAttribute('data-component', 'carousel');
-  carouselWrapper.setAttribute('data-auto-play-is-enabled', 'false');
-  carouselWrapper.setAttribute('data-show-arrows', 'true');
-  carouselWrapper.setAttribute('data-show-dots', 'true');
-  carouselWrapper.setAttribute('data-auto-play-speed-in-ms', '15000');
-  carouselWrapper.setAttribute('data-cmp-autopause-disabled', '');
-  carouselWrapper.setAttribute('data-placeholder-text', 'false');
+  // carouselWrapper.classList.add('cmp-carousel'); // Outer block div already has 'carousel' class from AEM.
+  carouselWrapper.classList.add('panelcontainer'); // Add 'panelcontainer' from original HTML
   moveInstrumentation(block, carouselWrapper);
 
   const carouselContent = document.createElement('div');
@@ -24,150 +14,147 @@ export default async function decorate(block) {
   carouselContent.setAttribute('aria-atomic', 'false');
   carouselContent.setAttribute('aria-live', 'polite');
 
-  const swiperWrapper = document.createElement('div');
-  swiperWrapper.classList.add('swiper-wrapper'); // Swiper adds this class
+  const slidesContainer = document.createElement('div');
+  slidesContainer.classList.add('swiper-wrapper');
 
-  itemRows.forEach((row, index) => {
-    const [imageDesktopCell, imageMobileCell, linkCell] = [...row.children];
+  slideRows.forEach((row, index) => {
+    const [desktopImageCell, mobileImageCell, slideLinkCell] = [...row.children];
 
-    const slide = document.createElement('div');
-    slide.classList.add('cmp-carousel__item'); // Swiper adds 'swiper-slide' automatically
+    const slideItem = document.createElement('div');
+    slideItem.classList.add('cmp-carousel__item', 'swiper-slide');
     if (index === 0) {
-      slide.classList.add('cmp-carousel__item--active');
+      slideItem.classList.add('cmp-carousel__item--active');
     }
-    slide.setAttribute('role', 'tabpanel');
-    slide.setAttribute('aria-roledescription', 'slide');
-    slide.setAttribute('aria-label', `Slide ${index + 1} of ${itemRows.length}`);
-    moveInstrumentation(row, slide);
+    slideItem.setAttribute('role', 'tabpanel');
+    slideItem.setAttribute('aria-roledescription', 'slide');
+    slideItem.setAttribute('aria-label', `Slide ${index + 1} of ${slideRows.length}`);
+    moveInstrumentation(row, slideItem);
 
     const teaser = document.createElement('div');
-    teaser.classList.add('teaser', 'cmp-teaser');
-    if (index === 0) {
-      teaser.classList.add('cmp-teaser--first-component');
-    }
+    teaser.classList.add('teaser', 'cmp-teaser--first-component');
 
-    const linkEl = linkCell?.querySelector('a');
-    let anchorWrapper = teaser;
-    if (linkEl) {
-      anchorWrapper = document.createElement('a');
-      anchorWrapper.classList.add('cmp-teaser__link');
-      anchorWrapper.href = linkEl.href;
-      moveInstrumentation(linkCell, anchorWrapper);
-      teaser.append(anchorWrapper);
+    const cmpTeaser = document.createElement('div');
+    cmpTeaser.classList.add('cmp-teaser');
+
+    const slideLink = slideLinkCell?.querySelector('a');
+    let anchorElement = cmpTeaser;
+    if (slideLink) {
+      anchorElement = document.createElement('a');
+      anchorElement.classList.add('cmp-teaser__link');
+      anchorElement.href = slideLink.href;
+      cmpTeaser.append(anchorElement);
     }
 
     const teaserImage = document.createElement('div');
     teaserImage.classList.add('cmp-teaser__image');
 
-    const imageDiv = document.createElement('div');
-    imageDiv.classList.add('cmp-image');
-    imageDiv.setAttribute('itemscope', '');
-    imageDiv.setAttribute('itemtype', 'http://schema.org/ImageObject');
+    const imageWrapper = document.createElement('div');
+    imageWrapper.classList.add('cmp-image');
 
-    const picture = document.createElement('picture');
-    const desktopPicture = imageDesktopCell.querySelector('picture');
-    const mobilePicture = imageMobileCell.querySelector('picture');
+    const desktopPicture = desktopImageCell.querySelector('picture');
+    const mobilePicture = mobileImageCell.querySelector('picture');
 
-    if (mobilePicture) {
-      const mobileImg = mobilePicture.querySelector('img');
-      if (mobileImg) {
-        const source = document.createElement('source');
-        source.setAttribute('media', '(max-width:767px)');
-        source.setAttribute('srcset', mobileImg.src);
-        picture.append(source);
+    if (desktopPicture || mobilePicture) {
+      const picture = document.createElement('picture');
+      if (mobilePicture) {
+        const mobileSource = document.createElement('source');
+        mobileSource.setAttribute('media', '(max-width:767px)');
+        mobileSource.srcset = mobilePicture.querySelector('img')?.src;
+        picture.append(mobileSource);
       }
-    }
-
-    if (desktopPicture) {
-      const desktopImg = desktopPicture.querySelector('img');
-      if (desktopImg) {
-        const img = createOptimizedPicture(desktopImg.src, desktopImg.alt, false, [{ width: '750' }]);
-        picture.append(img.querySelector('img'));
-        moveInstrumentation(desktopPicture, img.querySelector('img'));
+      if (desktopPicture) {
+        const img = desktopPicture.querySelector('img');
+        if (img) {
+          const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+          const optimizedImg = optimizedPic.querySelector('img');
+          optimizedImg.classList.add('cmp-image__image');
+          picture.append(optimizedImg);
+          moveInstrumentation(img, optimizedImg);
+        }
       }
+      imageWrapper.append(picture);
     }
-    imageDiv.append(picture);
-    teaserImage.append(imageDiv);
-    anchorWrapper.append(teaserImage);
-    slide.append(teaser);
-    swiperWrapper.append(slide);
+    teaserImage.append(imageWrapper);
+    anchorElement.append(teaserImage);
+    teaser.append(cmpTeaser);
+    slideItem.append(teaser);
+    slidesContainer.append(slideItem);
   });
 
-  carouselContent.append(swiperWrapper);
+  carouselContent.append(slidesContainer);
 
   const carouselActions = document.createElement('div');
   carouselActions.classList.add('cmp-carousel__actions');
-  carouselActions.style.visibility = 'visible';
 
-  const prevBtn = document.createElement('button');
-  prevBtn.classList.add('cmp-carousel__action', 'cmp-carousel__action--previous');
-  prevBtn.setAttribute('type', 'button');
-  prevBtn.setAttribute('aria-label', 'Previous');
-  prevBtn.setAttribute('data-cmp-hook-carousel', 'previous');
-  const prevSpan = document.createElement('span');
-  prevSpan.classList.add('cmp-carousel__action-icon');
-  const prevIcon = arrowLeftIconRow.querySelector('img');
-  if (prevIcon) {
-    const prevImg = document.createElement('img');
-    prevImg.src = prevIcon.src;
-    prevSpan.append(prevImg);
-    moveInstrumentation(arrowLeftIconRow, prevImg);
+  const prevButton = document.createElement('button');
+  prevButton.classList.add('cmp-carousel__action', 'cmp-carousel__action--previous');
+  prevButton.setAttribute('type', 'button');
+  prevButton.setAttribute('aria-label', 'Previous');
+
+  const prevIconSpan = document.createElement('span');
+  prevIconSpan.classList.add('cmp-carousel__action-icon');
+  const prevIconImg = arrowLeftIconRow.querySelector('img');
+  if (prevIconImg) {
+    prevIconSpan.innerHTML = `<img src="${prevIconImg.src}" alt="${prevIconImg.alt}">`;
+    moveInstrumentation(prevIconImg, prevIconSpan.querySelector('img'));
   }
-  prevBtn.append(prevSpan);
+  prevButton.append(prevIconSpan);
 
-  const nextBtn = document.createElement('button');
-  nextBtn.classList.add('cmp-carousel__action', 'cmp-carousel__action--next');
-  nextBtn.setAttribute('type', 'button');
-  nextBtn.setAttribute('aria-label', 'Next');
-  nextBtn.setAttribute('data-cmp-hook-carousel', 'next');
-  const nextSpan = document.createElement('span');
-  nextSpan.classList.add('cmp-carousel__action-icon');
-  const nextIcon = arrowRightIconRow.querySelector('img');
-  if (nextIcon) {
-    const nextImg = document.createElement('img');
-    nextImg.src = nextIcon.src;
-    nextSpan.append(nextImg);
-    moveInstrumentation(arrowRightIconRow, nextImg);
+  const nextButton = document.createElement('button');
+  nextButton.classList.add('cmp-carousel__action', 'cmp-carousel__action--next');
+  nextButton.setAttribute('type', 'button');
+  nextButton.setAttribute('aria-label', 'Next');
+
+  const nextIconSpan = document.createElement('span');
+  nextIconSpan.classList.add('cmp-carousel__action-icon');
+  const nextIconImg = arrowRightIconRow.querySelector('img');
+  if (nextIconImg) {
+    nextIconSpan.innerHTML = `<img src="${nextIconImg.src}" alt="${nextIconImg.alt}">`;
+    moveInstrumentation(nextIconImg, nextIconSpan.querySelector('img'));
   }
-  nextBtn.append(nextSpan);
+  nextButton.append(nextIconSpan);
 
-  carouselActions.append(prevBtn, nextBtn);
+  carouselActions.append(prevButton, nextButton);
   carouselContent.append(carouselActions);
 
-  const paginationEl = document.createElement('ol');
-  paginationEl.classList.add('cmp-carousel__indicators');
-  paginationEl.setAttribute('role', 'tablist');
-  paginationEl.setAttribute('aria-label', 'Choose a slide to display');
-  paginationEl.setAttribute('data-cmp-hook-carousel', 'indicators');
-  paginationEl.style.visibility = 'visible';
+  const carouselIndicators = document.createElement('ol');
+  carouselIndicators.classList.add('cmp-carousel__indicators');
+  carouselIndicators.setAttribute('role', 'tablist');
+  carouselIndicators.setAttribute('aria-label', 'Choose a slide to display');
 
-  for (let i = 0; i < itemRows.length; i += 1) {
+  slideRows.forEach((_, index) => {
     const indicator = document.createElement('li');
     indicator.classList.add('cmp-carousel__indicator');
-    if (i === 0) {
+    if (index === 0) {
       indicator.classList.add('cmp-carousel__indicator--active');
     }
-    paginationEl.append(indicator);
-  }
-  carouselContent.append(paginationEl);
+    carouselIndicators.append(indicator);
+  });
+
+  carouselContent.append(carouselIndicators);
   carouselWrapper.append(carouselContent);
 
   block.replaceChildren(carouselWrapper);
 
   await loadCSS('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
   await loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
+
   // eslint-disable-next-line no-undef
-  new Swiper(carouselContent, { // Swiper container should be carouselContent, not swiperWrapper.parentElement
-    slidesPerView: 'auto', // Changed to 'auto' to match original behavior
+  new Swiper(carouselContent, { // Initialize Swiper on carouselContent, not carouselWrapper
+    slidesPerView: 1,
     spaceBetween: 0,
     loop: true,
     navigation: {
-      prevEl: prevBtn,
-      nextEl: nextBtn,
+      prevEl: prevButton,
+      nextEl: nextButton,
     },
     pagination: {
-      el: paginationEl,
+      el: carouselIndicators,
       clickable: true,
+    },
+    autoplay: {
+      delay: 15000,
+      disableOnInteraction: false,
     },
   });
 }
