@@ -27,13 +27,33 @@
       "product-swiper",
       "recipe-cards",
       "social-media-feed",
-      "footer"
+      "footer",
+      "hero-carousel",
+      "text-section",
+      "product-cards-carousel",
+      "image-with-description-teaser",
+      "bingo-comedy-adda",
+      "blog-cards",
+      "social-media-cards",
+      "footer-social-share"
     ]
   },
   {
     "id": "banner-carousel",
     "components": [
       "banner-carousel-item"
+    ]
+  },
+  {
+    "id": "bingo-comedy-adda",
+    "components": [
+      "external-embed-item"
+    ]
+  },
+  {
+    "id": "blog-cards",
+    "components": [
+      "blog-card-item"
     ]
   },
   {
@@ -47,8 +67,15 @@
     ]
   },
   {
+    "id": "footer-social-share",
+    "components": [
+      "social-share-item"
+    ]
+  },
+  {
     "id": "footer",
     "components": [
+      "footer-navigation-section",
       "footer-link-item",
       "footer-social-item"
     ]
@@ -56,10 +83,23 @@
   {
     "id": "header",
     "components": [
-      "navigation-item",
-      "policy-link-item",
-      "social-link-item",
-      "nav-icon-item"
+      "navigation-item"
+    ]
+  },
+  {
+    "id": "hero-carousel",
+    "components": [
+      "hero-carousel-slide"
+    ]
+  },
+  {
+    "id": "image-with-description-teaser",
+    "components": []
+  },
+  {
+    "id": "product-cards-carousel",
+    "components": [
+      "product-card-item"
     ]
   },
   {
@@ -90,9 +130,19 @@
     "components": []
   },
   {
+    "id": "social-media-cards",
+    "components": [
+      "social-media-card-item"
+    ]
+  },
+  {
     "id": "social-media-feed",
     "components": [
       "social-image-item"
     ]
+  },
+  {
+    "id": "text-section",
+    "components": []
   }
 ]

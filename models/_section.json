@@ -62,7 +62,15 @@
         "product-swiper",
         "recipe-cards",
         "social-media-feed",
-        "footer"
+        "footer",
+        "hero-carousel",
+        "text-section",
+        "product-cards-carousel",
+        "image-with-description-teaser",
+        "bingo-comedy-adda",
+        "blog-cards",
+        "social-media-cards",
+        "footer-social-share"
       ]
     }
   ]

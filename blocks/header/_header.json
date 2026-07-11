@@ -30,51 +30,6 @@
           }
         }
       }
-    },
-    {
-      "title": "Policy Link Item",
-      "id": "policy-link-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "policy-link-item",
-              "name": "Policy Link Item"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Social Link Item",
-      "id": "social-link-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "social-link-item",
-              "name": "Social Link Item"
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Nav Icon Item",
-      "id": "nav-icon-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "nav-icon-item",
-              "name": "Nav Icon Item"
-            }
-          }
-        }
-      }
     }
   ],
   "models": [
@@ -96,26 +51,8 @@
         {
           "component": "container",
           "item": "navigation-item",
-          "label": "Navigation Items",
-          "name": "navigationItems"
-        },
-        {
-          "component": "container",
-          "item": "policy-link-item",
-          "label": "Policy Links",
-          "name": "policyLinks"
-        },
-        {
-          "component": "container",
-          "item": "social-link-item",
-          "label": "Social Links",
-          "name": "socialLinks"
-        },
-        {
-          "component": "container",
-          "item": "nav-icon-item",
-          "label": "Nav Icons",
-          "name": "navIcons"
+          "label": "Navigation Menu",
+          "name": "navigationMenu"
         }
       ]
     },
@@ -124,13 +61,13 @@
       "fields": [
         {
           "component": "text",
-          "label": "Navigation Label",
+          "label": "Menu Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Navigation Link",
+          "label": "Menu Link",
           "name": "link",
           "valueType": "string"
         },
@@ -141,61 +78,13 @@
           "valueType": "string"
         }
       ]
-    },
-    {
-      "id": "policy-link-item",
-      "fields": [
-        {
-          "component": "text",
-          "label": "Policy Link Label",
-          "name": "label",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Policy Link URL",
-          "name": "link",
-          "valueType": "string"
-        }
-      ]
-    },
-    {
-      "id": "social-link-item",
-      "fields": [
-        {
-          "component": "aem-content",
-          "label": "Social Link URL",
-          "name": "link",
-          "valueType": "string"
-        }
-      ]
-    },
-    {
-      "id": "nav-icon-item",
-      "fields": [
-        {
-          "component": "text",
-          "label": "Icon Label",
-          "name": "label",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Icon Link",
-          "name": "link",
-          "valueType": "string"
-        }
-      ]
     }
   ],
   "filters": [
     {
       "id": "header",
       "components": [
-        "navigation-item",
-        "policy-link-item",
-        "social-link-item",
-        "nav-icon-item"
+        "navigation-item"
       ]
     }
   ]

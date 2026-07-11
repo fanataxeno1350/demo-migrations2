@@ -182,6 +182,134 @@
     ]
   },
   {
+    "id": "bingo-comedy-adda",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Background Image (Desktop)",
+        "name": "backgroundDesktop",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Background Image (Mobile)",
+        "name": "backgroundMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Headline",
+        "name": "headline",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Description",
+        "name": "description",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "external-embed-item",
+        "label": "External Embeds",
+        "name": "externalEmbeds"
+      },
+      {
+        "component": "aem-content",
+        "label": "CTA Link",
+        "name": "ctaLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "CTA Label",
+        "name": "ctaLabel",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "external-embed-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Embed URL",
+        "name": "data-embed-url",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Embed Kind",
+        "name": "data-embed-kind",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Embed Config",
+        "name": "data-embed-config",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "blog-cards",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Explore All Button Label",
+        "name": "exploreAllLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Explore All Button Link",
+        "name": "exploreAllLink",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "blog-card-item",
+        "label": "Blog Cards",
+        "name": "cards"
+      }
+    ]
+  },
+  {
+    "id": "blog-card-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Card Image (Desktop)",
+        "name": "imageDesktop",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Card Image (Mobile)",
+        "name": "imageMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Date and Category (top line)",
+        "name": "dateAndCategory",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Headline",
+        "name": "headline",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Card Link",
+        "name": "cardLink",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "community-video",
     "fields": [
       {
@@ -281,61 +409,124 @@
     ]
   },
   {
+    "id": "footer-social-share",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Section Title",
+        "name": "title",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "social-share-item",
+        "label": "Social Share Links",
+        "name": "socialLinks"
+      }
+    ]
+  },
+  {
+    "id": "social-share-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Social Icon",
+        "name": "icon",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Social Link",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "footer",
     "fields": [
       {
         "component": "reference",
-        "label": "Logo ITC",
-        "name": "logoItc",
-        "valueType": "string"
-      },
-      {
-        "component": "aem-content",
-        "label": "Logo ITC Link",
-        "name": "logoItcLink",
+        "label": "Background Image (Desktop)",
+        "name": "backgroundDesktop",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Logo FSSAI",
-        "name": "logoFssai",
+        "label": "Background Image (Mobile)",
+        "name": "backgroundMobile",
         "valueType": "string"
       },
       {
-        "component": "text",
-        "label": "Top Content Background Image URL",
-        "name": "topBackgroundImage",
-        "valueType": "string"
-      },
-      {
-        "component": "container",
-        "item": "footer-link-item",
-        "label": "Footer Links",
-        "name": "footerLinks"
-      },
-      {
-        "component": "text",
-        "label": "ITC Portal Label",
-        "name": "itcPortalLabel",
+        "component": "reference",
+        "label": "Logo (Desktop)",
+        "name": "logoDesktop",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "ITC Portal Link",
-        "name": "itcPortalLink",
+        "label": "Logo Link (Desktop)",
+        "name": "logoDesktopLink",
         "valueType": "string"
       },
       {
-        "component": "text",
-        "label": "Copyright Text",
-        "name": "copyrightText",
+        "component": "reference",
+        "label": "FSSAI Logo (Desktop)",
+        "name": "fssaiDesktop",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Logo (Mobile)",
+        "name": "logoMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Logo Link (Mobile)",
+        "name": "logoMobileLink",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "FSSAI Logo (Mobile)",
+        "name": "fssaiMobile",
         "valueType": "string"
       },
       {
         "component": "container",
+        "item": "footer-navigation-section",
+        "label": "Navigation Sections",
+        "name": "navigationSections"
+      },
+      {
+        "component": "container",
+        "item": "footer-link-item",
+        "label": "ITC Links",
+        "name": "itcLinks"
+      },
+      {
+        "component": "container",
         "item": "footer-social-item",
-        "label": "Social Links",
+        "label": "Social Media Links",
         "name": "socialLinks"
+      }
+    ]
+  },
+  {
+    "id": "footer-navigation-section",
+    "fields": [
+      {
+        "component": "container",
+        "item": "footer-link-item",
+        "label": "Section Links",
+        "name": "sectionLinks"
+      },
+      {
+        "component": "richtext",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
+        "valueType": "string"
       }
     ]
   },
@@ -353,12 +544,6 @@
         "label": "Link URL",
         "name": "link",
         "valueType": "string"
-      },
-      {
-        "component": "richtext",
-        "label": "Navigation Hierarchy",
-        "name": "hierarchy-tree",
-        "valueType": "string"
       }
     ]
   },
@@ -366,9 +551,15 @@
     "id": "footer-social-item",
     "fields": [
       {
-        "component": "text",
-        "label": "Social Kind",
-        "name": "socialKind",
+        "component": "reference",
+        "label": "Social Icon (Desktop)",
+        "name": "iconDesktop",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Social Icon (Mobile)",
+        "name": "iconMobile",
         "valueType": "string"
       },
       {
@@ -397,26 +588,8 @@
       {
         "component": "container",
         "item": "navigation-item",
-        "label": "Navigation Items",
-        "name": "navigationItems"
-      },
-      {
-        "component": "container",
-        "item": "policy-link-item",
-        "label": "Policy Links",
-        "name": "policyLinks"
-      },
-      {
-        "component": "container",
-        "item": "social-link-item",
-        "label": "Social Links",
-        "name": "socialLinks"
-      },
-      {
-        "component": "container",
-        "item": "nav-icon-item",
-        "label": "Nav Icons",
-        "name": "navIcons"
+        "label": "Navigation Menu",
+        "name": "navigationMenu"
       }
     ]
   },
@@ -425,13 +598,13 @@
     "fields": [
       {
         "component": "text",
-        "label": "Navigation Label",
+        "label": "Menu Label",
         "name": "label",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Navigation Link",
+        "label": "Menu Link",
         "name": "link",
         "valueType": "string"
       },
@@ -444,46 +617,140 @@
     ]
   },
   {
-    "id": "policy-link-item",
+    "id": "hero-carousel",
     "fields": [
       {
-        "component": "text",
-        "label": "Policy Link Label",
-        "name": "label",
+        "component": "reference",
+        "label": "Arrow Left Icon",
+        "name": "arrowLeftIcon",
         "valueType": "string"
       },
       {
+        "component": "reference",
+        "label": "Arrow Right Icon",
+        "name": "arrowRightIcon",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "hero-carousel-slide",
+        "label": "Slides",
+        "name": "slides"
+      }
+    ]
+  },
+  {
+    "id": "hero-carousel-slide",
+    "fields": [
+      {
         "component": "aem-content",
-        "label": "Policy Link URL",
-        "name": "link",
+        "label": "CTA Link",
+        "name": "ctaLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "CTA Label",
+        "name": "ctaLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Desktop Image",
+        "name": "desktopImage",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Mobile Image",
+        "name": "mobileImage",
         "valueType": "string"
       }
     ]
   },
   {
-    "id": "social-link-item",
+    "id": "image-with-description-teaser",
     "fields": [
       {
+        "component": "reference",
+        "label": "Background Image (Desktop)",
+        "name": "backgroundDesktop",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Background Image (Mobile)",
+        "name": "backgroundMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Title",
+        "name": "title",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Description",
+        "name": "description",
+        "valueType": "string"
+      },
+      {
         "component": "aem-content",
-        "label": "Social Link URL",
-        "name": "link",
+        "label": "CTA Link",
+        "name": "ctaLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "CTA Label",
+        "name": "ctaLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Main Image (Desktop)",
+        "name": "mainImageDesktop",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Main Image (Mobile)",
+        "name": "mainImageMobile",
         "valueType": "string"
       }
     ]
   },
   {
-    "id": "nav-icon-item",
+    "id": "product-cards-carousel",
     "fields": [
       {
-        "component": "text",
-        "label": "Icon Label",
-        "name": "label",
+        "component": "container",
+        "item": "product-card-item",
+        "label": "Product Cards",
+        "name": "productCards"
+      }
+    ]
+  },
+  {
+    "id": "product-card-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Product Image",
+        "name": "image",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Icon Link",
+        "label": "Product Link",
         "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Product Headline",
+        "name": "headline",
         "valueType": "string"
       }
     ]
@@ -774,6 +1041,88 @@
     ]
   },
   {
+    "id": "social-media-cards",
+    "fields": [
+      {
+        "component": "container",
+        "item": "social-media-card-item",
+        "label": "Cards",
+        "name": "cards"
+      }
+    ]
+  },
+  {
+    "id": "social-media-card-item",
+    "fields": [
+      {
+        "component": "aem-content",
+        "label": "Post Link",
+        "name": "postLink",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Brand Logo (Desktop)",
+        "name": "brandLogoDesktop",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Brand Logo (Mobile)",
+        "name": "brandLogoMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Brand Title",
+        "name": "brandTitle",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Brand Handle",
+        "name": "brandHandle",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Social Icon (Desktop)",
+        "name": "socialIconDesktop",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Social Icon (Mobile)",
+        "name": "socialIconMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Description",
+        "name": "description",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Main Image (Desktop)",
+        "name": "mainImageDesktop",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Main Image (Mobile)",
+        "name": "mainImageMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "CTA Label",
+        "name": "ctaLabel",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "social-media-feed",
     "fields": [
       {
@@ -821,6 +1170,17 @@
         "component": "aem-content",
         "label": "Image Link",
         "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "text-section",
+    "fields": [
+      {
+        "component": "richtext",
+        "label": "Content",
+        "name": "content",
         "valueType": "string"
       }
     ]

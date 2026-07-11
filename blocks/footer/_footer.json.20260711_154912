@@ -17,21 +17,6 @@
       }
     },
     {
-      "title": "Footer-Navigation-Section",
-      "id": "footer-navigation-section",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "footer-navigation-section",
-              "name": "Footer-Navigation-Section"
-            }
-          }
-        }
-      }
-    },
-    {
       "title": "Footer-Link-Item",
       "id": "footer-link-item",
       "plugins": {
@@ -68,86 +53,57 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Background Image (Desktop)",
-          "name": "backgroundDesktop",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Background Image (Mobile)",
-          "name": "backgroundMobile",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Logo (Desktop)",
-          "name": "logoDesktop",
+          "label": "Logo ITC",
+          "name": "logoItc",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Logo Link (Desktop)",
-          "name": "logoDesktopLink",
+          "label": "Logo ITC Link",
+          "name": "logoItcLink",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "FSSAI Logo (Desktop)",
-          "name": "fssaiDesktop",
+          "label": "Logo FSSAI",
+          "name": "logoFssai",
           "valueType": "string"
         },
         {
-          "component": "reference",
-          "label": "Logo (Mobile)",
-          "name": "logoMobile",
+          "component": "text",
+          "label": "Top Content Background Image URL",
+          "name": "topBackgroundImage",
           "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Logo Link (Mobile)",
-          "name": "logoMobileLink",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "FSSAI Logo (Mobile)",
-          "name": "fssaiMobile",
-          "valueType": "string"
-        },
-        {
-          "component": "container",
-          "item": "footer-navigation-section",
-          "label": "Navigation Sections",
-          "name": "navigationSections"
         },
         {
           "component": "container",
           "item": "footer-link-item",
-          "label": "ITC Links",
-          "name": "itcLinks"
+          "label": "Footer Links",
+          "name": "footerLinks"
+        },
+        {
+          "component": "text",
+          "label": "ITC Portal Label",
+          "name": "itcPortalLabel",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "ITC Portal Link",
+          "name": "itcPortalLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Copyright Text",
+          "name": "copyrightText",
+          "valueType": "string"
         },
         {
           "component": "container",
           "item": "footer-social-item",
-          "label": "Social Media Links",
+          "label": "Social Links",
           "name": "socialLinks"
-        }
-      ]
-    },
-    {
-      "id": "footer-navigation-section",
-      "fields": [
-        {
-          "component": "container",
-          "item": "footer-link-item",
-          "label": "Section Links",
-          "name": "sectionLinks"
-        },
-        {
-          "component": "richtext",
-          "label": "Navigation Hierarchy",
-          "name": "hierarchy-tree",
-          "valueType": "string"
         }
       ]
     },
@@ -165,6 +121,12 @@
           "label": "Link URL",
           "name": "link",
           "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Navigation Hierarchy",
+          "name": "hierarchy-tree",
+          "valueType": "string"
         }
       ]
     },
@@ -172,15 +134,9 @@
       "id": "footer-social-item",
       "fields": [
         {
-          "component": "reference",
-          "label": "Social Icon (Desktop)",
-          "name": "iconDesktop",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Social Icon (Mobile)",
-          "name": "iconMobile",
+          "component": "text",
+          "label": "Social Kind",
+          "name": "socialKind",
           "valueType": "string"
         },
         {
@@ -196,7 +152,6 @@
     {
       "id": "footer",
       "components": [
-        "footer-navigation-section",
         "footer-link-item",
         "footer-social-item"
       ]

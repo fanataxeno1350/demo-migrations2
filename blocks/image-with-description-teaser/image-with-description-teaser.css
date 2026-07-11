@@ -10,91 +10,9 @@
 
 @font-face{font-display:swap;font-family:icomoon;font-style:normal;font-weight:400;src:url("/content/dam/aemigrate/uploaded-folder/bingosnacks-com/font/icomoon-f9bae0.eot");src:url("/content/dam/aemigrate/uploaded-folder/bingosnacks-com/font/icomoon-f9bae0.eot") format("embedded-opentype"),url("/content/dam/aemigrate/uploaded-folder/bingosnacks-com/font/icomoon-a551a1.ttf") format("truetype"),url("/content/dam/aemigrate/uploaded-folder/bingosnacks-com/font/icomoon-46662e.x-font-woff") format("woff"),url("/content/dam/aemigrate/uploaded-folder/bingosnacks-com/image/icomoon-ae8fb3.svg") format("svg")}
 
-.footer .cmp-footer{ background-color:#141414;border-top:1px solid #383838;padding:3rem 2.5rem }
+.cmp-teaser .cmp-teaser__content .cmp-teaser__title{ color:#fcd107;font-size:1.25rem;font-weight:700;margin:0 }
 
-@media only screen and (max-width:767px) { .footer .cmp-footer{ background-size:inherit/16rem;margin-top:1.5625rem;padding:0 } }
-
-@media only screen and (max-width:1023px) { .footer .cmp-footer{ padding-left:1.3125rem;padding-right:1.3125rem } }
-
-.footer .cmp-footer__top-content{ align-items:center;display:flex;justify-content:space-between;padding-left:1.5625rem }
-
-@media only screen and (max-width:767px) { .footer .cmp-footer__top-content{ align-items:center;flex-direction:column;gap:2rem;padding:0 0 3rem;text-align:center } }
-
-@media only screen and (max-width:767px) { .footer .cmp-footer__nav-logo{ margin-top:1.875rem } }
-
-.footer .cmp-footer__nav{ display:flex;justify-content:center }
-
-@media only screen and (max-width:767px) { .footer .cmp-footer__nav{ flex-wrap:wrap;width:21.875rem }
-
-.footer .cmp-footer__nav div:nth-child(2){ border-right:unset }
-
-.footer .cmp-footer__nav div:nth-of-type(-n+2) .navigation{ padding-top:0 }
-
-.footer .cmp-footer__nav div:nth-last-of-type(-n+2) .navigation{ padding-bottom:0 }
-
-.footer .cmp-footer_nav-items{ flex:1 50%;text-align:left } }
-
-.footer .cmp-footer_nav-items.cmp-navigation_group--right{ border-right:.0625rem solid #383838 }
-
-.footer .cmp-footer_nav-items.cmp-navigation_group--right .cmp-navigation{ display:flex }
-
-.footer .cmp-footer_nav-items.cmp-navigation_group--right .cmp-navigation__group{ margin-left:0;margin-right:0;padding-left:2.5rem;padding-right:2.5rem }
-
-@media only screen and (max-width:1023px) { .footer .cmp-footer_nav-items.cmp-navigation_group--right .cmp-navigation__group{ padding-left:1.5625rem;padding-right:1.5625rem } }
-
-@media only screen and (max-width:767px) { .footer .cmp-footer_nav-items.cmp-navigation_group--right .cmp-navigation__group{ margin-left:0;margin-right:0 } }
-
-.footer .cmp-footer_nav-items.cmp-navigation_group--right .cmp-navigation__group .cmp-navigation__item-link{ color:#fff;font-size:1rem;font-weight:700;text-decoration:none }
-
-.footer .cmp-footer_nav-items.cmp-navigation_group--right .cmp-navigation__group .cmp-navigation__item-link:hover{ text-decoration:underline }
-
-.footer .cmp-footer_nav-items.cmp-navigation_group--right .cmp-navigation__group{ display:flex;flex-direction:column;gap:1.5rem;justify-content:center }
-
-@media only screen and (max-width:767px) { .footer .cmp-footer_nav-items.cmp-navigation_group--right .cmp-navigation__group{ padding-left:1.875rem;padding-right:0 } }
-
-.footer .cmp-footer_nav-items.cmp-navigation_group--right:last-child{ border-right:unset }
-
-.footer .cmp-footer_nav-items.cmp-navigation_group--right:last-child .cmp-navigation__group{ padding-right:0 }
-
-@media only screen and (max-width:767px) { .footer .cmp-footer_nav-items.cmp-navigation_group--right .navigation{ padding:.9375rem 0 } }
-
-.footer .cmp-footer__bottom-content{ background-color:#383838;margin:0 auto;max-width:115rem;padding:1.1875rem 6.4375rem }
-
-@media only screen and (max-width:1023px) { .footer .cmp-footer__bottom-content{ padding-left:1.3125rem;padding-right:1.3125rem } }
-
-.footer .cmp-footer__container{ align-items:center;display:flex;justify-content:space-between }
-
-@media only screen and (max-width:767px) { .footer .cmp-footer__container{ flex-direction:column;gap:1.25rem;margin-bottom:.625rem } }
-
-.footer .cmp-footer__container-itclinks{ display:flex;gap:1.375rem }
-
-.footer .cmp-footer__container-itclinks .footer-link{ color:#fff;font-weight:700;text-decoration:none }
-
-.footer .cmp-footer__container-itclinks .footer-link:hover{ text-decoration:underline }
-
-.footer .cmp-footer__container-itclinks .footer-link.text-decoration-none:hover{ text-decoration:none }
-
-.footer .cmp-footer__container__social-media{ display:flex;gap:1.25rem }
-
-@media only screen and (max-width:767px) { .footer .cmp-footer__container__social-media{ padding-right:0;padding-top:.625rem } }
-
-.footer .cmp-footer__container__social-media a img{ max-height:1.5rem;max-width:1.5rem;object-fit:cover }
-
-.footer .cmp-footer__container__social-media a img:hover{ transform:scale(1.2) }
-
-.footer.footer-new{ margin:0 auto;max-width:115rem }
-
-.footer.footer-new .bnatural-footer-div{ display:flex }
-
-.footer.footer-new .bnatural-footer-div .bnatural-footer-desktop-div{ display:block }
-
-@media only screen and (max-width:767px) { .footer.footer-new .bnatural-footer-div .bnatural-footer-desktop-div{ display:none } }
-
-.footer.footer-new .bnatural-footer-div .bnatural-footer-mobile-div{ display:none }
-
-@media only screen and (max-width:767px) { .footer.footer-new .bnatural-footer-div .bnatural-footer-mobile-div{ display:block } }
-
-.footer.footer-new .bnatural-footer-div .inlineBlockClass{ display:inline-block!important }
+@media only screen and (max-width:767px) { .cmp-teaser .cmp-teaser__image .cmp-image img{ aspect-ratio:16/9 } }
 
 @keyframes AnimatedImageLeftDiv{0%{left:45%;top:-5%}to{left:45%;top:73%}}
 
@@ -129,5 +47,7 @@
 @media only screen and (max-width:1023px) { @keyframes AnimatedImageDivOurStoryTabRight{0%{left:18%;top:5%}to{left:18%;top:95%}} }
 
 @media only screen and (max-width:767px) { @keyframes AnimatedImageDivOurStoryMobileRight{0%{left:18%;top:5%}to{left:18%;top:95%}} }
+
+.cmp-text--font-family-bebas{ font-family:Bebas Neue,sans-serif;letter-spacing:1px }
 
 @keyframes animatetop{0%{opacity:0;top:-300px}to{opacity:1;top:40%}}

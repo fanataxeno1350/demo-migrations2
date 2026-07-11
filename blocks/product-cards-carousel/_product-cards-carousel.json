@@ -1,0 +1,79 @@
+{
+  "definitions": [
+    {
+      "title": "Product Cards Carousel",
+      "id": "product-cards-carousel",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "product-cards-carousel",
+              "model": "product-cards-carousel",
+              "name": "Product Cards Carousel"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Product Card Item",
+      "id": "product-card-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "product-card-item",
+              "name": "Product Card Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "product-cards-carousel",
+      "fields": [
+        {
+          "component": "container",
+          "item": "product-card-item",
+          "label": "Product Cards",
+          "name": "productCards"
+        }
+      ]
+    },
+    {
+      "id": "product-card-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Product Image",
+          "name": "image",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Product Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Product Headline",
+          "name": "headline",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "product-cards-carousel",
+      "components": [
+        "product-card-item"
+      ]
+    }
+  ]
+}
