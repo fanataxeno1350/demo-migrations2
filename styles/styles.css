@@ -55,12 +55,6 @@
   width: 100%;
 }
 
-/* column of a grid */
-.aem-GridColumn { 
-  box-sizing: border-box;
-  clear: both;
- }
-
 /* phone breakpoint */
 @media (max-width: 768px) { 
   .aem-Grid.aem-Grid--1 > .aem-GridColumn.aem-GridColumn--phone--1 {
@@ -2793,6 +2787,8 @@ h4, h4 span, p, span { font-family:Arial,sans-serif;font-size:1rem;line-height:1
 
 b, strong { font-weight:900 }
 
+.body-2 { font-size:.875rem;line-height:1.3rem }
+
 .desc-1 h3 { color:#f04755 }
 
 .cmp-text { margin:0 auto;max-width:115pc }
@@ -2899,6 +2895,8 @@ b, strong { font-weight:900 }
 
 .cmp-teaser { background-position:50%;background-repeat:no-repeat;background-size:cover;margin:0 auto;max-width:115rem }
 
+.cmp-teaser .cmp-teaser__content .cmp-teaser__title { color:#f04755;font-size:1.25rem;font-weight:700;margin:0 }
+
 .cmp-teaser .cmp-teaser__image { width:100% }
 
 .cmp-teaser .cmp-teaser__image .cmp-image img { aspect-ratio:16/9;object-fit:cover;width:100% }
@@ -2907,13 +2905,43 @@ b, strong { font-weight:900 }
 
 .teaser.cmp-teaser--first-component .cmp-image img { aspect-ratio:1.7777777778!important }
 
+.cmp-teaser--right-image-aligned { position:relative }
+
+.cmp-teaser--right-image-aligned .cmp-teaser { column-gap:2rem;display:flex;padding:4rem 2.375rem }
+
+@media only screen and (max-width:1023px) { .cmp-teaser--right-image-aligned .cmp-teaser { column-gap:normal;display:grid;padding-left:1.25rem;padding-right:1.25rem;row-gap:1.5rem } }
+
+@media only screen and (max-width:767px) { .cmp-teaser--right-image-aligned .cmp-teaser { padding-left:1rem;padding-right:1rem } }
+
+.cmp-teaser--right-image-aligned .cmp-teaser .cmp-teaser__content { max-width:100%;order:0 }
+
+@media only screen and (max-width:1279px) { .cmp-teaser--right-image-aligned .cmp-teaser .cmp-teaser__content { max-width:100% } }
+
+@media only screen and (max-width:1023px) { .cmp-teaser--right-image-aligned .cmp-teaser .cmp-teaser__content { max-width:100% } }
+
+.cmp-teaser--right-image-aligned .cmp-teaser .cmp-teaser__description h1 { margin:.5rem 0 2rem }
+
+@media only screen and (max-width:1023px) { .cmp-teaser--right-image-aligned .cmp-teaser .cmp-teaser__image { order:1 } }
+
+.cmp-teaser--right-image-aligned .cmp-teaser .cmp-animation { height:0;max-height:0;transition:opacity .5s,transform .5s;visibility:hidden;width:0 }
+
+.cmp-teaser--right-image-aligned .cmp-teaser .cmp-animation.visible { transition:opacity .5s,transform .5s;visibility:visible }
+
+.cmp-teaser--right-image-aligned .cmp-teaser .cmp-animation.visible .cmp-teaser__smallimage { animation:AnimatedImageLeftDiv;animation-direction:normal;animation-duration:3s;animation-iteration-count:1;animation-timing-function:ease-in;aspect-ratio:1;height:18.75rem;left:40%;object-fit:cover;position:absolute;top:61%;width:18.75rem }
+
 @keyframes AnimatedImageLeftDiv{0%{left:40%;top:-12%}to{left:40%;top:61%}}
 
-@media only screen and (max-width:1279px) { @keyframes AnimatedImageLeftDivDesktop{0%{left:40%;top:-12%}to{left:40%;top:50%}} }
+@media only screen and (max-width:1279px) { .cmp-teaser--right-image-aligned .cmp-teaser .cmp-animation.visible .cmp-teaser__smallimage { animation:AnimatedImageLeftDivDesktop;animation-direction:normal;animation-duration:3s;animation-iteration-count:1;animation-timing-function:ease-in;aspect-ratio:1;height:18.75rem;left:40%;object-fit:cover;position:absolute;top:50%;width:18.75rem }
 
-@media only screen and (max-width:1023px) { @keyframes AnimatedImageTabDivLeft{0%{left:15%;top:15%}to{left:15%;top:60%}} }
+@keyframes AnimatedImageLeftDivDesktop{0%{left:40%;top:-12%}to{left:40%;top:50%}} }
 
-@media only screen and (max-width:767px) { @keyframes AnimatedImageMobileDivLeft{0%{left:10%;top:50%}to{left:10%;top:80%}} }
+@media only screen and (max-width:1023px) { .cmp-teaser--right-image-aligned .cmp-teaser .cmp-animation.visible .cmp-teaser__smallimage { animation:AnimatedImageTabDivLeft;animation-direction:normal;animation-duration:3s;animation-iteration-count:1;animation-timing-function:ease-in;aspect-ratio:1;height:18.75rem;left:15%;object-fit:cover;position:absolute;top:60%;width:18.75rem }
+
+@keyframes AnimatedImageTabDivLeft{0%{left:15%;top:15%}to{left:15%;top:60%}} }
+
+@media only screen and (max-width:767px) { .cmp-teaser--right-image-aligned .cmp-teaser .cmp-animation.visible .cmp-teaser__smallimage { animation:AnimatedImageMobileDivLeft;animation-direction:normal;animation-duration:3s;animation-iteration-count:1;animation-timing-function:ease-in;aspect-ratio:1;height:6.25rem;left:10%;object-fit:cover;position:absolute;top:80%;width:6.25rem }
+
+@keyframes AnimatedImageMobileDivLeft{0%{left:10%;top:50%}to{left:10%;top:80%}} }
 
 @keyframes AnimatedImageDiv{0%{left:30%;top:0}to{left:30%;top:48%}}
 
@@ -3207,6 +3235,20 @@ b, strong { font-weight:900 }
 
 .cmp-card--image-hover .cmp-card__container .cmp-card__content:hover .cmp-image__default { display:none }
 
+.cmp-card--blog-details .cmp-card__content { background-color:#fff;border-radius:1.5rem;box-shadow:0 .1875rem .375rem rgba(0,0,0,.16) }
+
+.cmp-card--blog-details .cmp-card__content .cmp-card__info { background:#fff;border-radius:0 0 1.5rem 1.5rem;padding:1.5rem }
+
+.cmp-card--blog-details .cmp-card__content .cmp-card__info .cmp-card__description { padding-top:1rem }
+
+.cmp-card--blog-details .cmp-card__content .cmp-card__media { border-radius:1.5rem 1.5rem 0 0;overflow:hidden }
+
+.cmp-card--blog-details .cmp-card__content:hover { background-color:#edffb5 }
+
+.cmp-card--blog-details .cmp-card__content:hover .cmp-card__info { background-color:#edffb5;color:unset }
+
+.cmp-card--blog-details .cmp-card__content:hover .cmp-card__media img { transform:scale(1.05);transition:.3s ease-in-out }
+
 @media only screen and (max-width:767px) { .cmp-dropdown { display:flex;justify-content:center;text-align:left } }
 
 .cmp-dropdown .cmp-dropdown__custom-select { position:relative }
@@ -3276,6 +3318,8 @@ b, strong { font-weight:900 }
 @media only screen and (max-width:1023px) { .cmp-card--default .cmp-card__container .cmp-card__content { margin:.1875rem 0 .1875rem .0625rem;min-width:15.8125rem } }
 
 @media only screen and (max-width:767px) { .cmp-card--default .cmp-card__container .cmp-card__content { min-width:15.125rem } }
+
+.cmp-card--default .cmp-card__container .cmp-card__content .cmp-card__media img { aspect-ratio:1;object-fit:cover }
 
 .cards__description { margin:0 auto;padding-bottom:2rem;text-align:center;width:50% }
 

@@ -1,17 +1,12 @@
-import { createOptimizedPicture } from '../../scripts/aem.js';
-import { moveInstrumentation } from '../../scripts/scripts.js';
-
 export default function decorate(block) {
   const scrollArrowWrapper = document.createElement('div');
   scrollArrowWrapper.classList.add('cmp-scroll-arrow');
-  scrollArrowWrapper.setAttribute('data-component', 'scroll-arrow');
+  scrollArrowWrapper.dataset.component = 'scroll-arrow';
 
-  // Up arrow indicator
-  const upIndicator = document.createElement('div');
-  upIndicator.classList.add('cmp-scroll-arrow__indicator', 'cmp-scroll-arrow__indicator-up');
-  upIndicator.style.display = 'none';
-  upIndicator.innerHTML = `
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70" height="70" viewBox="0 0 70 70">
+  const indicatorUp = document.createElement('div');
+  indicatorUp.classList.add('cmp-scroll-arrow__indicator', 'cmp-scroll-arrow__indicator-up');
+  indicatorUp.style.display = 'none';
+  indicatorUp.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70" height="70" viewBox="0 0 70 70">
         <defs>
             <filter id="a" x="0" y="0" width="70" height="70" filterUnits="userSpaceOnUse">
                 <feOffset dy="4" input="SourceAlpha"></feOffset>
@@ -34,18 +29,12 @@ export default function decorate(block) {
                 </g>
             </g>
         </g>
-    </svg>
-  `;
-  scrollArrowWrapper.append(upIndicator);
-  // No authored rows in this block, so moveInstrumentation from block to its new root.
-  moveInstrumentation(block, scrollArrowWrapper);
+    </svg>`;
 
-  // Down arrow indicator
-  const downIndicator = document.createElement('div');
-  downIndicator.classList.add('cmp-scroll-arrow__indicator', 'cmp-scroll-arrow__indicator-down');
-  downIndicator.style.display = 'block';
-  downIndicator.innerHTML = `
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70" height="70" viewBox="0 0 70 70">
+  const indicatorDown = document.createElement('div');
+  indicatorDown.classList.add('cmp-scroll-arrow__indicator', 'cmp-scroll-arrow__indicator-down');
+  indicatorDown.style.display = 'block';
+  indicatorDown.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70" height="70" viewBox="0 0 70 70">
         <defs>
             <filter id="a" x="0" y="0" width="70" height="70" filterUnits="userSpaceOnUse">
                 <feOffset dy="4" input="SourceAlpha"></feOffset>
@@ -68,50 +57,48 @@ export default function decorate(block) {
                 </g>
             </g>
         </g>
-    </svg>
-  `;
-  scrollArrowWrapper.append(downIndicator);
+    </svg>`;
+
+  scrollArrowWrapper.append(indicatorUp);
+  scrollArrowWrapper.append(indicatorDown);
 
   block.replaceChildren(scrollArrowWrapper);
 
-  let lastScrollY = 0;
-  const showHideArrows = () => {
+  // No need for lastScrollY as we only care about current position
+  const handleScroll = () => {
     const currentScrollY = window.scrollY;
-    const documentHeight = document.documentElement.scrollHeight;
-    const windowHeight = window.innerHeight;
+    // document.documentElement.scrollHeight is the total height of the content
+    // window.innerHeight is the height of the viewport
+    // scrollHeight is the maximum scrollable distance from the top
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
 
     // Show/hide up arrow
+    // If scrolled down at all, show the up arrow
     if (currentScrollY > 0) {
-      upIndicator.style.display = 'block';
+      indicatorUp.style.display = 'block';
     } else {
-      upIndicator.style.display = 'none';
+      indicatorUp.style.display = 'none';
     }
 
     // Show/hide down arrow
-    if (currentScrollY + windowHeight < documentHeight) {
-      downIndicator.style.display = 'block';
+    // If not at the very bottom, show the down arrow
+    // A small buffer (e.g., 10px) is good for browser rendering differences
+    if (currentScrollY < scrollHeight - 10) {
+      indicatorDown.style.display = 'block';
     } else {
-      downIndicator.style.display = 'none';
+      indicatorDown.style.display = 'none';
     }
-
-    lastScrollY = currentScrollY;
   };
 
-  upIndicator.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+  indicatorUp.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  downIndicator.addEventListener('click', () => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
-    });
+  indicatorDown.addEventListener('click', () => {
+    window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
   });
 
-  window.addEventListener('scroll', showHideArrows);
-  window.addEventListener('resize', showHideArrows); // Recalculate on resize
-  showHideArrows(); // Initial check
+  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('resize', handleScroll); // Recalculate on resize
+  handleScroll(); // Initial check on load
 }

@@ -1,3 +1,23 @@
+.cmp-tabs__tablist{ display:flex;flex-wrap:wrap;padding-left:0;list-style:none }
+
+.cmp-tabs__tab{ box-sizing:border-box;border-bottom:1px solid transparent;padding:.5rem 1rem;cursor:pointer }
+
+.cmp-tabs__tab--active{ border-color:inherit }
+
+.cmp-tabs__tabpanel{ display:none }
+
+.cmp-tabs__tabpanel--active{ display:block }
+
+.cmp-tabs__tablist{ display:flex;flex-wrap:wrap;padding-left:0;list-style:none }
+
+.cmp-tabs__tab{ box-sizing:border-box;border-bottom:1px solid transparent;padding:.5rem 1rem;cursor:pointer }
+
+.cmp-tabs__tab--active{ border-color:inherit }
+
+.cmp-tabs__tabpanel{ display:none }
+
+.cmp-tabs__tabpanel--active{ display:block }
+
 @keyframes plyr-progress{to{background-position:var(--plyr-progress-loading-size,25px) 0}}
 
 @keyframes plyr-popup{0%{opacity:.5;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
@@ -30,35 +50,37 @@
 
 @keyframes cmp-search__loading-indicator-spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}
 
-@media only screen and (max-width:767px) { .cmp-dropdown{ display:flex;justify-content:center;text-align:left } }
+.cmp-tabs{ margin:0 auto;max-width:115rem }
 
-.cmp-dropdown .cmp-dropdown__custom-select{ position:relative }
+.cmp-tabs .cmp-tabs__tablist{ -ms-overflow-style:none;display:flex;gap:.5rem;justify-content:center;padding-inline-start:0;scrollbar-width:none }
 
-.cmp-dropdown .cmp-dropdown__custom-select select{ display:none }
+.cmp-tabs .cmp-tabs__tablist::-webkit-scrollbar{ display:none }
 
-.cmp-dropdown .cmp-dropdown__select-selected:after{ border-color:transparent #1d1d1d #1d1d1d transparent;border-style:solid;border-width:.1625rem;content:"";height:.625rem;position:absolute;right:1rem;top:.875rem;transform:rotate(45deg);-webkit-transform:rotate(45deg);width:.625rem }
+@media only screen and (max-width:1023px) { .cmp-tabs .cmp-tabs__tablist{ gap:1rem;margin-top:1rem } }
 
-.cmp-dropdown .cmp-dropdown__select-items div{ border:0;color:#1d1d1d;cursor:pointer;padding:.75rem 1rem;user-select:none }
+@media only screen and (max-width:767px) { .cmp-tabs .cmp-tabs__tablist{ flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;padding-inline-start:1.25rem;white-space:nowrap } }
 
-.cmp-dropdown .cmp-dropdown__select-selected{ background:#fff;border:.0625rem solid #d8d8d8;color:#1d1d1d;cursor:pointer;padding:.625rem 1rem;user-select:none }
+.cmp-tabs .cmp-tabs__tab{ border-bottom:0;color:#1d1d1d;cursor:pointer;font-weight:700;line-height:1.5rem;padding:1rem .75rem }
 
-.cmp-dropdown .cmp-dropdown__select-items{ background:#fff;border:.0625rem solid #d8d8d8;border-top:0;left:0;padding:.3125rem 0;position:absolute;right:0;top:100%;z-index:99 }
+.cmp-tabs .cmp-tabs__tab--active, .cmp-tabs .cmp-tabs__tab:hover{ color:#146614;text-decoration:underline;text-decoration-thickness:.1875rem;text-underline-offset:.375rem }
 
-.cmp-dropdown .cmp-dropdown__select-hide{ display:none }
+@media only screen and (max-width:767px) { .cmp-tabs .cmp-tabs__tab--active, .cmp-tabs .cmp-tabs__tab:hover{ color:#0d4b0d }
 
-.cmp-dropdown .cmp-dropdown__select-items div:hover{ background-color:#edffb5 }
+.cmp-tabs .cmp-tabs__tab:last-of-type{ padding-right:1.25rem } }
 
-.right-dropdown-title-aligned{ align-items:center;display:flex;flex-direction:row;gap:.625rem;justify-content:center;margin:0 auto;max-width:115rem;padding:2.375rem 0 2rem }
+.cmp-tabs .cmp-tabs__tabpanel{ display:none }
 
-@media only screen and (max-width:767px) { .right-dropdown-title-aligned{ flex-direction:column;width:100% } }
+.cmp-tabs .cmp-tabs__tabpanel--active{ display:block }
 
-.right-dropdown-title-aligned .cmp-dropdown__custom-select{ margin:0 .375rem 0 1.0625rem;max-width:23.75rem;min-width:20.625rem }
+.cmp-card--image-hover .cmp-card__container .cmp-card__content .cmp-image__image{ aspect-ratio:1/1;object-fit:cover }
 
-@media only screen and (max-width:767px) { .right-dropdown-title-aligned .cmp-dropdown__custom-select{ margin-bottom:.875rem }
+.cmp-card--image-hover .cmp-card__container .cmp-card__content .cmp-image__default{ display:inherit }
 
-.discoverdropdown .cmp-dropdown{ padding:0 1rem }
+.cmp-card--image-hover .cmp-card__container .cmp-card__content .cmp-image__hover{ display:none }
 
-.discoverdropdown .cmp-dropdown .cmp-dropdown__custom-select{ margin:0;max-width:100%;width:100% } }
+.cmp-card--image-hover .cmp-card__container .cmp-card__content:hover .cmp-image__hover{ display:inherit }
+
+.cmp-card--image-hover .cmp-card__container .cmp-card__content:hover .cmp-image__default{ display:none }
 
 @keyframes AnimatedImageDivLargeDesktopOurStoryLeft{0%{left:90%;top:-2%}to{left:90%;top:95%}}
 
@@ -75,3 +97,23 @@
 @media only screen and (max-width:1023px) { @keyframes AnimatedImageDivOurStoryTabRight{0%{left:18%;top:5%}to{left:18%;top:95%}} }
 
 @media only screen and (max-width:767px) { @keyframes AnimatedImageDivOurStoryMobileRight{0%{left:18%;top:5%}to{left:18%;top:95%}} }
+
+@media only screen and (max-width:1023px) { .cmp-card--default{ -ms-overflow-style:none;margin:unset;overflow-x:auto;padding:2rem 1.25rem;scrollbar-width:none }
+
+.cmp-card--default::-webkit-scrollbar{ display:none } }
+
+@media only screen and (max-width:767px) { .cmp-card--default{ margin:unset;padding:2rem 1rem } }
+
+@media only screen and (max-width:1023px) { .cmp-card--default .cmp-card__container{ grid-auto-flow:column;grid-template-columns:repeat(auto-fit,minmax(15.8125rem,1fr)) } }
+
+@media only screen and (max-width:767px) { .cmp-card--default .cmp-card__container{ grid-gap:1rem;grid-template-columns:repeat(auto-fit,minmax(15.125rem,1fr)) } }
+
+@media only screen and (max-width:1023px) { .cmp-card--default .cmp-card__container .cmp-card__content{ margin:.1875rem 0 .1875rem .0625rem;min-width:15.8125rem } }
+
+@media only screen and (max-width:767px) { .cmp-card--default .cmp-card__container .cmp-card__content{ min-width:15.125rem } }
+
+.cards__description{ margin:0 auto;padding-bottom:2rem;text-align:center;width:50% }
+
+@media only screen and (max-width:1023px) { .cards__description{ margin-top:2rem;padding:0 1.25rem;width:100% } }
+
+@media only screen and (max-width:767px) { .cards__description{ margin-top:4rem;padding:0 1rem } }

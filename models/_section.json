@@ -54,9 +54,16 @@
         "---- New Blocks ----",
         "header",
         "carousel",
+        "image-wave",
         "discover-dropdown",
-        "teaser",
-        "tabs",
+        "teaser-farmer-story",
+        "text-section-title",
+        "tabs-product-categories",
+        "image-fruit",
+        "text-make-your-own",
+        "text-know-more",
+        "cards-blog",
+        "image-guava",
         "scroll-arrow",
         "footer"
       ]

@@ -14,6 +14,8 @@
 
 @media only screen and (max-width:767px) { .cmp-teaser .cmp-teaser__image .cmp-image img{ aspect-ratio:16/9 } }
 
+.teaser.cmp-teaser--first-component .cmp-image img{ aspect-ratio:1.7777777778!important }
+
 @keyframes AnimatedImageLeftDiv{0%{left:40%;top:-12%}to{left:40%;top:61%}}
 
 @media only screen and (max-width:1279px) { @keyframes AnimatedImageLeftDivDesktop{0%{left:40%;top:-12%}to{left:40%;top:50%}} }

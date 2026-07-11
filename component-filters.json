@@ -19,23 +19,30 @@
       "---- New Blocks ----",
       "header",
       "carousel",
+      "image-wave",
       "discover-dropdown",
-      "teaser",
-      "tabs",
+      "teaser-farmer-story",
+      "text-section-title",
+      "tabs-product-categories",
+      "image-fruit",
+      "text-make-your-own",
+      "text-know-more",
+      "cards-blog",
+      "image-guava",
       "scroll-arrow",
       "footer"
     ]
   },
   {
-    "id": "cards",
+    "id": "cards-blog",
     "components": [
-      "card-item"
+      "blog-card-item"
     ]
   },
   {
     "id": "carousel",
     "components": [
-      "carousel-slide-item"
+      "carousel-slide"
     ]
   },
   {
@@ -47,7 +54,6 @@
   {
     "id": "footer",
     "components": [
-      "footer-navigation-item",
       "footer-link-item",
       "footer-social-item"
     ]
@@ -59,7 +65,15 @@
     ]
   },
   {
-    "id": "image",
+    "id": "image-fruit",
+    "components": []
+  },
+  {
+    "id": "image-guava",
+    "components": []
+  },
+  {
+    "id": "image-wave",
     "components": []
   },
   {
@@ -67,18 +81,26 @@
     "components": []
   },
   {
-    "id": "tabs",
+    "id": "tabs-product-categories",
     "components": [
-      "tab-item",
-      "tab-card-item"
+      "tab-category-item",
+      "product-card-item"
     ]
   },
   {
-    "id": "teaser",
+    "id": "teaser-farmer-story",
     "components": []
   },
   {
-    "id": "text",
+    "id": "text-know-more",
+    "components": []
+  },
+  {
+    "id": "text-make-your-own",
+    "components": []
+  },
+  {
+    "id": "text-section-title",
     "components": []
   }
 ]

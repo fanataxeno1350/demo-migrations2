@@ -30,36 +30,6 @@
 
 @keyframes cmp-search__loading-indicator-spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}
 
-@media only screen and (max-width:767px) { .cmp-dropdown{ display:flex;justify-content:center;text-align:left } }
-
-.cmp-dropdown .cmp-dropdown__custom-select{ position:relative }
-
-.cmp-dropdown .cmp-dropdown__custom-select select{ display:none }
-
-.cmp-dropdown .cmp-dropdown__select-selected:after{ border-color:transparent #1d1d1d #1d1d1d transparent;border-style:solid;border-width:.1625rem;content:"";height:.625rem;position:absolute;right:1rem;top:.875rem;transform:rotate(45deg);-webkit-transform:rotate(45deg);width:.625rem }
-
-.cmp-dropdown .cmp-dropdown__select-items div{ border:0;color:#1d1d1d;cursor:pointer;padding:.75rem 1rem;user-select:none }
-
-.cmp-dropdown .cmp-dropdown__select-selected{ background:#fff;border:.0625rem solid #d8d8d8;color:#1d1d1d;cursor:pointer;padding:.625rem 1rem;user-select:none }
-
-.cmp-dropdown .cmp-dropdown__select-items{ background:#fff;border:.0625rem solid #d8d8d8;border-top:0;left:0;padding:.3125rem 0;position:absolute;right:0;top:100%;z-index:99 }
-
-.cmp-dropdown .cmp-dropdown__select-hide{ display:none }
-
-.cmp-dropdown .cmp-dropdown__select-items div:hover{ background-color:#edffb5 }
-
-.right-dropdown-title-aligned{ align-items:center;display:flex;flex-direction:row;gap:.625rem;justify-content:center;margin:0 auto;max-width:115rem;padding:2.375rem 0 2rem }
-
-@media only screen and (max-width:767px) { .right-dropdown-title-aligned{ flex-direction:column;width:100% } }
-
-.right-dropdown-title-aligned .cmp-dropdown__custom-select{ margin:0 .375rem 0 1.0625rem;max-width:23.75rem;min-width:20.625rem }
-
-@media only screen and (max-width:767px) { .right-dropdown-title-aligned .cmp-dropdown__custom-select{ margin-bottom:.875rem }
-
-.discoverdropdown .cmp-dropdown{ padding:0 1rem }
-
-.discoverdropdown .cmp-dropdown .cmp-dropdown__custom-select{ margin:0;max-width:100%;width:100% } }
-
 @keyframes AnimatedImageDivLargeDesktopOurStoryLeft{0%{left:90%;top:-2%}to{left:90%;top:95%}}
 
 @media only screen and (max-width:1279px) { @keyframes LeftImageDesktop{0%{left:98%;top:-2%}to{left:98%;top:95%}} }

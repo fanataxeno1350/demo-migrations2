@@ -44,20 +44,8 @@
         },
         {
           "component": "text",
-          "label": "Default Selected Label",
-          "name": "selectedLabel",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "CTA Link",
-          "name": "ctaLink",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "CTA Label",
-          "name": "ctaLabel",
+          "label": "Button Label",
+          "name": "buttonLabel",
           "valueType": "string"
         },
         {

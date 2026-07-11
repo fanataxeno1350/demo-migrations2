@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Carousel Slide Item",
-      "id": "carousel-slide-item",
+      "title": "Carousel Slide",
+      "id": "carousel-slide",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "carousel-slide-item",
-              "name": "Carousel Slide Item"
+              "model": "carousel-slide",
+              "name": "Carousel Slide"
             }
           }
         }
@@ -38,39 +38,44 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Previous Arrow Icon",
-          "name": "arrowPreviousIcon"
+          "label": "Arrow Previous Icon",
+          "name": "arrowPreviousIcon",
+          "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Next Arrow Icon",
-          "name": "arrowNextIcon"
+          "label": "Arrow Next Icon",
+          "name": "arrowNextIcon",
+          "valueType": "string"
         },
         {
           "component": "container",
-          "item": "carousel-slide-item",
-          "label": "Slides",
+          "item": "carousel-slide",
+          "label": "Carousel Slides",
           "name": "slides"
         }
       ]
     },
     {
-      "id": "carousel-slide-item",
+      "id": "carousel-slide",
       "fields": [
         {
           "component": "reference",
-          "label": "Desktop Image",
-          "name": "desktopImage"
+          "label": "Banner Image (Desktop)",
+          "name": "imageDesktop",
+          "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Mobile Image",
-          "name": "mobileImage"
+          "label": "Banner Image (Mobile)",
+          "name": "imageMobile",
+          "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Slide Link",
-          "name": "slideLink"
+          "name": "link",
+          "valueType": "string"
         }
       ]
     }
@@ -79,7 +84,7 @@
     {
       "id": "carousel",
       "components": [
-        "carousel-slide-item"
+        "carousel-slide"
       ]
     }
   ]

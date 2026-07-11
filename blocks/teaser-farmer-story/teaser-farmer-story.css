@@ -12,13 +12,47 @@
 
 @font-face{font-display:swap;font-family:icomoon;font-style:normal;font-weight:400;src:url("/content/dam/aemigrate/uploaded-folder/bnatural-in/font/icomoon-9b411f.eot");src:url("/content/dam/aemigrate/uploaded-folder/bnatural-in/font/icomoon-9b411f.eot") format("embedded-opentype"),url("/content/dam/aemigrate/uploaded-folder/bnatural-in/font/icomoon-3567fc.ttf") format("truetype"),url("/content/dam/aemigrate/uploaded-folder/bnatural-in/font/icomoon-a4d1f8.x-font-woff") format("woff"),url("/content/dam/aemigrate/uploaded-folder/bnatural-in/image/icomoon-320ff7.svg") format("svg")}
 
+.cmp-teaser .cmp-teaser__content .cmp-teaser__title{ color:#f04755;font-size:1.25rem;font-weight:700;margin:0 }
+
+@media only screen and (max-width:767px) { .cmp-teaser .cmp-teaser__image .cmp-image img{ aspect-ratio:16/9 } }
+
+.cmp-teaser--right-image-aligned{ position:relative }
+
+.cmp-teaser--right-image-aligned .cmp-teaser{ column-gap:2rem;display:flex;padding:4rem 2.375rem }
+
+@media only screen and (max-width:1023px) { .cmp-teaser--right-image-aligned .cmp-teaser{ column-gap:normal;display:grid;padding-left:1.25rem;padding-right:1.25rem;row-gap:1.5rem } }
+
+@media only screen and (max-width:767px) { .cmp-teaser--right-image-aligned .cmp-teaser{ padding-left:1rem;padding-right:1rem } }
+
+.cmp-teaser--right-image-aligned .cmp-teaser .cmp-teaser__content{ max-width:100%;order:0 }
+
+@media only screen and (max-width:1279px) { .cmp-teaser--right-image-aligned .cmp-teaser .cmp-teaser__content{ max-width:100% } }
+
+@media only screen and (max-width:1023px) { .cmp-teaser--right-image-aligned .cmp-teaser .cmp-teaser__content{ max-width:100% } }
+
+.cmp-teaser--right-image-aligned .cmp-teaser .cmp-teaser__description h1{ margin:.5rem 0 2rem }
+
+@media only screen and (max-width:1023px) { .cmp-teaser--right-image-aligned .cmp-teaser .cmp-teaser__image{ order:1 } }
+
+.cmp-teaser--right-image-aligned .cmp-teaser .cmp-animation{ height:0;max-height:0;transition:opacity .5s,transform .5s;visibility:hidden;width:0 }
+
+.cmp-teaser--right-image-aligned .cmp-teaser .cmp-animation.visible{ transition:opacity .5s,transform .5s;visibility:visible }
+
+.cmp-teaser--right-image-aligned .cmp-teaser .cmp-animation.visible .cmp-teaser__smallimage{ animation:AnimatedImageLeftDiv;animation-direction:normal;animation-duration:3s;animation-iteration-count:1;animation-timing-function:ease-in;aspect-ratio:1;height:18.75rem;left:40%;object-fit:cover;position:absolute;top:61%;width:18.75rem }
+
 @keyframes AnimatedImageLeftDiv{0%{left:40%;top:-12%}to{left:40%;top:61%}}
 
-@media only screen and (max-width:1279px) { @keyframes AnimatedImageLeftDivDesktop{0%{left:40%;top:-12%}to{left:40%;top:50%}} }
+@media only screen and (max-width:1279px) { .cmp-teaser--right-image-aligned .cmp-teaser .cmp-animation.visible .cmp-teaser__smallimage{ animation:AnimatedImageLeftDivDesktop;animation-direction:normal;animation-duration:3s;animation-iteration-count:1;animation-timing-function:ease-in;aspect-ratio:1;height:18.75rem;left:40%;object-fit:cover;position:absolute;top:50%;width:18.75rem }
 
-@media only screen and (max-width:1023px) { @keyframes AnimatedImageTabDivLeft{0%{left:15%;top:15%}to{left:15%;top:60%}} }
+@keyframes AnimatedImageLeftDivDesktop{0%{left:40%;top:-12%}to{left:40%;top:50%}} }
 
-@media only screen and (max-width:767px) { @keyframes AnimatedImageMobileDivLeft{0%{left:10%;top:50%}to{left:10%;top:80%}} }
+@media only screen and (max-width:1023px) { .cmp-teaser--right-image-aligned .cmp-teaser .cmp-animation.visible .cmp-teaser__smallimage{ animation:AnimatedImageTabDivLeft;animation-direction:normal;animation-duration:3s;animation-iteration-count:1;animation-timing-function:ease-in;aspect-ratio:1;height:18.75rem;left:15%;object-fit:cover;position:absolute;top:60%;width:18.75rem }
+
+@keyframes AnimatedImageTabDivLeft{0%{left:15%;top:15%}to{left:15%;top:60%}} }
+
+@media only screen and (max-width:767px) { .cmp-teaser--right-image-aligned .cmp-teaser .cmp-animation.visible .cmp-teaser__smallimage{ animation:AnimatedImageMobileDivLeft;animation-direction:normal;animation-duration:3s;animation-iteration-count:1;animation-timing-function:ease-in;aspect-ratio:1;height:6.25rem;left:10%;object-fit:cover;position:absolute;top:80%;width:6.25rem }
+
+@keyframes AnimatedImageMobileDivLeft{0%{left:10%;top:50%}to{left:10%;top:80%}} }
 
 @keyframes AnimatedImageDiv{0%{left:30%;top:0}to{left:30%;top:48%}}
 
@@ -29,36 +63,6 @@
 @media only screen and (max-width:767px) { @keyframes AnimatedImageMobileDiv{0%{left:60%;top:50%}to{left:60%;top:80%}} }
 
 @keyframes cmp-search__loading-indicator-spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}
-
-@media only screen and (max-width:767px) { .cmp-dropdown{ display:flex;justify-content:center;text-align:left } }
-
-.cmp-dropdown .cmp-dropdown__custom-select{ position:relative }
-
-.cmp-dropdown .cmp-dropdown__custom-select select{ display:none }
-
-.cmp-dropdown .cmp-dropdown__select-selected:after{ border-color:transparent #1d1d1d #1d1d1d transparent;border-style:solid;border-width:.1625rem;content:"";height:.625rem;position:absolute;right:1rem;top:.875rem;transform:rotate(45deg);-webkit-transform:rotate(45deg);width:.625rem }
-
-.cmp-dropdown .cmp-dropdown__select-items div{ border:0;color:#1d1d1d;cursor:pointer;padding:.75rem 1rem;user-select:none }
-
-.cmp-dropdown .cmp-dropdown__select-selected{ background:#fff;border:.0625rem solid #d8d8d8;color:#1d1d1d;cursor:pointer;padding:.625rem 1rem;user-select:none }
-
-.cmp-dropdown .cmp-dropdown__select-items{ background:#fff;border:.0625rem solid #d8d8d8;border-top:0;left:0;padding:.3125rem 0;position:absolute;right:0;top:100%;z-index:99 }
-
-.cmp-dropdown .cmp-dropdown__select-hide{ display:none }
-
-.cmp-dropdown .cmp-dropdown__select-items div:hover{ background-color:#edffb5 }
-
-.right-dropdown-title-aligned{ align-items:center;display:flex;flex-direction:row;gap:.625rem;justify-content:center;margin:0 auto;max-width:115rem;padding:2.375rem 0 2rem }
-
-@media only screen and (max-width:767px) { .right-dropdown-title-aligned{ flex-direction:column;width:100% } }
-
-.right-dropdown-title-aligned .cmp-dropdown__custom-select{ margin:0 .375rem 0 1.0625rem;max-width:23.75rem;min-width:20.625rem }
-
-@media only screen and (max-width:767px) { .right-dropdown-title-aligned .cmp-dropdown__custom-select{ margin-bottom:.875rem }
-
-.discoverdropdown .cmp-dropdown{ padding:0 1rem }
-
-.discoverdropdown .cmp-dropdown .cmp-dropdown__custom-select{ margin:0;max-width:100%;width:100% } }
 
 @keyframes AnimatedImageDivLargeDesktopOurStoryLeft{0%{left:90%;top:-2%}to{left:90%;top:95%}}
 

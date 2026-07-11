@@ -1,9 +1,3 @@
-/* column of a grid */
-.aem-GridColumn{ 
-  box-sizing: border-box;
-  clear: both;
- }
-
 @keyframes plyr-progress{to{background-position:var(--plyr-progress-loading-size,25px) 0}}
 
 @keyframes plyr-popup{0%{opacity:.5;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}

@@ -83,31 +83,31 @@
       "id": "blocks",
       "components": [
         {
-          "title": "Cards",
-          "id": "cards",
+          "title": "Cards-Blog",
+          "id": "cards-blog",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
-                  "filter": "cards",
-                  "model": "cards",
-                  "name": "Cards"
+                  "filter": "cards-blog",
+                  "model": "cards-blog",
+                  "name": "Cards-Blog"
                 }
               }
             }
           }
         },
         {
-          "title": "Card Item",
-          "id": "card-item",
+          "title": "Blog-Card-Item",
+          "id": "blog-card-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "card-item",
-                  "name": "Card Item"
+                  "model": "blog-card-item",
+                  "name": "Blog-Card-Item"
                 }
               }
             }
@@ -130,15 +130,15 @@
           }
         },
         {
-          "title": "Carousel Slide Item",
-          "id": "carousel-slide-item",
+          "title": "Carousel Slide",
+          "id": "carousel-slide",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "carousel-slide-item",
-                  "name": "Carousel Slide Item"
+                  "model": "carousel-slide",
+                  "name": "Carousel Slide"
                 }
               }
             }
@@ -192,21 +192,6 @@
           }
         },
         {
-          "title": "Footer-Navigation-Item",
-          "id": "footer-navigation-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "model": "footer-navigation-item",
-                  "name": "Footer-Navigation-Item"
-                }
-              }
-            }
-          }
-        },
-        {
           "title": "Footer-Link-Item",
           "id": "footer-link-item",
           "plugins": {
@@ -253,7 +238,7 @@
           }
         },
         {
-          "title": "Navigation-Item",
+          "title": "Navigation Item",
           "id": "navigation-item",
           "plugins": {
             "xwalk": {
@@ -261,23 +246,55 @@
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
                   "model": "navigation-item",
-                  "name": "Navigation-Item"
+                  "name": "Navigation Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Image",
-          "id": "image",
+          "title": "Image-Fruit",
+          "id": "image-fruit",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
-                  "filter": "image",
-                  "model": "image",
-                  "name": "Image"
+                  "filter": "image-fruit",
+                  "model": "image-fruit",
+                  "name": "Image-Fruit"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Image-Guava",
+          "id": "image-guava",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "filter": "image-guava",
+                  "model": "image-guava",
+                  "name": "Image-Guava"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Image-Wave",
+          "id": "image-wave",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "filter": "image-wave",
+                  "model": "image-wave",
+                  "name": "Image-Wave"
                 }
               }
             }
@@ -300,78 +317,110 @@
           }
         },
         {
-          "title": "Tabs",
-          "id": "tabs",
+          "title": "Tabs Product Categories",
+          "id": "tabs-product-categories",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
-                  "filter": "tabs",
-                  "model": "tabs",
-                  "name": "Tabs"
+                  "filter": "tabs-product-categories",
+                  "model": "tabs-product-categories",
+                  "name": "Tabs Product Categories"
                 }
               }
             }
           }
         },
         {
-          "title": "Tab-Item",
-          "id": "tab-item",
+          "title": "Tab Category Item",
+          "id": "tab-category-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "tab-item",
-                  "name": "Tab-Item"
+                  "model": "tab-category-item",
+                  "name": "Tab Category Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Tab-Card-Item",
-          "id": "tab-card-item",
+          "title": "Product Card Item",
+          "id": "product-card-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "tab-card-item",
-                  "name": "Tab-Card-Item"
+                  "model": "product-card-item",
+                  "name": "Product Card Item"
                 }
               }
             }
           }
         },
         {
-          "title": "Teaser",
-          "id": "teaser",
+          "title": "Teaser-Farmer-Story",
+          "id": "teaser-farmer-story",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
-                  "filter": "teaser",
-                  "model": "teaser",
-                  "name": "Teaser"
+                  "filter": "teaser-farmer-story",
+                  "model": "teaser-farmer-story",
+                  "name": "Teaser-Farmer-Story"
                 }
               }
             }
           }
         },
         {
-          "title": "Text",
-          "id": "text",
+          "title": "Text-Know-More",
+          "id": "text-know-more",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
-                  "filter": "text",
-                  "model": "text",
-                  "name": "Text"
+                  "filter": "text-know-more",
+                  "model": "text-know-more",
+                  "name": "Text-Know-More"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Text-Make-Your-Own",
+          "id": "text-make-your-own",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "filter": "text-make-your-own",
+                  "model": "text-make-your-own",
+                  "name": "Text-Make-Your-Own"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Text-Section-Title",
+          "id": "text-section-title",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "filter": "text-section-title",
+                  "model": "text-section-title",
+                  "name": "Text-Section-Title"
                 }
               }
             }
