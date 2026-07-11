@@ -15,28 +15,69 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "---- New Blocks ----",
+      "header",
+      "carousel",
+      "discover-dropdown",
+      "teaser",
+      "tabs",
+      "scroll-arrow",
+      "footer"
     ]
   },
   {
     "id": "cards",
     "components": [
-      "card"
+      "card-item"
     ]
   },
   {
-    "id": "columns",
+    "id": "carousel",
     "components": [
-      "column"
+      "carousel-slide"
     ]
   },
   {
-    "id": "column",
+    "id": "discover-dropdown",
     "components": [
-      "text",
-      "image",
-      "button",
-      "title"
+      "dropdown-option-item"
     ]
+  },
+  {
+    "id": "footer",
+    "components": [
+      "footer-link-item",
+      "footer-social-item"
+    ]
+  },
+  {
+    "id": "header",
+    "components": [
+      "navigation-item"
+    ]
+  },
+  {
+    "id": "image",
+    "components": []
+  },
+  {
+    "id": "scroll-arrow",
+    "components": []
+  },
+  {
+    "id": "tabs",
+    "components": [
+      "tab-item",
+      "card-item"
+    ]
+  },
+  {
+    "id": "teaser",
+    "components": []
+  },
+  {
+    "id": "text",
+    "components": []
   }
 ]

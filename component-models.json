@@ -142,76 +142,479 @@
     ]
   },
   {
-    "id": "card",
+    "id": "cards",
     "fields": [
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "image",
-        "label": "Image",
-        "multi": false
-      },
       {
         "component": "richtext",
-        "name": "text",
-        "value": "",
-        "label": "Text",
+        "label": "Description",
+        "name": "description",
         "valueType": "string"
-      }
-    ]
-  },
-  {
-    "id": "columns",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "number",
-        "name": "columns",
-        "value": "",
-        "label": "Columns"
       },
       {
         "component": "text",
-        "valueType": "number",
-        "name": "rows",
-        "value": "",
-        "label": "Rows"
+        "label": "CTA Label",
+        "name": "ctaLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "CTA Link",
+        "name": "ctaLink",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "card-item",
+        "label": "Cards List",
+        "name": "cardsList"
       }
     ]
   },
   {
-    "id": "fragment",
+    "id": "card-item",
     "fields": [
       {
         "component": "aem-content",
-        "name": "reference",
-        "label": "Reference"
+        "label": "Card Link",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Desktop Default Image",
+        "name": "imageDesktopDefault",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Mobile Default Image",
+        "name": "imageMobileDefault",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Desktop Hover Image",
+        "name": "imageDesktopHover",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Mobile Hover Image",
+        "name": "imageMobileHover",
+        "valueType": "string"
       }
     ]
   },
   {
-    "id": "hero",
+    "id": "carousel",
     "fields": [
       {
         "component": "reference",
-        "valueType": "string",
-        "name": "image",
-        "label": "Image",
-        "multi": false
+        "label": "Arrow Left Icon",
+        "name": "arrowLeftIcon",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Arrow Right Icon",
+        "name": "arrowRightIcon",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "carousel-slide",
+        "label": "Slides",
+        "name": "slides"
+      }
+    ]
+  },
+  {
+    "id": "carousel-slide",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Desktop Image",
+        "name": "imageDesktop",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Mobile Image",
+        "name": "imageMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Slide Link",
+        "name": "slideLink",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "discover-dropdown",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Dropdown Title",
+        "name": "dropdownTitle",
+        "valueType": "string"
       },
       {
         "component": "text",
-        "valueType": "string",
-        "name": "imageAlt",
-        "label": "Alt",
-        "value": ""
+        "label": "Default Selected Label",
+        "name": "selectedLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "CTA Link",
+        "name": "ctaLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "CTA Label",
+        "name": "ctaLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "dropdown-option-item",
+        "label": "Dropdown Options",
+        "name": "dropdownOptions"
+      }
+    ]
+  },
+  {
+    "id": "dropdown-option-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Option Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Option Link",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "footer",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Background Image Desktop",
+        "name": "backgroundDesktop",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Background Image Mobile",
+        "name": "backgroundMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Logo Desktop",
+        "name": "logoDesktop",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Logo Desktop Link",
+        "name": "logoDesktopLink",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "FSSAI Logo Desktop",
+        "name": "fssaiDesktop",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Logo Mobile",
+        "name": "logoMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Logo Mobile Link",
+        "name": "logoMobileLink",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "FSSAI Logo Mobile",
+        "name": "fssaiMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "footer-link-item",
+        "label": "Footer Links One",
+        "name": "footerLinksOne"
+      },
+      {
+        "component": "container",
+        "item": "footer-link-item",
+        "label": "Footer Links Two",
+        "name": "footerLinksTwo"
+      },
+      {
+        "component": "container",
+        "item": "footer-link-item",
+        "label": "Footer Links Three",
+        "name": "footerLinksThree"
+      },
+      {
+        "component": "container",
+        "item": "footer-link-item",
+        "label": "Footer ITC/Legal Links",
+        "name": "footerLinksITC"
+      },
+      {
+        "component": "container",
+        "item": "footer-social-item",
+        "label": "Footer Social Links",
+        "name": "footerSocialLinks"
+      }
+    ]
+  },
+  {
+    "id": "footer-link-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Link Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Link URL",
+        "name": "link",
+        "valueType": "string"
       },
       {
         "component": "richtext",
-        "name": "text",
-        "value": "",
-        "label": "Text",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
         "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "footer-social-item",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Social Icon Desktop",
+        "name": "iconDesktop",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Social Icon Mobile",
+        "name": "iconMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Social Link URL",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "header",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Desktop Background Image",
+        "name": "backgroundDesktop",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Mobile Background Image",
+        "name": "backgroundMobile",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Logo",
+        "name": "logo",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Logo Link",
+        "name": "logoLink",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "navigation-item",
+        "label": "Navigation Menu",
+        "name": "navigationMenu"
+      }
+    ]
+  },
+  {
+    "id": "navigation-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Menu Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Menu Link",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "label": "Navigation Hierarchy",
+        "name": "hierarchy-tree",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "image",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Desktop Image",
+        "name": "desktopImage",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Mobile Image",
+        "name": "mobileImage",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "scroll-arrow"
+  },
+  {
+    "id": "tabs",
+    "fields": [
+      {
+        "component": "container",
+        "item": "tab-item",
+        "label": "Tabs",
+        "name": "tabs"
+      }
+    ]
+  },
+  {
+    "id": "tab-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Tab Label",
+        "name": "tabLabel",
+        "valueType": "string"
+      },
+      {
+        "component": "container",
+        "item": "card-item",
+        "label": "Cards",
+        "name": "cards"
+      },
+      {
+        "component": "richtext",
+        "label": "Tab Description",
+        "name": "description",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Explore All Link",
+        "name": "exploreAllLink",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Explore All Label",
+        "name": "exploreAllLabel",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "card-item",
+    "fields": [
+      {
+        "component": "aem-content",
+        "label": "Card Link",
+        "name": "link",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Desktop Default Image",
+        "name": "imageDesktopDefault",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Mobile Default Image",
+        "name": "imageMobileDefault",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Desktop Hover Image",
+        "name": "imageDesktopHover",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Mobile Hover Image",
+        "name": "imageMobileHover",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "teaser",
+    "fields": [
+      {
+        "component": "reference",
+        "label": "Desktop Image",
+        "name": "desktopImage",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Mobile Image",
+        "name": "mobileImage",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "text",
+    "fields": [
+      {
+        "component": "richtext",
+        "label": "Body",
+        "name": "body"
       }
     ]
   }

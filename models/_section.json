@@ -51,7 +51,14 @@
         "cards",
         "columns",
         "fragment",
-        "---- New Blocks ----"
+        "---- New Blocks ----",
+        "header",
+        "carousel",
+        "discover-dropdown",
+        "teaser",
+        "tabs",
+        "scroll-arrow",
+        "footer"
       ]
     }
   ]
