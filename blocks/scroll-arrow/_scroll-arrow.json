@@ -19,7 +19,8 @@
   ],
   "models": [
     {
-      "id": "scroll-arrow"
+      "id": "scroll-arrow",
+      "fields": []
     }
   ],
   "filters": [
