@@ -39,8 +39,8 @@
         {
           "component": "container",
           "item": "banner-carousel-item",
-          "label": "Slides",
-          "name": "slides"
+          "label": "Carousel Items",
+          "name": "carouselItems"
         }
       ]
     },
@@ -49,14 +49,14 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Desktop Banner Image",
-          "name": "imageDesktop",
+          "label": "Desktop Image",
+          "name": "desktopImage",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Mobile Banner Image",
-          "name": "imageMobile",
+          "label": "Mobile Image",
+          "name": "mobileImage",
           "valueType": "string"
         },
         {

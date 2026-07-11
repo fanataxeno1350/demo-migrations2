@@ -147,8 +147,8 @@
       {
         "component": "container",
         "item": "banner-carousel-item",
-        "label": "Carousel Items",
-        "name": "carouselItems"
+        "label": "Slides",
+        "name": "slides"
       }
     ]
   },
@@ -157,14 +157,14 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Desktop Image",
-        "name": "desktopImage",
+        "label": "Desktop Banner Image",
+        "name": "imageDesktop",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Mobile Image",
-        "name": "mobileImage",
+        "label": "Mobile Banner Image",
+        "name": "imageMobile",
         "valueType": "string"
       },
       {
@@ -499,14 +499,14 @@
       },
       {
         "component": "text",
-        "label": "Main Title",
+        "label": "Title",
         "name": "title",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Subtitle",
-        "name": "subtitle",
+        "label": "Sub Title",
+        "name": "subTitle",
         "valueType": "string"
       },
       {

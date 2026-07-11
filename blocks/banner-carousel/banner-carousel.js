@@ -2,132 +2,119 @@ import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.j
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
-  const allRows = [...block.children];
+  const slidesContainer = document.createElement('div');
+  slidesContainer.classList.add('cmp-carousel__container'); // Swiper adds slick-initialized, slick-slider
 
-  // The first row is the container placeholder, consume it.
-  const [containerRow, ...itemRows] = allRows;
+  const slickList = document.createElement('div');
+  slickList.classList.add('slick-list', 'draggable');
 
-  const root = document.createElement('div');
-  root.classList.add('cmp-carousel'); // From ORIGINAL HTML
-  moveInstrumentation(containerRow, root);
+  const slickTrack = document.createElement('div');
+  slickTrack.classList.add('slick-track');
 
-  const swiperContainer = document.createElement('div');
-  swiperContainer.classList.add('cmp-carousel__container', 'swiper'); // Added 'swiper' class for Swiper.js
-  root.append(swiperContainer);
+  // The first child of the block is the container placeholder for "slides"
+  // Consume it and move its instrumentation.
+  const [containerPlaceholder, ...slideRows] = [...block.children];
+  moveInstrumentation(containerPlaceholder, slidesContainer);
 
-  const swiperWrapper = document.createElement('div');
-  swiperWrapper.classList.add('slick-track', 'swiper-wrapper'); // Renamed from slickList/slickTrack, added swiper-wrapper
-  swiperContainer.append(swiperWrapper);
+  slideRows.forEach((row, index) => {
+    const [imageDesktopCell, imageMobileCell, ctaLabelCell, ctaLinkCell] = [...row.children];
 
-  itemRows
-    .filter(row => row.children.length > 0 && [...row.children].some(c => c.children.length > 0 || c.textContent.trim() !== ''))
-    .forEach((row, index) => {
-      const [desktopImageCell, mobileImageCell, ctaLabelCell, ctaLinkCell] = [...row.children];
+    const slideItem = document.createElement('div');
+    slideItem.classList.add('cmp-carousel__item', 'slick-slide');
+    if (index === 0) {
+      slideItem.classList.add('cmp-carousel__item--active', 'slick-current', 'slick-active');
+    }
+    slideItem.setAttribute('data-slick-index', index);
+    slideItem.setAttribute('aria-hidden', index !== 0);
+    slideItem.setAttribute('tabindex', index === 0 ? '0' : '-1');
+    slideItem.setAttribute('role', 'tabpanel');
+    slideItem.setAttribute('aria-labelledby', `slickcarousel-item-${index}-tab`);
+    slideItem.setAttribute('aria-roledescription', 'slide');
+    slideItem.setAttribute('aria-label', `Slide ${index + 1} of ${slideRows.length}`);
 
-      const carouselItem = document.createElement('div');
-      carouselItem.classList.add('cmp-carousel__item', 'slick-slide', 'swiper-slide'); // Added swiper-slide
-      if (index === 0) {
-        carouselItem.classList.add('cmp-carousel__item--active', 'slick-current', 'slick-active'); // From ORIGINAL HTML
-      }
-      carouselItem.setAttribute('aria-label', `Slide ${index + 1} of ${itemRows.length}`);
-      carouselItem.setAttribute('data-slick-index', index);
-      carouselItem.setAttribute('aria-hidden', index !== 0);
-      carouselItem.setAttribute('tabindex', index === 0 ? '0' : '-1');
+    const bannerDiv = document.createElement('div');
+    bannerDiv.classList.add('banner', 'cmp-banner--cta-left-aligned');
 
-      const bannerDiv = document.createElement('div');
-      bannerDiv.classList.add('banner', 'cmp-banner--cta-left-aligned'); // From ORIGINAL HTML
-      carouselItem.append(bannerDiv);
+    const cmpBannerDiv = document.createElement('div');
+    cmpBannerDiv.classList.add('cmp-banner');
+    cmpBannerDiv.setAttribute('data-component', 'banner');
+    cmpBannerDiv.setAttribute('data-initialized', 'true');
 
-      const cmpBanner = document.createElement('div');
-      cmpBanner.classList.add('cmp-banner'); // From ORIGINAL HTML
-      bannerDiv.append(cmpBanner);
+    const cmpBannerContent = document.createElement('div');
+    cmpBannerContent.classList.add('cmp-banner__content');
 
-      const bannerContent = document.createElement('div');
-      bannerContent.classList.add('cmp-banner__content'); // From ORIGINAL HTML
-      cmpBanner.append(bannerContent);
+    const picture = document.createElement('picture');
+    picture.classList.add('w-100', 'd-block');
 
-      const picture = document.createElement('picture');
-      picture.classList.add('w-100', 'd-block'); // From ORIGINAL HTML
+    const desktopImg = imageDesktopCell.querySelector('img');
+    const mobileImg = imageMobileCell.querySelector('img');
 
-      const mobileImg = mobileImageCell?.querySelector('img');
+    if (mobileImg) {
+      const sourceMobile = document.createElement('source');
+      sourceMobile.setAttribute('media', '(max-width: 600px)');
+      sourceMobile.setAttribute('srcset', mobileImg.src);
+      picture.append(sourceMobile);
+    }
+
+    if (desktopImg) {
+      const img = createOptimizedPicture(desktopImg.src, desktopImg.alt, false, [{ width: '1366' }]);
+      img.querySelector('img').classList.add('cmp-banner__image', 'w-100', 'd-block');
+      img.querySelector('img').setAttribute('data-desktop-src', desktopImg.src);
       if (mobileImg) {
-        const mobileSource = document.createElement('source');
-        mobileSource.setAttribute('media', '(max-width: 600px)');
-        mobileSource.srcset = mobileImg.src;
-        picture.append(mobileSource);
+        img.querySelector('img').setAttribute('data-mobile-src', mobileImg.src);
       }
+      img.querySelector('img').setAttribute('fetchpriority', 'high');
+      picture.append(img.querySelector('img'));
+    }
 
-      const desktopImg = desktopImageCell?.querySelector('img');
-      const img = document.createElement('img');
-      img.classList.add('cmp-banner__image', 'w-100', 'd-block'); // From ORIGINAL HTML
-      if (desktopImg) {
-        img.src = desktopImg.src;
-        img.alt = desktopImg.alt;
-        img.setAttribute('fetchpriority', index === 0 ? 'high' : 'low');
-      }
-      picture.append(img);
-      bannerContent.append(picture);
+    cmpBannerContent.append(picture);
 
-      // Optimize image
-      // createOptimizedPicture returns a new <picture> element, so we replace the existing one.
-      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-      // moveInstrumentation should be called on the original image element, not the new one's img
-      moveInstrumentation(img, optimizedPic.querySelector('img'));
-      picture.replaceWith(optimizedPic);
+    const ctaWrapper = document.createElement('div');
+    ctaWrapper.classList.add('button', 'cmp-button--primary-anchor'); // Removed 'null' class
 
+    const ctaLink = document.createElement('a');
+    ctaLink.classList.add('cmp-button');
+    ctaLink.setAttribute('data-request', 'true');
+    ctaLink.setAttribute('data-show-pop', 'false');
+    ctaLink.setAttribute('tabindex', index === 0 ? '0' : '-1');
 
-      const buttonWrapper = document.createElement('div');
-      buttonWrapper.classList.add('null', 'button', 'cmp-button--primary-anchor'); // From ORIGINAL HTML
+    const foundLink = ctaLinkCell.querySelector('a');
+    if (foundLink) {
+      ctaLink.href = foundLink.href; // Correctly read href from the aem-content cell
+    }
 
-      const ctaLink = ctaLinkCell?.querySelector('a');
-      const ctaAnchor = document.createElement('a');
-      ctaAnchor.classList.add('cmp-button'); // From ORIGINAL HTML
-      if (ctaLink) {
-        ctaAnchor.href = ctaLink.href;
-      }
-      ctaAnchor.textContent = ctaLabelCell?.textContent.trim() || '';
+    const ctaSpan = document.createElement('span');
+    ctaSpan.classList.add('cmp-button__text');
+    ctaSpan.textContent = ctaLabelCell.textContent.trim();
+    ctaLink.append(ctaSpan);
+    ctaWrapper.append(ctaLink);
+    cmpBannerContent.append(ctaWrapper);
 
-      moveInstrumentation(row, carouselItem); // Move instrumentation from original row to carousel item
-      buttonWrapper.append(ctaAnchor);
-      bannerContent.append(buttonWrapper);
-      swiperWrapper.append(carouselItem);
-    });
+    cmpBannerDiv.append(cmpBannerContent);
+    bannerDiv.append(cmpBannerDiv);
+    slideItem.append(bannerDiv);
+    slickTrack.append(slideItem);
 
-  // Add Swiper navigation buttons and pagination
-  const prevBtn = document.createElement('div');
-  prevBtn.classList.add('swiper-button-prev');
-  swiperContainer.append(prevBtn);
+    moveInstrumentation(row, slideItem);
+  });
 
-  const nextBtn = document.createElement('div');
-  nextBtn.classList.add('swiper-button-next');
-  swiperContainer.append(nextBtn);
+  slickList.append(slickTrack);
+  slidesContainer.append(slickList);
+  block.replaceChildren(slidesContainer);
 
-  const paginationEl = document.createElement('div');
-  paginationEl.classList.add('swiper-pagination');
-  swiperContainer.append(paginationEl);
-
-
-  block.replaceChildren(root);
-
-  // Load Swiper Carousel and initialize
+  // Swiper.js initialization
   await loadCSS('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
   await loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
 
   // eslint-disable-next-line no-undef
-  new Swiper(swiperContainer, {
+  new Swiper(slidesContainer, {
     slidesPerView: 1,
-    loop: swiperContainer.dataset.showInfiniteScroll === 'true', // Use dataset for loop
-    speed: parseInt(swiperContainer.dataset.speed || '500', 10),
-    autoplay: swiperContainer.dataset.autoPlayIsEnabled === 'true' ? {
-      delay: parseInt(swiperContainer.dataset.autoPlaySpeedInMs || '4200', 10),
-      disableOnInteraction: false,
-    } : false,
-    navigation: {
-      prevEl: prevBtn,
-      nextEl: nextBtn,
-    },
+    loop: false, // Based on ORIGINAL HTML data-show-infinite-scroll="true" which means loop is false for Swiper
+    // Add navigation and pagination if they exist in the original HTML
+    // For this specific block, the original HTML shows data-show-arrows="false" and data-show-dots="true"
+    // So we'll only add pagination if needed, and no navigation.
     pagination: {
-      el: paginationEl,
+      el: '.cmp-carousel__container .slick-list', // Placeholder, adjust selector if actual pagination element is created
       clickable: true,
     },
   });

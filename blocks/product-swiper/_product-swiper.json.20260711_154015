@@ -29,14 +29,14 @@
         },
         {
           "component": "text",
-          "label": "Title",
+          "label": "Main Title",
           "name": "title",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Sub Title",
-          "name": "subTitle",
+          "label": "Subtitle",
+          "name": "subtitle",
           "valueType": "string"
         },
         {

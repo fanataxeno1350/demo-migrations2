@@ -1,41 +1,43 @@
-import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.js';
+import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
-export default async function decorate(block) {
+export default function decorate(block) {
   const [
     backgroundImageRow,
     titleRow,
-    subtitleRow,
+    subTitleRow,
     swipeIconRow,
     cookieImageRow,
     morningImageRow,
     morningLabelRow,
   ] = [...block.children];
 
-  const productSwiper = document.createElement('div');
-  productSwiper.classList.add('cmp-product-swiper');
-  // moveInstrumentation should be called on the block itself, not the new wrapper
-  // The block element already has instrumentation. We move its children's instrumentation.
-  // The block.replaceChildren(productSwiper) at the end handles the root instrumentation.
+  const cmpProductSwiper = document.createElement('div');
+  cmpProductSwiper.classList.add('cmp-product-swiper');
+  // The block itself already has the 'product-swiper' class from AEM.
+  // The inner wrapper should not duplicate the block's own class.
+  // The original HTML shows 'cmp-product-swiper' on the inner div, so we keep it.
+  moveInstrumentation(block, cmpProductSwiper);
 
   // Background Image
-  const backgroundImage = backgroundImageRow.querySelector('picture');
-  if (backgroundImage) {
-    const img = backgroundImage.querySelector('img');
+  const backgroundImagePicture = backgroundImageRow.querySelector('picture');
+  if (backgroundImagePicture) {
+    const img = backgroundImagePicture.querySelector('img');
     if (img) {
-      productSwiper.style.backgroundImage = `url("${img.src}")`;
-      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '2000' }]);
-      moveInstrumentation(img, optimizedPic.querySelector('img'));
-      backgroundImage.replaceWith(optimizedPic);
+      cmpProductSwiper.style.backgroundImage = `url("${img.src}")`;
+      // Optimize the background image, but don't replace the picture element itself
+      // The optimized image is not directly appended, so its instrumentation doesn't need to be moved.
+      // The instrumentation for the background image is implicitly handled by the parent row/cell.
+      createOptimizedPicture(img.src, img.alt, false, [{ width: '2000' }]);
     }
   }
 
-  // Main Title
+  // Title
   const title = document.createElement('h2');
   title.classList.add('cmp-product-swiper__title');
   moveInstrumentation(titleRow, title);
   title.textContent = titleRow.textContent.trim();
-  productSwiper.append(title);
+  cmpProductSwiper.append(title);
 
   const sectionContainer = document.createElement('div');
   sectionContainer.classList.add('cmp-product-swiper__section-container');
@@ -43,12 +45,12 @@ export default async function decorate(block) {
   const section1 = document.createElement('div');
   section1.classList.add('cmp-product-swiper__section1');
 
-  // Subtitle
-  const subtitle = document.createElement('h5');
-  subtitle.classList.add('cmp-product-swiper__sub-title', 'body-1');
-  moveInstrumentation(subtitleRow, subtitle);
-  subtitle.textContent = subtitleRow.textContent.trim();
-  section1.append(subtitle);
+  // Sub Title
+  const subTitle = document.createElement('h5');
+  subTitle.classList.add('cmp-product-swiper__sub-title', 'body-1');
+  moveInstrumentation(subTitleRow, subTitle);
+  subTitle.textContent = subTitleRow.textContent.trim();
+  section1.append(subTitle);
 
   // Swipe Icon
   const swipeIconContainer = document.createElement('div');
@@ -57,13 +59,12 @@ export default async function decorate(block) {
   if (swipeIconPicture) {
     const swipeIconImg = swipeIconPicture.querySelector('img');
     if (swipeIconImg) {
-      swipeIconImg.classList.add('cmp-product-swiper__swipe-icon', 'lazy-image', 'loaded');
-      const optimizedSwipeIcon = createOptimizedPicture(swipeIconImg.src, swipeIconImg.alt, false, [{ width: '100' }]);
-      moveInstrumentation(swipeIconImg, optimizedSwipeIcon.querySelector('img'));
+      const optimizedSwipeIcon = createOptimizedPicture(swipeIconImg.src, swipeIconImg.alt, false, [{ width: '750' }]);
+      moveInstrumentation(swipeIconImg.closest('picture'), optimizedSwipeIcon);
+      optimizedSwipeIcon.classList.add('cmp-product-swiper__swipe-icon', 'lazy-image', 'loaded');
       swipeIconContainer.append(optimizedSwipeIcon);
     }
   }
-  moveInstrumentation(swipeIconRow, swipeIconContainer);
   section1.append(swipeIconContainer);
 
   const swiperContainer = document.createElement('div');
@@ -73,8 +74,8 @@ export default async function decorate(block) {
   sunIcon.classList.add('cmp-product-swiper__sun-icon');
   swiperContainer.append(sunIcon);
 
-  const sliderDiv = document.createElement('div');
-  sliderDiv.classList.add('cmp-product-swiper__slider');
+  const slider = document.createElement('div');
+  slider.classList.add('cmp-product-swiper__slider');
 
   const rangeSlider = document.createElement('input');
   rangeSlider.classList.add('cmp-product-swiper__range-slider', 'morning');
@@ -82,13 +83,12 @@ export default async function decorate(block) {
   rangeSlider.setAttribute('max', '2');
   rangeSlider.setAttribute('type', 'range');
   rangeSlider.setAttribute('value', '0');
-  sliderDiv.append(rangeSlider);
+  slider.append(rangeSlider);
 
   const sliderIcon = document.createElement('div');
   sliderIcon.classList.add('cmp-product-swiper__slider-icon');
-  sliderDiv.append(sliderIcon);
-
-  swiperContainer.append(sliderDiv);
+  slider.append(sliderIcon);
+  swiperContainer.append(slider);
 
   const selectedMorning = document.createElement('span');
   selectedMorning.classList.add('cmp-product-swiper__selected-morning');
@@ -107,15 +107,13 @@ export default async function decorate(block) {
   if (cookieImagePicture) {
     const cookieImageImg = cookieImagePicture.querySelector('img');
     if (cookieImageImg) {
-      cookieImageImg.classList.add('cmp-product-swiper__cookie-img', 'lazy-image', 'loaded');
-      const optimizedCookieImage = createOptimizedPicture(cookieImageImg.src, cookieImageImg.alt, false, [{ width: '500' }]);
-      moveInstrumentation(cookieImageImg, optimizedCookieImage.querySelector('img'));
+      const optimizedCookieImage = createOptimizedPicture(cookieImageImg.src, cookieImageImg.alt, false, [{ width: '750' }]);
+      moveInstrumentation(cookieImageImg.closest('picture'), optimizedCookieImage);
+      optimizedCookieImage.classList.add('cmp-product-swiper__cookie-img', 'lazy-image', 'loaded');
       cookieImageContainer.append(optimizedCookieImage);
     }
   }
-  moveInstrumentation(cookieImageRow, cookieImageContainer);
   section1.append(cookieImageContainer);
-
   sectionContainer.append(section1);
 
   const section2 = document.createElement('div');
@@ -128,13 +126,14 @@ export default async function decorate(block) {
   if (morningImagePicture) {
     const morningImageImg = morningImagePicture.querySelector('img');
     if (morningImageImg) {
-      morningImageImg.classList.add('lazy-image', 'loaded');
-      const optimizedMorningImage = createOptimizedPicture(morningImageImg.src, morningImageImg.alt, false, [{ width: '500' }]);
-      moveInstrumentation(morningImageImg, optimizedMorningImage.querySelector('img'));
+      const optimizedMorningImage = createOptimizedPicture(morningImageImg.src, morningImageImg.alt, false, [{ width: '750' }]);
+      moveInstrumentation(morningImageImg.closest('picture'), optimizedMorningImage);
+      // The original HTML for the morning image does not have a specific class on the img itself,
+      // only 'lazy-image' and 'loaded' which are generic.
+      optimizedMorningImage.classList.add('lazy-image', 'loaded');
       morningImageContainer.append(optimizedMorningImage);
     }
   }
-  moveInstrumentation(morningImageRow, morningImageContainer);
   section2.append(morningImageContainer);
 
   // Morning Label
@@ -143,41 +142,39 @@ export default async function decorate(block) {
   moveInstrumentation(morningLabelRow, morningLabel);
   morningLabel.textContent = morningLabelRow.textContent.trim();
   section2.append(morningLabel);
-
   sectionContainer.append(section2);
-  productSwiper.append(sectionContainer);
 
-  block.replaceChildren(productSwiper);
-
-  // Load Swiper assets
-  await loadCSS('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
-  await loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
+  cmpProductSwiper.append(sectionContainer);
 
   // Add event listener for the range slider
   rangeSlider.addEventListener('input', () => {
-    const value = parseInt(rangeSlider.value, 10);
-    if (value === 0) {
-      section1.style.display = 'block';
-      section2.style.display = 'none';
-      sliderIcon.style.transform = 'translateX(0)';
-    } else if (value === 1) {
-      section1.style.display = 'none';
-      section2.style.display = 'block';
-      sliderIcon.style.transform = 'translateX(100%)';
-    } else if (value === 2) {
-      section1.style.display = 'none';
-      section2.style.display = 'block';
-      sliderIcon.style.transform = 'translateX(200%)';
+    // Implement slider logic here based on the original site's behavior
+    // For example, update the selectedMorning text or change image visibility
+    const sliderValue = parseInt(rangeSlider.value, 10);
+    if (sliderValue === 0) {
+      selectedMorning.textContent = 'Morning Kickstarter'; // Example text
+      // Potentially show morning image, hide cookie image
+    } else if (sliderValue === 1) {
+      selectedMorning.textContent = 'Mid-day Treat'; // Example text
+      // Potentially show a different image or blend
+    } else if (sliderValue === 2) {
+      selectedMorning.textContent = 'Evening Indulgence'; // Example text
+      // Potentially show cookie image, hide morning image
     }
+    // Update slider icon position
+    const min = parseInt(rangeSlider.min, 10);
+    const max = parseInt(rangeSlider.max, 10);
+    const val = parseInt(rangeSlider.value, 10);
+    const percent = ((val - min) / (max - min)) * 100;
+    sliderIcon.style.left = `calc(${percent}% - 12px)`; // Adjust 12px for icon width
   });
 
-  // Initial state
-  section2.style.display = 'none';
+  // Initialize slider icon position
+  const min = parseInt(rangeSlider.min, 10);
+  const max = parseInt(rangeSlider.max, 10);
+  const val = parseInt(rangeSlider.value, 10);
+  const percent = ((val - min) / (max - min)) * 100;
+  sliderIcon.style.left = `calc(${percent}% - 12px)`;
 
-  // Initialize Swiper (if needed, based on the block's actual use of Swiper)
-  // The original HTML shows a slider input, not a full Swiper carousel.
-  // If this is meant to be a Swiper, the structure needs to be adjusted to include
-  // swiper-wrapper and swiper-slide classes.
-  // Based on the provided HTML, it's a custom range slider, not Swiper.js.
-  // Removing Swiper initialization as it's not used.
+  block.replaceChildren(cmpProductSwiper);
 }
