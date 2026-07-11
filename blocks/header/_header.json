@@ -96,8 +96,8 @@
         {
           "component": "container",
           "item": "navigation-item",
-          "label": "Navigation Menu",
-          "name": "navigationMenu"
+          "label": "Navigation Items",
+          "name": "navigationItems"
         },
         {
           "component": "container",
@@ -108,13 +108,13 @@
         {
           "component": "container",
           "item": "social-link-item",
-          "label": "Social Media Links",
+          "label": "Social Links",
           "name": "socialLinks"
         },
         {
           "component": "container",
           "item": "nav-icon-item",
-          "label": "Header Nav Icons",
+          "label": "Navigation Icons",
           "name": "navIcons"
         }
       ]
@@ -124,13 +124,13 @@
       "fields": [
         {
           "component": "text",
-          "label": "Label",
+          "label": "Menu Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Link",
+          "label": "Menu Link",
           "name": "link",
           "valueType": "string"
         },
@@ -167,12 +167,6 @@
           "label": "Social Link",
           "name": "link",
           "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Social Kind",
-          "name": "socialKind",
-          "valueType": "string"
         }
       ]
     },
@@ -181,8 +175,8 @@
       "fields": [
         {
           "component": "text",
-          "label": "Icon Kind",
-          "name": "iconKind",
+          "label": "Icon Class",
+          "name": "iconClass",
           "valueType": "string"
         },
         {

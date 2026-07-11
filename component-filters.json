@@ -38,7 +38,7 @@
   {
     "id": "diy_cards",
     "components": [
-      "diy_card_item"
+      "diy-card-item"
     ]
   },
   {
@@ -46,7 +46,7 @@
     "components": [
       "footer-navigation-group",
       "footer-navigation-item",
-      "footer-link-item",
+      "footer-bottom-link",
       "footer-social-item"
     ]
   },
@@ -68,7 +68,7 @@
   {
     "id": "product_tabs",
     "components": [
-      "tab-item"
+      "product-tab-item"
     ]
   },
   {

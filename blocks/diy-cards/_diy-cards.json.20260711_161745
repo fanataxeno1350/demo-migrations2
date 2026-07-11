@@ -18,13 +18,13 @@
     },
     {
       "title": "DIY Card Item",
-      "id": "diy-card-item",
+      "id": "diy_card_item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "diy-card-item",
+              "model": "diy_card_item",
               "name": "DIY Card Item"
             }
           }
@@ -49,6 +49,12 @@
           "valueType": "string"
         },
         {
+          "component": "text",
+          "label": "Carousel Endpoint",
+          "name": "carouselEndpoint",
+          "valueType": "string"
+        },
+        {
           "component": "aem-content",
           "label": "CTA Link",
           "name": "ctaLink",
@@ -62,14 +68,14 @@
         },
         {
           "component": "container",
-          "item": "diy-card-item",
-          "label": "Cards",
-          "name": "cards"
+          "item": "diy_card_item",
+          "label": "DIY Card Items",
+          "name": "items"
         }
       ]
     },
     {
-      "id": "diy-card-item",
+      "id": "diy_card_item",
       "fields": [
         {
           "component": "reference",
@@ -90,7 +96,7 @@
     {
       "id": "diy_cards",
       "components": [
-        "diy-card-item"
+        "diy_card_item"
       ]
     }
   ]

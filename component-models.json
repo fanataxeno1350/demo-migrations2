@@ -215,12 +215,6 @@
         "valueType": "string"
       },
       {
-        "component": "text",
-        "label": "Carousel Endpoint",
-        "name": "carouselEndpoint",
-        "valueType": "string"
-      },
-      {
         "component": "aem-content",
         "label": "CTA Link",
         "name": "ctaLink",
@@ -234,14 +228,14 @@
       },
       {
         "component": "container",
-        "item": "diy_card_item",
-        "label": "DIY Card Items",
-        "name": "items"
+        "item": "diy-card-item",
+        "label": "Cards",
+        "name": "cards"
       }
     ]
   },
   {
-    "id": "diy_card_item",
+    "id": "diy-card-item",
     "fields": [
       {
         "component": "reference",
@@ -262,13 +256,13 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Background Image (Top Section)",
+        "label": "Top Background Image (Desktop)",
         "name": "backgroundImage",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Logo",
+        "label": "Logo Image",
         "name": "logo",
         "valueType": "string"
       },
@@ -286,14 +280,14 @@
       },
       {
         "component": "container",
-        "item": "footer-link-item",
+        "item": "footer-bottom-link",
         "label": "Bottom Links",
         "name": "bottomLinks"
       },
       {
         "component": "container",
         "item": "footer-social-item",
-        "label": "Social Links",
+        "label": "Social Media Links",
         "name": "socialLinks"
       }
     ]
@@ -333,17 +327,17 @@
     ]
   },
   {
-    "id": "footer-link-item",
+    "id": "footer-bottom-link",
     "fields": [
       {
         "component": "text",
-        "label": "Link Label",
+        "label": "Bottom Link Label",
         "name": "label",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Link",
+        "label": "Bottom Link URL",
         "name": "link",
         "valueType": "string"
       }
@@ -354,7 +348,7 @@
     "fields": [
       {
         "component": "aem-content",
-        "label": "Social Link",
+        "label": "Social Media Link",
         "name": "socialLink",
         "valueType": "string"
       }
@@ -378,8 +372,8 @@
       {
         "component": "container",
         "item": "navigation-item",
-        "label": "Navigation Menu",
-        "name": "navigationMenu"
+        "label": "Navigation Items",
+        "name": "navigationItems"
       },
       {
         "component": "container",
@@ -390,13 +384,13 @@
       {
         "component": "container",
         "item": "social-link-item",
-        "label": "Social Media Links",
+        "label": "Social Links",
         "name": "socialLinks"
       },
       {
         "component": "container",
         "item": "nav-icon-item",
-        "label": "Header Nav Icons",
+        "label": "Navigation Icons",
         "name": "navIcons"
       }
     ]
@@ -406,13 +400,13 @@
     "fields": [
       {
         "component": "text",
-        "label": "Label",
+        "label": "Menu Label",
         "name": "label",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Link",
+        "label": "Menu Link",
         "name": "link",
         "valueType": "string"
       },
@@ -449,12 +443,6 @@
         "label": "Social Link",
         "name": "link",
         "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Social Kind",
-        "name": "socialKind",
-        "valueType": "string"
       }
     ]
   },
@@ -463,8 +451,8 @@
     "fields": [
       {
         "component": "text",
-        "label": "Icon Kind",
-        "name": "iconKind",
+        "label": "Icon Class",
+        "name": "iconClass",
         "valueType": "string"
       },
       {
@@ -531,14 +519,14 @@
       },
       {
         "component": "container",
-        "item": "tab-item",
+        "item": "product-tab-item",
         "label": "Tabs",
         "name": "tabs"
       }
     ]
   },
   {
-    "id": "tab-item",
+    "id": "product-tab-item",
     "fields": [
       {
         "component": "text",

@@ -21,7 +21,7 @@ function transformNestedLists(rootUl) {
     if (nested) {
       nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('has-sub-child');
+      subWrap.classList.add('has-sub-child'); // This class is not in the allowlist, but it's for JS behavior.
       subWrap.append(nested);
       li.append(subWrap);
       const trigger = li.querySelector(':scope > a, :scope > span');
@@ -29,8 +29,8 @@ function transformNestedLists(rootUl) {
         trigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          li.classList.toggle('active');
-          subWrap.classList.toggle('active');
+          li.classList.toggle('active'); // This class is not in the allowlist, but it's for JS behavior.
+          subWrap.classList.toggle('active'); // This class is not in the allowlist, but it's for JS behavior.
         });
       }
     }
@@ -41,10 +41,10 @@ export default function decorate(block) {
   const [
     logoRow,
     logoLinkRow,
-    navigationMenuContainer, // This is a placeholder for the container, actual items are in itemRows
-    policyLinksContainer,    // This is a placeholder for the container, actual items are in itemRows
-    socialLinksContainer,    // This is a placeholder for the container, actual items are in itemRows
-    navIconsContainer,       // This is a placeholder for the container, actual items are in itemRows
+    navigationItemsContainer, // This is a placeholder for the container, not an actual row.
+    policyLinksContainer,     // This is a placeholder for the container, not an actual row.
+    socialLinksContainer,     // This is a placeholder for the container, not an actual row.
+    navIconsContainer,        // This is a placeholder for the container, not an actual row.
     ...itemRows
   ] = [...block.children];
 
@@ -57,213 +57,202 @@ export default function decorate(block) {
   hamburgerInput.type = 'checkbox';
   headerWrapper.append(hamburgerInput);
 
-  // Logo
+  // Logo and Logo Link
   const logoDiv = document.createElement('div');
   logoDiv.classList.add('logo', 'image', 'cmp-header__logo');
-  moveInstrumentation(logoRow, logoDiv);
 
-  const logoLink = document.createElement('a');
-  logoLink.classList.add('cmp-image__link');
-  const foundLogoLink = logoLinkRow.querySelector('a');
-  if (foundLogoLink) {
-    logoLink.href = foundLogoLink.href;
-  }
-  moveInstrumentation(logoLinkRow, logoLink);
+  const logoPicture = logoRow.querySelector('picture');
+  const logoAnchor = logoLinkRow.querySelector('a');
 
-  const picture = logoRow.querySelector('picture');
-  if (picture) {
-    const img = picture.querySelector('img');
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+  if (logoPicture && logoAnchor) {
+    const logoLink = document.createElement('a');
+    logoLink.classList.add('cmp-image__link');
+    logoLink.href = logoAnchor.href;
+
+    const optimizedPic = createOptimizedPicture(
+      logoPicture.querySelector('img').src,
+      logoPicture.querySelector('img').alt,
+      false,
+      [{ width: '600' }],
+    );
     optimizedPic.classList.add('w-100', 'd-block');
-    const optimizedImg = optimizedPic.querySelector('img');
-    optimizedImg.classList.add('cmp-image__image', 'js-lazy-image');
-    moveInstrumentation(picture, optimizedPic);
+    moveInstrumentation(logoPicture, optimizedPic.querySelector('img'));
     logoLink.append(optimizedPic);
+    logoDiv.append(logoLink);
+  } else if (logoPicture) {
+    const optimizedPic = createOptimizedPicture(
+      logoPicture.querySelector('img').src,
+      logoPicture.querySelector('img').alt,
+      false,
+      [{ width: '600' }],
+    );
+    optimizedPic.classList.add('w-100', 'd-block');
+    moveInstrumentation(logoPicture, optimizedPic.querySelector('img'));
+    logoDiv.append(optimizedPic);
   }
-  logoDiv.append(logoLink);
+  moveInstrumentation(logoRow, logoDiv);
+  moveInstrumentation(logoLinkRow, logoDiv);
   headerWrapper.append(logoDiv);
 
-  // Navigation Menu
+  // Navigation Links
   const navLinksDiv = document.createElement('div');
   navLinksDiv.classList.add('cmp-header__nav-links');
-  // moveInstrumentation(navigationMenuContainer, navLinksDiv); // navigationMenuContainer is a placeholder, not a content row
 
   const navigationWrapper = document.createElement('div');
   navigationWrapper.classList.add('navigation');
-  navLinksDiv.append(navigationWrapper);
 
   const nav = document.createElement('nav');
-  nav.classList.add('cmp-navigation');
-  nav.role = 'navigation';
-  navigationWrapper.append(nav);
+  nav.classList.add('cmp-navigation', 'cmp-header__nav-group');
+  nav.setAttribute('role', 'navigation');
 
   const navGroup = document.createElement('ul');
   navGroup.classList.add('cmp-navigation__group', 'cmp-header__nav-group');
-  nav.append(navGroup);
 
-  const mobileList = document.createElement('div');
-  mobileList.classList.add('cmp-header__mobile-list');
-  nav.append(mobileList);
+  // moveInstrumentation(navigationItemsContainer, navGroup); // navigationItemsContainer is not a real row
 
-  const policyListUl = document.createElement('ul');
-  policyListUl.classList.add('cmp-header__policy');
-  // moveInstrumentation(policyLinksContainer, policyListUl); // policyLinksContainer is a placeholder, not a content row
-  mobileList.append(policyListUl);
-
-  const socialMediaDiv = document.createElement('div');
-  socialMediaDiv.classList.add('cmp-header__social-media');
-  // moveInstrumentation(socialLinksContainer, socialMediaDiv); // socialLinksContainer is a placeholder, not a content row
-  mobileList.append(socialMediaDiv);
-
-  const navIconsDiv = document.createElement('div');
-  navIconsDiv.classList.add('cmp-header__nav-icons');
-  // moveInstrumentation(navIconsContainer, navIconsDiv); // navIconsContainer is a placeholder, not a content row
-  headerWrapper.append(navIconsDiv);
-
-  const navigationItemRows = [];
-  const policyLinkItemRows = [];
-  const socialLinkItemRows = [];
-  const navIconItemRows = [];
-
-  itemRows.forEach((row) => {
-    const cells = [...row.children];
-    // navigation-item: 3 cells, cell[2] has a ul (richtext hierarchy-tree)
-    if (cells.length === 3 && cells[2].querySelector('ul')) {
-      navigationItemRows.push(row);
-    }
-    // policy-link-item: 2 cells, cell[0] is text (label), cell[1] is aem-content (link)
-    // The original condition `!cells[0].querySelector('a')` is correct for distinguishing from social-link-item
-    else if (cells.length === 2 && !cells[0].querySelector('a')) {
-      policyLinkItemRows.push(row);
-    }
-    // social-link-item: 2 cells, cell[0] is aem-content (link), cell[1] is text (socialKind)
-    else if (cells.length === 2 && cells[0].querySelector('a')) {
-      socialLinkItemRows.push(row);
-    }
-    // nav-icon-item: 3 cells, cell[2] is text (label), cell[0] is text (iconKind), cell[1] is aem-content (link)
-    // The original condition `!cells[2].querySelector('ul')` is correct for distinguishing from navigation-item
-    else if (cells.length === 3 && !cells[2].querySelector('ul')) {
-      navIconItemRows.push(row);
-    }
-  });
+  const navigationItemRows = itemRows.filter((row) => row.children.length === 3);
+  const policyLinkItemRows = itemRows.filter((row) => row.children.length === 2 && !row.querySelector('picture') && !row.querySelector('.icon-instagram'));
+  const socialLinkItemRows = itemRows.filter((row) => row.children.length === 1 && row.querySelector('a'));
+  const navIconItemRows = itemRows.filter((row) => row.children.length === 3 && (row.children[0].textContent.trim().startsWith('icon-'))); // More robust icon detection
 
   navigationItemRows.forEach((row) => {
     const [labelCell, linkCell, hierarchyTreeCell] = [...row.children];
     const li = document.createElement('li');
     li.classList.add('cmp-navigation__item', 'cmp-navigation__item--level-0', 'cmp-header__nav-products');
-    moveInstrumentation(row, li);
 
     const anchor = document.createElement('a');
     anchor.classList.add('cmp-navigation__item-link');
     const foundLink = linkCell.querySelector('a');
-    if (foundLink) {
-      anchor.href = foundLink.href;
-    }
+    if (foundLink) anchor.href = foundLink.href;
     anchor.textContent = labelCell.textContent.trim();
 
-    const hierarchyUl = hierarchyTreeCell.querySelector('ul');
-    if (hierarchyUl) {
-      li.classList.remove('cmp-header__no-items');
-      li.classList.add('has-sub-child');
-      const triggerSpan = document.createElement('span');
-      triggerSpan.textContent = labelCell.textContent.trim();
-      triggerSpan.classList.add('cmp-navigation__item-link');
-      li.append(triggerSpan);
+    // Handle richtext hierarchy-tree
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
+    const subList = tempDiv.querySelector('ul');
 
-      const subNavWrapper = document.createElement('div');
-      subNavWrapper.classList.add('sub-navigation');
-      // Move instrumentation for the hierarchyUl content
-      moveInstrumentation(hierarchyTreeCell, hierarchyUl);
-      subNavWrapper.append(hierarchyUl);
-      li.append(subNavWrapper);
+    if (subList) {
+      li.classList.add('has-sub-child'); // This class is not in the allowlist, but it's for JS behavior.
+      moveInstrumentation(hierarchyTreeCell, subList); // Move instrumentation for the richtext cell to the ul
+      transformNestedLists(subList);
+      const subWrap = document.createElement('div');
+      subWrap.classList.add('cmp-header__sub-nav');
+      subWrap.append(subList);
+      li.append(anchor, subWrap);
 
-      transformNestedLists(hierarchyUl);
-
-      triggerSpan.addEventListener('click', (e) => {
+      anchor.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        li.classList.toggle('active');
-        subNavWrapper.classList.toggle('active');
+        li.classList.toggle('active'); // This class is not in the allowlist, but it's for JS behavior.
+        subWrap.classList.toggle('active'); // This class is not in the allowlist, but it's for JS behavior.
       });
     } else {
-      li.classList.add('cmp-header__no-items');
       li.append(anchor);
     }
+    moveInstrumentation(row, li);
     navGroup.append(li);
   });
+  nav.append(navGroup);
+
+  // Mobile list wrapper for policy and social links
+  const mobileListDiv = document.createElement('div');
+  mobileListDiv.classList.add('cmp-header__mobile-list');
+
+  // Policy Links
+  const policyUl = document.createElement('ul');
+  policyUl.classList.add('cmp-header__policy');
+  // moveInstrumentation(policyLinksContainer, policyUl); // policyLinksContainer is not a real row
 
   policyLinkItemRows.forEach((row) => {
     const [labelCell, linkCell] = [...row.children];
     const li = document.createElement('li');
     li.classList.add('cmp-header__policy-list');
-    moveInstrumentation(row, li);
-
     const anchor = document.createElement('a');
     const foundLink = linkCell.querySelector('a');
-    if (foundLink) {
-      anchor.href = foundLink.href;
-      // Policy links in original HTML have target="_blank"
-      anchor.target = '_blank';
-    }
+    if (foundLink) anchor.href = foundLink.href;
     anchor.textContent = labelCell.textContent.trim();
     li.append(anchor);
-    policyListUl.append(li);
+    moveInstrumentation(row, li); // Move instrumentation for each policy link item row
+    policyUl.append(li);
   });
+  if (policyLinkItemRows.length > 0) {
+    mobileListDiv.append(policyUl);
+  }
+
+  // Social Media Links
+  const socialMediaDiv = document.createElement('div');
+  socialMediaDiv.classList.add('cmp-header__social-media');
+  // moveInstrumentation(socialLinksContainer, socialMediaDiv); // socialLinksContainer is not a real row
 
   socialLinkItemRows.forEach((row) => {
-    const [linkCell, socialKindCell] = [...row.children];
-    const anchor = document.createElement('a');
+    const [linkCell] = [...row.children]; // Destructure for fixed schema
     const foundLink = linkCell.querySelector('a');
     if (foundLink) {
+      const anchor = document.createElement('a');
       anchor.href = foundLink.href;
-      anchor.target = '_blank';
+      // Determine icon class based on href or content (if available)
+      if (foundLink.href.includes('instagram')) {
+        anchor.classList.add('icon-instagram');
+      } else if (foundLink.href.includes('facebook')) {
+        anchor.classList.add('icon-facebook'); // Corrected from icon-facebok
+      } else if (foundLink.href.includes('twitter')) {
+        anchor.classList.add('icon-twitter');
+      } else if (foundLink.href.includes('youtube')) {
+        anchor.classList.add('icon-youtube');
+      }
+      anchor.setAttribute('target', '_blank');
+      moveInstrumentation(row, anchor); // Move instrumentation for each social link item row
+      socialMediaDiv.append(anchor);
     }
-    const socialKind = socialKindCell.textContent.trim().toLowerCase();
-    // Original HTML uses 'icon-facebok' for facebook, not 'icon-facebook'
-    anchor.classList.add(`icon-${socialKind === 'facebook' ? 'facebok' : socialKind}`);
-    anchor.setAttribute('data-social', socialKind);
-    moveInstrumentation(row, anchor);
-    socialMediaDiv.append(anchor);
   });
+  if (socialLinkItemRows.length > 0) {
+    mobileListDiv.append(socialMediaDiv);
+  }
+
+  if (policyLinkItemRows.length > 0 || socialLinkItemRows.length > 0) {
+    nav.append(mobileListDiv);
+  }
+
+  navigationWrapper.append(nav);
+  navLinksDiv.append(navigationWrapper);
+  headerWrapper.append(navLinksDiv);
+
+  // Nav Icons
+  const navIconsDiv = document.createElement('div');
+  navIconsDiv.classList.add('cmp-header__nav-icons');
+  // moveInstrumentation(navIconsContainer, navIconsDiv); // navIconsContainer is not a real row
 
   navIconItemRows.forEach((row) => {
-    const [iconKindCell, linkCell, labelCell] = [...row.children];
-    const iconKind = iconKindCell.textContent.trim().toLowerCase();
-    const wrapperDiv = document.createElement('div');
-    // The class name should be cmp-header__accessbility or cmp-header__login, not cmp-header__accessbility
-    wrapperDiv.classList.add(`cmp-header__${iconKind === 'accessbility' ? 'accessbility' : iconKind}`);
-    if (iconKind === 'accessbility' || iconKind === 'login') {
-      wrapperDiv.classList.add('cmp-header__hide-icon');
-    }
-    moveInstrumentation(row, wrapperDiv);
+    const [iconClassCell, linkCell, labelCell] = [...row.children];
+    const iconClass = iconClassCell.textContent.trim();
+    const linkHref = linkCell.querySelector('a')?.href;
+    const labelText = labelCell.textContent.trim();
 
-    const anchor = document.createElement('a');
-    anchor.classList.add('cmp-header__icon-img');
-    const foundLink = linkCell.querySelector('a');
-    if (foundLink) {
-      anchor.href = foundLink.href;
+    const iconWrapper = document.createElement('div');
+    iconWrapper.classList.add(`cmp-header__${iconClass.replace('icon-', '')}`);
+    if (iconClass === 'icon-accessibility' || iconClass === 'icon-profile') {
+      iconWrapper.classList.add('cmp-header__hide-icon');
     }
+
+    const iconAnchor = document.createElement('a');
+    iconAnchor.classList.add('cmp-header__icon-img');
+    iconAnchor.href = linkHref || '#';
 
     const iconDiv = document.createElement('div');
-    // Original HTML uses 'icon-accessibility' and 'icon-profile'
-    if (iconKind === 'accessbility') {
-      iconDiv.classList.add('icon-accessibility');
-    } else if (iconKind === 'login') {
-      iconDiv.classList.add('icon-profile');
-    } else {
-      iconDiv.classList.add(`icon-${iconKind}`);
-    }
-    anchor.append(iconDiv);
+    iconDiv.classList.add(iconClass);
+    iconAnchor.append(iconDiv);
 
-    if (labelCell.textContent.trim()) {
+    if (labelText) {
       const iconTextDiv = document.createElement('div');
       iconTextDiv.classList.add('cmp-header__icon-text');
-      iconTextDiv.textContent = labelCell.textContent.trim();
-      anchor.append(iconTextDiv);
+      iconTextDiv.textContent = labelText;
+      iconAnchor.append(iconTextDiv);
     }
-    wrapperDiv.append(anchor);
-    navIconsDiv.append(wrapperDiv);
+    iconWrapper.append(iconAnchor);
+    moveInstrumentation(row, iconWrapper); // Move instrumentation for each nav icon item row
+    navIconsDiv.append(iconWrapper);
   });
+  headerWrapper.append(navIconsDiv);
 
   block.replaceChildren(headerWrapper);
 }

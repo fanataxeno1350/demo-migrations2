@@ -131,13 +131,13 @@
         },
         {
           "title": "DIY Card Item",
-          "id": "diy_card_item",
+          "id": "diy-card-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "diy_card_item",
+                  "model": "diy-card-item",
                   "name": "DIY Card Item"
                 }
               }
@@ -191,15 +191,15 @@
           }
         },
         {
-          "title": "Footer-Link-Item",
-          "id": "footer-link-item",
+          "title": "Footer-Bottom-Link",
+          "id": "footer-bottom-link",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "footer-link-item",
-                  "name": "Footer-Link-Item"
+                  "model": "footer-bottom-link",
+                  "name": "Footer-Bottom-Link"
                 }
               }
             }
@@ -328,7 +328,7 @@
           }
         },
         {
-          "title": "Product-Tabs",
+          "title": "Product Tabs",
           "id": "product_tabs",
           "plugins": {
             "xwalk": {
@@ -337,22 +337,22 @@
                 "template": {
                   "filter": "product_tabs",
                   "model": "product_tabs",
-                  "name": "Product-Tabs"
+                  "name": "Product Tabs"
                 }
               }
             }
           }
         },
         {
-          "title": "Tab-Item",
-          "id": "tab-item",
+          "title": "Product Tab Item",
+          "id": "product-tab-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "model": "tab-item",
-                  "name": "Tab-Item"
+                  "model": "product-tab-item",
+                  "name": "Product Tab Item"
                 }
               }
             }

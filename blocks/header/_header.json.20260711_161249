@@ -1,76 +1,76 @@
 {
   "definitions": [
     {
-      "title": "Footer",
-      "id": "footer",
+      "title": "Header",
+      "id": "header",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
-              "filter": "footer",
-              "model": "footer",
-              "name": "Footer"
+              "filter": "header",
+              "model": "header",
+              "name": "Header"
             }
           }
         }
       }
     },
     {
-      "title": "Footer-Navigation-Group",
-      "id": "footer-navigation-group",
+      "title": "Navigation Item",
+      "id": "navigation-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "footer-navigation-group",
-              "name": "Footer-Navigation-Group"
+              "model": "navigation-item",
+              "name": "Navigation Item"
             }
           }
         }
       }
     },
     {
-      "title": "Footer-Navigation-Item",
-      "id": "footer-navigation-item",
+      "title": "Policy Link Item",
+      "id": "policy-link-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "footer-navigation-item",
-              "name": "Footer-Navigation-Item"
+              "model": "policy-link-item",
+              "name": "Policy Link Item"
             }
           }
         }
       }
     },
     {
-      "title": "Footer-Bottom-Link",
-      "id": "footer-bottom-link",
+      "title": "Social Link Item",
+      "id": "social-link-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "footer-bottom-link",
-              "name": "Footer-Bottom-Link"
+              "model": "social-link-item",
+              "name": "Social Link Item"
             }
           }
         }
       }
     },
     {
-      "title": "Footer-Social-Item",
-      "id": "footer-social-item",
+      "title": "Nav Icon Item",
+      "id": "nav-icon-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "footer-social-item",
-              "name": "Footer-Social-Item"
+              "model": "nav-icon-item",
+              "name": "Nav Icon Item"
             }
           }
         }
@@ -79,17 +79,11 @@
   ],
   "models": [
     {
-      "id": "footer",
+      "id": "header",
       "fields": [
         {
           "component": "reference",
-          "label": "Top Background Image (Desktop)",
-          "name": "backgroundImage",
-          "valueType": "string"
-        },
-        {
-          "component": "reference",
-          "label": "Logo Image",
+          "label": "Logo",
           "name": "logo",
           "valueType": "string"
         },
@@ -101,32 +95,44 @@
         },
         {
           "component": "container",
-          "item": "footer-navigation-group",
-          "label": "Navigation Groups",
-          "name": "navigationGroups"
+          "item": "navigation-item",
+          "label": "Navigation Menu",
+          "name": "navigationMenu"
         },
         {
           "component": "container",
-          "item": "footer-bottom-link",
-          "label": "Bottom Links",
-          "name": "bottomLinks"
+          "item": "policy-link-item",
+          "label": "Policy Links",
+          "name": "policyLinks"
         },
         {
           "component": "container",
-          "item": "footer-social-item",
+          "item": "social-link-item",
           "label": "Social Media Links",
           "name": "socialLinks"
+        },
+        {
+          "component": "container",
+          "item": "nav-icon-item",
+          "label": "Header Nav Icons",
+          "name": "navIcons"
         }
       ]
     },
     {
-      "id": "footer-navigation-group",
+      "id": "navigation-item",
       "fields": [
         {
-          "component": "container",
-          "item": "footer-navigation-item",
-          "label": "Navigation Items",
-          "name": "navItems"
+          "component": "text",
+          "label": "Label",
+          "name": "label",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Link",
+          "name": "link",
+          "valueType": "string"
         },
         {
           "component": "richtext",
@@ -137,46 +143,58 @@
       ]
     },
     {
-      "id": "footer-navigation-item",
+      "id": "policy-link-item",
       "fields": [
         {
           "component": "text",
-          "label": "Navigation Label",
+          "label": "Policy Label",
           "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Navigation Link",
+          "label": "Policy Link",
           "name": "link",
           "valueType": "string"
         }
       ]
     },
     {
-      "id": "footer-bottom-link",
+      "id": "social-link-item",
       "fields": [
         {
-          "component": "text",
-          "label": "Bottom Link Label",
-          "name": "label",
+          "component": "aem-content",
+          "label": "Social Link",
+          "name": "link",
           "valueType": "string"
         },
         {
-          "component": "aem-content",
-          "label": "Bottom Link URL",
-          "name": "link",
+          "component": "text",
+          "label": "Social Kind",
+          "name": "socialKind",
           "valueType": "string"
         }
       ]
     },
     {
-      "id": "footer-social-item",
+      "id": "nav-icon-item",
       "fields": [
         {
+          "component": "text",
+          "label": "Icon Kind",
+          "name": "iconKind",
+          "valueType": "string"
+        },
+        {
           "component": "aem-content",
-          "label": "Social Media Link",
-          "name": "socialLink",
+          "label": "Icon Link",
+          "name": "link",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Icon Label",
+          "name": "label",
           "valueType": "string"
         }
       ]
@@ -184,12 +202,12 @@
   ],
   "filters": [
     {
-      "id": "footer",
+      "id": "header",
       "components": [
-        "footer-navigation-group",
-        "footer-navigation-item",
-        "footer-bottom-link",
-        "footer-social-item"
+        "navigation-item",
+        "policy-link-item",
+        "social-link-item",
+        "nav-icon-item"
       ]
     }
   ]
