@@ -136,7 +136,7 @@ function moveHeaderFooterBlocks(doc) {
     if (!hasHeader && !hasFooter) return;
 
     // Move the wrapper div when present (e.g. "boing-header-footer-wrapper")
-    const wrapper = (block.parentElement && block.parentElement.classList.contains(name + '-wrapper'))
+    const wrapper = (block.parentElement && block.parentElement.classList.contains(`${name}-wrapper`))
       ? block.parentElement
       : block;
 
