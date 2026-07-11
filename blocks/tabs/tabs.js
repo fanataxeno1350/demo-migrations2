@@ -6,15 +6,13 @@ export default function decorate(block) {
   const tabItems = [];
   const cardItems = [];
 
-  // Separate tab-item rows from card-item rows based on cell count
+  // Separate tab items and card items based on cell count
+  // tab-item has 4 cells: tabLabel, description, exploreAllLink, exploreAllLabel
+  // tab-card-item has 5 cells: link, desktopImageDefault, mobileImageDefault, desktopImageHover, mobileImageHover
   children.forEach((row) => {
-    // A tab-item has 4 cells: tabLabel, description, exploreAllLink, exploreAllLabel
-    // It also has a container field "cards", but this doesn't add a cell to the row.
     if (row.children.length === 4) {
       tabItems.push(row);
-    }
-    // A card-item has 5 cells: link, imageDesktopDefault, imageMobileDefault, imageDesktopHover, imageMobileHover
-    else if (row.children.length === 5) {
+    } else if (row.children.length === 5) {
       cardItems.push(row);
     }
   });
@@ -27,188 +25,156 @@ export default function decorate(block) {
   const tabPanelsContainer = document.createElement('div');
 
   tabItems.forEach((tabRow, index) => {
+    // Correct destructuring for tab-item based on BlockJson model
     const [tabLabelCell, descriptionCell, exploreAllLinkCell, exploreAllLabelCell] = [...tabRow.children];
 
-    const tabLabel = tabLabelCell.textContent.trim();
     const tabId = `tab-${index}`;
-    const panelId = `tabpanel-${index}`;
+    const tabPanelId = `tabpanel-${index}`;
 
-    // Create tab item
-    const tabLi = document.createElement('li');
-    tabLi.classList.add('cmp-tabs__tab');
-    tabLi.setAttribute('role', 'tab');
-    tabLi.id = `${block.id || 'tabs'}-item-${tabId}-tab`;
-    tabLi.setAttribute('aria-controls', `${block.id || 'tabs'}-item-${panelId}-tabpanel`);
-    tabLi.setAttribute('tabindex', index === 0 ? '0' : '-1');
-    tabLi.setAttribute('data-cmp-hook-tabs', 'tab');
-    tabLi.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
-    tabLi.textContent = tabLabel;
-    moveInstrumentation(tabRow, tabLi); // Move instrumentation from tabRow to tabLi
-
-    if (index === 0) {
-      tabLi.classList.add('cmp-tabs__tab--active');
-    }
-
-    tabList.append(tabLi);
+    // Create tab list item
+    const tabListItem = document.createElement('li');
+    tabListItem.classList.add('cmp-tabs__tab');
+    tabListItem.setAttribute('role', 'tab');
+    tabListItem.id = `${tabId}-tab`;
+    tabListItem.setAttribute('aria-controls', tabPanelId);
+    tabListItem.setAttribute('tabindex', '-1');
+    tabListItem.setAttribute('data-cmp-hook-tabs', 'tab');
+    tabListItem.setAttribute('aria-selected', 'false');
+    tabListItem.textContent = tabLabelCell.textContent.trim();
+    moveInstrumentation(tabLabelCell, tabListItem); // Move instrumentation from the cell that provided textContent
+    tabList.append(tabListItem);
 
     // Create tab panel
     const tabPanel = document.createElement('div');
     tabPanel.classList.add('cmp-tabs__tabpanel');
-    tabPanel.id = `${block.id || 'tabs'}-item-${panelId}-tabpanel`;
+    tabPanel.id = tabPanelId;
     tabPanel.setAttribute('role', 'tabpanel');
-    tabPanel.setAttribute('aria-labelledby', tabLi.id);
+    tabPanel.setAttribute('aria-labelledby', `${tabId}-tab`);
     tabPanel.setAttribute('tabindex', '0');
     tabPanel.setAttribute('data-cmp-hook-tabs', 'tabpanel');
+    tabPanel.setAttribute('aria-hidden', 'true');
+    moveInstrumentation(tabRow, tabPanel); // Move instrumentation from the tabRow to the tabPanel
 
-    if (index !== 0) {
-      tabPanel.setAttribute('aria-hidden', 'true');
-    } else {
-      tabPanel.classList.add('cmp-tabs__tabpanel--active');
-    }
-
-    // Tab description
-    const descriptionDiv = document.createElement('div');
-    descriptionDiv.classList.add('cards__description', 'text');
-    descriptionDiv.innerHTML = descriptionCell.innerHTML;
-    moveInstrumentation(descriptionCell, descriptionDiv);
-
-    // Explore All Link
-    const exploreAllLinkDiv = document.createElement('div');
-    exploreAllLinkDiv.classList.add('exploremore', 'button', 'cmp-button--secondary');
-    const exploreAllAnchor = document.createElement('a');
-    exploreAllAnchor.classList.add('cmp-button');
-    const foundExploreAllLink = exploreAllLinkCell.querySelector('a');
-    if (foundExploreAllLink) {
-      exploreAllAnchor.href = foundExploreAllLink.href;
-    }
-    exploreAllAnchor.textContent = exploreAllLabelCell.textContent.trim();
-    exploreAllLinkDiv.append(exploreAllAnchor);
-    moveInstrumentation(exploreAllLinkCell, exploreAllLinkDiv);
-    moveInstrumentation(exploreAllLabelCell, exploreAllLinkDiv);
-
-    // Cards container
     const cardsWrapper = document.createElement('div');
     cardsWrapper.classList.add('cards');
-    const cardsContainer = document.createElement('div');
-    cardsContainer.classList.add('cmp-card--image-hover', 'cmp-card--default');
+
+    const cardContainer = document.createElement('div');
+    cardContainer.classList.add('cmp-card--image-hover', 'cmp-card--default');
+    cardContainer.setAttribute('data-component', 'cards');
+
     const cardContentContainer = document.createElement('div');
     cardContentContainer.classList.add('cmp-card__container');
 
     cardItems.forEach((cardRow) => {
-      const [
-        cardLinkCell,
-        imageDesktopDefaultCell,
-        imageMobileDefaultCell,
-        imageDesktopHoverCell,
-        imageMobileHoverCell,
-      ] = [...cardRow.children];
+      // Correct destructuring for tab-card-item based on BlockJson model
+      const [linkCell, desktopImageDefaultCell, mobileImageDefaultCell, desktopImageHoverCell, mobileImageHoverCell] = [...cardRow.children];
 
-      const cardLink = cardLinkCell.querySelector('a');
-      const cardAnchor = document.createElement('a');
-      if (cardLink) {
-        cardAnchor.href = cardLink.href;
-      }
+      const linkEl = linkCell.querySelector('a');
+
+      const cardLink = document.createElement('a');
+      if (linkEl) cardLink.href = linkEl.href;
+      cardLink.setAttribute('target', '_self');
 
       const cardContent = document.createElement('div');
       cardContent.classList.add('cmp-card__content');
       cardContent.setAttribute('tabindex', '0');
 
-      // Default images
-      const desktopDefaultPicture = imageDesktopDefaultCell.querySelector('picture');
-      if (desktopDefaultPicture) {
-        const optimizedDesktopDefaultPic = createOptimizedPicture(
-          desktopDefaultPicture.querySelector('img').src,
-          desktopDefaultPicture.querySelector('img').alt,
-          false,
-          [{ width: '750' }],
-        );
-        optimizedDesktopDefaultPic.querySelector('img').classList.add('cmp-image__image', 'cmp-image__default');
-        moveInstrumentation(desktopDefaultPicture.querySelector('img'), optimizedDesktopDefaultPic.querySelector('img'));
-        cardContent.append(optimizedDesktopDefaultPic);
-      }
+      // Helper function to process image cells
+      const processImageCell = (imageCell, className) => {
+        if (imageCell) {
+          const pictureEl = imageCell.querySelector('picture');
+          if (pictureEl) {
+            const imgEl = pictureEl.querySelector('img');
+            if (imgEl) {
+              const optimizedPic = createOptimizedPicture(
+                imgEl.src,
+                imgEl.alt,
+                false,
+                [{ media: '(max-width:767px)', width: '360' }, { width: '750' }],
+              );
+              optimizedPic.querySelector('img').classList.add('cmp-image__image', className);
+              moveInstrumentation(imageCell, optimizedPic.querySelector('img'));
+              cardContent.append(optimizedPic);
+            }
+          }
+        }
+      };
 
-      const mobileDefaultPicture = imageMobileDefaultCell.querySelector('picture');
-      if (mobileDefaultPicture) {
-        const optimizedMobileDefaultPic = createOptimizedPicture(
-          mobileDefaultPicture.querySelector('img').src,
-          mobileDefaultPicture.querySelector('img').alt,
-          false,
-          [{ width: '360', media: '(max-width: 767px)' }],
-        );
-        optimizedMobileDefaultPic.querySelector('img').classList.add('cmp-image__image', 'cmp-image__default');
-        moveInstrumentation(mobileDefaultPicture.querySelector('img'), optimizedMobileDefaultPic.querySelector('img'));
-        cardContent.append(optimizedMobileDefaultPic);
-      }
+      processImageCell(desktopImageDefaultCell, 'cmp-image__default');
+      processImageCell(mobileImageDefaultCell, 'cmp-image__default');
+      processImageCell(desktopImageHoverCell, 'cmp-image__hover');
+      processImageCell(mobileImageHoverCell, 'cmp-image__hover');
 
-      // Hover images
-      const desktopHoverPicture = imageDesktopHoverCell.querySelector('picture');
-      if (desktopHoverPicture) {
-        const optimizedDesktopHoverPic = createOptimizedPicture(
-          desktopHoverPicture.querySelector('img').src,
-          desktopHoverPicture.querySelector('img').alt,
-          false,
-          [{ width: '750' }],
-        );
-        optimizedDesktopHoverPic.querySelector('img').classList.add('cmp-image__image', 'cmp-image__hover');
-        moveInstrumentation(desktopHoverPicture.querySelector('img'), optimizedDesktopHoverPic.querySelector('img'));
-        cardContent.append(optimizedDesktopHoverPic);
-      }
-
-      const mobileHoverPicture = imageMobileHoverCell.querySelector('picture');
-      if (mobileHoverPicture) {
-        const optimizedMobileHoverPic = createOptimizedPicture(
-          mobileHoverPicture.querySelector('img').src,
-          mobileHoverPicture.querySelector('img').alt,
-          false,
-          [{ width: '360', media: '(max-width: 767px)' }],
-        );
-        optimizedMobileHoverPic.querySelector('img').classList.add('cmp-image__image', 'cmp-image__hover');
-        moveInstrumentation(mobileHoverPicture.querySelector('img'), optimizedMobileHoverPic.querySelector('img'));
-        cardContent.append(optimizedMobileHoverPic);
-      }
-
-      cardAnchor.append(cardContent);
-      cardContentContainer.append(cardAnchor);
-      moveInstrumentation(cardRow, cardAnchor); // Move instrumentation from cardRow to cardAnchor
+      cardLink.append(cardContent);
+      moveInstrumentation(linkCell, cardLink); // Move instrumentation from the link cell to the cardLink
+      cardContentContainer.append(cardLink);
     });
 
-    cardsContainer.append(cardContentContainer);
-    cardsWrapper.append(cardsContainer);
-    tabPanel.append(cardsWrapper, descriptionDiv, exploreAllLinkDiv);
+    cardContainer.append(cardContentContainer);
+    cardsWrapper.append(cardContainer);
+
+    const descriptionDiv = document.createElement('div');
+    descriptionDiv.classList.add('cards__description', 'text');
+    const cmpTextDiv = document.createElement('div');
+    cmpTextDiv.classList.add('cmp-text');
+    cmpTextDiv.innerHTML = descriptionCell.innerHTML; // richtext field, use innerHTML
+    moveInstrumentation(descriptionCell, cmpTextDiv);
+    descriptionDiv.append(cmpTextDiv);
+    cardsWrapper.append(descriptionDiv);
+
+    const exploreMoreDiv = document.createElement('div');
+    exploreMoreDiv.classList.add('exploremore', 'button', 'cmp-button--secondary');
+    const exploreLink = document.createElement('a');
+    exploreLink.classList.add('cmp-button');
+    const exploreLinkFound = exploreAllLinkCell.querySelector('a');
+    if (exploreLinkFound) exploreLink.href = exploreLinkFound.href;
+    const exploreSpan = document.createElement('span');
+    exploreSpan.classList.add('cmp-button__text');
+    exploreSpan.textContent = exploreAllLabelCell.textContent.trim();
+    exploreLink.append(exploreSpan);
+    moveInstrumentation(exploreAllLinkCell, exploreLink);
+    moveInstrumentation(exploreAllLabelCell, exploreSpan);
+    exploreMoreDiv.append(exploreLink);
+    cardsWrapper.append(exploreMoreDiv);
+
+    tabPanel.append(cardsWrapper);
     tabPanelsContainer.append(tabPanel);
   });
 
-  // Event listener for tab clicks
-  tabList.addEventListener('click', (event) => {
-    const clickedTab = event.target.closest('.cmp-tabs__tab');
-    if (!clickedTab) return;
+  block.replaceChildren(tabList, tabPanelsContainer);
 
-    // Deactivate current tab
-    const currentActiveTab = tabList.querySelector('.cmp-tabs__tab--active');
-    if (currentActiveTab) {
-      currentActiveTab.classList.remove('cmp-tabs__tab--active');
-      currentActiveTab.setAttribute('aria-selected', 'false');
-      currentActiveTab.setAttribute('tabindex', '-1');
-      const currentActivePanelId = currentActiveTab.getAttribute('aria-controls');
-      const currentActivePanel = tabPanelsContainer.querySelector(`#${currentActivePanelId}`);
-      if (currentActivePanel) {
-        currentActivePanel.classList.remove('cmp-tabs__tabpanel--active');
-        currentActivePanel.setAttribute('aria-hidden', 'true');
-      }
-    }
+  const tabs = block.querySelectorAll('.cmp-tabs__tab');
+  const tabpanels = block.querySelectorAll('.cmp-tabs__tabpanel');
 
-    // Activate new tab
-    clickedTab.classList.add('cmp-tabs__tab--active');
-    clickedTab.setAttribute('aria-selected', 'true');
-    clickedTab.setAttribute('tabindex', '0');
-    const newActivePanelId = clickedTab.getAttribute('aria-controls');
-    const newActivePanel = tabPanelsContainer.querySelector(`#${newActivePanelId}`);
-    if (newActivePanel) {
-      newActivePanel.classList.add('cmp-tabs__tabpanel--active');
-      newActivePanel.setAttribute('aria-hidden', 'false');
+  const activateTab = (activeTab) => {
+    tabs.forEach((tab) => {
+      tab.classList.remove('cmp-tabs__tab--active');
+      tab.setAttribute('aria-selected', 'false');
+      tab.setAttribute('tabindex', '-1');
+    });
+    tabpanels.forEach((panel) => {
+      panel.classList.remove('cmp-tabs__tabpanel--active');
+      panel.setAttribute('aria-hidden', 'true');
+    });
+
+    activeTab.classList.add('cmp-tabs__tab--active');
+    activeTab.setAttribute('aria-selected', 'true');
+    activeTab.setAttribute('tabindex', '0');
+
+    const targetPanelId = activeTab.getAttribute('aria-controls');
+    const targetPanel = block.querySelector(`#${targetPanelId}`);
+    if (targetPanel) {
+      targetPanel.classList.add('cmp-tabs__tabpanel--active');
+      targetPanel.setAttribute('aria-hidden', 'false');
     }
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => activateTab(tab));
   });
 
-  block.replaceChildren(tabList, tabPanelsContainer);
-  // block.classList.add('cmp-tabs'); // Removed: The outer block div already has this class from AEM.
+  // Activate the first tab by default
+  if (tabs.length > 0) {
+    activateTab(tabs[0]);
+  }
 }

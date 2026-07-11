@@ -165,8 +165,8 @@
       {
         "component": "container",
         "item": "card-item",
-        "label": "Cards List",
-        "name": "cardsList"
+        "label": "Cards",
+        "name": "cards"
       }
     ]
   },
@@ -174,33 +174,33 @@
     "id": "card-item",
     "fields": [
       {
-        "component": "aem-content",
-        "label": "Card Link",
-        "name": "link",
-        "valueType": "string"
-      },
-      {
         "component": "reference",
-        "label": "Desktop Default Image",
+        "label": "Card Image Desktop Default",
         "name": "imageDesktopDefault",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Mobile Default Image",
+        "label": "Card Image Mobile Default",
         "name": "imageMobileDefault",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Desktop Hover Image",
+        "label": "Card Image Desktop Hover",
         "name": "imageDesktopHover",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Mobile Hover Image",
+        "label": "Card Image Mobile Hover",
         "name": "imageMobileHover",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Card Link",
+        "name": "cardLink",
         "valueType": "string"
       }
     ]
@@ -210,44 +210,39 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Arrow Left Icon",
-        "name": "arrowLeftIcon",
-        "valueType": "string"
+        "label": "Previous Arrow Icon",
+        "name": "arrowPreviousIcon"
       },
       {
         "component": "reference",
-        "label": "Arrow Right Icon",
-        "name": "arrowRightIcon",
-        "valueType": "string"
+        "label": "Next Arrow Icon",
+        "name": "arrowNextIcon"
       },
       {
         "component": "container",
-        "item": "carousel-slide",
+        "item": "carousel-slide-item",
         "label": "Slides",
         "name": "slides"
       }
     ]
   },
   {
-    "id": "carousel-slide",
+    "id": "carousel-slide-item",
     "fields": [
       {
         "component": "reference",
         "label": "Desktop Image",
-        "name": "imageDesktop",
-        "valueType": "string"
+        "name": "desktopImage"
       },
       {
         "component": "reference",
         "label": "Mobile Image",
-        "name": "imageMobile",
-        "valueType": "string"
+        "name": "mobileImage"
       },
       {
         "component": "aem-content",
         "label": "Slide Link",
-        "name": "slideLink",
-        "valueType": "string"
+        "name": "slideLink"
       }
     ]
   },
@@ -356,27 +351,27 @@
       },
       {
         "component": "container",
-        "item": "footer-link-item",
-        "label": "Footer Links One",
-        "name": "footerLinksOne"
+        "item": "footer-navigation-item",
+        "label": "Footer Navigation Links One",
+        "name": "footerNavLinksOne"
+      },
+      {
+        "component": "container",
+        "item": "footer-navigation-item",
+        "label": "Footer Navigation Links Two",
+        "name": "footerNavLinksTwo"
+      },
+      {
+        "component": "container",
+        "item": "footer-navigation-item",
+        "label": "Footer Navigation Links Three",
+        "name": "footerNavLinksThree"
       },
       {
         "component": "container",
         "item": "footer-link-item",
-        "label": "Footer Links Two",
-        "name": "footerLinksTwo"
-      },
-      {
-        "component": "container",
-        "item": "footer-link-item",
-        "label": "Footer Links Three",
-        "name": "footerLinksThree"
-      },
-      {
-        "component": "container",
-        "item": "footer-link-item",
-        "label": "Footer ITC/Legal Links",
-        "name": "footerLinksITC"
+        "label": "Footer Bottom Links",
+        "name": "footerLinks"
       },
       {
         "component": "container",
@@ -387,17 +382,17 @@
     ]
   },
   {
-    "id": "footer-link-item",
+    "id": "footer-navigation-item",
     "fields": [
       {
         "component": "text",
-        "label": "Link Label",
+        "label": "Navigation Label",
         "name": "label",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Link URL",
+        "label": "Navigation Link",
         "name": "link",
         "valueType": "string"
       },
@@ -410,18 +405,35 @@
     ]
   },
   {
+    "id": "footer-link-item",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Footer Link Label",
+        "name": "label",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Footer Link URL",
+        "name": "link",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "footer-social-item",
     "fields": [
       {
         "component": "reference",
-        "label": "Social Icon Desktop",
-        "name": "iconDesktop",
+        "label": "Social Icon Default",
+        "name": "iconDefault",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Social Icon Mobile",
-        "name": "iconMobile",
+        "label": "Social Icon Hover",
+        "name": "iconHover",
         "valueType": "string"
       },
       {
@@ -533,7 +545,7 @@
       },
       {
         "component": "container",
-        "item": "card-item",
+        "item": "tab-card-item",
         "label": "Cards",
         "name": "cards"
       },
@@ -558,36 +570,36 @@
     ]
   },
   {
-    "id": "card-item",
+    "id": "tab-card-item",
     "fields": [
       {
         "component": "aem-content",
-        "label": "Card Link",
+        "label": "Product Link",
         "name": "link",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Desktop Default Image",
-        "name": "imageDesktopDefault",
+        "label": "Desktop Image (Default)",
+        "name": "desktopImageDefault",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Mobile Default Image",
-        "name": "imageMobileDefault",
+        "label": "Mobile Image (Default)",
+        "name": "mobileImageDefault",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Desktop Hover Image",
-        "name": "imageDesktopHover",
+        "label": "Desktop Image (Hover)",
+        "name": "desktopImageHover",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Mobile Hover Image",
-        "name": "imageMobileHover",
+        "label": "Mobile Image (Hover)",
+        "name": "mobileImageHover",
         "valueType": "string"
       }
     ]
@@ -597,14 +609,8 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Desktop Image",
-        "name": "desktopImage",
-        "valueType": "string"
-      },
-      {
-        "component": "reference",
-        "label": "Mobile Image",
-        "name": "mobileImage",
+        "label": "Main Image",
+        "name": "mainImage",
         "valueType": "string"
       }
     ]

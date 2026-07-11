@@ -23,8 +23,14 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Main Image",
-          "name": "mainImage",
+          "label": "Desktop Image",
+          "name": "desktopImage",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Mobile Image",
+          "name": "mobileImage",
           "valueType": "string"
         }
       ]

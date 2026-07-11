@@ -32,15 +32,15 @@
       }
     },
     {
-      "title": "Tab-Card-Item",
-      "id": "tab-card-item",
+      "title": "Card-Item",
+      "id": "card-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "tab-card-item",
-              "name": "Tab-Card-Item"
+              "model": "card-item",
+              "name": "Card-Item"
             }
           }
         }
@@ -70,7 +70,7 @@
         },
         {
           "component": "container",
-          "item": "tab-card-item",
+          "item": "card-item",
           "label": "Cards",
           "name": "cards"
         },
@@ -95,36 +95,36 @@
       ]
     },
     {
-      "id": "tab-card-item",
+      "id": "card-item",
       "fields": [
         {
           "component": "aem-content",
-          "label": "Product Link",
+          "label": "Card Link",
           "name": "link",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Desktop Image (Default)",
-          "name": "desktopImageDefault",
+          "label": "Desktop Default Image",
+          "name": "imageDesktopDefault",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Mobile Image (Default)",
-          "name": "mobileImageDefault",
+          "label": "Mobile Default Image",
+          "name": "imageMobileDefault",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Desktop Image (Hover)",
-          "name": "desktopImageHover",
+          "label": "Desktop Hover Image",
+          "name": "imageDesktopHover",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Mobile Image (Hover)",
-          "name": "mobileImageHover",
+          "label": "Mobile Hover Image",
+          "name": "imageMobileHover",
           "valueType": "string"
         }
       ]
@@ -135,7 +135,7 @@
       "id": "tabs",
       "components": [
         "tab-item",
-        "tab-card-item"
+        "card-item"
       ]
     }
   ]

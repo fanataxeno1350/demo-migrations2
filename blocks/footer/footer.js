@@ -21,10 +21,9 @@ function transformNestedLists(rootUl) {
     if (nested) {
       nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('cmp-navigation__sub-group-wrapper'); // Corrected class from original HTML
+      subWrap.classList.add('cmp-navigation__group'); // Use class from ORIGINAL HTML
       subWrap.append(nested);
       li.append(subWrap);
-
       const trigger = li.querySelector(':scope > a, :scope > span');
       if (trigger) {
         trigger.addEventListener('click', (e) => {
@@ -50,54 +49,66 @@ export default function decorate(block) {
     logoMobileRow,
     logoMobileLinkRow,
     fssaiMobileRow,
-    // These are container fields, their item rows are mixed in `itemRows`
-    // footerLinksOneContainer,
-    // footerLinksTwoContainer,
-    // footerLinksThreeContainer,
-    // footerLinksITCContainer,
-    // footerSocialLinksContainer,
-    ...itemRows // All remaining rows are item rows
+    footerNavLinksOnePlaceholder, // Placeholder row for Footer Navigation Links One
+    footerNavLinksTwoPlaceholder, // Placeholder row for Footer Navigation Links Two
+    footerNavLinksThreePlaceholder, // Placeholder row for Footer Navigation Links Three
+    footerLinksPlaceholder, // Placeholder row for Footer Bottom Links
+    footerSocialLinksPlaceholder, // Placeholder row for Footer Social Links
+    ...itemRows
   ] = children;
 
-  // Filter item rows based on their structure
-  const allFooterLinkItems = itemRows.filter((row) => row.children.length === 3);
-  const allSocialLinkItems = itemRows.filter((row) => row.children.length === 3 && row.querySelector('picture'));
-  const allItcLinkItems = itemRows.filter((row) => row.children.length === 2); // Assuming ITC links are 2 cells
+  const footerNavLinksOne = [];
+  const footerNavLinksTwo = [];
+  const footerNavLinksThree = [];
+  const footerLinks = [];
+  const footerSocialLinks = [];
 
-  // Create a copy to be consumed by different sections
-  const footerLinkItemsForNav = [...allFooterLinkItems];
-  const itcLinkItemsForBottom = [...allItcLinkItems];
-  const socialLinkItemsForBottom = [...allSocialLinkItems];
-
+  // Group itemRows based on their type and order
+  let navItemCount = 0;
+  itemRows.forEach((row) => {
+    const cells = [...row.children];
+    if (cells.length === 3) {
+      // This could be footer-navigation-item or footer-social-item
+      const [cell0, cell1, cell2] = cells;
+      if (cell0.querySelector('picture') && cell2.querySelector('a')) {
+        // This is a footer-social-item (iconDefault, iconHover, link)
+        footerSocialLinks.push(row);
+      } else if (cell0.textContent.trim() && cell1.querySelector('a') && cell2.querySelector('ul')) {
+        // This is a footer-navigation-item (label, link, hierarchy-tree)
+        // Assign to nav groups based on order, assuming fixed counts per group from original HTML
+        if (navItemCount < 5) { // First group has 5 items
+          footerNavLinksOne.push(row);
+        } else if (navItemCount < 9) { // Second group has 4 items (5+4=9)
+          footerNavLinksTwo.push(row);
+        } else { // Third group has 3 items (9+3=12)
+          footerNavLinksThree.push(row);
+        }
+        navItemCount += 1;
+      }
+    } else if (cells.length === 2) {
+      // This is a footer-link-item (label, link)
+      footerLinks.push(row);
+    }
+  });
 
   const root = document.createElement('div');
-  // root.classList.add('cmp-footer'); // VIOLATION: block already has this class from AEM
+  root.classList.add('cmp-footer');
 
   // Background Images
   const backgroundDesktopPicture = backgroundDesktopRow?.querySelector('picture');
   const backgroundMobilePicture = backgroundMobileRow?.querySelector('picture');
 
   if (backgroundDesktopPicture || backgroundMobilePicture) {
-    const style = document.createElement('style');
-    let desktopSrc = backgroundDesktopPicture?.querySelector('img')?.src;
-    let mobileSrc = backgroundMobilePicture?.querySelector('img')?.src;
+    const desktopImg = backgroundDesktopPicture?.querySelector('img');
+    const mobileImg = backgroundMobilePicture?.querySelector('img');
 
-    if (desktopSrc) {
-      desktopSrc = createOptimizedPicture(desktopSrc, '', false, [{ width: '2000' }]).querySelector('img').src;
+    if (desktopImg) {
+      block.style.background = `url("${desktopImg.src}") 0% 0% / cover`;
+      moveInstrumentation(backgroundDesktopRow, block);
+    } else if (mobileImg) {
+      block.style.background = `url("${mobileImg.src}") 0% 0% / cover`;
+      moveInstrumentation(backgroundMobileRow, block);
     }
-    if (mobileSrc) {
-      mobileSrc = createOptimizedPicture(mobileSrc, '', false, [{ width: '768' }]).querySelector('img').src;
-    }
-
-    let css = '';
-    if (desktopSrc) {
-      css += `.footer { background: url("${desktopSrc}") 0% 0% / cover; }`;
-    }
-    if (mobileSrc) {
-      css += `@media (max-width: 767px) { .footer { background: url("${mobileSrc}") 0% 0% / cover; } }`;
-    }
-    style.textContent = css;
-    block.append(style);
   }
 
   // Top Content
@@ -106,275 +117,243 @@ export default function decorate(block) {
 
   const navLogo = document.createElement('div');
   navLogo.classList.add('cmp-footer__nav-logo');
-  const logoDiv = document.createElement('div');
-  logoDiv.classList.add('logo', 'image');
+  const logoWrapper = document.createElement('div');
+  logoWrapper.classList.add('logo', 'image');
   const cmpImage = document.createElement('div');
   cmpImage.classList.add('cmp-image');
-  const footerLogoDiv = document.createElement('div');
-  footerLogoDiv.classList.add('footerLogo');
+  const footerLogo = document.createElement('div');
+  footerLogo.classList.add('footerLogo');
+
   const bnaturalFooterDiv = document.createElement('div');
   bnaturalFooterDiv.classList.add('bnatural-footer-div');
 
+  // Desktop Logo and FSSAI
   const bnaturalFooterDesktopDiv = document.createElement('div');
   bnaturalFooterDesktopDiv.classList.add('bnatural-footer-desktop-div');
 
-  const logoDesktopLink = document.createElement('a');
-  logoDesktopLink.classList.add('inlineBlockClass');
-  const logoDesktopLinkHref = logoDesktopLinkRow?.querySelector('a')?.href;
-  if (logoDesktopLinkHref) {
-    logoDesktopLink.href = logoDesktopLinkHref;
-  }
   const logoDesktopPicture = logoDesktopRow?.querySelector('picture');
-  if (logoDesktopPicture) {
-    moveInstrumentation(logoDesktopRow, logoDesktopLink);
-    logoDesktopLink.append(logoDesktopPicture);
-    bnaturalFooterDesktopDiv.append(logoDesktopLink);
+  const logoDesktopLink = logoDesktopLinkRow?.querySelector('a');
+  if (logoDesktopPicture && logoDesktopLink) {
+    const linkEl = document.createElement('a');
+    linkEl.href = logoDesktopLink.href;
+    linkEl.classList.add('inlineBlockClass');
+    const optimizedPic = createOptimizedPicture(logoDesktopPicture.querySelector('img').src, logoDesktopPicture.querySelector('img').alt, false, [{ width: '750' }]);
+    linkEl.append(optimizedPic);
+    moveInstrumentation(logoDesktopRow, optimizedPic); // Move instrumentation from original picture row
+    moveInstrumentation(logoDesktopLinkRow, linkEl); // Move instrumentation from original link row
+    bnaturalFooterDesktopDiv.append(linkEl);
   }
 
   const fssaiDesktopPicture = fssaiDesktopRow?.querySelector('picture');
   if (fssaiDesktopPicture) {
-    const fssaiDesktopImg = fssaiDesktopPicture.querySelector('img');
-    fssaiDesktopImg.classList.add('inlineBlockClass');
-    moveInstrumentation(fssaiDesktopRow, fssaiDesktopImg);
-    bnaturalFooterDesktopDiv.append(fssaiDesktopImg);
+    const optimizedPic = createOptimizedPicture(fssaiDesktopPicture.querySelector('img').src, fssaiDesktopPicture.querySelector('img').alt, false, [{ width: '750' }]);
+    optimizedPic.querySelector('img').classList.add('inlineBlockClass');
+    moveInstrumentation(fssaiDesktopRow, optimizedPic); // Move instrumentation from original picture row
+    bnaturalFooterDesktopDiv.append(optimizedPic);
   }
+  bnaturalFooterDiv.append(bnaturalFooterDesktopDiv);
 
+  // Mobile Logo and FSSAI
   const bnaturalFooterMobileDiv = document.createElement('div');
   bnaturalFooterMobileDiv.classList.add('bnatural-footer-mobile-div');
 
-  const logoMobileLink = document.createElement('a');
-  logoMobileLink.classList.add('inlineBlockClass');
-  const logoMobileLinkHref = logoMobileLinkRow?.querySelector('a')?.href;
-  if (logoMobileLinkHref) {
-    logoMobileLink.href = logoMobileLinkHref;
-  }
   const logoMobilePicture = logoMobileRow?.querySelector('picture');
-  if (logoMobilePicture) {
-    moveInstrumentation(logoMobileRow, logoMobileLink);
-    logoMobileLink.append(logoMobilePicture);
-    bnaturalFooterMobileDiv.append(logoMobileLink);
+  const logoMobileLink = logoMobileLinkRow?.querySelector('a');
+  if (logoMobilePicture && logoMobileLink) {
+    const linkEl = document.createElement('a');
+    linkEl.href = logoMobileLink.href;
+    linkEl.classList.add('inlineBlockClass');
+    const optimizedPic = createOptimizedPicture(logoMobilePicture.querySelector('img').src, logoMobilePicture.querySelector('img').alt, false, [{ width: '750' }]);
+    linkEl.append(optimizedPic);
+    moveInstrumentation(logoMobileRow, optimizedPic); // Move instrumentation from original picture row
+    moveInstrumentation(logoMobileLinkRow, linkEl); // Move instrumentation from original link row
+    bnaturalFooterMobileDiv.append(linkEl);
   }
 
   const fssaiMobilePicture = fssaiMobileRow?.querySelector('picture');
   if (fssaiMobilePicture) {
-    const fssaiMobileImg = fssaiMobilePicture.querySelector('img');
-    fssaiMobileImg.classList.add('inlineBlockClass');
-    moveInstrumentation(fssaiMobileRow, fssaiMobileImg);
-    bnaturalFooterMobileDiv.append(fssaiMobileImg);
+    const optimizedPic = createOptimizedPicture(fssaiMobilePicture.querySelector('img').src, fssaiMobilePicture.querySelector('img').alt, false, [{ width: '750' }]);
+    optimizedPic.querySelector('img').classList.add('inlineBlockClass');
+    moveInstrumentation(fssaiMobileRow, optimizedPic); // Move instrumentation from original picture row
+    bnaturalFooterMobileDiv.append(optimizedPic);
   }
+  bnaturalFooterDiv.append(bnaturalFooterMobileDiv);
 
-  bnaturalFooterDiv.append(bnaturalFooterDesktopDiv, bnaturalFooterMobileDiv);
-  footerLogoDiv.append(bnaturalFooterDiv);
-  cmpImage.append(footerLogoDiv);
-  logoDiv.append(cmpImage);
-  navLogo.append(logoDiv);
+  footerLogo.append(bnaturalFooterDiv);
+  cmpImage.append(footerLogo);
+  logoWrapper.append(cmpImage);
+  navLogo.append(logoWrapper);
   topContent.append(navLogo);
 
   // Navigation Links
-  const cmpFooterNav = document.createElement('div');
-  cmpFooterNav.classList.add('cmp-footer__nav');
+  const footerNav = document.createElement('div');
+  footerNav.classList.add('cmp-footer__nav');
 
-  // The model defines 4 footer link containers. We need to distribute footerLinkItemsForNav among them.
-  // This distribution is usually based on the original HTML structure or a specific logic.
-  // For now, assuming an even split or a predefined count per container.
-  // The original HTML shows 3 visible link groups and 3 hidden ones.
-  const linkGroupsData = [
-    { name: 'linksone', count: 5, display: 'block', border: 'unsetBorder' },
-    { name: 'linkstwo', count: 4, display: 'block', border: 'unsetBorder' },
-    { name: 'linksthree', count: 3, display: 'block', border: 'unsetBorder' }, // This one also has border-right: unset
-    { name: 'linksfour', count: 0, display: 'none', border: '' },
-    { name: 'linksfive', count: 0, display: 'none', border: '' },
-    { name: 'linkssix', count: 0, display: 'none', border: '' },
+  const navGroups = [
+    { items: footerNavLinksOne, placeholder: footerNavLinksOnePlaceholder, classes: ['linksone', 'links'] },
+    { items: footerNavLinksTwo, placeholder: footerNavLinksTwoPlaceholder, classes: ['linkstwo', 'links'] },
+    { items: footerNavLinksThree, placeholder: footerNavLinksThreePlaceholder, classes: ['linksthree', 'links'] },
   ];
 
-  let consumedLinkItems = 0;
-  linkGroupsData.forEach((group, index) => {
-    const navItems = document.createElement('div');
-    navItems.classList.add('cmp-footer_nav-items', 'cmp-navigation_group--right');
-    if (group.border) {
-      navItems.classList.add(group.border);
+  navGroups.forEach((group, index) => {
+    const navItemsWrapper = document.createElement('div');
+    navItemsWrapper.classList.add('cmp-footer_nav-items', 'cmp-navigation_group--right');
+    if (index === navGroups.length - 1) { // Last group based on original HTML
+      navItemsWrapper.classList.add('unsetBorder');
+      navItemsWrapper.style.borderRight = 'unset';
+    } else {
+      navItemsWrapper.classList.add('unsetBorder');
     }
-    if (index === 2) { // The third link group has unsetBorder and border-right: unset
-      navItems.style.borderRight = 'unset';
-    }
-    navItems.style.display = group.display;
+    navItemsWrapper.style.display = 'block';
 
     const navigationDiv = document.createElement('div');
     navigationDiv.classList.add('navigation');
     const linksDiv = document.createElement('div');
-    linksDiv.classList.add(group.name, 'links');
+    linksDiv.classList.add(...group.classes);
+
     const nav = document.createElement('nav');
     nav.classList.add('cmp-navigation');
     const ul = document.createElement('ul');
     ul.classList.add('cmp-navigation__group');
 
-    // Extract items for this container based on predefined counts
-    const itemsForThisContainer = footerLinkItemsForNav.slice(consumedLinkItems, consumedLinkItems + group.count);
-    consumedLinkItems += group.count;
+    group.items.forEach((row) => {
+      const [labelCell, linkCell, hierarchyCell] = [...row.children];
+      const subList = hierarchyCell?.querySelector('ul');
+      const directHref = linkCell?.querySelector('a')?.href;
 
-    itemsForThisContainer.forEach((row) => {
-      const [labelCell, linkCell, hierarchyTreeCell] = [...row.children];
       const li = document.createElement('li');
       li.classList.add('cmp-navigation__item', 'cmp-navigation__item--level-0');
-
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = hierarchyTreeCell?.innerHTML || '';
-      const subList = tempDiv.querySelector('ul');
-      const directLink = linkCell?.querySelector('a');
+      moveInstrumentation(row, li);
 
       if (subList) {
         const titleLink = document.createElement('a');
         titleLink.classList.add('cmp-navigation__item-link');
-        titleLink.href = directLink?.href || 'javascript:void(0)';
+        titleLink.href = directHref || 'javascript:void(0)';
         titleLink.textContent = labelCell.textContent.trim();
-        moveInstrumentation(row, titleLink); // Move instrumentation from the row to the title link
         li.append(titleLink);
 
-        const subLinksWrapper = document.createElement('div');
-        subLinksWrapper.classList.add('cmp-navigation__sub-group-wrapper');
-        const subUl = document.createElement('ul');
-        subUl.classList.add('cmp-navigation__group');
-
-        // Move instrumentation from the original hierarchyTreeCell to the tempDiv
-        moveInstrumentation(hierarchyTreeCell, tempDiv);
-
-        // Append children from tempDiv to subUl, preserving instrumentation
-        while (tempDiv.firstChild) {
-          const child = tempDiv.firstChild;
-          if (child.tagName === 'UL') { // Only process the actual UL
-            [...child.children].forEach((subLiEl) => {
-              const subLi = document.createElement('li');
-              subLi.classList.add('cmp-navigation__item', 'cmp-navigation__item--level-1');
-              const subAnchor = subLiEl.querySelector('a');
-              if (subAnchor) {
-                const link = document.createElement('a');
-                link.classList.add('cmp-navigation__item-link');
-                link.href = subAnchor.href;
-                link.textContent = subAnchor.textContent.trim();
-                moveInstrumentation(subLiEl, link); // Move instrumentation from original li to new link
-                subLi.append(link);
-              } else {
-                const span = document.createElement('span');
-                span.textContent = subLiEl.textContent.trim();
-                moveInstrumentation(subLiEl, span); // Move instrumentation from original li to new span
-                subLi.append(span);
-              }
-              subUl.append(subLi);
-            });
-          }
-          tempDiv.removeChild(child); // Remove after processing
+        const subLinksContainer = document.createElement('div');
+        subLinksContainer.classList.add('cmp-navigation__group'); // Use class from ORIGINAL HTML
+        // Move instrumentation from hierarchyCell to the new container
+        moveInstrumentation(hierarchyCell, subLinksContainer);
+        // Append all children from hierarchyCell (which contains the ul)
+        while (hierarchyCell.firstChild) {
+          subLinksContainer.append(hierarchyCell.firstChild);
         }
-        subLinksWrapper.append(subUl);
-        li.append(subLinksWrapper);
+        transformNestedLists(subLinksContainer);
+        li.append(subLinksContainer);
 
         titleLink.addEventListener('click', (e) => {
           e.preventDefault();
-          e.stopPropagation();
           li.classList.toggle('active');
-          subLinksWrapper.classList.toggle('active');
+          subLinksContainer.classList.toggle('active');
         });
       } else {
         const anchor = document.createElement('a');
         anchor.classList.add('cmp-navigation__item-link');
-        if (directLink) {
-          anchor.href = directLink.href;
-        }
+        if (directHref) anchor.href = directHref;
         anchor.textContent = labelCell.textContent.trim();
-        moveInstrumentation(row, anchor);
         li.append(anchor);
       }
       ul.append(li);
     });
-
-    // moveInstrumentation(containerRow, nav); // containerRow is not available here, it's implicit
     nav.append(ul);
     linksDiv.append(nav);
     navigationDiv.append(linksDiv);
-    navItems.append(navigationDiv);
-    cmpFooterNav.append(navItems);
+    navItemsWrapper.append(navigationDiv);
+    footerNav.append(navItemsWrapper);
+    moveInstrumentation(group.placeholder, navItemsWrapper);
   });
-  topContent.append(cmpFooterNav);
+  topContent.append(footerNav);
   root.append(topContent);
 
   // Bottom Content
   const bottomContent = document.createElement('div');
   bottomContent.classList.add('cmp-footer__bottom-content');
-  const bottomContainer = document.createElement('div');
-  bottomContainer.classList.add('cmp-footer__container');
 
+  const container = document.createElement('div');
+  container.classList.add('cmp-footer__container');
+
+  // ITC Links
   const itcLinksContainer = document.createElement('div');
   itcLinksContainer.classList.add('cmp-footer__container-itclinks');
 
-  itcLinkItemsForBottom.forEach((row) => {
+  footerLinks.forEach((row) => {
     const [labelCell, linkCell] = [...row.children];
-    const anchor = document.createElement('a');
-    anchor.classList.add('footer-link');
-    const linkHref = linkCell?.querySelector('a')?.href;
-    if (linkHref) {
-      anchor.href = linkHref;
-    }
-    anchor.textContent = labelCell.textContent.trim();
-    moveInstrumentation(row, anchor);
-    itcLinksContainer.append(anchor);
+    const link = document.createElement('a');
+    link.classList.add('footer-link');
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) link.href = foundLink.href;
+    link.textContent = labelCell.textContent.trim();
+    moveInstrumentation(row, link);
+    itcLinksContainer.append(link);
   });
+  container.append(itcLinksContainer);
+  moveInstrumentation(footerLinksPlaceholder, itcLinksContainer);
 
+  // Social Media Links
   const socialMediaContainer = document.createElement('div');
   socialMediaContainer.classList.add('cmp-footer__container__social-media');
 
-  socialLinkItemsForBottom.forEach((row, index) => {
-    const [iconDesktopCell, iconMobileCell, socialLinkCell] = [...row.children];
+  footerSocialLinks.forEach((row, index) => {
+    const [iconDefaultCell, iconHoverCell, linkCell] = [...row.children];
     const socialIconDiv = document.createElement('div');
-    socialIconDiv.classList.add(`soc_icon_${['one', 'two', 'three', 'four', 'five'][index]}`, 'image');
+    socialIconDiv.classList.add(`soc_icon_${index + 1}`, 'image');
 
     const cmpImageDiv = document.createElement('div');
     cmpImageDiv.classList.add('cmp-image');
 
-    const socialAnchor = document.createElement('a');
-    socialAnchor.classList.add('cmp-image__link');
-    const socialLinkHref = socialLinkCell?.querySelector('a')?.href;
-    if (socialLinkHref) {
-      socialAnchor.href = socialLinkHref;
+    const socialLink = document.createElement('a');
+    socialLink.classList.add('cmp-image__link');
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) socialLink.href = foundLink.href;
+    socialLink.target = '_blank'; // Assuming social links open in new tab
+
+    const defaultPicture = iconDefaultCell.querySelector('picture');
+    const hoverPicture = iconHoverCell.querySelector('picture');
+
+    if (defaultPicture) {
+      const optimizedPic = createOptimizedPicture(defaultPicture.querySelector('img').src, defaultPicture.querySelector('img').alt, false, [{ width: '750' }]);
+      optimizedPic.querySelector('img').classList.add('cmp-image__image');
+      socialLink.append(optimizedPic);
+      moveInstrumentation(iconDefaultCell, optimizedPic); // Move instrumentation from original picture cell
+    } else if (hoverPicture) { // Fallback if default is missing
+      const optimizedPic = createOptimizedPicture(hoverPicture.querySelector('img').src, hoverPicture.querySelector('img').alt, false, [{ width: '750' }]);
+      optimizedPic.querySelector('img').classList.add('cmp-image__image');
+      socialLink.append(optimizedPic);
+      moveInstrumentation(iconHoverCell, optimizedPic); // Move instrumentation from original picture cell
     }
-    moveInstrumentation(socialLinkCell, socialAnchor);
-
-    const picture = document.createElement('picture');
-    const mobilePicture = iconMobileCell?.querySelector('picture');
-    const desktopPicture = iconDesktopCell?.querySelector('picture');
-
-    if (mobilePicture) {
-      const source = document.createElement('source');
-      source.media = '(max-width:767px)';
-      source.srcset = mobilePicture.querySelector('img')?.src;
-      picture.append(source);
-    }
-
-    if (desktopPicture) {
-      const img = desktopPicture.querySelector('img');
-      img.classList.add('cmp-image__image');
-      picture.append(img);
-    } else if (mobilePicture) { // Fallback to mobile if only mobile is present
-      const img = mobilePicture.querySelector('img');
-      img.classList.add('cmp-image__image');
-      picture.append(img);
-    }
-
-    socialAnchor.append(picture);
-    cmpImageDiv.append(socialAnchor);
+    moveInstrumentation(row, socialLink);
+    cmpImageDiv.append(socialLink);
     socialIconDiv.append(cmpImageDiv);
-    moveInstrumentation(row, socialIconDiv);
     socialMediaContainer.append(socialIconDiv);
   });
+  container.append(socialMediaContainer);
+  moveInstrumentation(footerSocialLinksPlaceholder, socialMediaContainer);
 
-  bottomContainer.append(itcLinksContainer, socialMediaContainer);
-  bottomContent.append(bottomContainer);
+  bottomContent.append(container);
   root.append(bottomContent);
 
   block.replaceChildren(root);
 
-  // Optimize all images in the block
+  // The outer block div already has 'footer-new' and 'data-component="footer"' from AEM.
+  // No need to add them again here.
+  // block.classList.add('footer-new');
+  // block.setAttribute('data-component', 'footer');
+
+  // Image optimization for all pictures in the block
+  // This loop should be carefully considered. If createOptimizedPicture is already used
+  // for specific images, this might re-optimize or interfere.
+  // For now, assuming it's a general cleanup for any remaining unoptimized images.
   block.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    moveInstrumentation(img, optimizedPic.querySelector('img'));
-    img.closest('picture').replaceWith(optimizedPic);
+    // Check if the image is already part of an optimized picture created earlier
+    // by checking if its parent is a <picture> element that was just created.
+    // This is a heuristic to avoid double-processing.
+    if (!img.closest('picture')?.dataset.optimised) {
+      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+      moveInstrumentation(img.closest('div'), optimizedPic); // Move instrumentation from the original div containing the picture
+      optimizedPic.dataset.optimised = 'true'; // Mark as processed
+      img.closest('picture').replaceWith(optimizedPic);
+    }
   });
 }

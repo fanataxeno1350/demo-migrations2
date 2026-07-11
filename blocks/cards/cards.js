@@ -2,133 +2,103 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const [descriptionRow, ctaLabelRow, ctaLinkRow, ...cardItemRows] = [...block.children];
+  const children = [...block.children];
 
-  const root = document.createElement('div');
-  root.classList.add('cmp-card--image-hover', 'cmp-card--default'); // Classes from ORIGINAL HTML
-  root.setAttribute('data-component', 'cards');
+  const [descriptionRow, ctaLabelRow, ctaLinkRow, containerRow, ...cardItemRows] = children;
 
-  const cardContainer = document.createElement('div');
-  cardContainer.classList.add('cmp-card__container');
-  moveInstrumentation(block.children[3], cardContainer); // Move instrumentation for the container row itself
+  const cardsContainer = document.createElement('div');
+  cardsContainer.classList.add('cmp-card--image-hover', 'cmp-card--default');
+  cardsContainer.setAttribute('data-component', 'cards');
+
+  const cardItemsWrapper = document.createElement('div');
+  cardItemsWrapper.classList.add('cmp-card__container');
+  moveInstrumentation(containerRow, cardItemsWrapper);
 
   cardItemRows.forEach((row) => {
     const [
-      cardLinkCell,
       imageDesktopDefaultCell,
       imageMobileDefaultCell,
       imageDesktopHoverCell,
       imageMobileHoverCell,
-    ] = [...row.children]; // CORRECT: named destructuring for fixed schema
+      cardLinkCell,
+    ] = [...row.children];
 
-    const cardLink = document.createElement('a');
-    const foundCardLink = cardLinkCell.querySelector('a');
-    if (foundCardLink) {
-      cardLink.href = foundCardLink.href;
-      cardLink.target = '_self'; // Target from ORIGINAL HTML
+    const cardLink = cardLinkCell?.querySelector('a');
+    const anchor = document.createElement('a');
+    if (cardLink) {
+      anchor.href = cardLink.href;
+      anchor.target = '_self'; // Assuming target self from original HTML
     }
-    moveInstrumentation(cardLinkCell, cardLink);
+    moveInstrumentation(row, anchor);
 
     const cardContent = document.createElement('div');
     cardContent.classList.add('cmp-card__content');
     cardContent.setAttribute('tabindex', '0');
-    moveInstrumentation(row, cardContent);
 
-    const desktopDefaultPicture = imageDesktopDefaultCell.querySelector('picture');
-    const mobileDefaultPicture = imageMobileDefaultCell.querySelector('picture');
-    const desktopHoverPicture = imageDesktopHoverCell.querySelector('picture');
-    const mobileHoverPicture = imageMobileHoverCell.querySelector('picture');
-
-    if (desktopDefaultPicture) {
-      const img = desktopDefaultPicture.querySelector('img');
-      if (img) {
-        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ media: '(max-width:767px)', width: '360' }, { width: '750' }]);
-        optimizedPic.querySelector('img').classList.add('cmp-image__image', 'cmp-image__default');
-        cardContent.append(optimizedPic);
-        moveInstrumentation(desktopDefaultPicture, optimizedPic.querySelector('img'));
-      }
+    // Default Image Picture
+    const defaultPicture = imageDesktopDefaultCell?.querySelector('picture');
+    if (defaultPicture) {
+      const defaultImg = defaultPicture.querySelector('img');
+      const optimizedDefaultPicture = createOptimizedPicture(
+        defaultImg.src,
+        defaultImg.alt,
+        false,
+        [{ media: '(max-width:767px)', width: '360' }, { width: '750' }],
+      );
+      optimizedDefaultPicture.querySelector('img').classList.add('cmp-image__image', 'cmp-image__default');
+      moveInstrumentation(imageDesktopDefaultCell, optimizedDefaultPicture);
+      cardContent.append(optimizedDefaultPicture);
     }
 
-    if (mobileDefaultPicture) {
-      const img = mobileDefaultPicture.querySelector('img');
-      if (img) {
-        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ media: '(max-width:767px)', width: '360' }, { width: '750' }]);
-        optimizedPic.querySelector('img').classList.add('cmp-image__image', 'cmp-image__default');
-        // If there's already a picture element, add source to it, otherwise append new picture
-        const existingPicture = cardContent.querySelector('picture');
-        if (existingPicture) {
-          const source = optimizedPic.querySelector('source');
-          if (source) existingPicture.prepend(source);
-        } else {
-          cardContent.append(optimizedPic);
-        }
-        moveInstrumentation(mobileDefaultPicture, optimizedPic.querySelector('img'));
-      }
+    // Hover Image Picture
+    const hoverPicture = imageDesktopHoverCell?.querySelector('picture');
+    if (hoverPicture) {
+      const hoverImg = hoverPicture.querySelector('img');
+      const optimizedHoverPicture = createOptimizedPicture(
+        hoverImg.src,
+        hoverImg.alt,
+        false,
+        [{ media: '(max-width:767px)', width: '360' }, { width: '750' }],
+      );
+      optimizedHoverPicture.querySelector('img').classList.add('cmp-image__image', 'cmp-image__hover');
+      moveInstrumentation(imageDesktopHoverCell, optimizedHoverPicture);
+      cardContent.append(optimizedHoverPicture);
     }
 
-    if (desktopHoverPicture) {
-      const img = desktopHoverPicture.querySelector('img');
-      if (img) {
-        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ media: '(max-width:767px)', width: '360' }, { width: '750' }]);
-        optimizedPic.querySelector('img').classList.add('cmp-image__image', 'cmp-image__hover');
-        cardContent.append(optimizedPic);
-        moveInstrumentation(desktopHoverPicture, optimizedPic.querySelector('img'));
-      }
-    }
-
-    if (mobileHoverPicture) {
-      const img = mobileHoverPicture.querySelector('img');
-      if (img) {
-        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ media: '(max-width:767px)', width: '360' }, { width: '750' }]);
-        optimizedPic.querySelector('img').classList.add('cmp-image__image', 'cmp-image__hover');
-        // If there's already a picture element, add source to it, otherwise append new picture
-        const existingPicture = cardContent.querySelectorAll('picture')[1]; // Second picture for hover
-        if (existingPicture) {
-          const source = optimizedPic.querySelector('source');
-          if (source) existingPicture.prepend(source);
-        } else {
-          cardContent.append(optimizedPic);
-        }
-        moveInstrumentation(mobileHoverPicture, optimizedPic.querySelector('img'));
-      }
-    }
-
-    cardLink.append(cardContent);
-    cardContainer.append(cardLink);
+    anchor.append(cardContent);
+    cardItemsWrapper.append(anchor);
   });
 
-  root.append(cardContainer);
+  cardsContainer.append(cardItemsWrapper);
 
   const descriptionDiv = document.createElement('div');
   descriptionDiv.classList.add('cards__description', 'text');
+  // FIX: descriptionRow is a richtext field, its innerHTML should be used directly
+  // to preserve potential nested HTML (like <p> tags) and avoid <p> inside <p> issues.
+  descriptionDiv.innerHTML = descriptionRow.innerHTML;
   moveInstrumentation(descriptionRow, descriptionDiv);
-  const cmpText = document.createElement('div'); // Changed from <p> to <div> to avoid <p> inside <p>
-  cmpText.classList.add('cmp-text');
-  cmpText.innerHTML = descriptionRow.children[0]?.innerHTML || ''; // Correctly read innerHTML from cell
-  descriptionDiv.append(cmpText);
-  root.append(descriptionDiv);
 
-  const ctaLink = document.createElement('a');
-  const foundCtaLink = ctaLinkRow.querySelector('a');
-  if (foundCtaLink) {
-    ctaLink.href = foundCtaLink.href;
+  const exploreMoreDiv = document.createElement('div');
+  exploreMoreDiv.classList.add('exploremore', 'button', 'cmp-button--secondary');
+
+  const ctaAnchor = document.createElement('a');
+  ctaAnchor.classList.add('cmp-button');
+  const ctaLink = ctaLinkRow.querySelector('a');
+  if (ctaLink) {
+    ctaAnchor.href = ctaLink.href;
   }
-  ctaLink.classList.add('cmp-button');
-  // Removed hardcoded ID, it's not needed for functionality and can cause issues
-  // ctaLink.id = 'button-6beda1bf9f'; 
+  moveInstrumentation(ctaLinkRow, ctaAnchor);
 
   const ctaSpan = document.createElement('span');
   ctaSpan.classList.add('cmp-button__text');
   ctaSpan.textContent = ctaLabelRow.textContent.trim();
-  moveInstrumentation(ctaLabelRow, ctaSpan);
+  moveInstrumentation(ctaLabelRow, ctaSpan); // Move instrumentation from ctaLabelRow to ctaSpan
 
-  ctaLink.append(ctaSpan);
+  ctaAnchor.append(ctaSpan);
+  exploreMoreDiv.append(ctaAnchor);
 
-  const exploreMoreDiv = document.createElement('div');
-  exploreMoreDiv.classList.add('exploremore', 'button', 'cmp-button--secondary');
-  moveInstrumentation(ctaLinkRow, exploreMoreDiv);
-  exploreMoreDiv.append(ctaLink);
-  root.append(exploreMoreDiv);
+  block.replaceChildren(cardsContainer, descriptionDiv, exploreMoreDiv);
 
-  block.replaceChildren(root);
+  // Removed redundant image optimization loop at the end.
+  // createOptimizedPicture is already called for each image during card creation.
 }

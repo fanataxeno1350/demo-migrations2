@@ -1,12 +1,11 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
-function transformNestedLists(rootUl) {
+function transformNestedLists(rootUl, hierarchyTreeCell) {
   rootUl.querySelectorAll('li').forEach((li) => {
     const nested = li.querySelector(':scope > ul');
     const anchor = li.querySelector(':scope > a');
 
-    // Ensure text nodes directly under li are wrapped in a span if no anchor exists
     if (!anchor) {
       const textNode = [...li.childNodes].find(
         (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim(),
@@ -20,227 +19,38 @@ function transformNestedLists(rootUl) {
     }
 
     if (nested) {
-      nested.remove(); // Remove the nested UL to re-append it later in a wrapper
+      nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('cmp-header__product-items'); // Class from ORIGINAL HTML
+      subWrap.classList.add('cmp-header__product-items'); // Use class from ORIGINAL HTML
       subWrap.append(nested);
       li.append(subWrap);
 
       const trigger = li.querySelector(':scope > a, :scope > span');
       if (trigger) {
-        trigger.classList.add('cmp-navigation__item-link', 'cmp-navigation__item-arrow'); // Classes from ORIGINAL HTML
+        trigger.classList.add('cmp-navigation__item-link', 'cmp-navigation__item-arrow');
         trigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          li.classList.toggle('cmp-header__nav-products-click'); // Class from ORIGINAL HTML
+          li.classList.toggle('cmp-header__nav-products-click');
           subWrap.classList.toggle('cmp-header__product-items--open'); // Custom class for open state
         });
       }
-    } else if (anchor) {
-      anchor.classList.add('cmp-navigation__item-link'); // Class from ORIGINAL HTML
     }
-
-    // Apply classes to nested <a>, <ul>, <li> elements
-    li.querySelectorAll('a').forEach((a) => a.classList.add('cmp-navigation__item-link'));
-    li.querySelectorAll('ul').forEach((ul) => ul.classList.add('cmp-navigation__group', 'cmp-header__product-items'));
-    li.querySelectorAll('li').forEach((nestedLi) => nestedLi.classList.add('cmp-navigation__item', 'cmp-navigation__item--level-1', 'cmp-header__no-item'));
   });
+  // Move instrumentation for the entire hierarchyTreeCell once after processing its content
+  if (hierarchyTreeCell && rootUl.parentNode) {
+    moveInstrumentation(hierarchyTreeCell, rootUl.parentNode);
+  }
 }
 
-export default function decorate(block) {
-  const [
-    backgroundDesktopRow,
-    backgroundMobileRow,
-    logoRow,
-    logoLinkRow,
-    ...navigationItemRows
-  ] = [...block.children];
-
-  const headerNew = document.createElement('div');
-  // headerNew.classList.add('header-new'); // Removed: block already has 'header' class, 'header-new' is an inner wrapper class
-  moveInstrumentation(block, headerNew); // Move instrumentation from block to new root
-
-  // Background Images
-  const desktopPicture = backgroundDesktopRow?.querySelector('picture');
-  const mobilePicture = backgroundMobileRow?.querySelector('picture');
-
-  if (desktopPicture) {
-    const desktopImg = desktopPicture.querySelector('img');
-    if (desktopImg) {
-      headerNew.style.backgroundImage = `url("${desktopImg.src}")`;
-      headerNew.style.backgroundSize = '100% 100%';
-      headerNew.style.backgroundPosition = 'center bottom';
-      headerNew.setAttribute('data-desktop-src', desktopImg.src);
-    }
-    moveInstrumentation(backgroundDesktopRow, headerNew);
-  }
-
-  if (mobilePicture) {
-    const mobileImg = mobilePicture.querySelector('img');
-    if (mobileImg) {
-      headerNew.setAttribute('data-mobile-src', mobileImg.src);
-    }
-    moveInstrumentation(backgroundMobileRow, headerNew);
-  }
-
-  const cmpHeader = document.createElement('div');
-  cmpHeader.classList.add('cmp-header'); // Class from ORIGINAL HTML
-  headerNew.append(cmpHeader);
-
-  // Hamburger menu (structural, not authored)
-  const hamburger = document.createElement('div');
-  hamburger.classList.add('cmp-header__hamburger', 'menu-mobile'); // Classes from ORIGINAL HTML
-  hamburger.setAttribute('type', 'button');
-  // Data attribute value from ORIGINAL HTML, not hardcoded path
-  hamburger.setAttribute('data-mobile-src', 'images/Menu_icon_Default.svg');
-  cmpHeader.append(hamburger);
-
-  // Logo
-  const logoWrapper = document.createElement('div');
-  logoWrapper.classList.add('image', 'cmp-header__logo'); // Classes from ORIGINAL HTML
-  cmpHeader.append(logoWrapper);
-
-  const cmpImage = document.createElement('div');
-  cmpImage.classList.add('cmp-image'); // Class from ORIGINAL HTML
-  logoWrapper.append(cmpImage);
-
-  const logoDiv = document.createElement('div');
-  logoDiv.classList.add('logo', 'image'); // Classes from ORIGINAL HTML
-  cmpImage.append(logoDiv);
-
-  const logoLinkEl = document.createElement('a');
-  logoLinkEl.classList.add('cmp-image__link'); // Class from ORIGINAL HTML
-  logoLinkEl.setAttribute('data-social', 'header'); // Data attribute from ORIGINAL HTML
-
-  const logoAnchor = logoLinkRow?.querySelector('a');
-  if (logoAnchor) {
-    logoLinkEl.href = logoAnchor.href;
-    moveInstrumentation(logoLinkRow, logoLinkEl);
-  }
-
-  const logoPicture = logoRow?.querySelector('picture');
-  if (logoPicture) {
-    const img = logoPicture.querySelector('img');
-    // Create optimized picture for desktop, then add a source for mobile
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '767' }]);
-    const mobileSource = document.createElement('source');
-    mobileSource.media = '(max-width:767px)';
-    // Use the original img src for mobile srcset, createOptimizedPicture handles the rest
-    mobileSource.srcset = img.src;
-    optimizedPic.prepend(mobileSource);
-
-    moveInstrumentation(logoRow, optimizedPic.querySelector('img'));
-    logoLinkEl.append(optimizedPic);
-  }
-  logoDiv.append(logoLinkEl);
-
-  // Navigation Links
-  const navLinksWrapper = document.createElement('div');
-  navLinksWrapper.classList.add('cmp-header__nav-links'); // Class from ORIGINAL HTML
-  cmpHeader.append(navLinksWrapper);
-
-  const navigationDiv = document.createElement('div');
-  navigationDiv.classList.add('navigation'); // Class from ORIGINAL HTML
-  navLinksWrapper.append(navigationDiv);
-
-  const nav = document.createElement('nav');
-  nav.classList.add('cmp-navigation'); // Class from ORIGINAL HTML
-  navigationDiv.append(nav);
-
-  const navGroup = document.createElement('ul');
-  navGroup.classList.add('cmp-navigation__group', 'cmp-header__nav-group'); // Classes from ORIGINAL HTML
-  nav.append(navGroup);
-
-  navigationItemRows.forEach((row) => {
-    const [labelCell, linkCell, hierarchyTreeCell] = [...row.children];
-
-    const li = document.createElement('li');
-    li.classList.add('cmp-navigation__item', 'cmp-navigation__item--level-0', 'cmp-header__nav-products'); // Classes from ORIGINAL HTML
-
-    const subList = hierarchyTreeCell?.querySelector('ul');
-    const directLink = linkCell?.querySelector('a');
-
-    if (subList) {
-      // Item with nested menu
-      li.classList.add('cmp-header__nav-products-click'); // Class from ORIGINAL HTML
-      const trigger = document.createElement('a');
-      trigger.textContent = labelCell.textContent.trim();
-      trigger.classList.add('cmp-navigation__item-link', 'cmp-navigation__item-arrow'); // Classes from ORIGINAL HTML
-      li.append(trigger);
-
-      const productItems = document.createElement('ul');
-      productItems.classList.add('cmp-navigation__group', 'cmp-header__product-items'); // Classes from ORIGINAL HTML
-      const categoryMenu = document.createElement('div');
-      categoryMenu.classList.add('cmp-header__category-menu'); // Class from ORIGINAL HTML
-      productItems.append(categoryMenu);
-
-      const tempDiv = document.createElement('div');
-      // Use innerHTML to preserve nested structure
-      tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
-      moveInstrumentation(hierarchyTreeCell, tempDiv); // Move instrumentation for richtext cell
-
-      const clonedSubList = tempDiv.querySelector('ul');
-      if (clonedSubList) {
-        transformNestedLists(clonedSubList); // Apply transformations to the cloned list
-        // Append children from the transformed list
-        while (clonedSubList.firstChild) {
-          categoryMenu.append(clonedSubList.firstChild);
-        }
-      }
-      li.append(productItems);
-
-      trigger.addEventListener('click', (e) => {
-        e.preventDefault();
-        li.classList.toggle('cmp-header__nav-products-click'); // Class from ORIGINAL HTML
-        productItems.classList.toggle('cmp-header__product-items--open'); // Custom class for open state
-      });
-    } else {
-      // Simple link item
-      li.classList.add('cmp-header__no-items'); // Class from ORIGINAL HTML
-      const anchor = document.createElement('a');
-      anchor.classList.add('cmp-navigation__item-link'); // Class from ORIGINAL HTML
-      if (directLink) {
-        anchor.href = directLink.href;
-      }
-      anchor.textContent = labelCell.textContent.trim();
-      li.append(anchor);
-    }
-    moveInstrumentation(row, li); // Move instrumentation for each navigation item row
-    navGroup.append(li);
-  });
-
-  const mobileList = document.createElement('div');
-  mobileList.classList.add('cmp-header__mobile-list'); // Class from ORIGINAL HTML
-  nav.append(mobileList);
-
-  // Nav Icons (Search)
-  const navIcons = document.createElement('div');
-  navIcons.classList.add('cmp-header__nav-icons'); // Class from ORIGINAL HTML
-  cmpHeader.append(navIcons);
-
-  const searchDiv = document.createElement('div');
-  searchDiv.classList.add('cmp-header__search'); // Class from ORIGINAL HTML
-  navIcons.append(searchDiv);
-
-  const searchLink = document.createElement('a');
-  searchLink.href = '#';
-  searchLink.classList.add('cmp-header__icon-img'); // Class from ORIGINAL HTML
-  searchDiv.append(searchLink);
-
-  const searchIcon = document.createElement('div');
-  searchIcon.classList.add('icon-Search_icons'); // Class from ORIGINAL HTML
-  searchLink.append(searchIcon);
-
-  // Search section (structural, not authored)
-  // This section was hardcoded, which is an anti-pattern.
-  // Assuming it's a static structural element that doesn't come from authored content.
-  // If it needs to be authored, a new field in the BlockJson would be required.
+function createSearchSection(searchSectionRow) {
   const searchSection = document.createElement('div');
-  searchSection.classList.add('search'); // Class from ORIGINAL HTML
-  // The innerHTML for the search section is complex and appears to be a static component.
-  // If this content is truly static and not authored, it can be hardcoded.
-  // However, if any part of it is expected to be editable, it should come from block.children.
-  // For now, retaining as-is based on the assumption it's a static structural element.
+  searchSection.classList.add('search');
+  // The original HTML for the search section is complex and appears to be a static component.
+  // If this content is truly static and not authored via AEM rows,
+  // then hardcoding it is acceptable. However, if any part of it
+  // is meant to be dynamic or authored, it should be extracted from AEM rows.
+  // For now, assuming it's a static component structure.
   searchSection.innerHTML = `
     <section id="search-444ce93884" class="cmp-search" role="search" data-cmp-min-length="3" data-cmp-results-desktop-size="4" data-cmp-results-mobile-size="5" data-error-response="{&quot;noResultsTitle&quot;:&quot;No result found for&quot;,&quot;noResultsDescription&quot;:&quot;&quot;,&quot;categories&quot;:&quot;&quot;}" data-input-placeholder="Juice up your search">
       <div class="cmp_search__info" aria-live="polite" role="status"></div>
@@ -260,18 +70,198 @@ export default function decorate(block) {
       </div>
     </section>
   `;
+  // If there was an AEM row for the search section, move its instrumentation.
+  // Assuming for now it's a static part of the block, not an authored row.
+  // If it were an authored row, it would need to be passed in and instrumented.
+  // For now, we'll assume the search section itself doesn't have a direct AEM row.
+  return searchSection;
+}
+
+export default function decorate(block) {
+  const [
+    backgroundDesktopRow,
+    backgroundMobileRow,
+    logoRow,
+    logoLinkRow,
+    ...navigationItemRows
+  ] = [...block.children];
+
+  const headerNew = document.createElement('div');
+  // headerNew.classList.add('header-new'); // REMOVED: Block's own class is already on the outer div
+
+  // Set background images
+  const desktopPicture = backgroundDesktopRow?.querySelector('picture');
+  const mobilePicture = backgroundMobileRow?.querySelector('picture'); // Not directly used for JS background, but instrumentation moved
+
+  if (desktopPicture) {
+    const desktopImg = desktopPicture.querySelector('img');
+    if (desktopImg) {
+      headerNew.style.backgroundImage = `url("${desktopImg.src}")`;
+      headerNew.style.backgroundSize = '100% 100%';
+      headerNew.style.backgroundPosition = 'center bottom';
+      moveInstrumentation(backgroundDesktopRow, headerNew);
+    }
+  }
+
+  // Mobile background (handled by CSS background-image media queries if present)
+  // For now, only desktop background is directly applied as per original HTML structure.
+  // If mobile background needs to be set via JS, it would require a media query listener.
+  moveInstrumentation(backgroundMobileRow, headerNew); // Ensure instrumentation is moved
+
+  const cmpHeader = document.createElement('div');
+  cmpHeader.classList.add('cmp-header');
+  headerNew.append(cmpHeader);
+
+  // Hamburger menu (structural element from original HTML)
+  const hamburger = document.createElement('div');
+  hamburger.classList.add('cmp-header__hamburger', 'menu-mobile');
+  hamburger.setAttribute('type', 'button');
+  cmpHeader.append(hamburger);
+
+  // Logo
+  const logoWrapper = document.createElement('div');
+  logoWrapper.classList.add('image', 'cmp-header__logo');
+  cmpHeader.append(logoWrapper);
+
+  const cmpImage = document.createElement('div');
+  cmpImage.classList.add('cmp-image');
+  logoWrapper.append(cmpImage);
+
+  const logoDiv = document.createElement('div');
+  logoDiv.classList.add('logo', 'image');
+  cmpImage.append(logoDiv);
+
+  const logoAnchor = document.createElement('a');
+  logoAnchor.classList.add('cmp-image__link');
+  const logoLink = logoLinkRow?.querySelector('a');
+  if (logoLink) {
+    logoAnchor.href = logoLink.href;
+    moveInstrumentation(logoLinkRow, logoAnchor);
+  } else {
+    logoAnchor.href = '/'; // Default link if not authored
+    moveInstrumentation(logoLinkRow, logoAnchor); // Move instrumentation even if default link
+  }
+
+  const logoPic = logoRow?.querySelector('picture');
+  if (logoPic) {
+    const optimizedPic = createOptimizedPicture(
+      logoPic.querySelector('img').src,
+      logoPic.querySelector('img').alt,
+      false,
+      [{ media: '(max-width: 767px)', width: '767' }, { width: '2000' }],
+    );
+    moveInstrumentation(logoRow, optimizedPic.querySelector('img'));
+    logoAnchor.append(optimizedPic);
+  } else {
+    moveInstrumentation(logoRow, logoAnchor); // Move instrumentation even if no picture
+  }
+  logoDiv.append(logoAnchor);
+
+  // Navigation Links
+  const navLinks = document.createElement('div');
+  navLinks.classList.add('cmp-header__nav-links');
+  cmpHeader.append(navLinks);
+
+  const navigation = document.createElement('div');
+  navigation.classList.add('navigation');
+  navLinks.append(navigation);
+
+  const nav = document.createElement('nav');
+  nav.classList.add('cmp-navigation');
+  navigation.append(nav);
+
+  const navGroup = document.createElement('ul');
+  navGroup.classList.add('cmp-navigation__group', 'cmp-header__nav-group');
+  nav.append(navGroup);
+
+  navigationItemRows
+    .filter((row) => row.children.length === 3) // Filter for navigation-item rows
+    .forEach((row) => {
+      const [labelCell, linkCell, hierarchyTreeCell] = [...row.children];
+
+      const li = document.createElement('li');
+      li.classList.add('cmp-navigation__item', 'cmp-navigation__item--level-0', 'cmp-header__nav-products');
+
+      const subList = hierarchyTreeCell?.querySelector('ul');
+      const directLink = linkCell?.querySelector('a');
+
+      if (subList) {
+        li.classList.add('cmp-header__nav-products-click');
+        const trigger = document.createElement('a');
+        trigger.classList.add('cmp-navigation__item-link', 'cmp-navigation__item-arrow');
+        trigger.textContent = labelCell.textContent.trim();
+        if (directLink) {
+          trigger.href = directLink.href;
+        } else {
+          trigger.href = 'javascript:void(0)'; // Prevent navigation if only a dropdown trigger
+        }
+        moveInstrumentation(labelCell, trigger);
+        moveInstrumentation(linkCell, trigger);
+        li.append(trigger);
+
+        const categoryMenu = document.createElement('div');
+        categoryMenu.classList.add('cmp-header__category-menu');
+        const productItems = document.createElement('ul');
+        productItems.classList.add('cmp-navigation__group', 'cmp-header__product-items');
+        // The original HTML has categoryMenu inside productItems, then subList inside categoryMenu.
+        // Let's replicate that structure.
+        categoryMenu.append(subList); // Append the actual subList here
+        productItems.append(categoryMenu);
+
+        // Transform nested lists
+        transformNestedLists(subList, hierarchyTreeCell); // Pass hierarchyTreeCell for instrumentation
+        
+        li.append(productItems);
+        // moveInstrumentation(hierarchyTreeCell, productItems); // Instrumentation moved inside transformNestedLists
+      } else {
+        li.classList.add('cmp-header__no-items');
+        const anchor = document.createElement('a');
+        anchor.classList.add('cmp-navigation__item-link');
+        if (directLink) {
+          anchor.href = directLink.href;
+        }
+        anchor.textContent = labelCell.textContent.trim();
+        moveInstrumentation(labelCell, anchor);
+        moveInstrumentation(linkCell, anchor);
+        moveInstrumentation(hierarchyTreeCell, anchor); // Move instrumentation even if empty
+        li.append(anchor);
+      }
+      navGroup.append(li);
+    });
+
+  // Mobile list placeholder (from original HTML)
+  const mobileList = document.createElement('div');
+  mobileList.classList.add('cmp-header__mobile-list');
+  nav.append(mobileList);
+
+  // Nav icons (search)
+  const navIcons = document.createElement('div');
+  navIcons.classList.add('cmp-header__nav-icons');
+  cmpHeader.append(navIcons);
+
+  const searchDiv = document.createElement('div');
+  searchDiv.classList.add('cmp-header__search');
+  navIcons.append(searchDiv);
+
+  const searchLink = document.createElement('a');
+  searchLink.href = '#';
+  searchLink.classList.add('cmp-header__icon-img');
+  searchDiv.append(searchLink);
+
+  const searchIcon = document.createElement('div');
+  searchIcon.classList.add('icon-Search_icons');
+  searchLink.append(searchIcon);
+
+  // Search section (from original HTML)
+  const searchSection = createSearchSection();
   headerNew.append(searchSection);
+  // Assuming search section itself is not an authored row, so no direct moveInstrumentation for it.
+  // If it were, we'd pass a searchSectionRow to createSearchSection and instrument it.
 
-  // Toggle search visibility
-  searchLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    searchSection.classList.toggle('active');
-  });
-
-  // Toggle mobile menu visibility
+  // Hamburger menu toggle logic
   hamburger.addEventListener('click', () => {
-    navLinksWrapper.classList.toggle('cmp-header__nav-links--open'); // Custom class for open state
-    hamburger.classList.toggle('cmp-header__hamburger--open'); // Custom class for open state
+    navLinks.classList.toggle('cmp-header__nav-links--open'); // Custom class for mobile menu open
+    // You might also want to toggle a class on the body to prevent scrolling
   });
 
   block.replaceChildren(headerNew);
