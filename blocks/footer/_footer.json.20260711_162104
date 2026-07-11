@@ -47,6 +47,21 @@
       }
     },
     {
+      "title": "Footer-Bottom-Link",
+      "id": "footer-bottom-link",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "footer-bottom-link",
+              "name": "Footer-Bottom-Link"
+            }
+          }
+        }
+      }
+    },
+    {
       "title": "Footer-Social-Item",
       "id": "footer-social-item",
       "plugins": {
@@ -60,21 +75,6 @@
           }
         }
       }
-    },
-    {
-      "title": "Footer-Link-Item",
-      "id": "footer-link-item",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "footer-link-item",
-              "name": "Footer-Link-Item"
-            }
-          }
-        }
-      }
     }
   ],
   "models": [
@@ -83,13 +83,13 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Top Content Background Image",
+          "label": "Top Background Image (Desktop)",
           "name": "backgroundImage",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Logo",
+          "label": "Logo Image",
           "name": "logo",
           "valueType": "string"
         },
@@ -107,14 +107,14 @@
         },
         {
           "component": "container",
-          "item": "footer-link-item",
+          "item": "footer-bottom-link",
           "label": "Bottom Links",
           "name": "bottomLinks"
         },
         {
           "component": "container",
           "item": "footer-social-item",
-          "label": "Social Links",
+          "label": "Social Media Links",
           "name": "socialLinks"
         }
       ]
@@ -154,18 +154,7 @@
       ]
     },
     {
-      "id": "footer-social-item",
-      "fields": [
-        {
-          "component": "aem-content",
-          "label": "Social Link",
-          "name": "socialLink",
-          "valueType": "string"
-        }
-      ]
-    },
-    {
-      "id": "footer-link-item",
+      "id": "footer-bottom-link",
       "fields": [
         {
           "component": "text",
@@ -175,8 +164,19 @@
         },
         {
           "component": "aem-content",
-          "label": "Bottom Link",
+          "label": "Bottom Link URL",
           "name": "link",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "footer-social-item",
+      "fields": [
+        {
+          "component": "aem-content",
+          "label": "Social Media Link",
+          "name": "socialLink",
           "valueType": "string"
         }
       ]
@@ -188,7 +188,7 @@
       "components": [
         "footer-navigation-group",
         "footer-navigation-item",
-        "footer-link-item",
+        "footer-bottom-link",
         "footer-social-item"
       ]
     }

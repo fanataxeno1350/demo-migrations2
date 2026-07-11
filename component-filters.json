@@ -46,7 +46,7 @@
     "components": [
       "footer-navigation-group",
       "footer-navigation-item",
-      "footer-bottom-link",
+      "footer-link-item",
       "footer-social-item"
     ]
   },

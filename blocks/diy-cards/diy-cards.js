@@ -2,81 +2,76 @@ import { createOptimizedPicture, loadScript, loadCSS } from '../../scripts/aem.j
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
-  const [
-    headingRow,
-    subHeadingRow,
-    ctaLinkRow,
-    ctaLabelRow,
-    ...cardItemRows // cardsContainerRow was a placeholder, actual item rows follow
-  ] = [...block.children];
+  const children = [...block.children];
+
+  const headingRow = children[0];
+  const subHeadingRow = children[1];
+  const ctaLinkRow = children[2];
+  const ctaLabelRow = children[3];
+  const cardsContainerRow = children[4]; // This is the empty container placeholder
+  const itemRows = children.slice(5); // All subsequent rows are card items
 
   const root = document.createElement('div');
-  // Removed 'cmp-cards' from root.classList.add as the outer block div already has it.
-  root.classList.add('cmp-cards--yippee-diy', 'color-background-default');
+  root.classList.add('cmp-cards', 'cmp-cards--yippee-diy', 'color-background-default');
 
   const heading = document.createElement('h2');
   heading.classList.add('cmp-cards__heading', 'text-center', 'title-star-icon');
   moveInstrumentation(headingRow, heading);
-  const [headingCell] = [...headingRow.children]; // Destructure for heading cell
-  heading.textContent = headingCell?.textContent.trim() || '';
+  heading.textContent = headingRow.textContent.trim();
   root.append(heading);
 
   const subHeading = document.createElement('p');
   subHeading.classList.add('cmp-cards__sub-heading', 'body-3', 'text-center');
   moveInstrumentation(subHeadingRow, subHeading);
-  const [subHeadingCell] = [...subHeadingRow.children]; // Destructure for subHeading cell
-  subHeading.textContent = subHeadingCell?.textContent.trim() || '';
+  subHeading.textContent = subHeadingRow.textContent.trim();
   root.append(subHeading);
 
   const carouselWrapper = document.createElement('div');
   carouselWrapper.classList.add('slickcarousel', 'carousel', 'panelcontainer');
 
-  const carousel = document.createElement('div');
-  carousel.classList.add('cmp-carousel');
-  carousel.setAttribute('data-component', 'carousel');
-  // Corrected data-show-infinite-scroll to match original HTML's data-infinite-scroll="false"
-  carousel.setAttribute('data-show-infinite-scroll', 'false');
-  carousel.setAttribute('data-show-arrows', 'true');
-  carousel.setAttribute('data-show-dots', 'true');
-  carousel.setAttribute('data-item-count-per-slide', '3');
-  carousel.setAttribute('data-auto-play-is-enabled', 'false');
-  carousel.setAttribute('data-auto-play-speed-in-ms', '1000');
-  carousel.setAttribute('data-reveal-next-item-partially', 'false');
-  carousel.setAttribute('data-show-center-zoom', 'false');
-  carousel.setAttribute('data-slides-to-scroll', '3');
+  const cmpCarousel = document.createElement('div');
+  cmpCarousel.classList.add('cmp-carousel');
+  cmpCarousel.dataset.component = 'carousel';
+  cmpCarousel.dataset.showInfiniteScroll = 'false';
+  cmpCarousel.dataset.showArrows = 'true';
+  cmpCarousel.dataset.showDots = 'true';
+  cmpCarousel.dataset.itemCountPerSlide = '3';
+  cmpCarousel.dataset.autoPlayIsEnabled = 'false';
+  cmpCarousel.dataset.autoPlaySpeedInMs = '1000';
+  cmpCarousel.dataset.revealNextItemPartially = 'false';
+  cmpCarousel.dataset.showCenterZoom = 'false';
+  cmpCarousel.dataset.slidesToScroll = '3';
+  // cmpCarousel.dataset.initialized = 'true'; // Swiper adds this automatically
 
   const carouselContainer = document.createElement('div');
-  carouselContainer.classList.add('cmp-carousel__container');
-  // Swiper adds slick-initialized, slick-slider, slick-dotted automatically. Do not add manually.
+  carouselContainer.classList.add('cmp-carousel__container'); // Swiper adds slick-initialized, slick-slider, slick-dotted
 
   const prevButton = document.createElement('button');
-  prevButton.classList.add('slick-prev', 'slick-arrow'); // slick-disabled is added by Swiper
+  prevButton.classList.add('slick-prev', 'slick-arrow');
   prevButton.setAttribute('aria-label', 'Previous');
   prevButton.setAttribute('type', 'button');
-  // prevButton.setAttribute('aria-disabled', 'true'); // Swiper manages this
-  // Removed hardcoded background-image for arrows as per Rule 25.4
+  // Background image is from clientlibs, so use an inline SVG
+  prevButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" transform="rotate(180 12 12)"/></svg>';
   carouselContainer.append(prevButton);
 
-  const swiperWrapper = document.createElement('div'); // Renamed from slickList to swiperWrapper for Swiper
-  swiperWrapper.classList.add('swiper-wrapper'); // Swiper class
+  const slickList = document.createElement('div');
+  slickList.classList.add('slick-list', 'draggable');
 
-  // Renamed from slickTrack to swiperTrack for Swiper compatibility
-  // The original HTML has slick-track directly inside slick-list,
-  // but Swiper uses swiper-slide directly inside swiper-wrapper.
-  // We will append carouselItem (which will be swiper-slide) directly to swiperWrapper.
-  // slickTrack.style.opacity = '1'; // Not needed for Swiper
+  const slickTrack = document.createElement('div');
+  slickTrack.classList.add('slick-track');
+  slickList.append(slickTrack);
 
-  // moveInstrumentation(cardsContainerRow, carouselContainer); // cardsContainerRow was a placeholder, no actual row for it.
-
-  cardItemRows.forEach((row, index) => {
-    const [cardImageCell, playIconCell] = [...row.children]; // Destructure for card item cells
+  itemRows.forEach((row, index) => {
+    const [cardImageCell, playIconCell] = [...row.children]; // Destructure cells for fixed schema
 
     const carouselItem = document.createElement('div');
-    carouselItem.classList.add('cmp-carousel__item', 'swiper-slide'); // Swiper class
-    carouselItem.setAttribute('data-slick-index', index); // Keep for potential compatibility or custom logic
-    carouselItem.setAttribute('aria-hidden', 'true');
-    carouselItem.setAttribute('tabindex', '-1');
+    carouselItem.classList.add('cmp-carousel__item', 'swiper-slide'); // Use swiper-slide
+    carouselItem.dataset.slickIndex = index;
+    carouselItem.setAttribute('aria-hidden', index !== 0);
+    carouselItem.setAttribute('tabindex', index === 0 ? '0' : '-1');
     carouselItem.setAttribute('role', 'tabpanel');
+    carouselItem.id = `slick-slide4${index}`;
+    carouselItem.setAttribute('aria-describedby', `slick-slide-control4${Math.floor(index / 3)}`);
 
     const card = document.createElement('div');
     card.classList.add('card', 'cmp-card--yippee-diy');
@@ -84,9 +79,9 @@ export default async function decorate(block) {
     const cmpCard = document.createElement('div');
     cmpCard.classList.add('cmp-card');
 
-    const starDiv = document.createElement('div');
-    starDiv.classList.add('cmp-card__star');
-    cmpCard.append(starDiv);
+    const cardStar = document.createElement('div');
+    cardStar.classList.add('cmp-card__star');
+    cmpCard.append(cardStar);
 
     const mainContent = document.createElement('div');
     mainContent.classList.add('cmp-card__main-content');
@@ -94,33 +89,34 @@ export default async function decorate(block) {
     const media = document.createElement('div');
     media.classList.add('cmp-card__media');
 
-    const cardImageContainer = document.createElement('div');
-    cardImageContainer.classList.add('lazy-image-container');
-    const cardPicture = cardImageCell.querySelector('picture');
-    if (cardPicture) {
-      const img = cardPicture.querySelector('img');
+    if (cardImageCell) {
+      const lazyImageContainer = document.createElement('div');
+      lazyImageContainer.classList.add('lazy-image-container');
+      const img = cardImageCell.querySelector('img');
       if (img) {
         const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+        optimizedPic.querySelector('img').classList.add('cmp-card__img', 'lazy-image', 'loaded');
         moveInstrumentation(img, optimizedPic.querySelector('img'));
-        cardImageContainer.append(optimizedPic);
+        lazyImageContainer.append(optimizedPic);
       }
+      media.append(lazyImageContainer);
     }
-    cardImageContainer.querySelector('img')?.classList.add('cmp-card__img', 'lazy-image', 'loaded');
-    media.append(cardImageContainer);
 
-    const playIconContainer = document.createElement('div');
-    playIconContainer.classList.add('lazy-image-container');
-    const playPicture = playIconCell.querySelector('picture');
-    if (playPicture) {
-      const img = playPicture.querySelector('img');
-      if (img) {
-        const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-        moveInstrumentation(img, optimizedPic.querySelector('img'));
-        playIconContainer.append(optimizedPic);
+    if (playIconCell) {
+      const playIconPicture = playIconCell.querySelector('picture');
+      if (playIconPicture) {
+        const playIconImg = playIconPicture.querySelector('img');
+        if (playIconImg) {
+          const playIconContainer = document.createElement('div');
+          playIconContainer.classList.add('lazy-image-container');
+          const optimizedPlayIcon = createOptimizedPicture(playIconImg.src, playIconImg.alt, false, [{ width: 'auto' }]);
+          optimizedPlayIcon.querySelector('img').classList.add('play-icon', 'lazy-image', 'loaded');
+          moveInstrumentation(playIconImg, optimizedPlayIcon.querySelector('img'));
+          playIconContainer.append(optimizedPlayIcon);
+          media.append(playIconContainer);
+        }
       }
     }
-    playIconContainer.querySelector('img')?.classList.add('play-icon', 'lazy-image', 'loaded');
-    media.append(playIconContainer);
 
     mainContent.append(media);
 
@@ -131,51 +127,51 @@ export default async function decorate(block) {
     cmpCard.append(mainContent);
     card.append(cmpCard);
     carouselItem.append(card);
-    swiperWrapper.append(carouselItem); // Append to swiperWrapper
-    moveInstrumentation(row, carouselItem); // Move instrumentation for each card item
+    slickTrack.append(carouselItem);
+    moveInstrumentation(row, carouselItem); // Move instrumentation from original item row
   });
 
-  carouselContainer.append(swiperWrapper); // Append swiperWrapper to carouselContainer
+  carouselContainer.append(slickList);
 
   const nextButton = document.createElement('button');
-  nextButton.classList.add('slick-next', 'slick-arrow'); // slick-disabled is added by Swiper
+  nextButton.classList.add('slick-next', 'slick-arrow');
   nextButton.setAttribute('aria-label', 'Next');
   nextButton.setAttribute('type', 'button');
-  // nextButton.setAttribute('aria-disabled', 'false'); // Swiper manages this
-  // Removed hardcoded background-image for arrows as per Rule 25.4
+  // Background image is from clientlibs, so use an inline SVG
+  nextButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>';
   carouselContainer.append(nextButton);
 
-  const swiperPagination = document.createElement('div'); // Renamed from slickDots to swiperPagination for Swiper
-  swiperPagination.classList.add('slick-dots', 'swiper-pagination'); // Keep slick-dots for styling, add swiper-pagination
-  swiperPagination.setAttribute('role', 'tablist');
-  carouselContainer.append(swiperPagination);
+  const slickDots = document.createElement('ul');
+  slickDots.classList.add('slick-dots');
+  slickDots.setAttribute('role', 'tablist');
+  // Swiper will handle dot creation, but we need a container for it
+  carouselContainer.append(slickDots);
 
-  carousel.append(carouselContainer);
-  carouselWrapper.append(carousel);
+  cmpCarousel.append(carouselContainer);
+  carouselWrapper.append(cmpCarousel);
   root.append(carouselWrapper);
+  moveInstrumentation(cardsContainerRow, carouselWrapper); // Instrumentation for the container
 
   const ctaButtonDiv = document.createElement('div');
   ctaButtonDiv.classList.add('button', 'cmp-button--primary-anchor', 'cmp-button--primary-anchor-undefined', 'cards-cta-button');
 
   const ctaLink = document.createElement('a');
   ctaLink.classList.add('cmp-button');
-  const foundCtaLink = ctaLinkRow.querySelector('a');
-  if (foundCtaLink) {
-    ctaLink.href = foundCtaLink.href;
+  const foundLink = ctaLinkRow.querySelector('a');
+  if (foundLink) {
+    ctaLink.href = foundLink.href;
   }
-  ctaLink.setAttribute('target', '_self');
+  ctaLink.setAttribute('target', '_self'); // Assuming default target
 
   const ctaSpan = document.createElement('span');
   ctaSpan.classList.add('cmp-button__text');
-  const [ctaLabelCell] = [...ctaLabelRow.children]; // Destructure for ctaLabel cell
-  ctaSpan.textContent = ctaLabelCell?.textContent.trim() || '';
+  ctaSpan.textContent = ctaLabelRow.textContent.trim();
   ctaLink.append(ctaSpan);
-
-  moveInstrumentation(ctaLinkRow, ctaLink);
-  moveInstrumentation(ctaLabelRow, ctaSpan);
 
   ctaButtonDiv.append(ctaLink);
   root.append(ctaButtonDiv);
+  moveInstrumentation(ctaLinkRow, ctaLink); // Move instrumentation for CTA link
+  moveInstrumentation(ctaLabelRow, ctaSpan); // Move instrumentation for CTA label
 
   const shareDiv = document.createElement('div');
   shareDiv.classList.add('share');
@@ -183,34 +179,33 @@ export default async function decorate(block) {
 
   block.replaceChildren(root);
 
-  // Swiper.js initialization
-  // Original HTML uses Slick, but EDS does not ship Slick. Replaced with Swiper.
+  // Load Swiper CSS and JS
   await loadCSS('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
   await loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
 
+  // Initialize Swiper
   // eslint-disable-next-line no-undef
-  new Swiper(carousel, { // Initialize Swiper on the .cmp-carousel element
-    slidesPerView: 3, // Matches data-item-count-per-slide
-    slidesPerGroup: 3, // Matches data-slides-to-scroll
-    loop: false, // Matches data-show-infinite-scroll="false"
+  new Swiper(cmpCarousel, {
+    slidesPerView: parseInt(cmpCarousel.dataset.itemCountPerSlide, 10) || 3,
+    spaceBetween: 0, // Adjust as needed
+    loop: cmpCarousel.dataset.showInfiniteScroll === 'true',
     navigation: {
       prevEl: prevButton,
       nextEl: nextButton,
     },
     pagination: {
-      el: swiperPagination,
+      el: slickDots,
       clickable: true,
-    },
-    breakpoints: {
-      1024: {
-        slidesPerView: 2,
-        slidesPerGroup: 2,
-        loop: true, // Original Slick had infinite: true here
-      },
-      600: {
-        slidesPerView: 1,
-        slidesPerGroup: 1,
+      renderBullet: (index, className) => {
+        const numDots = Math.ceil(itemRows.length / (parseInt(cmpCarousel.dataset.itemCountPerSlide, 10) || 3));
+        return `<li class="${className}" role="presentation"><button type="button" role="tab" id="slick-slide-control4${index}" aria-controls="slick-slide4${index * (parseInt(cmpCarousel.dataset.itemCountPerSlide, 10) || 3)}" aria-label="${index + 1} of ${numDots}" tabindex="${index === 0 ? '0' : '-1'}" aria-selected="${index === 0 ? 'true' : 'false'}">${index + 1}</button></li>`;
       },
     },
+    // Add other Swiper options based on original HTML data attributes
+    // e.g., autoPlayIsEnabled, autoPlaySpeedInMs, revealNextItemPartially, showCenterZoom
+    autoplay: cmpCarousel.dataset.autoPlayIsEnabled === 'true' ? {
+      delay: parseInt(cmpCarousel.dataset.autoPlaySpeedInMs, 10) || 1000,
+      disableOnInteraction: false,
+    } : false,
   });
 }
