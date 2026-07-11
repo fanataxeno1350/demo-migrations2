@@ -1,0 +1,273 @@
+import { createOptimizedPicture } from '../../scripts/aem.js';
+import { moveInstrumentation } from '../../scripts/scripts.js';
+
+function transformNestedLists(rootUl) {
+  rootUl.querySelectorAll('li').forEach((li) => {
+    const nested = li.querySelector(':scope > ul');
+    const anchor = li.querySelector(':scope > a');
+
+    if (!anchor) {
+      const textNode = [...li.childNodes].find(
+        (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim(),
+      );
+      if (textNode) {
+        const span = document.createElement('span');
+        span.textContent = textNode.textContent.trim();
+        textNode.remove();
+        li.prepend(span);
+      }
+    }
+
+    if (nested) {
+      nested.remove();
+      const subWrap = document.createElement('div');
+      subWrap.classList.add('cmp-header__submenu'); // Use class from ORIGINAL HTML
+      subWrap.append(nested);
+      li.append(subWrap);
+      const trigger = li.querySelector(':scope > a, :scope > span');
+      if (trigger) {
+        trigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          li.classList.toggle('active');
+          subWrap.classList.toggle('active');
+        });
+      }
+    }
+    // Move instrumentation for the list item itself if it was originally authored
+    // This is crucial for nested richtext content to be editable in AUE
+    // The li element is created dynamically, but its content comes from the hierarchyTreeCell
+    // The original hierarchyTreeCell contains the <ul>, so we need to ensure
+    // any instrumentation on the <li> within that <ul> is handled.
+    // However, since the <li> elements are *inside* the richtext cell,
+    // moveInstrumentation should be called on the *container* of the richtext
+    // before its innerHTML is processed, or on the elements after they are moved.
+    // The current approach of `transformNestedLists` modifying `subList` (which is `hierarchyTreeCell.querySelector('ul')`)
+    // means the `li` elements within `subList` are already part of the `hierarchyTreeCell`'s instrumentation.
+    // When `categoryMenu.append(subList)` happens, the instrumentation should follow.
+    // No direct `moveInstrumentation(liRow, li)` is needed here as `li` is not a direct block.children row.
+    // The instrumentation for the entire hierarchy-tree is handled by `moveInstrumentation(row, li)`
+    // in the navigationItems.forEach loop, where `li` is the top-level navigation item.
+    // For nested `li` elements, their instrumentation is implicitly handled if the `hierarchyTreeCell`
+    // was properly instrumented and its content moved.
+    // However, if the `li` elements themselves had `data-aue-*` attributes, they would be lost
+    // when `innerHTML` is used. The `transformNestedLists` function is modifying existing `li` elements
+    // that came from `hierarchyTreeCell.querySelector('ul')`.
+    // We need to ensure that if these `li` elements had instrumentation, it's preserved.
+    // The `moveInstrumentation` function expects a source element and a destination element.
+    // Here, the `li` elements are being modified in place within the `subList` (which is `hierarchyTreeCell.querySelector('ul')`).
+    // If we were creating new `li` elements and moving content, we would need to call `moveInstrumentation`.
+    // Since we are modifying existing `li` elements, their instrumentation should ideally persist.
+    // However, if the `li` elements are being moved (e.g., `nested.remove()` then `subWrap.append(nested)`),
+    // the instrumentation on `nested` (the `ul`) will be moved.
+    // For the individual `li` elements *within* `nested`, if they had instrumentation, it would also move.
+    // The key is that `hierarchyTreeCell.innerHTML` is read, which includes the `data-aue-*` attributes on the `ul` and `li`s.
+    // When `subList` is created from `hierarchyTreeCell.querySelector('ul')`, it retains those attributes.
+    // So, when `categoryMenu.append(subList)` happens, the instrumentation should be preserved.
+    // No explicit `moveInstrumentation` for inner `li`s is needed here, as they are part of the `subList`'s DOM subtree.
+  });
+}
+
+export default function decorate(block) {
+  const children = [...block.children];
+
+  const [
+    logoRow,
+    logoLinkRow,
+    navigationMenuContainer, // This is a placeholder row for the container field
+    policyLinksContainer,    // This is a placeholder row for the container field
+    socialLinksContainer,    // This is a placeholder row for the container field
+    navIconsContainer,       // This is a placeholder row for the container field
+    ...itemRows
+  ] = children;
+
+  const headerRoot = document.createElement('div');
+  headerRoot.classList.add('cmp-header');
+
+  // Hamburger input
+  const hamburgerInput = document.createElement('input');
+  hamburgerInput.classList.add('cmp-header__hamburger');
+  hamburgerInput.type = 'checkbox';
+  headerRoot.append(hamburgerInput);
+
+  // Logo
+  const logoWrapper = document.createElement('div');
+  logoWrapper.classList.add('logo', 'image', 'cmp-header__logo');
+  const logoLink = document.createElement('a');
+  logoLink.classList.add('cmp-image__link');
+  const foundLogoLink = logoLinkRow.querySelector('a');
+  if (foundLogoLink) logoLink.href = foundLogoLink.href;
+
+  const picture = logoRow.querySelector('picture');
+  if (picture) {
+    const img = picture.querySelector('img');
+    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+    moveInstrumentation(img, optimizedPic.querySelector('img'));
+    logoLink.append(optimizedPic);
+  }
+  moveInstrumentation(logoRow, logoLink);
+  moveInstrumentation(logoLinkRow, logoLink);
+  logoWrapper.append(logoLink);
+  headerRoot.append(logoWrapper);
+
+  // Navigation Links
+  const navLinksWrapper = document.createElement('div');
+  navLinksWrapper.classList.add('cmp-header__nav-links');
+
+  const navigationDiv = document.createElement('div');
+  navigationDiv.classList.add('navigation');
+
+  const nav = document.createElement('nav');
+  nav.classList.add('cmp-navigation');
+  nav.setAttribute('role', 'navigation');
+
+  const navGroup = document.createElement('ul');
+  navGroup.classList.add('cmp-navigation__group', 'cmp-header__nav-group');
+
+  // Filter item rows based on their structure as per BlockJson model
+  const navigationItems = itemRows.filter((row) => row.children.length === 3 && row.querySelector('ul'));
+  const policyLinkItems = itemRows.filter((row) => row.children.length === 2 && !row.querySelector('picture') && !row.querySelector('a'));
+  const socialLinkItems = itemRows.filter((row) => row.children.length === 2 && row.querySelector('a'));
+  const navIconItems = itemRows.filter((row) => row.children.length === 3 && row.querySelector('a') && !row.querySelector('picture') && !row.querySelector('ul'));
+
+  navigationItems.forEach((row) => {
+    const [labelCell, linkCell, hierarchyTreeCell] = [...row.children]; // Fixed schema, use destructuring
+    const li = document.createElement('li');
+    li.classList.add('cmp-navigation__item', 'cmp-navigation__item--level-0', 'cmp-header__nav-products');
+
+    const anchor = document.createElement('a');
+    anchor.classList.add('cmp-navigation__item-link');
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) anchor.href = foundLink.href;
+    anchor.textContent = labelCell.textContent.trim();
+
+    // Read richtext content using innerHTML to preserve nested structure
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
+    const subList = tempDiv.querySelector('ul');
+
+    if (subList) {
+      li.classList.add('cmp-header__nav-products-click');
+      const productItems = document.createElement('ul');
+      productItems.classList.add('cmp-navigation__group', 'cmp-header__product-items');
+      const categoryMenu = document.createElement('div');
+      categoryMenu.classList.add('cmp-header__category-menu');
+
+      // Move instrumentation from the original richtext cell to the new container
+      moveInstrumentation(hierarchyTreeCell, subList);
+
+      transformNestedLists(subList); // Apply transformations to the nested list
+      categoryMenu.append(subList);
+      productItems.append(categoryMenu);
+      li.append(anchor, productItems);
+
+      anchor.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        li.classList.toggle('active');
+      });
+    } else {
+      li.classList.add('cmp-header__no-items');
+      li.append(anchor);
+    }
+    moveInstrumentation(row, li);
+    navGroup.append(li);
+  });
+
+  nav.append(navGroup);
+
+  // Mobile list wrapper
+  const mobileList = document.createElement('div');
+  mobileList.classList.add('cmp-header__mobile-list');
+
+  // Policy Links
+  const policyUl = document.createElement('ul');
+  policyUl.classList.add('cmp-header__policy');
+  policyLinkItems.forEach((row) => {
+    const [labelCell, linkCell] = [...row.children]; // Fixed schema, use destructuring
+    const li = document.createElement('li');
+    li.classList.add('cmp-header__policy-list');
+    const anchor = document.createElement('a');
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) anchor.href = foundLink.href;
+    anchor.textContent = labelCell.textContent.trim();
+    li.append(anchor);
+    moveInstrumentation(row, li);
+    policyUl.append(li);
+  });
+  // moveInstrumentation(policyLinksContainer, policyUl); // This line is redundant as policyUl is appended to mobileList
+  mobileList.append(policyUl);
+
+  // Social Media Links
+  const socialMediaDiv = document.createElement('div');
+  socialMediaDiv.classList.add('cmp-header__social-media');
+  socialLinkItems.forEach((row) => {
+    const [platformCell, linkCell] = [...row.children]; // Fixed schema, use destructuring
+    const anchor = document.createElement('a');
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) anchor.href = foundLink.href;
+    const platform = platformCell.textContent.trim().toLowerCase();
+    if (platform === 'instagram') anchor.classList.add('icon-instagram');
+    else if (platform === 'facebook') anchor.classList.add('icon-facebook'); // Corrected typo: facebok -> facebook
+    else if (platform === 'twitter') anchor.classList.add('icon-twitter');
+    else if (platform === 'youtube') anchor.classList.add('icon-youtube');
+    anchor.setAttribute('data-social', platform);
+    moveInstrumentation(row, anchor);
+    socialMediaDiv.append(anchor);
+  });
+  // moveInstrumentation(socialLinksContainer, socialMediaDiv); // This line is redundant as socialMediaDiv is appended to mobileList
+  mobileList.append(socialMediaDiv);
+
+  nav.append(mobileList);
+  navigationDiv.append(nav);
+  navLinksWrapper.append(navigationDiv);
+  headerRoot.append(navLinksWrapper);
+
+  // Nav Icons
+  const navIconsDiv = document.createElement('div');
+  navIconsDiv.classList.add('cmp-header__nav-icons');
+  navIconItems.forEach((row) => {
+    const [iconTypeCell, iconLinkCell, iconLabelCell] = [...row.children]; // Fixed schema, use destructuring
+    const iconType = iconTypeCell.textContent.trim().toLowerCase();
+    const iconLabel = iconLabelCell.textContent.trim();
+
+    const iconWrapper = document.createElement('div');
+    iconWrapper.classList.add(`cmp-header__${iconType}`);
+    if (iconType === 'accessbility' || iconType === 'login') {
+      iconWrapper.classList.add('cmp-header__hide-icon');
+    }
+
+    const anchor = document.createElement('a');
+    anchor.classList.add('cmp-header__icon-img');
+    const foundLink = iconLinkCell.querySelector('a');
+    if (foundLink) anchor.href = foundLink.href;
+
+    const iconDiv = document.createElement('div');
+    if (iconType === 'accessbility') iconDiv.classList.add('icon-accessibility');
+    else if (iconType === 'search') iconDiv.classList.add('icon-search');
+    else if (iconType === 'login') iconDiv.classList.add('icon-profile');
+
+    anchor.append(iconDiv);
+    if (iconLabel) {
+      const labelDiv = document.createElement('div');
+      labelDiv.classList.add('cmp-header__icon-text');
+      labelDiv.textContent = iconLabel;
+      anchor.append(labelDiv);
+    }
+    iconWrapper.append(anchor);
+    moveInstrumentation(row, iconWrapper);
+    navIconsDiv.append(iconWrapper);
+  });
+  // moveInstrumentation(navIconsContainer, navIconsDiv); // This line is redundant as navIconsDiv is appended to headerRoot
+  headerRoot.append(navIconsDiv);
+
+  // Move instrumentation from container rows to their respective generated elements
+  // These are the "placeholder" rows that represent the container fields in the model.
+  // We need to move their instrumentation to the main container elements that hold their items.
+  moveInstrumentation(navigationMenuContainer, navGroup);
+  moveInstrumentation(policyLinksContainer, policyUl);
+  moveInstrumentation(socialLinksContainer, socialMediaDiv);
+  moveInstrumentation(navIconsContainer, navIconsDiv);
+
+  block.replaceChildren(headerRoot);
+}

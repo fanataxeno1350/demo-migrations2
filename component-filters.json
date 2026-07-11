@@ -15,28 +15,96 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "---- New Blocks ----",
+      "header",
+      "main-banner-carousel",
+      "product-category-listing",
+      "video-player",
+      "recipe-group",
+      "teaser-first-half-center-aligned",
+      "popular-products",
+      "teaser-cta",
+      "our-vision",
+      "community-text",
+      "community-carousel",
+      "follow-us",
+      "footer"
     ]
   },
   {
-    "id": "cards",
+    "id": "community-carousel",
     "components": [
-      "card"
+      "community-carousel-slide"
     ]
   },
   {
-    "id": "columns",
+    "id": "community-text",
+    "components": []
+  },
+  {
+    "id": "follow-us",
+    "components": []
+  },
+  {
+    "id": "footer",
     "components": [
-      "column"
+      "footer-link-item",
+      "footer-social-item"
     ]
   },
   {
-    "id": "column",
+    "id": "header",
     "components": [
-      "text",
-      "image",
-      "button",
-      "title"
+      "navigation-item",
+      "policy-link-item",
+      "social-link-item",
+      "nav-icon-item"
+    ]
+  },
+  {
+    "id": "main-banner-carousel",
+    "components": [
+      "main-banner-carousel-item"
+    ]
+  },
+  {
+    "id": "our-vision",
+    "components": [
+      "footprint-carousel-item"
+    ]
+  },
+  {
+    "id": "popular-products",
+    "components": [
+      "popular-product-item"
+    ]
+  },
+  {
+    "id": "product-category-listing",
+    "components": [
+      "product-category-item"
+    ]
+  },
+  {
+    "id": "recipe-group",
+    "components": [
+      "tab-item",
+      "recipe-card-item"
+    ]
+  },
+  {
+    "id": "teaser-cta",
+    "components": []
+  },
+  {
+    "id": "teaser-first-half-center-aligned",
+    "components": []
+  },
+  {
+    "id": "video-player",
+    "components": [
+      "external-embed"
     ]
   }
 ]

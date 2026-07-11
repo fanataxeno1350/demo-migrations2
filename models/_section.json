@@ -51,7 +51,20 @@
         "cards",
         "columns",
         "fragment",
-        "---- New Blocks ----"
+        "---- New Blocks ----",
+        "header",
+        "main-banner-carousel",
+        "product-category-listing",
+        "video-player",
+        "recipe-group",
+        "teaser-first-half-center-aligned",
+        "popular-products",
+        "teaser-cta",
+        "our-vision",
+        "community-text",
+        "community-carousel",
+        "follow-us",
+        "footer"
       ]
     }
   ]

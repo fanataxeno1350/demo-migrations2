@@ -1,0 +1,148 @@
+{
+  "definitions": [
+    {
+      "title": "Recipe Group",
+      "id": "recipe-group",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "recipe-group",
+              "model": "recipe-group",
+              "name": "Recipe Group"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Tab Item",
+      "id": "tab-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "tab-item",
+              "name": "Tab Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Recipe Card Item",
+      "id": "recipe-card-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "recipe-card-item",
+              "name": "Recipe Card Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "recipe-group",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Group Title",
+          "name": "title",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Group Subtitle",
+          "name": "subtitle",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "tab-item",
+          "label": "Tabs",
+          "name": "tabs"
+        },
+        {
+          "component": "container",
+          "item": "recipe-card-item",
+          "label": "Recipes",
+          "name": "recipes"
+        },
+        {
+          "component": "text",
+          "label": "CTA Label",
+          "name": "ctaLabel",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "tab-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Tab Label",
+          "name": "label",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "recipe-card-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Recipe Image",
+          "name": "image",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Recipe Tag",
+          "name": "tag",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Recipe Title",
+          "name": "title",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Time to Cook",
+          "name": "time",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Difficulty Level",
+          "name": "difficulty",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Recipe Link",
+          "name": "link",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "recipe-group",
+      "components": [
+        "tab-item",
+        "recipe-card-item"
+      ]
+    }
+  ]
+}

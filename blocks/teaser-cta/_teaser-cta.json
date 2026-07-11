@@ -1,0 +1,57 @@
+{
+  "definitions": [
+    {
+      "title": "Teaser-CTA",
+      "id": "teaser-cta",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "teaser-cta",
+              "model": "teaser-cta",
+              "name": "Teaser-CTA"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "teaser-cta",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Background Image Desktop",
+          "name": "backgroundImageDesktop",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Background Image Mobile",
+          "name": "backgroundImageMobile",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "CTA Link",
+          "name": "ctaLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "CTA Label",
+          "name": "ctaLabel",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "teaser-cta",
+      "components": []
+    }
+  ]
+}

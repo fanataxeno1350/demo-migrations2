@@ -1,0 +1,69 @@
+{
+  "definitions": [
+    {
+      "title": "Teaser-First-Half-Center-Aligned",
+      "id": "teaser-first-half-center-aligned",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "teaser-first-half-center-aligned",
+              "model": "teaser-first-half-center-aligned",
+              "name": "Teaser-First-Half-Center-Aligned"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "teaser-first-half-center-aligned",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Background Image Desktop",
+          "name": "backgroundImageDesktop",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Background Image Mobile",
+          "name": "backgroundImageMobile",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Title",
+          "name": "title",
+          "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "label": "Description",
+          "name": "description",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "CTA Link",
+          "name": "ctaLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "CTA Label",
+          "name": "ctaLabel",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "teaser-first-half-center-aligned",
+      "components": []
+    }
+  ]
+}

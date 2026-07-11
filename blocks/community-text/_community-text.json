@@ -1,0 +1,39 @@
+{
+  "definitions": [
+    {
+      "title": "Community Text",
+      "id": "community-text",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "community-text",
+              "model": "community-text",
+              "name": "Community Text"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "community-text",
+      "fields": [
+        {
+          "component": "richtext",
+          "label": "Content",
+          "name": "content",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "community-text",
+      "components": []
+    }
+  ]
+}
