@@ -15,28 +15,84 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "---- New Blocks ----",
+      "header",
+      "search",
+      "banner-carousel",
+      "section-title",
+      "product-tabs",
+      "community-video",
+      "cookie-personality",
+      "product-swiper",
+      "recipe-cards",
+      "social-media-feed",
+      "footer"
     ]
   },
   {
-    "id": "cards",
+    "id": "banner-carousel",
     "components": [
-      "card"
+      "banner-carousel-item"
     ]
   },
   {
-    "id": "columns",
+    "id": "community-video",
+    "components": []
+  },
+  {
+    "id": "cookie-personality",
     "components": [
-      "column"
+      "cookie-personality-option-item"
     ]
   },
   {
-    "id": "column",
+    "id": "footer",
     "components": [
-      "text",
-      "image",
-      "button",
-      "title"
+      "footer-link-item",
+      "footer-social-item"
+    ]
+  },
+  {
+    "id": "header",
+    "components": [
+      "navigation-item",
+      "policy-link-item",
+      "social-link-item",
+      "nav-icon-item"
+    ]
+  },
+  {
+    "id": "product-swiper",
+    "components": []
+  },
+  {
+    "id": "product-tabs",
+    "components": [
+      "tab-category-item",
+      "product-carousel-item"
+    ]
+  },
+  {
+    "id": "recipe-cards",
+    "components": [
+      "recipe-card-item"
+    ]
+  },
+  {
+    "id": "search",
+    "components": [
+      "search-error-category-item"
+    ]
+  },
+  {
+    "id": "section-title",
+    "components": []
+  },
+  {
+    "id": "social-media-feed",
+    "components": [
+      "social-image-item"
     ]
   }
 ]

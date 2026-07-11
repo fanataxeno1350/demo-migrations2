@@ -1,0 +1,142 @@
+{
+  "definitions": [
+    {
+      "title": "Product-Tabs",
+      "id": "product-tabs",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "product-tabs",
+              "model": "product-tabs",
+              "name": "Product-Tabs"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Tab-Category-Item",
+      "id": "tab-category-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "tab-category-item",
+              "name": "Tab-Category-Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Product-Carousel-Item",
+      "id": "product-carousel-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "product-carousel-item",
+              "name": "Product-Carousel-Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "product-tabs",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Section Title",
+          "name": "title",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Auto Play Enabled",
+          "name": "autoPlayIsEnabled",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Auto Play Speed (ms)",
+          "name": "autoPlaySpeedInMs",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Infinite Scroll Enabled",
+          "name": "infiniteScroll",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "tab-category-item",
+          "label": "Tab Categories",
+          "name": "tabCategories"
+        },
+        {
+          "component": "container",
+          "item": "product-carousel-item",
+          "label": "Product Carousel Items",
+          "name": "carouselItems"
+        },
+        {
+          "component": "text",
+          "label": "CTA Button Label",
+          "name": "ctaLabel",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "tab-category-item",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Tab Category Label",
+          "name": "categoryLabel",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "product-carousel-item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Product Image",
+          "name": "image",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Product Name",
+          "name": "productName",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Product Link",
+          "name": "productLink",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "product-tabs",
+      "components": [
+        "tab-category-item",
+        "product-carousel-item"
+      ]
+    }
+  ]
+}

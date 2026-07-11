@@ -1,0 +1,75 @@
+{
+  "definitions": [
+    {
+      "title": "Community-Video",
+      "id": "community-video",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "community-video",
+              "model": "community-video",
+              "name": "Community-Video"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "community-video",
+      "fields": [
+        {
+          "component": "text",
+          "label": "Headline",
+          "name": "headline",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Desktop Placeholder Image",
+          "name": "desktopPlaceholderImage",
+          "valueType": "string"
+        },
+        {
+          "component": "reference",
+          "label": "Mobile Placeholder Image",
+          "name": "mobilePlaceholderImage",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Desktop Video URL",
+          "name": "desktopVideoUrl",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "label": "Mobile Video URL",
+          "name": "mobileVideoUrl",
+          "valueType": "string"
+        },
+        {
+          "component": "boolean",
+          "label": "Auto Play",
+          "name": "autoPlay",
+          "valueType": "boolean"
+        },
+        {
+          "component": "boolean",
+          "label": "Show Progress Bar",
+          "name": "progressBar",
+          "valueType": "boolean"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "community-video",
+      "components": []
+    }
+  ]
+}

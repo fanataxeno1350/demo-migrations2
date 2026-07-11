@@ -51,7 +51,18 @@
         "cards",
         "columns",
         "fragment",
-        "---- New Blocks ----"
+        "---- New Blocks ----",
+        "header",
+        "search",
+        "banner-carousel",
+        "section-title",
+        "product-tabs",
+        "community-video",
+        "cookie-personality",
+        "product-swiper",
+        "recipe-cards",
+        "social-media-feed",
+        "footer"
       ]
     }
   ]
