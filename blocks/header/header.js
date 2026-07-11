@@ -6,15 +6,6 @@ function transformNestedLists(rootUl) {
     const nested = li.querySelector(':scope > ul');
     const anchor = li.querySelector(':scope > a');
 
-    // Add classes from ORIGINAL HTML to li elements
-    li.classList.add('cmp-navigation__item');
-    if (li.parentElement.classList.contains('cmp-header__product-items')) {
-      li.classList.add('cmp-navigation__item--level-1');
-    } else if (li.parentElement.classList.contains('cmp-header__submenu')) {
-      li.classList.add('cmp-navigation__item--level-2', 'cmp-header__no-item');
-    }
-
-
     if (!anchor) {
       const textNode = [...li.childNodes].find(
         (n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim(),
@@ -30,17 +21,17 @@ function transformNestedLists(rootUl) {
     if (nested) {
       nested.remove();
       const subWrap = document.createElement('div');
-      subWrap.classList.add('cmp-header__submenu'); // Class from ORIGINAL HTML
+      subWrap.classList.add('cmp-header__submenu');
       subWrap.append(nested);
       li.append(subWrap);
 
       const trigger = li.querySelector(':scope > a, :scope > span');
       if (trigger) {
+        li.classList.add('cmp-header__nav-products-click');
         trigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          li.classList.toggle('active');
-          subWrap.classList.toggle('active');
+          li.classList.toggle('cmp-header__nav-products-click');
         });
       }
     }
@@ -50,194 +41,314 @@ function transformNestedLists(rootUl) {
 export default function decorate(block) {
   const children = [...block.children];
 
-  // Reorder root row destructuring to match BlockJson model
-  const [logoRow, logoLinkRow, navMenuPlaceholder, policyLinksPlaceholder, socialLinksPlaceholder, navIconsPlaceholder, ...itemRows] = children;
+  const [
+    logoRow,
+    logoLinkRow,
+    navigationMenuContainer, // This is a placeholder for the container, not an actual row
+    policyLinksContainer,    // This is a placeholder for the container, not an actual row
+    socialLinksContainer,    // This is a placeholder for the container, not an actual row
+    navIconsContainer,       // This is a placeholder for the container, not an actual row
+    searchBlockContainer,    // This is a placeholder for the container, not an actual row
+    ...itemRows
+  ] = children;
 
-  const headerWrapper = document.createElement('div');
-  headerWrapper.classList.add('cmp-header'); // Class from ORIGINAL HTML
+  const header = document.createElement('div');
+  header.classList.add('cmp-header');
 
-  const headerHamburger = document.createElement('input');
-  headerHamburger.classList.add('cmp-header__hamburger'); // Class from ORIGINAL HTML
-  headerHamburger.type = 'checkbox';
-  headerWrapper.append(headerHamburger);
+  // Hamburger menu (mobile)
+  const hamburgerInput = document.createElement('input');
+  hamburgerInput.classList.add('cmp-header__hamburger');
+  hamburgerInput.type = 'checkbox';
+  header.append(hamburgerInput);
 
   // Logo
-  const logoDiv = document.createElement('div');
-  logoDiv.classList.add('logo', 'image', 'cmp-header__logo'); // Classes from ORIGINAL HTML
-  moveInstrumentation(logoRow, logoDiv);
-
+  const logoWrapper = document.createElement('div');
+  logoWrapper.classList.add('logo', 'image', 'cmp-header__logo');
   const logoLink = document.createElement('a');
-  logoLink.classList.add('cmp-image__link'); // Class from ORIGINAL HTML
-  const foundLogoLink = logoLinkRow.querySelector('a');
-  if (foundLogoLink) {
-    logoLink.href = foundLogoLink.href;
+  logoLink.classList.add('cmp-image__link');
+  const logoAnchor = logoLinkRow.querySelector('a');
+  if (logoAnchor) {
+    logoLink.href = logoAnchor.href;
   }
-
   const picture = logoRow.querySelector('picture');
   if (picture) {
-    const optimizedPic = createOptimizedPicture(
-      picture.querySelector('img').src,
-      picture.querySelector('img').alt,
-      false,
-      [{ width: '750' }],
-    );
-    optimizedPic.classList.add('w-100', 'd-block'); // Classes from ORIGINAL HTML
-    moveInstrumentation(picture.querySelector('img'), optimizedPic.querySelector('img'));
+    const img = picture.querySelector('img');
+    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+    moveInstrumentation(img, optimizedPic.querySelector('img'));
     logoLink.append(optimizedPic);
   }
-  logoDiv.append(logoLink);
-  headerWrapper.append(logoDiv);
+  moveInstrumentation(logoRow, logoLink);
+  moveInstrumentation(logoLinkRow, logoLink);
+  logoWrapper.append(logoLink);
+  header.append(logoWrapper);
 
-  const navLinksDiv = document.createElement('div');
-  navLinksDiv.classList.add('cmp-header__nav-links'); // Class from ORIGINAL HTML
-
+  // Navigation Links
+  const navLinksWrapper = document.createElement('div');
+  navLinksWrapper.classList.add('cmp-header__nav-links');
   const navigationDiv = document.createElement('div');
-  navigationDiv.classList.add('navigation'); // Class from ORIGINAL HTML
-
+  navigationDiv.classList.add('navigation');
   const nav = document.createElement('nav');
-  nav.classList.add('cmp-navigation'); // Class from ORIGINAL HTML
-  nav.role = 'navigation';
+  nav.classList.add('cmp-navigation');
+  nav.setAttribute('role', 'navigation');
 
   const navGroup = document.createElement('ul');
-  navGroup.classList.add('cmp-navigation__group', 'cmp-header__nav-group'); // Classes from ORIGINAL HTML
+  navGroup.classList.add('cmp-navigation__group', 'cmp-header__nav-group');
 
-  moveInstrumentation(navMenuPlaceholder, navGroup);
+  // Filter item rows based on their structure and content
+  const navItemRows = itemRows.filter((row) => row.children.length === 3 && row.querySelector('ul'));
+  const policyLinkRows = itemRows.filter((row) => row.children.length === 2 && !row.querySelector('a[data-social]') && !row.querySelector('picture'));
+  const socialLinkRows = itemRows.filter((row) => row.children.length === 2 && row.querySelector('a[data-social]'));
+  const navIconRows = itemRows.filter((row) => row.children.length === 3 && row.querySelector('a') && !row.querySelector('picture') && !row.querySelector('ul'));
+  const searchBlockRows = itemRows.filter((row) => row.children.length === 2 && !row.querySelector('a') && !row.querySelector('picture') && !row.querySelector('ul'));
 
-  const navigationItemRows = itemRows.filter((row) => row.children.length === 3);
-  const policyLinkRows = itemRows.filter((row) => row.children.length === 2);
-  const socialLinkRows = itemRows.filter((row) => row.children.length === 1 && row.querySelector('a'));
-  const navIconRows = itemRows.filter((row) => row.children.length === 3 && !row.querySelector('picture'));
 
-  navigationItemRows.forEach((row) => {
-    const [labelCell, linkCell, hierarchyTreeCell] = [...row.children]; // Correct: named destructuring
+  // Navigation Menu Items
+  navItemRows.forEach((row) => {
+    const [labelCell, linkCell, hierarchyTreeCell] = [...row.children];
     const li = document.createElement('li');
-    li.classList.add('cmp-navigation__item', 'cmp-navigation__item--level-0', 'cmp-header__nav-products', 'cmp-header__nav-products-click'); // Classes from ORIGINAL HTML
+    li.classList.add('cmp-navigation__item', 'cmp-navigation__item--level-0', 'cmp-header__nav-products');
 
-    const anchor = document.createElement('a');
-    anchor.classList.add('cmp-navigation__item-link'); // Class from ORIGINAL HTML
+    const link = document.createElement('a');
+    link.classList.add('cmp-navigation__item-link');
     const foundLink = linkCell.querySelector('a');
-    if (foundLink) anchor.href = foundLink.href;
-    anchor.textContent = labelCell.textContent.trim();
-    moveInstrumentation(row, li);
-    li.append(anchor);
+    if (foundLink) {
+      link.href = foundLink.href;
+    }
+    link.textContent = labelCell.textContent.trim();
+    moveInstrumentation(labelCell, link);
+    moveInstrumentation(linkCell, link);
+    li.append(link);
 
     const subList = hierarchyTreeCell.querySelector('ul');
     if (subList) {
-      const productItemsUl = document.createElement('ul');
-      productItemsUl.classList.add('cmp-navigation__group', 'cmp-header__product-items'); // Classes from ORIGINAL HTML
+      const productItems = document.createElement('ul');
+      productItems.classList.add('cmp-navigation__group', 'cmp-header__product-items');
+      const categoryMenu = document.createElement('div');
+      categoryMenu.classList.add('cmp-header__category-menu');
+      productItems.append(categoryMenu);
 
-      const categoryMenuDiv = document.createElement('div');
-      categoryMenuDiv.classList.add('cmp-header__category-menu'); // Class from ORIGINAL HTML
-      moveInstrumentation(hierarchyTreeCell, categoryMenuDiv); // Move instrumentation for the richtext cell
-      categoryMenuDiv.append(subList);
-      transformNestedLists(subList);
-      productItemsUl.append(categoryMenuDiv);
-      li.append(productItemsUl);
+      // Create a temporary div to hold the hierarchyTreeCell content for instrumentation
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = hierarchyTreeCell.innerHTML;
+      moveInstrumentation(hierarchyTreeCell, tempDiv); // Instrument the cell itself
 
-      anchor.addEventListener('click', (e) => {
+      const transformedUl = tempDiv.querySelector('ul');
+      if (transformedUl) {
+        transformNestedLists(transformedUl);
+        [...transformedUl.children].forEach((subLi) => {
+          subLi.classList.add('cmp-navigation__item', 'cmp-navigation__item--level-1');
+          const subAnchor = subLi.querySelector(':scope > a');
+          if (subAnchor) {
+            subAnchor.classList.add('cmp-navigation__item-link');
+          }
+          // Move instrumentation for each nested list item
+          moveInstrumentation(subLi, subLi); // Instrument the sub-list item itself
+          categoryMenu.append(subLi);
+        });
+      }
+      li.append(productItems);
+      li.classList.add('cmp-header__nav-products-click');
+      link.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        li.classList.toggle('active');
-        productItemsUl.classList.toggle('active');
+        li.classList.toggle('cmp-header__nav-products-click');
       });
+    } else {
+      li.classList.add('cmp-header__no-items');
     }
+    moveInstrumentation(row, li);
     navGroup.append(li);
   });
 
   nav.append(navGroup);
   navigationDiv.append(nav);
-  navLinksDiv.append(navigationDiv);
+  navLinksWrapper.append(navigationDiv);
 
-  // Mobile Policy Links and Social Media
-  const mobileListDiv = document.createElement('div');
-  mobileListDiv.classList.add('cmp-header__mobile-list'); // Class from ORIGINAL HTML
+  // Mobile list wrapper
+  const mobileList = document.createElement('div');
+  mobileList.classList.add('cmp-header__mobile-list');
 
+  // Policy Links
   const policyUl = document.createElement('ul');
-  policyUl.classList.add('cmp-header__policy'); // Class from ORIGINAL HTML
-  moveInstrumentation(policyLinksPlaceholder, policyUl);
-
+  policyUl.classList.add('cmp-header__policy');
   policyLinkRows.forEach((row) => {
-    const [labelCell, linkCell] = [...row.children]; // Correct: named destructuring
+    const [labelCell, linkCell] = [...row.children];
     const li = document.createElement('li');
-    li.classList.add('cmp-header__policy-list'); // Class from ORIGINAL HTML
-    const anchor = document.createElement('a');
+    li.classList.add('cmp-header__policy-list');
+    const link = document.createElement('a');
     const foundLink = linkCell.querySelector('a');
-    if (foundLink) anchor.href = foundLink.href;
-    anchor.textContent = labelCell.textContent.trim();
+    if (foundLink) {
+      link.href = foundLink.href;
+    }
+    link.textContent = labelCell.textContent.trim();
+    moveInstrumentation(labelCell, link); // Instrument labelCell
+    moveInstrumentation(linkCell, link); // Instrument linkCell
     moveInstrumentation(row, li);
-    li.append(anchor);
+    li.append(link);
     policyUl.append(li);
   });
-  mobileListDiv.append(policyUl);
+  mobileList.append(policyUl);
 
+  // Social Links
   const socialMediaDiv = document.createElement('div');
-  socialMediaDiv.classList.add('cmp-header__social-media'); // Class from ORIGINAL HTML
-  moveInstrumentation(socialLinksPlaceholder, socialMediaDiv);
-
+  socialMediaDiv.classList.add('cmp-header__social-media');
   socialLinkRows.forEach((row) => {
-    // FIXED: Using content detection instead of index access
-    const cells = [...row.children];
-    const linkCell = cells.find(cell => cell.querySelector('a'));
-    const anchor = document.createElement('a');
+    const [linkCell, socialKindCell] = [...row.children];
+    const link = document.createElement('a');
     const foundLink = linkCell.querySelector('a');
-    if (foundLink) anchor.href = foundLink.href;
-
-    if (anchor.href.includes('instagram.com')) {
-      anchor.classList.add('icon-instagram'); // Class from ORIGINAL HTML
-      anchor.dataset.social = 'instagram';
-    } else if (anchor.href.includes('facebook.com')) {
-      anchor.classList.add('icon-facebok'); // Class from ORIGINAL HTML
-      anchor.dataset.social = 'facebook';
-    } else if (anchor.href.includes('twitter.com')) {
-      anchor.classList.add('icon-twitter'); // Class from ORIGINAL HTML
-      anchor.dataset.social = 'twitter';
-    } else if (anchor.href.includes('youtube.com')) {
-      anchor.classList.add('icon-youtube'); // Class from ORIGINAL HTML
-      anchor.dataset.social = 'youtube';
+    if (foundLink) {
+      link.href = foundLink.href;
     }
-    moveInstrumentation(row, anchor);
-    socialMediaDiv.append(anchor);
+    const socialKind = socialKindCell.textContent.trim().toLowerCase();
+    // Corrected class name from icon-facebok to icon-facebook based on ORIGINAL HTML
+    link.classList.add(`icon-${socialKind === 'facebook' ? 'facebook' : socialKind}`);
+    link.setAttribute('data-social', socialKind);
+    link.setAttribute('target', '_blank');
+    moveInstrumentation(linkCell, link); // Instrument linkCell
+    moveInstrumentation(socialKindCell, link); // Instrument socialKindCell
+    moveInstrumentation(row, link);
+    socialMediaDiv.append(link);
   });
-  mobileListDiv.append(socialMediaDiv);
-  navLinksDiv.append(mobileListDiv);
-  headerWrapper.append(navLinksDiv);
+  mobileList.append(socialMediaDiv);
+  nav.append(mobileList);
+  header.append(navLinksWrapper);
 
   // Nav Icons
   const navIconsDiv = document.createElement('div');
-  navIconsDiv.classList.add('cmp-header__nav-icons'); // Class from ORIGINAL HTML
-  moveInstrumentation(navIconsPlaceholder, navIconsDiv);
-
+  navIconsDiv.classList.add('cmp-header__nav-icons');
   navIconRows.forEach((row) => {
-    const [iconTypeCell, labelCell, linkCell] = [...row.children]; // Correct: named destructuring
-    const iconType = iconTypeCell.textContent.trim().toLowerCase();
-    const label = labelCell.textContent.trim();
-    const linkHref = linkCell.querySelector('a')?.href || '#';
-
-    const iconWrapper = document.createElement('div');
-    iconWrapper.classList.add(`cmp-header__${iconType}`);
-    if (iconType === 'accessbility' || iconType === 'login') {
-      iconWrapper.classList.add('cmp-header__hide-icon'); // Class from ORIGINAL HTML
+    const [iconKindCell, linkCell, labelCell] = [...row.children];
+    const iconKind = iconKindCell.textContent.trim().toLowerCase();
+    const wrapperDiv = document.createElement('div');
+    wrapperDiv.classList.add(`cmp-header__${iconKind}`);
+    if (iconKind === 'accessibility' || iconKind === 'login') {
+      wrapperDiv.classList.add('cmp-header__hide-icon');
     }
 
-    const iconLink = document.createElement('a');
-    iconLink.href = linkHref;
-    iconLink.classList.add('cmp-header__icon-img'); // Class from ORIGINAL HTML
+    const link = document.createElement('a');
+    link.classList.add('cmp-header__icon-img');
+    const foundLink = linkCell.querySelector('a');
+    if (foundLink) {
+      link.href = foundLink.href;
+    }
 
     const iconDiv = document.createElement('div');
-    iconDiv.classList.add(`icon-${iconType}`); // Class from ORIGINAL HTML
-    iconLink.append(iconDiv);
+    iconDiv.classList.add(`icon-${iconKind}`);
+    link.append(iconDiv);
 
-    if (label) {
-      const iconText = document.createElement('div');
-      iconText.classList.add('cmp-header__icon-text'); // Class from ORIGINAL HTML
-      iconText.textContent = label;
-      iconLink.append(iconText);
+    const labelText = labelCell.textContent.trim();
+    if (labelText) {
+      const textDiv = document.createElement('div');
+      textDiv.classList.add('cmp-header__icon-text');
+      textDiv.textContent = labelText;
+      link.append(textDiv);
     }
-    moveInstrumentation(row, iconWrapper);
-    iconWrapper.append(iconLink);
-    navIconsDiv.append(iconWrapper);
+    moveInstrumentation(iconKindCell, link); // Instrument iconKindCell
+    moveInstrumentation(linkCell, link); // Instrument linkCell
+    moveInstrumentation(labelCell, link); // Instrument labelCell
+    wrapperDiv.append(link);
+    moveInstrumentation(row, wrapperDiv);
+    navIconsDiv.append(wrapperDiv);
   });
-  headerWrapper.append(navIconsDiv);
+  header.append(navIconsDiv);
 
-  block.replaceChildren(headerWrapper);
+  // Search Block (always appears last in the header's children)
+  const searchSection = document.createElement('section');
+  searchSection.classList.add('search', 'aem-GridColumn', 'aem-GridColumn--default--12');
+  const searchBlockDiv = document.createElement('div');
+  searchBlockDiv.classList.add('cmp-search');
+  searchBlockDiv.setAttribute('role', 'search');
+  searchBlockDiv.setAttribute('data-cmp-min-length', '3');
+  searchBlockDiv.setAttribute('data-cmp-results-desktop-size', '8');
+  searchBlockDiv.setAttribute('data-cmp-results-mobile-size', '5');
+  searchBlockDiv.setAttribute('data-error-response', '{"noResultsTitle":"Sorry, we cannot find what you are looking for :(","noResultsDescription":"Please try a new search term or browse through one of our product categories.","categories":[{"categoryName":"Gluten Free Flour","categoryURL":"https://aashirvaad.com/header-pages/our-products/atta/gluten-free-flour.html"},{"categoryName":"Aashirvaad Atta","categoryURL":"https://aashirvaad.com/header-pages/our-products/atta/select-atta.html"},{"categoryName":"Aashirvaad Salt","categoryURL":"https://aashirvaad.com/header-pages/our-products/salt/iodized-salt.html"}]}');
+
+  const searchInfo = document.createElement('div');
+  searchInfo.classList.add('cmp_search__info');
+  searchInfo.setAttribute('aria-live', 'polite');
+  searchInfo.setAttribute('role', 'status');
+  searchBlockDiv.append(searchInfo);
+
+  const searchForm = document.createElement('form');
+  searchForm.classList.add('cmp-search__form');
+  searchForm.setAttribute('data-cmp-hook-search', 'form');
+  searchForm.setAttribute('method', 'get');
+  searchForm.setAttribute('action', '/content/itc-foods-brands/aashirvaad/us/en.customsearchresults.json/_jcr_content/root/search');
+  searchForm.setAttribute('autocomplete', 'off');
+
+  const hiddenInput = document.createElement('input');
+  hiddenInput.type = 'hidden';
+  hiddenInput.id = 'searchroot';
+  hiddenInput.name = 'searchroot';
+  hiddenInput.value = '/content/itc-foods-brands/aashirvaad/us/en';
+  searchForm.append(hiddenInput);
+
+  const searchField = document.createElement('div');
+  searchField.classList.add('cmp-search__field');
+
+  const searchIcon = document.createElement('i');
+  searchIcon.classList.add('cmp-search__icon');
+  searchIcon.setAttribute('data-cmp-hook-search', 'icon');
+  searchField.append(searchIcon);
+
+  const loadingIndicator = document.createElement('span');
+  loadingIndicator.classList.add('cmp-search__loading-indicator');
+  loadingIndicator.setAttribute('data-cmp-hook-search', 'loadingIndicator');
+  searchField.append(loadingIndicator);
+
+  const searchInput = document.createElement('input');
+  searchInput.classList.add('cmp-search__input');
+  searchInput.setAttribute('data-cmp-hook-search', 'input');
+  searchInput.type = 'text';
+  searchInput.name = 'fulltext';
+  searchInput.setAttribute('role', 'combobox');
+  searchInput.setAttribute('aria-autocomplete', 'list');
+  searchInput.setAttribute('aria-haspopup', 'true');
+  searchInput.setAttribute('aria-invalid', 'false');
+  searchInput.setAttribute('aria-expanded', 'false');
+  searchInput.id = 'cmp-search-results-0'; // This ID needs to be unique if multiple search blocks
+  searchField.append(searchInput);
+
+  const clearButton = document.createElement('button');
+  clearButton.classList.add('cmp-search__clear');
+  clearButton.setAttribute('data-cmp-hook-search', 'clear');
+  clearButton.setAttribute('aria-label', 'Clear');
+  const clearIcon = document.createElement('i');
+  clearIcon.classList.add('cmp-search__clear-icon');
+  clearButton.append(clearIcon);
+  searchField.append(clearButton);
+
+  searchForm.append(searchField);
+  searchBlockDiv.append(searchForm);
+
+  const searchResults = document.createElement('div');
+  searchResults.classList.add('cmp-search__results');
+  searchResults.setAttribute('aria-label', 'Search results');
+  searchResults.setAttribute('data-cmp-hook-search', 'results');
+  searchResults.setAttribute('role', 'listbox');
+  searchResults.setAttribute('aria-multiselectable', 'false');
+  searchResults.id = 'cmp-search-results-0'; // This ID needs to be unique if multiple search blocks
+  searchBlockDiv.append(searchResults);
+
+  if (searchBlockRows.length > 0) {
+    const [placeholderCell, actionCell] = [...searchBlockRows[0].children];
+    searchInput.placeholder = placeholderCell.textContent.trim();
+    searchForm.action = actionCell.textContent.trim();
+    searchBlockDiv.setAttribute('data-input-placeholder', placeholderCell.textContent.trim());
+    moveInstrumentation(placeholderCell, searchInput); // Instrument placeholderCell
+    moveInstrumentation(actionCell, searchForm); // Instrument actionCell
+    moveInstrumentation(searchBlockRows[0], searchBlockDiv);
+  }
+  searchSection.append(searchBlockDiv);
+
+  // moveInstrumentation for the container rows (which are not actual content rows)
+  // These are not actual rows with content, but placeholders in the block.children array
+  // We need to ensure their instrumentation is moved to the corresponding wrapper elements.
+  moveInstrumentation(navigationMenuContainer, navLinksWrapper);
+  moveInstrumentation(policyLinksContainer, mobileList);
+  moveInstrumentation(socialLinksContainer, socialMediaDiv);
+  moveInstrumentation(navIconsContainer, navIconsDiv);
+  moveInstrumentation(searchBlockContainer, searchSection);
+
+  block.replaceChildren(header, searchSection);
 }

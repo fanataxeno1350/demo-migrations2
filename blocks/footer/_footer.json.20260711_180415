@@ -17,7 +17,7 @@
       }
     },
     {
-      "title": "Footer-Link-Item",
+      "title": "Footer Link Item",
       "id": "footer-link-item",
       "plugins": {
         "xwalk": {
@@ -25,14 +25,14 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "footer-link-item",
-              "name": "Footer-Link-Item"
+              "name": "Footer Link Item"
             }
           }
         }
       }
     },
     {
-      "title": "Footer-Social-Item",
+      "title": "Footer Social Item",
       "id": "footer-social-item",
       "plugins": {
         "xwalk": {
@@ -40,7 +40,7 @@
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
               "model": "footer-social-item",
-              "name": "Footer-Social-Item"
+              "name": "Footer Social Item"
             }
           }
         }
@@ -53,26 +53,26 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Main Logo",
+          "label": "Logo",
           "name": "logo",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Main Logo Link",
+          "label": "Logo Link",
           "name": "logoLink",
           "valueType": "string"
         },
         {
           "component": "reference",
           "label": "ITC Logo",
-          "name": "logoItc",
+          "name": "itcLogo",
           "valueType": "string"
         },
         {
           "component": "reference",
           "label": "FSSAI Logo",
-          "name": "logoFssai",
+          "name": "fssaiLogo",
           "valueType": "string"
         },
         {
@@ -83,20 +83,14 @@
         },
         {
           "component": "text",
-          "label": "Subscribe Headline (in Your Inbox)",
+          "label": "Subscribe Headline",
           "name": "subscribeHeadline",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Subscribe Email Placeholder",
-          "name": "subscribePlaceholder",
-          "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Subscribe Button Label",
-          "name": "subscribeButtonLabel",
+          "label": "Subscribe Input Placeholder",
+          "name": "subscribeInputPlaceholder",
           "valueType": "string"
         },
         {
@@ -107,8 +101,14 @@
         },
         {
           "component": "aem-content",
-          "label": "Privacy Policy Link (Subscribe)",
-          "name": "subscribePrivacyPolicyLink",
+          "label": "Privacy Policy Link",
+          "name": "privacyPolicyLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Subscribe Button Label",
+          "name": "subscribeButtonLabel",
           "valueType": "string"
         },
         {
@@ -150,7 +150,7 @@
         {
           "component": "container",
           "item": "footer-social-item",
-          "label": "Footer Social Media Links",
+          "label": "Footer Social Links",
           "name": "footerSocialLinks"
         }
       ]

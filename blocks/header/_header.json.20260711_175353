@@ -75,21 +75,6 @@
           }
         }
       }
-    },
-    {
-      "title": "Search-Block",
-      "id": "search-block",
-      "plugins": {
-        "xwalk": {
-          "page": {
-            "resourceType": "core/franklin/components/block/v1/block/item",
-            "template": {
-              "model": "search-block",
-              "name": "Search-Block"
-            }
-          }
-        }
-      }
     }
   ],
   "models": [
@@ -129,14 +114,8 @@
         {
           "component": "container",
           "item": "nav-icon-item",
-          "label": "Nav Icons",
+          "label": "Header Nav Icons",
           "name": "navIcons"
-        },
-        {
-          "component": "container",
-          "item": "search-block",
-          "label": "Search Block",
-          "name": "searchBlock"
         }
       ]
     },
@@ -188,12 +167,6 @@
           "label": "Social Link",
           "name": "link",
           "valueType": "string"
-        },
-        {
-          "component": "text",
-          "label": "Social Kind",
-          "name": "socialKind",
-          "valueType": "string"
         }
       ]
     },
@@ -202,14 +175,8 @@
       "fields": [
         {
           "component": "text",
-          "label": "Icon Kind",
-          "name": "iconKind",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Icon Link",
-          "name": "link",
+          "label": "Icon Type",
+          "name": "iconType",
           "valueType": "string"
         },
         {
@@ -217,22 +184,11 @@
           "label": "Icon Label",
           "name": "label",
           "valueType": "string"
-        }
-      ]
-    },
-    {
-      "id": "search-block",
-      "fields": [
-        {
-          "component": "text",
-          "label": "Search Input Placeholder",
-          "name": "placeholder",
-          "valueType": "string"
         },
         {
-          "component": "text",
-          "label": "Search Form Action",
-          "name": "action",
+          "component": "aem-content",
+          "label": "Icon Link",
+          "name": "link",
           "valueType": "string"
         }
       ]
@@ -245,8 +201,7 @@
         "navigation-item",
         "policy-link-item",
         "social-link-item",
-        "nav-icon-item",
-        "search-block"
+        "nav-icon-item"
       ]
     }
   ]

@@ -238,26 +238,26 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Logo",
+        "label": "Main Logo",
         "name": "logo",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Logo Link",
+        "label": "Main Logo Link",
         "name": "logoLink",
         "valueType": "string"
       },
       {
         "component": "reference",
         "label": "ITC Logo",
-        "name": "itcLogo",
+        "name": "logoItc",
         "valueType": "string"
       },
       {
         "component": "reference",
         "label": "FSSAI Logo",
-        "name": "fssaiLogo",
+        "name": "logoFssai",
         "valueType": "string"
       },
       {
@@ -268,14 +268,20 @@
       },
       {
         "component": "text",
-        "label": "Subscribe Headline",
+        "label": "Subscribe Headline (in Your Inbox)",
         "name": "subscribeHeadline",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Subscribe Input Placeholder",
-        "name": "subscribeInputPlaceholder",
+        "label": "Subscribe Email Placeholder",
+        "name": "subscribePlaceholder",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Subscribe Button Label",
+        "name": "subscribeButtonLabel",
         "valueType": "string"
       },
       {
@@ -286,14 +292,8 @@
       },
       {
         "component": "aem-content",
-        "label": "Privacy Policy Link",
-        "name": "privacyPolicyLink",
-        "valueType": "string"
-      },
-      {
-        "component": "text",
-        "label": "Subscribe Button Label",
-        "name": "subscribeButtonLabel",
+        "label": "Privacy Policy Link (Subscribe)",
+        "name": "subscribePrivacyPolicyLink",
         "valueType": "string"
       },
       {
@@ -335,7 +335,7 @@
       {
         "component": "container",
         "item": "footer-social-item",
-        "label": "Footer Social Links",
+        "label": "Footer Social Media Links",
         "name": "footerSocialLinks"
       }
     ]
@@ -410,8 +410,14 @@
       {
         "component": "container",
         "item": "nav-icon-item",
-        "label": "Header Nav Icons",
+        "label": "Nav Icons",
         "name": "navIcons"
+      },
+      {
+        "component": "container",
+        "item": "search-block",
+        "label": "Search Block",
+        "name": "searchBlock"
       }
     ]
   },
@@ -463,6 +469,12 @@
         "label": "Social Link",
         "name": "link",
         "valueType": "string"
+      },
+      {
+        "component": "text",
+        "label": "Social Kind",
+        "name": "socialKind",
+        "valueType": "string"
       }
     ]
   },
@@ -471,8 +483,14 @@
     "fields": [
       {
         "component": "text",
-        "label": "Icon Type",
-        "name": "iconType",
+        "label": "Icon Kind",
+        "name": "iconKind",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Icon Link",
+        "name": "link",
         "valueType": "string"
       },
       {
@@ -480,11 +498,22 @@
         "label": "Icon Label",
         "name": "label",
         "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "search-block",
+    "fields": [
+      {
+        "component": "text",
+        "label": "Search Input Placeholder",
+        "name": "placeholder",
+        "valueType": "string"
       },
       {
-        "component": "aem-content",
-        "label": "Icon Link",
-        "name": "link",
+        "component": "text",
+        "label": "Search Form Action",
+        "name": "action",
         "valueType": "string"
       }
     ]
