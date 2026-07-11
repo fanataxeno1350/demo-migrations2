@@ -17,30 +17,30 @@
       }
     },
     {
-      "title": "Product Category Tab",
-      "id": "product-category-tab",
+      "title": "Tab Category Item",
+      "id": "tab-category-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "product-category-tab",
-              "name": "Product Category Tab"
+              "model": "tab-category-item",
+              "name": "Tab Category Item"
             }
           }
         }
       }
     },
     {
-      "title": "Product Card",
-      "id": "product-card",
+      "title": "Product Card Item",
+      "id": "product-card-item",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "product-card",
-              "name": "Product Card"
+              "model": "product-card-item",
+              "name": "Product Card Item"
             }
           }
         }
@@ -53,14 +53,14 @@
       "fields": [
         {
           "component": "container",
-          "item": "product-category-tab",
-          "label": "Tabs",
-          "name": "tabs"
+          "item": "tab-category-item",
+          "label": "Product Categories",
+          "name": "categories"
         }
       ]
     },
     {
-      "id": "product-category-tab",
+      "id": "tab-category-item",
       "fields": [
         {
           "component": "text",
@@ -70,14 +70,15 @@
         },
         {
           "component": "container",
-          "item": "product-card",
+          "item": "product-card-item",
           "label": "Product Cards",
           "name": "products"
         },
         {
           "component": "richtext",
-          "label": "Description",
-          "name": "description"
+          "label": "Category Description",
+          "name": "description",
+          "valueType": "string"
         },
         {
           "component": "aem-content",
@@ -94,36 +95,36 @@
       ]
     },
     {
-      "id": "product-card",
+      "id": "product-card-item",
       "fields": [
+        {
+          "component": "aem-content",
+          "label": "Product Link",
+          "name": "productLink",
+          "valueType": "string"
+        },
         {
           "component": "reference",
           "label": "Desktop Default Image",
-          "name": "imageDesktopDefault",
+          "name": "desktopImageDefault",
           "valueType": "string"
         },
         {
           "component": "reference",
           "label": "Mobile Default Image",
-          "name": "imageMobileDefault",
+          "name": "mobileImageDefault",
           "valueType": "string"
         },
         {
           "component": "reference",
           "label": "Desktop Hover Image",
-          "name": "imageDesktopHover",
+          "name": "desktopImageHover",
           "valueType": "string"
         },
         {
           "component": "reference",
           "label": "Mobile Hover Image",
-          "name": "imageMobileHover",
-          "valueType": "string"
-        },
-        {
-          "component": "aem-content",
-          "label": "Product Link",
-          "name": "productLink",
+          "name": "mobileImageHover",
           "valueType": "string"
         }
       ]
@@ -133,8 +134,8 @@
     {
       "id": "tabs-product-categories",
       "components": [
-        "product-category-tab",
-        "product-card"
+        "tab-category-item",
+        "product-card-item"
       ]
     }
   ]

@@ -4,218 +4,205 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 export default function decorate(block) {
   const children = [...block.children];
 
-  const tabCategoryItems = [];
-  const productCardItems = [];
-
-  // Separate tab-category-item rows from product-card-item rows
+  // Re-process children to group tabs and their associated product cards
+  const groupedTabs = [];
+  let currentTab = null;
   children.forEach((row) => {
-    // tab-category-item has 4 cells (tabLabel, description, exploreAllLink, exploreAllLabel)
-    // The 'products' container field does not add a cell to the row.
-    if (row.children.length === 4) {
-      tabCategoryItems.push(row);
-    }
-    // product-card-item has 5 cells (productLink, desktopImageDefault, mobileImageDefault, desktopImageHover, mobileImageHover)
-    else if (row.children.length === 5) {
-      productCardItems.push(row);
+    if (row.children.length === 4) { // It's a product-category-tab row
+      const [tabLabelCell, descriptionCell, exploreAllLinkCell, exploreAllLabelCell] = [...row.children];
+      currentTab = {
+        tabLabel: tabLabelCell.textContent.trim(),
+        descriptionHTML: descriptionCell.innerHTML, // richtext field
+        exploreAllLink: exploreAllLinkCell.querySelector('a')?.href || '#', // aem-content field
+        exploreAllLabel: exploreAllLabelCell.textContent.trim(), // text field
+        productCards: [],
+        rowElement: row, // Keep reference to original row for instrumentation
+        tabLabelCell, // Keep reference to specific cells for instrumentation
+        descriptionCell,
+        exploreAllLinkCell,
+        exploreAllLabelCell,
+      };
+      groupedTabs.push(currentTab);
+    } else if (row.children.length === 5 && currentTab) { // It's a product-card row and associated with currentTab
+      const [
+        imageDesktopDefaultCell,
+        imageMobileDefaultCell,
+        imageDesktopHoverCell,
+        imageMobileHoverCell,
+        productLinkCell,
+      ] = [...row.children];
+
+      currentTab.productCards.push({
+        imageDesktopDefault: imageDesktopDefaultCell.querySelector('picture'),
+        imageMobileDefault: imageMobileDefaultCell.querySelector('picture'),
+        imageDesktopHover: imageDesktopHoverCell.querySelector('picture'),
+        imageMobileHover: imageMobileHoverCell.querySelector('picture'),
+        productLink: productLinkCell.querySelector('a')?.href || '#',
+        rowElement: row, // Keep reference to original row for instrumentation
+        imageDesktopDefaultCell, // Keep reference to specific cells for instrumentation
+        imageDesktopHoverCell,
+        productLinkCell,
+      });
     }
   });
 
-  const tablist = document.createElement('ol');
-  tablist.classList.add('cmp-tabs__tablist');
-  tablist.setAttribute('role', 'tablist');
-  tablist.setAttribute('aria-multiselectable', 'false');
+  // Now, build the final DOM structure using groupedTabs
+  const newTabList = document.createElement('ol');
+  newTabList.classList.add('cmp-tabs__tablist');
+  newTabList.setAttribute('role', 'tablist');
+  newTabList.setAttribute('aria-multiselectable', 'false');
 
-  const tabpanelsContainer = document.createElement('div');
-  // Removed 'cmp-tabs' class from tabpanelsContainer to prevent double padding/styling.
-  // The outer 'wrapper' element already has 'tabs' and 'panelcontainer' which aligns with original HTML.
-  // The 'cmp-tabs' class is on the outer div in the ORIGINAL HTML, not an inner container.
+  const newTabPanelsContainer = document.createElement('div');
+  newTabPanelsContainer.classList.add('cmp-tabs');
 
-  // Create tabs and tab panels
-  tabCategoryItems.forEach((tabRow, index) => {
-    const [tabLabelCell, descriptionCell, exploreAllLinkCell, exploreAllLabelCell] = [
-      ...tabRow.children,
-    ];
-
-    // Create tab
-    const tab = document.createElement('li');
-    tab.classList.add('cmp-tabs__tab');
-    tab.setAttribute('role', 'tab');
-    tab.setAttribute('data-cmp-hook-tabs', 'tab');
-    tab.textContent = tabLabelCell.textContent.trim();
-
+  groupedTabs.forEach((tabData, index) => {
     const tabId = `tab-${index}`;
     const tabpanelId = `tabpanel-${index}`;
-    tab.id = tabId;
-    tab.setAttribute('aria-controls', tabpanelId);
-    tab.setAttribute('tabindex', '-1');
-    tab.setAttribute('aria-selected', 'false');
-    moveInstrumentation(tabLabelCell, tab); // Move instrumentation from tabLabelCell to tab
+
+    // Create tab list item
+    const li = document.createElement('li');
+    li.classList.add('cmp-tabs__tab');
+    li.setAttribute('role', 'tab');
+    li.setAttribute('id', `${tabId}-tab`);
+    li.setAttribute('aria-controls', tabpanelId);
+    li.setAttribute('tabindex', '-1');
+    li.setAttribute('data-cmp-hook-tabs', 'tab');
+    li.setAttribute('aria-selected', 'false');
+    li.textContent = tabData.tabLabel;
+    moveInstrumentation(tabData.tabLabelCell, li); // Use tabLabelCell for instrumentation
+    newTabList.append(li);
 
     // Create tab panel
     const tabpanel = document.createElement('div');
     tabpanel.classList.add('cmp-tabs__tabpanel');
-    tabpanel.id = tabpanelId;
+    tabpanel.setAttribute('id', tabpanelId);
     tabpanel.setAttribute('role', 'tabpanel');
-    tabpanel.setAttribute('aria-labelledby', tabId);
+    tabpanel.setAttribute('aria-labelledby', `${tabId}-tab`);
     tabpanel.setAttribute('tabindex', '0');
     tabpanel.setAttribute('data-cmp-hook-tabs', 'tabpanel');
     tabpanel.setAttribute('aria-hidden', 'true');
-    moveInstrumentation(tabRow, tabpanel); // Move instrumentation from the whole tabRow to tabpanel
+    moveInstrumentation(tabData.rowElement, tabpanel); // Move instrumentation from the tab row to the tabpanel
 
-    const cardsContainer = document.createElement('div');
-    cardsContainer.classList.add('cards');
+    const cardsWrapper = document.createElement('div');
+    cardsWrapper.classList.add('cards');
+    tabpanel.append(cardsWrapper);
 
-    const cardImageHoverContainer = document.createElement('div');
-    cardImageHoverContainer.classList.add('cmp-card--image-hover', 'cmp-card--default');
+    const cmpCardImageHover = document.createElement('div');
+    cmpCardImageHover.classList.add('cmp-card--image-hover', 'cmp-card--default');
+    cmpCardImageHover.setAttribute('data-component', 'cards');
+    cardsWrapper.append(cmpCardImageHover);
 
-    const cardContainer = document.createElement('div');
-    cardContainer.classList.add('cmp-card__container');
+    const cmpCardContainer = document.createElement('div');
+    cmpCardContainer.classList.add('cmp-card__container');
+    cmpCardImageHover.append(cmpCardContainer);
 
-    // As per EDS BLOCK STRUCTURE, product-card-items are siblings to tab-category-items,
-    // not nested. The 'products' container field within 'tab-category-item' implies
-    // a logical grouping, but not a physical nesting in the block.children array.
-    // Without a specific field on product-card-item to link it to a tab,
-    // the most robust interpretation is that all product cards are available to all tabs,
-    // or filtered by client-side logic (which is not in scope for block decoration).
-    // For this implementation, all product cards will be added to each tab panel.
-    productCardItems.forEach((productRow) => {
-      const [
-        productLinkCell,
-        desktopImageDefaultCell,
-        mobileImageDefaultCell,
-        desktopImageHoverCell,
-        mobileImageHoverCell,
-      ] = [...productRow.children];
+    tabData.productCards.forEach((cardData) => {
+      const productLinkAnchor = document.createElement('a');
+      productLinkAnchor.href = cardData.productLink;
+      productLinkAnchor.setAttribute('target', '_self');
+      moveInstrumentation(cardData.productLinkCell, productLinkAnchor); // Instrumentation from productLinkCell
+      cmpCardContainer.append(productLinkAnchor);
 
-      const productLink = productLinkCell.querySelector('a');
-      const productAnchor = document.createElement('a');
-      if (productLink) {
-        productAnchor.href = productLink.href;
-      }
-      productAnchor.setAttribute('target', '_self');
+      const cmpCardContent = document.createElement('div');
+      cmpCardContent.classList.add('cmp-card__content');
+      cmpCardContent.setAttribute('tabindex', '0');
+      productLinkAnchor.append(cmpCardContent);
 
-      const cardContent = document.createElement('div');
-      cardContent.classList.add('cmp-card__content');
-      cardContent.setAttribute('tabindex', '0');
-
-      const desktopDefaultPicture = desktopImageDefaultCell.querySelector('picture');
-      if (desktopDefaultPicture) {
-        const desktopDefaultImg = desktopDefaultPicture.querySelector('img');
-        const optimizedDesktopDefaultPic = createOptimizedPicture(
-          desktopDefaultImg.src,
-          desktopDefaultImg.alt,
+      if (cardData.imageDesktopDefault) {
+        const optimizedPic = createOptimizedPicture(
+          cardData.imageDesktopDefault.querySelector('img').src,
+          cardData.imageDesktopDefault.querySelector('img').alt,
           false,
-          [{ media: '(max-width:767px)', width: '360' }, { width: '750' }],
+          [{ media: '(max-width:767px)', width: '360' }, { width: '498' }],
         );
-        optimizedDesktopDefaultPic.classList.add('cmp-image__image', 'cmp-image__default');
-        moveInstrumentation(desktopDefaultImg, optimizedDesktopDefaultPic.querySelector('img')); // Move instrumentation from original img
-        cardContent.append(optimizedDesktopDefaultPic);
+        optimizedPic.querySelector('img').classList.add('cmp-image__image', 'cmp-image__default');
+        moveInstrumentation(cardData.imageDesktopDefaultCell, optimizedPic.querySelector('img')); // Instrumentation from imageDesktopDefaultCell
+        cmpCardContent.append(optimizedPic);
       }
 
-      const desktopHoverPicture = desktopImageHoverCell.querySelector('picture');
-      if (desktopHoverPicture) {
-        const desktopHoverImg = desktopHoverPicture.querySelector('img');
-        const optimizedDesktopHoverPic = createOptimizedPicture(
-          desktopHoverImg.src,
-          desktopHoverImg.alt,
+      if (cardData.imageDesktopHover) {
+        const optimizedPic = createOptimizedPicture(
+          cardData.imageDesktopHover.querySelector('img').src,
+          cardData.imageDesktopHover.querySelector('img').alt,
           false,
-          [{ media: '(max-width:767px)', width: '360' }, { width: '750' }],
+          [{ media: '(max-width:767px)', width: '360' }, { width: '498' }],
         );
-        optimizedDesktopHoverPic.classList.add('cmp-image__image', 'cmp-image__hover');
-        moveInstrumentation(desktopHoverImg, optimizedDesktopHoverPic.querySelector('img')); // Move instrumentation from original img
-        cardContent.append(optimizedDesktopHoverPic);
+        optimizedPic.querySelector('img').classList.add('cmp-image__image', 'cmp-image__hover');
+        moveInstrumentation(cardData.imageDesktopHoverCell, optimizedPic.querySelector('img')); // Instrumentation from imageDesktopHoverCell
+        cmpCardContent.append(optimizedPic);
       }
-
-      productAnchor.append(cardContent);
-      cardContainer.append(productAnchor);
-      moveInstrumentation(productRow, productAnchor); // Move instrumentation from productRow to productAnchor
+      // Note: Mobile images are handled by <source media> within createOptimizedPicture
     });
 
-    cardImageHoverContainer.append(cardContainer);
-    cardsContainer.append(cardImageHoverContainer);
+    // Description
+    const cardsDescription = document.createElement('div');
+    cardsDescription.classList.add('cards__description', 'text');
+    tabpanel.append(cardsDescription);
 
-    // Add description
-    const descriptionWrapper = document.createElement('div');
-    descriptionWrapper.classList.add('cards__description', 'text');
-    const descriptionText = document.createElement('div'); // Use div for richtext to avoid <p> inside <p>
-    descriptionText.classList.add('cmp-text');
-    descriptionText.innerHTML = descriptionCell.innerHTML; // richtext field, use innerHTML
-    descriptionWrapper.append(descriptionText);
-    cardsContainer.append(descriptionWrapper);
-    moveInstrumentation(descriptionCell, descriptionText); // Move instrumentation from descriptionCell to descriptionText
+    const cmpText = document.createElement('div'); // Use div for richtext to avoid <p> inside <p>
+    cmpText.classList.add('cmp-text');
+    cmpText.innerHTML = tabData.descriptionHTML;
+    moveInstrumentation(tabData.descriptionCell, cmpText); // Instrumentation from descriptionCell
+    cardsDescription.append(cmpText);
 
-    // Add explore all link
-    const exploreAllButtonWrapper = document.createElement('div');
-    exploreAllButtonWrapper.classList.add('exploremore', 'button', 'cmp-button--secondary');
-    const exploreAllLink = exploreAllLinkCell.querySelector('a');
-    const exploreAllAnchor = document.createElement('a');
-    exploreAllAnchor.classList.add('cmp-button');
-    if (exploreAllLink) {
-      exploreAllAnchor.href = exploreAllLink.href;
-    }
-    const exploreAllSpan = document.createElement('span');
-    exploreAllSpan.classList.add('cmp-button__text');
-    exploreAllSpan.textContent = exploreAllLabelCell.textContent.trim();
-    exploreAllAnchor.append(exploreAllSpan);
-    exploreAllButtonWrapper.append(exploreAllAnchor);
-    cardsContainer.append(exploreAllButtonWrapper);
-    moveInstrumentation(exploreAllLinkCell, exploreAllAnchor); // Move instrumentation from exploreAllLinkCell to exploreAllAnchor
+    // Explore All Link
+    const exploreMoreButton = document.createElement('div');
+    exploreMoreButton.classList.add('exploremore', 'button', 'cmp-button--secondary');
+    tabpanel.append(exploreMoreButton);
 
-    tabpanel.append(cardsContainer);
-    tabpanelsContainer.append(tabpanel);
-    tablist.append(tab);
+    const exploreLink = document.createElement('a');
+    exploreLink.classList.add('cmp-button');
+    exploreLink.href = tabData.exploreAllLink;
+    exploreLink.setAttribute('target', '_self');
+    moveInstrumentation(tabData.exploreAllLinkCell, exploreLink); // Instrumentation from exploreAllLinkCell
+    exploreMoreButton.append(exploreLink);
 
-    // Set first tab as active
-    if (index === 0) {
+    const exploreSpan = document.createElement('span');
+    exploreSpan.classList.add('cmp-button__text');
+    exploreSpan.textContent = tabData.exploreAllLabel;
+    moveInstrumentation(tabData.exploreAllLabelCell, exploreSpan); // Instrumentation from exploreAllLabelCell
+    exploreLink.append(exploreSpan);
+
+    newTabPanelsContainer.append(tabpanel);
+  });
+
+  // Initial state: activate the first tab
+  if (newTabList.firstElementChild) {
+    newTabList.firstElementChild.classList.add('cmp-tabs__tab--active');
+    newTabList.firstElementChild.setAttribute('tabindex', '0');
+    newTabList.firstElementChild.setAttribute('aria-selected', 'true');
+  }
+  if (newTabPanelsContainer.firstElementChild) {
+    newTabPanelsContainer.firstElementChild.classList.add('cmp-tabs__tabpanel--active');
+    newTabPanelsContainer.firstElementChild.setAttribute('aria-hidden', 'false');
+  }
+
+  // Add event listeners for tab switching
+  [...newTabList.children].forEach((tab, i) => {
+    tab.addEventListener('click', () => {
+      // Deactivate current active tab and panel
+      newTabList.querySelector('.cmp-tabs__tab--active')?.classList.remove('cmp-tabs__tab--active');
+      newTabList.querySelector('.cmp-tabs__tab--active')?.setAttribute('aria-selected', 'false');
+      newTabList.querySelector('.cmp-tabs__tab--active')?.setAttribute('tabindex', '-1');
+
+      newTabPanelsContainer.querySelector('.cmp-tabs__tabpanel--active')?.classList.remove('cmp-tabs__tabpanel--active');
+      newTabPanelsContainer.querySelector('.cmp-tabs__tabpanel--active')?.setAttribute('aria-hidden', 'true');
+
+      // Activate clicked tab and corresponding panel
       tab.classList.add('cmp-tabs__tab--active');
       tab.setAttribute('aria-selected', 'true');
       tab.setAttribute('tabindex', '0');
-      tabpanel.classList.add('cmp-tabs__tabpanel--active');
-      tabpanel.setAttribute('aria-hidden', 'false');
-    }
+
+      newTabPanelsContainer.children[i].classList.add('cmp-tabs__tabpanel--active');
+      newTabPanelsContainer.children[i].setAttribute('aria-hidden', 'false');
+    });
   });
 
-  // Tab switching logic
-  tablist.addEventListener('click', (event) => {
-    const clickedTab = event.target.closest('.cmp-tabs__tab');
-    if (!clickedTab) return;
+  const root = document.createElement('div');
+  // Removed 'tabs' class from root as the outer block div already has it.
+  // The 'panelcontainer' class is from the ORIGINAL HTML and is kept.
+  root.classList.add('panelcontainer');
+  root.append(newTabList, newTabPanelsContainer);
 
-    // Deactivate current tab
-    const currentActiveTab = tablist.querySelector('.cmp-tabs__tab--active');
-    if (currentActiveTab) {
-      currentActiveTab.classList.remove('cmp-tabs__tab--active');
-      currentActiveTab.setAttribute('aria-selected', 'false');
-      currentActiveTab.setAttribute('tabindex', '-1');
-      const currentActivePanelId = currentActiveTab.getAttribute('aria-controls');
-      const currentActivePanel = tabpanelsContainer.querySelector(`#${currentActivePanelId}`);
-      if (currentActivePanel) {
-        currentActivePanel.classList.remove('cmp-tabs__tabpanel--active');
-        currentActivePanel.setAttribute('aria-hidden', 'true');
-      }
-    }
-
-    // Activate clicked tab
-    clickedTab.classList.add('cmp-tabs__tab--active');
-    clickedTab.setAttribute('aria-selected', 'true');
-    clickedTab.setAttribute('tabindex', '0');
-    const targetPanelId = clickedTab.getAttribute('aria-controls');
-    const targetPanel = tabpanelsContainer.querySelector(`#${targetPanelId}`);
-    if (targetPanel) {
-      targetPanel.classList.add('cmp-tabs__tabpanel--active');
-      targetPanel.setAttribute('aria-hidden', 'false');
-    }
-  });
-
-  const wrapper = document.createElement('div');
-  wrapper.classList.add('tabs', 'panelcontainer', 'cmp-tabs'); // Added cmp-tabs to the wrapper as per original HTML
-  wrapper.append(tablist, tabpanelsContainer);
-
-  block.replaceChildren(wrapper);
-
-  // Optimize images after all DOM manipulation
-  wrapper.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    moveInstrumentation(img, optimizedPic.querySelector('img'));
-    img.closest('picture').replaceWith(optimizedPic);
-  });
+  block.replaceChildren(root);
 }

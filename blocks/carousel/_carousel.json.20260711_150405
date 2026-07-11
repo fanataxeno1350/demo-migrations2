@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Carousel-Item",
-      "id": "carousel-item",
+      "title": "Carousel Slide",
+      "id": "carousel-slide",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "carousel-item",
-              "name": "Carousel-Item"
+              "model": "carousel-slide",
+              "name": "Carousel Slide"
             }
           }
         }
@@ -38,36 +38,36 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Arrow Left Icon",
-          "name": "arrowLeftIcon",
+          "label": "Arrow Previous Icon",
+          "name": "arrowPreviousIcon",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Arrow Right Icon",
-          "name": "arrowRightIcon",
+          "label": "Arrow Next Icon",
+          "name": "arrowNextIcon",
           "valueType": "string"
         },
         {
           "component": "container",
-          "item": "carousel-item",
-          "label": "Carousel Items",
-          "name": "items"
+          "item": "carousel-slide",
+          "label": "Carousel Slides",
+          "name": "slides"
         }
       ]
     },
     {
-      "id": "carousel-item",
+      "id": "carousel-slide",
       "fields": [
         {
           "component": "reference",
-          "label": "Desktop Image",
+          "label": "Banner Image (Desktop)",
           "name": "imageDesktop",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Mobile Image",
+          "label": "Banner Image (Mobile)",
           "name": "imageMobile",
           "valueType": "string"
         },
@@ -84,7 +84,7 @@
     {
       "id": "carousel",
       "components": [
-        "carousel-item"
+        "carousel-slide"
       ]
     }
   ]

@@ -39,19 +39,19 @@
         {
           "component": "container",
           "item": "blog-card-item",
-          "label": "Cards",
-          "name": "cards"
+          "label": "Blog Cards",
+          "name": "blogCards"
         },
         {
           "component": "text",
-          "label": "Explore All Button Label",
-          "name": "exploreAllLabel",
+          "label": "CTA Label",
+          "name": "ctaLabel",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Explore All Button Link",
-          "name": "exploreAllLink",
+          "label": "CTA Link",
+          "name": "ctaLink",
           "valueType": "string"
         }
       ]
@@ -73,19 +73,19 @@
         },
         {
           "component": "text",
-          "label": "Card Date and Type",
+          "label": "Date and Type",
           "name": "dateAndType",
           "valueType": "string"
         },
         {
           "component": "text",
-          "label": "Card Headline",
-          "name": "headline",
+          "label": "Blog Title",
+          "name": "title",
           "valueType": "string"
         },
         {
           "component": "aem-content",
-          "label": "Card Link",
+          "label": "Blog Link",
           "name": "link",
           "valueType": "string"
         }

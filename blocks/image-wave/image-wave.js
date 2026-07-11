@@ -2,48 +2,47 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  // Fixed schema: desktopImage and mobileImage are always the first two rows.
-  // Use destructuring for fixed-schema rows.
   const [desktopImageRow, mobileImageRow] = [...block.children];
 
-  const root = document.createElement('div');
-  // Class names from ORIGINAL HTML
-  root.classList.add('image', 'sticky__wave');
+  // Image cells contain the picture/img directly, not wrapped in an extra div.
+  // Access the first child of the row, which is the cell itself.
+  const desktopImageCell = desktopImageRow?.children[0];
+  const mobileImageCell = mobileImageRow?.children[0];
 
-  const imageWrapper = document.createElement('div');
-  // Class name from ORIGINAL HTML
-  imageWrapper.classList.add('cmp-image');
+  const picture = document.createElement('picture');
+  picture.classList.add('cmp-image');
 
-  // Access the picture element from the first cell of each row
-  const desktopPicture = desktopImageRow?.children[0]?.querySelector('picture');
-  const mobilePicture = mobileImageRow?.children[0]?.querySelector('picture');
-
-  if (desktopPicture || mobilePicture) {
-    const img = desktopPicture ? desktopPicture.querySelector('img') : mobilePicture.querySelector('img');
-    if (img) {
-      const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-      const pictureElement = optimizedPic.querySelector('picture');
-
-      if (mobilePicture) {
-        const mobileSource = document.createElement('source');
-        mobileSource.media = '(max-width:767px)';
-        mobileSource.srcset = mobilePicture.querySelector('img')?.src;
-        pictureElement.prepend(mobileSource);
-      }
-
-      const optimizedImg = optimizedPic.querySelector('img');
-      // Class name from ORIGINAL HTML
-      optimizedImg.classList.add('cmp-image__image');
-      optimizedImg.loading = 'lazy';
-      optimizedImg.fetchPriority = 'low';
-
-      // moveInstrumentation for both original rows
-      moveInstrumentation(desktopImageRow, imageWrapper);
-      moveInstrumentation(mobileImageRow, imageWrapper); // Also move instrumentation for mobile image row
-      imageWrapper.append(optimizedPic);
+  if (mobileImageCell) {
+    const mobileImg = mobileImageCell.querySelector('img');
+    if (mobileImg) {
+      const source = document.createElement('source');
+      source.media = '(max-width:767px)';
+      source.srcset = mobileImg.src;
+      picture.append(source);
+      // moveInstrumentation should be called on the original cell, not the source element
+      moveInstrumentation(mobileImageCell, source);
     }
   }
 
-  root.append(imageWrapper);
-  block.replaceChildren(root);
+  if (desktopImageCell) {
+    const desktopImg = desktopImageCell.querySelector('img');
+    if (desktopImg) {
+      // createOptimizedPicture returns a <picture> element, but we only need the <img> inside it.
+      // The original HTML shows the <img> directly appended to the <picture> element.
+      const optimizedPicture = createOptimizedPicture(desktopImg.src, desktopImg.alt, false, [{ width: '750' }]);
+      const img = optimizedPicture.querySelector('img');
+      img.classList.add('cmp-image__image');
+      picture.append(img);
+      // moveInstrumentation should be called on the original cell, not the img element
+      moveInstrumentation(desktopImageCell, img);
+    }
+  }
+
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('image', 'sticky__wave');
+  // moveInstrumentation for the block itself, moving its original instrumentation to the new wrapper
+  moveInstrumentation(block, wrapper);
+  wrapper.append(picture);
+
+  block.replaceChildren(wrapper);
 }

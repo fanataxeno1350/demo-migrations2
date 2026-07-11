@@ -147,19 +147,19 @@
       {
         "component": "container",
         "item": "blog-card-item",
-        "label": "Blog Cards",
-        "name": "blogCards"
+        "label": "Cards",
+        "name": "cards"
       },
       {
         "component": "text",
-        "label": "CTA Label",
-        "name": "ctaLabel",
+        "label": "Explore All Button Label",
+        "name": "exploreAllLabel",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "CTA Link",
-        "name": "ctaLink",
+        "label": "Explore All Button Link",
+        "name": "exploreAllLink",
         "valueType": "string"
       }
     ]
@@ -181,19 +181,19 @@
       },
       {
         "component": "text",
-        "label": "Date and Type",
+        "label": "Card Date and Type",
         "name": "dateAndType",
         "valueType": "string"
       },
       {
         "component": "text",
-        "label": "Blog Title",
-        "name": "title",
+        "label": "Card Headline",
+        "name": "headline",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Blog Link",
+        "label": "Card Link",
         "name": "link",
         "valueType": "string"
       }
@@ -204,36 +204,36 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Arrow Previous Icon",
-        "name": "arrowPreviousIcon",
+        "label": "Arrow Left Icon",
+        "name": "arrowLeftIcon",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Arrow Next Icon",
-        "name": "arrowNextIcon",
+        "label": "Arrow Right Icon",
+        "name": "arrowRightIcon",
         "valueType": "string"
       },
       {
         "component": "container",
-        "item": "carousel-slide",
-        "label": "Carousel Slides",
-        "name": "slides"
+        "item": "carousel-item",
+        "label": "Carousel Items",
+        "name": "items"
       }
     ]
   },
   {
-    "id": "carousel-slide",
+    "id": "carousel-item",
     "fields": [
       {
         "component": "reference",
-        "label": "Banner Image (Desktop)",
+        "label": "Desktop Image",
         "name": "imageDesktop",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Banner Image (Mobile)",
+        "label": "Mobile Image",
         "name": "imageMobile",
         "valueType": "string"
       },
@@ -261,6 +261,12 @@
         "valueType": "string"
       },
       {
+        "component": "aem-content",
+        "label": "Button Link",
+        "name": "buttonLink",
+        "valueType": "string"
+      },
+      {
         "component": "container",
         "item": "dropdown-option-item",
         "label": "Dropdown Options",
@@ -274,13 +280,13 @@
       {
         "component": "text",
         "label": "Option Label",
-        "name": "label",
+        "name": "optionLabel",
         "valueType": "string"
       },
       {
         "component": "aem-content",
         "label": "Option Link",
-        "name": "link",
+        "name": "optionLink",
         "valueType": "string"
       }
     ]
@@ -419,13 +425,13 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Desktop Background Image",
+        "label": "Background Image (Desktop)",
         "name": "backgroundDesktop",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Mobile Background Image",
+        "label": "Background Image (Mobile)",
         "name": "backgroundMobile",
         "valueType": "string"
       },
@@ -442,16 +448,22 @@
         "valueType": "string"
       },
       {
+        "component": "reference",
+        "label": "Hamburger Icon (Mobile)",
+        "name": "hamburgerIcon",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "label": "Search Icon",
+        "name": "searchIcon",
+        "valueType": "string"
+      },
+      {
         "component": "container",
         "item": "navigation-item",
         "label": "Navigation Items",
         "name": "navigationItems"
-      },
-      {
-        "component": "aem-content",
-        "label": "Search Link",
-        "name": "searchLink",
-        "valueType": "string"
       }
     ]
   },
@@ -460,13 +472,13 @@
     "fields": [
       {
         "component": "text",
-        "label": "Navigation Label",
+        "label": "Menu Label",
         "name": "label",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Navigation Link",
+        "label": "Menu Link",
         "name": "link",
         "valueType": "string"
       },
@@ -544,14 +556,14 @@
     "fields": [
       {
         "component": "container",
-        "item": "tab-category-item",
-        "label": "Product Categories",
-        "name": "categories"
+        "item": "product-category-tab",
+        "label": "Tabs",
+        "name": "tabs"
       }
     ]
   },
   {
-    "id": "tab-category-item",
+    "id": "product-category-tab",
     "fields": [
       {
         "component": "text",
@@ -561,15 +573,14 @@
       },
       {
         "component": "container",
-        "item": "product-card-item",
+        "item": "product-card",
         "label": "Product Cards",
         "name": "products"
       },
       {
         "component": "richtext",
-        "label": "Category Description",
-        "name": "description",
-        "valueType": "string"
+        "label": "Description",
+        "name": "description"
       },
       {
         "component": "aem-content",
@@ -586,36 +597,36 @@
     ]
   },
   {
-    "id": "product-card-item",
+    "id": "product-card",
     "fields": [
-      {
-        "component": "aem-content",
-        "label": "Product Link",
-        "name": "productLink",
-        "valueType": "string"
-      },
       {
         "component": "reference",
         "label": "Desktop Default Image",
-        "name": "desktopImageDefault",
+        "name": "imageDesktopDefault",
         "valueType": "string"
       },
       {
         "component": "reference",
         "label": "Mobile Default Image",
-        "name": "mobileImageDefault",
+        "name": "imageMobileDefault",
         "valueType": "string"
       },
       {
         "component": "reference",
         "label": "Desktop Hover Image",
-        "name": "desktopImageHover",
+        "name": "imageDesktopHover",
         "valueType": "string"
       },
       {
         "component": "reference",
         "label": "Mobile Hover Image",
-        "name": "mobileImageHover",
+        "name": "imageMobileHover",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "label": "Product Link",
+        "name": "productLink",
         "valueType": "string"
       }
     ]
@@ -666,8 +677,8 @@
     "fields": [
       {
         "component": "richtext",
-        "label": "Heading and Description",
-        "name": "heading",
+        "label": "Content",
+        "name": "content",
         "valueType": "string"
       }
     ]
@@ -677,7 +688,7 @@
     "fields": [
       {
         "component": "richtext",
-        "label": "Rich Text Content",
+        "label": "Text Content",
         "name": "content",
         "valueType": "string"
       }

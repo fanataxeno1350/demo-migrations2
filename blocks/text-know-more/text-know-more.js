@@ -2,27 +2,27 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  const [headingRow] = [...block.children];
+  const [contentRow] = [...block.children];
 
-  const textWrapper = document.createElement('div');
-  textWrapper.classList.add('text', 'desc-1'); // Apply classes from ORIGINAL HTML
+  const contentWrapper = document.createElement('div');
+  contentWrapper.classList.add('text', 'desc-1'); // Classes from ORIGINAL HTML
 
-  const cmpText = document.createElement('div');
-  cmpText.classList.add('cmp-text'); // Apply classes from ORIGINAL HTML
+  const cmpTextDiv = document.createElement('div');
+  cmpTextDiv.classList.add('cmp-text'); // Class from ORIGINAL HTML
 
-  if (headingRow) {
-    // The heading field is richtext, so its content is directly inside the cell div.
-    // Move instrumentation from the authored row to the new cmpText div.
-    const [headingCell] = [...headingRow.children]; // Use named destructuring
-    moveInstrumentation(headingCell, cmpText); // Move instrumentation from the cell
-    cmpText.innerHTML = headingCell?.innerHTML || '';
+  if (contentRow) {
+    const [contentCell] = [...contentRow.children]; // FIXED: named destructuring
+    if (contentCell) {
+      moveInstrumentation(contentRow, cmpTextDiv);
+      cmpTextDiv.innerHTML = contentCell.innerHTML;
+    }
   }
 
-  textWrapper.append(cmpText);
-  block.replaceChildren(textWrapper);
+  contentWrapper.append(cmpTextDiv);
 
-  // Image optimization (if any images were present in the richtext)
-  textWrapper.querySelectorAll('picture > img').forEach((img) => {
+  block.replaceChildren(contentWrapper);
+
+  contentWrapper.querySelectorAll('picture > img').forEach((img) => {
     const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
     moveInstrumentation(img, optimizedPic.querySelector('img'));
     img.closest('picture').replaceWith(optimizedPic);

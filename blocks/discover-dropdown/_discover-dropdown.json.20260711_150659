@@ -49,12 +49,6 @@
           "valueType": "string"
         },
         {
-          "component": "aem-content",
-          "label": "Button Link",
-          "name": "buttonLink",
-          "valueType": "string"
-        },
-        {
           "component": "container",
           "item": "dropdown-option-item",
           "label": "Dropdown Options",
@@ -68,13 +62,13 @@
         {
           "component": "text",
           "label": "Option Label",
-          "name": "optionLabel",
+          "name": "label",
           "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Option Link",
-          "name": "optionLink",
+          "name": "link",
           "valueType": "string"
         }
       ]

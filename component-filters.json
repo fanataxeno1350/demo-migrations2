@@ -42,7 +42,7 @@
   {
     "id": "carousel",
     "components": [
-      "carousel-slide"
+      "carousel-item"
     ]
   },
   {
@@ -83,8 +83,8 @@
   {
     "id": "tabs-product-categories",
     "components": [
-      "tab-category-item",
-      "product-card-item"
+      "product-category-tab",
+      "product-card"
     ]
   },
   {

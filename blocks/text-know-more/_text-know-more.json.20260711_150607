@@ -23,8 +23,8 @@
       "fields": [
         {
           "component": "richtext",
-          "label": "Content",
-          "name": "content",
+          "label": "Heading and Description",
+          "name": "heading",
           "valueType": "string"
         }
       ]

@@ -17,15 +17,15 @@
       }
     },
     {
-      "title": "Product Category Tab",
-      "id": "product-category-tab",
+      "title": "Tab Category",
+      "id": "tab-category",
       "plugins": {
         "xwalk": {
           "page": {
             "resourceType": "core/franklin/components/block/v1/block/item",
             "template": {
-              "model": "product-category-tab",
-              "name": "Product Category Tab"
+              "model": "tab-category",
+              "name": "Tab Category"
             }
           }
         }
@@ -53,14 +53,14 @@
       "fields": [
         {
           "component": "container",
-          "item": "product-category-tab",
+          "item": "tab-category",
           "label": "Tabs",
           "name": "tabs"
         }
       ]
     },
     {
-      "id": "product-category-tab",
+      "id": "tab-category",
       "fields": [
         {
           "component": "text",
@@ -76,19 +76,20 @@
         },
         {
           "component": "richtext",
-          "label": "Description",
-          "name": "description"
+          "label": "Tab Description",
+          "name": "description",
+          "valueType": "string"
         },
         {
           "component": "aem-content",
           "label": "Explore All Link",
-          "name": "exploreAllLink",
+          "name": "exploreLink",
           "valueType": "string"
         },
         {
           "component": "text",
           "label": "Explore All Label",
-          "name": "exploreAllLabel",
+          "name": "exploreLabel",
           "valueType": "string"
         }
       ]
@@ -98,25 +99,25 @@
       "fields": [
         {
           "component": "reference",
-          "label": "Desktop Default Image",
-          "name": "imageDesktopDefault",
+          "label": "Product Image (Default)",
+          "name": "imageDefault",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Mobile Default Image",
+          "label": "Product Image (Mobile, Default)",
           "name": "imageMobileDefault",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Desktop Hover Image",
-          "name": "imageDesktopHover",
+          "label": "Product Image (Hover)",
+          "name": "imageHover",
           "valueType": "string"
         },
         {
           "component": "reference",
-          "label": "Mobile Hover Image",
+          "label": "Product Image (Mobile, Hover)",
           "name": "imageMobileHover",
           "valueType": "string"
         },
@@ -133,7 +134,7 @@
     {
       "id": "tabs-product-categories",
       "components": [
-        "product-category-tab",
+        "tab-category",
         "product-card"
       ]
     }

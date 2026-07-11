@@ -1,0 +1,188 @@
+import { createOptimizedPicture } from '../../scripts/aem.js';
+import { moveInstrumentation } from '../../scripts/scripts.js';
+
+export default function decorate(block) {
+  const children = [...block.children];
+
+  // Separate tab category rows from product card rows based on cell count
+  // Tab Category rows have 4 cells: [tabLabel, description, exploreLink, exploreLabel]
+  // Product Card rows have 5 cells: [imageDefault, imageMobileDefault, imageHover, imageMobileHover, productLink]
+  const allRows = children;
+  const tabCategoryRows = [];
+  const productCardRows = [];
+
+  // Group product cards with their respective tabs
+  let currentTabProductCards = [];
+  allRows.forEach((row) => {
+    if (row.children.length === 4) { // This is a tab category row
+      tabCategoryRows.push({ row, productCards: [] });
+      currentTabProductCards = tabCategoryRows[tabCategoryRows.length - 1].productCards;
+    } else if (row.children.length === 5) { // This is a product card row
+      currentTabProductCards.push(row);
+    }
+  });
+
+  const root = document.createElement('div');
+  root.classList.add('tabs', 'panelcontainer'); // Removed 'tabs-product-categories' as block already has it
+
+  const cmpTabs = document.createElement('div');
+  cmpTabs.classList.add('cmp-tabs');
+  cmpTabs.setAttribute('data-placeholder-text', 'false');
+  root.append(cmpTabs);
+
+  const tabList = document.createElement('ol');
+  tabList.classList.add('cmp-tabs__tablist');
+  tabList.setAttribute('role', 'tablist');
+  tabList.setAttribute('aria-multiselectable', 'false');
+  cmpTabs.append(tabList);
+
+  const tabPanelsContainer = document.createElement('div');
+  cmpTabs.append(tabPanelsContainer);
+
+  const tabPanels = [];
+
+  tabCategoryRows.forEach((tabData, i) => {
+    const { row: tabCategoryRow, productCards: associatedProductCards } = tabData;
+    const [tabLabelCell, descriptionCell, exploreLinkCell, exploreLabelCell] = [...tabCategoryRow.children];
+
+    const tabLabel = tabLabelCell.textContent.trim();
+    const description = descriptionCell.innerHTML; // richtext field
+    const exploreLink = exploreLinkCell.querySelector('a')?.href || '#';
+    const exploreLabel = exploreLabelCell.textContent.trim();
+
+    // Create tab
+    const tab = document.createElement('li');
+    tab.classList.add('cmp-tabs__tab');
+    tab.setAttribute('role', 'tab');
+    tab.setAttribute('tabindex', '-1');
+    tab.setAttribute('aria-selected', 'false');
+    tab.setAttribute('data-cmp-hook-tabs', 'tab');
+    tab.textContent = tabLabel;
+    moveInstrumentation(tabCategoryRow, tab); // Move instrumentation from the tab category row to the tab li
+    tabList.append(tab);
+
+    // Create tab panel
+    const tabPanel = document.createElement('div');
+    tabPanel.classList.add('cmp-tabs__tabpanel');
+    tabPanel.setAttribute('role', 'tabpanel');
+    tabPanel.setAttribute('tabindex', '0');
+    tabPanel.setAttribute('data-cmp-hook-tabs', 'tabpanel');
+    tabPanels.push(tabPanel);
+    tabPanelsContainer.append(tabPanel);
+
+    const cardsWrapper = document.createElement('div');
+    cardsWrapper.classList.add('cards');
+    tabPanel.append(cardsWrapper);
+
+    const cmpCardImageHover = document.createElement('div');
+    cmpCardImageHover.classList.add('cmp-card--image-hover', 'cmp-card--default');
+    cmpCardImageHover.setAttribute('data-component', 'cards');
+    cardsWrapper.append(cmpCardImageHover);
+
+    const cmpCardContainer = document.createElement('div');
+    cmpCardContainer.classList.add('cmp-card__container');
+    cmpCardImageHover.append(cmpCardContainer);
+
+    // Append product cards for this tab
+    associatedProductCards.forEach((productRow) => {
+      const [
+        imageDefaultCell,
+        imageMobileDefaultCell, // Not explicitly used in the current picture generation, but kept for destructuring
+        imageHoverCell,
+        imageMobileHoverCell, // Not explicitly used in the current picture generation, but kept for destructuring
+        productLinkCell,
+      ] = [...productRow.children];
+
+      const productLinkHref = productLinkCell.querySelector('a')?.href || '#';
+
+      const productAnchor = document.createElement('a');
+      productAnchor.href = productLinkHref;
+      productAnchor.target = '_self';
+
+      const cmpCardContent = document.createElement('div');
+      cmpCardContent.classList.add('cmp-card__content');
+      cmpCardContent.setAttribute('tabindex', '0');
+      productAnchor.append(cmpCardContent);
+
+      const defaultPicture = imageDefaultCell.querySelector('picture');
+      if (defaultPicture) {
+        const optimizedPic = createOptimizedPicture(
+          defaultPicture.querySelector('img').src,
+          defaultPicture.querySelector('img').alt,
+          false,
+          [{ media: '(max-width:767px)', width: '360' }, { width: '498' }],
+        );
+        optimizedPic.querySelector('img').classList.add('cmp-image__image', 'cmp-image__default');
+        moveInstrumentation(imageDefaultCell, optimizedPic.querySelector('img'));
+        cmpCardContent.append(optimizedPic);
+      }
+
+      const hoverPicture = imageHoverCell.querySelector('picture');
+      if (hoverPicture) {
+        const optimizedPic = createOptimizedPicture(
+          hoverPicture.querySelector('img').src,
+          hoverPicture.querySelector('img').alt,
+          false,
+          [{ media: '(max-width:767px)', width: '360' }, { width: '498' }],
+        );
+        optimizedPic.querySelector('img').classList.add('cmp-image__image', 'cmp-image__hover');
+        moveInstrumentation(imageHoverCell, optimizedPic.querySelector('img'));
+        cmpCardContent.append(optimizedPic);
+      }
+      moveInstrumentation(productRow, productAnchor);
+      cmpCardContainer.append(productAnchor);
+    });
+
+    const cardsDescription = document.createElement('div');
+    cardsDescription.classList.add('cards__description', 'text');
+    tabPanel.append(cardsDescription);
+
+    const cmpText = document.createElement('div');
+    cmpText.classList.add('cmp-text');
+    cmpText.innerHTML = description; // Correctly uses innerHTML for richtext
+    moveInstrumentation(descriptionCell, cmpText);
+    cardsDescription.append(cmpText);
+
+    const exploreMoreButton = document.createElement('div');
+    exploreMoreButton.classList.add('exploremore', 'button', 'cmp-button--secondary');
+    tabPanel.append(exploreMoreButton);
+
+    const exploreAnchor = document.createElement('a');
+    exploreAnchor.classList.add('cmp-button');
+    exploreAnchor.href = exploreLink;
+    exploreAnchor.textContent = exploreLabel;
+    moveInstrumentation(exploreLinkCell, exploreAnchor);
+    exploreMoreButton.append(exploreAnchor);
+
+    // Set first tab as active
+    if (i === 0) {
+      tab.classList.add('cmp-tabs__tab--active');
+      tab.setAttribute('aria-selected', 'true');
+      tab.setAttribute('tabindex', '0');
+      tabPanel.classList.add('cmp-tabs__tabpanel--active');
+      tabPanel.setAttribute('aria-hidden', 'false');
+    } else {
+      tabPanel.setAttribute('aria-hidden', 'true'); // Ensure non-active panels are hidden
+    }
+
+    tab.addEventListener('click', () => {
+      tabList.querySelectorAll('.cmp-tabs__tab').forEach((t) => {
+        t.classList.remove('cmp-tabs__tab--active');
+        t.setAttribute('aria-selected', 'false');
+        t.setAttribute('tabindex', '-1');
+      });
+      tabPanels.forEach((panel) => {
+        panel.classList.remove('cmp-tabs__tabpanel--active');
+        panel.setAttribute('aria-hidden', 'true');
+      });
+
+      tab.classList.add('cmp-tabs__tab--active');
+      tab.setAttribute('aria-selected', 'true');
+      tab.setAttribute('tabindex', '0');
+      tabPanel.classList.add('cmp-tabs__tabpanel--active');
+      tabPanel.setAttribute('aria-hidden', 'false');
+    });
+  });
+
+  block.replaceChildren(root);
+}
