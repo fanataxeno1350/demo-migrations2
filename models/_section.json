@@ -51,7 +51,17 @@
         "cards",
         "columns",
         "fragment",
-        "---- New Blocks ----"
+        "---- New Blocks ----",
+        "header",
+        "search",
+        "yippee_banner",
+        "multi_title_text",
+        "product_tabs",
+        "recipe_group",
+        "content_tile",
+        "diy_cards",
+        "social_media",
+        "footer"
       ]
     }
   ]

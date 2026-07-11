@@ -1,0 +1,154 @@
+{
+  "definitions": [
+    {
+      "title": "Recipe Group",
+      "id": "recipe_group",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "filter": "recipe_group",
+              "model": "recipe_group",
+              "name": "Recipe Group"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Recipe Tab Item",
+      "id": "recipe_tab_item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "recipe_tab_item",
+              "name": "Recipe Tab Item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Recipe Card Item",
+      "id": "recipe_card_item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "model": "recipe_card_item",
+              "name": "Recipe Card Item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "recipe_group",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Background Image (Desktop)",
+          "name": "backgroundImage",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Main Title",
+          "name": "title",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Subtitle",
+          "name": "subtitle",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "recipe_tab_item",
+          "label": "Recipe Tabs",
+          "name": "tabs"
+        },
+        {
+          "component": "text",
+          "label": "Recipes Section Title",
+          "name": "recipesSectionTitle",
+          "valueType": "string"
+        },
+        {
+          "component": "container",
+          "item": "recipe_card_item",
+          "label": "Recipe Cards",
+          "name": "recipeCards"
+        },
+        {
+          "component": "aem-content",
+          "label": "CTA Link (View All)",
+          "name": "ctaLink",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "CTA Label (View All)",
+          "name": "ctaLabel",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "recipe_tab_item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Tab Image",
+          "name": "tabImage",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Tab Label",
+          "name": "tabLabel",
+          "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "recipe_card_item",
+      "fields": [
+        {
+          "component": "reference",
+          "label": "Card Image",
+          "name": "cardImage",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Card Title",
+          "name": "cardTitle",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "label": "Preparation Time (minutes)",
+          "name": "prepTime",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "recipe_group",
+      "components": [
+        "recipe_tab_item",
+        "recipe_card_item"
+      ]
+    }
+  ]
+}

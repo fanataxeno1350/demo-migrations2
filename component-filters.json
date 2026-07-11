@@ -15,28 +15,85 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "---- New Blocks ----",
+      "header",
+      "search",
+      "yippee_banner",
+      "multi_title_text",
+      "product_tabs",
+      "recipe_group",
+      "content_tile",
+      "diy_cards",
+      "social_media",
+      "footer"
     ]
   },
   {
-    "id": "cards",
+    "id": "content_tile",
     "components": [
-      "card"
+      "content-tile-item"
     ]
   },
   {
-    "id": "columns",
+    "id": "diy_cards",
     "components": [
-      "column"
+      "diy_card_item"
     ]
   },
   {
-    "id": "column",
+    "id": "footer",
     "components": [
-      "text",
-      "image",
-      "button",
-      "title"
+      "footer-navigation-group",
+      "footer-navigation-item",
+      "footer-link-item",
+      "footer-social-item"
+    ]
+  },
+  {
+    "id": "header",
+    "components": [
+      "navigation-item",
+      "policy-link-item",
+      "social-link-item",
+      "nav-icon-item"
+    ]
+  },
+  {
+    "id": "multi_title_text",
+    "components": [
+      "title-item"
+    ]
+  },
+  {
+    "id": "product_tabs",
+    "components": [
+      "tab-item"
+    ]
+  },
+  {
+    "id": "recipe_group",
+    "components": [
+      "recipe_tab_item",
+      "recipe_card_item"
+    ]
+  },
+  {
+    "id": "search",
+    "components": [
+      "search-category-item"
+    ]
+  },
+  {
+    "id": "social_media",
+    "components": [
+      "social-media-card-item"
+    ]
+  },
+  {
+    "id": "yippee_banner",
+    "components": [
+      "yippee-banner-slide"
     ]
   }
 ]
