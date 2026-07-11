@@ -425,13 +425,13 @@
     "fields": [
       {
         "component": "reference",
-        "label": "Background Image (Desktop)",
+        "label": "Background Image Desktop",
         "name": "backgroundDesktop",
         "valueType": "string"
       },
       {
         "component": "reference",
-        "label": "Background Image (Mobile)",
+        "label": "Background Image Mobile",
         "name": "backgroundMobile",
         "valueType": "string"
       },
@@ -450,7 +450,7 @@
       {
         "component": "reference",
         "label": "Hamburger Icon (Mobile)",
-        "name": "hamburgerIcon",
+        "name": "menuIconMobile",
         "valueType": "string"
       },
       {
@@ -472,13 +472,13 @@
     "fields": [
       {
         "component": "text",
-        "label": "Menu Label",
+        "label": "Navigation Label",
         "name": "label",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "label": "Menu Link",
+        "label": "Navigation Link",
         "name": "link",
         "valueType": "string"
       },

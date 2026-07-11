@@ -238,7 +238,7 @@
           }
         },
         {
-          "title": "Navigation-Item",
+          "title": "Navigation Item",
           "id": "navigation-item",
           "plugins": {
             "xwalk": {
@@ -246,7 +246,7 @@
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
                   "model": "navigation-item",
-                  "name": "Navigation-Item"
+                  "name": "Navigation Item"
                 }
               }
             }
